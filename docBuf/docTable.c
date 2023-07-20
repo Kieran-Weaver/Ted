@@ -354,6 +354,11 @@ int docGetMatchingCell(		int *			pColspan,
     /*  2  */
     rr= rowNode->biRowLeftIndentTwips;
     cp= rowNode->biRowCells;
+
+    /* Fix SIGSEGV when tables are placed next to images */
+    if (!cp)
+	    return -1;
+
     for ( col= 0; col < rowNode->biChildCount; cp++, col++ )
 	{
 	int		colspan= 1;
