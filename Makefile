@@ -73,7 +73,10 @@
 ####	P.S.	I admit that this makefile is more like a shell script.
 ####
 
-CONFIGURE_OPTIONS=--with-GTK
+CFLAGS ?= -I/usr/include/gtk-2.0 -I/usr/include/glib-2.0 -Og -g -Wno-deprecated-declarations -Wno-discarded-qualifiers -Werror
+PARALLEL ?= 12
+
+CONFIGURE_OPTIONS=--with-GTK CFLAGS="$(CFLAGS)"
 
 compile:	tedlibs		\
 		Ted/Ted		\
@@ -125,98 +128,98 @@ tedlibs: 	lib			\
 
 ####
 lib/bitmap.a: bitmap/makefile
-	cd bitmap && $(MAKE)
+	cd bitmap && $(MAKE) -j$(PARALLEL)
 
 bitmap/makefile: bitmap/makefile.in Makefile
 	cd bitmap && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/docBuf.a: docBuf/makefile
-	cd docBuf && $(MAKE)
+	cd docBuf && $(MAKE) -j$(PARALLEL)
 
 docBuf/makefile: docBuf/makefile.in Makefile
 	cd docBuf && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/docBase.a: docBase/makefile
-	cd docBase && $(MAKE)
+	cd docBase && $(MAKE) -j$(PARALLEL)
 
 docBase/makefile: docBase/makefile.in Makefile
 	cd docBase && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/docHtml.a: docHtml/makefile
-	cd docHtml && $(MAKE)
+	cd docHtml && $(MAKE) -j$(PARALLEL)
 
 docHtml/makefile: docHtml/makefile.in Makefile
 	cd docHtml && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/docLayout.a: docLayout/makefile
-	cd docLayout && $(MAKE)
+	cd docLayout && $(MAKE) -j$(PARALLEL)
 
 docLayout/makefile: docLayout/makefile.in Makefile
 	cd docLayout && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/docRtf.a: docRtf/makefile
-	cd docRtf && $(MAKE)
+	cd docRtf && $(MAKE) -j$(PARALLEL)
 
 docRtf/makefile: docRtf/makefile.in Makefile
 	cd docRtf && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/docEdit.a: docEdit/makefile
-	cd docEdit && $(MAKE)
+	cd docEdit && $(MAKE) -j$(PARALLEL)
 
 docEdit/makefile: docEdit/makefile.in Makefile
 	cd docEdit && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/ind.a: ind/makefile
-	cd ind && $(MAKE)
+	cd ind && $(MAKE) -j$(PARALLEL)
 
 ind/makefile: ind/makefile.in Makefile
 	cd ind && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/appUtil.a: appUtil/makefile
-	cd appUtil && $(MAKE)
+	cd appUtil && $(MAKE) -j$(PARALLEL)
 
 appUtil/makefile: appUtil/makefile.in Makefile
 	cd appUtil && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/textEncoding.a: textEncoding/makefile
-	cd textEncoding && $(MAKE)
+	cd textEncoding && $(MAKE) -j$(PARALLEL)
 
 textEncoding/makefile: textEncoding/makefile.in Makefile
 	cd textEncoding && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/utilPs.a: utilPs/makefile
-	cd utilPs && $(MAKE)
+	cd utilPs && $(MAKE) -j$(PARALLEL)
 
 utilPs/makefile: utilPs/makefile.in Makefile
 	cd utilPs && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/docFont.a: docFont/makefile
-	cd docFont && $(MAKE)
+	cd docFont && $(MAKE) -j$(PARALLEL)
 
 docFont/makefile: docFont/makefile.in Makefile
 	cd docFont && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/appFrame.a: appFrame/makefile
-	cd appFrame && $(MAKE)
+	cd appFrame && $(MAKE) -j$(PARALLEL)
 
 appFrame/makefile: appFrame/makefile.in Makefile
 	cd appFrame && ./configure $(CONFIGURE_OPTIONS)
 
 ####
 lib/drawMeta.a: drawMeta/makefile
-	cd drawMeta && $(MAKE)
+	cd drawMeta && $(MAKE) -j$(PARALLEL)
 
 drawMeta/makefile: drawMeta/makefile.in Makefile
 	cd drawMeta && ./configure $(CONFIGURE_OPTIONS)
