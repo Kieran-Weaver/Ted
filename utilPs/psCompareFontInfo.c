@@ -33,14 +33,14 @@ static int psCompareFontInfos(	const AfmFontInfo *	afi1,
 	    { return -1;	}
 	}
 
-    if  ( afi1->afiWidthInt > afi1->afiWidthInt )
+    if  ( afi1->afiWidthInt > afi2->afiWidthInt )
 	{ return  1;	}
-    if  ( afi1->afiWidthInt < afi1->afiWidthInt )
+    if  ( afi1->afiWidthInt < afi2->afiWidthInt )
 	{ return -1;	}
 
-    if  ( afi1->afiWeightInt > afi1->afiWeightInt )
+    if  ( afi1->afiWeightInt > afi2->afiWeightInt )
 	{ return  1;	}
-    if  ( afi1->afiWeightInt < afi1->afiWeightInt )
+    if  ( afi1->afiWeightInt < afi2->afiWeightInt )
 	{ return -1;	}
 
     slant1= FONT_IS_SLANTED( afi1 );
