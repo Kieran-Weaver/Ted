@@ -436,6 +436,8 @@ static int sioOutPrintf_s(	SimpleOutputStream *	sos,
 
     int			emitted= 0;
 
+    if (!value) return -1;
+
     if  ( ! ( flags & FLAG_HAS_PRECISION ) )
 	{ precision= INT_MAX;	}
 
