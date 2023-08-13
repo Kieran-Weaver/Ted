@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docBufConfig.h"
+#include <config.h>
 #include "docShape.h"
 
 #include <appDebugon.h>

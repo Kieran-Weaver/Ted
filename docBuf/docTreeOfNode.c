@@ -5,7 +5,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docBufConfig.h"
+#include <config.h>
 
 #include <appDebugon.h>
 

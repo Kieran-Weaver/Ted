@@ -31,7 +31,7 @@ other than ilvl= 0.
 
 #endif
 
-#include "docBaseConfig.h"
+#include <config.h>
 
 #include <stdlib.h>
 

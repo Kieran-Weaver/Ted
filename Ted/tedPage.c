@@ -2,7 +2,7 @@
 /*  Ted: interaction with the page layout tool.				*/
 /************************************************************************/
 
-#include "tedConfig.h"
+#include <config.h>
 
 #include "tedApp.h"
 #include "tedSelect.h"

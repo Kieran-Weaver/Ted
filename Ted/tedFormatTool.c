@@ -7,7 +7,7 @@
 /*									*/
 /************************************************************************/
 
-#include "tedConfig.h"
+#include <config.h>
 
 #include <stdlib.h>
 #include <stdio.h>

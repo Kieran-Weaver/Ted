@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "utilPsConfig.h"
+#include <config.h>
 
 #include "psShading.h"
 

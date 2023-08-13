@@ -2,7 +2,7 @@
 /*  Color mangement on X11: Try to get around the limitations.		*/
 /************************************************************************/
 
-#include "appFrameConfig.h"
+#include <config.h>
 
 #include <stddef.h>
 #include <stdio.h>

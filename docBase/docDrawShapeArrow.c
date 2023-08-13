@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docBaseConfig.h"
+#include <config.h>
 
 #include <geo2DDouble.h>
 #include <geoAffineTransform.h>

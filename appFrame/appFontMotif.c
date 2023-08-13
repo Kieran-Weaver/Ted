@@ -5,7 +5,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appFrameConfig.h"
+#include <config.h>
 #include "appGuiBase.h"
 #include "appScreenFont.h"
 

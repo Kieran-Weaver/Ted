@@ -1,6 +1,6 @@
 /* Regular expressions via PCRE */
 
-#include "appUtilConfig.h"
+#include <config.h>
 
 #include <string.h>
 

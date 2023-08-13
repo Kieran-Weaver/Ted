@@ -31,7 +31,7 @@ documentation and/or software.
 #ifndef UTIL_MD5_H
 #define UTIL_MD5_H
 
-#include "appUtilConfig.h"
+#include <config.h>
 
 #define MD5_DIGEST_SIZE_BITS 128
 #define MD5_DIGEST_SIZE_BYTES 16

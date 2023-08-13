@@ -7,7 +7,7 @@
 /*									*/
 /************************************************************************/
 
-#include "textEncodingConfig.h"
+#include <config.h>
 
 #include "uniAlternatives.h"
 #include <appDebugon.h>

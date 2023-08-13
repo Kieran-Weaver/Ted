@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "indConfig.h"
+#include <config.h>
 
 #include "ind.h"
 #include <string.h>

@@ -1,4 +1,4 @@
-#include "bitmapConfig.h"
+#include <config.h>
 
 #include "bmcolor.h"
 #include <stdlib.h>

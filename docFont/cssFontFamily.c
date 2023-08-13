@@ -5,7 +5,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docFontConfig.h"
+#include <config.h>
 
 #include <string.h>
 

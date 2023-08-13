@@ -1,4 +1,4 @@
-#include "indConfig.h"
+#include <config.h>
 
 #include "indlocal.h"
 #include <appDebugoff.h>

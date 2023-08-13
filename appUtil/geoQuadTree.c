@@ -12,7 +12,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appUtilConfig.h"
+#include <config.h>
 #include "geoQuadTree.h"
 
 #include <stdlib.h>

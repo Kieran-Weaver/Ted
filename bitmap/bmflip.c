@@ -1,4 +1,4 @@
-#include "bitmapConfig.h"
+#include <config.h>
 
 #include <geoAffineTransform.h>
 #include <geo2DInteger.h>

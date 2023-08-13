@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docLayoutConfig.h"
+#include <config.h>
 
 #include <appDebugon.h>
 

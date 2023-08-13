@@ -1,4 +1,4 @@
-#include "appUtilConfig.h"
+#include <config.h>
 
 #include <limits.h>
 #include "geo2DInteger.h"

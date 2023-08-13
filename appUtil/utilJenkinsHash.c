@@ -13,7 +13,7 @@ Source is http://burtleburtle.net/bob/c/lookupa.c
 
 */
 
-#include "appUtilConfig.h"
+#include <config.h>
 #include "utilJenkinsHash.h"
 
 #define ub4 UtilUint32

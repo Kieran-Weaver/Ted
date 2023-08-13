@@ -1,4 +1,4 @@
-#include "textEncodingConfig.h"
+#include <config.h>
 
 #include <stdio.h>
 #include "bidiEmbedding.h"

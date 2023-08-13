@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appUtilConfig.h"
+#include <config.h>
 
 #include "sioFileio.h"
 #include "sioFd.h"

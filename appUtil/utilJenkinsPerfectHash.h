@@ -11,7 +11,7 @@ Source is http://burtleburtle.net/bob/c/perfect.h
 #ifndef UTIL_JENKINS_PERFECT_HASH_H
 #define UTIL_JENKINS_PERFECT_HASH_H
 
-#include "appUtilConfig.h"
+#include <config.h>
 
 #define ub4 UtilUint32
 #define ub2 UtilUint16

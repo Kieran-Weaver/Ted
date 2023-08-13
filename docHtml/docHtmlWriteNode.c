@@ -7,7 +7,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docHtmlConfig.h"
+#include <config.h>
 
 #include <stdio.h>
 #include <ctype.h>

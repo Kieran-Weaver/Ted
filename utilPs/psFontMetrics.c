@@ -3,7 +3,7 @@
 /*  Derive text metrics from font metrics.				*/
 /*									*/
 /************************************************************************/
-#include "utilPsConfig.h"
+#include <config.h>
 
 #include <ctype.h>
 

@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "textEncodingConfig.h"
+#include <config.h>
 
 #include "sioUtf8.h"
 #include "uniUtf8.h"

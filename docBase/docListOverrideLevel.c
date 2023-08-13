@@ -7,7 +7,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docBaseConfig.h"
+#include <config.h>
 
 #include <appDebugon.h>
 

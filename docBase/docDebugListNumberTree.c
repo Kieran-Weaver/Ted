@@ -1,4 +1,4 @@
-#include "docBaseConfig.h"
+#include <config.h>
 
 #include <string.h>
 #include <stdio.h>

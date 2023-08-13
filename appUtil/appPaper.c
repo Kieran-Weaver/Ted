@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appUtilConfig.h"
+#include <config.h>
 
 #if USE_LIBPAPER
 #include <paper.h>

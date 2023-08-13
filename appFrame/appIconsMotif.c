@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appFrameConfig.h"
+#include <config.h>
 
 #include "appFrame.h"
 #include "appIcons.h"

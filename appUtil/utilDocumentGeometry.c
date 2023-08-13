@@ -1,4 +1,4 @@
-#include "appUtilConfig.h"
+#include <config.h>
 
 #include "utilDocumentGeometry.h"
 #include "utilPropMask.h"

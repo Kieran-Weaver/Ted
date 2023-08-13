@@ -1,4 +1,4 @@
-#include "appUtilConfig.h"
+#include <config.h>
 #include <stdio.h>
 #include <appDebugon.h>
 #include "utilEndian.h"

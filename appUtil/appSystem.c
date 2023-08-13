@@ -7,7 +7,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appUtilConfig.h"
+#include <config.h>
 
 #include <stdlib.h>
 #include <string.h>
@@ -44,6 +44,8 @@
 #if HAVE_DIRENT_H
 #define USE_OPENDIR 1
 #include <dirent.h>
+#else
+#error "opendir() is required"
 #endif
 
 #ifndef PATH_MAX
@@ -682,6 +684,9 @@ ready:
 }
 #else
 
+/*
+This doesn't compile
+
 int appForAllFiles(const char *dir, const char *ext, void *through,
 		   FILE_CALLBACK callback)
 {
@@ -741,7 +746,7 @@ int appForAllFiles(const char *dir, const char *ext, void *through,
 
 	return rval;
 }
-
+*/
 #endif
 
 /************************************************************************/

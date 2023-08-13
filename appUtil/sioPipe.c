@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appUtilConfig.h"
+#include <config.h>
 
 #include "sioPipe.h"
 #include "utilMemoryBuffer.h"

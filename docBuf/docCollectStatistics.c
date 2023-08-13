@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docBufConfig.h"
+#include <config.h>
 
 #include <docStatistics.h>
 #include "docBuf.h"

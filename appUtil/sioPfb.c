@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 
-#include "appUtilConfig.h"
+#include <config.h>
 
 #include "sioPfb.h"
 #include "sioEndian.h"

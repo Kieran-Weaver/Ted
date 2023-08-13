@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docEditConfig.h"
+#include <config.h>
 
 #include <stdio.h>
 #include <limits.h>

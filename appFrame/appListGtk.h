@@ -1,4 +1,4 @@
-#include "appFrameConfig.h"
+#include <config.h>
 #include "appGuiBase.h"
 
 #ifdef USE_GTK

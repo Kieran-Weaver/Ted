@@ -1,4 +1,4 @@
-#include "docLayoutConfig.h"
+#include <config.h>
 
 #include "docDraw.h"
 #include "docLayout.h"

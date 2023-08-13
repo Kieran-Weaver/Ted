@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docBaseConfig.h"
+#include <config.h>
 
 #include "docPropVal.h"
 #include "docShapeProperties.h"

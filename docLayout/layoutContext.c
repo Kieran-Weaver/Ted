@@ -1,4 +1,4 @@
-#include "docLayoutConfig.h"
+#include <config.h>
 #include "layoutContext.h"
 
 void layoutInitContext(LayoutContext *lc)

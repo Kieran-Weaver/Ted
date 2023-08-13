@@ -1,4 +1,4 @@
-#include "bitmapConfig.h"
+#include <config.h>
 
 #include "bmintern.h"
 #include "bmio.h"

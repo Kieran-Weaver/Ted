@@ -1,4 +1,4 @@
-#include "docBaseConfig.h"
+#include <config.h>
 
 #include <uniUtf8.h>
 #include "docDebugList.h"

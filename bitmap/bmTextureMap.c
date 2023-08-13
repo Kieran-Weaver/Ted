@@ -1,4 +1,4 @@
-#include "bitmapConfig.h"
+#include <config.h>
 
 #define y0 math_y0
 #define y1 math_y1

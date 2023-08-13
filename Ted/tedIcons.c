@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "tedConfig.h"
+#include <config.h>
 
 #include <appIcons.h>
 #include "tedApp.h"

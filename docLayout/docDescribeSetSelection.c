@@ -1,4 +1,4 @@
-#include "docLayoutConfig.h"
+#include <config.h>
 
 #include "docLayout.h"
 #include <docTreeType.h>

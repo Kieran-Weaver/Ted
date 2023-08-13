@@ -1,4 +1,4 @@
-#include "docBufConfig.h"
+#include <config.h>
 
 #include <stdio.h>
 

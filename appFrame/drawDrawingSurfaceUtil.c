@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appFrameConfig.h"
+#include <config.h>
 
 #include <drawDrawingSurface.h>
 #include <appDebugon.h>

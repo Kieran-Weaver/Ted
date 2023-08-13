@@ -4,7 +4,7 @@
 /*									*/
 /************************************************************************/
 
-#include "appFrameConfig.h"
+#include <config.h>
 
 #ifndef DRAW_TEXT_IMPL_X11_H
 #define DRAW_TEXT_IMPL_X11_H

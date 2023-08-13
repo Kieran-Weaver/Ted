@@ -1,4 +1,4 @@
-#include "tedConfig.h"
+#include <config.h>
 
 #include <stdio.h>
 

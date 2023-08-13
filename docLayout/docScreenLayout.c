@@ -38,7 +38,7 @@
 /*									*/
 /************************************************************************/
 
-#include "docLayoutConfig.h"
+#include <config.h>
 
 #include <stddef.h>
 #include <stdlib.h>

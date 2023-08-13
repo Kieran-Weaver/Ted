@@ -1,4 +1,4 @@
-#include "appFrameConfig.h"
+#include <config.h>
 
 #include <stdio.h>
 #include <appDebugon.h>

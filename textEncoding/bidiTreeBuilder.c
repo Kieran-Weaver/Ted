@@ -6,7 +6,7 @@
 /*									*/
 /************************************************************************/
 
-#include "textEncodingConfig.h"
+#include <config.h>
 
 #include "bidiTreeBuilder.h"
 #include "bidiEmbedding.h"
