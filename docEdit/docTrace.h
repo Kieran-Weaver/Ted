@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_TRACE_H
-#   define	DOC_TRACE_H
+#ifndef DOC_TRACE_H
+#define DOC_TRACE_H
 
-#   include	<docBuf.h>
+#include <docBuf.h>
 
-#   include	"docEditOperation.h"
-#   include	"docEditStep.h"
+#include "docEditOperation.h"
+#include "docEditStep.h"
 
 /************************************************************************/
 /*									*/
@@ -18,16 +18,12 @@
 /*									*/
 /************************************************************************/
 
-extern int docReinsertNodes(	EditOperation *			eo,
-				struct BufferItem *		parentTo,
-				const struct BufferItem *	parentFrom,
-				int				to,
-				const EditStep *		es );
+extern int docReinsertNodes(EditOperation *eo, struct BufferItem *parentTo,
+			    const struct BufferItem *parentFrom, int to,
+			    const EditStep *es);
 
-extern const DocumentField * docTraceGetFromField(
-						const EditStep * 	es );
+extern const DocumentField *docTraceGetFromField(const EditStep *es);
 
-extern const PictureProperties * docTraceGetFromPictureProps(
-						const EditStep * 	es );
+extern const PictureProperties *docTraceGetFromPictureProps(const EditStep *es);
 
-#    endif	/*  DOC_TRACE_H	*/
+#endif /*  DOC_TRACE_H	*/

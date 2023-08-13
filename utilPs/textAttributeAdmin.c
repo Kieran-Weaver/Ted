@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilPsConfig.h"
+#include "utilPsConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"textAttributeAdmin.h"
+#include "textAttributeAdmin.h"
 
 /************************************************************************/
 /*									*/
@@ -16,31 +16,32 @@
 /*									*/
 /************************************************************************/
 
-void utilInitTextAttributeList(	NumberedPropertiesList *	tal )
-    {
-    int			num;
-    TextAttribute	ta;
+void utilInitTextAttributeList(NumberedPropertiesList *tal)
+{
+	int num;
+	TextAttribute ta;
 
-    utilInitNumberedPropertiesList( tal );
+	utilInitNumberedPropertiesList(tal);
 
-    utilStartNumberedPropertyList( tal,
+	utilStartNumberedPropertyList(
+		tal,
 
-		    TAprop_COUNT,
-		    (NumberedPropertiesGetProperty)utilGetTextProperty,
+		TAprop_COUNT,
+		(NumberedPropertiesGetProperty)utilGetTextProperty,
 
-		    sizeof(TextAttribute),
-		    (InitPagedListItem)utilInitTextAttribute,
-		    (CleanPagedListItem)0 );
+		sizeof(TextAttribute), (InitPagedListItem)utilInitTextAttribute,
+		(CleanPagedListItem)0);
 
-    utilInitTextAttribute( &ta );
-    ta.taFontNumber= 0;
+	utilInitTextAttribute(&ta);
+	ta.taFontNumber = 0;
 
-    num= utilTextAttributeNumber( tal, &ta );
-    if  ( num != 0 )
-	{ LDEB(num);	}
+	num = utilTextAttributeNumber(tal, &ta);
+	if (num != 0) {
+		LDEB(num);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -48,18 +49,20 @@ void utilInitTextAttributeList(	NumberedPropertiesList *	tal )
 /*									*/
 /************************************************************************/
 
-void utilGetTextAttributeByNumber(	TextAttribute *			ta,
-					const NumberedPropertiesList *	tal,
-					int				n )
-    {
-    void *	vta= utilPagedListGetItemByNumber( &(tal->nplPagedList), n );
+void utilGetTextAttributeByNumber(TextAttribute *ta,
+				  const NumberedPropertiesList *tal, int n)
+{
+	void *vta = utilPagedListGetItemByNumber(&(tal->nplPagedList), n);
 
-    if  ( ! vta )
-	{ LXDEB(n,vta); utilInitTextAttribute( ta ); return; }
+	if (!vta) {
+		LXDEB(n, vta);
+		utilInitTextAttribute(ta);
+		return;
+	}
 
-    *ta= *((TextAttribute *)vta);
-    return;
-    }
+	*ta = *((TextAttribute *)vta);
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -67,32 +70,33 @@ void utilGetTextAttributeByNumber(	TextAttribute *			ta,
 /*									*/
 /************************************************************************/
 
-int textForAllAttributesInList(
-				const NumberedPropertiesList *	tal,
-				const IndexSet *		filter,
-				TextAttributeFunction		f,
-				void *				through )
-    {
-    int			n;
-    const PagedList *	pl= &(tal->nplPagedList);
+int textForAllAttributesInList(const NumberedPropertiesList *tal,
+			       const IndexSet *filter, TextAttributeFunction f,
+			       void *through)
+{
+	int n;
+	const PagedList *pl = &(tal->nplPagedList);
 
-    for ( n= 0; n < pl->plItemCount; n++ )
-	{
-	void *      vta;
+	for (n = 0; n < pl->plItemCount; n++) {
+		void *vta;
 
-	if  ( ! utilIndexSetContains( &(pl->plItemUsed), n ) )
-	    { continue;	}
-	if  ( filter && ! utilIndexSetContains( filter, n ) )
-	    { continue;	}
+		if (!utilIndexSetContains(&(pl->plItemUsed), n)) {
+			continue;
+		}
+		if (filter && !utilIndexSetContains(filter, n)) {
+			continue;
+		}
 
-	vta= utilPagedListGetItemByNumber( &(tal->nplPagedList), n );
+		vta = utilPagedListGetItemByNumber(&(tal->nplPagedList), n);
 
-	if  ( (*f)( n, (TextAttribute *)vta, through ) )
-	    { LDEB(n); return -1;	}
+		if ((*f)(n, (TextAttribute *)vta, through)) {
+			LDEB(n);
+			return -1;
+		}
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -100,10 +104,10 @@ int textForAllAttributesInList(
 /*									*/
 /************************************************************************/
 
-int utilTextAttributeNumber(	NumberedPropertiesList *	tal,
-				const TextAttribute *		ta )
-    {
-    const int	make= 1;
+int utilTextAttributeNumber(NumberedPropertiesList *tal,
+			    const TextAttribute *ta)
+{
+	const int make = 1;
 
-    return utilGetPropertyNumber( tal, make, (void *)ta );
-    }
+	return utilGetPropertyNumber(tal, make, (void *)ta);
+}

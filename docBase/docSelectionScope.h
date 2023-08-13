@@ -1,5 +1,5 @@
-#   ifndef		DOC_SELECTION_SCOPE_H
-#   define		DOC_SELECTION_SCOPE_H
+#ifndef DOC_SELECTION_SCOPE_H
+#define DOC_SELECTION_SCOPE_H
 
 /************************************************************************/
 /*									*/
@@ -18,25 +18,23 @@
 /*									*/
 /************************************************************************/
 
-typedef struct SelectionScope
-    {
-    int			ssTreeType;				/*  A  */
-    int			ssSectNr;				/*  B  */
-    int			ssOwnerSectNr;				/*  B  */
-    int			ssOwnerNumber;				/*  D  */
-    } SelectionScope;
+typedef struct SelectionScope {
+	int ssTreeType; /*  A  */
+	int ssSectNr; /*  B  */
+	int ssOwnerSectNr; /*  B  */
+	int ssOwnerNumber; /*  D  */
+} SelectionScope;
 
-typedef enum SelectionScopeProperty
-    {
-    SSpropTREE_TYPE= 0,
-    SSpropSECT_NR,
-    SSpropOWNER_SECT_NR,
-    SSpropOWNER_NR,
-    SSpropPAGE,
-    SSpropCOLUMN,
+typedef enum SelectionScopeProperty {
+	SSpropTREE_TYPE = 0,
+	SSpropSECT_NR,
+	SSpropOWNER_SECT_NR,
+	SSpropOWNER_NR,
+	SSpropPAGE,
+	SSpropCOLUMN,
 
-    SSprop_COUNT
-    } SelectionScopeProperty;
+	SSprop_COUNT
+} SelectionScopeProperty;
 
 /************************************************************************/
 /*									*/
@@ -44,10 +42,9 @@ typedef enum SelectionScopeProperty
 /*									*/
 /************************************************************************/
 
-extern void docInitSelectionScope(	SelectionScope *	ss );
+extern void docInitSelectionScope(SelectionScope *ss);
 
-extern int docSelectionSameScope(
-				const SelectionScope *		ssFrom,
-				const SelectionScope *		ssTo );
+extern int docSelectionSameScope(const SelectionScope *ssFrom,
+				 const SelectionScope *ssTo);
 
-#   endif	/*	DOC_SELECTION_SCOPE_H	*/
+#endif /*	DOC_SELECTION_SCOPE_H	*/

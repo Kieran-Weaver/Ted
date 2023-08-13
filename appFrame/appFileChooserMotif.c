@@ -4,30 +4,30 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdlib.h>
-#   include	<stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-#   include	<appSystem.h>
+#include <appSystem.h>
 
-#   include	"appFrame.h"
-#   include	"appFileChooser.h"
-#   include	"appQuestion.h"
-#   include	"guiWidgetsImpl.h"
-#   include	"guiTextUtil.h"
+#include "appFrame.h"
+#include "appFileChooser.h"
+#include "appQuestion.h"
+#include "guiWidgetsImpl.h"
+#include "guiTextUtil.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   ifdef USE_MOTIF
+#ifdef USE_MOTIF
 
-#   include	<Xm/Text.h>
-#   include	<Xm/TextF.h>
-#   include	<Xm/FileSB.h>
-#   include	<Xm/Form.h>
-#   include	<Xm/MwmUtil.h>
-#   include	<Xm/RowColumn.h>
+#include <Xm/Text.h>
+#include <Xm/TextF.h>
+#include <Xm/FileSB.h>
+#include <Xm/Form.h>
+#include <Xm/MwmUtil.h>
+#include <Xm/RowColumn.h>
 
 /************************************************************************/
 /*									*/
@@ -35,35 +35,33 @@
 /*									*/
 /************************************************************************/
 
-static void appFreeAci(		Widget		fileChooser,
-				XtPointer	voidaci,
-				XtPointer	voidcbs	 )
-    {
-    AppChooserInformation *	aci= (AppChooserInformation *)voidaci;
+static void appFreeAci(Widget fileChooser, XtPointer voidaci, XtPointer voidcbs)
+{
+	AppChooserInformation *aci = (AppChooserInformation *)voidaci;
 
-    utilCleanMemoryBuffer( &(aci->aciFilename) );
+	utilCleanMemoryBuffer(&(aci->aciFilename));
 
-    free( aci );
-    }
+	free(aci);
+}
 
-static void appInitAci(		AppChooserInformation *	aci )
-    {
-    appInitOptionmenu( &(aci->aciFilterOptionmenu) );
+static void appInitAci(AppChooserInformation *aci)
+{
+	appInitOptionmenu(&(aci->aciFilterOptionmenu));
 
-    utilInitMemoryBuffer( &(aci->aciFilename) );
-    aci->aciDocument= (EditDocument *)0;
-    aci->aciThrough= (void *)0;
-    aci->aciOpenDocument= (APP_OPEN_DOCUMENT)0;
-    aci->aciSaveDocument= (APP_SAVE_DOCUMENT)0;
-    aci->aciExtensions= (AppFileExtension *)0;
-    aci->aciExtensionCount= 0;
-    aci->aciApplication= (EditApplication *)0;
-    aci->aciOption= (Widget)0;
-    aci->aciRelativeTo= (Widget)0;
-    aci->aciFormat= -1;
+	utilInitMemoryBuffer(&(aci->aciFilename));
+	aci->aciDocument = (EditDocument *)0;
+	aci->aciThrough = (void *)0;
+	aci->aciOpenDocument = (APP_OPEN_DOCUMENT)0;
+	aci->aciSaveDocument = (APP_SAVE_DOCUMENT)0;
+	aci->aciExtensions = (AppFileExtension *)0;
+	aci->aciExtensionCount = 0;
+	aci->aciApplication = (EditApplication *)0;
+	aci->aciOption = (Widget)0;
+	aci->aciRelativeTo = (Widget)0;
+	aci->aciFormat = -1;
 
-    aci->aciResources= (const AppFileChooserResources *)0;
-    }
+	aci->aciResources = (const AppFileChooserResources *)0;
+}
 
 /************************************************************************/
 /*									*/
@@ -71,16 +69,15 @@ static void appInitAci(		AppChooserInformation *	aci )
 /*									*/
 /************************************************************************/
 
-static void appChooserCancel(	APP_WIDGET	fileChooser,
-				void *		voidaci,
-				void *		voidcbs )
-    {
-    AppChooserInformation *	aci= (AppChooserInformation *)voidaci;
+static void appChooserCancel(APP_WIDGET fileChooser, void *voidaci,
+			     void *voidcbs)
+{
+	AppChooserInformation *aci = (AppChooserInformation *)voidaci;
 
-    appGuiBreakDialog( &(aci->aciDialog), ACIrespCANCEL );
+	appGuiBreakDialog(&(aci->aciDialog), ACIrespCANCEL);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -88,50 +85,52 @@ static void appChooserCancel(	APP_WIDGET	fileChooser,
 /*									*/
 /************************************************************************/
 
-static int appChooserGetFilename(	void *			voidcbs,
-					AppChooserInformation *	aci,
-					const char *		extension )
-    {
-    int					rval= 0;
-    int					ret;
-    XmFileSelectionBoxCallbackStruct *	cbs;
+static int appChooserGetFilename(void *voidcbs, AppChooserInformation *aci,
+				 const char *extension)
+{
+	int rval = 0;
+	int ret;
+	XmFileSelectionBoxCallbackStruct *cbs;
 
-    char *				fnm= (char *)0;
+	char *fnm = (char *)0;
 
-    MemoryBuffer			filename;
+	MemoryBuffer filename;
 
-    utilInitMemoryBuffer( &filename );
+	utilInitMemoryBuffer(&filename);
 
-    cbs= (XmFileSelectionBoxCallbackStruct *)voidcbs;
+	cbs = (XmFileSelectionBoxCallbackStruct *)voidcbs;
 
-    if  ( ! XmStringGetLtoR( cbs->value, XmFONTLIST_DEFAULT_TAG, &fnm )	||
-	  utilMemoryBufferSetString( &filename, fnm )			)
-	{
-	LDEB(1);
-	appGuiBreakDialog( &(aci->aciDialog), ACIrespFAILURE );
-	rval= -1; goto ready;
+	if (!XmStringGetLtoR(cbs->value, XmFONTLIST_DEFAULT_TAG, &fnm) ||
+	    utilMemoryBufferSetString(&filename, fnm)) {
+		LDEB(1);
+		appGuiBreakDialog(&(aci->aciDialog), ACIrespFAILURE);
+		rval = -1;
+		goto ready;
 	}
 
-    aci->aciRelativeTo= aci->aciDialog.adTopWidget;
-    ret= appChooserSaveFilename( aci, &filename, extension );
+	aci->aciRelativeTo = aci->aciDialog.adTopWidget;
+	ret = appChooserSaveFilename(aci, &filename, extension);
 
-    if  ( ret < 0 )
-	{
-	appGuiBreakDialog( &(aci->aciDialog), ACIrespFAILURE );
-	rval= -1; goto ready;
+	if (ret < 0) {
+		appGuiBreakDialog(&(aci->aciDialog), ACIrespFAILURE);
+		rval = -1;
+		goto ready;
 	}
-    if  ( ret > 0 )
-	{ rval= -1; goto ready;		}
+	if (ret > 0) {
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+ready:
 
-    if  ( fnm )
-	{ XtFree( fnm );	}
+	if (fnm) {
+		XtFree(fnm);
+	}
 
-    utilCleanMemoryBuffer( &filename );
+	utilCleanMemoryBuffer(&filename);
 
-    return rval;
-    }
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -140,65 +139,61 @@ static int appChooserGetFilename(	void *			voidcbs,
 /*									*/
 /************************************************************************/
 
-static void appChooserSetText(		Widget  		w,
-					const MemoryBuffer *	mbText )
-    {
-    const char *	s= utilMemoryBufferGetString( mbText );
+static void appChooserSetText(Widget w, const MemoryBuffer *mbText)
+{
+	const char *s = utilMemoryBufferGetString(mbText);
 
-    if  ( XmIsText( w ) )
-	{
-	XmTextSetString( w, (char *)s );
-	XmTextSetInsertionPosition( w, mbText->mbSize );
+	if (XmIsText(w)) {
+		XmTextSetString(w, (char *)s);
+		XmTextSetInsertionPosition(w, mbText->mbSize);
+
+		return;
+	}
+
+	if (XmIsTextField(w)) {
+		XmTextFieldSetString(w, (char *)s);
+		XmTextFieldSetInsertionPosition(w, mbText->mbSize);
+
+		return;
+	}
+
+	SDEB(s);
+}
+
+static void appChooserSetDirectory(const MemoryBuffer *dir,
+				   AppChooserInformation *aci)
+{
+	XmString directoryString = (XmString)0;
+
+	directoryString =
+		XmStringCreateLocalized((char *)utilMemoryBufferGetString(dir));
+
+	XtVaSetValues(aci->aciDialog.adDialog, XmNdirectory, directoryString,
+		      NULL);
+
+	if (directoryString) {
+		XmStringFree(directoryString);
+	}
 
 	return;
+}
+
+static void appChooserSetFileDirectory(const MemoryBuffer *filename,
+				       AppChooserInformation *aci)
+{
+	MemoryBuffer directory;
+
+	utilInitMemoryBuffer(&directory);
+
+	if (!appDirectoryOfFileName(&directory, filename) &&
+	    !utilMemoryBufferIsEmpty(&directory)) {
+		appChooserSetDirectory(&directory, aci);
 	}
 
-    if  ( XmIsTextField( w ) )
-	{
-	XmTextFieldSetString( w, (char *)s );
-	XmTextFieldSetInsertionPosition( w, mbText->mbSize );
+	utilCleanMemoryBuffer(&directory);
 
 	return;
-	}
-
-    SDEB( s );
-    }
-
-static void appChooserSetDirectory(	const MemoryBuffer *	dir,
-					AppChooserInformation *	aci )
-    {
-    XmString		directoryString= (XmString)0;
-
-    directoryString= XmStringCreateLocalized(
-			    (char *)utilMemoryBufferGetString( dir ) );
-
-    XtVaSetValues( aci->aciDialog.adDialog,
-				XmNdirectory,		directoryString,
-				NULL );
-
-    if  ( directoryString )
-	{ XmStringFree( directoryString );	}
-
-    return;
-    }
-
-static void appChooserSetFileDirectory(	const MemoryBuffer *	filename,
-					AppChooserInformation *	aci )
-    {
-    MemoryBuffer	directory;
-
-    utilInitMemoryBuffer( &directory );
-
-    if  ( ! appDirectoryOfFileName( &directory, filename )	&&
-	  ! utilMemoryBufferIsEmpty( &directory )		)
-	{
-	appChooserSetDirectory( &directory, aci );
-	}
-
-    utilCleanMemoryBuffer( &directory );
-
-    return;
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -206,26 +201,26 @@ static void appChooserSetFileDirectory(	const MemoryBuffer *	filename,
 /*									*/
 /************************************************************************/
 
-static void appChooserSetFileExtension(
-				const MemoryBuffer *		filename,
-				const char *			extension,
-				Widget				text )
-    {
-    MemoryBuffer	changed;
+static void appChooserSetFileExtension(const MemoryBuffer *filename,
+				       const char *extension, Widget text)
+{
+	MemoryBuffer changed;
 
-    utilInitMemoryBuffer( &changed );
+	utilInitMemoryBuffer(&changed);
 
-    if  ( appFileSetExtension( &changed, extension ) )
-	{ LDEB(1); goto ready;	}
+	if (appFileSetExtension(&changed, extension)) {
+		LDEB(1);
+		goto ready;
+	}
 
-    appChooserSetText( text, &changed );
+	appChooserSetText(text, &changed);
 
-  ready:
+ready:
 
-    utilCleanMemoryBuffer( &changed );
+	utilCleanMemoryBuffer(&changed);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -233,42 +228,46 @@ static void appChooserSetFileExtension(
 /*									*/
 /************************************************************************/
 
-static void appOpenOkPushed(	Widget		fileChooser,
-				XtPointer	voidaci,
-				XtPointer	voidcbs	 )
-    {
-    AppChooserInformation *	aci= (AppChooserInformation *)voidaci;
-    Widget			option= aci->aciOption;
-    const char *		extension= (const char *)0;
+static void appOpenOkPushed(Widget fileChooser, XtPointer voidaci,
+			    XtPointer voidcbs)
+{
+	AppChooserInformation *aci = (AppChooserInformation *)voidaci;
+	Widget option = aci->aciOption;
+	const char *extension = (const char *)0;
 
-    if  ( aci->aciExtensionCount > 0 )
-	{
-	if  ( aci->aciFormat >= 0 && aci->aciFormat < aci->aciExtensionCount )
-	    {
-	    const AppFileExtension *	afe= aci->aciExtensions+ aci->aciFormat;
+	if (aci->aciExtensionCount > 0) {
+		if (aci->aciFormat >= 0 &&
+		    aci->aciFormat < aci->aciExtensionCount) {
+			const AppFileExtension *afe =
+				aci->aciExtensions + aci->aciFormat;
 
-	    extension= afe->afeExtension;
-	    }
+			extension = afe->afeExtension;
+		}
 	}
 
-    if  ( appChooserGetFilename( voidcbs, aci, extension ) )
-	{ return;	}
+	if (appChooserGetFilename(voidcbs, aci, extension)) {
+		return;
+	}
 
-    aci->aciRelativeTo= aci->aciDialog.adTopWidget;
-    if  ( appFileChooserTestNameForOpen( aci ) )
-	{ utilEmptyMemoryBuffer( &(aci->aciFilename) ); return; }
+	aci->aciRelativeTo = aci->aciDialog.adTopWidget;
+	if (appFileChooserTestNameForOpen(aci)) {
+		utilEmptyMemoryBuffer(&(aci->aciFilename));
+		return;
+	}
 
-    if  ( (*aci->aciOpenDocument)( aci->aciApplication, aci->aciThrough,
-					    aci->aciDialog.adTopWidget, option,
-					    &(aci->aciFilename) ) )
-	{ utilEmptyMemoryBuffer( &(aci->aciFilename) ); return; }
+	if ((*aci->aciOpenDocument)(aci->aciApplication, aci->aciThrough,
+				    aci->aciDialog.adTopWidget, option,
+				    &(aci->aciFilename))) {
+		utilEmptyMemoryBuffer(&(aci->aciFilename));
+		return;
+	}
 
-    utilEmptyMemoryBuffer( &(aci->aciFilename) );
+	utilEmptyMemoryBuffer(&(aci->aciFilename));
 
-    appGuiBreakDialog( &(aci->aciDialog), ACIrespOPEN );
+	appGuiBreakDialog(&(aci->aciDialog), ACIrespOPEN);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -277,85 +276,90 @@ static void appOpenOkPushed(	Widget		fileChooser,
 /*									*/
 /************************************************************************/
 
-static void appFileFilterActivated(	Widget		w,
-					XtPointer	voidaci,
-					XtPointer	e )
-    {
-    AppChooserInformation *	aci= (AppChooserInformation *)voidaci;
+static void appFileFilterActivated(Widget w, XtPointer voidaci, XtPointer e)
+{
+	AppChooserInformation *aci = (AppChooserInformation *)voidaci;
 
-    Widget text= XmFileSelectionBoxGetChild( aci->aciDialog.adDialog,
-							XmDIALOG_FILTER_TEXT );
+	Widget text = XmFileSelectionBoxGetChild(aci->aciDialog.adDialog,
+						 XmDIALOG_FILTER_TEXT);
 
-    char *		filter= XmTextGetString( text );
+	char *filter = XmTextGetString(text);
 
-    MemoryBuffer	mbFilter;
-    MemoryBuffer	mbExt;
+	MemoryBuffer mbFilter;
+	MemoryBuffer mbExt;
 
-    utilInitMemoryBuffer( &mbFilter );
-    utilInitMemoryBuffer( &mbExt );
+	utilInitMemoryBuffer(&mbFilter);
+	utilInitMemoryBuffer(&mbExt);
 
-    if  ( ! filter )
-	{ goto ready;	}
-
-    if  ( utilMemoryBufferSetString( &mbFilter, filter ) )
-	{ LDEB(1); goto ready;	}
-    if  ( appFileGetFileExtension( &mbExt, &mbFilter ) < 0 )
-	{ LDEB(1); goto ready;	}
-
-    if  ( ! utilMemoryBufferIsEmpty( &mbExt ) )
-	{
-	int				i;
-	const AppFileExtension *	afe= aci->aciExtensions;
-
-	Widget				current= (Widget)0;
-	WidgetList			children;
-	Cardinal			childCount= 0;
-
-	XtVaGetValues( aci->aciFilterOptionmenu.aomPulldown,
-			XmNmenuHistory,		&current,
-			XmNchildren,		&children,
-			XmNnumChildren,		&childCount,
-			NULL );
-
-	for ( i= 0; i < childCount; i++ )
-	    {
-	    if  ( children[i] == current )
-		{ break;	}
-	    }
-
-	if  ( i >= childCount				||
-	      i >= aci->aciExtensionCount		||
-	      ! utilMemoryBufferEqualsString( &mbExt, afe[i].afeExtension ) )
-	    {
-	    for ( i= 0; i < aci->aciExtensionCount; afe++, i++ )
-		{
-		if  ( i >= childCount )
-		    { continue;	}
-		if  ( ! XtIsManaged( children[i] ) )
-		    { continue;	}
-		if  ( ! XtIsSensitive( children[i] ) )
-		    { continue;	}
-
-		if  ( utilMemoryBufferEqualsString( &mbExt,
-						    afe->afeExtension )	)
-		    { break;	}
-		}
-
-	    if  ( i < aci->aciExtensionCount )
-		{ appSetOptionmenu( &(aci->aciFilterOptionmenu), i );	}
-	    }
+	if (!filter) {
+		goto ready;
 	}
 
-  ready:
+	if (utilMemoryBufferSetString(&mbFilter, filter)) {
+		LDEB(1);
+		goto ready;
+	}
+	if (appFileGetFileExtension(&mbExt, &mbFilter) < 0) {
+		LDEB(1);
+		goto ready;
+	}
 
-    utilCleanMemoryBuffer( &mbFilter );
-    utilCleanMemoryBuffer( &mbExt );
+	if (!utilMemoryBufferIsEmpty(&mbExt)) {
+		int i;
+		const AppFileExtension *afe = aci->aciExtensions;
 
-    if  ( filter )
-	{ XtFree( filter );	}
+		Widget current = (Widget)0;
+		WidgetList children;
+		Cardinal childCount = 0;
 
-    return;
-    }
+		XtVaGetValues(aci->aciFilterOptionmenu.aomPulldown,
+			      XmNmenuHistory, &current, XmNchildren, &children,
+			      XmNnumChildren, &childCount, NULL);
+
+		for (i = 0; i < childCount; i++) {
+			if (children[i] == current) {
+				break;
+			}
+		}
+
+		if (i >= childCount || i >= aci->aciExtensionCount ||
+		    !utilMemoryBufferEqualsString(&mbExt,
+						  afe[i].afeExtension)) {
+			for (i = 0; i < aci->aciExtensionCount; afe++, i++) {
+				if (i >= childCount) {
+					continue;
+				}
+				if (!XtIsManaged(children[i])) {
+					continue;
+				}
+				if (!XtIsSensitive(children[i])) {
+					continue;
+				}
+
+				if (utilMemoryBufferEqualsString(
+					    &mbExt, afe->afeExtension)) {
+					break;
+				}
+			}
+
+			if (i < aci->aciExtensionCount) {
+				appSetOptionmenu(&(aci->aciFilterOptionmenu),
+						 i);
+			}
+		}
+	}
+
+ready:
+
+	utilCleanMemoryBuffer(&mbFilter);
+	utilCleanMemoryBuffer(&mbExt);
+
+	if (filter) {
+		XtFree(filter);
+	}
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -363,61 +367,56 @@ static void appFileFilterActivated(	Widget		w,
 /*									*/
 /************************************************************************/
 
-static void appFileFilterChosen(	int		formatChosen,
-					void *		voidaci )
-    {
-    AppChooserInformation *	aci= (AppChooserInformation *)voidaci;
-    const AppFileExtension *	afe= aci->aciExtensions;
-    Widget			chooser= aci->aciDialog.adDialog;
-    Widget			text;
+static void appFileFilterChosen(int formatChosen, void *voidaci)
+{
+	AppChooserInformation *aci = (AppChooserInformation *)voidaci;
+	const AppFileExtension *afe = aci->aciExtensions;
+	Widget chooser = aci->aciDialog.adDialog;
+	Widget text;
 
-    int				previousFormat= aci->aciFormat;
+	int previousFormat = aci->aciFormat;
 
-    const char *		filter;
-    XmString			filterString;
+	const char *filter;
+	XmString filterString;
 
-    MemoryBuffer		fileSelected;
-    MemoryBuffer		extension;
+	MemoryBuffer fileSelected;
+	MemoryBuffer extension;
 
-    utilInitMemoryBuffer( &fileSelected );
-    utilInitMemoryBuffer( &extension );
+	utilInitMemoryBuffer(&fileSelected);
+	utilInitMemoryBuffer(&extension);
 
-    text= XmFileSelectionBoxGetChild( chooser, XmDIALOG_TEXT );
-    appBufferFromTextWidget( &fileSelected, text );
+	text = XmFileSelectionBoxGetChild(chooser, XmDIALOG_TEXT);
+	appBufferFromTextWidget(&fileSelected, text);
 
-    filter= afe[formatChosen].afeFilter;
-    filterString= XmStringCreateLocalized( (char *)filter );
+	filter = afe[formatChosen].afeFilter;
+	filterString = XmStringCreateLocalized((char *)filter);
 
-    XtVaSetValues( chooser,
-			XmNpattern,		filterString,
-			NULL );
+	XtVaSetValues(chooser, XmNpattern, filterString, NULL);
 
-    if  ( ! utilMemoryBufferIsEmpty( &fileSelected ) )
-	{
-	if  ( ! appFileGetFileExtension( &extension, &fileSelected )	&&
-	      ! utilMemoryBufferIsEmpty( &extension )			&&
-	      previousFormat >= 0					&&
-	      afe[previousFormat].afeExtension				&&
-	      afe[formatChosen].afeExtension				&&
-	      utilMemoryBufferEqualsString( &extension,
-				  afe[previousFormat].afeExtension )	)
-	    {
-	    const char *	ext= afe[formatChosen].afeExtension;
+	if (!utilMemoryBufferIsEmpty(&fileSelected)) {
+		if (!appFileGetFileExtension(&extension, &fileSelected) &&
+		    !utilMemoryBufferIsEmpty(&extension) &&
+		    previousFormat >= 0 && afe[previousFormat].afeExtension &&
+		    afe[formatChosen].afeExtension &&
+		    utilMemoryBufferEqualsString(
+			    &extension, afe[previousFormat].afeExtension)) {
+			const char *ext = afe[formatChosen].afeExtension;
 
-	    appChooserSetFileExtension( &fileSelected, ext, text );
-	    }
-	else{ appChooserSetText( text, &fileSelected ); }
+			appChooserSetFileExtension(&fileSelected, ext, text);
+		} else {
+			appChooserSetText(text, &fileSelected);
+		}
 	}
 
-    XmStringFree( filterString );
+	XmStringFree(filterString);
 
-    aci->aciFormat= formatChosen;
+	aci->aciFormat = formatChosen;
 
-    utilCleanMemoryBuffer( &fileSelected );
-    utilCleanMemoryBuffer( &extension );
+	utilCleanMemoryBuffer(&fileSelected);
+	utilCleanMemoryBuffer(&extension);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -425,138 +424,139 @@ static void appFileFilterChosen(	int		formatChosen,
 /*									*/
 /************************************************************************/
 
-static void appChooserMakeOptionmenu(	AppChooserInformation *	aci,
-					Widget			parent )
-    {
-    Arg				al[20];
-    int				ac= 0;
+static void appChooserMakeOptionmenu(AppChooserInformation *aci, Widget parent)
+{
+	Arg al[20];
+	int ac = 0;
 
-    AppOptionmenu *		aom= &(aci->aciFilterOptionmenu);
+	AppOptionmenu *aom = &(aci->aciFilterOptionmenu);
 
-    appInitOptionmenu( aom );
+	appInitOptionmenu(aom);
 
-    ac= 0;
-    XtSetArg( al[ac], XmNresizeWidth,		False ); ac++;
-    XtSetArg( al[ac], XmNtopAttachment,		XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNleftAttachment,	XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNrightAttachment,	XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNbottomAttachment,	XmATTACH_FORM ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNresizeWidth, False);
+	ac++;
+	XtSetArg(al[ac], XmNtopAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNleftAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNrightAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNbottomAttachment, XmATTACH_FORM);
+	ac++;
 
-    aom->aomPulldown= XmCreatePulldownMenu( parent, WIDGET_NAME, al, ac );
+	aom->aomPulldown = XmCreatePulldownMenu(parent, WIDGET_NAME, al, ac);
 
-    ac= 0;
-    XtSetArg( al[ac], XmNsubMenuId,		aom->aomPulldown ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNsubMenuId, aom->aomPulldown);
+	ac++;
 
-    XtSetArg( al[ac], XmNmarginHeight,		0 ); ac++;
-    XtSetArg( al[ac], XmNmarginWidth,		0 ); ac++;
-    XtSetArg( al[ac], XmNspacing,		0 ); ac++;
+	XtSetArg(al[ac], XmNmarginHeight, 0);
+	ac++;
+	XtSetArg(al[ac], XmNmarginWidth, 0);
+	ac++;
+	XtSetArg(al[ac], XmNspacing, 0);
+	ac++;
 
-    XtSetArg( al[ac], XmNtopAttachment,		XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNleftAttachment,	XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNrightAttachment,	XmATTACH_FORM ); ac++;
+	XtSetArg(al[ac], XmNtopAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNleftAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNrightAttachment, XmATTACH_FORM);
+	ac++;
 
-    XtSetArg( al[ac], XmNtopOffset,		0 ); ac++;
-    XtSetArg( al[ac], XmNleftOffset,		5 ); ac++;
-    XtSetArg( al[ac], XmNrightOffset,		5 ); ac++;
+	XtSetArg(al[ac], XmNtopOffset, 0);
+	ac++;
+	XtSetArg(al[ac], XmNleftOffset, 5);
+	ac++;
+	XtSetArg(al[ac], XmNrightOffset, 5);
+	ac++;
 
-    aom->aomInplace= XmCreateOptionMenu( parent, WIDGET_NAME, al, ac );
+	aom->aomInplace = XmCreateOptionMenu(parent, WIDGET_NAME, al, ac);
 
-    appFinishOptionmenuMotif( aom->aomInplace, aom->aomPulldown );
+	appFinishOptionmenuMotif(aom->aomInplace, aom->aomPulldown);
 
-    XtVaSetValues( aom->aomPulldown,
-			    XmNresizeWidth,	False,
-			    NULL );
-    XtVaSetValues( aom->aomInplace,
-			    XmNresizeWidth,	False,
-			    NULL );
+	XtVaSetValues(aom->aomPulldown, XmNresizeWidth, False, NULL);
+	XtVaSetValues(aom->aomInplace, XmNresizeWidth, False, NULL);
 
-    XtManageChild( aom->aomInplace );
+	XtManageChild(aom->aomInplace);
 
-    aom->aomCallback= appFileFilterChosen;
-    aom->aomTarget= (void *)aci;
+	aom->aomCallback = appFileFilterChosen;
+	aom->aomTarget = (void *)aci;
 
-    return;
-    }
+	return;
+}
 
-static void appFileMakeFilter(	AppChooserInformation *	aci )
-    {
-    Arg				al[20];
-    int				ac= 0;
+static void appFileMakeFilter(AppChooserInformation *aci)
+{
+	Arg al[20];
+	int ac = 0;
 
-    Widget			child;
+	Widget child;
 
-    ac= 0;
-    XtSetArg( al[ac], XmNresizePolicy,	XmRESIZE_NONE );
-    child= XmCreateForm( aci->aciDialog.adDialog, WIDGET_NAME, al, ac );
+	ac = 0;
+	XtSetArg(al[ac], XmNresizePolicy, XmRESIZE_NONE);
+	child = XmCreateForm(aci->aciDialog.adDialog, WIDGET_NAME, al, ac);
 
-    appChooserMakeOptionmenu( aci, child );
+	appChooserMakeOptionmenu(aci, child);
 
-    XtManageChild( child );
+	XtManageChild(child);
 
-    return;
-    }
+	return;
+}
 
-static void appFileFillFilter(	EditApplication *	ea,
-				AppChooserInformation *	aci,
-				AppFileExtension *	extensions,
-				int			extensionCount,
-				const char *		defaultFilter )
-    {
-    AppFileExtension *		afe;
+static void appFileFillFilter(EditApplication *ea, AppChooserInformation *aci,
+			      AppFileExtension *extensions, int extensionCount,
+			      const char *defaultFilter)
+{
+	AppFileExtension *afe;
 
-    int				i;
+	int i;
 
-    int				selected= -1;
-    const char *		child0Filter= (char *)0;
+	int selected = -1;
+	const char *child0Filter = (char *)0;
 
-    appFileFilterGetDescriptions( ea, extensions, extensionCount );
+	appFileFilterGetDescriptions(ea, extensions, extensionCount);
 
-    appEmptyOptionmenu( &(aci->aciFilterOptionmenu) );
+	appEmptyOptionmenu(&(aci->aciFilterOptionmenu));
 
-    afe= extensions;
-    for ( i= 0; i < extensionCount; afe++, i++ )
-	{
-	appAddItemToOptionmenu( &(aci->aciFilterOptionmenu),
-						    afe->afeDescription );
+	afe = extensions;
+	for (i = 0; i < extensionCount; afe++, i++) {
+		appAddItemToOptionmenu(&(aci->aciFilterOptionmenu),
+				       afe->afeDescription);
 
-	if  ( selected < 0 )
-	    {
-	    if  ( defaultFilter )
-		{
-		if  ( ! strcmp( afe->afeFilter, defaultFilter ) )
-		    {
-		    selected= i;
-		    child0Filter= afe->afeFilter;
-		    }
+		if (selected < 0) {
+			if (defaultFilter) {
+				if (!strcmp(afe->afeFilter, defaultFilter)) {
+					selected = i;
+					child0Filter = afe->afeFilter;
+				}
+			} else {
+				selected = i;
+				child0Filter = afe->afeFilter;
+			}
 		}
-	    else{
-		selected= i;
-		child0Filter= afe->afeFilter;
-		}
-	    }
 	}
 
-    if  ( selected >= 0 )
-	{
-	XmString	filterString= (XmString)0;
+	if (selected >= 0) {
+		XmString filterString = (XmString)0;
 
-	appSetOptionmenu( &(aci->aciFilterOptionmenu), selected );
+		appSetOptionmenu(&(aci->aciFilterOptionmenu), selected);
 
-	if  ( child0Filter )
-	    {
-	    filterString= XmStringCreateLocalized( (char *)child0Filter );
+		if (child0Filter) {
+			filterString =
+				XmStringCreateLocalized((char *)child0Filter);
 
-	    XtVaSetValues( aci->aciDialog.adDialog,
-					XmNpattern,	filterString,
-					NULL );
+			XtVaSetValues(aci->aciDialog.adDialog, XmNpattern,
+				      filterString, NULL);
 
-	    XmStringFree( filterString );
-	    }
+			XmStringFree(filterString);
+		}
 	}
 
-    aci->aciExtensions= extensions;
-    aci->aciExtensionCount= extensionCount;
-    }
+	aci->aciExtensions = extensions;
+	aci->aciExtensionCount = extensionCount;
+}
 
 /************************************************************************/
 /*									*/
@@ -564,85 +564,87 @@ static void appFileFillFilter(	EditApplication *	ea,
 /*									*/
 /************************************************************************/
 
-static int appMakeFileChooser( AppChooserInformation **	pAci,
-				Widget				relative,
-				EditApplication *		ea,
-				int				withFilter,
-				const char *			defaultFilter,
-				Widget				option )
-    {
-    Display *			display= XtDisplay( ea->eaToplevel.atTopWidget );
-    int				screen= DefaultScreen( display );
-    Widget			text;
+static int appMakeFileChooser(AppChooserInformation **pAci, Widget relative,
+			      EditApplication *ea, int withFilter,
+			      const char *defaultFilter, Widget option)
+{
+	Display *display = XtDisplay(ea->eaToplevel.atTopWidget);
+	int screen = DefaultScreen(display);
+	Widget text;
 
-    Arg				al[20];
-    int				ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    XmString			filterString= (XmString)0;
+	XmString filterString = (XmString)0;
 
-    Widget			helpButton;
-    Widget			filterButton;
-    AppChooserInformation *	aci;
+	Widget helpButton;
+	Widget filterButton;
+	AppChooserInformation *aci;
 
-    MwmHints			hints;
+	MwmHints hints;
 
-    aci= (AppChooserInformation *)malloc( sizeof(AppChooserInformation) );
-    if  ( ! aci )
-	{ XDEB(aci); return -1;	}
-
-    appInitAci( aci );
-
-    appFileChooserGetTexts( ea, aci );
-
-    hints.flags= MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
-    hints.functions=	MWM_FUNC_MOVE		|
-			MWM_FUNC_RESIZE		;
-    hints.decorations=	MWM_DECOR_BORDER	|
-			MWM_DECOR_RESIZEH	|
-			MWM_DECOR_TITLE		|
-			MWM_DECOR_MENU		;
-
-    ac= 0;
-    XtSetArg( al[ac], XmNmwmDecorations,	hints.decorations ); ac++;
-    XtSetArg( al[ac], XmNmwmFunctions,		hints.functions ); ac++;
-    XtSetArg( al[ac], XmNdeleteResponse,	XmDO_NOTHING ); ac++;
-    XtSetArg( al[ac], XmNallowShellResize,	True ); ac++;
-    XtSetArg( al[ac], XmNuseAsyncGeometry,	True ); ac++;
-    XtSetArg( al[ac], XmNwaitForWm,		False ); ac++; /* LessTif BUG */
-    XtSetArg( al[ac], XmNwmTimeout,		0 ); ac++; /* LessTif BUG */
-
-    XtSetArg( al[ac], XmNchildPlacement,XmPLACE_ABOVE_SELECTION ); ac++;
-#   if	XmVersion >= 2000 && ! defined( LESSTIF_VERSION )
-    XtSetArg( al[ac], XmNfileFilterStyle,
-					XmFILTER_HIDDEN_FILES ); ac++;
-#   endif
-
-    if  ( defaultFilter )
-	{
-	filterString= XmStringCreateLocalized( (char *)defaultFilter );
-	XtSetArg( al[ac], XmNpattern, filterString ); ac++;
+	aci = (AppChooserInformation *)malloc(sizeof(AppChooserInformation));
+	if (!aci) {
+		XDEB(aci);
+		return -1;
 	}
 
-    aci->aciDialog.adDialog= XmCreateFileSelectionDialog(
-						ea->eaToplevel.atTopWidget,
-						WIDGET_NAME, al, ac );
-    aci->aciDialog.adTopWidget= XtParent( aci->aciDialog.adDialog );
+	appInitAci(aci);
 
-    if  ( filterString )
-	{ XmStringFree( filterString );	}
+	appFileChooserGetTexts(ea, aci);
 
-    helpButton= XmFileSelectionBoxGetChild( aci->aciDialog.adDialog,
-						XmDIALOG_HELP_BUTTON );
-    XtUnmanageChild( helpButton );
+	hints.flags = MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS;
+	hints.functions = MWM_FUNC_MOVE | MWM_FUNC_RESIZE;
+	hints.decorations = MWM_DECOR_BORDER | MWM_DECOR_RESIZEH |
+			    MWM_DECOR_TITLE | MWM_DECOR_MENU;
 
-    text= XmFileSelectionBoxGetChild( aci->aciDialog.adDialog,
-							XmDIALOG_FILTER_TEXT );
-    XtVaSetValues( text,
-			XmNbackground,	WhitePixel( display, screen ),
-			XmNforeground,	BlackPixel( display, screen ),
-			NULL );
+	ac = 0;
+	XtSetArg(al[ac], XmNmwmDecorations, hints.decorations);
+	ac++;
+	XtSetArg(al[ac], XmNmwmFunctions, hints.functions);
+	ac++;
+	XtSetArg(al[ac], XmNdeleteResponse, XmDO_NOTHING);
+	ac++;
+	XtSetArg(al[ac], XmNallowShellResize, True);
+	ac++;
+	XtSetArg(al[ac], XmNuseAsyncGeometry, True);
+	ac++;
+	XtSetArg(al[ac], XmNwaitForWm, False);
+	ac++; /* LessTif BUG */
+	XtSetArg(al[ac], XmNwmTimeout, 0);
+	ac++; /* LessTif BUG */
 
-    /*  Not necessary
+	XtSetArg(al[ac], XmNchildPlacement, XmPLACE_ABOVE_SELECTION);
+	ac++;
+#if XmVersion >= 2000 && !defined(LESSTIF_VERSION)
+	XtSetArg(al[ac], XmNfileFilterStyle, XmFILTER_HIDDEN_FILES);
+	ac++;
+#endif
+
+	if (defaultFilter) {
+		filterString = XmStringCreateLocalized((char *)defaultFilter);
+		XtSetArg(al[ac], XmNpattern, filterString);
+		ac++;
+	}
+
+	aci->aciDialog.adDialog = XmCreateFileSelectionDialog(
+		ea->eaToplevel.atTopWidget, WIDGET_NAME, al, ac);
+	aci->aciDialog.adTopWidget = XtParent(aci->aciDialog.adDialog);
+
+	if (filterString) {
+		XmStringFree(filterString);
+	}
+
+	helpButton = XmFileSelectionBoxGetChild(aci->aciDialog.adDialog,
+						XmDIALOG_HELP_BUTTON);
+	XtUnmanageChild(helpButton);
+
+	text = XmFileSelectionBoxGetChild(aci->aciDialog.adDialog,
+					  XmDIALOG_FILTER_TEXT);
+	XtVaSetValues(text, XmNbackground, WhitePixel(display, screen),
+		      XmNforeground, BlackPixel(display, screen), NULL);
+
+	/*  Not necessary
     if  ( withFilter )
 	{
 	XtAddCallback( text, XmNactivateCallback,
@@ -650,38 +652,36 @@ static int appMakeFileChooser( AppChooserInformation **	pAci,
 	}
     */
 
-    filterButton= XmFileSelectionBoxGetChild( aci->aciDialog.adDialog,
-						    XmDIALOG_APPLY_BUTTON );
+	filterButton = XmFileSelectionBoxGetChild(aci->aciDialog.adDialog,
+						  XmDIALOG_APPLY_BUTTON);
 
-    if  ( withFilter )
-	{
-	XtAddCallback( filterButton, XmNactivateCallback,
-				    appFileFilterActivated, (void *)aci );
+	if (withFilter) {
+		XtAddCallback(filterButton, XmNactivateCallback,
+			      appFileFilterActivated, (void *)aci);
 	}
 
-    text= XmFileSelectionBoxGetChild( aci->aciDialog.adDialog, XmDIALOG_TEXT );
-    XtVaSetValues( text,
-			XmNbackground,	WhitePixel( display, screen ),
-			XmNforeground,	BlackPixel( display, screen ),
-			NULL );
+	text = XmFileSelectionBoxGetChild(aci->aciDialog.adDialog,
+					  XmDIALOG_TEXT);
+	XtVaSetValues(text, XmNbackground, WhitePixel(display, screen),
+		      XmNforeground, BlackPixel(display, screen), NULL);
 
-    appSetShellTitle( aci->aciDialog.adTopWidget, option,
-						    ea->eaApplicationName );
+	appSetShellTitle(aci->aciDialog.adTopWidget, option,
+			 ea->eaApplicationName);
 
-    XtAddEventHandler( aci->aciDialog.adTopWidget, StructureNotifyMask, False,
-					appSetSizeAsMinimum, (void *)0 );
+	XtAddEventHandler(aci->aciDialog.adTopWidget, StructureNotifyMask,
+			  False, appSetSizeAsMinimum, (void *)0);
 
-    XtAddCallback( aci->aciDialog.adDialog,
-		    XmNcancelCallback, appChooserCancel, (XtPointer)aci );
+	XtAddCallback(aci->aciDialog.adDialog, XmNcancelCallback,
+		      appChooserCancel, (XtPointer)aci);
 
-    XtAddCallback( aci->aciDialog.adDialog,
-		    XmNdestroyCallback, appFreeAci, (void *)aci );
+	XtAddCallback(aci->aciDialog.adDialog, XmNdestroyCallback, appFreeAci,
+		      (void *)aci);
 
-    aci->aciApplication= ea;
+	aci->aciApplication = ea;
 
-    *pAci= aci;
-    return 0;
-    }
+	*pAci = aci;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -691,28 +691,25 @@ static int appMakeFileChooser( AppChooserInformation **	pAci,
 /*									*/
 /************************************************************************/
 
-static void appRunFileChooser(	EditApplication *		ea,
-				AppChooserInformation *		aci,
-				Widget				relative )
-    {
-    utilInitMemoryBuffer( &(aci->aciFilename) );
+static void appRunFileChooser(EditApplication *ea, AppChooserInformation *aci,
+			      Widget relative)
+{
+	utilInitMemoryBuffer(&(aci->aciFilename));
 
-    appGuiShowDialog( ea, &(aci->aciDialog), relative );
+	appGuiShowDialog(ea, &(aci->aciDialog), relative);
 
-    /*  1  */
-    if  ( aci->aciFilterOptionmenu.aomInplace )
-	{
-	XtVaSetValues( XtParent( aci->aciFilterOptionmenu.aomInplace ),
-				XmNresizePolicy,	XmRESIZE_NONE,
-				NULL );
+	/*  1  */
+	if (aci->aciFilterOptionmenu.aomInplace) {
+		XtVaSetValues(XtParent(aci->aciFilterOptionmenu.aomInplace),
+			      XmNresizePolicy, XmRESIZE_NONE, NULL);
 	}
 
-    appGuiRunDialog( &(aci->aciDialog), ACIrespNONE, ea );
+	appGuiRunDialog(&(aci->aciDialog), ACIrespNONE, ea);
 
-    appGuiHideDialog( &(aci->aciDialog) );
+	appGuiHideDialog(&(aci->aciDialog));
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -720,171 +717,160 @@ static void appRunFileChooser(	EditApplication *		ea,
 /*									*/
 /************************************************************************/
 
-void appRunOpenChooser( Widget				option,
-			Widget				relative,
-			int				extensionCount,
-			AppFileExtension *		extensions,
-			const char *			defaultFilter,
-			const MemoryBuffer *		dir,
-			APP_OPEN_DOCUMENT		openDocument,
-			EditApplication *		ea,
-			void *				through )
-    {
-    AppChooserInformation *	aci= (AppChooserInformation *)0;
-    const int			withFilter= extensionCount > 0;
+void appRunOpenChooser(Widget option, Widget relative, int extensionCount,
+		       AppFileExtension *extensions, const char *defaultFilter,
+		       const MemoryBuffer *dir, APP_OPEN_DOCUMENT openDocument,
+		       EditApplication *ea, void *through)
+{
+	AppChooserInformation *aci = (AppChooserInformation *)0;
+	const int withFilter = extensionCount > 0;
 
-    if  ( appMakeFileChooser( &aci, relative, ea,
-					withFilter, defaultFilter, option ) )
-	{ LDEB(1); return;	}
-
-    XtAddCallback( aci->aciDialog.adDialog,
-			XmNokCallback, appOpenOkPushed, (XtPointer)aci );
-
-    if  ( withFilter )
-	{
-	appFileMakeFilter( aci );
-
-	appGuiShowDialog( ea, &(aci->aciDialog), relative );
-
-	appFileFillFilter( ea, aci,
-				extensions, extensionCount, defaultFilter );
+	if (appMakeFileChooser(&aci, relative, ea, withFilter, defaultFilter,
+			       option)) {
+		LDEB(1);
+		return;
 	}
 
-    aci->aciOption= option;
-    aci->aciRelativeTo= relative;
-    aci->aciThrough= through;
-    aci->aciOpenDocument= openDocument;
-    utilInitMemoryBuffer( &(aci->aciFilename) );
+	XtAddCallback(aci->aciDialog.adDialog, XmNokCallback, appOpenOkPushed,
+		      (XtPointer)aci);
 
-    if  ( withFilter )
-	{
-	WidgetList		children;
-	Cardinal		childCount= 0;
-	AppFileExtension *	afe;
+	if (withFilter) {
+		appFileMakeFilter(aci);
 
-	unsigned		i;
+		appGuiShowDialog(ea, &(aci->aciDialog), relative);
 
-	XtVaGetValues( aci->aciFilterOptionmenu.aomPulldown,
-			    XmNchildren,		&children,
-			    XmNnumChildren,		&childCount,
-			    NULL );
-
-	afe= extensions;
-	for ( i= 0; i < childCount; afe++, i++ )
-	    {
-	    if  ( ! FILE_CHOOSER_CAN_OPEN( afe ) )
-		{ XtUnmanageChild( children[i] ); continue;	}
-
-	    XtManageChild( children[i] );
-	    }
+		appFileFillFilter(ea, aci, extensions, extensionCount,
+				  defaultFilter);
 	}
 
-    if  ( dir && ! utilMemoryBufferIsEmpty( dir ) )
-	{ appChooserSetDirectory( dir, aci );	}
+	aci->aciOption = option;
+	aci->aciRelativeTo = relative;
+	aci->aciThrough = through;
+	aci->aciOpenDocument = openDocument;
+	utilInitMemoryBuffer(&(aci->aciFilename));
 
-    appRunFileChooser( ea, aci, relative );
+	if (withFilter) {
+		WidgetList children;
+		Cardinal childCount = 0;
+		AppFileExtension *afe;
 
-    XtDestroyWidget( aci->aciDialog.adTopWidget );
+		unsigned i;
 
-    return;
-    }
+		XtVaGetValues(aci->aciFilterOptionmenu.aomPulldown, XmNchildren,
+			      &children, XmNnumChildren, &childCount, NULL);
 
-APP_MENU_CALLBACK_H( appAppFileOpen, option, voidea, e )
-    {
-    EditApplication *	ea= (EditApplication *)voidea;
+		afe = extensions;
+		for (i = 0; i < childCount; afe++, i++) {
+			if (!FILE_CHOOSER_CAN_OPEN(afe)) {
+				XtUnmanageChild(children[i]);
+				continue;
+			}
 
-    appRunOpenChooser( option, ea->eaToplevel.atTopWidget,
-			ea->eaFileExtensionCount, ea->eaFileExtensions,
-			ea->eaDefaultFileFilter, (MemoryBuffer *)0,
-			appChooserOpenDocument, ea, (void *)ea );
-    }
+			XtManageChild(children[i]);
+		}
+	}
 
-void appDocFileOpen(	APP_WIDGET	option,
-			void *		voided,
-			void *		e )
-    {
-    EditDocument *	ed= (EditDocument *)voided;
-    EditApplication *	ea= ed->edApplication;
+	if (dir && !utilMemoryBufferIsEmpty(dir)) {
+		appChooserSetDirectory(dir, aci);
+	}
 
-    appRunOpenChooser( option, ed->edToplevel.atTopWidget,
-			ea->eaFileExtensionCount, ea->eaFileExtensions,
-			ea->eaDefaultFileFilter, (MemoryBuffer *)0,
-			appChooserOpenDocument, ea, (void *)ea );
-    }
+	appRunFileChooser(ea, aci, relative);
 
-static void appFileOkPushed(		AppChooserInformation *	aci,
-					XtPointer		voidcbs,
-					const char *		extension )
-    {
-    int			response;
+	XtDestroyWidget(aci->aciDialog.adTopWidget);
 
-    if  ( appChooserGetFilename( voidcbs, aci, extension ) )
-	{ return;	}
+	return;
+}
 
-    aci->aciRelativeTo= aci->aciDialog.adTopWidget;
-    response= appFileChooserTestNameForWrite( aci );
+APP_MENU_CALLBACK_H(appAppFileOpen, option, voidea, e)
+{
+	EditApplication *ea = (EditApplication *)voidea;
 
-    switch( response )
-	{
+	appRunOpenChooser(option, ea->eaToplevel.atTopWidget,
+			  ea->eaFileExtensionCount, ea->eaFileExtensions,
+			  ea->eaDefaultFileFilter, (MemoryBuffer *)0,
+			  appChooserOpenDocument, ea, (void *)ea);
+}
+
+void appDocFileOpen(APP_WIDGET option, void *voided, void *e)
+{
+	EditDocument *ed = (EditDocument *)voided;
+	EditApplication *ea = ed->edApplication;
+
+	appRunOpenChooser(option, ed->edToplevel.atTopWidget,
+			  ea->eaFileExtensionCount, ea->eaFileExtensions,
+			  ea->eaDefaultFileFilter, (MemoryBuffer *)0,
+			  appChooserOpenDocument, ea, (void *)ea);
+}
+
+static void appFileOkPushed(AppChooserInformation *aci, XtPointer voidcbs,
+			    const char *extension)
+{
+	int response;
+
+	if (appChooserGetFilename(voidcbs, aci, extension)) {
+		return;
+	}
+
+	aci->aciRelativeTo = aci->aciDialog.adTopWidget;
+	response = appFileChooserTestNameForWrite(aci);
+
+	switch (response) {
 	case ACIrespSAVE:
-	    if  ( (*aci->aciSaveDocument)( aci->aciDocument, aci->aciThrough, 
-			    aci->aciDialog.adTopWidget, aci->aciOption,
-			    aci->aciFormat, &(aci->aciFilename) ) )
-		{
-		utilEmptyMemoryBuffer( &(aci->aciFilename) );
+		if ((*aci->aciSaveDocument)(aci->aciDocument, aci->aciThrough,
+					    aci->aciDialog.adTopWidget,
+					    aci->aciOption, aci->aciFormat,
+					    &(aci->aciFilename))) {
+			utilEmptyMemoryBuffer(&(aci->aciFilename));
+		} else {
+			appGuiBreakDialog(&(aci->aciDialog), ACIrespSAVE);
 		}
-	    else{
-		appGuiBreakDialog( &(aci->aciDialog), ACIrespSAVE );
-		}
-	    return;
+		return;
 
 	case ACIrespCANCEL:
-	    appGuiBreakDialog( &(aci->aciDialog), ACIrespCANCEL );
-	    return;
+		appGuiBreakDialog(&(aci->aciDialog), ACIrespCANCEL);
+		return;
 
 	case ACIrespNONE:
-	    utilEmptyMemoryBuffer( &(aci->aciFilename) );
-	    return;
+		utilEmptyMemoryBuffer(&(aci->aciFilename));
+		return;
 
 	default:
-	    LDEB(response);
-	    utilEmptyMemoryBuffer( &(aci->aciFilename) );
-	    appGuiBreakDialog( &(aci->aciDialog), ACIrespFAILURE );
-	    return;
+		LDEB(response);
+		utilEmptyMemoryBuffer(&(aci->aciFilename));
+		appGuiBreakDialog(&(aci->aciDialog), ACIrespFAILURE);
+		return;
 	}
 
-    return;
-    }
+	return;
+}
 
-static void appSaveOkPushed(		Widget		fileChooser,
-					XtPointer	voidaci,
-					XtPointer	voidcbs	 )
-    {
-    AppChooserInformation *	aci= (AppChooserInformation *)voidaci;
-    const char *		extension= (const char *)0;
+static void appSaveOkPushed(Widget fileChooser, XtPointer voidaci,
+			    XtPointer voidcbs)
+{
+	AppChooserInformation *aci = (AppChooserInformation *)voidaci;
+	const char *extension = (const char *)0;
 
-    if  ( aci->aciExtensionCount > 0 )
-	{
-	if  ( aci->aciFormat >= 0 && aci->aciFormat < aci->aciExtensionCount )
-	    {
-	    const AppFileExtension *	afe= aci->aciExtensions+ aci->aciFormat;
+	if (aci->aciExtensionCount > 0) {
+		if (aci->aciFormat >= 0 &&
+		    aci->aciFormat < aci->aciExtensionCount) {
+			const AppFileExtension *afe =
+				aci->aciExtensions + aci->aciFormat;
 
-	    extension= afe->afeExtension;
-	    }
+			extension = afe->afeExtension;
+		}
 	}
 
-    appFileOkPushed( aci, voidcbs, extension );
-    }
+	appFileOkPushed(aci, voidcbs, extension);
+}
 
-static void appPrintOkPushed(		Widget		fileChooser,
-					XtPointer	voidaci,
-					XtPointer	voidcbs	 )
-    {
-    AppChooserInformation *	aci= (AppChooserInformation *)voidaci;
-    const char *		extension= "ps";
+static void appPrintOkPushed(Widget fileChooser, XtPointer voidaci,
+			     XtPointer voidcbs)
+{
+	AppChooserInformation *aci = (AppChooserInformation *)voidaci;
+	const char *extension = "ps";
 
-    appFileOkPushed( aci, voidcbs, extension );
-    }
+	appFileOkPushed(aci, voidcbs, extension);
+}
 
 /************************************************************************/
 /*									*/
@@ -892,129 +878,125 @@ static void appPrintOkPushed(		Widget		fileChooser,
 /*									*/
 /************************************************************************/
 
-static int appSaveChooserFilterExtensions( EditApplication *	ea,
-					const EditDocument *	ed,
-					unsigned int		useFlags,
-					AppChooserInformation *	aci )
-    {
-    WidgetList		children;
-    Cardinal		childCount= 0;
-    AppFileExtension *	afe;
+static int appSaveChooserFilterExtensions(EditApplication *ea,
+					  const EditDocument *ed,
+					  unsigned int useFlags,
+					  AppChooserInformation *aci)
+{
+	WidgetList children;
+	Cardinal childCount = 0;
+	AppFileExtension *afe;
 
-    int			choice= -1;
-    int			i;
+	int choice = -1;
+	int i;
 
-    XtVaGetValues( aci->aciFilterOptionmenu.aomPulldown,
-			XmNchildren,		&children,
-			XmNnumChildren,		&childCount,
-			NULL );
+	XtVaGetValues(aci->aciFilterOptionmenu.aomPulldown, XmNchildren,
+		      &children, XmNnumChildren, &childCount, NULL);
 
-    afe= ea->eaFileExtensions;
-    for ( i= 0; i < (int)childCount; afe++, i++ )
-	{
-	if  ( appDocumentTestCanSave( ea, afe, ed->edPrivateData,
-							useFlags, i ) )
-	    { XtUnmanageChild( children[i] ); continue;	}
-
-	XtManageChild( children[i] );
-
-	if  ( i == ed->edFormat || choice < 0 )
-	    { choice= i;	}
-	}
-
-    if  ( choice >= 0 )
-	{
-	XmString	filterString;
-
-	filterString= XmStringCreateLocalized(
-			    (char *)ea->eaFileExtensions[choice].afeFilter );
-
-	appSetOptionmenu( &(aci->aciFilterOptionmenu), choice );
-
-	XtVaSetValues( aci->aciDialog.adDialog,
-			XmNpattern,			filterString,
-			NULL );
-
-	XmStringFree( filterString );
-
-	if  ( ! utilMemoryBufferIsEmpty( &(ed->edFilename) ) )
-	    {
-	    Widget	text;
-
-	    text= XmFileSelectionBoxGetChild( aci->aciDialog.adDialog,
-							    XmDIALOG_TEXT );
-
-	    if  ( choice == ed->edFormat )
-		{ appChooserSetText( text, &(ed->edFilename) ); }
-	    else{
-		const char *	ext= ea->eaFileExtensions[choice].afeExtension;
-
-		if  ( ext )
-		    {
-		    appChooserSetFileExtension( &(ed->edFilename),
-							    ext, text );
-		    }
+	afe = ea->eaFileExtensions;
+	for (i = 0; i < (int)childCount; afe++, i++) {
+		if (appDocumentTestCanSave(ea, afe, ed->edPrivateData, useFlags,
+					   i)) {
+			XtUnmanageChild(children[i]);
+			continue;
 		}
-	    }
 
-	aci->aciFormat= choice;
+		XtManageChild(children[i]);
+
+		if (i == ed->edFormat || choice < 0) {
+			choice = i;
+		}
 	}
 
-    return 0;
-    }
+	if (choice >= 0) {
+		XmString filterString;
 
-int appRunSaveChooser(	APP_WIDGET		option,
-			APP_WIDGET		relative,
-			unsigned int		useFlags,
-			APP_SAVE_DOCUMENT	saveDocument,
-			EditDocument *		ed,
-			void *			through )
-    {
-    EditApplication *		ea= ed->edApplication;
-    AppChooserInformation *	aci= (AppChooserInformation *)0;
-    const int			withFilter= ea->eaFileExtensionCount > 0;
-    int				response;
+		filterString = XmStringCreateLocalized(
+			(char *)ea->eaFileExtensions[choice].afeFilter);
 
-    if  ( appMakeFileChooser( &aci, relative, ea, withFilter,
-					    ea->eaDefaultFileFilter, option ) )
-	{ return ACIrespFAILURE;	}
+		appSetOptionmenu(&(aci->aciFilterOptionmenu), choice);
 
-    XtAddCallback( aci->aciDialog.adDialog,
-			    XmNokCallback, appSaveOkPushed, (XtPointer)aci );
+		XtVaSetValues(aci->aciDialog.adDialog, XmNpattern, filterString,
+			      NULL);
 
-    if  ( withFilter )
-	{
-	appFileMakeFilter( aci );
+		XmStringFree(filterString);
 
-	appGuiShowDialog( ea, &(aci->aciDialog), relative );
+		if (!utilMemoryBufferIsEmpty(&(ed->edFilename))) {
+			Widget text;
 
-	appFileFillFilter( ea, aci,
-		ea->eaFileExtensions,
-		ea->eaFileExtensionCount,
-		ea->eaDefaultFileFilter );
+			text = XmFileSelectionBoxGetChild(
+				aci->aciDialog.adDialog, XmDIALOG_TEXT);
+
+			if (choice == ed->edFormat) {
+				appChooserSetText(text, &(ed->edFilename));
+			} else {
+				const char *ext = ea->eaFileExtensions[choice]
+							  .afeExtension;
+
+				if (ext) {
+					appChooserSetFileExtension(
+						&(ed->edFilename), ext, text);
+				}
+			}
+		}
+
+		aci->aciFormat = choice;
 	}
 
-    aci->aciOption= option;
-    aci->aciRelativeTo= relative;
-    aci->aciDocument= ed;
-    aci->aciThrough= through;
-    aci->aciSaveDocument= saveDocument;
+	return 0;
+}
 
-    if  ( ! utilMemoryBufferIsEmpty( &(ed->edFilename) ) )
-	{ appChooserSetFileDirectory( &(ed->edFilename), aci ); }
+int appRunSaveChooser(APP_WIDGET option, APP_WIDGET relative,
+		      unsigned int useFlags, APP_SAVE_DOCUMENT saveDocument,
+		      EditDocument *ed, void *through)
+{
+	EditApplication *ea = ed->edApplication;
+	AppChooserInformation *aci = (AppChooserInformation *)0;
+	const int withFilter = ea->eaFileExtensionCount > 0;
+	int response;
 
-    if  ( ea->eaFileExtensionCount > 0					&&
-	  appSaveChooserFilterExtensions( ea, ed, useFlags, aci )	)
-	{ LDEB(1); return ACIrespFAILURE;	}
+	if (appMakeFileChooser(&aci, relative, ea, withFilter,
+			       ea->eaDefaultFileFilter, option)) {
+		return ACIrespFAILURE;
+	}
 
-    appRunFileChooser( ea, aci, relative );
+	XtAddCallback(aci->aciDialog.adDialog, XmNokCallback, appSaveOkPushed,
+		      (XtPointer)aci);
 
-    response= aci->aciDialog.adResponse;
+	if (withFilter) {
+		appFileMakeFilter(aci);
 
-    XtDestroyWidget( aci->aciDialog.adTopWidget );
+		appGuiShowDialog(ea, &(aci->aciDialog), relative);
 
-    return response;
-    }
+		appFileFillFilter(ea, aci, ea->eaFileExtensions,
+				  ea->eaFileExtensionCount,
+				  ea->eaDefaultFileFilter);
+	}
+
+	aci->aciOption = option;
+	aci->aciRelativeTo = relative;
+	aci->aciDocument = ed;
+	aci->aciThrough = through;
+	aci->aciSaveDocument = saveDocument;
+
+	if (!utilMemoryBufferIsEmpty(&(ed->edFilename))) {
+		appChooserSetFileDirectory(&(ed->edFilename), aci);
+	}
+
+	if (ea->eaFileExtensionCount > 0 &&
+	    appSaveChooserFilterExtensions(ea, ed, useFlags, aci)) {
+		LDEB(1);
+		return ACIrespFAILURE;
+	}
+
+	appRunFileChooser(ea, aci, relative);
+
+	response = aci->aciDialog.adResponse;
+
+	XtDestroyWidget(aci->aciDialog.adTopWidget);
+
+	return response;
+}
 
 /************************************************************************/
 /*									*/
@@ -1022,72 +1004,70 @@ int appRunSaveChooser(	APP_WIDGET		option,
 /*									*/
 /************************************************************************/
 
-int appRunPrintToFileChooser(
-			APP_WIDGET		option,
-			APP_WIDGET		relative,
-			APP_SAVE_DOCUMENT	printDocument,
-			EditDocument *		ed,
-			void *			through )
-    {
-    EditApplication *		ea= ed->edApplication;
-    AppChooserInformation *	aci= (AppChooserInformation *)0;
-    const int			withFilter= 0;
-    int				response;
+int appRunPrintToFileChooser(APP_WIDGET option, APP_WIDGET relative,
+			     APP_SAVE_DOCUMENT printDocument, EditDocument *ed,
+			     void *through)
+{
+	EditApplication *ea = ed->edApplication;
+	AppChooserInformation *aci = (AppChooserInformation *)0;
+	const int withFilter = 0;
+	int response;
 
-    if  ( appMakeFileChooser( &aci, relative, ea, withFilter, "*.ps", option ) )
-	{ LDEB(1); return ACIrespFAILURE;	}
-
-    XtAddCallback( aci->aciDialog.adDialog,
-				XmNokCallback, appPrintOkPushed, (void *)aci );
-
-    aci->aciOption= option;
-    aci->aciRelativeTo= relative;
-    aci->aciDocument= ed;
-    aci->aciThrough= through;
-    aci->aciSaveDocument= printDocument;
-
-    if  ( ! utilMemoryBufferIsEmpty( &(ed->edFilename) ) )
-	{
-	Widget	text;
-
-	text= XmFileSelectionBoxGetChild(
-				    aci->aciDialog.adDialog, XmDIALOG_TEXT );
-
-	appChooserSetFileDirectory( &(ed->edFilename), aci );
-	appChooserSetFileExtension( &(ed->edFilename), "ps", text );
+	if (appMakeFileChooser(&aci, relative, ea, withFilter, "*.ps",
+			       option)) {
+		LDEB(1);
+		return ACIrespFAILURE;
 	}
 
-    appRunFileChooser( ea, aci, relative );
+	XtAddCallback(aci->aciDialog.adDialog, XmNokCallback, appPrintOkPushed,
+		      (void *)aci);
 
-    response= aci->aciDialog.adResponse;
+	aci->aciOption = option;
+	aci->aciRelativeTo = relative;
+	aci->aciDocument = ed;
+	aci->aciThrough = through;
+	aci->aciSaveDocument = printDocument;
 
-    XtDestroyWidget( aci->aciDialog.adTopWidget );
+	if (!utilMemoryBufferIsEmpty(&(ed->edFilename))) {
+		Widget text;
 
-    return response;
-    }
+		text = XmFileSelectionBoxGetChild(aci->aciDialog.adDialog,
+						  XmDIALOG_TEXT);
 
-int appFileChooserConfirmOverWrite(	const AppChooserInformation *	aci,
-					const char *		filename )
-    {
-    int			rcc;
+		appChooserSetFileDirectory(&(ed->edFilename), aci);
+		appChooserSetFileExtension(&(ed->edFilename), "ps", text);
+	}
 
-    rcc= appQuestionRunSubjectYesNoCancelDialog(
-			aci->aciApplication, aci->aciRelativeTo, aci->aciOption,
-			filename, aci->aciResources->acrOverwriteMessage );
+	appRunFileChooser(ea, aci, relative);
 
-    switch( rcc )
-	{
+	response = aci->aciDialog.adResponse;
+
+	XtDestroyWidget(aci->aciDialog.adTopWidget);
+
+	return response;
+}
+
+int appFileChooserConfirmOverWrite(const AppChooserInformation *aci,
+				   const char *filename)
+{
+	int rcc;
+
+	rcc = appQuestionRunSubjectYesNoCancelDialog(
+		aci->aciApplication, aci->aciRelativeTo, aci->aciOption,
+		filename, aci->aciResources->acrOverwriteMessage);
+
+	switch (rcc) {
 	case AQDrespYES:
-	    return ACIrespSAVE;
+		return ACIrespSAVE;
 	case AQDrespNO:
-	    return ACIrespNONE;
+		return ACIrespNONE;
 	default:
-	    LDEB(rcc);
-	    /*FALLTHROUGH*/
+		LDEB(rcc);
+		/*FALLTHROUGH*/
 	case AQDrespCANCEL:
 	case AQDrespCLOSED:
-	    return ACIrespCANCEL;
+		return ACIrespCANCEL;
 	}
-    }
+}
 
-#   endif
+#endif

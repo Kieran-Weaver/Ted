@@ -5,11 +5,11 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBaseConfig.h"
+#include "docBaseConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docEditRange.h"
+#include "docEditRange.h"
 
 /************************************************************************/
 /*									*/
@@ -17,11 +17,11 @@
 /*									*/
 /************************************************************************/
 
-void docInitEditRange(	EditRange *	er )
-    {
-    docInitEditPosition( &(er->erHead) );
-    docInitEditPosition( &(er->erTail) );
-    }
+void docInitEditRange(EditRange *er)
+{
+	docInitEditPosition(&(er->erHead));
+	docInitEditPosition(&(er->erTail));
+}
 
 /************************************************************************/
 /*									*/
@@ -29,19 +29,16 @@ void docInitEditRange(	EditRange *	er )
 /*									*/
 /************************************************************************/
 
-void docShiftEditRange(	EditRange  *		er,
-			int			paraFrom,
-			int			stroffFrom,
-			int			paraShift,
-			int			stroffShift )
-    {
-    docAdjustEditPositionB( &(er->erHead),
-				paraFrom, stroffFrom, paraShift, stroffShift );
-    docAdjustEditPositionE( &(er->erTail),
-				paraFrom, stroffFrom, paraShift, stroffShift );
+void docShiftEditRange(EditRange *er, int paraFrom, int stroffFrom,
+		       int paraShift, int stroffShift)
+{
+	docAdjustEditPositionB(&(er->erHead), paraFrom, stroffFrom, paraShift,
+			       stroffShift);
+	docAdjustEditPositionE(&(er->erTail), paraFrom, stroffFrom, paraShift,
+			       stroffShift);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -52,16 +49,17 @@ void docShiftEditRange(	EditRange  *		er,
 /*									*/
 /************************************************************************/
 
-void docUnionEditRanges(	EditRange *		erTo,
-				const EditRange *	er1,
-				const EditRange *	er2 )
-    {
-    EditRange	er= *er1;
+void docUnionEditRanges(EditRange *erTo, const EditRange *er1,
+			const EditRange *er2)
+{
+	EditRange er = *er1;
 
-    if  ( docCompareEditPositions( &(er.erHead), &(er2->erHead) ) > 0 )
-	{ er.erHead= er2->erHead;	}
-    if  ( docCompareEditPositions( &(er.erTail), &(er2->erTail) ) < 0 )
-	{ er.erTail= er2->erTail;	}
+	if (docCompareEditPositions(&(er.erHead), &(er2->erHead)) > 0) {
+		er.erHead = er2->erHead;
+	}
+	if (docCompareEditPositions(&(er.erTail), &(er2->erTail)) < 0) {
+		er.erTail = er2->erTail;
+	}
 
-    *erTo= er;
-    }
+	*erTo = er;
+}

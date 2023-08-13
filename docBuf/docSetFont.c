@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	"docTreeNode.h"
-#   include	<docTextParticule.h>
+#include "docBuf.h"
+#include "docTreeNode.h"
+#include <docTextParticule.h>
 
 /************************************************************************/
 /*									*/
@@ -19,51 +19,49 @@
 /*									*/
 /************************************************************************/
 
-int docChangeParticuleAttributes(	int *			pChanged,
-					PropertyMask *		pTaAllMask,
-					BufferDocument *	bd,
-					BufferItem *		paraBi,
-					int			part,
-					int			partUpto,
-					const TextAttribute *	taSet,
-					const PropertyMask *	taSetMask )
-    {
-    TextParticule *		tp;
-    int				i;
-    int				changed= 0;
+int docChangeParticuleAttributes(int *pChanged, PropertyMask *pTaAllMask,
+				 BufferDocument *bd, BufferItem *paraBi,
+				 int part, int partUpto,
+				 const TextAttribute *taSet,
+				 const PropertyMask *taSetMask)
+{
+	TextParticule *tp;
+	int i;
+	int changed = 0;
 
-    tp= paraBi->biParaParticules+ part;
-    for ( i= part; i < partUpto; tp++, i++ )
-	{
-	TextAttribute	ta;
-	int		attributeNumber= tp->tpTextAttrNr;
-	PropertyMask	doneMask;
+	tp = paraBi->biParaParticules + part;
+	for (i = part; i < partUpto; tp++, i++) {
+		TextAttribute ta;
+		int attributeNumber = tp->tpTextAttrNr;
+		PropertyMask doneMask;
 
-	utilPropMaskClear( &doneMask );
+		utilPropMaskClear(&doneMask);
 
-	docGetTextAttributeByNumber( &ta, bd, tp->tpTextAttrNr );
+		docGetTextAttributeByNumber(&ta, bd, tp->tpTextAttrNr);
 
-	utilUpdateTextAttribute( &doneMask, &ta, taSetMask, taSet );
+		utilUpdateTextAttribute(&doneMask, &ta, taSetMask, taSet);
 
-	if  ( ! utilPropMaskIsEmpty( &doneMask )	||
-	      attributeNumber < 0			)
-	    {
-	    changed= 1;
+		if (!utilPropMaskIsEmpty(&doneMask) || attributeNumber < 0) {
+			changed = 1;
 
-	    if  ( pTaAllMask )
-		{ utilPropMaskOr( pTaAllMask, pTaAllMask, &doneMask );	}
+			if (pTaAllMask) {
+				utilPropMaskOr(pTaAllMask, pTaAllMask,
+					       &doneMask);
+			}
 
-	    attributeNumber= docTextAttributeNumber( bd, &ta );
-	    if  ( attributeNumber < 0 )
-		{ LDEB(attributeNumber); return -1;	}
+			attributeNumber = docTextAttributeNumber(bd, &ta);
+			if (attributeNumber < 0) {
+				LDEB(attributeNumber);
+				return -1;
+			}
 
-	    tp->tpTextAttrNr= attributeNumber;
-	    }
+			tp->tpTextAttrNr = attributeNumber;
+		}
 	}
 
-    if  ( pChanged && changed )
-	{ *pChanged= 1;	}
+	if (pChanged && changed) {
+		*pChanged = 1;
+	}
 
-    return 0;
-    }
-
+	return 0;
+}

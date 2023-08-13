@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_ROW_NODE_H
-#   define	DOC_ROW_NODE_H
+#ifndef DOC_ROW_NODE_H
+#define DOC_ROW_NODE_H
 
-#   include	<docLayoutPosition.h>
-#   include	<docRowProperties.h>
+#include <docLayoutPosition.h>
+#include <docRowProperties.h>
 
 /************************************************************************/
 /*									*/
@@ -42,31 +42,30 @@
 /*									*/
 /************************************************************************/
 
-typedef struct RowNode
-    {
-				/*  1  */
-    int				brTableHeaderRow;
-    int				brTableFirst;
-    int				brTablePast;
+typedef struct RowNode {
+	/*  1  */
+	int brTableHeaderRow;
+	int brTableFirst;
+	int brTablePast;
 
-				/*  2  */
-    RowProperties		brRowProperties;
+	/*  2  */
+	RowProperties brRowProperties;
 
-				/*  3  */
-    LayoutPosition		brBelowAllCellsPosition;
+	/*  3  */
+	LayoutPosition brBelowAllCellsPosition;
 
-				/*  4,6  */
-    LayoutPosition		brAboveHeaderPosition;
+	/*  4,6  */
+	LayoutPosition brAboveHeaderPosition;
 
-				/*  8  */
-    short int			brTopInset;
+	/*  8  */
+	short int brTopInset;
 
-				/*  4,7  */
-    unsigned char		brPrecededByHeader;
+	/*  4,7  */
+	unsigned char brPrecededByHeader;
 
-				/*  9  */
-    unsigned char		brForTable;
-    } RowNode;
+	/*  9  */
+	unsigned char brForTable;
+} RowNode;
 
 /************************************************************************/
 /*									*/
@@ -74,43 +73,37 @@ typedef struct RowNode
 /*									*/
 /************************************************************************/
 
+#define biRowTopInset BIU.biuRow.brTopInset
 
-#	define	biRowTopInset		BIU.biuRow.brTopInset
+#define biRowTableHeaderRow BIU.biuRow.brTableHeaderRow
+#define biRowTableFirst BIU.biuRow.brTableFirst
+#define biRowTablePast BIU.biuRow.brTablePast
+#define biRowPrecededByHeader BIU.biuRow.brPrecededByHeader
+#define biRowBelowAllCellsPosition BIU.biuRow.brBelowAllCellsPosition
+#define biRowAboveHeaderPosition BIU.biuRow.brAboveHeaderPosition
+#define biRowForTable BIU.biuRow.brForTable
 
-#	define	biRowTableHeaderRow	BIU.biuRow.brTableHeaderRow
-#	define	biRowTableFirst		BIU.biuRow.brTableFirst
-#	define	biRowTablePast		BIU.biuRow.brTablePast
-#	define	biRowPrecededByHeader	BIU.biuRow.brPrecededByHeader
-#	define	biRowBelowAllCellsPosition	BIU.biuRow.brBelowAllCellsPosition
-#	define	biRowAboveHeaderPosition \
-					BIU.biuRow.brAboveHeaderPosition
-#	define	biRowForTable		BIU.biuRow.brForTable
+#define biRowProperties BIU.biuRow.brRowProperties
 
-#	define	biRowProperties		BIU.biuRow.brRowProperties
+#define biRowHalfGapWidthTwips biRowProperties.rpHalfGapWidthTwips
+#define biRowLeftIndentTwips biRowProperties.rpLeftIndentTwips
+#define biRowHeightTwips biRowProperties.rpHeightTwips
+#define biRowIsTableHeader biRowProperties.rpIsTableHeader
+#define biRowKeepOnOnePage biRowProperties.rpKeepOnOnePage
+#define biRow_Keepfollow biRowProperties.rp_Keepfollow
+#define biRowAutofit biRowProperties.rpAutofit
+#define biRowCells biRowProperties.rpCells
+#define biRowCellCount biRowProperties.rpCellCount
+#define biRowAlignment biRowProperties.rpAlignment
 
-#	define	biRowHalfGapWidthTwips	biRowProperties.rpHalfGapWidthTwips
-#	define	biRowLeftIndentTwips	biRowProperties.rpLeftIndentTwips
-#	define	biRowHeightTwips	biRowProperties.rpHeightTwips
-#	define	biRowIsTableHeader	biRowProperties.rpIsTableHeader
-#	define	biRowKeepOnOnePage	biRowProperties.rpKeepOnOnePage
-#	define	biRow_Keepfollow	biRowProperties.rp_Keepfollow
-#	define	biRowAutofit		biRowProperties.rpAutofit
-#	define	biRowCells		biRowProperties.rpCells
-#	define	biRowCellCount		biRowProperties.rpCellCount
-#	define	biRowAlignment		biRowProperties.rpAlignment
+#define biRowFrameNumber biRowProperties.rpFrameNumber
+#define biRowTopBorderNumber biRowProperties.rpTopBorderNumber
+#define biRowBottomBorderNumber biRowProperties.rpBottomBorderNumber
+#define biRowLeftBorderNumber biRowProperties.rpLeftBorderNumber
+#define biRowRightBorderNumber biRowProperties.rpRightBorderNumber
+#define biRowVerticalBorderNumber biRowProperties.rpVerticalBorderNumber
+#define biRowHorizontalBorderNumber biRowProperties.rpHorizontalBorderNumber
 
-#	define	biRowFrameNumber	biRowProperties.rpFrameNumber
-#	define	biRowTopBorderNumber	biRowProperties.rpTopBorderNumber
-#	define	biRowBottomBorderNumber	biRowProperties.rpBottomBorderNumber
-#	define	biRowLeftBorderNumber	biRowProperties.rpLeftBorderNumber
-#	define	biRowRightBorderNumber	biRowProperties.rpRightBorderNumber
-#	define	biRowVerticalBorderNumber \
-					biRowProperties.rpVerticalBorderNumber
-#	define	biRowHorizontalBorderNumber \
-					biRowProperties.rpHorizontalBorderNumber
+#define BI_ROW_IS_ONE_PAGE(rowBi) RP_IS_ONE_PAGE(&((rowBi)->biRowProperties))
 
-# define BI_ROW_IS_ONE_PAGE( rowBi ) \
-		    RP_IS_ONE_PAGE( &((rowBi)->biRowProperties) )
-
-
-#   endif
+#endif

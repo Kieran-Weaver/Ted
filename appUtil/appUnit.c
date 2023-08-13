@@ -4,80 +4,96 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<string.h>
-#   include	<time.h>
+#include <string.h>
+#include <time.h>
 
-#   include	"appUnit.h"
-#   include	<appDebugon.h>
+#include "appUnit.h"
+#include <appDebugon.h>
 
-int appUnitTypeInt(	const char *	unitTypeString )
-    {
-    if  ( ! strcmp( unitTypeString, "cm" ) )
-	{ return UNITtyCM;	}
-
-    if  ( ! strcmp( unitTypeString, "inch" )	||
-	  ! strcmp( unitTypeString, "\"" )	)
-	{ return UNITtyINCH;	}
-
-    if  ( ! strcmp( unitTypeString, "points" )	||
-	  ! strcmp( unitTypeString, "pt" )	)
-	{ return UNITtyPOINTS;	}
-
-    if  ( ! strcmp( unitTypeString, "picas" )	||
-	  ! strcmp( unitTypeString, "pi" )	)
-	{ return UNITtyPICAS;	}
-
-    if  ( ! strcmp( unitTypeString, "mm" ) )
-	{ return UNITtyMM;	}
-
-    return -1;
-    }
-
-const char * appUnitTypeString(	int	unitTypeInt )
-    {
-    switch( unitTypeInt )
-	{
-	case UNITtyCM:		return "cm";
-	case UNITtyINCH:	return "\"";
-	case UNITtyPOINTS:	return "pt";
-	case UNITtyPICAS:	return "pi";
-	case UNITtyMM:		return "mm";
-	default:
-	    LDEB(unitTypeInt); return "?";
+int appUnitTypeInt(const char *unitTypeString)
+{
+	if (!strcmp(unitTypeString, "cm")) {
+		return UNITtyCM;
 	}
-    }
 
-double appUnitFromTwips(	int	twips,
-				int	unitTypeInt )
-    {
-    switch( unitTypeInt )
-	{
-	case UNITtyCM:		return ( 2.54* twips )/ ( 20.0* 72 );
-	case UNITtyINCH:	return twips/ ( 20.0* 72 );
-	case UNITtyPOINTS:	return twips/ 20.0;
-	case UNITtyPICAS:	return twips/ ( 20.0* 12 );
-	case UNITtyMM:		return ( 25.4* twips )/ ( 20.0* 72 );
-	default:
-	    LDEB(unitTypeInt); return -1;
+	if (!strcmp(unitTypeString, "inch") || !strcmp(unitTypeString, "\"")) {
+		return UNITtyINCH;
 	}
-    }
 
-double appUnitToTwips(	double	units,
-			int	unitTypeInt )
-    {
-    switch( unitTypeInt )
-	{
-	case UNITtyCM:		return ( 20.0* 72* units )/ 2.54;
-	case UNITtyINCH:	return 20.0* 72* units;
-	case UNITtyPOINTS:	return 20.0* units;
-	case UNITtyPICAS:	return 20.0* 12* units;
-	case UNITtyMM:		return ( 20.0* 72* units )/ 25.4;
-	default:
-	    LDEB(unitTypeInt); return -1;
+	if (!strcmp(unitTypeString, "points") ||
+	    !strcmp(unitTypeString, "pt")) {
+		return UNITtyPOINTS;
 	}
-    }
+
+	if (!strcmp(unitTypeString, "picas") || !strcmp(unitTypeString, "pi")) {
+		return UNITtyPICAS;
+	}
+
+	if (!strcmp(unitTypeString, "mm")) {
+		return UNITtyMM;
+	}
+
+	return -1;
+}
+
+const char *appUnitTypeString(int unitTypeInt)
+{
+	switch (unitTypeInt) {
+	case UNITtyCM:
+		return "cm";
+	case UNITtyINCH:
+		return "\"";
+	case UNITtyPOINTS:
+		return "pt";
+	case UNITtyPICAS:
+		return "pi";
+	case UNITtyMM:
+		return "mm";
+	default:
+		LDEB(unitTypeInt);
+		return "?";
+	}
+}
+
+double appUnitFromTwips(int twips, int unitTypeInt)
+{
+	switch (unitTypeInt) {
+	case UNITtyCM:
+		return (2.54 * twips) / (20.0 * 72);
+	case UNITtyINCH:
+		return twips / (20.0 * 72);
+	case UNITtyPOINTS:
+		return twips / 20.0;
+	case UNITtyPICAS:
+		return twips / (20.0 * 12);
+	case UNITtyMM:
+		return (25.4 * twips) / (20.0 * 72);
+	default:
+		LDEB(unitTypeInt);
+		return -1;
+	}
+}
+
+double appUnitToTwips(double units, int unitTypeInt)
+{
+	switch (unitTypeInt) {
+	case UNITtyCM:
+		return (20.0 * 72 * units) / 2.54;
+	case UNITtyINCH:
+		return 20.0 * 72 * units;
+	case UNITtyPOINTS:
+		return 20.0 * units;
+	case UNITtyPICAS:
+		return 20.0 * 12 * units;
+	case UNITtyMM:
+		return (20.0 * 72 * units) / 25.4;
+	default:
+		LDEB(unitTypeInt);
+		return -1;
+	}
+}
 
 /************************************************************************/
 /*									*/
@@ -93,282 +109,366 @@ double appUnitToTwips(	double	units,
 /*									*/
 /************************************************************************/
 
-int appWordFormatDate(			char *			to,
-					int			maxlen,
-					const struct tm *	tm,
-					const char *		wordPicture )
-    {
-    int			l;
-    const char *	from= wordPicture;
-    const char *	frm;
+int appWordFormatDate(char *to, int maxlen, const struct tm *tm,
+		      const char *wordPicture)
+{
+	int l;
+	const char *from = wordPicture;
+	const char *frm;
 
-    while( *from )
-	{
-	switch( *from )
-	    {
-	    int		count;
+	while (*from) {
+		switch (*from) {
+			int count;
 
-	    case 'M':
-		count= 1;
-		from++;
-		while( count < 4 && from[0] == from[-1]	)
-		    { from++; count++;	}
-		switch( count )
-		    {
-		    case 1:
-			l= strftime( to, maxlen+ 1, "%m", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			if  ( to[0] == '0' )
-			    { memmove( to, to+ 1, l+ 1 ); }
-			to += l; maxlen -= l;
+		case 'M':
+			count = 1;
+			from++;
+			while (count < 4 && from[0] == from[-1]) {
+				from++;
+				count++;
+			}
+			switch (count) {
+			case 1:
+				l = strftime(to, maxlen + 1, "%m", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				if (to[0] == '0') {
+					memmove(to, to + 1, l + 1);
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 2:
+				l = strftime(to, maxlen + 1, "%m", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 3:
+				l = strftime(to, maxlen + 1, "%b", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 4:
+				l = strftime(to, maxlen + 1, "%B", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			default:
+				LDEB(count);
+				return -1;
+			}
+
+		case 'd':
+		case 'D':
+			count = 1;
+			from++;
+			while (count < 4 &&
+			       tolower(from[0]) == tolower(from[-1])) {
+				from++;
+				count++;
+			}
+			switch (count) {
+			case 1:
+				l = strftime(to, maxlen + 1, "%d", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				if (to[0] == '0') {
+					memmove(to, to + 1, l + 1);
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 2:
+				l = strftime(to, maxlen + 1, "%d", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 3:
+				l = strftime(to, maxlen + 1, "%a", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 4:
+				l = strftime(to, maxlen + 1, "%A", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			default:
+				LDEB(count);
+				return -1;
+			}
+
+		case 'y':
+		case 'Y':
+			count = 1;
+			from++;
+			while (count < 4 &&
+			       tolower(from[0]) == tolower(from[-1])) {
+				from++;
+				count++;
+			}
+			switch (count) {
+			case 2:
+				/* GCC: Shut Up! */
+				frm = "%y";
+				l = strftime(to, maxlen + 1, frm, tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 4:
+				l = strftime(to, maxlen + 1, "%Y", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			default:
+				LDEB(count);
+				return -1;
+			}
+
+		case 'H':
+			count = 1;
+			from++;
+			while (count < 2 && from[0] == from[-1]) {
+				from++;
+				count++;
+			}
+			switch (count) {
+			case 1:
+				l = strftime(to, maxlen + 1, "%H", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				if (to[0] == '0') {
+					memmove(to, to + 1, l + 1);
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 2:
+				l = strftime(to, maxlen + 1, "%H", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			default:
+				LDEB(count);
+				return -1;
+			}
+
+		case 'h':
+			count = 1;
+			from++;
+			while (count < 2 && from[0] == from[-1]) {
+				from++;
+				count++;
+			}
+			switch (count) {
+			case 1:
+				l = strftime(to, maxlen + 1, "%I", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				if (to[0] == '0') {
+					memmove(to, to + 1, l + 1);
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 2:
+				l = strftime(to, maxlen + 1, "%I", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			default:
+				LDEB(count);
+				return -1;
+			}
+
+		case 'm':
+			count = 1;
+			from++;
+			while (count < 2 && from[0] == from[-1]) {
+				from++;
+				count++;
+			}
+			switch (count) {
+			case 1:
+				l = strftime(to, maxlen + 1, "%M", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				if (to[0] == '0') {
+					memmove(to, to + 1, l + 1);
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			case 2:
+				l = strftime(to, maxlen + 1, "%M", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				continue;
+
+			default:
+				LDEB(count);
+				return -1;
+			}
+
+		case 'A':
+		case 'a':
+			if (!strcmp(from, "AM/PM") || !strcmp(from, "am/pm")) {
+				l = strftime(to, maxlen + 1, "%p", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				from += 5;
+				continue;
+			}
+
+			if (!strcmp(from, "A/P") || !strcmp(from, "a/p")) {
+				l = strftime(to, maxlen + 1, "%p", tm);
+				if (l < 1) {
+					LDEB(l);
+					return -1;
+				}
+				to += l;
+				maxlen -= l;
+				from += 3;
+				continue;
+			}
+
+			goto defaultCase;
+
+		case '\'':
+			from++;
+			while (*from != '\'') {
+				if (!*from) {
+					LDEB(1);
+					return -1;
+				}
+
+				if (maxlen < 1) {
+					LDEB(maxlen);
+					return -1;
+				}
+				*(to++) = *(from++);
+				maxlen--;
+			}
+
+			from++; /* '\'' */
 			continue;
 
-		    case 2:
-			l= strftime( to, maxlen+ 1, "%m", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
+		case '`':
+			if (maxlen < 1) {
+				LDEB(maxlen);
+				return -1;
+			}
+			*(to++) = *(from++);
+			while (*from != '\'') {
+				if (!*from) {
+					LDEB(1);
+					return -1;
+				}
+
+				if (maxlen < 1) {
+					LDEB(maxlen);
+					return -1;
+				}
+				*(to++) = *(from++);
+				maxlen--;
+			}
+
+			if (maxlen < 1) {
+				LDEB(maxlen);
+				return -1;
+			}
+			*(to++) = *(from++);
 			continue;
 
-		    case 3:
-			l= strftime( to, maxlen+ 1, "%b", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
+		default:
+defaultCase:
+			if (maxlen < 1) {
+				LDEB(maxlen);
+				return -1;
+			}
+			*(to++) = *(from++);
+			maxlen--;
 			continue;
-
-		    case 4:
-			l= strftime( to, maxlen+ 1, "%B", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    default:
-			LDEB(count); return -1;
-		    }
-
-	    case 'd': case 'D':
-		count= 1;
-		from++;
-		while( count < 4					&&
-		       tolower( from[0] ) == tolower( from[-1] )	)
-		    { from++; count++;	}
-		switch( count )
-		    {
-		    case 1:
-			l= strftime( to, maxlen+ 1, "%d", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			if  ( to[0] == '0' )
-			    { memmove( to, to+ 1, l+ 1 ); }
-			to += l; maxlen -= l;
-			continue;
-
-		    case 2:
-			l= strftime( to, maxlen+ 1, "%d", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    case 3:
-			l= strftime( to, maxlen+ 1, "%a", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    case 4:
-			l= strftime( to, maxlen+ 1, "%A", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    default:
-			LDEB(count); return -1;
-		    }
-
-	    case 'y': case 'Y':
-		count= 1;
-		from++;
-		while( count < 4					&&
-		       tolower( from[0] ) == tolower( from[-1] )	)
-		    { from++; count++;	}
-		switch( count )
-		    {
-		    case 2:
-			/* GCC: Shut Up! */
-			frm= "%y";
-			l= strftime( to, maxlen+ 1, frm, tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    case 4:
-			l= strftime( to, maxlen+ 1, "%Y", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    default:
-			LDEB(count); return -1;
-		    }
-
-	    case 'H':
-		count= 1;
-		from++;
-		while( count < 2 && from[0] == from[-1]	)
-		    { from++; count++;	}
-		switch( count )
-		    {
-		    case 1:
-			l= strftime( to, maxlen+ 1, "%H", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			if  ( to[0] == '0' )
-			    { memmove( to, to+ 1, l+ 1 ); }
-			to += l; maxlen -= l;
-			continue;
-
-		    case 2:
-			l= strftime( to, maxlen+ 1, "%H", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    default:
-			LDEB(count); return -1;
-		    }
-
-	    case 'h':
-		count= 1;
-		from++;
-		while( count < 2 && from[0] == from[-1]	)
-		    { from++; count++;	}
-		switch( count )
-		    {
-		    case 1:
-			l= strftime( to, maxlen+ 1, "%I", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			if  ( to[0] == '0' )
-			    { memmove( to, to+ 1, l+ 1 ); }
-			to += l; maxlen -= l;
-			continue;
-
-		    case 2:
-			l= strftime( to, maxlen+ 1, "%I", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    default:
-			LDEB(count); return -1;
-		    }
-
-	    case 'm':
-		count= 1;
-		from++;
-		while( count < 2 && from[0] == from[-1]	)
-		    { from++; count++;	}
-		switch( count )
-		    {
-		    case 1:
-			l= strftime( to, maxlen+ 1, "%M", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			if  ( to[0] == '0' )
-			    { memmove( to, to+ 1, l+ 1 ); }
-			to += l; maxlen -= l;
-			continue;
-
-		    case 2:
-			l= strftime( to, maxlen+ 1, "%M", tm );
-			if  ( l < 1 )
-			    { LDEB(l); return -1;	}
-			to += l; maxlen -= l;
-			continue;
-
-		    default:
-			LDEB(count); return -1;
-		    }
-
-	    case 'A': case 'a':
-		if  ( ! strcmp( from, "AM/PM" )	||
-		      ! strcmp( from, "am/pm" ) )
-		    {
-		    l= strftime( to, maxlen+ 1, "%p", tm );
-		    if  ( l < 1 )
-			{ LDEB(l); return -1;	}
-		    to += l; maxlen -= l; from += 5;
-		    continue;
-		    }
-		
-		if  ( ! strcmp( from, "A/P" )	||
-		      ! strcmp( from, "a/p" ) )
-		    {
-		    l= strftime( to, maxlen+ 1, "%p", tm );
-		    if  ( l < 1 )
-			{ LDEB(l); return -1;	}
-		    to += l; maxlen -= l; from += 3;
-		    continue;
-		    }
-		
-		goto defaultCase;
-
-	    case '\'':
-		from++;
-		while( *from != '\'' )
-		    {
-		    if  ( ! *from )
-			{ LDEB(1); return -1;	}
-
-		    if  ( maxlen < 1 )
-			{ LDEB(maxlen); return -1;	}
-		    *(to++)= *(from++); maxlen--;
-		    }
-
-		from++; /* '\'' */
-		continue;
-
-	    case '`':
-		if  ( maxlen < 1 )
-		    { LDEB(maxlen); return -1;	}
-		*(to++)= *(from++);
-		while( *from != '\'' )
-		    {
-		    if  ( ! *from )
-			{ LDEB(1); return -1;	}
-
-		    if  ( maxlen < 1 )
-			{ LDEB(maxlen); return -1;	}
-		    *(to++)= *(from++); maxlen--;
-		    }
-
-		if  ( maxlen < 1 )
-		    { LDEB(maxlen); return -1;	}
-		*(to++)= *(from++);
-		continue;
-
-	    default: defaultCase:
-		if  ( maxlen < 1 )
-		    { LDEB(maxlen); return -1;	}
-		*(to++)= *(from++); maxlen--;
-		continue;
-	    }
+		}
 	}
 
-    *to= '\0';
+	*to = '\0';
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -376,14 +476,13 @@ int appWordFormatDate(			char *			to,
 /*									*/
 /************************************************************************/
 
-void utilInvalidateTime(		struct tm *	tm )
-    {
-    const time_t	t= 0;
+void utilInvalidateTime(struct tm *tm)
+{
+	const time_t t = 0;
 
-    *tm= *localtime( &t );
+	*tm = *localtime(&t);
 
-    tm->tm_mday= 0;
+	tm->tm_mday = 0;
 
-    return;
-    }
-
+	return;
+}

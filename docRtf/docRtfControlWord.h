@@ -4,8 +4,8 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_RTF_CONTROL_WORD_H
-#   define	DOC_RTF_CONTROL_WORD_H
+#ifndef DOC_RTF_CONTROL_WORD_H
+#define DOC_RTF_CONTROL_WORD_H
 
 /************************************************************************/
 /*									*/
@@ -19,60 +19,57 @@
 struct RtfControlWord;
 struct RtfReader;
 
-typedef int (*RtfApplyWord)(	const struct RtfControlWord *	rcw,
-				int				arg,
-				struct RtfReader *		rr );
+typedef int (*RtfApplyWord)(const struct RtfControlWord *rcw, int arg,
+			    struct RtfReader *rr);
 
-typedef int (*RtfCommitGroup)(	const struct RtfControlWord *	rcw,
-				struct RtfReader *		rr );
+typedef int (*RtfCommitGroup)(const struct RtfControlWord *rcw,
+			      struct RtfReader *rr);
 
-typedef enum RtfControlType
-    {
-    RTCtypeANY= 0,
-    RTCtypeTOGGLE,
-    RTCtypeDEST,
-    RTCtypeSYMBOL,
-    RTCtypeVALUE,
-    RTCtypeFLAG,
-    RTCtypeENUM,
+typedef enum RtfControlType {
+	RTCtypeANY = 0,
+	RTCtypeTOGGLE,
+	RTCtypeDEST,
+	RTCtypeSYMBOL,
+	RTCtypeVALUE,
+	RTCtypeFLAG,
+	RTCtypeENUM,
 
-    RTCtype_COUNT
-    } RtfControlType;
+	RTCtype_COUNT
+} RtfControlType;
 
-typedef struct RtfControlWord
-    {
-    const char *	rcwWord;
-    int			rcwID;
-    unsigned char	rcwType;
-			/*
+typedef struct RtfControlWord {
+	const char *rcwWord;
+	int rcwID;
+	unsigned char rcwType;
+	/*
 			 * Routine to apply the countrol word.
 			 */
-    RtfApplyWord	rcwApply;
-			/*
+	RtfApplyWord rcwApply;
+	/*
 			 * Integer value that is the implicit argument to 
 			 * the control word.
 			 */
-    int			rcwEnumValue;
-			/*
+	int rcwEnumValue;
+	/*
 			 * Routine to prepare for this word. It is used 
 			 * in combination with de detail words for borders.
 			 */
-    RtfApplyWord	rcwPrepare;
-			/*
+	RtfApplyWord rcwPrepare;
+	/*
 			 * Method to handle text inside a group for this 
 			 * control word.
 			 */
-    RtfCommitGroup	rwcCommitGroup;
+	RtfCommitGroup rwcCommitGroup;
 
-			/*
+	/*
 			 * A terminated array of control words that 
 			 * follow the control word to give additional 
 			 * details. (Used for borders)
 			 */
-    struct RtfControlWord *	rcwDetailWords;
-    } RtfControlWord;
+	struct RtfControlWord *rcwDetailWords;
+} RtfControlWord;
 
-#   define	TEDszRTFCONTROL		32
+#define TEDszRTFCONTROL 32
 
 /************************************************************************/
 /*									*/
@@ -80,10 +77,14 @@ typedef struct RtfControlWord
 /*									*/
 /************************************************************************/
 
-#   define RTF_DEST_CO( s, id, ap, co ) \
-	    { s, id, RTCtypeDEST, ap, 0, (RtfApplyWord)0, co }
-#   define RTF_DEST_XX( s, id, ap ) \
-	    { s, id, RTCtypeDEST, ap, 0, (RtfApplyWord)0, (RtfCommitGroup)0 }
+#define RTF_DEST_CO(s, id, ap, co)                             \
+	{                                                      \
+		s, id, RTCtypeDEST, ap, 0, (RtfApplyWord)0, co \
+	}
+#define RTF_DEST_XX(s, id, ap)                                                \
+	{                                                                     \
+		s, id, RTCtypeDEST, ap, 0, (RtfApplyWord)0, (RtfCommitGroup)0 \
+	}
 
 /************************************************************************/
 /*									*/
@@ -91,4 +92,4 @@ typedef struct RtfControlWord
 /*									*/
 /************************************************************************/
 
-#    endif	/*  DOC_RTF_CONTROL_WORD_H	*/
+#endif /*  DOC_RTF_CONTROL_WORD_H	*/

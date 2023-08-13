@@ -4,16 +4,16 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stdio.h>
-#   include	<stddef.h>
+#include <stdio.h>
+#include <stddef.h>
 
-#   include	"tedFormatTool.h"
-#   include	"tedToolFront.h"
-#   include	"tedAppResources.h"
+#include "tedFormatTool.h"
+#include "tedToolFront.h"
+#include "tedAppResources.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -21,21 +21,23 @@
 /*									*/
 /************************************************************************/
 
-void tedFormatShowPagePage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowPagePage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-#   if USE_PAGE_TOOL
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiPAGE, 1 );
+#if USE_PAGE_TOOL
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiPAGE, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiPAGE );
-#   endif
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiPAGE);
+#endif
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -43,65 +45,73 @@ void tedFormatShowPagePage(	EditApplication *	ea )
 /*									*/
 /************************************************************************/
 
-void tedFormatShowLinkPage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowLinkPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-#   if USE_LINK_TOOL
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiLINK, 1 );
+#if USE_LINK_TOOL
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiLINK, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiLINK );
-#   endif
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiLINK);
+#endif
 
-    return;
-    }
+	return;
+}
 
-void tedFormatShowTablePage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowTablePage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiTABLE, 1 );
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiTABLE, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiTABLE );
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiTABLE);
 
-    return;
-    }
+	return;
+}
 
-void tedFormatShowColumnPage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowColumnPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiCOLUMN, 1 );
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiCOLUMN, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiCOLUMN );
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiCOLUMN);
 
-    return;
-    }
+	return;
+}
 
-void tedFormatShowBookmarkPage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowBookmarkPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-#   if USE_BOOKMARK_TOOL
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiBOOKMARK, 1 );
+#if USE_BOOKMARK_TOOL
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiBOOKMARK, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiBOOKMARK );
-#   endif
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiBOOKMARK);
+#endif
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -109,35 +119,39 @@ void tedFormatShowBookmarkPage(	EditApplication *	ea )
 /*									*/
 /************************************************************************/
 
-void tedFormatShowSymbolPage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowSymbolPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiSYMBOL, 1 );
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiSYMBOL, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiSYMBOL );
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiSYMBOL);
 
-    return;
-    }
+	return;
+}
 
-void tedFormatShowFontPage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowFontPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-#   if USE_FONT_TOOL
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiFONT, 1 );
+#if USE_FONT_TOOL
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiFONT, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiFONT );
-#   endif
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiFONT);
+#endif
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -145,47 +159,53 @@ void tedFormatShowFontPage(	EditApplication *	ea )
 /*									*/
 /************************************************************************/
 
-void tedFormatShowSpellPage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowSpellPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-#   if USE_SPELL_TOOL
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiSPELL, 1 );
+#if USE_SPELL_TOOL
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiSPELL, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiSPELL );
-#   endif
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiSPELL);
+#endif
 
-    return;
-    }
+	return;
+}
 
-void tedFormatShowParaLayoutPage( EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowParaLayoutPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiPARA_LAY, 1 );
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiPARA_LAY, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiPARA_LAY );
-    }
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiPARA_LAY);
+}
 
-void tedFormatShowParaTabsPage( EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowParaTabsPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-#   if USE_TABS_TOOL
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiTABS, 1 );
+#if USE_TABS_TOOL
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiTABS, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiTABS );
-#   endif
-    }
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiTABS);
+#endif
+}
 
 /************************************************************************/
 /*									*/
@@ -193,18 +213,20 @@ void tedFormatShowParaTabsPage( EditApplication *	ea )
 /*									*/
 /************************************************************************/
 
-void tedFormatShowFindPage(	EditApplication *	ea )
-    {
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+void tedFormatShowFindPage(EditApplication *ea)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
 
-#   if USE_FIND_TOOL
-    appEnableInspectorSubject( tar->tarInspector, TEDtsiFIND, 1 );
+#if USE_FIND_TOOL
+	appEnableInspectorSubject(tar->tarInspector, TEDtsiFIND, 1);
 
-    appInspectorSelectSubject( tar->tarInspector, TEDtsiFIND );
-#   endif
+	appInspectorSelectSubject(tar->tarInspector, TEDtsiFIND);
+#endif
 
-    return;
-    }
+	return;
+}

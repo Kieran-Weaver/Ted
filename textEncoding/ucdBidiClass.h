@@ -4,94 +4,93 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		UCD_BIDI_CLASS_H
-#   define		UCD_BIDI_CLASS_H
+#ifndef UCD_BIDI_CLASS_H
+#define UCD_BIDI_CLASS_H
 
-typedef enum UCDBidiClass
-    {
-	    /**
+typedef enum UCDBidiClass {
+	/**
 	     * Left_To_Right any strong left-to-right character
 	     */
-    UCDbidi_L= 0,
-	    /**
+	UCDbidi_L = 0,
+	/**
 	     * Left_To_Right_Embedding U+202A: the LR embedding control
 	     */
-    UCDbidi_LRE, 
-	    /**
+	UCDbidi_LRE,
+	/**
 	     * Left_To_Right_Override U+202D: the LR override control
 	     */
-    UCDbidi_LRO, 
-	    /**
+	UCDbidi_LRO,
+	/**
 	     * Right_To_Left
 	     * any strong right-to-left (non-Arabic-type) character
 	     */
-    UCDbidi_R, 
-	    /**
+	UCDbidi_R,
+	/**
 	     * Arabic_Letter any strong right-to-left (Arabic-type) character
 	     */
-    UCDbidi_AL, 
-	    /**
+	UCDbidi_AL,
+	/**
 	     * Right_To_Left_Embedding U+202B: the RL embedding control
 	     */
-    UCDbidi_RLE, 
-	    /**
+	UCDbidi_RLE,
+	/**
 	     * Right_To_Left_Override U+202E: the RL override control
 	     */
-    UCDbidi_RLO, 
-	    /**
+	UCDbidi_RLO,
+	/**
 	     * Pop_Directional_Format
 	     * U+202C: terminates an embedding or override control
 	     */
-    UCDbidi_PDF, 
-	    /**
+	UCDbidi_PDF,
+	/**
 	     * European_Number any ASCII digit or Eastern Arabic-Indic digit
 	     */
-    UCDbidi_EN, 
-	    /**
+	UCDbidi_EN,
+	/**
 	     * European_Separator plus and minus signs
 	     */
-    UCDbidi_ES, 
-	    /**
+	UCDbidi_ES,
+	/**
 	     * European_Terminator
 	     * a terminator in a numeric format context, includes currency signs
 	     */
-    UCDbidi_ET,
-	    /**
+	UCDbidi_ET,
+	/**
 	     * Arabic_Number any Arabic-Indic digit
 	     */
-    UCDbidi_AN, 
-	    /**
+	UCDbidi_AN,
+	/**
 	     * Common_Separator commas, colons, and slashes
 	     */
-    UCDbidi_NSM, 
-	    /**
+	UCDbidi_NSM,
+	/**
 	     * Nonspacing_Mark any nonspacing mark
 	     */
-    UCDbidi_CS, 
-	    /**
+	UCDbidi_CS,
+	/**
 	     * Boundary_Neutral
 	     * most format characters, control codes, or noncharacters
 	     */
-    UCDbidi_BN, 
-	    /**
+	UCDbidi_BN,
+	/**
 	     * Paragraph_Separator various newline characters
 	     */
-    UCDbidi_B, 
-	    /**
+	UCDbidi_B,
+	/**
 	     * Segment_Separator various segment-related control codes
 	     */
-    UCDbidi_S, 
-	    /**
+	UCDbidi_S,
+	/**
 	     * White_Space spaces
 	     */
-    UCDbidi_WS, 
-	    /**
+	UCDbidi_WS,
+	/**
 	     * Other_Neutral most other symbols and punctuation marks
 	     */
-    UCDbidi_ON, 
+	UCDbidi_ON,
 
-    UCDbidi__COUNT
-    } UCDBidiClass;
+	UCDbidi__COUNT
+} UCDBidiClass;
 
 /************************************************************************/
 /*									*/
@@ -100,38 +99,23 @@ typedef enum UCDBidiClass
 /*									*/
 /************************************************************************/
 
-# define UNIbidi_IS_X9_REMOVED( c ) ( \
-            (c) == UCDbidi_RLE ||  \
-            (c) == UCDbidi_LRE ||  \
-            (c) == UCDbidi_RLO ||  \
-            (c) == UCDbidi_LRO ||  \
-            (c) == UCDbidi_PDF ||  \
-            (c) == UCDbidi_BN )
+#define UNIbidi_IS_X9_REMOVED(c)                                           \
+	((c) == UCDbidi_RLE || (c) == UCDbidi_LRE || (c) == UCDbidi_RLO || \
+	 (c) == UCDbidi_LRO || (c) == UCDbidi_PDF || (c) == UCDbidi_BN)
 
-# define UNIbidi_IS_STRONG( c ) ( \
-            (c) == UCDbidi_L   ||  \
-            (c) == UCDbidi_LRE ||  \
-            (c) == UCDbidi_LRO ||  \
-            (c) == UCDbidi_R   ||  \
-            (c) == UCDbidi_AL  ||  \
-            (c) == UCDbidi_RLE ||  \
-            (c) == UCDbidi_RLO )
+#define UNIbidi_IS_STRONG(c)                                             \
+	((c) == UCDbidi_L || (c) == UCDbidi_LRE || (c) == UCDbidi_LRO || \
+	 (c) == UCDbidi_R || (c) == UCDbidi_AL || (c) == UCDbidi_RLE ||  \
+	 (c) == UCDbidi_RLO)
 
-# define UNIbidi_IS_WEAK( c ) ( \
-            (c) == UCDbidi_PDF ||  \
-            (c) == UCDbidi_EN  ||  \
-            (c) == UCDbidi_ES  ||  \
-            (c) == UCDbidi_ET  ||  \
-            (c) == UCDbidi_AN  ||  \
-            (c) == UCDbidi_CS  ||  \
-            (c) == UCDbidi_NSM ||  \
-            (c) == UCDbidi_BN  )
+#define UNIbidi_IS_WEAK(c)                                               \
+	((c) == UCDbidi_PDF || (c) == UCDbidi_EN || (c) == UCDbidi_ES || \
+	 (c) == UCDbidi_ET || (c) == UCDbidi_AN || (c) == UCDbidi_CS ||  \
+	 (c) == UCDbidi_NSM || (c) == UCDbidi_BN)
 
-# define UNIbidi_IS_NEUTRAL( c ) ( \
-            (c) == UCDbidi_B   ||  \
-            (c) == UCDbidi_S   ||  \
-            (c) == UCDbidi_WS  ||  \
-            (c) == UCDbidi_ON  )
+#define UNIbidi_IS_NEUTRAL(c)                                         \
+	((c) == UCDbidi_B || (c) == UCDbidi_S || (c) == UCDbidi_WS || \
+	 (c) == UCDbidi_ON)
 
 /************************************************************************/
 /*									*/
@@ -139,7 +123,7 @@ typedef enum UCDBidiClass
 /*									*/
 /************************************************************************/
 
-extern int ucdBidiClass( int sym );
-extern const char * ucdBidiClassStr( int sym );
+extern int ucdBidiClass(int sym);
+extern const char *ucdBidiClassStr(int sym);
 
-#   endif	/*	UCD_BIDI_CLASS_H	*/
+#endif /*	UCD_BIDI_CLASS_H	*/

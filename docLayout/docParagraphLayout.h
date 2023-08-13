@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_PARAGRAPH_LAYOUT_H
-#   define	DOC_PARAGRAPH_LAYOUT_H
+#ifndef DOC_PARAGRAPH_LAYOUT_H
+#define DOC_PARAGRAPH_LAYOUT_H
 
-#   include	<docBuf.h>
-#   include	<docBlockOrnaments.h>
+#include <docBuf.h>
+#include <docBlockOrnaments.h>
 
 /************************************************************************/
 /*									*/
@@ -16,14 +16,12 @@
 /*									*/
 /************************************************************************/
 
-extern void docGetParaOrnaments(
-			BlockOrnaments *		ornaments,
-			DocumentRectangle *		drOutside,
-			DocumentRectangle *		drInside,
-			const DocumentRectangle *	drPara,
-			const BufferDocument *		bd,
-			const struct BufferItem *	paraBi,
-			int				atParaTop,
-			int				atParaBottom );
+extern void docGetParaOrnaments(BlockOrnaments *ornaments,
+				DocumentRectangle *drOutside,
+				DocumentRectangle *drInside,
+				const DocumentRectangle *drPara,
+				const BufferDocument *bd,
+				const struct BufferItem *paraBi, int atParaTop,
+				int atParaBottom);
 
-#   endif	/*  DOC_PARAGRAPH_LAYOUT_H  */
+#endif /*  DOC_PARAGRAPH_LAYOUT_H  */

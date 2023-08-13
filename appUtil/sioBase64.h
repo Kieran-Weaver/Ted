@@ -5,8 +5,8 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInBase64Open(	SimpleInputStream * sisBase64 );
+extern SimpleInputStream *sioInBase64Open(SimpleInputStream *sisBase64);
 
-extern SimpleOutputStream * sioOutBase64Open(	SimpleOutputStream * sosBase64 );
+extern SimpleOutputStream *sioOutBase64Open(SimpleOutputStream *sosBase64);

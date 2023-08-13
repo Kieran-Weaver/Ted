@@ -4,17 +4,17 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
+#include <stddef.h>
 
-#   include	"docLayout.h"
-#   include	<docTreeType.h>
-#   include	<docTreeNode.h>
-#   include	"docRowLayout.h"
-#   include	<docDebug.h>
+#include "docLayout.h"
+#include <docTreeType.h>
+#include <docTreeNode.h>
+#include "docRowLayout.h"
+#include <docDebug.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -22,89 +22,87 @@
 /*									*/
 /************************************************************************/
 
-static int docLayoutRowValignCells(
-				BufferItem *			rowNode,
-				BlockFrame *			bf,
-				const LayoutPosition *		lpHere,
-				const ParagraphLayoutPosition *	rowPlp,
-				const LayoutJob *		lj )
-    {
-    int				col;
-    const CellProperties *	cp= rowNode->biRowCells;
-    const ParagraphLayoutJob *	plj;
+static int docLayoutRowValignCells(BufferItem *rowNode, BlockFrame *bf,
+				   const LayoutPosition *lpHere,
+				   const ParagraphLayoutPosition *rowPlp,
+				   const LayoutJob *lj)
+{
+	int col;
+	const CellProperties *cp = rowNode->biRowCells;
+	const ParagraphLayoutJob *plj;
 
-    cp= rowNode->biRowCells;
-    plj= rowPlp->pspChildren;
-    for ( col= 0; col < rowNode->biChildCount; cp++, plj++, col++ )
-	{
-	const CellProperties *	thisCp= cp;
-	BufferItem *		cellNode= rowNode->biChildren[col];
-	int			rowTop= rowNode->biTopPosition.lpPageYTwips;
-	int			rowHigh;
-	int			cellHigh;
+	cp = rowNode->biRowCells;
+	plj = rowPlp->pspChildren;
+	for (col = 0; col < rowNode->biChildCount; cp++, plj++, col++) {
+		const CellProperties *thisCp = cp;
+		BufferItem *cellNode = rowNode->biChildren[col];
+		int rowTop = rowNode->biTopPosition.lpPageYTwips;
+		int rowHigh;
+		int cellHigh;
 
-	int			paraFrom= 0;
-	int			paraUpto= cellNode->biChildCount;
+		int paraFrom = 0;
+		int paraUpto = cellNode->biChildCount;
 
-	LayoutPosition		lpTop;
+		LayoutPosition lpTop;
 
-	if  ( cellNode->biCellRowspan > 1 )
-	    { continue;	}
-
-	if  ( cp->cpVerticalMerge == CELLmergeFOLLOW )
-	    {
-	    if  ( cellNode->biCellMergedCellTopRow < 0	)
-		{ continue;	}
-	    else{
-		BufferItem *	topRowNode;
-
-		int		topRow= cellNode->biCellMergedCellTopRow;
-		int		topCol= cellNode->biCellMergedCellTopCol;
-
-		topRowNode= rowNode->biParent->biChildren[topRow];
-		rowTop= topRowNode->biTopPosition.lpPageYTwips;
-		cellNode= topRowNode->biChildren[topCol];
-		thisCp= topRowNode->biRowCells+ topCol;
+		if (cellNode->biCellRowspan > 1) {
+			continue;
 		}
-	    }
 
-	lpTop= cellNode->biTopPosition;
-	rowHigh= lpHere->lpPageYTwips- rowTop;
-	cellHigh= cellNode->biBelowPosition.lpPageYTwips-
-				    cellNode->biTopPosition.lpPageYTwips;
+		if (cp->cpVerticalMerge == CELLmergeFOLLOW) {
+			if (cellNode->biCellMergedCellTopRow < 0) {
+				continue;
+			} else {
+				BufferItem *topRowNode;
 
-	if  ( cellHigh >= rowHigh )
-	    { continue;	}
+				int topRow = cellNode->biCellMergedCellTopRow;
+				int topCol = cellNode->biCellMergedCellTopCol;
 
-	switch( thisCp->cpValign )
-	    {
-	    case DOCtvaTOP:
-		continue;
+				topRowNode =
+					rowNode->biParent->biChildren[topRow];
+				rowTop = topRowNode->biTopPosition.lpPageYTwips;
+				cellNode = topRowNode->biChildren[topCol];
+				thisCp = topRowNode->biRowCells + topCol;
+			}
+		}
 
-	    case DOCtvaCENTERED:
-		cellNode->biCellTopInset= ( rowHigh- cellHigh )/ 2;
-		lpTop.lpPageYTwips += cellNode->biCellTopInset;
+		lpTop = cellNode->biTopPosition;
+		rowHigh = lpHere->lpPageYTwips - rowTop;
+		cellHigh = cellNode->biBelowPosition.lpPageYTwips -
+			   cellNode->biTopPosition.lpPageYTwips;
 
-		docRedoParaStripLayout( lj, bf, &lpTop,
-						cellNode, paraFrom, paraUpto );
-		continue;
+		if (cellHigh >= rowHigh) {
+			continue;
+		}
 
-	    case DOCtvaBOTTOM:
-		cellNode->biCellTopInset= rowHigh- cellHigh;
-		lpTop.lpPageYTwips += cellNode->biCellTopInset;
+		switch (thisCp->cpValign) {
+		case DOCtvaTOP:
+			continue;
 
-		docRedoParaStripLayout( lj, bf, &lpTop,
-						cellNode, paraFrom, paraUpto );
-		continue;
+		case DOCtvaCENTERED:
+			cellNode->biCellTopInset = (rowHigh - cellHigh) / 2;
+			lpTop.lpPageYTwips += cellNode->biCellTopInset;
 
-	    default:
-		LLDEB(col,thisCp->cpValign);
-		continue;
-	    }
+			docRedoParaStripLayout(lj, bf, &lpTop, cellNode,
+					       paraFrom, paraUpto);
+			continue;
+
+		case DOCtvaBOTTOM:
+			cellNode->biCellTopInset = rowHigh - cellHigh;
+			lpTop.lpPageYTwips += cellNode->biCellTopInset;
+
+			docRedoParaStripLayout(lj, bf, &lpTop, cellNode,
+					       paraFrom, paraUpto);
+			continue;
+
+		default:
+			LLDEB(col, thisCp->cpValign);
+			continue;
+		}
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -119,83 +117,82 @@ static int docLayoutRowValignCells(
 /*									*/
 /************************************************************************/
 
-static void docLayoutFinishRow(	LayoutPosition *		lpHere,
-				BufferItem *			rowNode,
-				BlockFrame *			bf,
-				const LayoutJob *		lj,
-				ParagraphLayoutPosition *	rowPlp )
-    {
-    int				col;
-    CellProperties *		cp;
-    ParagraphLayoutJob *	plj;
+static void docLayoutFinishRow(LayoutPosition *lpHere, BufferItem *rowNode,
+			       BlockFrame *bf, const LayoutJob *lj,
+			       ParagraphLayoutPosition *rowPlp)
+{
+	int col;
+	CellProperties *cp;
+	ParagraphLayoutJob *plj;
 
-    /*  1  */
-    cp= rowNode->biRowCells;
-    plj= rowPlp->pspChildren;
-    for ( col= 0; col < rowNode->biChildCount; cp++, plj++, col++ )
-	{
-	BufferItem *			cellNode= rowNode->biChildren[col];
-	ParagraphLayoutPosition *	plp= &(plj->pljPos);
+	/*  1  */
+	cp = rowNode->biRowCells;
+	plj = rowPlp->pspChildren;
+	for (col = 0; col < rowNode->biChildCount; cp++, plj++, col++) {
+		BufferItem *cellNode = rowNode->biChildren[col];
+		ParagraphLayoutPosition *plp = &(plj->pljPos);
 
-	if  ( cp->cpVerticalMerge == CELLmergeFOLLOW		&&
-	      cellNode->biCellMergedCellTopRow >= 0		)
-	    {
-	    docLayoutPushBottomDown( &(rowNode->biRowBelowAllCellsPosition),
-					&(plj->cljMergedCellBelowPosion) );
-	    docLayoutPushBottomDown( lpHere,
-					&(plj->cljMergedCellBelowPosion) );
-	    continue;
-	    }
+		if (cp->cpVerticalMerge == CELLmergeFOLLOW &&
+		    cellNode->biCellMergedCellTopRow >= 0) {
+			docLayoutPushBottomDown(
+				&(rowNode->biRowBelowAllCellsPosition),
+				&(plj->cljMergedCellBelowPosion));
+			docLayoutPushBottomDown(
+				lpHere, &(plj->cljMergedCellBelowPosion));
+			continue;
+		}
 
-	if  ( CELL_MERGED( cp ) )
-	    { continue;	}
+		if (CELL_MERGED(cp)) {
+			continue;
+		}
 
-	cellNode->biBelowPosition= plp->plpPos;
+		cellNode->biBelowPosition = plp->plpPos;
 
-	docLayoutPushBottomDown(
-		    &(rowNode->biRowBelowAllCellsPosition), &(plp->plpPos) );
+		docLayoutPushBottomDown(&(rowNode->biRowBelowAllCellsPosition),
+					&(plp->plpPos));
 
-	if  ( cellNode->biCellRowspan <= 1 )
-	    { docLayoutPushBottomDown( lpHere, &(plp->plpPos) ); }
+		if (cellNode->biCellRowspan <= 1) {
+			docLayoutPushBottomDown(lpHere, &(plp->plpPos));
+		}
 	}
 
-    if  ( DOC_SAME_FRAME( lpHere, &(rowNode->biTopPosition) ) )
-	{
-	int		rowHeightTwips;
+	if (DOC_SAME_FRAME(lpHere, &(rowNode->biTopPosition))) {
+		int rowHeightTwips;
 
-	rowHeightTwips= lpHere->lpPageYTwips-
-				    rowNode->biTopPosition.lpPageYTwips;
+		rowHeightTwips = lpHere->lpPageYTwips -
+				 rowNode->biTopPosition.lpPageYTwips;
 
-	/*  3: if rowNode->biRowHeightTwips > 0   */
-	if  ( rowHeightTwips < rowNode->biRowHeightTwips )
-	    {
-	    lpHere->lpPageYTwips +=  rowNode->biRowHeightTwips- rowHeightTwips;
-	    lpHere->lpAtTopOfColumn= 0;
-	    }
+		/*  3: if rowNode->biRowHeightTwips > 0   */
+		if (rowHeightTwips < rowNode->biRowHeightTwips) {
+			lpHere->lpPageYTwips +=
+				rowNode->biRowHeightTwips - rowHeightTwips;
+			lpHere->lpAtTopOfColumn = 0;
+		}
 
-	/*  4: if rowNode->biRowHeightTwips < 0  */
-	if  ( rowHeightTwips < -rowNode->biRowHeightTwips )
-	    {
-	    lpHere->lpPageYTwips += -rowNode->biRowHeightTwips- rowHeightTwips;
-	    lpHere->lpAtTopOfColumn= 0;
-	    }
+		/*  4: if rowNode->biRowHeightTwips < 0  */
+		if (rowHeightTwips < -rowNode->biRowHeightTwips) {
+			lpHere->lpPageYTwips +=
+				-rowNode->biRowHeightTwips - rowHeightTwips;
+			lpHere->lpAtTopOfColumn = 0;
+		}
 
-	/*  5  */
-	if  ( rowNode->biRowHeightTwips < 0			&&
-	      rowHeightTwips > -rowNode->biRowHeightTwips	)
-	    {
-	    /* LLDEB(rowNode->biRowHeightTwips,rowHeightTwips); */
-	    lpHere->lpPageYTwips -= rowHeightTwips+ rowNode->biRowHeightTwips;
-	    }
+		/*  5  */
+		if (rowNode->biRowHeightTwips < 0 &&
+		    rowHeightTwips > -rowNode->biRowHeightTwips) {
+			/* LLDEB(rowNode->biRowHeightTwips,rowHeightTwips); */
+			lpHere->lpPageYTwips -=
+				rowHeightTwips + rowNode->biRowHeightTwips;
+		}
 
-	if  ( docLayoutRowValignCells( rowNode, bf, lpHere, rowPlp, lj ) )
-	    { LDEB(1);	}
+		if (docLayoutRowValignCells(rowNode, bf, lpHere, rowPlp, lj)) {
+			LDEB(1);
+		}
 	}
 
-    docLayoutPushBottomDown( &(rowNode->biRowBelowAllCellsPosition), lpHere );
+	docLayoutPushBottomDown(&(rowNode->biRowBelowAllCellsPosition), lpHere);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -214,158 +211,161 @@ static void docLayoutFinishRow(	LayoutPosition *		lpHere,
 /*									*/
 /************************************************************************/
 
-static int docLayoutRowPageStrip(
-			    LayoutPosition *		lpHere,
-			    int *			pToNextColumn,
-			    int *			pSomeAtHead,
-			    BufferItem *		rowNode,
-			    ParagraphLayoutPosition *	rowPlp,
-			    BlockFrame *		bf,
-			    const LayoutJob *		lj )
-    {
-    int				col;
+static int docLayoutRowPageStrip(LayoutPosition *lpHere, int *pToNextColumn,
+				 int *pSomeAtHead, BufferItem *rowNode,
+				 ParagraphLayoutPosition *rowPlp,
+				 BlockFrame *bf, const LayoutJob *lj)
+{
+	int col;
 
-    int				continueInNextFrame= 0;
-    int				someAtHead= 0;
+	int continueInNextFrame = 0;
+	int someAtHead = 0;
 
-    LayoutPosition		lpBottom;
-    const CellProperties *	cp;
-    ParagraphLayoutJob *	plj;
+	LayoutPosition lpBottom;
+	const CellProperties *cp;
+	ParagraphLayoutJob *plj;
 
-    lpBottom= *lpHere;
+	lpBottom = *lpHere;
 
-    continueInNextFrame= 0;
+	continueInNextFrame = 0;
 
-    if  ( rowPlp->pspChildCount != rowNode->biChildCount )
-	{ LLDEB(rowPlp->pspChildCount,rowNode->biChildCount); return -1; }
-
-    /*  1  */
-
-    /*  2  */
-    cp= rowNode->biRowCells;
-    plj= rowPlp->pspChildren;
-    for ( col= 0; col < rowNode->biChildCount; cp++, plj++, col++ )
-	{
-	BufferItem *			cellNode= rowNode->biChildren[col];
-	ParagraphLayoutPosition *	plp= &(plj->pljPos);
-	int				stopCode= FORMATstopREADY;
-
-	/*  3  */
-	if  ( CELL_MERGED( cp ) )
-	    { continue;	}
-
-	/*  4  */
-	if  ( docLayoutStripDone( plp, plj ) )
-	    { continue;	}
-
-	/*  5  */
-	plp->plpPos= *lpHere;
-
-	docCellStripFrame( cellNode, bf, plj );
-
-	if  ( docLayoutStripChildren( &stopCode, plj, bf, lj, cellNode ) )
-	    { LDEB(1); return -1;	}
-
-	/*  6  */
-	docLayoutPushBottomDown(
-		    &(rowNode->biRowBelowAllCellsPosition), &(plp->plpPos) );
-	if  ( cellNode->biCellRowspan <= 1 )
-	    { docLayoutPushBottomDown( &lpBottom, &(plp->plpPos) );	}
-
-	/*  7,7a  */
-	if  ( cellNode->biTreeType == DOCinBODY		&&
-	      stopCode == FORMATstopBLOCK_FULL		)
-	    { continueInNextFrame= 1;	}
+	if (rowPlp->pspChildCount != rowNode->biChildCount) {
+		LLDEB(rowPlp->pspChildCount, rowNode->biChildCount);
+		return -1;
 	}
 
-    cp= rowNode->biRowCells;
-    plj= rowPlp->pspChildren;
-    for ( col= 0; col < rowNode->biChildCount; cp++, plj++, col++ )
-	{
-	const ParagraphLayoutPosition *	plp= &(plj->pljPos);
+	/*  1  */
 
-	if  ( docLayoutAtStripHead( &(plj->pljPos) ) )
-	    {
-	    if  ( ! docLayoutStripDone( plp, plj ) )
-		{ someAtHead= 1;	}
-	    }
-	else{ rowPlp->pspChildAdvanced= 1;	}
+	/*  2  */
+	cp = rowNode->biRowCells;
+	plj = rowPlp->pspChildren;
+	for (col = 0; col < rowNode->biChildCount; cp++, plj++, col++) {
+		BufferItem *cellNode = rowNode->biChildren[col];
+		ParagraphLayoutPosition *plp = &(plj->pljPos);
+		int stopCode = FORMATstopREADY;
+
+		/*  3  */
+		if (CELL_MERGED(cp)) {
+			continue;
+		}
+
+		/*  4  */
+		if (docLayoutStripDone(plp, plj)) {
+			continue;
+		}
+
+		/*  5  */
+		plp->plpPos = *lpHere;
+
+		docCellStripFrame(cellNode, bf, plj);
+
+		if (docLayoutStripChildren(&stopCode, plj, bf, lj, cellNode)) {
+			LDEB(1);
+			return -1;
+		}
+
+		/*  6  */
+		docLayoutPushBottomDown(&(rowNode->biRowBelowAllCellsPosition),
+					&(plp->plpPos));
+		if (cellNode->biCellRowspan <= 1) {
+			docLayoutPushBottomDown(&lpBottom, &(plp->plpPos));
+		}
+
+		/*  7,7a  */
+		if (cellNode->biTreeType == DOCinBODY &&
+		    stopCode == FORMATstopBLOCK_FULL) {
+			continueInNextFrame = 1;
+		}
 	}
 
-    *lpHere= lpBottom;
-    *pToNextColumn= continueInNextFrame;
-    *pSomeAtHead= someAtHead;
+	cp = rowNode->biRowCells;
+	plj = rowPlp->pspChildren;
+	for (col = 0; col < rowNode->biChildCount; cp++, plj++, col++) {
+		const ParagraphLayoutPosition *plp = &(plj->pljPos);
 
-    if  ( ! continueInNextFrame )
-	{ docLayoutFinishRow( lpHere, rowNode, bf, lj, rowPlp );	}
+		if (docLayoutAtStripHead(&(plj->pljPos))) {
+			if (!docLayoutStripDone(plp, plj)) {
+				someAtHead = 1;
+			}
+		} else {
+			rowPlp->pspChildAdvanced = 1;
+		}
+	}
 
-    return 0;
-    }
+	*lpHere = lpBottom;
+	*pToNextColumn = continueInNextFrame;
+	*pSomeAtHead = someAtHead;
+
+	if (!continueInNextFrame) {
+		docLayoutFinishRow(lpHere, rowNode, bf, lj, rowPlp);
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 
-static int docLayoutStartRowCells(
-				BufferItem *			rowNode,
-				const BufferDocument *		bd,
-				const LayoutPosition *		lpHere,
-				const BlockFrame *		bf,
-				ParagraphLayoutPosition *	rowPlp )
-    {
-    CellProperties *		cp;
-    int				col;
-    int				l, r;
-    ParagraphLayoutJob *	cellPlj;
+static int docLayoutStartRowCells(BufferItem *rowNode, const BufferDocument *bd,
+				  const LayoutPosition *lpHere,
+				  const BlockFrame *bf,
+				  ParagraphLayoutPosition *rowPlp)
+{
+	CellProperties *cp;
+	int col;
+	int l, r;
+	ParagraphLayoutJob *cellPlj;
 
-    int				nextRow= rowNode->biNumberInParent+ 1;
-    const BufferItem *		nextRowBi= (const BufferItem *)0;
+	int nextRow = rowNode->biNumberInParent + 1;
+	const BufferItem *nextRowBi = (const BufferItem *)0;
 
-    if  ( nextRow < rowNode->biRowTablePast )
-	{ nextRowBi= rowNode->biParent->biChildren[nextRow]; }
-
-    rowNode->biRowBelowAllCellsPosition= *lpHere;
-
-    /*  2  */
-    cellPlj= rowPlp->pspChildren;
-    r= rowNode->biRowLeftIndentTwips;
-    cp= rowNode->biRowCells;
-    for ( col= 0; col < rowNode->biChildCount; cp++, cellPlj++, col++ )
-	{
-	BufferItem *	cellNode= rowNode->biChildren[col];
-	const int	para= 0;
-	const int	line= 0;
-	const int	part= 0;
-	int		colspan= 1;
-
-	const int	recursively= 0;
-
-	docDelimitTables( cellNode, recursively );
-
-	cellNode->biCellTopInset= 0;
-
-	docBeginParagraphLayoutProgress( cellPlj, para, line, part,
-					    cellNode->biChildCount, lpHere );
-
-	cellNode->biTopPosition= *lpHere;
-
-	l= r; r= cp->cpRightBoundaryTwips;
-	if  ( cp->cpHorizontalMerge == CELLmergeHEAD )
-	    { r= docGetCellRight( &colspan, cellNode );	}
-
-	/*  3  */
-	cellNode->biCellRowspan= 1;
-	if  ( cp->cpVerticalMerge != CELLmergeNONE )
-	    {
-	    docRowLayoutRowspanAdmin( cellNode, rowNode, nextRowBi, nextRow,
-							cp, l, r, cellPlj );
-	    }
-
-	cp += colspan- 1;
-	cellPlj += colspan- 1;
-	col += colspan- 1;
+	if (nextRow < rowNode->biRowTablePast) {
+		nextRowBi = rowNode->biParent->biChildren[nextRow];
 	}
 
-    return 0;
-    }
+	rowNode->biRowBelowAllCellsPosition = *lpHere;
+
+	/*  2  */
+	cellPlj = rowPlp->pspChildren;
+	r = rowNode->biRowLeftIndentTwips;
+	cp = rowNode->biRowCells;
+	for (col = 0; col < rowNode->biChildCount; cp++, cellPlj++, col++) {
+		BufferItem *cellNode = rowNode->biChildren[col];
+		const int para = 0;
+		const int line = 0;
+		const int part = 0;
+		int colspan = 1;
+
+		const int recursively = 0;
+
+		docDelimitTables(cellNode, recursively);
+
+		cellNode->biCellTopInset = 0;
+
+		docBeginParagraphLayoutProgress(cellPlj, para, line, part,
+						cellNode->biChildCount, lpHere);
+
+		cellNode->biTopPosition = *lpHere;
+
+		l = r;
+		r = cp->cpRightBoundaryTwips;
+		if (cp->cpHorizontalMerge == CELLmergeHEAD) {
+			r = docGetCellRight(&colspan, cellNode);
+		}
+
+		/*  3  */
+		cellNode->biCellRowspan = 1;
+		if (cp->cpVerticalMerge != CELLmergeNONE) {
+			docRowLayoutRowspanAdmin(cellNode, rowNode, nextRowBi,
+						 nextRow, cp, l, r, cellPlj);
+		}
+
+		cp += colspan - 1;
+		cellPlj += colspan - 1;
+		col += colspan - 1;
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -379,46 +379,51 @@ static int docLayoutStartRowCells(
 /*									*/
 /************************************************************************/
 
-static int docLayoutStartRow(	int *				pToNextColumn,
-				BufferItem *			rowNode,
-				const BufferDocument *		bd,
-				LayoutPosition *		lpHere,
-				const BlockFrame *		bf,
-				ParagraphLayoutPosition *	rowPlp )
-    {
-    const int			atRowTop= 1;
+static int docLayoutStartRow(int *pToNextColumn, BufferItem *rowNode,
+			     const BufferDocument *bd, LayoutPosition *lpHere,
+			     const BlockFrame *bf,
+			     ParagraphLayoutPosition *rowPlp)
+{
+	const int atRowTop = 1;
 
-    int				minHeightTwips= rowNode->biRowHeightTwips;
+	int minHeightTwips = rowNode->biRowHeightTwips;
 
-    if  ( docParagraphLayoutPosClaimChildren( rowPlp, rowNode->biChildCount ) )
-	{ LDEB(rowNode->biChildCount); return -1;	}
+	if (docParagraphLayoutPosClaimChildren(rowPlp, rowNode->biChildCount)) {
+		LDEB(rowNode->biChildCount);
+		return -1;
+	}
 
-    if  ( rowNode->biRowHeightTwips < 0 )
-	{ minHeightTwips= -rowNode->biRowHeightTwips;	}
+	if (rowNode->biRowHeightTwips < 0) {
+		minHeightTwips = -rowNode->biRowHeightTwips;
+	}
 
-    /*  3a  */
-    if  ( lpHere->lpPageYTwips+ minHeightTwips > bf->bfFlowRect.drY1	&&
-	  ! lpHere->lpAtTopOfColumn					)
-	{ *pToNextColumn= 1; return 0;	}
+	/*  3a  */
+	if (lpHere->lpPageYTwips + minHeightTwips > bf->bfFlowRect.drY1 &&
+	    !lpHere->lpAtTopOfColumn) {
+		*pToNextColumn = 1;
+		return 0;
+	}
 
-    rowNode->biRowAboveHeaderPosition= rowNode->biTopPosition;
-    rowNode->biRowPrecededByHeader= 0;
+	rowNode->biRowAboveHeaderPosition = rowNode->biTopPosition;
+	rowNode->biRowPrecededByHeader = 0;
 
-    /*  1  */
-    /*  NO! lpHere->lpPageYTwips += rowNode->biRowTopInset; */
+	/*  1  */
+	/*  NO! lpHere->lpPageYTwips += rowNode->biRowTopInset; */
 
-    {
-    int rti= rowNode->biRowTopInset;
-    docLayoutCalculateRowTopInset( &rti, bd, rowNode, atRowTop );
-    rowNode->biRowTopInset= rti;
-    }
+	{
+		int rti = rowNode->biRowTopInset;
+		docLayoutCalculateRowTopInset(&rti, bd, rowNode, atRowTop);
+		rowNode->biRowTopInset = rti;
+	}
 
-    if  ( docLayoutStartRowCells( rowNode, bd, lpHere, bf, rowPlp ) )
-	{ LDEB(1); return -1;	}
+	if (docLayoutStartRowCells(rowNode, bd, lpHere, bf, rowPlp)) {
+		LDEB(1);
+		return -1;
+	}
 
-    *pToNextColumn= 0;
-    return 0;
-    }
+	*pToNextColumn = 0;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -426,43 +431,46 @@ static int docLayoutStartRow(	int *				pToNextColumn,
 /*									*/
 /************************************************************************/
 
-static void docLayoutRowSkipHeaderHeight( LayoutPosition *	lp,
-					BufferItem *		rowNode,
-					int			atTopOfRow )
-    {
-    const BufferItem *	headerBi;
-    int			headerHeight;
+static void docLayoutRowSkipHeaderHeight(LayoutPosition *lp,
+					 BufferItem *rowNode, int atTopOfRow)
+{
+	const BufferItem *headerBi;
+	int headerHeight;
 
-    if  ( rowNode->biRowTableHeaderRow < 0 )
-	{ LDEB(rowNode->biRowTableHeaderRow); return;	}
-    if  ( rowNode->biRowIsTableHeader )
-	{ LDEB(rowNode->biRowIsTableHeader); return;	}
+	if (rowNode->biRowTableHeaderRow < 0) {
+		LDEB(rowNode->biRowTableHeaderRow);
+		return;
+	}
+	if (rowNode->biRowIsTableHeader) {
+		LDEB(rowNode->biRowIsTableHeader);
+		return;
+	}
 
-    headerBi= rowNode->biParent->biChildren[rowNode->biRowTableHeaderRow];
-    if  ( ! headerBi->biRowIsTableHeader )
-	{ LDEB(headerBi->biRowIsTableHeader);	}
+	headerBi = rowNode->biParent->biChildren[rowNode->biRowTableHeaderRow];
+	if (!headerBi->biRowIsTableHeader) {
+		LDEB(headerBi->biRowIsTableHeader);
+	}
 
-    if  ( headerBi->biBelowPosition.lpPage	!=
-	  headerBi->biTopPosition.lpPage	)
-	{
-	LLDEB(headerBi->biBelowPosition.lpPage,headerBi->biTopPosition.lpPage);
+	if (headerBi->biBelowPosition.lpPage !=
+	    headerBi->biTopPosition.lpPage) {
+		LLDEB(headerBi->biBelowPosition.lpPage,
+		      headerBi->biTopPosition.lpPage);
+		return;
+	}
+
+	if (atTopOfRow) {
+		rowNode->biRowAboveHeaderPosition = *lp;
+		rowNode->biRowPrecededByHeader = 1;
+	}
+
+	headerHeight = headerBi->biBelowPosition.lpPageYTwips -
+		       headerBi->biTopPosition.lpPageYTwips;
+
+	lp->lpAtTopOfColumn = 0;
+	lp->lpPageYTwips += headerHeight;
+
 	return;
-	}
-
-    if  ( atTopOfRow )
-	{
-	rowNode->biRowAboveHeaderPosition= *lp;
-	rowNode->biRowPrecededByHeader= 1;
-	}
-
-    headerHeight= headerBi->biBelowPosition.lpPageYTwips- 
-					headerBi->biTopPosition.lpPageYTwips;
-
-    lp->lpAtTopOfColumn= 0;
-    lp->lpPageYTwips += headerHeight;
-
-    return;
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -477,84 +485,85 @@ static void docLayoutRowSkipHeaderHeight( LayoutPosition *	lp,
 /*									*/
 /************************************************************************/
 
-static int docRowLayoutToNextColumn(
-				BufferItem *		rowNode,
-				LayoutPosition *	lpHere,
-				const LayoutJob *	lj,
-				int			atTopOfRow,
-				BlockFrame *		bf )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
+static int docRowLayoutToNextColumn(BufferItem *rowNode, LayoutPosition *lpHere,
+				    const LayoutJob *lj, int atTopOfRow,
+				    BlockFrame *bf)
+{
+	const LayoutContext *lc = &(lj->ljContext);
 
-    int				inset= 0;
-    const int			belowText= 0;
-    const int			atRowTop= 0;
-    LayoutPosition		lpBelowNotes;
+	int inset = 0;
+	const int belowText = 0;
+	const int atRowTop = 0;
+	LayoutPosition lpBelowNotes;
 
-    /*  1  */
-    if  ( BF_HAS_FOOTNOTES( bf )				&&
-	  ( rowNode->biTreeType == DOCinBODY		||
-	    rowNode->biTreeType == DOCinENDNOTE	)		&&
-	  docLayoutFootnotesForColumn( &lpBelowNotes, lpHere, bf,
-							belowText, lj )	)
-	{ LDEB(1); return -1;	}
-
-    /*  2  */
-    docLayoutToNextColumn( lpHere, bf, rowNode, lj );
-
-    /*  3  */
-    if  ( ! rowNode->biRowIsTableHeader		&&
-	  rowNode->biRowTableHeaderRow >= 0	)
-	{ docLayoutRowSkipHeaderHeight( lpHere, rowNode, atTopOfRow ); }
-
-    /*  4  */
-    docLayoutCalculateRowTopInset( &inset, lc->lcDocument, rowNode, atRowTop );
-    lpHere->lpPageYTwips += inset;
-
-    return 0;
-    }
-
-static int docRowToNextColumn(	LayoutPosition *	lpHere,
-				BufferItem *		rowNode,
-				const LayoutJob *	lj,
-				int			atTopOfRow,
-				BlockFrame *		bf,
-				ParagraphLayoutJob *	rowPlj )
-    {
-    CellProperties *		cp;
-    int				col;
-
-    ParagraphLayoutJob *	plj;
-
-    LayoutPosition		lpBefore;
-
-    lpBefore= *lpHere;
-
-    if  ( docRowLayoutToNextColumn( rowNode, lpHere, lj, atTopOfRow, bf ) )
-	{ LDEB(atTopOfRow); return -1;	}
-
-    /*  5  */
-    cp= rowNode->biRowCells;
-    plj= rowPlj->pljPos.pspChildren;
-    for ( col= 0; col < rowNode->biChildCount; cp++, plj++, col++ )
-	{
-	const BufferItem *	cellNode= rowNode->biChildren[col];
-	int			advanced;
-	int			advanceAnyway= 0;
-
-	if  ( docLayoutStripDone( &(plj->pljPos), plj ) )
-	    { continue;	}
-
-	if  ( cellNode->biChildren[plj->pljPos0.pspChild]->biLevel ==
-								DOClevROW )
-	    { continue;	}
-
-	docCommitStripLayout( &advanced, advanceAnyway, plj,
-				lpBefore.lpPage, lpBefore.lpColumn, cellNode );
+	/*  1  */
+	if (BF_HAS_FOOTNOTES(bf) &&
+	    (rowNode->biTreeType == DOCinBODY ||
+	     rowNode->biTreeType == DOCinENDNOTE) &&
+	    docLayoutFootnotesForColumn(&lpBelowNotes, lpHere, bf, belowText,
+					lj)) {
+		LDEB(1);
+		return -1;
 	}
 
-    return 0;
-    }
+	/*  2  */
+	docLayoutToNextColumn(lpHere, bf, rowNode, lj);
+
+	/*  3  */
+	if (!rowNode->biRowIsTableHeader && rowNode->biRowTableHeaderRow >= 0) {
+		docLayoutRowSkipHeaderHeight(lpHere, rowNode, atTopOfRow);
+	}
+
+	/*  4  */
+	docLayoutCalculateRowTopInset(&inset, lc->lcDocument, rowNode,
+				      atRowTop);
+	lpHere->lpPageYTwips += inset;
+
+	return 0;
+}
+
+static int docRowToNextColumn(LayoutPosition *lpHere, BufferItem *rowNode,
+			      const LayoutJob *lj, int atTopOfRow,
+			      BlockFrame *bf, ParagraphLayoutJob *rowPlj)
+{
+	CellProperties *cp;
+	int col;
+
+	ParagraphLayoutJob *plj;
+
+	LayoutPosition lpBefore;
+
+	lpBefore = *lpHere;
+
+	if (docRowLayoutToNextColumn(rowNode, lpHere, lj, atTopOfRow, bf)) {
+		LDEB(atTopOfRow);
+		return -1;
+	}
+
+	/*  5  */
+	cp = rowNode->biRowCells;
+	plj = rowPlj->pljPos.pspChildren;
+	for (col = 0; col < rowNode->biChildCount; cp++, plj++, col++) {
+		const BufferItem *cellNode = rowNode->biChildren[col];
+		int advanced;
+		int advanceAnyway = 0;
+
+		if (docLayoutStripDone(&(plj->pljPos), plj)) {
+			continue;
+		}
+
+		if (cellNode->biChildren[plj->pljPos0.pspChild]->biLevel ==
+		    DOClevROW) {
+			continue;
+		}
+
+		docCommitStripLayout(&advanced, advanceAnyway, plj,
+				     lpBefore.lpPage, lpBefore.lpColumn,
+				     cellNode);
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /* 									*/
@@ -566,53 +575,52 @@ static int docRowToNextColumn(	LayoutPosition *	lpHere,
 /* 									*/
 /************************************************************************/
 
-int docLayoutRowInStrip(	int *				pStopCode,
-				ParagraphLayoutPosition *	rowPlp,
-				BlockFrame *			bf,
-				const LayoutJob *		lj,
-				int				cellTopInset,
-				BufferItem *			rowNode )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    int				stopCode= FORMATstopREADY;
-    int				toNextColumn= 0;
-    int				someAtHead= 0;
+int docLayoutRowInStrip(int *pStopCode, ParagraphLayoutPosition *rowPlp,
+			BlockFrame *bf, const LayoutJob *lj, int cellTopInset,
+			BufferItem *rowNode)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	int stopCode = FORMATstopREADY;
+	int toNextColumn = 0;
+	int someAtHead = 0;
 
-    if  ( ! rowPlp->pspChildAdvanced )
-	{
-	rowNode->biTopPosition= rowPlp->plpPos;
+	if (!rowPlp->pspChildAdvanced) {
+		rowNode->biTopPosition = rowPlp->plpPos;
 
-	if  ( docLayoutStartRow( &toNextColumn, rowNode,
-			    lc->lcDocument, &(rowPlp->plpPos), bf, rowPlp ) )
-	    { LDEB(rowNode->biChildCount); return -1;	}
+		if (docLayoutStartRow(&toNextColumn, rowNode, lc->lcDocument,
+				      &(rowPlp->plpPos), bf, rowPlp)) {
+			LDEB(rowNode->biChildCount);
+			return -1;
+		}
 
-	/*  1  */
-	if  ( toNextColumn )
-	    { /*LDEB(toNextColumn);*/ toNextColumn= 0;	}
+		/*  1  */
+		if (toNextColumn) { /*LDEB(toNextColumn);*/
+			toNextColumn = 0;
+		}
 	}
 
-    toNextColumn= 0;
-    if  ( docLayoutRowPageStrip( &(rowPlp->plpPos),
-					    &toNextColumn, &someAtHead,
-					    rowNode, rowPlp, bf, lj ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( toNextColumn )
-	{
-	stopCode= FORMATstopBLOCK_FULL;
-	*pStopCode= FORMATstopBLOCK_FULL;
-	return stopCode;
+	toNextColumn = 0;
+	if (docLayoutRowPageStrip(&(rowPlp->plpPos), &toNextColumn, &someAtHead,
+				  rowNode, rowPlp, bf, lj)) {
+		LDEB(1);
+		return -1;
 	}
-    else{
-	docStripLayoutNextChild( rowPlp );
-	stopCode= FORMATstopREADY;
-	*pStopCode= FORMATstopREADY;
 
-	docLayoutFinishNodeLayout( (int *)0, rowNode, lj, &(rowPlp->plpPos) );
+	if (toNextColumn) {
+		stopCode = FORMATstopBLOCK_FULL;
+		*pStopCode = FORMATstopBLOCK_FULL;
+		return stopCode;
+	} else {
+		docStripLayoutNextChild(rowPlp);
+		stopCode = FORMATstopREADY;
+		*pStopCode = FORMATstopREADY;
 
-	return stopCode;
+		docLayoutFinishNodeLayout((int *)0, rowNode, lj,
+					  &(rowPlp->plpPos));
+
+		return stopCode;
 	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -666,133 +674,150 @@ int docLayoutRowInStrip(	int *				pStopCode,
 /*									*/
 /************************************************************************/
 
-int docLayoutRowNode(	int *				pStopCode,
-			LayoutPosition *		lpBelow,
-			const LayoutPosition *		lpTop,
-			BufferItem *			rowNode,
-			BlockFrame *			bf,
-			int				stayInThisColumn,
-			const LayoutJob *		lj )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    int				stopCode= FORMATstopREADY;
-    int				rval= 0;
-    int				toNextColumn;
-    int				someAtHead= 0;
+int docLayoutRowNode(int *pStopCode, LayoutPosition *lpBelow,
+		     const LayoutPosition *lpTop, BufferItem *rowNode,
+		     BlockFrame *bf, int stayInThisColumn, const LayoutJob *lj)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	int stopCode = FORMATstopREADY;
+	int rval = 0;
+	int toNextColumn;
+	int someAtHead = 0;
 
-    ParagraphLayoutJob		rowPlj;
+	ParagraphLayoutJob rowPlj;
 
-    LayoutPosition		lpHere;
+	LayoutPosition lpHere;
 
-    {
-    const int		line= 0;
-    const int		part= 0;
-
-    docInitParagraphLayoutJob( &rowPlj );
-    docBeginParagraphLayoutProgress( &rowPlj,
-				    rowNode->biNumberInParent,
-				    line, part, rowNode->biNumberInParent+ 1,
-				    lpTop );
-    }
-
-    lpHere= *lpTop;
-
-    /*  1  */
-    if  ( ! docIsRowNode( rowNode ) )
-	{ LLDEB(rowNode->biNumberInParent,rowNode->biRowCellCount); return -1; }
-
-    if  ( rowNode->biRowCellCount < rowNode->biChildCount )
 	{
-	LLDEB(rowNode->biRowCellCount,rowNode->biChildCount);
-	docListNode( 0, rowNode, 0 );
-	rowNode->biChildCount= rowNode->biRowCellCount;
+		const int line = 0;
+		const int part = 0;
+
+		docInitParagraphLayoutJob(&rowPlj);
+		docBeginParagraphLayoutProgress(
+			&rowPlj, rowNode->biNumberInParent, line, part,
+			rowNode->biNumberInParent + 1, lpTop);
 	}
 
-    /*  2,3  */
-    toNextColumn= 0;
+	lpHere = *lpTop;
 
-    /*  3a  */
-    if  ( docLayoutStartRow( &toNextColumn, rowNode,
-			    lc->lcDocument, &lpHere, bf, &(rowPlj.pljPos) ) )
-	{ LDEB(rowNode->biChildCount); rval= -1; goto ready;	}
-
-    if  ( toNextColumn )
-	{
-	if  ( stayInThisColumn )
-	    { stopCode= FORMATstopFRAME_FULL; goto ready; }
-	}
-    else{
-	if  ( docLayoutRowPageStrip( &lpHere, &toNextColumn, &someAtHead,
-					rowNode, &(rowPlj.pljPos), bf, lj ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	/*  1  */
+	if (!docIsRowNode(rowNode)) {
+		LLDEB(rowNode->biNumberInParent, rowNode->biRowCellCount);
+		return -1;
 	}
 
-    /*  4  */
-    if  ( toNextColumn					&&
-	  ! rowNode->biTopPosition.lpAtTopOfColumn	)
-	{
-	int				restartRow;
-
-	if  ( stayInThisColumn )
-	    { stopCode= FORMATstopFRAME_FULL; goto ready; }
-
-	/*  5, 7  */
-	restartRow= BI_ROW_IS_ONE_PAGE( rowNode ) ||
-				    ! rowPlj.pljPos.pspChildAdvanced ||
-				    someAtHead;
-	/*  6  */
-	if  ( docRowToNextColumn( &lpHere, rowNode, lj,
-						restartRow, bf, &rowPlj ) )
-	    { LDEB(toNextColumn); rval= -1; goto ready;	}
-
-	/*  7  */
-	if  ( restartRow )
-	    {
-	    rowNode->biTopPosition= lpHere;
-
-	    if  ( rowNode->biRowIsTableHeader		||
-		  rowNode->biRowTableHeaderRow < 0	)
-		{ rowNode->biRowAboveHeaderPosition= rowNode->biTopPosition; }
-
-	    if  ( docLayoutStartRowCells( rowNode, lc->lcDocument,
-					    &lpHere, bf, &(rowPlj.pljPos) ) )
-		{ LDEB(rowNode->biChildCount); rval= -1; goto ready;	}
-	    toNextColumn= 0; /* irrelevant here */
-	    }
-
-	/*  8  */
-	if  ( docLayoutRowPageStrip( &lpHere, &toNextColumn, &someAtHead,
-					rowNode, &(rowPlj.pljPos), bf, lj ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	if (rowNode->biRowCellCount < rowNode->biChildCount) {
+		LLDEB(rowNode->biRowCellCount, rowNode->biChildCount);
+		docListNode(0, rowNode, 0);
+		rowNode->biChildCount = rowNode->biRowCellCount;
 	}
 
-    /*  9  */
-    while( toNextColumn )
-	{
-	const int	atTopOfRow= 0;
+	/*  2,3  */
+	toNextColumn = 0;
 
-	if  ( stayInThisColumn )
-	    { stopCode= FORMATstopFRAME_FULL; goto ready; }
-
-	if  ( docRowToNextColumn( &lpHere, rowNode, lj,
-						atTopOfRow, bf, &rowPlj ) )
-	    { LDEB(toNextColumn); rval= -1; goto ready;	}
-
-	if  ( docLayoutRowPageStrip( &lpHere, &toNextColumn, &someAtHead,
-					rowNode, &(rowPlj.pljPos), bf, lj ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	/*  3a  */
+	if (docLayoutStartRow(&toNextColumn, rowNode, lc->lcDocument, &lpHere,
+			      bf, &(rowPlj.pljPos))) {
+		LDEB(rowNode->biChildCount);
+		rval = -1;
+		goto ready;
 	}
 
-  ready:
-
-    docCleanParagraphLayoutJob( &rowPlj );
-
-    if  ( ! rval )
-	{
-	*pStopCode= stopCode;
-	*lpBelow= lpHere;
+	if (toNextColumn) {
+		if (stayInThisColumn) {
+			stopCode = FORMATstopFRAME_FULL;
+			goto ready;
+		}
+	} else {
+		if (docLayoutRowPageStrip(&lpHere, &toNextColumn, &someAtHead,
+					  rowNode, &(rowPlj.pljPos), bf, lj)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
 	}
 
-    return rval;
-    }
+	/*  4  */
+	if (toNextColumn && !rowNode->biTopPosition.lpAtTopOfColumn) {
+		int restartRow;
 
+		if (stayInThisColumn) {
+			stopCode = FORMATstopFRAME_FULL;
+			goto ready;
+		}
+
+		/*  5, 7  */
+		restartRow = BI_ROW_IS_ONE_PAGE(rowNode) ||
+			     !rowPlj.pljPos.pspChildAdvanced || someAtHead;
+		/*  6  */
+		if (docRowToNextColumn(&lpHere, rowNode, lj, restartRow, bf,
+				       &rowPlj)) {
+			LDEB(toNextColumn);
+			rval = -1;
+			goto ready;
+		}
+
+		/*  7  */
+		if (restartRow) {
+			rowNode->biTopPosition = lpHere;
+
+			if (rowNode->biRowIsTableHeader ||
+			    rowNode->biRowTableHeaderRow < 0) {
+				rowNode->biRowAboveHeaderPosition =
+					rowNode->biTopPosition;
+			}
+
+			if (docLayoutStartRowCells(rowNode, lc->lcDocument,
+						   &lpHere, bf,
+						   &(rowPlj.pljPos))) {
+				LDEB(rowNode->biChildCount);
+				rval = -1;
+				goto ready;
+			}
+			toNextColumn = 0; /* irrelevant here */
+		}
+
+		/*  8  */
+		if (docLayoutRowPageStrip(&lpHere, &toNextColumn, &someAtHead,
+					  rowNode, &(rowPlj.pljPos), bf, lj)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
+
+	/*  9  */
+	while (toNextColumn) {
+		const int atTopOfRow = 0;
+
+		if (stayInThisColumn) {
+			stopCode = FORMATstopFRAME_FULL;
+			goto ready;
+		}
+
+		if (docRowToNextColumn(&lpHere, rowNode, lj, atTopOfRow, bf,
+				       &rowPlj)) {
+			LDEB(toNextColumn);
+			rval = -1;
+			goto ready;
+		}
+
+		if (docLayoutRowPageStrip(&lpHere, &toNextColumn, &someAtHead,
+					  rowNode, &(rowPlj.pljPos), bf, lj)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
+
+ready:
+
+	docCleanParagraphLayoutJob(&rowPlj);
+
+	if (!rval) {
+		*pStopCode = stopCode;
+		*lpBelow = lpHere;
+	}
+
+	return rval;
+}

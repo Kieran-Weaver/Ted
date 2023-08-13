@@ -61,26 +61,19 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	SIO_SMTP_H
-#   define	SIO_SMTP_H
+#ifndef SIO_SMTP_H
+#define SIO_SMTP_H
 
-#   include     "appSystem.h"
-#   include     "sioGeneral.h"
+#include "appSystem.h"
+#include "sioGeneral.h"
 
-extern SimpleOutputStream * sioOutSmtpOpen(	const char *	mailHost,
-						const char *	mailPort,
-						const char *	user,
-						const char *	pass,
-						const char *	from,
-						const char *	to,
-						const char *	cc,
-						const char *	bcc,
-						const char *	subject,
-						const char *	typeSlashSub,
-						const char *	mimeBoundary,
-						void *		through,
-						APP_COMPLAIN	complain );
+extern SimpleOutputStream *
+sioOutSmtpOpen(const char *mailHost, const char *mailPort, const char *user,
+	       const char *pass, const char *from, const char *to,
+	       const char *cc, const char *bcc, const char *subject,
+	       const char *typeSlashSub, const char *mimeBoundary,
+	       void *through, APP_COMPLAIN complain);
 
-extern char * sioSmtpGuessMailAddress( void );
+extern char *sioSmtpGuessMailAddress(void);
 
-#   endif
+#endif

@@ -5,8 +5,8 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_PROP_VAL_H
-#   define	DOC_PROP_VAL_H
+#ifndef DOC_PROP_VAL_H
+#define DOC_PROP_VAL_H
 
 /************************************************************************/
 /*									*/
@@ -14,41 +14,40 @@
 /*									*/
 /************************************************************************/
 
-typedef enum ItemLevel
-    {
-			/************************************************/
-			/*  Ignore; Garbage values.			*/
-			/************************************************/
-    DOClevANY,
-    DOClevOUT,
-			/************************************************/
-			/*  Different kinds of BufferItems.		*/
-			/************************************************/
-    DOClevBODY,
-    DOClevSECT,
-    DOClevROW,
-    DOClevCELL,
-    DOClevPARA,
-			/************************************************/
-			/*  Not really a level: Plain text.		*/
-			/************************************************/
-    DOClevSPAN,
-			/************************************************/
-			/*  Not really a level: To be investigated	*/
-			/*  Values currently only used in the RTF	*/
-			/*  parser for tags that it ignores or handles	*/
-			/*  in a special way.				*/
-			/************************************************/
-    DOClevNESTCELL,
-    DOClevNESTROW,
-			/************************************************/
-    DOClevNONESTTABLES,
-			/************************************************/
-    DOClevCOLUMN,
-    DOClevTABLE,
+typedef enum ItemLevel {
+	/************************************************/
+	/*  Ignore; Garbage values.			*/
+	/************************************************/
+	DOClevANY,
+	DOClevOUT,
+	/************************************************/
+	/*  Different kinds of BufferItems.		*/
+	/************************************************/
+	DOClevBODY,
+	DOClevSECT,
+	DOClevROW,
+	DOClevCELL,
+	DOClevPARA,
+	/************************************************/
+	/*  Not really a level: Plain text.		*/
+	/************************************************/
+	DOClevSPAN,
+	/************************************************/
+	/*  Not really a level: To be investigated	*/
+	/*  Values currently only used in the RTF	*/
+	/*  parser for tags that it ignores or handles	*/
+	/*  in a special way.				*/
+	/************************************************/
+	DOClevNESTCELL,
+	DOClevNESTROW,
+	/************************************************/
+	DOClevNONESTTABLES,
+	/************************************************/
+	DOClevCOLUMN,
+	DOClevTABLE,
 
-    DOClev_COUNT
-    } ItemLevel;
+	DOClev_COUNT
+} ItemLevel;
 
 /************************************************************************/
 /*									*/
@@ -57,19 +56,18 @@ typedef enum ItemLevel
 /*									*/
 /************************************************************************/
 
-typedef enum ItemBreak
-    {
-    DOCibkNONE= 0,
-    DOCibkCOL,
-    DOCibkPAGE,
-#   define DOCibkpara_COUNT DOCibkEVEN
-    DOCibkEVEN,
-    DOCibkODD,
+typedef enum ItemBreak {
+	DOCibkNONE = 0,
+	DOCibkCOL,
+	DOCibkPAGE,
+#define DOCibkpara_COUNT DOCibkEVEN
+	DOCibkEVEN,
+	DOCibkODD,
 
-    DOCibk_COUNT
-    } ItemBreak;
+	DOCibk_COUNT
+} ItemBreak;
 
-#   define	DOCibksect_COUNT DOCibk_COUNT
+#define DOCibksect_COUNT DOCibk_COUNT
 
 /************************************************************************/
 /*									*/
@@ -77,15 +75,14 @@ typedef enum ItemBreak
 /*									*/
 /************************************************************************/
 
-typedef enum TextHorizontalAlignment
-    {
-    DOCthaLEFT= 0,
-    DOCthaRIGHT,
-    DOCthaCENTERED,
-    DOCthaJUSTIFIED,
+typedef enum TextHorizontalAlignment {
+	DOCthaLEFT = 0,
+	DOCthaRIGHT,
+	DOCthaCENTERED,
+	DOCthaJUSTIFIED,
 
-    DOCtha_COUNT
-    } TextHorizontalAlignment;
+	DOCtha_COUNT
+} TextHorizontalAlignment;
 
 /************************************************************************/
 /*									*/
@@ -93,25 +90,23 @@ typedef enum TextHorizontalAlignment
 /*									*/
 /************************************************************************/
 
-typedef enum TextVerticalAlignment
-    {
-    DOCtvaTOP= 0,
-    DOCtvaCENTERED,
-    DOCtvaBOTTOM,
+typedef enum TextVerticalAlignment {
+	DOCtvaTOP = 0,
+	DOCtvaCENTERED,
+	DOCtvaBOTTOM,
 
-    DOCtva_COUNT
-    } TextVerticalAlignment;
+	DOCtva_COUNT
+} TextVerticalAlignment;
 
-typedef enum TextFlowDirection
-    {
-    TXflowTXLRTB= 0,	/*  left to right,  top to bottom (default).	*/
-    TXflowTXTBRL,	/*  right to left,  top to bottom.		*/
-    TXflowTXBTLR,	/*  left to right,  bottom to top.		*/
-    TXflowTXLRTBV,	/*  left to right,  top to bottom, vertical.	*/
-    TXflowTXTBRLV,	/*  top to bottom,  right to left, vertical.	*/
+typedef enum TextFlowDirection {
+	TXflowTXLRTB = 0, /*  left to right,  top to bottom (default).	*/
+	TXflowTXTBRL, /*  right to left,  top to bottom.		*/
+	TXflowTXBTLR, /*  left to right,  bottom to top.		*/
+	TXflowTXLRTBV, /*  left to right,  top to bottom, vertical.	*/
+	TXflowTXTBRLV, /*  top to bottom,  right to left, vertical.	*/
 
-    TXflow_COUNT
-    } TextFlowDirection;
+	TXflow_COUNT
+} TextFlowDirection;
 
 /************************************************************************/
 /*									*/
@@ -120,17 +115,16 @@ typedef enum TextFlowDirection
 /*									*/
 /************************************************************************/
 
-typedef enum FrameXReference
-    {
-    FXrefMARGIN= 0,
-    FXrefPAGE,
-    FXrefCOLUMN,
-#   define	FXref__FRAME_COUNT	(FXrefCOLUMN+1)
-    FXrefCHARACTER,
-    FXrefIGNORE,
+typedef enum FrameXReference {
+	FXrefMARGIN = 0,
+	FXrefPAGE,
+	FXrefCOLUMN,
+#define FXref__FRAME_COUNT (FXrefCOLUMN + 1)
+	FXrefCHARACTER,
+	FXrefIGNORE,
 
-    FXref_COUNT
-    } FrameXReference;
+	FXref_COUNT
+} FrameXReference;
 
 /************************************************************************/
 /*									*/
@@ -139,13 +133,12 @@ typedef enum FrameXReference
 /*									*/
 /************************************************************************/
 
-typedef enum FrameYReference
-    {
-    FYrefMARGIN= 0,
-    FYrefPAGE,
-    FYrefPARA,
-#   define	FYref__FRAME_COUNT	(FYrefPARA+1)
-		    /**
+typedef enum FrameYReference {
+	FYrefMARGIN = 0,
+	FYrefPAGE,
+	FYrefPARA,
+#define FYref__FRAME_COUNT (FYrefPARA + 1)
+	/**
 		     *  Position relative to the line of the anchor.
 		     *  Experimenting with Word 2003 shows that for 
 		     *  shapes the deepest level is positioning relative
@@ -154,29 +147,11 @@ typedef enum FrameYReference
 		     *  positioning relative to the line, MS-Word calculates 
 		     *  the vertical offset relative to the paragraph.
 		     */
-    FYrefLINE,
-    FYrefIGNORE,
+	FYrefLINE,
+	FYrefIGNORE,
 
-    FYref_COUNT
-    } FrameYReference;
-
-/************************************************************************/
-/*									*/
-/*  Note that these are hard values set in the RTF spec.		*/
-/*									*/
-/************************************************************************/
-
-typedef enum FrameXPosition
-    {
-    FXposXGIVEN= 0,
-    FXposXL,
-    FXposXC,
-    FXposXR,
-    FXposXI,
-    FXposXO,
-
-    FXpos_COUNT
-    } FrameXPosition;
+	FYref_COUNT
+} FrameYReference;
 
 /************************************************************************/
 /*									*/
@@ -184,17 +159,33 @@ typedef enum FrameXPosition
 /*									*/
 /************************************************************************/
 
-typedef enum FrameYPosition
-    {
-    FYposYGIVEN= 0,
-    FYposYT,
-    FYposYC,
-    FYposYB,
-    FYposYIN,
-    FYposYOUT,
+typedef enum FrameXPosition {
+	FXposXGIVEN = 0,
+	FXposXL,
+	FXposXC,
+	FXposXR,
+	FXposXI,
+	FXposXO,
 
-    FYpos_COUNT
-    } FrameYPosition;
+	FXpos_COUNT
+} FrameXPosition;
+
+/************************************************************************/
+/*									*/
+/*  Note that these are hard values set in the RTF spec.		*/
+/*									*/
+/************************************************************************/
+
+typedef enum FrameYPosition {
+	FYposYGIVEN = 0,
+	FYposYT,
+	FYposYC,
+	FYposYB,
+	FYposYIN,
+	FYposYOUT,
+
+	FYpos_COUNT
+} FrameYPosition;
 
 /************************************************************************/
 /*									*/
@@ -202,14 +193,13 @@ typedef enum FrameYPosition
 /*									*/
 /************************************************************************/
 
-typedef enum TableAutoFormatUnit
-    {
-    TRautoNONE= 0,
-    TRautoAUTO,
-    TRautoPERCENT_50,
-    TRautoTWIPS,
+typedef enum TableAutoFormatUnit {
+	TRautoNONE = 0,
+	TRautoAUTO,
+	TRautoPERCENT_50,
+	TRautoTWIPS,
 
-    TRauto_COUNT
-    } TableAutoFormatUnit;
+	TRauto_COUNT
+} TableAutoFormatUnit;
 
-#   endif	/*  DOC_PROP_VAL_H  */
+#endif /*  DOC_PROP_VAL_H  */

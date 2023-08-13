@@ -4,23 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilPsConfig.h"
+#include "utilPsConfig.h"
 
-#   include	"psShading.h"
+#include "psShading.h"
 
-const char * const PsShadingNames[]=
-    {
-    (const char *)0, /* solid */
-    "f-horiz",
-    "f-vert",
-    "f-fdiag",
-    "f-bdiag",
-    "f-cross",
-    "f-dcross",
-    "f-dkhoriz",
-    "f-dkvert",
-    "f-dkfdiag",
-    "f-dkbdiag",
-    "f-dkcross",
-    "f-dkdcross",
-    };
+const char *const PsShadingNames[] = {
+	(const char *)0, /* solid */
+	"f-horiz",	 "f-vert",    "f-fdiag",   "f-bdiag",
+	"f-cross",	 "f-dcross",  "f-dkhoriz", "f-dkvert",
+	"f-dkfdiag",	 "f-dkbdiag", "f-dkcross", "f-dkdcross",
+};

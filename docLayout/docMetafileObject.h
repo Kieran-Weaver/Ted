@@ -4,12 +4,12 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_METAFILE_OBJECT_H
-#   define		DOC_METAFILE_OBJECT_H
+#ifndef DOC_METAFILE_OBJECT_H
+#define DOC_METAFILE_OBJECT_H
 
-#   include		<drawMetafile.h>
-#   include		<docBuf.h>
-#   include		"layoutContext.h"
+#include <drawMetafile.h>
+#include <docBuf.h>
+#include "layoutContext.h"
 
 /************************************************************************/
 /*									*/
@@ -17,12 +17,9 @@
 /*									*/
 /************************************************************************/
 
-extern int docSetMetafilePlayer( MetafilePlayer *		mp,
-				SimpleInputStream *		sisMeta,
-				const LayoutContext *		lc,
-				const PictureProperties *	pip,
-				int				pixelsWide,
-				int				pixelsHigh );
+extern int docSetMetafilePlayer(MetafilePlayer *mp, SimpleInputStream *sisMeta,
+				const LayoutContext *lc,
+				const PictureProperties *pip, int pixelsWide,
+				int pixelsHigh);
 
-#   endif	/*	DOC_METAFILE_OBJECT_H	*/
-
+#endif /*	DOC_METAFILE_OBJECT_H	*/

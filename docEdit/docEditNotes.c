@@ -4,16 +4,16 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docEditConfig.h"
+#include "docEditConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	<docBuf.h>
-#   include	<docNotes.h>
-#   include	<docParaString.h>
-#   include	<docParaParticules.h>
-#   include	<docDocumentNote.h>
-#   include	"docEditImpl.h"
+#include <docBuf.h>
+#include <docNotes.h>
+#include <docParaString.h>
+#include <docParaParticules.h>
+#include <docDocumentNote.h>
+#include "docEditImpl.h"
 
 /************************************************************************/
 /*									*/
@@ -32,94 +32,100 @@
 /*									*/
 /************************************************************************/
 
-int docEditMakeNote(	DocumentNote **			pDn,
-			BufferDocument *		bd,
-			DocumentField *			dfNote,
-			const BufferItem *		bodyNode,
-			int				treeType,
-			int				fieldKind )
-    {
-    TextAttribute	ta;
-    int			textAttributeNumberPlain;
-    int			textAttributeNumberSuper;
+int docEditMakeNote(DocumentNote **pDn, BufferDocument *bd,
+		    DocumentField *dfNote, const BufferItem *bodyNode,
+		    int treeType, int fieldKind)
+{
+	TextAttribute ta;
+	int textAttributeNumberPlain;
+	int textAttributeNumberSuper;
 
-    DocumentNote *	dn;
+	DocumentNote *dn;
 
-    int			noteIndex;
+	int noteIndex;
 
-    int			stroffShift= 0;
-    const int		autoNumber= 1;
+	int stroffShift = 0;
+	const int autoNumber = 1;
 
-    BufferItem *	noteParaNode;
+	BufferItem *noteParaNode;
 
-    DocumentField *	dfHead;
-    DocumentSelection	dsInsideHead;
-    DocumentSelection	dsAroundHead;
-    int			partHead= -1;
-    int			partTail= -1;
+	DocumentField *dfHead;
+	DocumentSelection dsInsideHead;
+	DocumentSelection dsAroundHead;
+	int partHead = -1;
+	int partTail = -1;
 
-    TextParticule *	tp;
+	TextParticule *tp;
 
-    /*  1  */
-    noteIndex= docInsertNote( &dn, bd, dfNote, autoNumber );
-    if  ( noteIndex < 0 )
-	{ LDEB(noteIndex); return -1;	}
+	/*  1  */
+	noteIndex = docInsertNote(&dn, bd, dfNote, autoNumber);
+	if (noteIndex < 0) {
+		LDEB(noteIndex);
+		return -1;
+	}
 
-    dn->dnNoteProperties.npTreeType= treeType;
+	dn->dnNoteProperties.npTreeType = treeType;
 
-    docPlainTextAttribute( &ta, bd );
-    ta.taFontSizeHalfPoints= 20;
+	docPlainTextAttribute(&ta, bd);
+	ta.taFontSizeHalfPoints = 20;
 
-    textAttributeNumberPlain= docTextAttributeNumber( bd, &ta );
+	textAttributeNumberPlain = docTextAttributeNumber(bd, &ta);
 
-    /*  4  */
-    noteParaNode= docMakeExternalParagraph( bd, &(dn->dnDocumentTree), treeType,
-					bodyNode, dfNote->dfFieldNumber,
-					textAttributeNumberPlain );
-    if  ( ! noteParaNode )
-	{ XDEB(noteParaNode); return -1;	}
+	/*  4  */
+	noteParaNode = docMakeExternalParagraph(bd, &(dn->dnDocumentTree),
+						treeType, bodyNode,
+						dfNote->dfFieldNumber,
+						textAttributeNumberPlain);
+	if (!noteParaNode) {
+		XDEB(noteParaNode);
+		return -1;
+	}
 
-    {
-    TextAttribute	taSet;
-
-    taSet= ta;
-
-    taSet.taSuperSub= TEXTvaSUPERSCRIPT;
-
-    textAttributeNumberSuper= docTextAttributeNumber( bd, &taSet );
-    }
-
-    /*  5  */
-    if  ( docInsertParaHeadField( &dfHead, &dsInsideHead, &dsAroundHead,
-		    &partHead, &partTail,
-		    noteParaNode, bd, &(dn->dnDocumentTree),
-		    fieldKind, textAttributeNumberSuper ) )
-	{ LDEB(1); return -1;	}
-    noteParaNode->biParaParticules[partTail].tpTextAttrNr=
-						    textAttributeNumberPlain;
-    /*  6  */
-    if  ( docParaStringReplace( &stroffShift, noteParaNode,
-					    dsAroundHead.dsTail.dpStroff,
-					    dsAroundHead.dsTail.dpStroff,
-					    " ", 1 ) )
-	{ LDEB(dsAroundHead.dsTail.dpStroff); return -1; }
-
-    tp= &(noteParaNode->biParaParticules[noteParaNode->biParaParticuleCount- 1]);
-    if  ( tp->tpKind == DOCkindSPAN		&&
-	  tp->tpStrlen == 0			)
 	{
-	tp->tpStrlen++;
-	tp->tpTextAttrNr= textAttributeNumberPlain;
-	}
-    else{
-	tp= docInsertTextParticule( noteParaNode,
-				    noteParaNode->biParaParticuleCount,
-				    docParaStrlen( noteParaNode )- 1, 1,
-				    DOCkindSPAN, textAttributeNumberPlain );
-	if  ( ! tp )
-	    { LDEB(noteParaNode->biParaParticuleCount); return -1; }
+		TextAttribute taSet;
+
+		taSet = ta;
+
+		taSet.taSuperSub = TEXTvaSUPERSCRIPT;
+
+		textAttributeNumberSuper = docTextAttributeNumber(bd, &taSet);
 	}
 
-    *pDn= dn; return 0;
-    }
+	/*  5  */
+	if (docInsertParaHeadField(&dfHead, &dsInsideHead, &dsAroundHead,
+				   &partHead, &partTail, noteParaNode, bd,
+				   &(dn->dnDocumentTree), fieldKind,
+				   textAttributeNumberSuper)) {
+		LDEB(1);
+		return -1;
+	}
+	noteParaNode->biParaParticules[partTail].tpTextAttrNr =
+		textAttributeNumberPlain;
+	/*  6  */
+	if (docParaStringReplace(&stroffShift, noteParaNode,
+				 dsAroundHead.dsTail.dpStroff,
+				 dsAroundHead.dsTail.dpStroff, " ", 1)) {
+		LDEB(dsAroundHead.dsTail.dpStroff);
+		return -1;
+	}
 
+	tp = &(noteParaNode->biParaParticules[noteParaNode->biParaParticuleCount -
+					      1]);
+	if (tp->tpKind == DOCkindSPAN && tp->tpStrlen == 0) {
+		tp->tpStrlen++;
+		tp->tpTextAttrNr = textAttributeNumberPlain;
+	} else {
+		tp = docInsertTextParticule(noteParaNode,
+					    noteParaNode->biParaParticuleCount,
+					    docParaStrlen(noteParaNode) - 1, 1,
+					    DOCkindSPAN,
+					    textAttributeNumberPlain);
+		if (!tp) {
+			LDEB(noteParaNode->biParaParticuleCount);
+			return -1;
+		}
+	}
+
+	*pDn = dn;
+	return 0;
+}

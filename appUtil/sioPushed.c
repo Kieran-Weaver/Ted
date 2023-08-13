@@ -8,13 +8,12 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<stdlib.h>
+#include <stdlib.h>
 
-#   include	"sioPushed.h"
-#   include	<appDebugon.h>
-
+#include "sioPushed.h"
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -22,99 +21,108 @@
 /*									*/
 /************************************************************************/
 
-static int sioPushedClose( void *	voids )
-    {
-    if  ( voids )
-	{ free( voids );	}
-
-    return 0;
-    }
-
-typedef struct PushedInputStream
-    {
-    SimpleInputStream *		fisSisIn;
-    int				fisExhausted;
-    } PushedInputStream;
-
-static int sioInPushedReadBytes(	void *		voidfis,
-					unsigned char *	buffer,
-					unsigned int	count )
-    {
-    PushedInputStream *	fis= (PushedInputStream *)voidfis;
-    int			done= 0;
-
-    if  ( fis->fisExhausted )
-	{ LDEB(fis->fisExhausted); return -1;	}
-
-    while( done < count )
-	{
-	int		got;
-
-	got= sioInReadBytes( fis->fisSisIn, buffer, count- done );
-	if  ( got <= 0 )
-	    { fis->fisExhausted= 1; break;	}
-
-	done += got;
-	buffer += got;
+static int sioPushedClose(void *voids)
+{
+	if (voids) {
+		free(voids);
 	}
 
-    return done;
-    }
+	return 0;
+}
 
+typedef struct PushedInputStream {
+	SimpleInputStream *fisSisIn;
+	int fisExhausted;
+} PushedInputStream;
 
-SimpleInputStream * sioInPushedOpen(	SimpleInputStream *	sisIn )
-    {
-    SimpleInputStream *		sis;
-    PushedInputStream *		fis;
+static int sioInPushedReadBytes(void *voidfis, unsigned char *buffer,
+				unsigned int count)
+{
+	PushedInputStream *fis = (PushedInputStream *)voidfis;
+	int done = 0;
 
-    fis= (PushedInputStream *)malloc( sizeof(PushedInputStream) );
-    if  ( ! fis )
-	{ XDEB(fis); return (SimpleInputStream *)0;	}
+	if (fis->fisExhausted) {
+		LDEB(fis->fisExhausted);
+		return -1;
+	}
 
-    fis->fisSisIn= sisIn;
-    fis->fisExhausted= 0;
+	while (done < count) {
+		int got;
 
-    sis= sioInOpen( (void *)fis, sioInPushedReadBytes, sioPushedClose );
+		got = sioInReadBytes(fis->fisSisIn, buffer, count - done);
+		if (got <= 0) {
+			fis->fisExhausted = 1;
+			break;
+		}
 
-    if  ( ! sis )
-	{ XDEB(sis); free( fis ); return (SimpleInputStream *)0; }
+		done += got;
+		buffer += got;
+	}
 
-    return sis;
-    }
+	return done;
+}
+
+SimpleInputStream *sioInPushedOpen(SimpleInputStream *sisIn)
+{
+	SimpleInputStream *sis;
+	PushedInputStream *fis;
+
+	fis = (PushedInputStream *)malloc(sizeof(PushedInputStream));
+	if (!fis) {
+		XDEB(fis);
+		return (SimpleInputStream *)0;
+	}
+
+	fis->fisSisIn = sisIn;
+	fis->fisExhausted = 0;
+
+	sis = sioInOpen((void *)fis, sioInPushedReadBytes, sioPushedClose);
+
+	if (!sis) {
+		XDEB(sis);
+		free(fis);
+		return (SimpleInputStream *)0;
+	}
+
+	return sis;
+}
 
 /************************************************************************/
 /*									*/
 /************************************************************************/
 
-typedef struct PushedOutputStream
-    {
-    SimpleOutputStream *	fosSosOut;
-    } PushedOutputStream;
+typedef struct PushedOutputStream {
+	SimpleOutputStream *fosSosOut;
+} PushedOutputStream;
 
-static int sioOutPushedWriteBytes(	void *			voidfos,
-					const unsigned char *	buffer,
-					int			count )
-    {
-    PushedOutputStream *	fos= (PushedOutputStream *)voidfos;
+static int sioOutPushedWriteBytes(void *voidfos, const unsigned char *buffer,
+				  int count)
+{
+	PushedOutputStream *fos = (PushedOutputStream *)voidfos;
 
-    return sioOutWriteBytes( fos->fosSosOut, buffer, count );
-    }
+	return sioOutWriteBytes(fos->fosSosOut, buffer, count);
+}
 
-SimpleOutputStream * sioOutPushedOpen(	SimpleOutputStream *	sosOut )
-    {
-    SimpleOutputStream *	sos;
-    PushedOutputStream *	fos;
+SimpleOutputStream *sioOutPushedOpen(SimpleOutputStream *sosOut)
+{
+	SimpleOutputStream *sos;
+	PushedOutputStream *fos;
 
-    fos= (PushedOutputStream *)malloc( sizeof(PushedOutputStream) );
-    if  ( ! fos )
-	{ XDEB(fos); return (SimpleOutputStream *)0;	}
+	fos = (PushedOutputStream *)malloc(sizeof(PushedOutputStream));
+	if (!fos) {
+		XDEB(fos);
+		return (SimpleOutputStream *)0;
+	}
 
-    fos->fosSosOut= sosOut;
+	fos->fosSosOut = sosOut;
 
-    sos= sioOutOpen( (void *)fos, sioOutPushedWriteBytes, sioPushedClose );
+	sos = sioOutOpen((void *)fos, sioOutPushedWriteBytes, sioPushedClose);
 
-    if  ( ! sos )
-	{ XDEB(sos); free( fos ); return (SimpleOutputStream *)0; }
+	if (!sos) {
+		XDEB(sos);
+		free(fos);
+		return (SimpleOutputStream *)0;
+	}
 
-    return sos;
-    }
+	return sos;
+}

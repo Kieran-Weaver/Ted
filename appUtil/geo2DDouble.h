@@ -4,22 +4,20 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		GEO_2D_DOUBLE_H
-#   define		GEO_2D_DOUBLE_H
+#ifndef GEO_2D_DOUBLE_H
+#define GEO_2D_DOUBLE_H
 
-typedef struct Point2DD
-    {
-    double	x;
-    double	y;
-    } Point2DD;
+typedef struct Point2DD {
+	double x;
+	double y;
+} Point2DD;
 
-typedef struct Rectangle2DD
-    {
-    double	x0;
-    double	y0;
-    double	x1;
-    double	y1;
-    } Rectangle2DD;
+typedef struct Rectangle2DD {
+	double x0;
+	double y0;
+	double x1;
+	double y1;
+} Rectangle2DD;
 
 /************************************************************************/
 /*									*/
@@ -27,4 +25,4 @@ typedef struct Rectangle2DD
 /*									*/
 /************************************************************************/
 
-#   endif	/*	GEO_2D_DOUBLE_H */
+#endif /*	GEO_2D_DOUBLE_H */

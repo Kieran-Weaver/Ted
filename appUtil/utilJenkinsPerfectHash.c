@@ -46,25 +46,25 @@ determined a perfect hash for the whole set of keys.
 ------------------------------------------------------------------------------
 */
 
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<stdlib.h>
-#   include	<string.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-#   include	"appUtilConfig.h"
-#   include	"utilJenkinsHash.h"
-#   include	"utilJenkinsPerfectHash.h"
+#include "appUtilConfig.h"
+#include "utilJenkinsHash.h"
+#include "utilJenkinsPerfectHash.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   define	TRUE		1
-#   define	FALSE		0
-#   define	UB4BITS		32
-#   define	CHECKSTATE	8
-#   define	UB1MAXVAL	0xff
-#   define	UB2MAXVAL	0xffff
+#define TRUE 1
+#define FALSE 0
+#define UB4BITS 32
+#define CHECKSTATE 8
+#define UB1MAXVAL 0xff
+#define UB2MAXVAL 0xffff
 
 /*
 ------------------------------------------------------------------------------
@@ -73,12 +73,12 @@ Find the mapping that will produce a perfect hash
 */
 
 /* return the ceiling of the log (base 2) of val */
-static ub4 ilog2( ub4 val )
+static ub4 ilog2(ub4 val)
 {
-  ub4 i;
-  for (i=0; ((ub4)1<<i) < val; ++i)
-    ;
-  return i;
+	ub4 i;
+	for (i = 0; ((ub4)1 << i) < val; ++i)
+		;
+	return i;
 }
 
 /*
@@ -91,23 +91,21 @@ ub4 nbits;       input, number of bits in range
 
 */
 
-static ub4  permute(	ub4 x,
-			ub4 nbits )
+static ub4 permute(ub4 x, ub4 nbits)
 {
-  int i;
-  int mask   = ((ub4)1<<nbits)-1;                                /* all ones */
-  int const2 = 1+nbits/2;
-  int const3 = 1+nbits/3;
-  int const4 = 1+nbits/4;
-  int const5 = 1+nbits/5;
-  for (i=0; i<20; ++i)
-  {
-    x = (x+(x<<const2)) & mask; 
-    x = (x^(x>>const3));
-    x = (x+(x<<const4)) & mask;
-    x = (x^(x>>const5));
-  }
-  return x;
+	int i;
+	int mask = ((ub4)1 << nbits) - 1; /* all ones */
+	int const2 = 1 + nbits / 2;
+	int const3 = 1 + nbits / 3;
+	int const4 = 1 + nbits / 4;
+	int const5 = 1 + nbits / 5;
+	for (i = 0; i < 20; ++i) {
+		x = (x + (x << const2)) & mask;
+		x = (x ^ (x >> const3));
+		x = (x + (x << const4)) & mask;
+		x = (x ^ (x >> const5));
+	}
+	return x;
 }
 
 /*
@@ -119,46 +117,39 @@ ub4       smax;              scramble values should be in 0..smax-1
 
 */
 
-static void scrambleinit(	ub4      *scramble,
-				ub4       smax )
+static void scrambleinit(ub4 *scramble, ub4 smax)
 {
-  ub4 i;
+	ub4 i;
 
-  /* fill scramble[] with distinct random integers in 0..smax-1 */
-  for (i=0; i<SCRAMBLE_LEN; ++i)
-  {
-    scramble[i] = permute(i, ilog2(smax));
-  }
+	/* fill scramble[] with distinct random integers in 0..smax-1 */
+	for (i = 0; i < SCRAMBLE_LEN; ++i) {
+		scramble[i] = permute(i, ilog2(smax));
+	}
 }
 
 /* 
  * Check if key1 and key2 are the same. 
  * We already checked (a,b) are the same.
  */
-static int checkdup(	key      *key1,
-			key      *key2,
-			hashform *form )
+static int checkdup(key *key1, key *key2, hashform *form)
 {
-  switch(form->hashtype)
-  {
-  case STRING_HT:
-    if ((key1->len_k == key2->len_k) &&
-	!memcmp(key1->name_k, key2->name_k, (size_t)key1->len_k))
-    {
-      appDebug("fatal error: Duplicates keys!  %.*s\n",
+	switch (form->hashtype) {
+	case STRING_HT:
+		if ((key1->len_k == key2->len_k) &&
+		    !memcmp(key1->name_k, key2->name_k, (size_t)key1->len_k)) {
+			appDebug("fatal error: Duplicates keys!  %.*s\n",
 				 (int)key1->len_k, key1->name_k);
-      return -1;
-    }
-    break;
-  default:
-    appDebug("fatal error: Illegal hash type %lu\n",
-					    (unsigned long)form->hashtype);
-    return -1;
-  }
+			return -1;
+		}
+		break;
+	default:
+		appDebug("fatal error: Illegal hash type %lu\n",
+			 (unsigned long)form->hashtype);
+		return -1;
+	}
 
-  return 0;
+	return 0;
 }
-
 
 /* 
  * Put keys in tabb according to key->b_k
@@ -181,57 +172,50 @@ static int checkdup(	key      *key1,
  *
  */
 
-static int inittab(	bstuff   *tabb,
-			ub4       blen,
-			key      *keys,
-			int	 keyCount,
-			hashform *form,
-			int       ignoreCollisions )
-    {
-    int		nocollision= TRUE;
+static int inittab(bstuff *tabb, ub4 blen, key *keys, int keyCount,
+		   hashform *form, int ignoreCollisions)
+{
+	int nocollision = TRUE;
 
-    key *	mykey;
-    int		ki;
+	key *mykey;
+	int ki;
 
-    /*  1  */
-    memset( (void *)tabb, 0, (size_t)(sizeof(bstuff)*blen) );
+	/*  1  */
+	memset((void *)tabb, 0, (size_t)(sizeof(bstuff) * blen));
 
-    /*  2  */
-    mykey= keys;
-    for ( ki= 0; ki < keyCount; mykey++, ki++ )
-	{
-	key *	otherkey;
+	/*  2  */
+	mykey = keys;
+	for (ki = 0; ki < keyCount; mykey++, ki++) {
+		key *otherkey;
 
-	/*  3  */
-	for ( otherkey=tabb[mykey->b_k].list_b; 
-	      otherkey; 
-	      otherkey= otherkey->nextb_k )
-	    {
-	    /*  4  */
-	    if  ( mykey->a_k == otherkey->a_k )
-		{
-		nocollision= FALSE;
+		/*  3  */
+		for (otherkey = tabb[mykey->b_k].list_b; otherkey;
+		     otherkey = otherkey->nextb_k) {
+			/*  4  */
+			if (mykey->a_k == otherkey->a_k) {
+				nocollision = FALSE;
 
-		/*  5  */
-		if  ( checkdup( mykey, otherkey, form ) < 0 )
-		    { return -1;	}
+				/*  5  */
+				if (checkdup(mykey, otherkey, form) < 0) {
+					return -1;
+				}
 
-		/*  6  */
-		if  ( ! ignoreCollisions )
-		    { return FALSE;	}
+				/*  6  */
+				if (!ignoreCollisions) {
+					return FALSE;
+				}
+			}
 		}
-	    }
 
-	/*  7  */
-	mykey->nextb_k= tabb[mykey->b_k].list_b;
-	tabb[mykey->b_k].list_b= mykey;
-	tabb[mykey->b_k].listlen_b++;
+		/*  7  */
+		mykey->nextb_k = tabb[mykey->b_k].list_b;
+		tabb[mykey->b_k].list_b = mykey;
+		tabb[mykey->b_k].listlen_b++;
 	}
 
-    /*  8 */
-    return nocollision;
-    }
-
+	/*  8 */
+	return nocollision;
+}
 
 /*
 
@@ -252,56 +236,49 @@ final:			output, code for the final hash
 
 */
 
-static void initnorm(	key      *keys,
-			int      keyCount,
-			ub4       alen,
-			ub4       blen,
-			ub4       smax,
-			ub4       salt,
-			gencode  *final )
+static void initnorm(key *keys, int keyCount, ub4 alen, ub4 blen, ub4 smax,
+		     ub4 salt, gencode *final)
 {
-    key *	mykey;
-    int		ki;
+	key *mykey;
+	int ki;
 
-    ub4		logalen= ilog2( alen );
+	ub4 logalen = ilog2(alen);
 
-    /*  1  */
-    if  ( logalen+ ilog2( blen ) > UB4BITS )
-	{
-	final->genUseHash2= 1;
-	/*  2  */
-	final->genInitlev= salt* 0x9e3779b9;
+	/*  1  */
+	if (logalen + ilog2(blen) > UB4BITS) {
+		final->genUseHash2 = 1;
+		/*  2  */
+		final->genInitlev = salt * 0x9e3779b9;
 
-	/*  3  */
-	mykey= keys;
-	for ( ki= 0; ki < keyCount; mykey++, ki++ )
-	    {
-	    unsigned long	state[CHECKSTATE];
-	    ub4			i;
+		/*  3  */
+		mykey = keys;
+		for (ki = 0; ki < keyCount; mykey++, ki++) {
+			unsigned long state[CHECKSTATE];
+			ub4 i;
 
-	    for ( i=0; i<CHECKSTATE; ++i )
-		{ state[i] = final->genInitlev;	}
+			for (i = 0; i < CHECKSTATE; ++i) {
+				state[i] = final->genInitlev;
+			}
 
-	    utilJenkinsHash2( mykey->name_k, mykey->len_k, state );
-	    mykey->a_k = state[0]&(alen-1);
-	    mykey->b_k = state[1]&(blen-1);
-	    }
-	}
-    else{
-	final->genUseHash2= 0;
-	/*  2  */
-	final->genInitlev= salt*0x9e3779b9;
+			utilJenkinsHash2(mykey->name_k, mykey->len_k, state);
+			mykey->a_k = state[0] & (alen - 1);
+			mykey->b_k = state[1] & (blen - 1);
+		}
+	} else {
+		final->genUseHash2 = 0;
+		/*  2  */
+		final->genInitlev = salt * 0x9e3779b9;
 
-	/*  3  */
-	mykey= keys;
-	for ( ki= 0; ki < keyCount; mykey++, ki++ )
-	    {
-	    ub4 hash = utilJenkinsHash(
-			    mykey->name_k, mykey->len_k, final->genInitlev );
+		/*  3  */
+		mykey = keys;
+		for (ki = 0; ki < keyCount; mykey++, ki++) {
+			ub4 hash = utilJenkinsHash(mykey->name_k, mykey->len_k,
+						   final->genInitlev);
 
-	    mykey->a_k = (logalen > 0) ? hash>>(UB4BITS-logalen) : 0;
-	    mykey->b_k = (blen > 1) ? hash & (blen-1) : 0;
-	    }
+			mykey->a_k =
+				(logalen > 0) ? hash >> (UB4BITS - logalen) : 0;
+			mykey->b_k = (blen > 1) ? hash & (blen - 1) : 0;
+		}
 	}
 }
 
@@ -324,33 +301,24 @@ gencode  *final;        code for final hash
 
  */
 
-static ub4 initkey(	key      *keys,
-			ub4       nkeys,
-			bstuff   *tabb,
-			ub4       alen,
-			ub4       blen,
-			ub4       smax,
-			ub4       salt,
-			hashform *form,
-			gencode  *final )
+static ub4 initkey(key *keys, ub4 nkeys, bstuff *tabb, ub4 alen, ub4 blen,
+		   ub4 smax, ub4 salt, hashform *form, gencode *final)
 {
-  /* Do the initial hash of the keys */
-  switch(form->mode)
-  {
-  case NORMAL_HM:
-    initnorm(keys, nkeys, alen, blen, smax, salt, final);
-    break;
-  default:
-    appDebug("fatal error: illegal mode\n"); 
-    exit(1);
-  }
+	/* Do the initial hash of the keys */
+	switch (form->mode) {
+	case NORMAL_HM:
+		initnorm(keys, nkeys, alen, blen, smax, salt, final);
+		break;
+	default:
+		appDebug("fatal error: illegal mode\n");
+		exit(1);
+	}
 
-  if (nkeys <= 1)
-  {
-    return 2;
-  }
+	if (nkeys <= 1) {
+		return 2;
+	}
 
-  return inittab(tabb, blen, keys, nkeys, form, FALSE);
+	return inittab(tabb, blen, keys, nkeys, form, FALSE);
 }
 
 /*
@@ -364,28 +332,25 @@ hashform *form;         user directives
 
 */
 
-static int duplicates(		bstuff   *tabb,
-				ub4       blen,
-				key      *keys,
-				int       keyCount,
-				hashform *form )
+static int duplicates(bstuff *tabb, ub4 blen, key *keys, int keyCount,
+		      hashform *form)
 {
-  ub4  i;
-  key *key1;
-  key *key2;
+	ub4 i;
+	key *key1;
+	key *key2;
 
-  (void)inittab(tabb, blen, keys, keyCount, form, TRUE);
+	(void)inittab(tabb, blen, keys, keyCount, form, TRUE);
 
-  /* for each b, do nested loops through key list looking for duplicates */
-  for (i=0; i<blen; ++i)
-    for (key1=tabb[i].list_b; key1; key1=key1->nextb_k)
-      for (key2=key1->nextb_k; key2; key2=key2->nextb_k)
-	if  ( checkdup(key1, key2, form) )
-	    { return -1;	}
+	/* for each b, do nested loops through key list looking for duplicates */
+	for (i = 0; i < blen; ++i)
+		for (key1 = tabb[i].list_b; key1; key1 = key1->nextb_k)
+			for (key2 = key1->nextb_k; key2; key2 = key2->nextb_k)
+				if (checkdup(key1, key2, form)) {
+					return -1;
+				}
 
-  return 0;
+	return 0;
 }
-
 
 /*
 Try to apply an augmenting list
@@ -394,62 +359,53 @@ int     rollback;        FALSE applies augmenting path, TRUE rolls back
 
 */
 
-static int apply(	bstuff *tabb,
-			hstuff *tabh,
-			qstuff *tabq,
-			ub4     blen,
-			ub4    *scramble,
-			ub4     tail,
-			int     rollback )
+static int apply(bstuff *tabb, hstuff *tabh, qstuff *tabq, ub4 blen,
+		 ub4 *scramble, ub4 tail, int rollback)
 {
-  ub4     hash;
-  key    *mykey;
-  bstuff *pb;
-  ub4     child;
-  ub4     parent;
-  ub4     stabb;                                         /* scramble[tab[b]] */
+	ub4 hash;
+	key *mykey;
+	bstuff *pb;
+	ub4 child;
+	ub4 parent;
+	ub4 stabb; /* scramble[tab[b]] */
 
-  /* walk from child to parent */
-  for (child=tail-1; child; child=parent)
-  {
-    parent = tabq[child].parent_q;                    /* find child's parent */
-    pb     = tabq[parent].b_q;             /* find parent's list of siblings */
+	/* walk from child to parent */
+	for (child = tail - 1; child; child = parent) {
+		parent = tabq[child].parent_q; /* find child's parent */
+		pb = tabq[parent].b_q; /* find parent's list of siblings */
 
-    /* erase old hash values */
-    stabb = scramble[pb->val_b];
-    for (mykey=pb->list_b; mykey; mykey=mykey->nextb_k)
-    {
-      hash = mykey->a_k^stabb;
-      if (mykey == tabh[hash].key_h)
-      {                            /* erase hash for all of child's siblings */
-	tabh[hash].key_h = (key *)0;
-      }
-    }
+		/* erase old hash values */
+		stabb = scramble[pb->val_b];
+		for (mykey = pb->list_b; mykey; mykey = mykey->nextb_k) {
+			hash = mykey->a_k ^ stabb;
+			if (mykey ==
+			    tabh[hash].key_h) { /* erase hash for all of child's siblings */
+				tabh[hash].key_h = (key *)0;
+			}
+		}
 
-    /* change pb->val_b, which will change the hashes of all parent siblings */
-    pb->val_b = (rollback ? tabq[child].oldval_q : tabq[child].newval_q);
+		/* change pb->val_b, which will change the hashes of all parent siblings */
+		pb->val_b = (rollback ? tabq[child].oldval_q :
+					tabq[child].newval_q);
 
-    /* set new hash values */
-    stabb = scramble[pb->val_b];
-    for (mykey=pb->list_b; mykey; mykey=mykey->nextb_k)
-    {
-      hash = mykey->a_k^stabb;
-      if (rollback)
-      {
-	if (parent == 0) continue;                  /* root never had a hash */
-      }
-      else if (tabh[hash].key_h)
-      {
-	/* very rare: roll back any changes */
-	(void)apply(tabb, tabh, tabq, blen, scramble, tail, TRUE);
-	return FALSE;                                  /* failure, collision */
-      }
-      tabh[hash].key_h = mykey;
-    }
-  }
-  return TRUE;
+		/* set new hash values */
+		stabb = scramble[pb->val_b];
+		for (mykey = pb->list_b; mykey; mykey = mykey->nextb_k) {
+			hash = mykey->a_k ^ stabb;
+			if (rollback) {
+				if (parent == 0)
+					continue; /* root never had a hash */
+			} else if (tabh[hash].key_h) {
+				/* very rare: roll back any changes */
+				(void)apply(tabb, tabh, tabq, blen, scramble,
+					    tail, TRUE);
+				return FALSE; /* failure, collision */
+			}
+			tabh[hash].key_h = mykey;
+		}
+	}
+	return TRUE;
 }
-
 
 /*
 
@@ -484,87 +440,83 @@ hashform *form;      TRUE if we should do a minimal perfect hash
 
 */
 
-static int augment(	bstuff   *tabb,
-			hstuff   *tabh,
-			qstuff   *tabq,
-			ub4       blen,
-			ub4      *scramble,
-			ub4       smax,
-			bstuff   *item,
-			ub4       nkeys,
-			ub4       highwater,
-			hashform *form )
+static int augment(bstuff *tabb, hstuff *tabh, qstuff *tabq, ub4 blen,
+		   ub4 *scramble, ub4 smax, bstuff *item, ub4 nkeys,
+		   ub4 highwater, hashform *form)
 {
-  ub4  q;                      /* current position walking through the queue */
-  ub4  tail;              /* tail of the queue.  0 is the head of the queue. */
-  ub4  limit=((blen < USE_SCRAMBLE) ? smax : UB1MAXVAL+1);
-  ub4  highhash = ((form->perfect == MINIMAL_HP) ? nkeys : smax);
-  int  trans = (form->speed == SLOW_HS || form->perfect == MINIMAL_HP);
+	ub4 q; /* current position walking through the queue */
+	ub4 tail; /* tail of the queue.  0 is the head of the queue. */
+	ub4 limit = ((blen < USE_SCRAMBLE) ? smax : UB1MAXVAL + 1);
+	ub4 highhash = ((form->perfect == MINIMAL_HP) ? nkeys : smax);
+	int trans = (form->speed == SLOW_HS || form->perfect == MINIMAL_HP);
 
-  /* initialize the root of the spanning tree */
-  tabq[0].b_q = item;
-  tail = 1;
+	/* initialize the root of the spanning tree */
+	tabq[0].b_q = item;
+	tail = 1;
 
-  /* construct the spanning tree by walking the queue, add children to tail */
-  for (q=0; q<tail; ++q)
-  {
-    bstuff *myb = tabq[q].b_q;                        /* the b for this node */
-    ub4     i;                              /* possible value for myb->val_b */
+	/* construct the spanning tree by walking the queue, add children to tail */
+	for (q = 0; q < tail; ++q) {
+		bstuff *myb = tabq[q].b_q; /* the b for this node */
+		ub4 i; /* possible value for myb->val_b */
 
-    if (!trans && (q == 1)) 
-      break;                                  /* don't do transitive closure */
+		if (!trans && (q == 1))
+			break; /* don't do transitive closure */
 
-    for (i=0; i<limit; ++i)
-    {
-      bstuff *childb = (bstuff *)0;             /* the b that this i maps to */
-      key    *mykey;                       /* for walking through myb's keys */
+		for (i = 0; i < limit; ++i) {
+			bstuff *childb =
+				(bstuff *)0; /* the b that this i maps to */
+			key *mykey; /* for walking through myb's keys */
 
-      for (mykey = myb->list_b; mykey; mykey=mykey->nextb_k)
-      {
-	key    *childkey;
-	ub4 hash = mykey->a_k^scramble[i];
+			for (mykey = myb->list_b; mykey;
+			     mykey = mykey->nextb_k) {
+				key *childkey;
+				ub4 hash = mykey->a_k ^ scramble[i];
 
-	if (hash >= highhash) break;                        /* out of bounds */
-	childkey = tabh[hash].key_h;
+				if (hash >= highhash)
+					break; /* out of bounds */
+				childkey = tabh[hash].key_h;
 
-	if (childkey)
-	{
-	  bstuff *hitb = &tabb[childkey->b_k];
+				if (childkey) {
+					bstuff *hitb = &tabb[childkey->b_k];
 
-	  if (childb)
-	  {
-	    if (childb != hitb) break;            /* hit at most one child b */
-	  }
-	  else
-	  {
-	    childb = hitb;                        /* remember this as childb */
-	    if (childb->water_b == highwater) break;     /* already explored */
-	  }
+					if (childb) {
+						if (childb != hitb)
+							break; /* hit at most one child b */
+					} else {
+						childb =
+							hitb; /* remember this as childb */
+						if (childb->water_b ==
+						    highwater)
+							break; /* already explored */
+					}
+				}
+			}
+			if (mykey)
+				continue; /* myb with i has multiple collisions */
+
+			/* add childb to the queue of reachable things */
+			if (childb)
+				childb->water_b = highwater;
+			tabq[tail].b_q = childb;
+			tabq[tail].newval_q =
+				i; /* how to make parent (myb) use this hash */
+			tabq[tail].oldval_q =
+				myb->val_b; /* need this for rollback */
+			tabq[tail].parent_q = q;
+			++tail;
+
+			if (!childb) { /* found an *i* with no collisions? */
+				/* try to apply the augmenting path */
+				if (apply(tabb, tabh, tabq, blen, scramble,
+					  tail, FALSE))
+					return TRUE; /* success, item was added to the perfect hash */
+
+				--tail; /* don't know how to handle such a child! */
+			}
+		}
 	}
-      }
-      if (mykey) continue;             /* myb with i has multiple collisions */
-
-      /* add childb to the queue of reachable things */
-      if (childb) childb->water_b = highwater;
-      tabq[tail].b_q      = childb;
-      tabq[tail].newval_q = i;     /* how to make parent (myb) use this hash */
-      tabq[tail].oldval_q = myb->val_b;            /* need this for rollback */
-      tabq[tail].parent_q = q;
-      ++tail;
-
-      if (!childb)
-      {                                  /* found an *i* with no collisions? */
-	/* try to apply the augmenting path */
-	if (apply(tabb, tabh, tabq, blen, scramble, tail, FALSE))
-	  return TRUE;        /* success, item was added to the perfect hash */
-
-	--tail;                    /* don't know how to handle such a child! */
-      }
-    }
-  }
-  return FALSE;
+	return FALSE;
 }
-
 
 /*
 
@@ -579,52 +531,43 @@ find a mapping that makes this a perfect hash
 
 */
 
-static int perfect(	bstuff *	tabb,
-			hstuff *	tabh,
-			int		hCount,
-			qstuff *	tabq,
-			ub4		blen,
-			ub4		smax,
-			ub4 *		scramble,
-			ub4		nkeys,
-			hashform *	form )
+static int perfect(bstuff *tabb, hstuff *tabh, int hCount, qstuff *tabq,
+		   ub4 blen, ub4 smax, ub4 *scramble, ub4 nkeys, hashform *form)
 {
-    ub4 maxkeys;                        /* maximum number of keys for any b */
-    ub4 i, j;
+	ub4 maxkeys; /* maximum number of keys for any b */
+	ub4 i, j;
 
-    /*  1  */
-    memset((void *)tabh, 0, (size_t)( hCount* sizeof(hstuff) ) );
-    memset((void *)tabq, 0, (size_t)(sizeof(qstuff)*(blen+1)));
+	/*  1  */
+	memset((void *)tabh, 0, (size_t)(hCount * sizeof(hstuff)));
+	memset((void *)tabq, 0, (size_t)(sizeof(qstuff) * (blen + 1)));
 
-    /*  2  */
-    for ( maxkeys=0,i=0; i<blen; ++i ) 
-	{
-	if  ( maxkeys < tabb[i].listlen_b )
-	    { maxkeys = tabb[i].listlen_b;	}
-	}
-
-    /*  3  */
-    for ( j= maxkeys; j > 0; --j )
-	{
-	for ( i=0; i < blen; ++i )
-	    {
-	    if  ( tabb[i].listlen_b != j )
-		{ continue;	}
-
-	    if  ( ! augment( tabb, tabh, tabq,
-			blen, scramble, smax, &tabb[i], nkeys, i+1, form ) )
-		{
-		appDebug( "fail to map group of size %ld for tab size %ld\n", 
-							(long)j, (long)blen);
-		return FALSE;
+	/*  2  */
+	for (maxkeys = 0, i = 0; i < blen; ++i) {
+		if (maxkeys < tabb[i].listlen_b) {
+			maxkeys = tabb[i].listlen_b;
 		}
-	    }
 	}
 
-    /* Success!  We found a perfect hash of all keys into 0..nkeys-1. */
-    return TRUE;
-}
+	/*  3  */
+	for (j = maxkeys; j > 0; --j) {
+		for (i = 0; i < blen; ++i) {
+			if (tabb[i].listlen_b != j) {
+				continue;
+			}
 
+			if (!augment(tabb, tabh, tabq, blen, scramble, smax,
+				     &tabb[i], nkeys, i + 1, form)) {
+				appDebug(
+					"fail to map group of size %ld for tab size %ld\n",
+					(long)j, (long)blen);
+				return FALSE;
+			}
+		}
+	}
+
+	/* Success!  We found a perfect hash of all keys into 0..nkeys-1. */
+	return TRUE;
+}
 
 /*
 guess initial values for alen and blen
@@ -637,13 +580,9 @@ hashform *form;    user directives
 
 */
 
-static void initalen(	ub4      *alen,
-			ub4      *blen,
-			ub4      *smax,
-			ub4       nkeys,
-			hashform *form )
+static void initalen(ub4 *alen, ub4 *blen, ub4 *smax, ub4 nkeys, hashform *form)
 {
-  /*
+	/*
    * Find initial *alen, *blen
    * Initial alen and blen values were found empirically.  Some factors:
    *
@@ -677,89 +616,105 @@ static void initalen(	ub4      *alen,
    * Bigger than that it must produce two integers, which increases the
    * cost of the hash per character hashed.
    */
-  if (form->perfect == NORMAL_HP)
-  {
-    if ((form->speed == FAST_HS) && (nkeys > *smax*0.8))
-      *smax = *smax * 2;
+	if (form->perfect == NORMAL_HP) {
+		if ((form->speed == FAST_HS) && (nkeys > *smax * 0.8))
+			*smax = *smax * 2;
 
-    *alen = (0 && *smax>131072) ? 
-      ((ub4)1<<(UB4BITS-ilog2(*blen))) :   /* distinct keys => distinct (A,B) */
-      *smax;                         /* no reason to restrict alen to smax/2 */
-    if (0 && *smax < 32)
-      *blen = *smax;                      /* go for function speed not space */
-    else if (*smax/4 <= (1<<14))
-      *blen = ((nkeys <= *smax*0.56) ? *smax/32 :
-	       (nkeys <= *smax*0.74) ? *smax/16 : *smax/8);
-    else
-      *blen = ((nkeys <= *smax*0.6) ? *smax/16 : 
-	       (nkeys <= *smax*0.8) ? *smax/8 : *smax/4);
+		*alen = (0 && *smax > 131072) ?
+				((ub4)1
+				 << (UB4BITS -
+				     ilog2(*blen))) : /* distinct keys => distinct (A,B) */
+				*smax; /* no reason to restrict alen to smax/2 */
+		if (0 && *smax < 32)
+			*blen = *smax; /* go for function speed not space */
+		else if (*smax / 4 <= (1 << 14))
+			*blen = ((nkeys <= *smax * 0.56) ? *smax / 32 :
+				 (nkeys <= *smax * 0.74) ? *smax / 16 :
+							   *smax / 8);
+		else
+			*blen = ((nkeys <= *smax * 0.6) ? *smax / 16 :
+				 (nkeys <= *smax * 0.8) ? *smax / 8 :
+							  *smax / 4);
 
-    if ((form->speed == FAST_HS) && (*blen < *smax/8))
-      *blen = *smax/8;
+		if ((form->speed == FAST_HS) && (*blen < *smax / 8))
+			*blen = *smax / 8;
 
-    if (*alen < 1) *alen = 1;
-    if (*blen < 1) *blen = 1;
-  }
-  else
-  {
-    switch(ilog2(*smax))
-    {
-    case 0:
-      *alen = 1;
-      *blen = 1;
-    case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8:
-      *alen = (form->perfect == NORMAL_HP) ? *smax : *smax/2;
-      *blen = *smax/2;
-      break;
-    case 9:
-    case 10:
-    case 11:
-    case 12:
-    case 13:
-    case 14:
-    case 15:
-    case 16:
-    case 17:
-      if (form->speed == FAST_HS)
-      {
-	*alen = *smax/2;
-	*blen = *smax/4;
-      }
-      if (*smax/4 < USE_SCRAMBLE)
-      {
-	*alen = ((nkeys <= *smax*0.52) ? *smax/8 : *smax/4);
-	*blen = ((nkeys <= *smax*0.52) ? *smax/8 : *smax/4);
-      }
-      else
-      {
-	*alen = ((nkeys <= *smax*(5.0/8.0)) ? *smax/8 : 
-		 (nkeys <= *smax*(3.0/4.0)) ? *smax/4 : *smax/2);
-	*blen = *smax/4;                /* always give the small size a shot */
-      }
-      break;
-    case 18:
-      if (form->speed == FAST_HS)
-      {
-	*alen = *smax/2;
-	*blen = *smax/2;
-      }
-      else
-      {
-	*alen = *smax/8;                 /* never require the multiword hash */
-	*blen = (nkeys <= *smax*(5.0/8.0)) ? *smax/4 : *smax/2;
-      }
-      break;
-    case 19:
-    case 20:
-      *alen = (nkeys <= *smax*(5.0/8.0)) ? *smax/8 : *smax/2;
-      *blen = (nkeys <= *smax*(5.0/8.0)) ? *smax/4 : *smax/2;
-      break;
-    default:
-      *alen = *smax/2;              /* just find a hash as quick as possible */
-      *blen = *smax/2;     /* we'll be thrashing virtual memory at this size */
-      break;
-    }
-  }
+		if (*alen < 1)
+			*alen = 1;
+		if (*blen < 1)
+			*blen = 1;
+	} else {
+		switch (ilog2(*smax)) {
+		case 0:
+			*alen = 1;
+			*blen = 1;
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+			*alen = (form->perfect == NORMAL_HP) ? *smax :
+							       *smax / 2;
+			*blen = *smax / 2;
+			break;
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+			if (form->speed == FAST_HS) {
+				*alen = *smax / 2;
+				*blen = *smax / 4;
+			}
+			if (*smax / 4 < USE_SCRAMBLE) {
+				*alen = ((nkeys <= *smax * 0.52) ? *smax / 8 :
+								   *smax / 4);
+				*blen = ((nkeys <= *smax * 0.52) ? *smax / 8 :
+								   *smax / 4);
+			} else {
+				*alen = ((nkeys <= *smax * (5.0 / 8.0)) ?
+						 *smax / 8 :
+					 (nkeys <= *smax * (3.0 / 4.0)) ?
+						 *smax / 4 :
+						 *smax / 2);
+				*blen = *smax /
+					4; /* always give the small size a shot */
+			}
+			break;
+		case 18:
+			if (form->speed == FAST_HS) {
+				*alen = *smax / 2;
+				*blen = *smax / 2;
+			} else {
+				*alen = *smax /
+					8; /* never require the multiword hash */
+				*blen = (nkeys <= *smax * (5.0 / 8.0)) ?
+						*smax / 4 :
+						*smax / 2;
+			}
+			break;
+		case 19:
+		case 20:
+			*alen = (nkeys <= *smax * (5.0 / 8.0)) ? *smax / 8 :
+								 *smax / 2;
+			*blen = (nkeys <= *smax * (5.0 / 8.0)) ? *smax / 4 :
+								 *smax / 2;
+			break;
+		default:
+			*alen = *smax /
+				2; /* just find a hash as quick as possible */
+			*blen = *smax /
+				2; /* we'll be thrashing virtual memory at this size */
+			break;
+		}
+	}
 }
 
 /* 
@@ -807,145 +762,144 @@ hashform *form;           user directives
 
 */
 
-static int findhash(	bstuff  **tabb,
-			hstuff  **pTabh,
-			int *	pHCount,
-			ub4      *alen,
-			ub4      *blen,
-			gencode  *final,
-			ub4      *scramble,
-			ub4      *smax,
-			key      *keys,
-			ub4       nkeys,
-			hashform *form )
+static int findhash(bstuff **tabb, hstuff **pTabh, int *pHCount, ub4 *alen,
+		    ub4 *blen, gencode *final, ub4 *scramble, ub4 *smax,
+		    key *keys, ub4 nkeys, hashform *form)
 {
-    ub4 bad_initkey;                  /* how many times did initkey fail? */
-    ub4 bad_perfect;                  /* how many times did perfect fail? */
-    ub4 trysalt;                      /* trial initializer for initial hash */
-    ub4 maxalen;
-    hstuff *tabh;                     /* table of keys indexed by hash value */
-    qstuff *tabq;  /* table of stuff indexed by queue value, used by augment */
+	ub4 bad_initkey; /* how many times did initkey fail? */
+	ub4 bad_perfect; /* how many times did perfect fail? */
+	ub4 trysalt; /* trial initializer for initial hash */
+	ub4 maxalen;
+	hstuff *tabh; /* table of keys indexed by hash value */
+	qstuff *tabq; /* table of stuff indexed by queue value, used by augment */
 
-    /*  1  */
-    *smax = ((ub4)1<<ilog2(nkeys));
-    initalen(alen, blen, smax, nkeys, form);
+	/*  1  */
+	*smax = ((ub4)1 << ilog2(nkeys));
+	initalen(alen, blen, smax, nkeys, form);
 
-    /*  2  */
-    scrambleinit(scramble, *smax);
+	/*  2  */
+	scrambleinit(scramble, *smax);
 
-    /*  3  */
-    maxalen = (form->perfect == MINIMAL_HP) ? *smax/2 : *smax;
+	/*  3  */
+	maxalen = (form->perfect == MINIMAL_HP) ? *smax / 2 : *smax;
 
-    /*  4  */
-    *pHCount= (form->perfect == MINIMAL_HP ? nkeys : *smax );
+	/*  4  */
+	*pHCount = (form->perfect == MINIMAL_HP ? nkeys : *smax);
 
-    /*  5  */
-    *tabb = (bstuff *)malloc((size_t)(sizeof(bstuff)*(*blen)));
-    tabq  = (qstuff *)malloc(sizeof(qstuff)*(*blen+1));
-    tabh  = (hstuff *)malloc(sizeof(hstuff)* *pHCount );
+	/*  5  */
+	*tabb = (bstuff *)malloc((size_t)(sizeof(bstuff) * (*blen)));
+	tabq = (qstuff *)malloc(sizeof(qstuff) * (*blen + 1));
+	tabh = (hstuff *)malloc(sizeof(hstuff) * *pHCount);
 
-    /*  6  */
-    bad_initkey = 0;
-    bad_perfect = 0;
-    for ( trysalt=1; ; ++trysalt )
-	{
-	int rslinit;
+	/*  6  */
+	bad_initkey = 0;
+	bad_perfect = 0;
+	for (trysalt = 1;; ++trysalt) {
+		int rslinit;
 
-	/* reset some results */
-	final->genUseHash2= 0;
+		/* reset some results */
+		final->genUseHash2 = 0;
 
-	/*  7  */
-	rslinit= initkey( keys, nkeys, *tabb, *alen, *blen, *smax, trysalt,
-								form, final );
-	if  ( rslinit < 0 )
-	    { LDEB(rslinit); return -1;	}
-
-	/*  8  */
-	if  ( rslinit == 2 )
-	    { *blen = 0; break; }
-
-	/*  9  */
-	if  ( rslinit == 0 )
-	    {
-	    bad_initkey++;
-
-	    /*  10  */
-	    if  ( bad_initkey < RETRY_INITKEY )
-		{ continue;	}
-
-	    /*  11, 12  */
-	    if  ( *alen < maxalen )
-		{
-		*alen *= 2;
-
-		bad_initkey = 0;
-		bad_perfect = 0;
-		continue;
-		} 
-
-	    /*  13  */
-	    if  ( *blen < *smax )
-		{
-		*blen *= 2;
-		*tabb  = (bstuff *)realloc( *tabb,
-				    (size_t)(sizeof(bstuff)*(*blen)));
-		tabq  = (qstuff *)realloc( tabq,
-				    (size_t)(sizeof(qstuff)*(*blen+1)));
-
-		bad_initkey = 0;
-		bad_perfect = 0;
-		continue;
+		/*  7  */
+		rslinit = initkey(keys, nkeys, *tabb, *alen, *blen, *smax,
+				  trysalt, form, final);
+		if (rslinit < 0) {
+			LDEB(rslinit);
+			return -1;
 		}
 
-	    /*  14  */
-	    if  ( duplicates( *tabb, *blen, keys, nkeys, form ) < 0 )
-		{ return -1;	}
-	    appDebug(
-	      "fatal error: Cannot perfect hash: cannot find distinct (A,B)\n");
+		/*  8  */
+		if (rslinit == 2) {
+			*blen = 0;
+			break;
+		}
 
-	    return -1;
-	    }
+		/*  9  */
+		if (rslinit == 0) {
+			bad_initkey++;
 
-	appDebug("found distinct (A,B) on attempt %ld\n", (long)trysalt );
+			/*  10  */
+			if (bad_initkey < RETRY_INITKEY) {
+				continue;
+			}
 
-	/*  15  */
-	if  ( perfect( *tabb, tabh, *pHCount, tabq,
-				*blen, *smax, scramble, nkeys, form ) )
-	    { break;	}
+			/*  11, 12  */
+			if (*alen < maxalen) {
+				*alen *= 2;
 
-	bad_perfect++;
+				bad_initkey = 0;
+				bad_perfect = 0;
+				continue;
+			}
 
-	/*  16  */
-	if  ( bad_perfect < RETRY_PERFECT )
-	    { continue;	}
+			/*  13  */
+			if (*blen < *smax) {
+				*blen *= 2;
+				*tabb = (bstuff *)realloc(
+					*tabb,
+					(size_t)(sizeof(bstuff) * (*blen)));
+				tabq = (qstuff *)realloc(
+					tabq,
+					(size_t)(sizeof(qstuff) * (*blen + 1)));
 
-	/*  17  */
-	if  ( *blen < *smax )
-	    {
-	    *blen *= 2;
+				bad_initkey = 0;
+				bad_perfect = 0;
+				continue;
+			}
 
-	    *tabb  = (bstuff *)realloc( *tabb,
-				    (size_t)(sizeof(bstuff)*(*blen)));
-	    tabq  = (qstuff *)realloc( tabq,
-				    (size_t)(sizeof(qstuff)*(*blen+1)));
-	    --trysalt;
-	    bad_perfect= 0;
-	    continue;
-	    }
+			/*  14  */
+			if (duplicates(*tabb, *blen, keys, nkeys, form) < 0) {
+				return -1;
+			}
+			appDebug(
+				"fatal error: Cannot perfect hash: cannot find distinct (A,B)\n");
 
-	/*  18  */
-	appDebug("fatal error: Cannot perfect hash: cannot build tab[]\n");
-	exit( 1 );
+			return -1;
+		}
+
+		appDebug("found distinct (A,B) on attempt %ld\n",
+			 (long)trysalt);
+
+		/*  15  */
+		if (perfect(*tabb, tabh, *pHCount, tabq, *blen, *smax, scramble,
+			    nkeys, form)) {
+			break;
+		}
+
+		bad_perfect++;
+
+		/*  16  */
+		if (bad_perfect < RETRY_PERFECT) {
+			continue;
+		}
+
+		/*  17  */
+		if (*blen < *smax) {
+			*blen *= 2;
+
+			*tabb = (bstuff *)realloc(
+				*tabb, (size_t)(sizeof(bstuff) * (*blen)));
+			tabq = (qstuff *)realloc(
+				tabq, (size_t)(sizeof(qstuff) * (*blen + 1)));
+			--trysalt;
+			bad_perfect = 0;
+			continue;
+		}
+
+		/*  18  */
+		appDebug(
+			"fatal error: Cannot perfect hash: cannot build tab[]\n");
+		exit(1);
 	}
 
-    appDebug("built perfect hash table of size %ld\n", (long)*blen);
+	appDebug("built perfect hash table of size %ld\n", (long)*blen);
 
-    /* free working memory */
-    *pTabh= tabh;
+	/* free working memory */
+	*pTabh = tabh;
 
-    free((void *)tabq);
+	free((void *)tabq);
 
-    return 0;
+	return 0;
 }
 
 /************************************************************************/
@@ -954,155 +908,137 @@ static int findhash(	bstuff  **tabb,
 /*									*/
 /************************************************************************/
 
-static void writeScramble_4(	FILE *		f,
-				ub4 *		scramble )
-    {
-    int		i;
+static void writeScramble_4(FILE *f, ub4 *scramble)
+{
+	int i;
 
-    fprintf(f, "static ub4 scramble[] = {\n");
+	fprintf(f, "static ub4 scramble[] = {\n");
 
-    for ( i=0; i <= UB1MAXVAL; i += 4 )
-	{
-	fprintf(f, "0x%.8lx, 0x%.8lx, 0x%.8lx, 0x%.8lx,\n",
-					(unsigned long)scramble[i+0],
-					(unsigned long)scramble[i+1],
-					(unsigned long)scramble[i+2],
-					(unsigned long)scramble[i+3]);
+	for (i = 0; i <= UB1MAXVAL; i += 4) {
+		fprintf(f, "0x%.8lx, 0x%.8lx, 0x%.8lx, 0x%.8lx,\n",
+			(unsigned long)scramble[i + 0],
+			(unsigned long)scramble[i + 1],
+			(unsigned long)scramble[i + 2],
+			(unsigned long)scramble[i + 3]);
 	}
 
-    fprintf(f, "};\n");
-    }
+	fprintf(f, "};\n");
+}
 
-static void writeScramble_2(	FILE *		f,
-				ub4 *		scramble )
-    {
-    int		i;
+static void writeScramble_2(FILE *f, ub4 *scramble)
+{
+	int i;
 
-    fprintf(f, "static ub2 scramble[] = {\n");
+	fprintf(f, "static ub2 scramble[] = {\n");
 
-    for ( i=0; i <= UB1MAXVAL; i += 8 )
-	{
-	fprintf(f, 
-		"0x%.4lx, 0x%.4lx, 0x%.4lx, 0x%.4lx, "
-		"0x%.4lx, 0x%.4lx, 0x%.4lx, 0x%.4lx,\n",
-					(unsigned long)scramble[i+0],
-					(unsigned long)scramble[i+1],
-					(unsigned long)scramble[i+2],
-					(unsigned long)scramble[i+3],
-					(unsigned long)scramble[i+4],
-					(unsigned long)scramble[i+5],
-					(unsigned long)scramble[i+6],
-					(unsigned long)scramble[i+7] );
+	for (i = 0; i <= UB1MAXVAL; i += 8) {
+		fprintf(f,
+			"0x%.4lx, 0x%.4lx, 0x%.4lx, 0x%.4lx, "
+			"0x%.4lx, 0x%.4lx, 0x%.4lx, 0x%.4lx,\n",
+			(unsigned long)scramble[i + 0],
+			(unsigned long)scramble[i + 1],
+			(unsigned long)scramble[i + 2],
+			(unsigned long)scramble[i + 3],
+			(unsigned long)scramble[i + 4],
+			(unsigned long)scramble[i + 5],
+			(unsigned long)scramble[i + 6],
+			(unsigned long)scramble[i + 7]);
 	}
 
-    fprintf(f, "};\n");
-    }
+	fprintf(f, "};\n");
+}
 
-static void writeSTab_w16(	FILE *		f,
-				const char *	type,
-				const bstuff *	tabb,
-				int		blen,
-				const ub4 *	scramble,
-				ub4		tabMask )
-    {
-    int		i;
+static void writeSTab_w16(FILE *f, const char *type, const bstuff *tabb,
+			  int blen, const ub4 *scramble, ub4 tabMask)
+{
+	int i;
 
-    fprintf( f, "static const %s tab[] = {\n", type );
+	fprintf(f, "static const %s tab[] = {\n", type);
 
-    for (i=0; i<blen; i+=16)
-	{
-	fprintf(f,
-	    "%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,"
-	    "%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,\n",
-		(long)(scramble[tabb[i+ 0].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 1].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 2].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 3].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 4].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 5].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 6].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 7].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 8].val_b] & tabMask ),
-		(long)(scramble[tabb[i+ 9].val_b] & tabMask ),
-		(long)(scramble[tabb[i+10].val_b] & tabMask ),
-		(long)(scramble[tabb[i+11].val_b] & tabMask ),
-		(long)(scramble[tabb[i+12].val_b] & tabMask ),
-		(long)(scramble[tabb[i+13].val_b] & tabMask ),
-		(long)(scramble[tabb[i+14].val_b] & tabMask ),
-		(long)(scramble[tabb[i+15].val_b] & tabMask ) ); 
+	for (i = 0; i < blen; i += 16) {
+		fprintf(f,
+			"%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,"
+			"%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,\n",
+			(long)(scramble[tabb[i + 0].val_b] & tabMask),
+			(long)(scramble[tabb[i + 1].val_b] & tabMask),
+			(long)(scramble[tabb[i + 2].val_b] & tabMask),
+			(long)(scramble[tabb[i + 3].val_b] & tabMask),
+			(long)(scramble[tabb[i + 4].val_b] & tabMask),
+			(long)(scramble[tabb[i + 5].val_b] & tabMask),
+			(long)(scramble[tabb[i + 6].val_b] & tabMask),
+			(long)(scramble[tabb[i + 7].val_b] & tabMask),
+			(long)(scramble[tabb[i + 8].val_b] & tabMask),
+			(long)(scramble[tabb[i + 9].val_b] & tabMask),
+			(long)(scramble[tabb[i + 10].val_b] & tabMask),
+			(long)(scramble[tabb[i + 11].val_b] & tabMask),
+			(long)(scramble[tabb[i + 12].val_b] & tabMask),
+			(long)(scramble[tabb[i + 13].val_b] & tabMask),
+			(long)(scramble[tabb[i + 14].val_b] & tabMask),
+			(long)(scramble[tabb[i + 15].val_b] & tabMask));
 	}
 
-    fprintf( f, "};\n" );
+	fprintf(f, "};\n");
 
-    return;
-    }
+	return;
+}
 
-static void writeSTab_w8(	FILE *		f,
-				const char *	type,
-				const bstuff *	tabb,
-				int		blen,
-				const ub4 *	scramble,
-				ub4		tabMask )
-    {
-    int		i;
+static void writeSTab_w8(FILE *f, const char *type, const bstuff *tabb,
+			 int blen, const ub4 *scramble, ub4 tabMask)
+{
+	int i;
 
-    fprintf( f, "static const %s tab[] = {\n", type );
+	fprintf(f, "static const %s tab[] = {\n", type);
 
-    for (i=0; i<blen; i+=8)
-	{
-	fprintf(f, "%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,\n",
-		(long)(scramble[tabb[i+0].val_b] & tabMask ),
-		(long)(scramble[tabb[i+1].val_b] & tabMask ), 
-		(long)(scramble[tabb[i+2].val_b] & tabMask ),
-		(long)(scramble[tabb[i+3].val_b] & tabMask ), 
-		(long)(scramble[tabb[i+4].val_b] & tabMask ),
-		(long)(scramble[tabb[i+5].val_b] & tabMask ), 
-		(long)(scramble[tabb[i+6].val_b] & tabMask ),
-		(long)(scramble[tabb[i+7].val_b] & tabMask ) ); 
+	for (i = 0; i < blen; i += 8) {
+		fprintf(f, "%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,\n",
+			(long)(scramble[tabb[i + 0].val_b] & tabMask),
+			(long)(scramble[tabb[i + 1].val_b] & tabMask),
+			(long)(scramble[tabb[i + 2].val_b] & tabMask),
+			(long)(scramble[tabb[i + 3].val_b] & tabMask),
+			(long)(scramble[tabb[i + 4].val_b] & tabMask),
+			(long)(scramble[tabb[i + 5].val_b] & tabMask),
+			(long)(scramble[tabb[i + 6].val_b] & tabMask),
+			(long)(scramble[tabb[i + 7].val_b] & tabMask));
 	}
 
-    fprintf( f, "};\n" );
+	fprintf(f, "};\n");
 
-    return;
-    }
+	return;
+}
 
-static void writeTab_w16(	FILE *		f,
-				const char *	type,
-				const bstuff *	tabb,
-				int		blen,
-				ub4		tabMask )
-    {
-    int		i;
+static void writeTab_w16(FILE *f, const char *type, const bstuff *tabb,
+			 int blen, ub4 tabMask)
+{
+	int i;
 
-    fprintf( f, "static const %s tab[] = {\n", type );
+	fprintf(f, "static const %s tab[] = {\n", type);
 
-    for (i=0; i<blen; i+=16)
-	{
-	fprintf(f,
-	    "%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,"
-	    "%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,\n",
-		(long)(tabb[i+ 0].val_b & tabMask ),
-		(long)(tabb[i+ 1].val_b & tabMask ), 
-		(long)(tabb[i+ 2].val_b & tabMask ),
-		(long)(tabb[i+ 3].val_b & tabMask ), 
-		(long)(tabb[i+ 4].val_b & tabMask ),
-		(long)(tabb[i+ 5].val_b & tabMask ), 
-		(long)(tabb[i+ 6].val_b & tabMask ),
-		(long)(tabb[i+ 7].val_b & tabMask ), 
-		(long)(tabb[i+ 8].val_b & tabMask ),
-		(long)(tabb[i+ 9].val_b & tabMask ), 
-		(long)(tabb[i+10].val_b & tabMask ),
-		(long)(tabb[i+11].val_b & tabMask ), 
-		(long)(tabb[i+12].val_b & tabMask ),
-		(long)(tabb[i+13].val_b & tabMask ), 
-		(long)(tabb[i+14].val_b & tabMask ),
-		(long)(tabb[i+15].val_b & tabMask ) ); 
+	for (i = 0; i < blen; i += 16) {
+		fprintf(f,
+			"%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,"
+			"%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,\n",
+			(long)(tabb[i + 0].val_b & tabMask),
+			(long)(tabb[i + 1].val_b & tabMask),
+			(long)(tabb[i + 2].val_b & tabMask),
+			(long)(tabb[i + 3].val_b & tabMask),
+			(long)(tabb[i + 4].val_b & tabMask),
+			(long)(tabb[i + 5].val_b & tabMask),
+			(long)(tabb[i + 6].val_b & tabMask),
+			(long)(tabb[i + 7].val_b & tabMask),
+			(long)(tabb[i + 8].val_b & tabMask),
+			(long)(tabb[i + 9].val_b & tabMask),
+			(long)(tabb[i + 10].val_b & tabMask),
+			(long)(tabb[i + 11].val_b & tabMask),
+			(long)(tabb[i + 12].val_b & tabMask),
+			(long)(tabb[i + 13].val_b & tabMask),
+			(long)(tabb[i + 14].val_b & tabMask),
+			(long)(tabb[i + 15].val_b & tabMask));
 	}
 
-    fprintf( f, "};\n" );
+	fprintf(f, "};\n");
 
-    return;
-    }
+	return;
+}
 
 /*
 
@@ -1124,110 +1060,98 @@ hashform *form;            user directives
 
 */
 
-static int make_c(	const char *		cOutput,
-			const char *		cInclude,
-			const char *		procName,
-			const char *		indexName,
-			const unsigned char **	keyStrings,
-			key *			keys,
-			int			keyStringCount,
-			const bstuff *		tabb,
-			hstuff *		tabh,
-			int			hCount,
-			ub4			smax,
-			ub4			alen,
-			ub4			blen,
-			ub4 *			scramble,
-			const gencode *		final,
-			const hashform *	form )
+static int make_c(const char *cOutput, const char *cInclude,
+		  const char *procName, const char *indexName,
+		  const unsigned char **keyStrings, key *keys,
+		  int keyStringCount, const bstuff *tabb, hstuff *tabh,
+		  int hCount, ub4 smax, ub4 alen, ub4 blen, ub4 *scramble,
+		  const gencode *final, const hashform *form)
 {
-    ub4			i;
-    FILE *		f;
+	ub4 i;
+	FILE *f;
 
-			/*  1  */
-    int			valshift= UB4BITS- ilog2( alen );
-    unsigned int	bMask= blen- 1;
-    ub4			tabMask= 0;
+	/*  1  */
+	int valshift = UB4BITS - ilog2(alen);
+	unsigned int bMask = blen - 1;
+	ub4 tabMask = 0;
 
-    const char *	mapType= "syntax error";
+	const char *mapType = "syntax error";
 
-    /*  2  */
-    f= fopen( cOutput, "w" );
-    if  ( ! f )
-	{ SXDEB(cOutput,f); return -1;	}
-
-    fprintf( f, "#   include %s\n\n", "<appUtilConfig.h>" );
-    fprintf( f, "#   include %s\n\n", "<utilJenkinsHash.h>" );
-
-    if  ( cInclude )
-	{ fprintf( f, "#   include %s\n\n", cInclude );	}
-
-    fprintf( f, "#   define ub4 UtilUint32\n" );
-    fprintf( f, "#   define ub2 UtilUint16\n" );
-    fprintf( f, "#   define ub1 unsigned char\n" );
-
-    fprintf( f, "\n" );
-
-    fprintf( f, "#   define CHECKSTATE 8\n" );
-
-    fprintf( f, "\n" );
-
-    fprintf( f, "/* smax= %ld, blen= %ld */\n\n", (long)smax, (long)blen );
-
-    /*  3  */
-    if (blen >= USE_SCRAMBLE)
-    {
-	fprintf(f, "/* A way to make the 1-byte values in tab bigger */\n");
-
-	if  ( smax > UB2MAXVAL+1 )
-	    { writeScramble_4( f, scramble );	}
-	else{ writeScramble_2( f, scramble );	}
-
-	fprintf(f, "\n");
-    }
-
-    /*  4  */
-    if  ( blen > 0 )
-	{
-	const char * type= "ehh";
-
-	fprintf( f,
-	    "/* small adjustments to _a_ to make values distinct */\n" );
-
-	if  ( smax <= UB1MAXVAL+1 || blen >= USE_SCRAMBLE )
-	    {
-	    type= "ub1";
-	    tabMask= 0xff;
-	    }
-	else{
-	    type= "ub2";
-	    tabMask= 0xffff;
-	    }
-
-	if  ( blen < 16 )
-	    {
-	    fprintf( f, "static const %s tab[] = {\n", type );
-
-	    for ( i=0; i < blen; i++ )
-		{ fprintf(f, "%3d,", scramble[tabb[i].val_b] & tabMask ); }
-	    fprintf(f, "};\n");
-	    }
-	else if (blen <= 1024)
-	    {
-	    writeSTab_w16( f, type, tabb, blen, scramble, tabMask );
-	    }
-	else if (blen < USE_SCRAMBLE)
-	    {
-	    writeSTab_w8( f, type, tabb, blen, scramble, tabMask );
-	    }
-	else{
-	    writeTab_w16( f, type, tabb, blen, tabMask );
-	    }
-
-	fprintf(f, "\n");
+	/*  2  */
+	f = fopen(cOutput, "w");
+	if (!f) {
+		SXDEB(cOutput, f);
+		return -1;
 	}
 
-#   if 0
+	fprintf(f, "#   include %s\n\n", "<appUtilConfig.h>");
+	fprintf(f, "#   include %s\n\n", "<utilJenkinsHash.h>");
+
+	if (cInclude) {
+		fprintf(f, "#   include %s\n\n", cInclude);
+	}
+
+	fprintf(f, "#   define ub4 UtilUint32\n");
+	fprintf(f, "#   define ub2 UtilUint16\n");
+	fprintf(f, "#   define ub1 unsigned char\n");
+
+	fprintf(f, "\n");
+
+	fprintf(f, "#   define CHECKSTATE 8\n");
+
+	fprintf(f, "\n");
+
+	fprintf(f, "/* smax= %ld, blen= %ld */\n\n", (long)smax, (long)blen);
+
+	/*  3  */
+	if (blen >= USE_SCRAMBLE) {
+		fprintf(f,
+			"/* A way to make the 1-byte values in tab bigger */\n");
+
+		if (smax > UB2MAXVAL + 1) {
+			writeScramble_4(f, scramble);
+		} else {
+			writeScramble_2(f, scramble);
+		}
+
+		fprintf(f, "\n");
+	}
+
+	/*  4  */
+	if (blen > 0) {
+		const char *type = "ehh";
+
+		fprintf(f,
+			"/* small adjustments to _a_ to make values distinct */\n");
+
+		if (smax <= UB1MAXVAL + 1 || blen >= USE_SCRAMBLE) {
+			type = "ub1";
+			tabMask = 0xff;
+		} else {
+			type = "ub2";
+			tabMask = 0xffff;
+		}
+
+		if (blen < 16) {
+			fprintf(f, "static const %s tab[] = {\n", type);
+
+			for (i = 0; i < blen; i++) {
+				fprintf(f, "%3d,",
+					scramble[tabb[i].val_b] & tabMask);
+			}
+			fprintf(f, "};\n");
+		} else if (blen <= 1024) {
+			writeSTab_w16(f, type, tabb, blen, scramble, tabMask);
+		} else if (blen < USE_SCRAMBLE) {
+			writeSTab_w8(f, type, tabb, blen, scramble, tabMask);
+		} else {
+			writeTab_w16(f, type, tabb, blen, tabMask);
+		}
+
+		fprintf(f, "\n");
+	}
+
+#if 0
     {
     int k;
 
@@ -1305,102 +1229,98 @@ static int make_c(	const char *		cOutput,
     fprintf( f, "\n*/\n\n" );
 
     }
-#   endif
+#endif
 
-    if  ( hCount < 32768 )
-	{ mapType= "short";	}
-    else{ mapType= "int";	}
-
-    if  ( indexName )
-	{
-	fprintf(f, "/* map back array */\n\n");
-
-	fprintf( f, "static %s mapBack[]=\n", mapType );
-	fprintf( f, "    {\n" );
-
-	for ( i= 0; i < hCount; i++ )
-	    {
-	    if  ( tabh[i].key_h )
-		{
-		fprintf( f, "    %4ldL,\t/* %5d: \"%s\" */\n",
-				    tabh[i].key_h->i_k,
-				    i, keyStrings[tabh[i].key_h->i_k] );
-		}
-	    else{
-		fprintf( f, "    -1L,\n" );
-		}
-	    }
-
-	fprintf( f, "    };\n\n" );
+	if (hCount < 32768) {
+		mapType = "short";
+	} else {
+		mapType = "int";
 	}
 
-    fprintf(f, "/* The hash function */\n\n");
+	if (indexName) {
+		fprintf(f, "/* map back array */\n\n");
 
-    fprintf(f, "unsigned long %s(const unsigned char * key, int len )\n",
-								    procName );
-    fprintf(f, "{\n");
+		fprintf(f, "static %s mapBack[]=\n", mapType);
+		fprintf(f, "    {\n");
 
-    fprintf(f, "    const ub4 initlev= 0x%lx;\n",
-				    (unsigned long)final->genInitlev );
-    fprintf(f, "    ub4 rsl= 0;\n" );
-
-    if  ( final->genUseHash2 )
-	{
-	fprintf( f, "    unsigned long state[CHECKSTATE];\n" );
-	fprintf( f, "    ub4 i;\n" );
-	fprintf( f, "\n" );
-
-	fprintf( f, "    for (i=0; i<CHECKSTATE; ++i) state[i]=initlev;\n" );
-	fprintf( f, "\n" );
-
-	fprintf( f, "    utilJenkinsHash2(key, len, state);\n" );
-	fprintf( f, "\n" );
-
-	fprintf( f,
-	    "    rsl= ((state[0]&0x%x)^scramble[tab[state[1]&0x%x]]);\n",
-							    alen-1, blen-1);
-	}
-    else{
-	fprintf( f, "    ub4 val = utilJenkinsHash( key, len, initlev );\n" );
-
-	if  ( smax > 1 )
-	    {
-	    if  ( blen < USE_SCRAMBLE )
-		{
-		fprintf( f, "    rsl = ((val>>%d)^tab[val&0x%x]);\n",
-							  valshift, bMask );
+		for (i = 0; i < hCount; i++) {
+			if (tabh[i].key_h) {
+				fprintf(f, "    %4ldL,\t/* %5d: \"%s\" */\n",
+					tabh[i].key_h->i_k, i,
+					keyStrings[tabh[i].key_h->i_k]);
+			} else {
+				fprintf(f, "    -1L,\n");
+			}
 		}
-	    else{
-		fprintf( f, "    rsl = ((val>>%d)^scramble[tab[val&0x%x]]);\n",
-							  valshift, bMask );
-		}
-	    }
+
+		fprintf(f, "    };\n\n");
 	}
 
-    fprintf(f, "    return rsl;\n");
-    fprintf(f, "}\n\n");
+	fprintf(f, "/* The hash function */\n\n");
 
-    if  ( indexName )
-	{
-	fprintf( f, "int %s( const unsigned char * key, int len )\n",
-								indexName );
+	fprintf(f, "unsigned long %s(const unsigned char * key, int len )\n",
+		procName);
 	fprintf(f, "{\n");
-	fprintf(f, "    ub4 rsl= %s( key, len );\n", procName );
-	fprintf( f, "\n" );
 
-	fprintf( f, "    if  ( rsl >= sizeof(mapBack)/sizeof(%s) )\n", 
-								mapType );
-	fprintf( f, "\t{ return -1;	}\n" );
-	fprintf( f, "\n" );
+	fprintf(f, "    const ub4 initlev= 0x%lx;\n",
+		(unsigned long) final->genInitlev);
+	fprintf(f, "    ub4 rsl= 0;\n");
 
-	fprintf( f, "    return mapBack[rsl];\n" );
+	if (final->genUseHash2) {
+		fprintf(f, "    unsigned long state[CHECKSTATE];\n");
+		fprintf(f, "    ub4 i;\n");
+		fprintf(f, "\n");
 
-	fprintf(f, "}\n\n");
+		fprintf(f,
+			"    for (i=0; i<CHECKSTATE; ++i) state[i]=initlev;\n");
+		fprintf(f, "\n");
+
+		fprintf(f, "    utilJenkinsHash2(key, len, state);\n");
+		fprintf(f, "\n");
+
+		fprintf(f,
+			"    rsl= ((state[0]&0x%x)^scramble[tab[state[1]&0x%x]]);\n",
+			alen - 1, blen - 1);
+	} else {
+		fprintf(f,
+			"    ub4 val = utilJenkinsHash( key, len, initlev );\n");
+
+		if (smax > 1) {
+			if (blen < USE_SCRAMBLE) {
+				fprintf(f,
+					"    rsl = ((val>>%d)^tab[val&0x%x]);\n",
+					valshift, bMask);
+			} else {
+				fprintf(f,
+					"    rsl = ((val>>%d)^scramble[tab[val&0x%x]]);\n",
+					valshift, bMask);
+			}
+		}
 	}
 
-    fclose(f);
+	fprintf(f, "    return rsl;\n");
+	fprintf(f, "}\n\n");
 
-    return 0;
+	if (indexName) {
+		fprintf(f, "int %s( const unsigned char * key, int len )\n",
+			indexName);
+		fprintf(f, "{\n");
+		fprintf(f, "    ub4 rsl= %s( key, len );\n", procName);
+		fprintf(f, "\n");
+
+		fprintf(f, "    if  ( rsl >= sizeof(mapBack)/sizeof(%s) )\n",
+			mapType);
+		fprintf(f, "\t{ return -1;	}\n");
+		fprintf(f, "\n");
+
+		fprintf(f, "    return mapBack[rsl];\n");
+
+		fprintf(f, "}\n\n");
+	}
+
+	fclose(f);
+
+	return 0;
 }
 
 /*
@@ -1409,72 +1329,79 @@ External interface
 ------------------------------------------------------------------------------
 */
 
-int utilJenkinsPerfectHash(	const unsigned char **	keyStrings,
-				int			keyStringCount,
-				const char *		cOutput,
-				const char *		cInclude,
-				const char *		procName,
-				const char *		indexName )
-    {
-    int		rval= 0;
-    hashform	form;
+int utilJenkinsPerfectHash(const unsigned char **keyStrings, int keyStringCount,
+			   const char *cOutput, const char *cInclude,
+			   const char *procName, const char *indexName)
+{
+	int rval = 0;
+	hashform form;
 
-    key *	keys= (key *)0;
-    key *	mykey;
-    int		ki;
+	key *keys = (key *)0;
+	key *mykey;
+	int ki;
 
-    bstuff *	tabb= (bstuff *)0;
-    hstuff *	tabh= (hstuff *)0;
+	bstuff *tabb = (bstuff *)0;
+	hstuff *tabh = (hstuff *)0;
 
-    int		hCount;
+	int hCount;
 
-    ub4       smax;          /* scramble[] values in 0..smax-1, a power of 2 */
-    ub4       alen;                          /* a in 0..alen-1, a power of 2 */
-    ub4       blen;                          /* b in 0..blen-1, a power of 2 */
-    gencode   final;                                  /* code for final hash */
-    ub4       scramble[SCRAMBLE_LEN];         /* used in final hash function */
+	ub4 smax; /* scramble[] values in 0..smax-1, a power of 2 */
+	ub4 alen; /* a in 0..alen-1, a power of 2 */
+	ub4 blen; /* b in 0..blen-1, a power of 2 */
+	gencode final; /* code for final hash */
+	ub4 scramble[SCRAMBLE_LEN]; /* used in final hash function */
 
-    /* default behavior */
-    form.mode= NORMAL_HM;
-    form.hashtype= STRING_HT;
-    form.perfect= MINIMAL_HP;
-    form.speed= SLOW_HS;
+	/* default behavior */
+	form.mode = NORMAL_HM;
+	form.hashtype = STRING_HT;
+	form.perfect = MINIMAL_HP;
+	form.speed = SLOW_HS;
 
-    /* set up code for final hash */
-    final.genUseHash2= 0;
+	/* set up code for final hash */
+	final.genUseHash2 = 0;
 
-    keys= (key *)malloc( keyStringCount* sizeof( key ) );
-    if  ( ! keys )
-	{ LXDEB(keyStringCount,keys); rval= -1; goto ready; }
-
-    mykey= keys;
-    for ( ki= 0; ki < keyStringCount; mykey++, ki++ )
-	{
-	memset( mykey, 0, sizeof(key) );
-	mykey->name_k = keyStrings[ki];
-	mykey->len_k  = (ub4)(strlen((char *)mykey->name_k));
-	mykey->i_k  = (ub4)ki;
+	keys = (key *)malloc(keyStringCount * sizeof(key));
+	if (!keys) {
+		LXDEB(keyStringCount, keys);
+		rval = -1;
+		goto ready;
 	}
 
-    /* find the hash */
-    if  ( findhash(&tabb, &tabh, &hCount, &alen, &blen, &final, 
-		       scramble, &smax, keys, keyStringCount, &form ) < 0 )
-	{ LDEB(1); rval= -1; goto ready;	}
+	mykey = keys;
+	for (ki = 0; ki < keyStringCount; mykey++, ki++) {
+		memset(mykey, 0, sizeof(key));
+		mykey->name_k = keyStrings[ki];
+		mykey->len_k = (ub4)(strlen((char *)mykey->name_k));
+		mykey->i_k = (ub4)ki;
+	}
 
-    if  ( make_c( cOutput, cInclude, procName, indexName,
-			    keyStrings, keys, keyStringCount,
-			    tabb, tabh, hCount,
-			    smax, alen, blen, scramble, &final, &form ) )
-	{ SDEB(cOutput); rval= -1; goto ready;	}
+	/* find the hash */
+	if (findhash(&tabb, &tabh, &hCount, &alen, &blen, &final, scramble,
+		     &smax, keys, keyStringCount, &form) < 0) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	if (make_c(cOutput, cInclude, procName, indexName, keyStrings, keys,
+		   keyStringCount, tabb, tabh, hCount, smax, alen, blen,
+		   scramble, &final, &form)) {
+		SDEB(cOutput);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( keys )
-	{ free( keys );	}
-    if  ( tabb )
-	{ free( tabb );	}
-    if  ( tabh )
-	{ free( tabh );	}
+ready:
 
-    return rval;
-    }
+	if (keys) {
+		free(keys);
+	}
+	if (tabb) {
+		free(tabb);
+	}
+	if (tabh) {
+		free(tabh);
+	}
+
+	return rval;
+}

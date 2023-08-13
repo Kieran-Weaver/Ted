@@ -4,8 +4,8 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilMemoryBuffer.h"
-#   include	"sioGeneral.h"
+#include "utilMemoryBuffer.h"
+#include "sioGeneral.h"
 
 /************************************************************************/
 /*									*/
@@ -13,12 +13,12 @@
 /*									*/
 /************************************************************************/
 
-#   define	FDerrPERM		(-1)	/* -EPERM		*/
-#   define	FDerrNOENT		(-2)	/* -ENOENT		*/
-#   define	FDerrEXIST		(-17)	/* -EXIST		*/
-#   define	FDerrACCES		(-13)	/* -EACCES		*/
-#   define	FDerrISDIR		(-21)	/* -EISDIR		*/
-#   define	FDerrOTHER		(-9999)	/* Unclassified cause	*/
+#define FDerrPERM (-1) /* -EPERM		*/
+#define FDerrNOENT (-2) /* -ENOENT		*/
+#define FDerrEXIST (-17) /* -EXIST		*/
+#define FDerrACCES (-13) /* -EACCES		*/
+#define FDerrISDIR (-21) /* -EISDIR		*/
+#define FDerrOTHER (-9999) /* Unclassified cause	*/
 
 /************************************************************************/
 /*									*/
@@ -26,24 +26,15 @@
 /*									*/
 /************************************************************************/
 
-extern SimpleOutputStream * sioOutFdOpen( int		fd );
+extern SimpleOutputStream *sioOutFdOpen(int fd);
 
-extern SimpleInputStream * sioInFdOpen( int		fd );
+extern SimpleInputStream *sioInFdOpen(int fd);
 
-extern int sioFdOpenFile(		const MemoryBuffer *	filename,
-					int			read,
-					int			write,
-					int			append,
-					int			create,
-					int			exclusive );
+extern int sioFdOpenFile(const MemoryBuffer *filename, int read, int write,
+			 int append, int create, int exclusive);
 
-extern int sioFdCloseFile(		int			fd );
+extern int sioFdCloseFile(int fd);
 
-extern SimpleOutputStream * sioOutFdOpenAt(
-				    int				fd,
-				    long			offset );
+extern SimpleOutputStream *sioOutFdOpenAt(int fd, long offset);
 
-extern SimpleInputStream * sioInFdOpenAt(
-				    int				fd,
-				    long			offset );
-
+extern SimpleInputStream *sioInFdOpenAt(int fd, long offset);

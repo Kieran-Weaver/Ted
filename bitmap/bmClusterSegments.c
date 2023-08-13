@@ -4,9 +4,9 @@
 /*									*/
 /************************************************************************/
 
-# include <appDebugon.h>
+#include <appDebugon.h>
 
-# if 0
+#if 0
 
 ================================================================
 Find the line that minimises the sum of squared distances of the
@@ -123,4 +123,4 @@ Sum of the squared distances is: ...
     a= [ V_a- ( V_a_c* V_c )/V_c_c ]/ [ ( V_a_c^2 )/V_c_c- V_a_a ].
     c= [ V_c- ( V_a* V_a_c )/V_a_a ]/ [ ( V_a_c^2 )/V_a_a- V_c_c ].
 
-# endif
+#endif

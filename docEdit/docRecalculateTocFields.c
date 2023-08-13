@@ -4,14 +4,14 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docEditConfig.h"
+#include "docEditConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	<docBuf.h>
-#   include	"docTocBookmarks.h"
-#   include	"docRecalculateTocField.h"
-#   include	<docTreeType.h>
+#include <docBuf.h>
+#include "docTocBookmarks.h"
+#include "docRecalculateTocField.h"
+#include <docTreeType.h>
 
 /************************************************************************/
 /*									*/
@@ -23,33 +23,35 @@
 /*									*/
 /************************************************************************/
 
-int docRecalculateTocFields( RecalculateFields *		rf )
-    {
-    BufferDocument *	bdDoc= rf->rfDocument;
-    DocumentFieldList *	dfl= &(bdDoc->bdFieldList);
-    const int		fieldCount= dfl->dflPagedList.plItemCount;
-    int			fieldNr;
+int docRecalculateTocFields(RecalculateFields *rf)
+{
+	BufferDocument *bdDoc = rf->rfDocument;
+	DocumentFieldList *dfl = &(bdDoc->bdFieldList);
+	const int fieldCount = dfl->dflPagedList.plItemCount;
+	int fieldNr;
 
-    /*  2  */
-    docRemoveUnbalancedTocBookmarks( bdDoc );
+	/*  2  */
+	docRemoveUnbalancedTocBookmarks(bdDoc);
 
-    if  ( docSetTocBookmarks( bdDoc ) )
-	{ LDEB(1); return -1;	}
-
-    /*  3  */
-    for ( fieldNr= 0; fieldNr < fieldCount; fieldNr++ )
-	{
-	DocumentField *		df= docGetFieldByNumber( dfl, fieldNr );
-
-	if  ( ! df						||
-	      df->dfKind != DOCfkTOC				||
-	      df->dfSelectionScope.ssTreeType != DOCinBODY	)
-	    { continue;	}
-
-	if  ( docRecalculateOneTocField( bdDoc, df ) )
-	    { LDEB(fieldNr); return -1;	}
+	if (docSetTocBookmarks(bdDoc)) {
+		LDEB(1);
+		return -1;
 	}
 
-    return 0;
-    }
+	/*  3  */
+	for (fieldNr = 0; fieldNr < fieldCount; fieldNr++) {
+		DocumentField *df = docGetFieldByNumber(dfl, fieldNr);
 
+		if (!df || df->dfKind != DOCfkTOC ||
+		    df->dfSelectionScope.ssTreeType != DOCinBODY) {
+			continue;
+		}
+
+		if (docRecalculateOneTocField(bdDoc, df)) {
+			LDEB(fieldNr);
+			return -1;
+		}
+	}
+
+	return 0;
+}

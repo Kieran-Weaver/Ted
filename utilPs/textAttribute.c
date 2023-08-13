@@ -4,12 +4,12 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilPsConfig.h"
+#include "utilPsConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	<utilPropMask.h>
-#   include	"textAttribute.h"
+#include <utilPropMask.h>
+#include "textAttribute.h"
 
 /************************************************************************/
 /*									*/
@@ -17,23 +17,23 @@
 /*									*/
 /************************************************************************/
 
-void utilInitTextAttribute(	TextAttribute *	ta	)
-    {
-    ta->taFontNumber= -1;
-    ta->taFontSizeHalfPoints= 0;
-    ta->taTextColorNumber= 0;
-    ta->taBorderNumber= 0;
-    ta->taShadingNumber= 0;
-    ta->taTextStyleNumber= 0;
-    ta->taFontIsBold= 0;
-    ta->taFontIsSlanted= 0;
-    ta->taTextIsUnderlined= 0;
-    ta->taSuperSub= TEXTvaREGULAR;
-    ta->taSmallCaps= 0;
-    ta->taHasStrikethrough= 0;
-    ta->taCapitals= 0;
-    ta->taBaselineShiftHalfPoints= 0;
-    }
+void utilInitTextAttribute(TextAttribute *ta)
+{
+	ta->taFontNumber = -1;
+	ta->taFontSizeHalfPoints = 0;
+	ta->taTextColorNumber = 0;
+	ta->taBorderNumber = 0;
+	ta->taShadingNumber = 0;
+	ta->taTextStyleNumber = 0;
+	ta->taFontIsBold = 0;
+	ta->taFontIsSlanted = 0;
+	ta->taTextIsUnderlined = 0;
+	ta->taSuperSub = TEXTvaREGULAR;
+	ta->taSmallCaps = 0;
+	ta->taHasStrikethrough = 0;
+	ta->taCapitals = 0;
+	ta->taBaselineShiftHalfPoints = 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -41,78 +41,76 @@ void utilInitTextAttribute(	TextAttribute *	ta	)
 /*									*/
 /************************************************************************/
 
-int utilSetTextProperty(		TextAttribute *		ta,
-					int			prop,
-					int			arg )
-    {
-    switch( prop )
-	{
+int utilSetTextProperty(TextAttribute *ta, int prop, int arg)
+{
+	switch (prop) {
 	case TApropFONT_NUMBER:
-	    ta->taFontNumber= arg;
-	    break;
+		ta->taFontNumber = arg;
+		break;
 
 	case TApropFONTSIZE:
-	    ta->taFontSizeHalfPoints= arg;
-	    break;
+		ta->taFontSizeHalfPoints = arg;
+		break;
 
 	case TApropFONTBOLD:
-	    ta->taFontIsBold= arg != 0;
-	    break;
+		ta->taFontIsBold = arg != 0;
+		break;
 
 	case TApropFONTSLANTED:
-	    ta->taFontIsSlanted= arg != 0;
-	    break;
+		ta->taFontIsSlanted = arg != 0;
+		break;
 
 	case TApropTEXTUNDERLINED:
-	    ta->taTextIsUnderlined= arg != 0;
-	    break;
+		ta->taTextIsUnderlined = arg != 0;
+		break;
 
 	case TApropSUPERSUB:
-	    ta->taSuperSub= arg;
-	    break;
+		ta->taSuperSub = arg;
+		break;
 
 	case TApropSMALLCAPS:
-	    ta->taSmallCaps= arg != 0;
-	    break;
+		ta->taSmallCaps = arg != 0;
+		break;
 
 	case TApropCAPITALS:
-	    ta->taCapitals= arg != 0;
-	    break;
+		ta->taCapitals = arg != 0;
+		break;
 
 	case TApropSTRIKETHROUGH:
-	    ta->taHasStrikethrough= arg != 0;
-	    break;
+		ta->taHasStrikethrough = arg != 0;
+		break;
 
 	case TApropTEXT_COLOR:
-	    ta->taTextColorNumber= arg;
-	    break;
+		ta->taTextColorNumber = arg;
+		break;
 
 	case TApropTEXT_STYLE:
-	    ta->taTextStyleNumber= arg;
-	    break;
+		ta->taTextStyleNumber = arg;
+		break;
 
 	case TApropBORDER:
-	    ta->taBorderNumber= arg;
-	    break;
+		ta->taBorderNumber = arg;
+		break;
 
 	case TApropSHADING:
-	    ta->taShadingNumber= arg;
-	    break;
+		ta->taShadingNumber = arg;
+		break;
 
 	case TApropBASELINE_SHIFT:
-	    ta->taBaselineShiftHalfPoints= arg;
-	    break;
+		ta->taBaselineShiftHalfPoints = arg;
+		break;
 
 	case TAprop_BASELINE_SHIFT_DOWN:
-	    ta->taBaselineShiftHalfPoints= -arg;
-	    break;
+		ta->taBaselineShiftHalfPoints = -arg;
+		break;
 
 	default:
-	    LDEB(prop); return -1;
+		LDEB(prop);
+		return -1;
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -120,62 +118,61 @@ int utilSetTextProperty(		TextAttribute *		ta,
 /*									*/
 /************************************************************************/
 
-int utilGetTextProperty(		const TextAttribute *	ta,
-					int			prop )
-    {
-    switch( prop )
-	{
+int utilGetTextProperty(const TextAttribute *ta, int prop)
+{
+	switch (prop) {
 	case TApropFONT_NUMBER:
-	    return ta->taFontNumber;
+		return ta->taFontNumber;
 
 	case TApropFONTSIZE:
-	    return ta->taFontSizeHalfPoints;
+		return ta->taFontSizeHalfPoints;
 
 	case TApropFONTBOLD:
-	    return ta->taFontIsBold;
+		return ta->taFontIsBold;
 
 	case TApropFONTSLANTED:
-	    return ta->taFontIsSlanted;
+		return ta->taFontIsSlanted;
 
 	case TApropTEXTUNDERLINED:
-	    return ta->taTextIsUnderlined;
+		return ta->taTextIsUnderlined;
 
 	case TApropSUPERSUB:
-	    return ta->taSuperSub;
+		return ta->taSuperSub;
 
 	case TApropSMALLCAPS:
-	    return ta->taSmallCaps;
+		return ta->taSmallCaps;
 
 	case TApropCAPITALS:
-	    return ta->taCapitals;
+		return ta->taCapitals;
 
 	case TApropSTRIKETHROUGH:
-	    return ta->taHasStrikethrough;
+		return ta->taHasStrikethrough;
 
 	case TApropTEXT_COLOR:
-	    return ta->taTextColorNumber;
+		return ta->taTextColorNumber;
 
 	case TApropTEXT_STYLE:
-	    return ta->taTextStyleNumber;
+		return ta->taTextStyleNumber;
 
 	case TApropBORDER:
-	    return ta->taBorderNumber;
+		return ta->taBorderNumber;
 
 	case TApropSHADING:
-	    return ta->taShadingNumber;
+		return ta->taShadingNumber;
 
 	case TApropBASELINE_SHIFT:
-	    return ta->taBaselineShiftHalfPoints;
-	    break;
+		return ta->taBaselineShiftHalfPoints;
+		break;
 
 	case TAprop_BASELINE_SHIFT_DOWN:
-	    return -ta->taBaselineShiftHalfPoints;
-	    break;
+		return -ta->taBaselineShiftHalfPoints;
+		break;
 
 	default:
-	    LDEB(prop); return -1;
+		LDEB(prop);
+		return -1;
 	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -183,33 +180,32 @@ int utilGetTextProperty(		const TextAttribute *	ta,
 /*									*/
 /************************************************************************/
 
-void utilAttributeDifference(		PropertyMask *		pDifMask,
-					const TextAttribute *	ta1,
-					const PropertyMask *	cmpMask,
-					const TextAttribute *	ta2 )
-    {
-    PropertyMask	difMask;
-    int			prop;
+void utilAttributeDifference(PropertyMask *pDifMask, const TextAttribute *ta1,
+			     const PropertyMask *cmpMask,
+			     const TextAttribute *ta2)
+{
+	PropertyMask difMask;
+	int prop;
 
-    utilPropMaskClear( &difMask );
+	utilPropMaskClear(&difMask);
 
-    for ( prop= 0; prop < TAprop_COUNT; prop++ )
-	{
-	if  ( ! cmpMask || PROPmaskISSET( cmpMask, prop ) )
-	    {
-	    int	val1= utilGetTextProperty( ta1, prop );
-	    int	val2= utilGetTextProperty( ta2, prop );
+	for (prop = 0; prop < TAprop_COUNT; prop++) {
+		if (!cmpMask || PROPmaskISSET(cmpMask, prop)) {
+			int val1 = utilGetTextProperty(ta1, prop);
+			int val2 = utilGetTextProperty(ta2, prop);
 
-	    if  ( val1 != val2 )
-		{ PROPmaskADD( &difMask, prop ); }
-	    }
+			if (val1 != val2) {
+				PROPmaskADD(&difMask, prop);
+			}
+		}
 	}
 
-    if  ( pDifMask )
-	{ *pDifMask= difMask;	}
+	if (pDifMask) {
+		*pDifMask = difMask;
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -217,33 +213,30 @@ void utilAttributeDifference(		PropertyMask *		pDifMask,
 /*									*/
 /************************************************************************/
 
-void utilUpdateTextAttribute(		PropertyMask *		pDoneMask,
-					TextAttribute *		ta,
-					const PropertyMask *	taSetMask,
-					const TextAttribute *	taSet )
-    {
-    PropertyMask	doneMask;
-    int			prop;
+void utilUpdateTextAttribute(PropertyMask *pDoneMask, TextAttribute *ta,
+			     const PropertyMask *taSetMask,
+			     const TextAttribute *taSet)
+{
+	PropertyMask doneMask;
+	int prop;
 
-    utilPropMaskClear( &doneMask );
+	utilPropMaskClear(&doneMask);
 
-    for ( prop= 0; prop < TAprop_COUNT; prop++ )
-	{
-	if  ( ! taSetMask || PROPmaskISSET( taSetMask, prop ) )
-	    {
-	    int	to= utilGetTextProperty( ta, prop );
-	    int	from= utilGetTextProperty( taSet, prop );
+	for (prop = 0; prop < TAprop_COUNT; prop++) {
+		if (!taSetMask || PROPmaskISSET(taSetMask, prop)) {
+			int to = utilGetTextProperty(ta, prop);
+			int from = utilGetTextProperty(taSet, prop);
 
-	    if  ( to != from )
-		{
-		utilSetTextProperty( ta, prop, from );
-		PROPmaskADD( &doneMask, prop );
+			if (to != from) {
+				utilSetTextProperty(ta, prop, from);
+				PROPmaskADD(&doneMask, prop);
+			}
 		}
-	    }
 	}
 
-    if  ( pDoneMask )
-	{ utilPropMaskOr( pDoneMask, pDoneMask, &doneMask );	}
+	if (pDoneMask) {
+		utilPropMaskOr(pDoneMask, pDoneMask, &doneMask);
+	}
 
-    return;
-    }
+	return;
+}

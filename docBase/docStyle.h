@@ -4,16 +4,16 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_STYLE_H
-#   define	DOC_STYLE_H
+#ifndef DOC_STYLE_H
+#define DOC_STYLE_H
 
-#   include	<utilPropMask.h>
+#include <utilPropMask.h>
 
-#   include	"docSectProperties.h"
-#   include	"docRowProperties.h"
-#   include	"docParaProperties.h"
-#   include	"docParaNumber.h"
-#   include	"docDocumentAttributeMap.h"
+#include "docSectProperties.h"
+#include "docRowProperties.h"
+#include "docParaProperties.h"
+#include "docParaNumber.h"
+#include "docDocumentAttributeMap.h"
 
 /************************************************************************/
 /*									*/
@@ -23,64 +23,62 @@
 /*									*/
 /************************************************************************/
 
-typedef struct DocumentStyle
-    {
-    int			dsStyleNumber;
+typedef struct DocumentStyle {
+	int dsStyleNumber;
 
-    int			dsBasedOn;
+	int dsBasedOn;
 
-    int			dsNext;
-    int			dsLink;
-    int			dsLevel;
+	int dsNext;
+	int dsLink;
+	int dsLevel;
 
-    unsigned char	dsAdditive;
-    unsigned char	dsAutoupd;
-    unsigned char	dsHidden;
-    unsigned char	dsLocked;
-    unsigned char	dsSemiHidden;
-    unsigned char	dsPersonal;
-    unsigned char	dsBusy;
+	unsigned char dsAdditive;
+	unsigned char dsAutoupd;
+	unsigned char dsHidden;
+	unsigned char dsLocked;
+	unsigned char dsSemiHidden;
+	unsigned char dsPersonal;
+	unsigned char dsBusy;
 
-			    /**
+	/**
 			     *  The outline level corresponding to this 
 			     *  style. Used in TOC calculations and only 
 			     *  set for styles in the stylesheet.
 			     */
-    unsigned char	dsOutlineLevel;
+	unsigned char dsOutlineLevel;
 
-    SectionProperties	dsSectProps;
-    RowProperties	dsRowProps;
-    CellProperties	dsCellProps;
-    ParagraphProperties	dsParaProps;
-    TextAttribute	dsTextAttribute;
+	SectionProperties dsSectProps;
+	RowProperties dsRowProps;
+	CellProperties dsCellProps;
+	ParagraphProperties dsParaProps;
+	TextAttribute dsTextAttribute;
 
-    char *		dsName;
-    PropertyMask	dsSectMask;
-    PropertyMask	dsRowMask;
-    PropertyMask	dsCellMask;
-    PropertyMask	dsParaMask;
-    PropertyMask	dsTextMask;
-    } DocumentStyle;
+	char *dsName;
+	PropertyMask dsSectMask;
+	PropertyMask dsRowMask;
+	PropertyMask dsCellMask;
+	PropertyMask dsParaMask;
+	PropertyMask dsTextMask;
+} DocumentStyle;
 
-typedef enum DocumentStyleProperty
-    {
-    DSpropSTYLE_NUMBER= 0,
-    DSpropBASED_ON,
-    DSpropADDITIVE,
-    DSpropNEXT,
-    DSpropLINK,
-    DSpropLEVEL,
-    DSpropAUTO_UPD,
-    DSpropHIDDEN,
-    DSpropLOCKED,
-    DSpropSEMI_HIDDEN,
-    DSpropPERSONAL,
-    DSpropNAME,
+typedef enum DocumentStyleProperty {
+	DSpropSTYLE_NUMBER = 0,
+	DSpropBASED_ON,
+	DSpropADDITIVE,
+	DSpropNEXT,
+	DSpropLINK,
+	DSpropLEVEL,
+	DSpropAUTO_UPD,
+	DSpropHIDDEN,
+	DSpropLOCKED,
+	DSpropSEMI_HIDDEN,
+	DSpropPERSONAL,
+	DSpropNAME,
 
-    DSpropIGNORED,
+	DSpropIGNORED,
 
-    DSprop_COUNT
-    } DocumentStyleProperty;
+	DSprop_COUNT
+} DocumentStyleProperty;
 
 /************************************************************************/
 /*									*/
@@ -88,15 +86,12 @@ typedef enum DocumentStyleProperty
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentStyle(	DocumentStyle *	ds );
-extern void docCleanDocumentStyle(	DocumentStyle *	ds );
+extern void docInitDocumentStyle(DocumentStyle *ds);
+extern void docCleanDocumentStyle(DocumentStyle *ds);
 
-extern int docCopyStyle(	DocumentStyle *			to,
-				const DocumentStyle *		from,
-				const DocumentAttributeMap *	dam );
+extern int docCopyStyle(DocumentStyle *to, const DocumentStyle *from,
+			const DocumentAttributeMap *dam);
 
-extern int docSetStyleProperty(		DocumentStyle *		ds,
-					int			prop,
-					int			arg );
+extern int docSetStyleProperty(DocumentStyle *ds, int prop, int arg);
 
-#   endif	/*  DOC_STYLE_H  */
+#endif /*  DOC_STYLE_H  */

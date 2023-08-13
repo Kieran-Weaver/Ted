@@ -4,22 +4,22 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
+#include <stddef.h>
+#include <stdio.h>
 
-#   include	"tedApp.h"
-#   include	"tedSelect.h"
-#   include	<docScreenLayout.h>
-#   include	"tedDraw.h"
-#   include	"tedLayout.h"
-#   include	"tedDocument.h"
-#   include	<docTreeType.h>
-#   include	<docParaParticules.h>
-#   include	<docDebug.h>
+#include "tedApp.h"
+#include "tedSelect.h"
+#include <docScreenLayout.h>
+#include "tedDraw.h"
+#include "tedLayout.h"
+#include "tedDocument.h"
+#include <docTreeType.h>
+#include <docParaParticules.h>
+#include <docDebug.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -28,25 +28,23 @@
 /*									*/
 /************************************************************************/
 
-void tedExposeSelection(	EditDocument *			ed,
-				const DocumentSelection *	ds,
-				const BufferItem *		bodySectNode,
-				int				scrolledX,
-				int				scrolledY )
-    {
-    const int			lastLine= 0;
-    SelectionGeometry		sg;
-    LayoutContext		lc;
+void tedExposeSelection(EditDocument *ed, const DocumentSelection *ds,
+			const BufferItem *bodySectNode, int scrolledX,
+			int scrolledY)
+{
+	const int lastLine = 0;
+	SelectionGeometry sg;
+	LayoutContext lc;
 
-    layoutInitContext( &lc );
-    tedSetScreenLayoutContext( &lc, ed );
+	layoutInitContext(&lc);
+	tedSetScreenLayoutContext(&lc, ed);
 
-    tedSelectionGeometry( &sg, ds, bodySectNode, lastLine, &lc );
+	tedSelectionGeometry(&sg, ds, bodySectNode, lastLine, &lc);
 
-    appDocExposeRectangle( ed, &(sg.sgRectangle), scrolledX, scrolledY );
+	appDocExposeRectangle(ed, &(sg.sgRectangle), scrolledX, scrolledY);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -56,32 +54,33 @@ void tedExposeSelection(	EditDocument *			ed,
 /*									*/
 /************************************************************************/
 
-void tedUndrawIBar(	const EditDocument *	ed )
-    {
-#   if BLINK_IBAR
+void tedUndrawIBar(const EditDocument *ed)
+{
+#if BLINK_IBAR
 
-    DocumentSelection		ds;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	DocumentSelection ds;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    const int			scrolledX= 0;
-    const int			scrolledY= 0;
+	const int scrolledX = 0;
+	const int scrolledY = 0;
 
+	if (tedGetSelection(&ds, &sg, &sd, (DocumentTree **)0, (BufferItem **)0,
+			    ed)) {
+		LDEB(1);
+		return;
+	}
 
-    if  ( tedGetSelection( &ds, &sg, &sd,
-			    (DocumentTree **)0, (BufferItem **)0, ed ) )
-	{ LDEB(1); return;	}
+#if LOG_REDRAWS
+	docLogRectangle("BLINK*", &(sg.sgRectangle));
+#endif
 
-#   if LOG_REDRAWS
-    docLogRectangle( "BLINK*", &(sg.sgRectangle) );
-#   endif
+	appDocExposeRectangle(ed, &(sg.sgRectangle), scrolledX, scrolledY);
 
-    appDocExposeRectangle( ed, &(sg.sgRectangle), scrolledX, scrolledY );
+#endif
 
-#   endif
-
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -92,31 +91,29 @@ void tedUndrawIBar(	const EditDocument *	ed )
 /*									*/
 /************************************************************************/
 
-int tedDrawSetColorRgb(		DrawingContext *	dc,
-				void *			vsdd,
-				const RGB8Color *	rgb8 )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
+int tedDrawSetColorRgb(DrawingContext *dc, void *vsdd, const RGB8Color *rgb8)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-    drawSetForegroundColor( lc->lcDrawingSurface, rgb8 );
+	drawSetForegroundColor(lc->lcDrawingSurface, rgb8);
 
-    return 0;
-    }
+	return 0;
+}
 
-static int tedDrawSetFont(	DrawingContext *	dc,
-				void *			vsdd,
-				int			textAttr,
-				const TextAttribute *	ta )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    int				screenFont;
+static int tedDrawSetFont(DrawingContext *dc, void *vsdd, int textAttr,
+			  const TextAttribute *ta)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
+	int screenFont;
 
-    screenFont= utilIndexMappingGet( lc->lcAttributeToScreenFont, textAttr );
-    if  ( screenFont < 0 )
-	{ LLDEB(textAttr,screenFont); return -1;	}
+	screenFont = utilIndexMappingGet(lc->lcAttributeToScreenFont, textAttr);
+	if (screenFont < 0) {
+		LLDEB(textAttr, screenFont);
+		return -1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -124,25 +121,25 @@ static int tedDrawSetFont(	DrawingContext *	dc,
 /*									*/
 /************************************************************************/
 
-static void tedDrawPageRect(	ScreenDrawingData *		sdd,
-				DrawingContext *		dc,
-				int				page )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
+static void tedDrawPageRect(ScreenDrawingData *sdd, DrawingContext *dc,
+			    int page)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-    DocumentRectangle		drPage;
+	DocumentRectangle drPage;
 
-    docGetPageRectPixels( &drPage, lc, page );
+	docGetPageRectPixels(&drPage, lc, page);
 
-    if  ( dc->dcClipRect						&&
-	  ! geoIntersectRectangle( &drPage, &drPage, dc->dcClipRect )	)
-	{ return;	}
+	if (dc->dcClipRect &&
+	    !geoIntersectRectangle(&drPage, &drPage, dc->dcClipRect)) {
+		return;
+	}
 
-    geoShiftRectangle( &drPage, -lc->lcOx, -lc->lcOy );
-    drawFillRectangle( lc->lcDrawingSurface, &drPage );
+	geoShiftRectangle(&drPage, -lc->lcOx, -lc->lcOy);
+	drawFillRectangle(lc->lcDrawingSurface, &drPage);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -150,24 +147,21 @@ static void tedDrawPageRect(	ScreenDrawingData *		sdd,
 /*									*/
 /************************************************************************/
 
-void tedOriginalClipping(	DrawingContext *		dc,
-				ScreenDrawingData *		sdd )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
+void tedOriginalClipping(DrawingContext *dc, ScreenDrawingData *sdd)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-    if  ( dc->dcClipRect )
-	{
-	DocumentRectangle	drRestore;
+	if (dc->dcClipRect) {
+		DocumentRectangle drRestore;
 
-	drRestore= *(dc->dcClipRect);
-	geoShiftRectangle( &drRestore, -lc->lcOx, -lc->lcOy );
+		drRestore = *(dc->dcClipRect);
+		geoShiftRectangle(&drRestore, -lc->lcOx, -lc->lcOy);
 
-	drawSetClipRect( lc->lcDrawingSurface, &drRestore );
+		drawSetClipRect(lc->lcDrawingSurface, &drRestore);
+	} else {
+		drawNoClipping(lc->lcDrawingSurface);
 	}
-    else{
-	drawNoClipping( lc->lcDrawingSurface );
-	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -175,30 +169,28 @@ void tedOriginalClipping(	DrawingContext *		dc,
 /*									*/
 /************************************************************************/
 
-void tedGetIBarRect(	DocumentRectangle *		drPixels,
-			const PositionGeometry *	pg,
-			const LayoutContext *		lc )
-    {
-    docGetPixelRectForPos( drPixels, lc,
-			    pg->pgXTwips, pg->pgXTwips,
-			    &(pg->pgTopPosition), &(pg->pgBottomPosition) );
+void tedGetIBarRect(DocumentRectangle *drPixels, const PositionGeometry *pg,
+		    const LayoutContext *lc)
+{
+	docGetPixelRectForPos(drPixels, lc, pg->pgXTwips, pg->pgXTwips,
+			      &(pg->pgTopPosition), &(pg->pgBottomPosition));
 
-    drPixels->drX0= drPixels->drX1= pg->pgXPixels; /* Do not trust XTwips yet */
+	drPixels->drX0 = drPixels->drX1 =
+		pg->pgXPixels; /* Do not trust XTwips yet */
 
-    return;
-    }
+	return;
+}
 
-int tedDrawIBar(	const DocumentRectangle *	drPixels,
-			const LayoutContext *		lc )
-    {
-    DocumentRectangle	drShifted= *drPixels;
+int tedDrawIBar(const DocumentRectangle *drPixels, const LayoutContext *lc)
+{
+	DocumentRectangle drShifted = *drPixels;
 
-    geoShiftRectangle( &drShifted, -lc->lcOx, -lc->lcOy );
+	geoShiftRectangle(&drShifted, -lc->lcOx, -lc->lcOy);
 
-    drawFillRectangle( lc->lcDrawingSurface, &drShifted );
+	drawFillRectangle(lc->lcDrawingSurface, &drShifted);
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -206,50 +198,47 @@ int tedDrawIBar(	const DocumentRectangle *	drPixels,
 /*									*/
 /************************************************************************/
 
-static void tedDrawObjectBlocks(	const DocumentRectangle *	drObj,
-					const Point2DI *		xp,
-					DrawingContext *		dc,
-					ScreenDrawingData *		sdd )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
+static void tedDrawObjectBlocks(const DocumentRectangle *drObj,
+				const Point2DI *xp, DrawingContext *dc,
+				ScreenDrawingData *sdd)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-    int				i;
+	int i;
 
-    DocumentRectangle		drBox;
+	DocumentRectangle drBox;
 
-    docDrawSetColorRgb( dc, (void *)sdd, &(sdd->sddBehindColor) );
+	docDrawSetColorRgb(dc, (void *)sdd, &(sdd->sddBehindColor));
 
-    for ( i= 0; i < RESIZE_COUNT; i++ )
-	{
-	drBox.drX0= xp[i].x+ 1;
-	drBox.drY0= xp[i].y+ 1;
-	drBox.drX1= drBox.drX0+ RESIZE_BLOCK- 1;
-	drBox.drY1= drBox.drY0+ RESIZE_BLOCK- 1;
+	for (i = 0; i < RESIZE_COUNT; i++) {
+		drBox.drX0 = xp[i].x + 1;
+		drBox.drY0 = xp[i].y + 1;
+		drBox.drX1 = drBox.drX0 + RESIZE_BLOCK - 1;
+		drBox.drY1 = drBox.drY0 + RESIZE_BLOCK - 1;
 
-	geoShiftRectangle( &drBox, -lc->lcOx, -lc->lcOy );
-	drawFillRectangle( lc->lcDrawingSurface, &drBox );
+		geoShiftRectangle(&drBox, -lc->lcOx, -lc->lcOy);
+		drawFillRectangle(lc->lcDrawingSurface, &drBox);
 	}
 
-    docDrawSetColorRgb( dc, (void *)sdd, &(sdd->sddForeColor) );
+	docDrawSetColorRgb(dc, (void *)sdd, &(sdd->sddForeColor));
 
-    for ( i= 0; i < RESIZE_COUNT; i++ )
-	{
-	drBox.drX0= xp[i].x+ 1;
-	drBox.drY0= xp[i].y+ 1;
-	drBox.drX1= drBox.drX0+ RESIZE_BLOCK- 2;
-	drBox.drY1= drBox.drY0+ RESIZE_BLOCK- 2;
+	for (i = 0; i < RESIZE_COUNT; i++) {
+		drBox.drX0 = xp[i].x + 1;
+		drBox.drY0 = xp[i].y + 1;
+		drBox.drX1 = drBox.drX0 + RESIZE_BLOCK - 2;
+		drBox.drY1 = drBox.drY0 + RESIZE_BLOCK - 2;
 
-	geoShiftRectangle( &drBox, -lc->lcOx, -lc->lcOy );
-	drawRectangle( lc->lcDrawingSurface, &drBox );
+		geoShiftRectangle(&drBox, -lc->lcOx, -lc->lcOy);
+		drawRectangle(lc->lcDrawingSurface, &drBox);
 	}
 
-    drBox= *drObj;
+	drBox = *drObj;
 
-    geoShiftRectangle( &drBox, -lc->lcOx, -lc->lcOy );
-    drawRectangle( lc->lcDrawingSurface, &drBox );
+	geoShiftRectangle(&drBox, -lc->lcOx, -lc->lcOy);
+	drawRectangle(lc->lcDrawingSurface, &drBox);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -257,147 +246,143 @@ static void tedDrawObjectBlocks(	const DocumentRectangle *	drObj,
 /*									*/
 /************************************************************************/
 
-static void tedDrawTreeBox(	ScreenDrawingData *		sdd,
-				DrawingContext *		dc,
-				const DocumentRectangle *	drBox )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    static unsigned char	dot[]= { 1, 2 };
-    RGB8Color			rgb8;
+static void tedDrawTreeBox(ScreenDrawingData *sdd, DrawingContext *dc,
+			   const DocumentRectangle *drBox)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
+	static unsigned char dot[] = { 1, 2 };
+	RGB8Color rgb8;
 
-    utilRGB8SolidBlack( &rgb8 );
+	utilRGB8SolidBlack(&rgb8);
 
-    drawSetLineAttributes( lc->lcDrawingSurface,
-		    1, LineStyleSingleDash, LineCapButt, LineJoinMiter,
-		    dot, sizeof( dot ) );
+	drawSetLineAttributes(lc->lcDrawingSurface, 1, LineStyleSingleDash,
+			      LineCapButt, LineJoinMiter, dot, sizeof(dot));
 
-    docDrawSetColorRgb( dc, (void *)sdd, &rgb8 );
+	docDrawSetColorRgb(dc, (void *)sdd, &rgb8);
 
-    drawLine( lc->lcDrawingSurface,
-			    drBox->drX0- lc->lcOx, drBox->drY0- lc->lcOy,
-			    drBox->drX1- lc->lcOx, drBox->drY0- lc->lcOy );
-    drawLine( lc->lcDrawingSurface,
-			    drBox->drX0- lc->lcOx, drBox->drY1- lc->lcOy,
-			    drBox->drX1- lc->lcOx, drBox->drY1- lc->lcOy );
-    drawLine( lc->lcDrawingSurface,
-			    drBox->drX0- lc->lcOx, drBox->drY0- lc->lcOy,
-			    drBox->drX0- lc->lcOx, drBox->drY1- lc->lcOy );
-    drawLine( lc->lcDrawingSurface,
-			    drBox->drX1- lc->lcOx, drBox->drY0- lc->lcOy,
-			    drBox->drX1- lc->lcOx, drBox->drY1- lc->lcOy );
+	drawLine(lc->lcDrawingSurface, drBox->drX0 - lc->lcOx,
+		 drBox->drY0 - lc->lcOy, drBox->drX1 - lc->lcOx,
+		 drBox->drY0 - lc->lcOy);
+	drawLine(lc->lcDrawingSurface, drBox->drX0 - lc->lcOx,
+		 drBox->drY1 - lc->lcOy, drBox->drX1 - lc->lcOx,
+		 drBox->drY1 - lc->lcOy);
+	drawLine(lc->lcDrawingSurface, drBox->drX0 - lc->lcOx,
+		 drBox->drY0 - lc->lcOy, drBox->drX0 - lc->lcOx,
+		 drBox->drY1 - lc->lcOy);
+	drawLine(lc->lcDrawingSurface, drBox->drX1 - lc->lcOx,
+		 drBox->drY0 - lc->lcOy, drBox->drX1 - lc->lcOx,
+		 drBox->drY1 - lc->lcOy);
+}
 
-    }
+static int tedDrawBoxAroundTree(const BufferItem *bodySectNode,
+				const DocumentTree *tree,
+				ScreenDrawingData *sdd, DrawingContext *dc,
+				const DocumentRectangle *drClip)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-static int tedDrawBoxAroundTree(
-			    const BufferItem *		bodySectNode,
-			    const DocumentTree *	tree,
-			    ScreenDrawingData *		sdd,
-			    DrawingContext *		dc,
-			    const DocumentRectangle *	drClip )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    
-    DocumentRectangle		drIntersect;
-    DocumentRectangle		drBox;
+	DocumentRectangle drIntersect;
+	DocumentRectangle drBox;
 
-    const int			justUsed= 0;
+	const int justUsed = 0;
 
-    if  ( tree->dtPageSelectedUpon < 0 || tree->dtColumnSelectedIn < 0 )
-	{
-	LLDEB(tree->dtPageSelectedUpon,tree->dtColumnSelectedIn);
-	SDEB(docTreeTypeStr(tree->dtRoot->biTreeType));
-	return -1;
+	if (tree->dtPageSelectedUpon < 0 || tree->dtColumnSelectedIn < 0) {
+		LLDEB(tree->dtPageSelectedUpon, tree->dtColumnSelectedIn);
+		SDEB(docTreeTypeStr(tree->dtRoot->biTreeType));
+		return -1;
 	}
 
-    if  ( docGetBoxAroundTree( &drBox, bodySectNode, tree, justUsed,
-		    tree->dtPageSelectedUpon, tree->dtColumnSelectedIn, lc ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( ! geoIntersectRectangle( &drIntersect, &drBox, drClip ) )
-	{ return 0;	}
-
-    tedDrawTreeBox( sdd, dc, &drBox );
-
-    return 0;
-    }
-
-static int tedDrawCheckPageOfSelectedTree(
-				    SelectionGeometry *		sg,
-				    const DocumentSelection *	ds,
-				    DocumentTree *		selRootTree,
-				    const LayoutContext *	lc )
-    {
-    int			changed= 0;
-    DocumentRectangle	drChanged;
-
-    BufferItem *	bodySectNode;
-
-    geoInitRectangle( &drChanged );
-
-    if  ( docCheckPageOfSelectedTree( &changed, &bodySectNode, &drChanged,
-			selRootTree, lc, docStartScreenLayoutForTree ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( changed )
-	{
-	const int		lastLine= 1;
-
-	tedSelectionGeometry( sg, ds, bodySectNode, lastLine, lc );
+	if (docGetBoxAroundTree(&drBox, bodySectNode, tree, justUsed,
+				tree->dtPageSelectedUpon,
+				tree->dtColumnSelectedIn, lc)) {
+		LDEB(1);
+		return -1;
 	}
 
-    return 0;
-    }
+	if (!geoIntersectRectangle(&drIntersect, &drBox, drClip)) {
+		return 0;
+	}
+
+	tedDrawTreeBox(sdd, dc, &drBox);
+
+	return 0;
+}
+
+static int tedDrawCheckPageOfSelectedTree(SelectionGeometry *sg,
+					  const DocumentSelection *ds,
+					  DocumentTree *selRootTree,
+					  const LayoutContext *lc)
+{
+	int changed = 0;
+	DocumentRectangle drChanged;
+
+	BufferItem *bodySectNode;
+
+	geoInitRectangle(&drChanged);
+
+	if (docCheckPageOfSelectedTree(&changed, &bodySectNode, &drChanged,
+				       selRootTree, lc,
+				       docStartScreenLayoutForTree)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (changed) {
+		const int lastLine = 1;
+
+		tedSelectionGeometry(sg, ds, bodySectNode, lastLine, lc);
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 
-static int tedDrawSelectionBackground(
-				TedDocument *			td,
-				BufferItem *			selRootNode,
-				DocumentTree *			selRootTree,
-				ScreenDrawingData *		sdd,
-				DrawingContext *		dc,
-				const DocumentSelection *	ds,
-				SelectionGeometry *		sg,
-				const RGB8Color *		selColor)
-    {
-    LayoutPosition		lpBelow;
+static int
+tedDrawSelectionBackground(TedDocument *td, BufferItem *selRootNode,
+			   DocumentTree *selRootTree, ScreenDrawingData *sdd,
+			   DrawingContext *dc, const DocumentSelection *ds,
+			   SelectionGeometry *sg, const RGB8Color *selColor)
+{
+	LayoutPosition lpBelow;
 
-    if  ( td->tdDrawMonochrome )
-	{
-	utilRGB8SolidWhite( &(sdd->sddForeColor) );
-	dc->dcDrawTextLine= tedDrawTextReverse;
-	}
-    else{
-	sdd->sddBehindColor= *selColor;
-	dc->dcDrawTextLine= tedDrawTextSelected;
+	if (td->tdDrawMonochrome) {
+		utilRGB8SolidWhite(&(sdd->sddForeColor));
+		dc->dcDrawTextLine = tedDrawTextReverse;
+	} else {
+		sdd->sddBehindColor = *selColor;
+		dc->dcDrawTextLine = tedDrawTextSelected;
 	}
 
-    docDrawSetColorRgb( dc, (void *)sdd, &(sdd->sddForeColor) );
+	docDrawSetColorRgb(dc, (void *)sdd, &(sdd->sddForeColor));
 
-    dc->dcDrawOrnaments= (DRAW_ORNAMENTS)0;
-    dc->dcFinishPage= (FINISH_PAGE)0;
-    dc->dcStartPage= (START_PAGE)0;
+	dc->dcDrawOrnaments = (DRAW_ORNAMENTS)0;
+	dc->dcFinishPage = (FINISH_PAGE)0;
+	dc->dcStartPage = (START_PAGE)0;
 
-    dc->dcInitLayoutExternal= (INIT_LAYOUT_EXTERNAL)0;
-    dc->dcDrawExternalItems= 0;
-    dc->dcPostponeHeadersFooters= 0;
+	dc->dcInitLayoutExternal = (INIT_LAYOUT_EXTERNAL)0;
+	dc->dcDrawExternalItems = 0;
+	dc->dcPostponeHeadersFooters = 0;
 
-    dc->dcSelection= ds;
-    dc->dcSelectionGeometry= sg;
+	dc->dcSelection = ds;
+	dc->dcSelectionGeometry = sg;
 
-    if  ( selRootNode->biTreeType != DOCinBODY				&&
-	  selRootNode->biTreeType != DOCinSHPTXT			&&
-	  tedDrawCheckPageOfSelectedTree( sg, ds,
-				selRootTree, &(dc->dcLayoutContext) )	)
-	{ LDEB(1); return -1; }
+	if (selRootNode->biTreeType != DOCinBODY &&
+	    selRootNode->biTreeType != DOCinSHPTXT &&
+	    tedDrawCheckPageOfSelectedTree(sg, ds, selRootTree,
+					   &(dc->dcLayoutContext))) {
+		LDEB(1);
+		return -1;
+	}
 
-    docInitLayoutPosition( &lpBelow );
+	docInitLayoutPosition(&lpBelow);
 
-    if  ( docDrawNode( &lpBelow, selRootNode, (void *)sdd, dc ) )
-	{ LDEB(1);	}
+	if (docDrawNode(&lpBelow, selRootNode, (void *)sdd, dc)) {
+		LDEB(1);
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -412,49 +397,49 @@ static int tedDrawSelectionBackground(
 /*									*/
 /************************************************************************/
 
-static int tedDrawStartPage(	void *				vsdd,
-				const DocumentGeometry *	dgPage,
-				DrawingContext *		dc,
-				int				page )
-    {
-    ScreenDrawingData *		sdd= (ScreenDrawingData *)vsdd;
-    DocumentTree *		selRootTree= sdd->sddSelRootTree;
-    BufferItem *		selRootNode= sdd->sddSelRootNode;
-    BufferItem *		selRootBodySectNode= sdd->sddSelRootBodySectNode;
+static int tedDrawStartPage(void *vsdd, const DocumentGeometry *dgPage,
+			    DrawingContext *dc, int page)
+{
+	ScreenDrawingData *sdd = (ScreenDrawingData *)vsdd;
+	DocumentTree *selRootTree = sdd->sddSelRootTree;
+	BufferItem *selRootNode = sdd->sddSelRootNode;
+	BufferItem *selRootBodySectNode = sdd->sddSelRootBodySectNode;
 
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
+	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-    const int			justUsed= 0;
-    DocumentRectangle		drBox;
-    DocumentRectangle		drIntersect;
+	const int justUsed = 0;
+	DocumentRectangle drBox;
+	DocumentRectangle drIntersect;
 
-    /*  1  */
-    if  ( ! selRootTree || ! selRootNode )
-	{ return 0;	}
+	/*  1  */
+	if (!selRootTree || !selRootNode) {
+		return 0;
+	}
 
-    /*  2  */
-    if  ( sdd->sddBoxFirstPage > page		||
-	  sdd->sddBoxLastPage < page		)
-	{ return 0;	}
+	/*  2  */
+	if (sdd->sddBoxFirstPage > page || sdd->sddBoxLastPage < page) {
+		return 0;
+	}
 
-    /*  3  */
-    if  ( docGetBoxAroundTree( &drBox, selRootBodySectNode, selRootTree,
-					justUsed,
-					selRootTree->dtPageSelectedUpon,
-					selRootTree->dtColumnSelectedIn,
-					lc ) )
-	{ LDEB(1); return 0;	}
+	/*  3  */
+	if (docGetBoxAroundTree(&drBox, selRootBodySectNode, selRootTree,
+				justUsed, selRootTree->dtPageSelectedUpon,
+				selRootTree->dtColumnSelectedIn, lc)) {
+		LDEB(1);
+		return 0;
+	}
 
-    /*  4  */
-    if  ( dc->dcClipRect						&&
-	  ! geoIntersectRectangle( &drIntersect, &drBox, dc->dcClipRect ) )
-	{ return 0;	}
+	/*  4  */
+	if (dc->dcClipRect &&
+	    !geoIntersectRectangle(&drIntersect, &drBox, dc->dcClipRect)) {
+		return 0;
+	}
 
-    /*  5  */
-    tedDrawTreeBox( sdd, dc, &drBox );
+	/*  5  */
+	tedDrawTreeBox(sdd, dc, &drBox);
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -469,280 +454,293 @@ static int tedDrawStartPage(	void *				vsdd,
 /*									*/
 /************************************************************************/
 
-void tedDrawRectangle(		EditDocument *		ed,
-				DocumentRectangle *	drClipPixels,
-				int			ox,
-				int			oy )
-    {
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    DrawingSurface		drsf= ed->edDrawingSurface;
+void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
+		      int oy)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	DrawingSurface drsf = ed->edDrawingSurface;
 
-    BufferDocument *		bd= td->tdDocument;
-    BufferItem * const		rootNode= bd->bdBody.dtRoot;
+	BufferDocument *bd = td->tdDocument;
+	BufferItem *const rootNode = bd->bdBody.dtRoot;
 
-    DrawingContext		dc;
-    ScreenDrawingData		sdd;
+	DrawingContext dc;
+	ScreenDrawingData sdd;
 
-    BufferItem *		selRootNode= (BufferItem *)0;
+	BufferItem *selRootNode = (BufferItem *)0;
 
-    RGB8Color			selColor;
+	RGB8Color selColor;
 
-    DocumentSelection		ds;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	DocumentSelection ds;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    DocumentTree *		selRootTree= (DocumentTree *)0;
-    BufferItem *		selRootBodySectNode= (BufferItem *)0;
+	DocumentTree *selRootTree = (DocumentTree *)0;
+	BufferItem *selRootBodySectNode = (BufferItem *)0;
 
-    if  ( tedGetSelection( &ds, &sg, &sd,
-			    (DocumentTree **)0, (BufferItem **)0, ed ) )
-	{
-	docInitDocumentSelection( &ds );
-	docInitSelectionGeometry( &sg );
+	if (tedGetSelection(&ds, &sg, &sd, (DocumentTree **)0, (BufferItem **)0,
+			    ed)) {
+		docInitDocumentSelection(&ds);
+		docInitSelectionGeometry(&sg);
 	}
 
-    if  ( td->tdVisibleSelectionCopied )
-	{ selColor= td->tdCopiedSelColor;	}
-    else{ selColor= td->tdSelColor;		}
-
-    docInitDrawingContext( &dc );
-
-    tedSetScreenLayoutContext( &(dc.dcLayoutContext), ed );
-    dc.dcDrawTableGrid= ( td->tdDrawTableGrid >= 0 );
-    dc.dcClipRect= drClipPixels;
-    dc.dcSetColorRgb= tedDrawSetColorRgb;
-    dc.dcSetFont= tedDrawSetFont;
-    dc.dcDrawShape= tedDrawDrawingShape;
-    dc.dcDrawObject= tedDrawObject;
-    dc.dcDrawTab= tedDrawTab;
-    dc.dcDrawFtnsep= tedDrawChftnsep;
-    dc.dcDrawSpan= tedDrawSpan;
-    dc.dcDrawUnderline= tedDrawRunUnderline;
-    dc.dcDrawStrikethrough= tedDrawRunStrikethrough;
-
-    utilRGB8SolidBlack( &(sdd.sddForeColor) );
-    utilRGB8SolidWhite( &(sdd.sddBehindColor) );
-
-    sdd.sddGridColor= td->tdTableColor;
-
-    sdd.sddFullRect= &(ed->edFullRect);
-
-#   if LOG_REDRAWS
-    docLogRectangle( "REDRAW", drClipPixels );
-#   endif
-
-    tedOriginalClipping( &dc, &sdd );
-
-    /*  2  */
-    docDrawSetColorRgb( &dc, (void *)&sdd, &(ed->edBackgroundColor) );
-
-    {
-    DocumentRectangle	drFill= *drClipPixels;
-
-    geoShiftRectangle( &drFill, -ox, -oy );
-    drawFillRectangle( drsf, &drFill );
-    }
-
-    /*  2a  */
-    if  ( tedHasSelection( ed ) )
-	{
-	selRootNode= docGetSelectionRoot(
-				&selRootTree, &selRootBodySectNode, bd, &ds );
-	if  ( ! selRootNode )
-	    { XDEB(selRootNode);	}
+	if (td->tdVisibleSelectionCopied) {
+		selColor = td->tdCopiedSelColor;
+	} else {
+		selColor = td->tdSelColor;
 	}
 
-    /*  3  */
-    utilRGB8SolidBlack( &(sdd.sddForeColor) );
-    utilRGB8SolidWhite( &(sdd.sddBehindColor) );
+	docInitDrawingContext(&dc);
 
-    sdd.sddSelRootNode= selRootNode;
-    sdd.sddSelRootTree= selRootTree;
-    sdd.sddSelRootBodySectNode= selRootBodySectNode;
-    sdd.sddBoxFirstPage= -1;
-    sdd.sddBoxLastPage= -1;
+	tedSetScreenLayoutContext(&(dc.dcLayoutContext), ed);
+	dc.dcDrawTableGrid = (td->tdDrawTableGrid >= 0);
+	dc.dcClipRect = drClipPixels;
+	dc.dcSetColorRgb = tedDrawSetColorRgb;
+	dc.dcSetFont = tedDrawSetFont;
+	dc.dcDrawShape = tedDrawDrawingShape;
+	dc.dcDrawObject = tedDrawObject;
+	dc.dcDrawTab = tedDrawTab;
+	dc.dcDrawFtnsep = tedDrawChftnsep;
+	dc.dcDrawSpan = tedDrawSpan;
+	dc.dcDrawUnderline = tedDrawRunUnderline;
+	dc.dcDrawStrikethrough = tedDrawRunStrikethrough;
 
-    if  ( selRootTree )
+	utilRGB8SolidBlack(&(sdd.sddForeColor));
+	utilRGB8SolidWhite(&(sdd.sddBehindColor));
+
+	sdd.sddGridColor = td->tdTableColor;
+
+	sdd.sddFullRect = &(ed->edFullRect);
+
+#if LOG_REDRAWS
+	docLogRectangle("REDRAW", drClipPixels);
+#endif
+
+	tedOriginalClipping(&dc, &sdd);
+
+	/*  2  */
+	docDrawSetColorRgb(&dc, (void *)&sdd, &(ed->edBackgroundColor));
+
 	{
-	const BufferItem *	selRoolSectBi= selRootTree->dtRoot;
+		DocumentRectangle drFill = *drClipPixels;
 
-	if  ( selRoolSectBi->biTreeType == DOCinFOOTNOTE	||
-	      selRoolSectBi->biTreeType == DOCinENDNOTE	)
-	    {
-	    sdd.sddBoxFirstPage= selRoolSectBi->biTopPosition.lpPage;
-	    sdd.sddBoxLastPage= selRoolSectBi->biBelowPosition.lpPage;
-	    }
+		geoShiftRectangle(&drFill, -ox, -oy);
+		drawFillRectangle(drsf, &drFill);
 	}
 
-    dc.dcDrawTextLine= tedDrawTextLine;
-    dc.dcDrawOrnaments= tedDrawOrnaments;
-
-    dc.dcStartPage= tedDrawStartPage;
-
-    dc.dcInitLayoutExternal= docStartScreenLayoutForTree;
-    dc.dcDrawExternalItems= 0;
-    dc.dcPostponeHeadersFooters= 0;
-
-    dc.dcSelection= (DocumentSelection *)0;
-    dc.dcSelectionGeometry= (SelectionGeometry *)0;
-
-    dc.dcFirstPage= docGetPageForYPixels( &(dc.dcLayoutContext),
-						    drClipPixels->drY0 );
-    dc.dcLastPage=  docGetPageForYPixels( &(dc.dcLayoutContext),
-						    drClipPixels->drY1 );
-    if  ( dc.dcFirstPage > rootNode->biBelowPosition.lpPage )
-	{ dc.dcFirstPage=  rootNode->biBelowPosition.lpPage; }
-    if  ( dc.dcLastPage >  rootNode->biBelowPosition.lpPage )
-	{ dc.dcLastPage=   rootNode->biBelowPosition.lpPage; }
-
-    {
-    int		page;
-
-    docDrawSetColorRgb( &dc, (void *)&sdd, &(sdd.sddBehindColor) );
-
-    for ( page= dc.dcFirstPage; page <= dc.dcLastPage; page++ )
-	{ tedDrawPageRect( &sdd, &dc, page );	}
-    }
-
-    docDrawSetColorRgb( &dc, (void *)&sdd, &(sdd.sddForeColor) );
-
-    dc.dcCurrentColorSet= 0;
-    dc.dcCurrentTextAttributeSet= 0;
-
-    if  ( docDrawPageRange( &dc, (void *)&sdd ) )
-	{ LDEB(1);	}
-
-    if  ( selRootNode			&&
-	  ! sd.sdIsIBarSelection	)
-	{
-	if  ( tedDrawSelectionBackground( td, selRootNode, selRootTree,
-					    &sdd, &dc, &ds, &sg, &selColor ) )
-	    { LDEB(1); return;	}
-	}
-
-    if  ( selRootNode					&&
-	  selRootNode->biTreeType != DOCinBODY		&&
-	  selRootNode->biTreeType != DOCinSHPTXT	)
-	{
-	DocumentTree *	x_selRootTree;
-	BufferItem *	bodySectNode;
-
-	if  ( tedDrawCheckPageOfSelectedTree( &sg, &ds,
-				selRootTree, &(dc.dcLayoutContext) )	)
-	    { LDEB(1); return; }
-
-	if  ( docGetRootOfSelectionScope( &x_selRootTree,
-				&bodySectNode, bd, &(ds.dsSelectionScope) ) )
-	    { LDEB(1);	}
-	else{
-	    if  ( sdd.sddSelRootTree != x_selRootTree )
-		{ XXDEB(sdd.sddSelRootTree,x_selRootTree);	}
-
-	    if  ( tedDrawBoxAroundTree( bodySectNode, x_selRootTree,
-						    &sdd, &dc, drClipPixels ) )
-		{ LDEB(1);	}
-	    }
-	}
-
-    docDrawSetColorRgb( &dc, (void *)&sdd, &(sdd.sddForeColor) );
-
-    /*  5  */
-    if  ( selRootNode )
-	{
-	if  ( sd.sdIsIBarSelection )
-	    {
-	    DocumentRectangle		drIBarPixels;
-
-	    tedGetIBarRect( &drIBarPixels,
-				&(sg.sgHead), &(dc.dcLayoutContext) );
-
-	    if  ( geoIntersectRectangle( &drIBarPixels,
-					&drIBarPixels, drClipPixels )	&&
-		  ! td->tdShowIBarId					)
-		{ tedDrawIBar( &drIBarPixels, &(dc.dcLayoutContext) ); }
-	    }
-	else{
-	    InsertedObject *	io;
-	    int			partO;
-	    DocumentPosition	dpO;
-
-	    docInitDocumentPosition( &dpO );
-
-	    if  ( sd.sdIsObjectSelection				&&
-		  ! docGetObjectSelection( &ds, bd, &partO, &dpO, &io  ) )
-		{
-		PositionGeometry	pgO;
-
-		Point2DI		xp[RESIZE_COUNT];
-		DocumentRectangle	drObject;
-
-		if  ( selRootNode->biTreeType != DOCinBODY		&&
-		      selRootNode->biTreeType != DOCinSHPTXT		&&
-		      tedDrawCheckPageOfSelectedTree( &sg, &ds,
-				selRootTree, &(dc.dcLayoutContext) )	)
-		    { LDEB(1); return; }
-
-		sdd.sddForeColor.rgb8Red= 0;
-		sdd.sddForeColor.rgb8Green= 0;
-		sdd.sddForeColor.rgb8Blue= 0;
-
-		docDrawSetColorRgb( &dc, (void *)&sdd, &(sdd.sddForeColor) );
-
-		sdd.sddBehindColor= selColor;
-
-		tedPositionGeometry( &pgO, &dpO,
-					PARAfindLAST, &(dc.dcLayoutContext) );
-
-		tedGetObjectRectangle( &drObject, xp, io, &pgO,
-					    &(dc.dcLayoutContext), ed );
-
-		if  ( geoIntersectRectangle( (DocumentRectangle *)0,
-						    &drObject, drClipPixels ) )
-		    { tedDrawObjectBlocks( &drObject, xp, &dc, &sdd );	}
+	/*  2a  */
+	if (tedHasSelection(ed)) {
+		selRootNode = docGetSelectionRoot(
+			&selRootTree, &selRootBodySectNode, bd, &ds);
+		if (!selRootNode) {
+			XDEB(selRootNode);
 		}
-	    }
 	}
 
-    if  ( ed->edSelectRectangle.srDirection != DOCselNONE )
-	{
-	DocumentRectangle	drHair;
-	int			blackSet= 0;
+	/*  3  */
+	utilRGB8SolidBlack(&(sdd.sddForeColor));
+	utilRGB8SolidWhite(&(sdd.sddBehindColor));
 
-	drHair= ed->edVisibleRect;
-	drHair.drX0= ed->edSelectRectangle.srSelected.drX0+
-					ed->edSelectRectangle.srLTM.drX0;
-	drHair.drX1= ed->edSelectRectangle.srSelected.drX0+
-					ed->edSelectRectangle.srLTM.drX0;
+	sdd.sddSelRootNode = selRootNode;
+	sdd.sddSelRootTree = selRootTree;
+	sdd.sddSelRootBodySectNode = selRootBodySectNode;
+	sdd.sddBoxFirstPage = -1;
+	sdd.sddBoxLastPage = -1;
 
-	if  ( geoIntersectRectangle( &drHair, &drHair, drClipPixels ) )
-	    {
-	    if  ( ! blackSet )
-		{ drawSetForegroundColorBlack( drsf ); blackSet= 1;	}
+	if (selRootTree) {
+		const BufferItem *selRoolSectBi = selRootTree->dtRoot;
 
-	    geoShiftRectangle( &drHair, -ox, -oy );
-	    drawFillRectangle( drsf, &drHair );
-	    }
-
-	if  ( ed->edSelectRectangle.srLTM.drX1 !=
-					    ed->edSelectRectangle.srLTM.drX0 )
-	    {
-	    drHair= ed->edVisibleRect;
-	    drHair.drX0= ed->edSelectRectangle.srSelected.drX0+
-					ed->edSelectRectangle.srLTM.drX1;
-	    drHair.drX1= ed->edSelectRectangle.srSelected.drX0+
-					ed->edSelectRectangle.srLTM.drX1;
-
-	    if  ( geoIntersectRectangle( &drHair, &drHair, drClipPixels ) )
-		{
-		if  ( ! blackSet )
-		    { drawSetForegroundColorBlack( drsf ); blackSet= 1;	}
-
-		geoShiftRectangle( &drHair, -ox, -oy );
-		drawFillRectangle( drsf, &drHair );
+		if (selRoolSectBi->biTreeType == DOCinFOOTNOTE ||
+		    selRoolSectBi->biTreeType == DOCinENDNOTE) {
+			sdd.sddBoxFirstPage =
+				selRoolSectBi->biTopPosition.lpPage;
+			sdd.sddBoxLastPage =
+				selRoolSectBi->biBelowPosition.lpPage;
 		}
-	    }
 	}
 
-    return;
-    }
+	dc.dcDrawTextLine = tedDrawTextLine;
+	dc.dcDrawOrnaments = tedDrawOrnaments;
 
+	dc.dcStartPage = tedDrawStartPage;
+
+	dc.dcInitLayoutExternal = docStartScreenLayoutForTree;
+	dc.dcDrawExternalItems = 0;
+	dc.dcPostponeHeadersFooters = 0;
+
+	dc.dcSelection = (DocumentSelection *)0;
+	dc.dcSelectionGeometry = (SelectionGeometry *)0;
+
+	dc.dcFirstPage =
+		docGetPageForYPixels(&(dc.dcLayoutContext), drClipPixels->drY0);
+	dc.dcLastPage =
+		docGetPageForYPixels(&(dc.dcLayoutContext), drClipPixels->drY1);
+	if (dc.dcFirstPage > rootNode->biBelowPosition.lpPage) {
+		dc.dcFirstPage = rootNode->biBelowPosition.lpPage;
+	}
+	if (dc.dcLastPage > rootNode->biBelowPosition.lpPage) {
+		dc.dcLastPage = rootNode->biBelowPosition.lpPage;
+	}
+
+	{
+		int page;
+
+		docDrawSetColorRgb(&dc, (void *)&sdd, &(sdd.sddBehindColor));
+
+		for (page = dc.dcFirstPage; page <= dc.dcLastPage; page++) {
+			tedDrawPageRect(&sdd, &dc, page);
+		}
+	}
+
+	docDrawSetColorRgb(&dc, (void *)&sdd, &(sdd.sddForeColor));
+
+	dc.dcCurrentColorSet = 0;
+	dc.dcCurrentTextAttributeSet = 0;
+
+	if (docDrawPageRange(&dc, (void *)&sdd)) {
+		LDEB(1);
+	}
+
+	if (selRootNode && !sd.sdIsIBarSelection) {
+		if (tedDrawSelectionBackground(td, selRootNode, selRootTree,
+					       &sdd, &dc, &ds, &sg,
+					       &selColor)) {
+			LDEB(1);
+			return;
+		}
+	}
+
+	if (selRootNode && selRootNode->biTreeType != DOCinBODY &&
+	    selRootNode->biTreeType != DOCinSHPTXT) {
+		DocumentTree *x_selRootTree;
+		BufferItem *bodySectNode;
+
+		if (tedDrawCheckPageOfSelectedTree(&sg, &ds, selRootTree,
+						   &(dc.dcLayoutContext))) {
+			LDEB(1);
+			return;
+		}
+
+		if (docGetRootOfSelectionScope(&x_selRootTree, &bodySectNode,
+					       bd, &(ds.dsSelectionScope))) {
+			LDEB(1);
+		} else {
+			if (sdd.sddSelRootTree != x_selRootTree) {
+				XXDEB(sdd.sddSelRootTree, x_selRootTree);
+			}
+
+			if (tedDrawBoxAroundTree(bodySectNode, x_selRootTree,
+						 &sdd, &dc, drClipPixels)) {
+				LDEB(1);
+			}
+		}
+	}
+
+	docDrawSetColorRgb(&dc, (void *)&sdd, &(sdd.sddForeColor));
+
+	/*  5  */
+	if (selRootNode) {
+		if (sd.sdIsIBarSelection) {
+			DocumentRectangle drIBarPixels;
+
+			tedGetIBarRect(&drIBarPixels, &(sg.sgHead),
+				       &(dc.dcLayoutContext));
+
+			if (geoIntersectRectangle(&drIBarPixels, &drIBarPixels,
+						  drClipPixels) &&
+			    !td->tdShowIBarId) {
+				tedDrawIBar(&drIBarPixels,
+					    &(dc.dcLayoutContext));
+			}
+		} else {
+			InsertedObject *io;
+			int partO;
+			DocumentPosition dpO;
+
+			docInitDocumentPosition(&dpO);
+
+			if (sd.sdIsObjectSelection &&
+			    !docGetObjectSelection(&ds, bd, &partO, &dpO,
+						   &io)) {
+				PositionGeometry pgO;
+
+				Point2DI xp[RESIZE_COUNT];
+				DocumentRectangle drObject;
+
+				if (selRootNode->biTreeType != DOCinBODY &&
+				    selRootNode->biTreeType != DOCinSHPTXT &&
+				    tedDrawCheckPageOfSelectedTree(
+					    &sg, &ds, selRootTree,
+					    &(dc.dcLayoutContext))) {
+					LDEB(1);
+					return;
+				}
+
+				sdd.sddForeColor.rgb8Red = 0;
+				sdd.sddForeColor.rgb8Green = 0;
+				sdd.sddForeColor.rgb8Blue = 0;
+
+				docDrawSetColorRgb(&dc, (void *)&sdd,
+						   &(sdd.sddForeColor));
+
+				sdd.sddBehindColor = selColor;
+
+				tedPositionGeometry(&pgO, &dpO, PARAfindLAST,
+						    &(dc.dcLayoutContext));
+
+				tedGetObjectRectangle(&drObject, xp, io, &pgO,
+						      &(dc.dcLayoutContext),
+						      ed);
+
+				if (geoIntersectRectangle(
+					    (DocumentRectangle *)0, &drObject,
+					    drClipPixels)) {
+					tedDrawObjectBlocks(&drObject, xp, &dc,
+							    &sdd);
+				}
+			}
+		}
+	}
+
+	if (ed->edSelectRectangle.srDirection != DOCselNONE) {
+		DocumentRectangle drHair;
+		int blackSet = 0;
+
+		drHair = ed->edVisibleRect;
+		drHair.drX0 = ed->edSelectRectangle.srSelected.drX0 +
+			      ed->edSelectRectangle.srLTM.drX0;
+		drHair.drX1 = ed->edSelectRectangle.srSelected.drX0 +
+			      ed->edSelectRectangle.srLTM.drX0;
+
+		if (geoIntersectRectangle(&drHair, &drHair, drClipPixels)) {
+			if (!blackSet) {
+				drawSetForegroundColorBlack(drsf);
+				blackSet = 1;
+			}
+
+			geoShiftRectangle(&drHair, -ox, -oy);
+			drawFillRectangle(drsf, &drHair);
+		}
+
+		if (ed->edSelectRectangle.srLTM.drX1 !=
+		    ed->edSelectRectangle.srLTM.drX0) {
+			drHair = ed->edVisibleRect;
+			drHair.drX0 = ed->edSelectRectangle.srSelected.drX0 +
+				      ed->edSelectRectangle.srLTM.drX1;
+			drHair.drX1 = ed->edSelectRectangle.srSelected.drX0 +
+				      ed->edSelectRectangle.srLTM.drX1;
+
+			if (geoIntersectRectangle(&drHair, &drHair,
+						  drClipPixels)) {
+				if (!blackSet) {
+					drawSetForegroundColorBlack(drsf);
+					blackSet = 1;
+				}
+
+				geoShiftRectangle(&drHair, -ox, -oy);
+				drawFillRectangle(drsf, &drHair);
+			}
+		}
+	}
+
+	return;
+}

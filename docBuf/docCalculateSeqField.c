@@ -4,17 +4,17 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<stdlib.h>
+#include <stdlib.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	"docEvalField.h"
-#   include	<docSeqField.h>
-#   include	<utilTree.h>
-#   include	"docRecalculateFields.h"
+#include "docBuf.h"
+#include "docEvalField.h"
+#include <docSeqField.h>
+#include <utilTree.h>
+#include "docRecalculateFields.h"
 
 /************************************************************************/
 /*									*/
@@ -22,32 +22,36 @@
 /*									*/
 /************************************************************************/
 
-int docCalculateSeqFieldString( int *				pCalculated,
-				MemoryBuffer *			mbResult,
-				const DocumentField *		df,
-				const RecalculateFields *	rf )
-    {
-    int			rval= 0;
-    SeqField		sf;
+int docCalculateSeqFieldString(int *pCalculated, MemoryBuffer *mbResult,
+			       const DocumentField *df,
+			       const RecalculateFields *rf)
+{
+	int rval = 0;
+	SeqField sf;
 
-    docInitSeqField( &sf );
+	docInitSeqField(&sf);
 
-    if  ( docGetSeqField( &sf, df ) )
-	{ *pCalculated= 0; goto ready;	}
+	if (docGetSeqField(&sf, df)) {
+		*pCalculated = 0;
+		goto ready;
+	}
 
-    utilEmptyMemoryBuffer( mbResult );
+	utilEmptyMemoryBuffer(mbResult);
 
-    /*  ABUSE dfNoteIndex! */
-    if  ( docFieldFormatInteger( mbResult, sf.sfNumberFormat,
-						    df->dfNoteIndex ) )
-	{ LDEB(1); *pCalculated= 0;	}
-    else{ *pCalculated= 1;		}
+	/*  ABUSE dfNoteIndex! */
+	if (docFieldFormatInteger(mbResult, sf.sfNumberFormat,
+				  df->dfNoteIndex)) {
+		LDEB(1);
+		*pCalculated = 0;
+	} else {
+		*pCalculated = 1;
+	}
 
-  ready:
-    docCleanSeqField( &sf );
+ready:
+	docCleanSeqField(&sf);
 
-    return rval;
-    }
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -55,60 +59,73 @@ int docCalculateSeqFieldString( int *				pCalculated,
 /*									*/
 /************************************************************************/
 
-int docRenumberSeqField( 	int *				pChanged,
-				DocumentField *			df,
-				BufferDocument *		bd )
-    {
-    int			rval= 0;
-    int			changed= 0;
-    SeqField		sf;
-    int *		pVal= (int *)0;
+int docRenumberSeqField(int *pChanged, DocumentField *df, BufferDocument *bd)
+{
+	int rval = 0;
+	int changed = 0;
+	SeqField sf;
+	int *pVal = (int *)0;
 
-    docInitSeqField( &sf );
+	docInitSeqField(&sf);
 
-    if  ( docGetSeqField( &sf, df ) )
-	{ LDEB(1); goto ready;	}
-
-    if  ( ! bd->bdSeqFieldIdentifiers )
-	{
-	const int	ownKeys= 1;
-
-	bd->bdSeqFieldIdentifiers= utilTreeMakeTree( ownKeys );
-	if  ( ! bd->bdSeqFieldIdentifiers )
-	    { XDEB(bd->bdSeqFieldIdentifiers); rval= -1; goto ready; }
+	if (docGetSeqField(&sf, df)) {
+		LDEB(1);
+		goto ready;
 	}
 
-    pVal= (int *)utilTreeGetEQ( bd->bdSeqFieldIdentifiers, (const char **)0,
-				    utilMemoryBufferGetString( &(sf.sfIdentifier) ) );
-    if  ( ! pVal)
-	{
-	pVal= (int *)malloc( sizeof(int) );
-	if  ( ! pVal)
-	    { XDEB(pVal); rval= -1; goto ready;	}
-	else{
-	    *pVal= 0; changed= 1;
-	    if  ( utilTreeStoreValue( bd->bdSeqFieldIdentifiers,
-			    (void **)0, (const char **)0,
-			    utilMemoryBufferGetString( &(sf.sfIdentifier) ), pVal ) )
-		{ LDEB(1); free( pVal ); rval= -1; goto ready; }
-	    }
-	} 
+	if (!bd->bdSeqFieldIdentifiers) {
+		const int ownKeys = 1;
 
-    if  ( sf.sfResetTo >= 0 )
-	{ *pVal= sf.sfResetTo;	}
-    else{
-	if  ( sf.sfIncrement || *pVal == 0 )
-	    { (*pVal)++;	}
+		bd->bdSeqFieldIdentifiers = utilTreeMakeTree(ownKeys);
+		if (!bd->bdSeqFieldIdentifiers) {
+			XDEB(bd->bdSeqFieldIdentifiers);
+			rval = -1;
+			goto ready;
+		}
 	}
 
-    if  ( df->dfNoteIndex != *pVal )
-	{ df->dfNoteIndex= *pVal; changed= 1;	}
+	pVal = (int *)utilTreeGetEQ(
+		bd->bdSeqFieldIdentifiers, (const char **)0,
+		utilMemoryBufferGetString(&(sf.sfIdentifier)));
+	if (!pVal) {
+		pVal = (int *)malloc(sizeof(int));
+		if (!pVal) {
+			XDEB(pVal);
+			rval = -1;
+			goto ready;
+		} else {
+			*pVal = 0;
+			changed = 1;
+			if (utilTreeStoreValue(bd->bdSeqFieldIdentifiers,
+					       (void **)0, (const char **)0,
+					       utilMemoryBufferGetString(
+						       &(sf.sfIdentifier)),
+					       pVal)) {
+				LDEB(1);
+				free(pVal);
+				rval = -1;
+				goto ready;
+			}
+		}
+	}
 
-    *pChanged= changed;
+	if (sf.sfResetTo >= 0) {
+		*pVal = sf.sfResetTo;
+	} else {
+		if (sf.sfIncrement || *pVal == 0) {
+			(*pVal)++;
+		}
+	}
 
-  ready:
-    docCleanSeqField( &sf );
+	if (df->dfNoteIndex != *pVal) {
+		df->dfNoteIndex = *pVal;
+		changed = 1;
+	}
 
-    return rval;
-    }
+	*pChanged = changed;
 
+ready:
+	docCleanSeqField(&sf);
+
+	return rval;
+}

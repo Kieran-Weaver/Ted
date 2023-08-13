@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	SIO_VPRINTF_H
-#   define	SIO_VPRINTF_H
+#ifndef SIO_VPRINTF_H
+#define SIO_VPRINTF_H
 
-#   include	"sioGeneral.h"
-#   include	<stdarg.h>
+#include "sioGeneral.h"
+#include <stdarg.h>
 
 /************************************************************************/
 /*									*/
@@ -16,7 +16,6 @@
 /*									*/
 /************************************************************************/
 
-extern int sioOutVPrintf(	SimpleOutputStream *	sos,
-				const char *		format,
-				va_list			ap );
-#   endif
+extern int sioOutVPrintf(SimpleOutputStream *sos, const char *format,
+			 va_list ap);
+#endif

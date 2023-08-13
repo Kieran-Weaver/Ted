@@ -4,8 +4,8 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	TEXT_CONVERTER_H
-#   define	TEXT_CONVERTER_H
+#ifndef TEXT_CONVERTER_H
+#define TEXT_CONVERTER_H
 
 struct TextConverter;
 
@@ -18,10 +18,8 @@ struct TextConverter;
 /**
  *
  */
-typedef int (*TextConverterProduce)(	void *			through,
-					int			produced,
-					const char *		bytes,
-					int			count );
+typedef int (*TextConverterProduce)(void *through, int produced,
+				    const char *bytes, int count);
 
 /************************************************************************/
 /*									*/
@@ -29,28 +27,21 @@ typedef int (*TextConverterProduce)(	void *			through,
 /*									*/
 /************************************************************************/
 
-extern void textConverterSetNativeEncodingName(
-					struct TextConverter *	tc,
-					const char *		encodingName );
+extern void textConverterSetNativeEncodingName(struct TextConverter *tc,
+					       const char *encodingName);
 
-extern void textInitTextConverter(	struct TextConverter *	tc );
-extern void textCleanTextConverter(	struct TextConverter *	tc );
+extern void textInitTextConverter(struct TextConverter *tc);
+extern void textCleanTextConverter(struct TextConverter *tc);
 
-extern int textConverterConvertToUtf8(	struct TextConverter *	tc,
-					void *			through,
-					int *			pConsumed,
-					int			produced,
-					const char *		text,
-					int			len );
+extern int textConverterConvertToUtf8(struct TextConverter *tc, void *through,
+				      int *pConsumed, int produced,
+				      const char *text, int len);
 
-extern int textConverterConvertFromUtf8( struct TextConverter *	tc,
-					void *			through,
-					int *			pConsumed,
-					int			produced,
-					const char *		text,
-					int			len );
+extern int textConverterConvertFromUtf8(struct TextConverter *tc, void *through,
+					int *pConsumed, int produced,
+					const char *text, int len);
 
-extern void textConverterSetProduce(	struct TextConverter *	tc,
-					TextConverterProduce	produce );
+extern void textConverterSetProduce(struct TextConverter *tc,
+				    TextConverterProduce produce);
 
-#   endif
+#endif

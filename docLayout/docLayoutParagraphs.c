@@ -5,18 +5,18 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
+#include <stddef.h>
 
-#   include	"docLayout.h"
-#   include	<docPageGrid.h>
-#   include	<docTreeType.h>
-#   include	<docTreeNode.h>
-#   include	<docNodeTree.h>
-#   include	<docTextLine.h>
+#include "docLayout.h"
+#include <docPageGrid.h>
+#include <docTreeType.h>
+#include <docTreeNode.h>
+#include <docNodeTree.h>
+#include <docTextLine.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -25,115 +25,111 @@
 /*									*/
 /************************************************************************/
 
-void docRedoParaStripLayout(	const LayoutJob *		lj,
-				BlockFrame *			bf,
-				const LayoutPosition *		lpFrom,
-				BufferItem *			cellNode,
-				int				childFrom,
-				int				childUpto )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    int				stopCode= FORMATstopREADY;
-    int				para;
-    BufferItem *		paraBi0= cellNode->biChildren[childFrom];
+void docRedoParaStripLayout(const LayoutJob *lj, BlockFrame *bf,
+			    const LayoutPosition *lpFrom, BufferItem *cellNode,
+			    int childFrom, int childUpto)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	int stopCode = FORMATstopREADY;
+	int para;
+	BufferItem *paraBi0 = cellNode->biChildren[childFrom];
 
-    int				xStopCode= 0;
+	int xStopCode = 0;
 
-    ParagraphLayoutPosition	plpRedo;
-    const int			isRedo= 1;
+	ParagraphLayoutPosition plpRedo;
+	const int isRedo = 1;
 
-    docInitParagraphLayoutPosition( &plpRedo );
+	docInitParagraphLayoutPosition(&plpRedo);
 
-    docStripLayoutStartChild( &plpRedo, childFrom );
-    plpRedo.plpPos= *lpFrom;
+	docStripLayoutStartChild(&plpRedo, childFrom);
+	plpRedo.plpPos = *lpFrom;
 
-    /*  1  */
-    if  ( docLayoutStartParagraph( lj, &xStopCode, paraBi0, bf, &plpRedo ) )
-	{ LDEB(1); return;	}
-
-    if  ( xStopCode != FORMATstopREADY )
-	{ LDEB(xStopCode); return;	}
-
-    for ( para= childFrom; para < childUpto; para++ )
-	{
-	int		changed= 0;
-	int		accepted;
-	BufferItem *	paraNode= cellNode->biChildren[para];
-
-	docStripLayoutStartChild( &plpRedo, para );
-
-	paraNode->biTopPosition= plpRedo.plpPos;
-
-	accepted= docLayoutParaLines( &stopCode, isRedo,
-					&(plpRedo.plpParagraphFrame),
-					&(plpRedo.plpPos), &(plpRedo.pspLine),
-					bf, lj, paraNode, plpRedo.pspPart );
-	if  ( accepted < 0 )
-	    { LDEB(accepted); break;	}
-
-	docLayoutSetNodeBottom( &changed, paraNode, &(plpRedo.plpPos),
-					    lc, lj->ljChangedRectanglePixels );
+	/*  1  */
+	if (docLayoutStartParagraph(lj, &xStopCode, paraBi0, bf, &plpRedo)) {
+		LDEB(1);
+		return;
 	}
 
-    return;
-    }
+	if (xStopCode != FORMATstopREADY) {
+		LDEB(xStopCode);
+		return;
+	}
+
+	for (para = childFrom; para < childUpto; para++) {
+		int changed = 0;
+		int accepted;
+		BufferItem *paraNode = cellNode->biChildren[para];
+
+		docStripLayoutStartChild(&plpRedo, para);
+
+		paraNode->biTopPosition = plpRedo.plpPos;
+
+		accepted = docLayoutParaLines(&stopCode, isRedo,
+					      &(plpRedo.plpParagraphFrame),
+					      &(plpRedo.plpPos),
+					      &(plpRedo.pspLine), bf, lj,
+					      paraNode, plpRedo.pspPart);
+		if (accepted < 0) {
+			LDEB(accepted);
+			break;
+		}
+
+		docLayoutSetNodeBottom(&changed, paraNode, &(plpRedo.plpPos),
+				       lc, lj->ljChangedRectanglePixels);
+	}
+
+	return;
+}
 
 /************************************************************************/
 
-static int docLayoutChildInStrip(
-			int *				pStopCode,
-			ParagraphLayoutPosition *	plp,
-			BlockFrame *			bf,
-			const LayoutJob *		lj,
-			int				cellTopInset,
-			BufferItem *			childNode )
-    {
-    switch( childNode->biLevel )
-	{
+static int docLayoutChildInStrip(int *pStopCode, ParagraphLayoutPosition *plp,
+				 BlockFrame *bf, const LayoutJob *lj,
+				 int cellTopInset, BufferItem *childNode)
+{
+	switch (childNode->biLevel) {
 	case DOClevPARA:
-	    return docLayoutParagraphInStrip( pStopCode, plp, bf, lj,
-						    cellTopInset, childNode );
+		return docLayoutParagraphInStrip(pStopCode, plp, bf, lj,
+						 cellTopInset, childNode);
 	case DOClevROW:
-	    return docLayoutRowInStrip( pStopCode, plp, bf, lj,
-						    cellTopInset, childNode );
+		return docLayoutRowInStrip(pStopCode, plp, bf, lj, cellTopInset,
+					   childNode);
 	default:
-	    LDEB(childNode->biLevel); return -1;
+		LDEB(childNode->biLevel);
+		return -1;
 	}
-    }
+}
 
 /************************************************************************/
 
-static int docLayoutGetChildFrame(	int *			pFrameNumber,
-					FrameProperties *	fp,
-					const BufferDocument *	bd,
-					const BufferItem *	childNode )
-    {
-    int		isFrame= 0;
-    int		frameNumber;
+static int docLayoutGetChildFrame(int *pFrameNumber, FrameProperties *fp,
+				  const BufferDocument *bd,
+				  const BufferItem *childNode)
+{
+	int isFrame = 0;
+	int frameNumber;
 
-    switch( childNode->biLevel )
-	{
+	switch (childNode->biLevel) {
 	case DOClevPARA:
-	    frameNumber= childNode->biParaFrameNumber;
-	    break;
+		frameNumber = childNode->biParaFrameNumber;
+		break;
 	case DOClevROW:
-	    frameNumber= childNode->biRowFrameNumber;
-	    break;
+		frameNumber = childNode->biRowFrameNumber;
+		break;
 	default:
-	    LDEB(childNode->biLevel);
-	    frameNumber= -1;
-	    break;
+		LDEB(childNode->biLevel);
+		frameNumber = -1;
+		break;
 	}
 
-    if  ( frameNumber >= 0 )
-	{
-	docGetFramePropertiesByNumber( fp, bd, frameNumber );
-	isFrame= DOCisFRAME( fp );
+	if (frameNumber >= 0) {
+		docGetFramePropertiesByNumber(fp, bd, frameNumber);
+		isFrame = DOCisFRAME(fp);
 	}
 
-    *pFrameNumber= frameNumber;
-    return isFrame;
-    }
+	*pFrameNumber = frameNumber;
+	return isFrame;
+}
 
 /************************************************************************/
 /*									*/
@@ -144,128 +140,131 @@ static int docLayoutGetChildFrame(	int *			pFrameNumber,
 /*									*/
 /************************************************************************/
 
-int docLayoutStripChildren(	int *				pStopCode,
-				ParagraphLayoutJob *		plj,
-				BlockFrame *			bfFlow,
-				const LayoutJob *		lj,
-				BufferItem *			cellNode )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    ParagraphLayoutPosition *	plp= &(plj->pljPos);
-    const int			childFrom= plp->pspChild;
-    BufferItem *		childNode= cellNode->biChildren[childFrom];
+int docLayoutStripChildren(int *pStopCode, ParagraphLayoutJob *plj,
+			   BlockFrame *bfFlow, const LayoutJob *lj,
+			   BufferItem *cellNode)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	ParagraphLayoutPosition *plp = &(plj->pljPos);
+	const int childFrom = plp->pspChild;
+	BufferItem *childNode = cellNode->biChildren[childFrom];
 
-    BlockFrame *		bf= bfFlow;
+	BlockFrame *bf = bfFlow;
 
-    const BufferDocument *	bd= lc->lcDocument;
+	const BufferDocument *bd = lc->lcDocument;
 
-    FrameProperties		fpBegin;
-    int				frameBegin;
-    int				wasFrame;
+	FrameProperties fpBegin;
+	int frameBegin;
+	int wasFrame;
 
-    FrameProperties		fpRow;
-    int				frameRow= -1;
-    int				rowIsFrame= 0;
+	FrameProperties fpRow;
+	int frameRow = -1;
+	int rowIsFrame = 0;
 
-    BufferItem *		rowBi;
+	BufferItem *rowBi;
 
-    if  ( ! docIsCellNode( cellNode ) )
-	{ SDEB(docLevelStr(cellNode->biLevel)); return -1;	}
-    if  ( childFrom >= cellNode->biChildCount )
-	{ LLDEB(childFrom,cellNode->biChildCount); return -1;	}
-
-    rowBi= docGetRowNode( cellNode );
-    if  ( rowBi )
-	{
-	DocumentPosition	dp;
-
-	if  ( ! docHeadPosition( &dp, rowBi ) )
-	    {
-	    rowIsFrame= docLayoutGetChildFrame( &frameRow, &fpRow,
-							    bd, dp.dpNode );
-	    }
+	if (!docIsCellNode(cellNode)) {
+		SDEB(docLevelStr(cellNode->biLevel));
+		return -1;
+	}
+	if (childFrom >= cellNode->biChildCount) {
+		LLDEB(childFrom, cellNode->biChildCount);
+		return -1;
 	}
 
-    /*  a  */
-    childNode= cellNode->biChildren[plj->pljPos.pspChild];
-    wasFrame= docLayoutGetChildFrame( &frameBegin, &fpBegin, bd, childNode );
-    if  ( wasFrame && ( ! rowIsFrame || frameRow != frameBegin ) )
-	{
-	BlockFrame			bfTextFrame;
-	ParagraphLayoutPosition		plpTextFrame;
-	int				frameHeight= fpBegin.fpHighTwips;
+	rowBi = docGetRowNode(cellNode);
+	if (rowBi) {
+		DocumentPosition dp;
 
-	if  ( frameHeight < 0 )
-	    { frameHeight= -frameHeight;	}
-
-	plpTextFrame= *plp;
-	plp= &plpTextFrame;
-
-	docLayoutInitBlockFrame( &bfTextFrame );
-	docLayoutSetTextFrame( &bfTextFrame, &(plp->plpPos),
-						bf, &fpBegin, frameHeight );
-
-	plp->plpPos.lpPageYTwips= bfTextFrame.bfContentRect.drY0;
-	bf= &bfTextFrame;
+		if (!docHeadPosition(&dp, rowBi)) {
+			rowIsFrame = docLayoutGetChildFrame(&frameRow, &fpRow,
+							    bd, dp.dpNode);
+		}
 	}
-
-    while( plp->pspChild < plj->pljChildUpto )
-	{
-	int			stopCode= FORMATstopREADY;
-	int			ret;
-
-	FrameProperties		fpHere;
-	int			frameHere;
-	int			isFrame;
-
-	childNode= cellNode->biChildren[plp->pspChild];
-	isFrame= docLayoutGetChildFrame( &frameHere, &fpHere, bd, childNode );
 
 	/*  a  */
-	if  ( isFrame != wasFrame				||
-	      ( wasFrame && ( frameHere != frameBegin )	)	)
-	    {
-	    if  ( wasFrame )
-		{
-		docLayoutFinishFrame( &fpBegin, bf, bfFlow, lj,
-			&(plj->pljPos), cellNode, childFrom, plp->pspChild );
+	childNode = cellNode->biChildren[plj->pljPos.pspChild];
+	wasFrame = docLayoutGetChildFrame(&frameBegin, &fpBegin, bd, childNode);
+	if (wasFrame && (!rowIsFrame || frameRow != frameBegin)) {
+		BlockFrame bfTextFrame;
+		ParagraphLayoutPosition plpTextFrame;
+		int frameHeight = fpBegin.fpHighTwips;
 
-		plj->pljPos= *plp;
+		if (frameHeight < 0) {
+			frameHeight = -frameHeight;
 		}
 
-	    *pStopCode= FORMATstopNEXT_FRAME;
-	    break;
-	    }
+		plpTextFrame = *plp;
+		plp = &plpTextFrame;
 
-	ret= docLayoutChildInStrip( &stopCode, plp, bf, lj,
-					cellNode->biCellTopInset, childNode );
-	if  ( ret < 0 )
-	    { LDEB(ret); return -1;		}
+		docLayoutInitBlockFrame(&bfTextFrame);
+		docLayoutSetTextFrame(&bfTextFrame, &(plp->plpPos), bf,
+				      &fpBegin, frameHeight);
 
-	switch( ret )
-	    {
-	    case FORMATstopBLOCK_FULL:
-	    case FORMATstopPAGE_BREAK:
-	    case FORMATstopCOLUMN_BREAK:
-		*pStopCode= stopCode;
-		break;
-
-	    case FORMATstopPARTIAL:
-	    case FORMATstopREADY:
-		continue;
-
-	    default:
-		LDEB(ret); continue;
-	    }
-
-	break;
+		plp->plpPos.lpPageYTwips = bfTextFrame.bfContentRect.drY0;
+		bf = &bfTextFrame;
 	}
 
-    if  ( docLayoutStripDone( plp, plj ) )
-	{ *pStopCode= FORMATstopREADY;	}
+	while (plp->pspChild < plj->pljChildUpto) {
+		int stopCode = FORMATstopREADY;
+		int ret;
 
-    return 0;
-    }
+		FrameProperties fpHere;
+		int frameHere;
+		int isFrame;
+
+		childNode = cellNode->biChildren[plp->pspChild];
+		isFrame = docLayoutGetChildFrame(&frameHere, &fpHere, bd,
+						 childNode);
+
+		/*  a  */
+		if (isFrame != wasFrame ||
+		    (wasFrame && (frameHere != frameBegin))) {
+			if (wasFrame) {
+				docLayoutFinishFrame(&fpBegin, bf, bfFlow, lj,
+						     &(plj->pljPos), cellNode,
+						     childFrom, plp->pspChild);
+
+				plj->pljPos = *plp;
+			}
+
+			*pStopCode = FORMATstopNEXT_FRAME;
+			break;
+		}
+
+		ret = docLayoutChildInStrip(&stopCode, plp, bf, lj,
+					    cellNode->biCellTopInset,
+					    childNode);
+		if (ret < 0) {
+			LDEB(ret);
+			return -1;
+		}
+
+		switch (ret) {
+		case FORMATstopBLOCK_FULL:
+		case FORMATstopPAGE_BREAK:
+		case FORMATstopCOLUMN_BREAK:
+			*pStopCode = stopCode;
+			break;
+
+		case FORMATstopPARTIAL:
+		case FORMATstopREADY:
+			continue;
+
+		default:
+			LDEB(ret);
+			continue;
+		}
+
+		break;
+	}
+
+	if (docLayoutStripDone(plp, plj)) {
+		*pStopCode = FORMATstopREADY;
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -332,156 +331,149 @@ int docLayoutStripChildren(	int *				pStopCode,
 /*									*/
 /************************************************************************/
 
-static void docCommitStripLayout_x(
-				ParagraphLayoutPosition *	plp0,
-				const ParagraphLayoutPosition *	plp1,
-				int				advanceAnyway,
-				int				page,
-				int				column,
-				const BufferItem *		cellNode )
-    {
-    const BufferItem *		paraBi0;
-    const BufferItem *		paraBi1;
-    const TextLine *		tl;
+static void docCommitStripLayout_x(ParagraphLayoutPosition *plp0,
+				   const ParagraphLayoutPosition *plp1,
+				   int advanceAnyway, int page, int column,
+				   const BufferItem *cellNode)
+{
+	const BufferItem *paraBi0;
+	const BufferItem *paraBi1;
+	const TextLine *tl;
 
-    int				para;
+	int para;
 
-    int				line0;
+	int line0;
 
-    paraBi0= cellNode->biChildren[plp0->pspChild];
-    paraBi1= (const BufferItem *)0;
+	paraBi0 = cellNode->biChildren[plp0->pspChild];
+	paraBi1 = (const BufferItem *)0;
 
-    if  ( paraBi0->biLevel != DOClevPARA )
-	{ LSDEB(paraBi0->biLevel,docLevelStr(paraBi0->biLevel)); return; }
-
-    /*  a  */
-    if  ( plp1->pspChild < cellNode->biChildCount )
-	{
-	int		line1;
-
-	paraBi1= cellNode->biChildren[plp1->pspChild];
-
-	line1= plp1->pspLine;
-
-	if  ( line1- 1 >= 0				&&
-	      line1- 1 < paraBi1->biParaLineCount	)
-	    {
-	    const TextLine *	tl= paraBi1->biParaLines+ line1- 1;
-
-	    if  ( tl->tlFlags & TLflagBLOCKBREAK )
-		{
-		*plp0= *plp1;
+	if (paraBi0->biLevel != DOClevPARA) {
+		LSDEB(paraBi0->biLevel, docLevelStr(paraBi0->biLevel));
 		return;
+	}
+
+	/*  a  */
+	if (plp1->pspChild < cellNode->biChildCount) {
+		int line1;
+
+		paraBi1 = cellNode->biChildren[plp1->pspChild];
+
+		line1 = plp1->pspLine;
+
+		if (line1 - 1 >= 0 && line1 - 1 < paraBi1->biParaLineCount) {
+			const TextLine *tl = paraBi1->biParaLines + line1 - 1;
+
+			if (tl->tlFlags & TLflagBLOCKBREAK) {
+				*plp0 = *plp1;
+				return;
+			}
 		}
-	    }
 	}
 
-    /*  b  */
-    if  ( paraBi1			&&
-	  paraBi1->biParaKeepOnPage	&&
-	  ! paraBi1->biParaKeepWithNext	&&
-	  plp1->pspLine > 0		)
-	{
-	int		line= 1;
+	/*  b  */
+	if (paraBi1 && paraBi1->biParaKeepOnPage &&
+	    !paraBi1->biParaKeepWithNext && plp1->pspLine > 0) {
+		int line = 1;
 
-	if  ( paraBi1->biParaWidowControl )
-	    { line++;	}
+		if (paraBi1->biParaWidowControl) {
+			line++;
+		}
 
-	if  ( plp1->pspLine >= line )
-	    {
-	    *plp0= *plp1;
-	    return;
-	    }
+		if (plp1->pspLine >= line) {
+			*plp0 = *plp1;
+			return;
+		}
 	}
 
-    /*  1  */
-    while( plp0->pspChild < plp1->pspChild )
-	{
-	if  ( paraBi0->biBelowPosition.lpPage >  page )
-	    { break;	}
-	if  ( paraBi0->biBelowPosition.lpPage == page		&&
-	      paraBi0->biBelowPosition.lpColumn >= column	)
-	    { break;	}
+	/*  1  */
+	while (plp0->pspChild < plp1->pspChild) {
+		if (paraBi0->biBelowPosition.lpPage > page) {
+			break;
+		}
+		if (paraBi0->biBelowPosition.lpPage == page &&
+		    paraBi0->biBelowPosition.lpColumn >= column) {
+			break;
+		}
 
-	docStripLayoutNextChild( plp0 );
-	paraBi0= cellNode->biChildren[plp0->pspChild];
+		docStripLayoutNextChild(plp0);
+		paraBi0 = cellNode->biChildren[plp0->pspChild];
 	}
 
-    /*  2  */
-    if  ( plp0->pspChild < plp1->pspChild )
-	{ line0= paraBi0->biParaLineCount;	}
-    else{ line0= plp1->pspLine;			}
-
-    tl= paraBi0->biParaLines+ plp0->pspLine;
-    while( plp0->pspLine < line0 && plp0->pspLine < paraBi0->biParaLineCount )
-	{
-	if  ( tl->tlTopPosition.lpPage >  page )
-	    { break;	}
-	if  ( tl->tlTopPosition.lpPage == page	&&
-	      tl->tlTopPosition.lpColumn >= column	)
-	    { break;	}
-
-	plp0->pspLine++; tl++;
+	/*  2  */
+	if (plp0->pspChild < plp1->pspChild) {
+		line0 = paraBi0->biParaLineCount;
+	} else {
+		line0 = plp1->pspLine;
 	}
 
-    /*  3  */
-    for ( para= plp0->pspChild; para < plp1->pspChild; para++ )
-	{
-	const BufferItem *	paraNode= cellNode->biChildren[para];
+	tl = paraBi0->biParaLines + plp0->pspLine;
+	while (plp0->pspLine < line0 &&
+	       plp0->pspLine < paraBi0->biParaLineCount) {
+		if (tl->tlTopPosition.lpPage > page) {
+			break;
+		}
+		if (tl->tlTopPosition.lpPage == page &&
+		    tl->tlTopPosition.lpColumn >= column) {
+			break;
+		}
 
-	if  ( advanceAnyway || ! paraNode->biParaKeepWithNext )
-	    {
-	    docStripLayoutStartChild( plp0, para+ 1 );
-
-	    if  ( plp0->pspChild < cellNode->biChildCount )
-		{ paraBi0= cellNode->biChildren[plp0->pspChild];	}
-	    /*  else .. return below */
-	    }
+		plp0->pspLine++;
+		tl++;
 	}
 
-    /*  4  */
-    if  ( plp0->pspChild < plp1->pspChild )
-	{ return;	}
+	/*  3  */
+	for (para = plp0->pspChild; para < plp1->pspChild; para++) {
+		const BufferItem *paraNode = cellNode->biChildren[para];
 
-    if  ( plp0->pspChild != plp1->pspChild )
-	{ LLLLDEB(page,column,plp0->pspChild,plp1->pspChild );	}
+		if (advanceAnyway || !paraNode->biParaKeepWithNext) {
+			docStripLayoutStartChild(plp0, para + 1);
 
-    if  ( plp0->pspChild >= cellNode->biChildCount )
-	{ return;	}
+			if (plp0->pspChild < cellNode->biChildCount) {
+				paraBi0 = cellNode->biChildren[plp0->pspChild];
+			}
+			/*  else .. return below */
+		}
+	}
 
-    /*  5  */
-    if  ( ! advanceAnyway			&&
-	  ( paraBi0->biParaKeepOnPage	||
-	    paraBi0->biParaKeepWithNext	)	)
-	{
-	docStripLayoutStartChild( plp0, plp0->pspChild );
+	/*  4  */
+	if (plp0->pspChild < plp1->pspChild) {
+		return;
+	}
+
+	if (plp0->pspChild != plp1->pspChild) {
+		LLLLDEB(page, column, plp0->pspChild, plp1->pspChild);
+	}
+
+	if (plp0->pspChild >= cellNode->biChildCount) {
+		return;
+	}
+
+	/*  5  */
+	if (!advanceAnyway &&
+	    (paraBi0->biParaKeepOnPage || paraBi0->biParaKeepWithNext)) {
+		docStripLayoutStartChild(plp0, plp0->pspChild);
+		return;
+	}
+
+	/*  6  */
+	if (!advanceAnyway && paraBi1 && paraBi1->biParaWidowControl &&
+	    plp1->pspLine == 1 && paraBi1->biParaLineCount >= 1) {
+		tl = paraBi1->biParaLines + 0;
+
+		if (tl->tlFirstParticule + tl->tlParticuleCount <
+		    paraBi1->biParaParticuleCount) {
+			docStripLayoutStartChild(plp0, plp0->pspChild);
+			return;
+		}
+	}
+
+	/*  7  */
+
+	/*  8  */
+	*plp0 = *plp1;
+
 	return;
-	}
-
-    /*  6  */
-    if  ( ! advanceAnyway		&&
-	  paraBi1			&&
-	  paraBi1->biParaWidowControl	&&
-	  plp1->pspLine == 1		&&
-	  paraBi1->biParaLineCount >= 1	)
-	{
-	tl= paraBi1->biParaLines+ 0;
-
-	if  ( tl->tlFirstParticule+ tl->tlParticuleCount <
-					paraBi1->biParaParticuleCount	)
-	    {
-	    docStripLayoutStartChild( plp0, plp0->pspChild );
-	    return;
-	    }
-	}
-
-    /*  7  */
-
-    /*  8  */
-    *plp0= *plp1;
-
-    return;
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -491,65 +483,62 @@ static void docCommitStripLayout_x(
 /*									*/
 /************************************************************************/
 
-# define docSetLayoutProgress( plpt, plpf ) \
-    { \
-    (plpt)->pspChild= (plpf)->pspChild; \
-    (plpt)->pspChildAdvanced= (plpf)->pspChildAdvanced; \
-    (plpt)->pspPart= (plpf)->pspPart; \
-    (plpt)->pspLine= (plpf)->pspLine; \
-    }
-
-static int docCompareLayoutProgress(
-			const ParagraphLayoutPosition *	plp0,
-			const ParagraphLayoutPosition *	plp1 )
-    {
-    if  ( plp1->pspChild > plp0->pspChild )
-	{ return  1;	}
-    if  ( plp1->pspChild < plp0->pspChild )
-	{ return -1;	}
-
-    if  ( plp1->pspPart > plp0->pspPart )
-	{ return  1;	}
-    if  ( plp1->pspPart < plp0->pspPart )
-	{ return -1;	}
-
-    return 0;
-    }
-
-void docCommitStripLayout(
-				int *				pAdvanced,
-				int				advanceAnyway,
-				ParagraphLayoutJob *		plj,
-				int				page,
-				int				column,
-				const BufferItem *		cellNode )
-    {
-    int				advanced= 0;
-    ParagraphLayoutPosition	plp0;
-
-    plp0= plj->pljPos0;
-
-    docCommitStripLayout_x( &plp0, &(plj->pljPos),
-				    advanceAnyway, page, column, cellNode );
-
-    advanced= ( docCompareLayoutProgress( &plp0, &(plj->pljPos0) ) < 0 );
-    if  ( advanced )
-	{
-	docSetLayoutProgress( &(plj->pljPos0), &plp0 );
-	docSetLayoutProgress( &(plj->pljPos), &plp0 );
+#define docSetLayoutProgress(plpt, plpf)                             \
+	{                                                            \
+		(plpt)->pspChild = (plpf)->pspChild;                 \
+		(plpt)->pspChildAdvanced = (plpf)->pspChildAdvanced; \
+		(plpt)->pspPart = (plpf)->pspPart;                   \
+		(plpt)->pspLine = (plpf)->pspLine;                   \
 	}
-    else{
-#	if 0
+
+static int docCompareLayoutProgress(const ParagraphLayoutPosition *plp0,
+				    const ParagraphLayoutPosition *plp1)
+{
+	if (plp1->pspChild > plp0->pspChild) {
+		return 1;
+	}
+	if (plp1->pspChild < plp0->pspChild) {
+		return -1;
+	}
+
+	if (plp1->pspPart > plp0->pspPart) {
+		return 1;
+	}
+	if (plp1->pspPart < plp0->pspPart) {
+		return -1;
+	}
+
+	return 0;
+}
+
+void docCommitStripLayout(int *pAdvanced, int advanceAnyway,
+			  ParagraphLayoutJob *plj, int page, int column,
+			  const BufferItem *cellNode)
+{
+	int advanced = 0;
+	ParagraphLayoutPosition plp0;
+
+	plp0 = plj->pljPos0;
+
+	docCommitStripLayout_x(&plp0, &(plj->pljPos), advanceAnyway, page,
+			       column, cellNode);
+
+	advanced = (docCompareLayoutProgress(&plp0, &(plj->pljPos0)) < 0);
+	if (advanced) {
+		docSetLayoutProgress(&(plj->pljPos0), &plp0);
+		docSetLayoutProgress(&(plj->pljPos), &plp0);
+	} else {
+#if 0
 	int cmp= docCompareLayoutProgress( &(plj->pljPos0), &(plj->pljPos) );
 	if  ( cmp >= 0 )
 	    { LDEB(cmp);	}
-#	endif
-	/* Prevent loops: Be sure to advance */
-	docSetLayoutProgress( &(plj->pljPos0), &(plj->pljPos) );
+#endif
+		/* Prevent loops: Be sure to advance */
+		docSetLayoutProgress(&(plj->pljPos0), &(plj->pljPos));
 	}
 
-    *pAdvanced= advanced;
-    }
+	*pAdvanced = advanced;
+}
 
 /************************************************************************/
 /*									*/
@@ -559,18 +548,16 @@ void docCommitStripLayout(
 /*									*/
 /************************************************************************/
 
-void docFindStripLayoutOrigin(	ParagraphLayoutJob *		plj,
-				int				page,
-				int				column,
-				const BufferItem *		cellNode )
-    {
-    int				advanceAnyway= 0;
+void docFindStripLayoutOrigin(ParagraphLayoutJob *plj, int page, int column,
+			      const BufferItem *cellNode)
+{
+	int advanceAnyway = 0;
 
-    docCommitStripLayout_x( &(plj->pljPos0), &(plj->pljPos),
-					advanceAnyway, page, column, cellNode );
+	docCommitStripLayout_x(&(plj->pljPos0), &(plj->pljPos), advanceAnyway,
+			       page, column, cellNode);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -590,106 +577,115 @@ void docFindStripLayoutOrigin(	ParagraphLayoutJob *		plj,
 /*									*/
 /************************************************************************/
 
-int docLayoutStackedStrip(	BufferItem *			cellNode,
-				BlockFrame *			bf,
-				const LayoutJob *		lj,
-				ParagraphLayoutJob *		plj )
-    {
-    LayoutPosition		lpBefore;
+int docLayoutStackedStrip(BufferItem *cellNode, BlockFrame *bf,
+			  const LayoutJob *lj, ParagraphLayoutJob *plj)
+{
+	LayoutPosition lpBefore;
 
-    int				prevAdvanced= 1;
-    int				advanceAnyway= 0;
-    int				stopCode= FORMATstopREADY;
-    int				prevStopCode= FORMATstopREADY;
+	int prevAdvanced = 1;
+	int advanceAnyway = 0;
+	int stopCode = FORMATstopREADY;
+	int prevStopCode = FORMATstopREADY;
 
-    lpBefore= plj->pljPos.plpPos;
+	lpBefore = plj->pljPos.plpPos;
 
-    /*  1  */
-    if  ( docLayoutStripChildren( &stopCode, plj, bf, lj, cellNode ) )
-	{ LDEB(1); return -1;	}
-
-    /*  2  */
-    while( stopCode != FORMATstopREADY		&&
-	   stopCode != FORMATstopFRAME_FULL	)
-	{
-	int				advanced;
-	const int			belowText= 0;
-	LayoutPosition			lpBelowNotes;
-
-	/*  3  */
-	if  ( BF_HAS_FOOTNOTES( bf )					&&
-	      ( cellNode->biTreeType == DOCinBODY		||
-	        cellNode->biTreeType == DOCinENDNOTE	)	&&
-	      ! bf->bfFootnotesPlaced					&&
-	      docLayoutFootnotesForColumn( &lpBelowNotes,
-			    &(plj->pljPos.plpPos), bf, belowText, lj )	)
-	    { LDEB(1); return -1;	}
-
-	/*  4  */
-	docCommitStripLayout( &advanced, advanceAnyway, plj,
-					lpBefore.lpPage, lpBefore.lpColumn,
-					cellNode );
-
-	/*  5  */
-	switch( stopCode )
-	    {
-	    case FORMATstopBLOCK_FULL:
-	    case FORMATstopCOLUMN_BREAK:
-		docLayoutToNextColumn( &(plj->pljPos.plpPos), bf, cellNode, lj );
-		break;
-
-	    case FORMATstopPAGE_BREAK:
-		docLayoutToNextColumn( &(plj->pljPos.plpPos), bf, cellNode, lj );
-		while( plj->pljPos.plpPos.lpColumn > 0 )
-		    {
-		    docLayoutToNextColumn( &(plj->pljPos.plpPos),
-							    bf, cellNode, lj );
-		    }
-		break;
-
-	    default:
-		break;
-	    }
-
-	if  ( ! advanced )
-	    {
-	    if  ( ! prevAdvanced )
-		{
-		if  ( advanceAnyway )
-		    {
-		    LLLDEB(prevAdvanced,advanced,advanceAnyway);
-		    LLDEB(prevStopCode,stopCode);
-		    RECTDEB(&(plj->pljPos.plpParagraphFrame.pfParaContentRect));
-
-		    docStripLayoutNextChild( &(plj->pljPos) );
-		    docSetLayoutProgress( &(plj->pljPos0), &(plj->pljPos) );
-		    advanced= 1;
-
-		    if  ( docLayoutStripDone( &(plj->pljPos), plj ) )
-			{ break;	}
-		    }
-		else{ advanceAnyway= 1;	}
-		}
-	    }
-
-	prevAdvanced= advanced;
-
-	/*  6  */
-	docCellStripFrame( cellNode, bf, plj );
-
-	/*  7  */
-	lpBefore= plj->pljPos.plpPos;
-
-	prevStopCode= stopCode;
-	if  ( docLayoutStripChildren( &stopCode, plj, bf, lj, cellNode ) )
-	    { LDEB(1); return -1;	}
+	/*  1  */
+	if (docLayoutStripChildren(&stopCode, plj, bf, lj, cellNode)) {
+		LDEB(1);
+		return -1;
 	}
 
-    if  ( cellNode->biChildCount > 0 )
-	{ cellNode->biTopPosition= cellNode->biChildren[0]->biTopPosition; }
+	/*  2  */
+	while (stopCode != FORMATstopREADY &&
+	       stopCode != FORMATstopFRAME_FULL) {
+		int advanced;
+		const int belowText = 0;
+		LayoutPosition lpBelowNotes;
 
-    return 0;
-    }
+		/*  3  */
+		if (BF_HAS_FOOTNOTES(bf) &&
+		    (cellNode->biTreeType == DOCinBODY ||
+		     cellNode->biTreeType == DOCinENDNOTE) &&
+		    !bf->bfFootnotesPlaced &&
+		    docLayoutFootnotesForColumn(&lpBelowNotes,
+						&(plj->pljPos.plpPos), bf,
+						belowText, lj)) {
+			LDEB(1);
+			return -1;
+		}
+
+		/*  4  */
+		docCommitStripLayout(&advanced, advanceAnyway, plj,
+				     lpBefore.lpPage, lpBefore.lpColumn,
+				     cellNode);
+
+		/*  5  */
+		switch (stopCode) {
+		case FORMATstopBLOCK_FULL:
+		case FORMATstopCOLUMN_BREAK:
+			docLayoutToNextColumn(&(plj->pljPos.plpPos), bf,
+					      cellNode, lj);
+			break;
+
+		case FORMATstopPAGE_BREAK:
+			docLayoutToNextColumn(&(plj->pljPos.plpPos), bf,
+					      cellNode, lj);
+			while (plj->pljPos.plpPos.lpColumn > 0) {
+				docLayoutToNextColumn(&(plj->pljPos.plpPos), bf,
+						      cellNode, lj);
+			}
+			break;
+
+		default:
+			break;
+		}
+
+		if (!advanced) {
+			if (!prevAdvanced) {
+				if (advanceAnyway) {
+					LLLDEB(prevAdvanced, advanced,
+					       advanceAnyway);
+					LLDEB(prevStopCode, stopCode);
+					RECTDEB(&(plj->pljPos.plpParagraphFrame
+							  .pfParaContentRect));
+
+					docStripLayoutNextChild(&(plj->pljPos));
+					docSetLayoutProgress(&(plj->pljPos0),
+							     &(plj->pljPos));
+					advanced = 1;
+
+					if (docLayoutStripDone(&(plj->pljPos),
+							       plj)) {
+						break;
+					}
+				} else {
+					advanceAnyway = 1;
+				}
+			}
+		}
+
+		prevAdvanced = advanced;
+
+		/*  6  */
+		docCellStripFrame(cellNode, bf, plj);
+
+		/*  7  */
+		lpBefore = plj->pljPos.plpPos;
+
+		prevStopCode = stopCode;
+		if (docLayoutStripChildren(&stopCode, plj, bf, lj, cellNode)) {
+			LDEB(1);
+			return -1;
+		}
+	}
+
+	if (cellNode->biChildCount > 0) {
+		cellNode->biTopPosition =
+			cellNode->biChildren[0]->biTopPosition;
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -697,20 +693,20 @@ int docLayoutStackedStrip(	BufferItem *			cellNode,
 /*									*/
 /************************************************************************/
 
-void docCellStripFrame(		BufferItem *			cellNode,
-				const BlockFrame *		bf,
-				ParagraphLayoutJob *		plj )
-					
-    {
-    BufferItem *		childNode;
-    ParagraphFrame *		pf= &(plj->pljPos.plpParagraphFrame);
+void docCellStripFrame(BufferItem *cellNode, const BlockFrame *bf,
+		       ParagraphLayoutJob *plj)
 
-    childNode= cellNode->biChildren[plj->pljPos.pspChild];
+{
+	BufferItem *childNode;
+	ParagraphFrame *pf = &(plj->pljPos.plpParagraphFrame);
 
-    if  ( childNode->biLevel == DOClevPARA )
-	{ docParagraphFrameTwips( pf, bf, childNode );	}
-    else{ docCellFrameTwips( pf, bf, cellNode );	}
+	childNode = cellNode->biChildren[plj->pljPos.pspChild];
 
-    return;
-    }
+	if (childNode->biLevel == DOClevPARA) {
+		docParagraphFrameTwips(pf, bf, childNode);
+	} else {
+		docCellFrameTwips(pf, bf, cellNode);
+	}
 
+	return;
+}

@@ -4,9 +4,9 @@
 /*									*/
 /************************************************************************/
 
-#   include <drawDrawingSurface.h>
-#   include <psPostScriptFontList.h>
-#   include "appGuiBase.h"
+#include <drawDrawingSurface.h>
+#include <psPostScriptFontList.h>
+#include "appGuiBase.h"
 
 /************************************************************************/
 /*									*/
@@ -14,15 +14,9 @@
 /*									*/
 /************************************************************************/
 
-extern int drawFontImplementationName(
-			char *				target,
-			int				maxlen,
-			const DrawingSurface		ds,
-			int				screenFont );
+extern int drawFontImplementationName(char *target, int maxlen,
+				      const DrawingSurface ds, int screenFont);
 
-extern int drawOpenDefaultFont(
-			DrawingSurface			ds,
-			const PostScriptFontList *	psfl,
-			APP_WIDGET			w,
-			int				fontSizeHintPixels );
-
+extern int drawOpenDefaultFont(DrawingSurface ds,
+			       const PostScriptFontList *psfl, APP_WIDGET w,
+			       int fontSizeHintPixels);

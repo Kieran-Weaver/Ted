@@ -2,19 +2,19 @@
 /*  Ted: interaction with the page layout tool.				*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	"tedApp.h"
-#   include	"tedSelect.h"
-#   include	"tedAppResources.h"
-#   include	"tedLayout.h"
-#   include	"tedDocument.h"
-#   include	<docScreenLayout.h>
-#   include	<guiWidgetDrawingSurface.h>
-#   include	<guiDrawingWidget.h>
-#   include	<docTreeNode.h>
+#include "tedApp.h"
+#include "tedSelect.h"
+#include "tedAppResources.h"
+#include "tedLayout.h"
+#include "tedDocument.h"
+#include <docScreenLayout.h>
+#include <guiWidgetDrawingSurface.h>
+#include <guiDrawingWidget.h>
+#include <docTreeNode.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -23,63 +23,66 @@
 /*									*/
 /************************************************************************/
 
-void tedRedoDocumentLayout(	EditDocument *		ed )
-    {
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
+void tedRedoDocumentLayout(EditDocument *ed)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
 
-    int				hasSelection= tedHasSelection( ed );
-    int				reachedBottom= 0;
+	int hasSelection = tedHasSelection(ed);
+	int reachedBottom = 0;
 
-    LayoutContext		lc;
+	LayoutContext lc;
 
-    layoutInitContext( &lc );
-    tedSetScreenLayoutContext( &lc, ed );
+	layoutInitContext(&lc);
+	tedSetScreenLayoutContext(&lc, ed);
 
-    tedLayoutDocumentBody( &reachedBottom, &lc );
+	tedLayoutDocumentBody(&reachedBottom, &lc);
 
-    if  ( tedOpenTreeObjects( &(bd->bdBody), &lc ) )
-	{ LDEB(1); 	}
-
-    if  ( reachedBottom )
-	{
-	BufferItem *	rootNode= bd->bdBody.dtRoot;
-
-	docGetPixelRectangleForPages( &(ed->edFullRect), &lc,
-					    rootNode->biTopPosition.lpPage,
-					    rootNode->biBelowPosition.lpPage );
+	if (tedOpenTreeObjects(&(bd->bdBody), &lc)) {
+		LDEB(1);
 	}
 
-    if  ( hasSelection )
-	{ tedDelimitCurrentSelection( ed );	}
+	if (reachedBottom) {
+		BufferItem *rootNode = bd->bdBody.dtRoot;
 
-    appDocSetScrollbarValues( ed );
-
-    if  ( hasSelection )
-	{
-	DocumentSelection		ds;
-	SelectionGeometry		sg;
-	SelectionDescription		sd;
-	BufferItem *			bodySectNode;
-
-	if  ( tedGetSelection( &ds, &sg, &sd,
-				    (DocumentTree **)0, &bodySectNode, ed ) )
-	    { LDEB(1); return;	}
-
-	tedDocAdaptTopRuler( ed, &ds, &sg, &sd, bodySectNode );
-
-	tedScrollToSelection( ed, (int *)0, (int *)0 );
-
-	tedDescribeSelection( ed );
-
-	if  ( td->tdSelectionDescription.sdIsObjectSelection )
-	    { tedMoveObjectWindows( ed );	}
+		docGetPixelRectangleForPages(&(ed->edFullRect), &lc,
+					     rootNode->biTopPosition.lpPage,
+					     rootNode->biBelowPosition.lpPage);
 	}
 
-    guiExposeDrawingWidget( ed->edDocumentWidget.dwWidget );
+	if (hasSelection) {
+		tedDelimitCurrentSelection(ed);
+	}
 
-    return;
-    }
+	appDocSetScrollbarValues(ed);
+
+	if (hasSelection) {
+		DocumentSelection ds;
+		SelectionGeometry sg;
+		SelectionDescription sd;
+		BufferItem *bodySectNode;
+
+		if (tedGetSelection(&ds, &sg, &sd, (DocumentTree **)0,
+				    &bodySectNode, ed)) {
+			LDEB(1);
+			return;
+		}
+
+		tedDocAdaptTopRuler(ed, &ds, &sg, &sd, bodySectNode);
+
+		tedScrollToSelection(ed, (int *)0, (int *)0);
+
+		tedDescribeSelection(ed);
+
+		if (td->tdSelectionDescription.sdIsObjectSelection) {
+			tedMoveObjectWindows(ed);
+		}
+	}
+
+	guiExposeDrawingWidget(ed->edDocumentWidget.dwWidget);
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -87,26 +90,26 @@ void tedRedoDocumentLayout(	EditDocument *		ed )
 /*									*/
 /************************************************************************/
 
-void tedAdaptPageToolToDocument(	EditApplication *	ea,
-					EditDocument *		ed )
-    {
-    TedDocument *		td;
-    BufferDocument *		bd;
-    DocumentProperties *	dp;
+void tedAdaptPageToolToDocument(EditApplication *ea, EditDocument *ed)
+{
+	TedDocument *td;
+	BufferDocument *bd;
+	DocumentProperties *dp;
 
-    if  ( ! ea->eaPageTool )
-	{ return;	}
+	if (!ea->eaPageTool) {
+		return;
+	}
 
-    td= (TedDocument *)ed->edPrivateData;
-    bd= td->tdDocument;
-    dp= &(bd->bdProperties);
+	td = (TedDocument *)ed->edPrivateData;
+	bd = td->tdDocument;
+	dp = &(bd->bdProperties);
 
-    appPageToolSetProperties( ea->eaPageTool, &(dp->dpGeometry) );
+	appPageToolSetProperties(ea->eaPageTool, &(dp->dpGeometry));
 
-    appEnablePageTool( ea->eaPageTool, ! ed->edIsReadonly );
+	appEnablePageTool(ea->eaPageTool, !ed->edIsReadonly);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -114,11 +117,10 @@ void tedAdaptPageToolToDocument(	EditApplication *	ea,
 /*									*/
 /************************************************************************/
 
-int tedLayoutDocumentBody(	int *				pReachedBottom,
-				const LayoutContext *		lc )
-    {
-    return docScreenLayoutDocumentBody( pReachedBottom, lc->lcDocument, lc );
-    }
+int tedLayoutDocumentBody(int *pReachedBottom, const LayoutContext *lc)
+{
+	return docScreenLayoutDocumentBody(pReachedBottom, lc->lcDocument, lc);
+}
 
 /************************************************************************/
 /*									*/
@@ -127,27 +129,29 @@ int tedLayoutDocumentBody(	int *				pReachedBottom,
 /*									*/
 /************************************************************************/
 
-int tedGetParaLineHeight(	int *			pLineHeight,
-				EditDocument *		ed )
-    {
-    DocumentSelection		ds;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
-    int				fontSize= 0;
+int tedGetParaLineHeight(int *pLineHeight, EditDocument *ed)
+{
+	DocumentSelection ds;
+	SelectionGeometry sg;
+	SelectionDescription sd;
+	int fontSize = 0;
 
-    LayoutContext		lc;
+	LayoutContext lc;
 
-    layoutInitContext( &lc );
-    tedSetScreenLayoutContext( &lc, ed );
+	layoutInitContext(&lc);
+	tedSetScreenLayoutContext(&lc, ed);
 
-    if  ( tedGetSelection( &ds, &sg, &sd,
-				(DocumentTree **)0, (BufferItem **)0, ed ) )
-	{ LDEB(1); return -1;	}
+	if (tedGetSelection(&ds, &sg, &sd, (DocumentTree **)0, (BufferItem **)0,
+			    ed)) {
+		LDEB(1);
+		return -1;
+	}
 
-    if  ( docLayoutParagraphLineExtents( &fontSize, &lc, ds.dsHead.dpNode ) )
-	{ LDEB(1); return -1;	}
+	if (docLayoutParagraphLineExtents(&fontSize, &lc, ds.dsHead.dpNode)) {
+		LDEB(1);
+		return -1;
+	}
 
-    *pLineHeight= fontSize;
-    return 0;
-    }
-
+	*pLineHeight = fontSize;
+	return 0;
+}

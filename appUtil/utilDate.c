@@ -10,99 +10,116 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilDate.h"
+#include "utilDate.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-static int UTIL_DateMdays[]=
-    {
-    0,
-    31,		/*  31, Mar	*/
-    61,		/*  30, Apr	*/
-    92,		/*  31, May	*/
-    122,	/*  30, Jun	*/
-    153,	/*  31, Jul	*/
-    184,	/*  31, Aug	*/
-    214,	/*  30, Sep	*/
-    245,	/*  31, Oct	*/
-    275,	/*  30, Nov	*/
-    306,	/*  31, Dec	*/
-    337,	/*  31, Jan	*/
-    366,	/*  29, Feb	*/
-    };
+static int UTIL_DateMdays[] = {
+	0,   31, /*  31, Mar	*/
+	61, /*  30, Apr	*/
+	92, /*  31, May	*/
+	122, /*  30, Jun	*/
+	153, /*  31, Jul	*/
+	184, /*  31, Aug	*/
+	214, /*  30, Sep	*/
+	245, /*  31, Oct	*/
+	275, /*  30, Nov	*/
+	306, /*  31, Dec	*/
+	337, /*  31, Jan	*/
+	366, /*  29, Feb	*/
+};
 
-#   define	Y1		( 365 )
-#   define	Y4		( 4* Y1+ 1 )
-#   define	Y100		( 24* Y4+ 4* Y1 )
-#   define	Y400		( 4* Y100+ 1 )
-#   define	JAN_1_1970	( 719468 )
+#define Y1 (365)
+#define Y4 (4 * Y1 + 1)
+#define Y100 (24 * Y4 + 4 * Y1)
+#define Y400 (4 * Y100 + 1)
+#define JAN_1_1970 (719468)
 
-long utilDateGregorianDayNumber(	int	year,
-					int	month,
-					int	day )
-    {
-    long	rval= 0;
+long utilDateGregorianDayNumber(int year, int month, int day)
+{
+	long rval = 0;
 
-    month -= 3;
+	month -= 3;
 
-    while( month < 0 )
-	{ month += 12; year--;	}
-    while( month >= 12 )
-	{ month -= 12; year++;	}
+	while (month < 0) {
+		month += 12;
+		year--;
+	}
+	while (month >= 12) {
+		month -= 12;
+		year++;
+	}
 
-    rval += Y400* (year/400); year= year % 400;
-    rval += Y100* (year/100); year= year % 100;
-    rval += Y4  * (year/4  ); year= year % 4  ;
-    rval += Y1  *  year;
+	rval += Y400 * (year / 400);
+	year = year % 400;
+	rval += Y100 * (year / 100);
+	year = year % 100;
+	rval += Y4 * (year / 4);
+	year = year % 4;
+	rval += Y1 * year;
 
-    rval += UTIL_DateMdays[month];
+	rval += UTIL_DateMdays[month];
 
-    rval += day- 1;
+	rval += day - 1;
 
-    return rval- JAN_1_1970;
-    }
+	return rval - JAN_1_1970;
+}
 
-void utilDateSplitGregorianDate(	long	day,
-					int *	pYear,
-					int *	pMonth,
-					int *	pDay )
-    {
-    int		year= 0;
-    int		month= 0;
-    int		s;
+void utilDateSplitGregorianDate(long day, int *pYear, int *pMonth, int *pDay)
+{
+	int year = 0;
+	int month = 0;
+	int s;
 
-    if  ( day < -JAN_1_1970 )
-	{ LLDEB(day,JAN_1_1970);	}
+	if (day < -JAN_1_1970) {
+		LLDEB(day, JAN_1_1970);
+	}
 
-    day += JAN_1_1970;
+	day += JAN_1_1970;
 
-    while( day >= Y400 )		{ year += 400;	day -= Y400;	}
+	while (day >= Y400) {
+		year += 400;
+		day -= Y400;
+	}
 
-    s= 0;
-    while( day >= Y100 && s < 3 )	{ year += 100;	day -= Y100; s++; }
-    while( day >= Y4 )			{ year += 4;	day -= Y4;	}
+	s = 0;
+	while (day >= Y100 && s < 3) {
+		year += 100;
+		day -= Y100;
+		s++;
+	}
+	while (day >= Y4) {
+		year += 4;
+		day -= Y4;
+	}
 
-    s= 0;
-    while( day >= Y1 && s < 3 )		{ year += 1;	day -= Y1; s++;	}
+	s = 0;
+	while (day >= Y1 && s < 3) {
+		year += 1;
+		day -= Y1;
+		s++;
+	}
 
-    day++;
-    while( UTIL_DateMdays[month+1] < day	&&
-	   month < 12				)
-	{ month++;	}
-    day -= UTIL_DateMdays[month];
+	day++;
+	while (UTIL_DateMdays[month + 1] < day && month < 12) {
+		month++;
+	}
+	day -= UTIL_DateMdays[month];
 
-    month += 3;
-    if  ( month > 12 )
-	{ month -= 12; year++;	}
+	month += 3;
+	if (month > 12) {
+		month -= 12;
+		year++;
+	}
 
-    *pYear= year;
-    *pMonth= month;
-    *pDay= day;
+	*pYear = year;
+	*pMonth = month;
+	*pDay = day;
 
-    return;
-    }
+	return;
+}
 
-# if 0
+#if 0
 
 /*# include <time.h>*/
 
@@ -172,4 +189,4 @@ int qqq(void)
     return 0;
     }
 
-# endif
+#endif

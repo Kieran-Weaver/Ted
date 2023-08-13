@@ -5,10 +5,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_COLLECT_STATISTICS_H
-#   define	DOC_COLLECT_STATISTICS_H
+#ifndef DOC_COLLECT_STATISTICS_H
+#define DOC_COLLECT_STATISTICS_H
 
-#   include	<docStatistics.h>
+#include <docStatistics.h>
 
 struct BufferDocument;
 
@@ -18,7 +18,7 @@ struct BufferDocument;
 /*									*/
 /************************************************************************/
 
-extern void docCollectDocumentStatistics( DocumentStatistics *		ds,
-					const struct BufferDocument *	bd );
+extern void docCollectDocumentStatistics(DocumentStatistics *ds,
+					 const struct BufferDocument *bd);
 
-#   endif
+#endif

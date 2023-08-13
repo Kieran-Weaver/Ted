@@ -1,6 +1,6 @@
-#   include	"psFontInfo.h"
-#   include	"psTtfTableEntry.h"
-#   include	"psTtfNameTable.h"
+#include "psFontInfo.h"
+#include "psTtfTableEntry.h"
+#include "psTtfNameTable.h"
 
 /************************************************************************/
 /*									*/
@@ -27,11 +27,11 @@
 /*									*/
 /************************************************************************/
 
-#   define	PLATFORM_UNICODE	0
-#   define	PLATFORM_MAC		1
-#   define	PLATFORM_WINDOWS	2
+#define PLATFORM_UNICODE 0
+#define PLATFORM_MAC 1
+#define PLATFORM_WINDOWS 2
 
-# if 0
+#if 0
 
 Unicode:
 0  	Unicode 1.0 semantics
@@ -88,245 +88,229 @@ Mac:
 31 	Sindhi
 32 	(Uninterpreted)
 
-# endif
+#endif
 
+typedef struct TrueTypeOS_2Table {
+	unsigned int ttotVersion;
+	int ttotAvgCharWidth;
+	unsigned int ttotWeightClass;
+	unsigned int ttotWidthClass;
+	int ttotType;
+	int ttotSubscriptXSize;
+	int ttotSubscriptYSize;
+	int ttotSubscriptXOffset;
+	int ttotSubscriptYOffset;
+	int ttotSuperscriptXSize;
+	int ttotSuperscriptYSize;
+	int ttotSuperscriptXOffset;
+	int ttotSuperscriptYOffset;
+	int ttotStrikeoutSize;
+	int ttotStrikeoutPosition;
+	int ttotFamilyClass;
+	unsigned char ttotPanose[10];
+	unsigned long ttotCharRange[4];
+	unsigned char ttotVendID[4 + 1];
+	unsigned int ttotSelection;
+	unsigned int ttotFirstCharIndex;
+	unsigned int ttotLastCharIndex;
+} TrueTypeOS_2Table;
 
-typedef struct TrueTypeOS_2Table
-    {
-    unsigned int  	ttotVersion;
-    int		 	ttotAvgCharWidth;
-    unsigned int 	ttotWeightClass;
-    unsigned int 	ttotWidthClass;
-    int		 	ttotType;
-    int		 	ttotSubscriptXSize;
-    int		 	ttotSubscriptYSize;
-    int		 	ttotSubscriptXOffset;
-    int		 	ttotSubscriptYOffset;
-    int		 	ttotSuperscriptXSize;
-    int		 	ttotSuperscriptYSize;
-    int		 	ttotSuperscriptXOffset;
-    int		 	ttotSuperscriptYOffset;
-    int		 	ttotStrikeoutSize;
-    int		 	ttotStrikeoutPosition;
-    int		 	ttotFamilyClass;
-    unsigned char 	ttotPanose[10];
-    unsigned long 	ttotCharRange[4];
-    unsigned char 	ttotVendID[4+1];
-    unsigned int 	ttotSelection;
-    unsigned int 	ttotFirstCharIndex;
-    unsigned int 	ttotLastCharIndex;
-    } TrueTypeOS_2Table;
+typedef struct TrueTypeHeadTable {
+	unsigned long tthtVersion;
+	unsigned long tthtFontRevision;
+	unsigned long tthtChecksumAdjust;
+	unsigned long tthtMagicNo;
+	unsigned int tthtFlags;
+	unsigned int tthtUnitsPerEm;
+	unsigned char tthtCreated[8 + 1];
+	unsigned char tthtModified[8 + 1];
+	int tthtXMin;
+	int tthtYMin;
+	int tthtXMax;
+	int tthtYMax;
+	unsigned int tthtMacStyle;
+	unsigned int tthtLowestRecPPem;
+	int tthtFontDirection;
+	int tthtIndexToLocFormat;
+	int tthtGlyphDataFormat;
+} TrueTypeHeadTable;
 
-typedef struct TrueTypeHeadTable
-    {
-    unsigned long	tthtVersion;
-    unsigned long	tthtFontRevision;
-    unsigned long	tthtChecksumAdjust;
-    unsigned long	tthtMagicNo;
-    unsigned int	tthtFlags;
-    unsigned int	tthtUnitsPerEm;
-    unsigned char	tthtCreated[8+1];
-    unsigned char	tthtModified[8+1];
-    int			tthtXMin;
-    int			tthtYMin;
-    int			tthtXMax;
-    int			tthtYMax;
-    unsigned int	tthtMacStyle;
-    unsigned int	tthtLowestRecPPem;
-    int			tthtFontDirection;
-    int			tthtIndexToLocFormat;
-    int			tthtGlyphDataFormat;
-    } TrueTypeHeadTable;
+typedef struct TrueTypePostTable {
+	int ttptFormatUpper;
+	unsigned int ttptFormatLower;
+	int ttptItalicAngleUpper;
+	unsigned int ttptItalicAngleLower;
+	int ttptUnderlinePosition;
+	int ttptUnderlineThickness;
+	unsigned int ttptIsFixedPitch;
+	/* unsigned int	ttptReserved */
+	unsigned long ttptMinMemType42;
+	unsigned long ttptMaxMemType42;
+	unsigned long ttptMinMemType1;
+	unsigned long ttptMaxMemType1;
 
-typedef struct TrueTypePostTable
-    {
-    int			ttptFormatUpper;
-    unsigned int	ttptFormatLower;
-    int			ttptItalicAngleUpper;
-    unsigned int	ttptItalicAngleLower;
-    int			ttptUnderlinePosition;
-    int			ttptUnderlineThickness;
-    unsigned int	ttptIsFixedPitch;
-    /* unsigned int	ttptReserved */
-    unsigned long	ttptMinMemType42;
-    unsigned long	ttptMaxMemType42;
-    unsigned long	ttptMinMemType1;
-    unsigned long	ttptMaxMemType1;
+	unsigned int ttptIndexCount;
+	unsigned short *ttptIndices;
+	unsigned int ttptStringCount;
+	unsigned char **ttptStrings;
+} TrueTypePostTable;
 
-    unsigned int	ttptIndexCount;
-    unsigned short *	ttptIndices;
-    unsigned int	ttptStringCount;
-    unsigned char **	ttptStrings;
-    } TrueTypePostTable;
+typedef struct TrueTypeHheaTable {
+	unsigned char hheaVersion[4 + 1];
+	int hheaAscender;
+	int hheaDescender;
+	int hheaLineGap;
+	unsigned int hheaMaxAdvanceWidth;
+	int hheaMinLsb;
+	int hheaMinRsb;
+	int hheaXMaxExtent;
+	int hheaCaretSlopeRise;
+	int hheaCaretSlopeRun;
+	/* int		hheaReserved[5]; */
+	int hheaMetricDataFormat;
+	unsigned int hheaMetricCount;
+} TrueTypeHheaTable;
 
-typedef struct TrueTypeHheaTable
-    {
-    unsigned char	hheaVersion[4+1];
-    int			hheaAscender;
-    int			hheaDescender;
-    int			hheaLineGap;
-    unsigned int	hheaMaxAdvanceWidth;
-    int			hheaMinLsb;
-    int			hheaMinRsb;
-    int			hheaXMaxExtent;
-    int			hheaCaretSlopeRise;
-    int			hheaCaretSlopeRun;
-    /* int		hheaReserved[5]; */
-    int			hheaMetricDataFormat;
-    unsigned int	hheaMetricCount;
-    } TrueTypeHheaTable;
+typedef struct TrueTypeVheaTable {
+	unsigned char vheaVersion[4 + 1];
+	int vheaAscender;
+	int vheaDescender;
+	int vheaLineGap;
+	unsigned int vheaMaxAdvanceHeight;
+	int vheaMinTsb;
+	int vheaMinBsb;
+	int vheaYMaxExtent;
+	int vheaCaretSlopeRise;
+	int vheaCaretSlopeRun;
+	int vheaCaretOffset;
+	/* int		vheaReserved[4]; */
+	int vheaMetricDataFormat;
+	unsigned int vheaMetricCount;
+} TrueTypeVheaTable;
 
-typedef struct TrueTypeVheaTable
-    {
-    unsigned char	vheaVersion[4+1];
-    int			vheaAscender;
-    int			vheaDescender;
-    int			vheaLineGap;
-    unsigned int	vheaMaxAdvanceHeight;
-    int			vheaMinTsb;
-    int			vheaMinBsb;
-    int			vheaYMaxExtent;
-    int			vheaCaretSlopeRise;
-    int			vheaCaretSlopeRun;
-    int			vheaCaretOffset;
-    /* int		vheaReserved[4]; */
-    int			vheaMetricDataFormat;
-    unsigned int	vheaMetricCount;
-    } TrueTypeVheaTable;
+typedef struct HorizontalMetric {
+	unsigned int hmAdvanceWidth;
+	int hmLsb;
+} HorizontalMetric;
 
-typedef struct HorizontalMetric
-    {
-    unsigned int	hmAdvanceWidth;
-    int			hmLsb;
-    } HorizontalMetric;
+typedef struct VerticalMetric {
+	unsigned int vmAdvanceHeight;
+	int vmTsb;
+} VerticalMetric;
 
-typedef struct VerticalMetric
-    {
-    unsigned int	vmAdvanceHeight;
-    int			vmTsb;
-    } VerticalMetric;
+typedef struct TrueTypeGlyph {
+	int ttgContourCount; /* signed ! */
+	int ttgXMin;
+	int ttgYMin;
+	int ttgXMax;
+	int ttgYMax;
 
-typedef struct TrueTypeGlyph
-    {
-    int				ttgContourCount;	/* signed ! */
-    int				ttgXMin;
-    int				ttgYMin;
-    int				ttgXMax;
-    int				ttgYMax;
+	const unsigned char *ttgData;
+} TrueTypeGlyph;
 
-    const unsigned char *	ttgData;
-    } TrueTypeGlyph;
+typedef struct TrueTypeCmapRecord {
+	unsigned int ttcrPlatformID; /*  1  */
+	unsigned int ttcrEncodingID;
+	unsigned long ttcrOffset;
 
-typedef struct TrueTypeCmapRecord
-    {
-    unsigned int		ttcrPlatformID;		/*  1  */
-    unsigned int		ttcrEncodingID;
-    unsigned long		ttcrOffset;
+	unsigned int ttcrFormat;
+	unsigned int ttcrLength;
+	unsigned int ttcrLanguage;
 
+	/*  If format == 0  */
+	unsigned char ttcr0GlyphIDArray[256];
 
-    unsigned int		ttcrFormat;
-    unsigned int		ttcrLength;
-    unsigned int		ttcrLanguage;
+	/*  If format == 2  */
+	const unsigned char *ttcr2SubHeaderKeys;
+	const unsigned char *ttcr2SubHeaders;
+	int ttcr2SubHeaderBytes;
+	const unsigned char *ttcr2GlyphIndexArray;
 
-				/*  If format == 0  */
-    unsigned char		ttcr0GlyphIDArray[256];
+	/*  If format == 4  */
+	unsigned int ttcr4SegCountX2;
+	unsigned int ttcr4SearchRange;
+	unsigned int ttcr4EntrySelector;
+	unsigned int ttcr4RangeShift;
+	const unsigned char *ttcr4Data;
 
-				/*  If format == 2  */
-    const unsigned char *	ttcr2SubHeaderKeys;
-    const unsigned char *	ttcr2SubHeaders;
-    int				ttcr2SubHeaderBytes;
-    const unsigned char *	ttcr2GlyphIndexArray;
+	/*  If format == 6  */
+	unsigned int ttcr6FirstCode;
+	unsigned int ttcr6_12CodeCount;
+	unsigned int *ttcr6_12GlyphCodes;
 
-				/*  If format == 4  */
-    unsigned int		ttcr4SegCountX2;
-    unsigned int		ttcr4SearchRange;
-    unsigned int		ttcr4EntrySelector;
-    unsigned int		ttcr4RangeShift;
-    const unsigned char *	ttcr4Data;
+	/*  If format == 12; Use the 6 indices array  */
+	unsigned int ttcr12GroupCount;
+} TrueTypeCmapRecord;
 
-				/*  If format == 6  */
-    unsigned int		ttcr6FirstCode;
-    unsigned int		ttcr6_12CodeCount;
-    unsigned int *		ttcr6_12GlyphCodes;
+typedef struct TrueTypeCmapTable {
+	int ttctVersion;
+	int ttctEncodingRecordCount;
+	TrueTypeCmapRecord *ttctEncodingRecords;
+} TrueTypeCmapTable;
 
-				/*  If format == 12; Use the 6 indices array  */
-    unsigned int		ttcr12GroupCount;
-    } TrueTypeCmapRecord;
+typedef struct TrueTypeKernPair {
+	unsigned int ttkpLeft;
+	unsigned int ttkpRight;
+	int ttkpValue;
+} TrueTypeKernPair;
 
-typedef struct TrueTypeCmapTable
-    {
-    int				ttctVersion;
-    int				ttctEncodingRecordCount;
-    TrueTypeCmapRecord *	ttctEncodingRecords;
-    } TrueTypeCmapTable;
+typedef struct TrueTypeKernSub {
+	unsigned int ttksVersion;
+	unsigned int ttksLength;
+	unsigned int ttksCoverage;
+	/*  Bits in Coverage:			*/
+	/*  0x8000: Has vertical kerning values	*/
+	/*  0x4000: Has cross stream values	*/
+	/*  0x4000: Has variation kerning vals	*/
+	/*  0x1f00: Unused: must be 0.		*/
+	/*  0x00ff: Contain the format in which	*/
+	/*          the pairs are stored.	*/
+	/*  So normal horizontal kerning stored	*/
+	/*  as pairs has zero upper and lower	*/
+	/*  bytes.				*/
+	unsigned int ttksPairCount;
+	unsigned int ttksSearchRange;
+	unsigned int ttksEntrySelector;
+	unsigned int ttksRangeShift;
 
-typedef struct TrueTypeKernPair
-    {
-    unsigned int	ttkpLeft;
-    unsigned int	ttkpRight;
-    int			ttkpValue;
-    } TrueTypeKernPair;
+	TrueTypeKernPair *ttksPairs;
+} TrueTypeKernSub;
 
-typedef struct TrueTypeKernSub
-    {
-    unsigned int	ttksVersion;
-    unsigned int	ttksLength;
-    unsigned int	ttksCoverage;
-				/*  Bits in Coverage:			*/
-				/*  0x8000: Has vertical kerning values	*/
-				/*  0x4000: Has cross stream values	*/
-				/*  0x4000: Has variation kerning vals	*/
-				/*  0x1f00: Unused: must be 0.		*/
-				/*  0x00ff: Contain the format in which	*/
-				/*          the pairs are stored.	*/
-				/*  So normal horizontal kerning stored	*/
-				/*  as pairs has zero upper and lower	*/
-				/*  bytes.				*/
-    unsigned int	ttksPairCount;
-    unsigned int	ttksSearchRange;
-    unsigned int	ttksEntrySelector;
-    unsigned int	ttksRangeShift;
+typedef struct TrueTypeKernTable {
+	int ttktVersion;
+	int ttktKernSubCount;
+	TrueTypeKernSub *ttktKernSubs;
+} TrueTypeKernTable;
 
-    TrueTypeKernPair *	ttksPairs;
-    } TrueTypeKernSub;
+typedef struct TrueTypeFont {
+	unsigned long ttfVersion;
+	int ttfTableCount;
+	int ttfSearchRange;
+	int ttfEntrySelector;
+	int ttfRangeShift;
 
-typedef struct TrueTypeKernTable
-    {
-    int				ttktVersion;
-    int				ttktKernSubCount;
-    TrueTypeKernSub *		ttktKernSubs;
-    } TrueTypeKernTable;
+	TrueTypeTableEntry *ttfTables;
 
-typedef struct TrueTypeFont
-    {
-    unsigned long		ttfVersion;
-    int				ttfTableCount;
-    int				ttfSearchRange;
-    int				ttfEntrySelector;
-    int				ttfRangeShift;
+	TrueTypeNameTable ttfNameTable;
+	TrueTypePostTable ttfPostTable;
+	TrueTypeHeadTable ttfHeadTable;
+	TrueTypeHheaTable ttfHheaTable;
+	TrueTypeVheaTable ttfVheaTable;
+	TrueTypeCmapTable ttfCmapTable;
+	TrueTypeKernTable ttfKernTable;
+	TrueTypeOS_2Table ttfOS_2Table;
 
-    TrueTypeTableEntry *	ttfTables;
+	unsigned long *ttfLocations;
+	int ttfLocationCount;
 
-    TrueTypeNameTable		ttfNameTable;
-    TrueTypePostTable		ttfPostTable;
-    TrueTypeHeadTable		ttfHeadTable;
-    TrueTypeHheaTable		ttfHheaTable;
-    TrueTypeVheaTable		ttfVheaTable;
-    TrueTypeCmapTable		ttfCmapTable;
-    TrueTypeKernTable		ttfKernTable;
-    TrueTypeOS_2Table		ttfOS_2Table;
+	HorizontalMetric *ttfHorizontalMetrics;
+	int ttfHorizontalMetricCount;
 
-    unsigned long *		ttfLocations;
-    int				ttfLocationCount;
+	TrueTypeGlyph *ttfGlyphs;
+	int ttfGlyphCount;
 
-    HorizontalMetric *		ttfHorizontalMetrics;
-    int				ttfHorizontalMetricCount;
-
-    TrueTypeGlyph *		ttfGlyphs;
-    int				ttfGlyphCount;
-
-    IndexMapping		ttfToGlyphMapping;
-    } TrueTypeFont;
+	IndexMapping ttfToGlyphMapping;
+} TrueTypeFont;
 
 /************************************************************************/
 /*									*/
@@ -334,17 +318,13 @@ typedef struct TrueTypeFont
 /*									*/
 /************************************************************************/
 
-extern int psTtfLoadFont(	TrueTypeFont *		ttf,
-				SimpleInputStream *	sisTtf ,
-				long			filePos );
+extern int psTtfLoadFont(TrueTypeFont *ttf, SimpleInputStream *sisTtf,
+			 long filePos);
 
-extern int psTtcLoadFont(	TrueTypeFont *		ttf,
-				SimpleInputStream *	sisTtf,
-				int			fontIndex );
+extern int psTtcLoadFont(TrueTypeFont *ttf, SimpleInputStream *sisTtf,
+			 int fontIndex);
 
-extern void psTtfInitTrueTypeFont(	TrueTypeFont *	ttf );
-extern void psTtfCleanTrueTypeFont(	TrueTypeFont *	ttf );
+extern void psTtfInitTrueTypeFont(TrueTypeFont *ttf);
+extern void psTtfCleanTrueTypeFont(TrueTypeFont *ttf);
 
-extern int psTtfFontInfo(	AfmFontInfo *		afi,
-				const TrueTypeFont *	ttf );
-
+extern int psTtfFontInfo(AfmFontInfo *afi, const TrueTypeFont *ttf);

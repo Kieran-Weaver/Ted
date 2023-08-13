@@ -5,10 +5,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_STRIP_FRAME_H
-#   define	DOC_STRIP_FRAME_H
+#ifndef DOC_STRIP_FRAME_H
+#define DOC_STRIP_FRAME_H
 
-#   include	<geo2DInteger.h>
+#include <geo2DInteger.h>
 
 /************************************************************************/
 /*									*/
@@ -29,15 +29,14 @@
 /*									*/
 /************************************************************************/
 
-typedef struct ParagraphFrame
-    {
-    DocumentRectangle	pfParaContentRect;
-    DocumentRectangle	pfCellContentRect;
-    DocumentRectangle	pfCellRect;
+typedef struct ParagraphFrame {
+	DocumentRectangle pfParaContentRect;
+	DocumentRectangle pfCellContentRect;
+	DocumentRectangle pfCellRect;
 
-    int			pfRedrawX0Twips;
-    int			pfRedrawX1Twips;
-    } ParagraphFrame;
+	int pfRedrawX0Twips;
+	int pfRedrawX1Twips;
+} ParagraphFrame;
 
 /************************************************************************/
 /*									*/
@@ -45,6 +44,6 @@ typedef struct ParagraphFrame
 /*									*/
 /************************************************************************/
 
-extern void docInitParagraphFrame(	ParagraphFrame *	pf );
+extern void docInitParagraphFrame(ParagraphFrame *pf);
 
-#   endif /*	DOC_STRIP_FRAME_H */
+#endif /*	DOC_STRIP_FRAME_H */

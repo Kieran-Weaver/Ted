@@ -4,27 +4,25 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_NOTE_PROPERTIES_H
-#   define	DOC_NOTE_PROPERTIES_H
+#ifndef DOC_NOTE_PROPERTIES_H
+#define DOC_NOTE_PROPERTIES_H
 
-#   include	<utilMemoryBuffer.h>
-#   include	<utilPropMask.h>
+#include <utilMemoryBuffer.h>
+#include <utilPropMask.h>
 
-typedef struct NoteProperties
-    {
-    MemoryBuffer	npFixedText;
-    unsigned char	npTreeType;
-    unsigned char	npAutoNumber;
-    } NoteProperties;
+typedef struct NoteProperties {
+	MemoryBuffer npFixedText;
+	unsigned char npTreeType;
+	unsigned char npAutoNumber;
+} NoteProperties;
 
-typedef enum NoteProperty
-    {
-    NOTEpropFIXED_TEXT= 0,
-    NOTEpropTREE_TYPE,
-    NOTEpropAUTO_NUMBER,
+typedef enum NoteProperty {
+	NOTEpropFIXED_TEXT = 0,
+	NOTEpropTREE_TYPE,
+	NOTEpropAUTO_NUMBER,
 
-    NOTEprop_COUNT
-    } NoteProperty;
+	NOTEprop_COUNT
+} NoteProperty;
 
 /************************************************************************/
 /*									*/
@@ -32,21 +30,19 @@ typedef enum NoteProperty
 /*									*/
 /************************************************************************/
 
-extern void docInitNoteProperties(	NoteProperties *	np );
-extern void docCleanNoteProperties(	NoteProperties *	np );
+extern void docInitNoteProperties(NoteProperties *np);
+extern void docCleanNoteProperties(NoteProperties *np);
 
-extern int docCopyNoteProperties(	NoteProperties *	to,
-					const NoteProperties *	from );
+extern int docCopyNoteProperties(NoteProperties *to,
+				 const NoteProperties *from);
 
-extern int docNotePropertyDifference(
-				PropertyMask *			pDifMask,
-				const NoteProperties *		np1,
-				const PropertyMask *		cmpMask,
-				const NoteProperties *		np2 );
+extern int docNotePropertyDifference(PropertyMask *pDifMask,
+				     const NoteProperties *np1,
+				     const PropertyMask *cmpMask,
+				     const NoteProperties *np2);
 
-extern int docUpdNoteProperties( PropertyMask *			npDoneMask,
-				NoteProperties *		npTo,
-				const PropertyMask *		npSetMask,
-				const NoteProperties *		npSet );
+extern int docUpdNoteProperties(PropertyMask *npDoneMask, NoteProperties *npTo,
+				const PropertyMask *npSetMask,
+				const NoteProperties *npSet);
 
-#   endif
+#endif

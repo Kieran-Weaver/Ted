@@ -5,13 +5,13 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_DOCUMENT_NOTE_H
-#   define	DOC_DOCUMENT_NOTE_H
+#ifndef DOC_DOCUMENT_NOTE_H
+#define DOC_DOCUMENT_NOTE_H
 
-#   include	"docDocumentTree.h"
-#   include	<docEditPosition.h>
-#   include	<docSelectionScope.h>
-#   include	<docNoteProperties.h>
+#include "docDocumentTree.h"
+#include <docEditPosition.h>
+#include <docSelectionScope.h>
+#include <docNoteProperties.h>
 
 /************************************************************************/
 /*									*/
@@ -31,16 +31,15 @@ struct BufferItem;
 /*									*/
 /************************************************************************/
 
-typedef struct DocumentNote
-    {
-    DocumentTree	dnDocumentTree;
-    short int		dnNoteNumber;
-    short int		dnReferringPage;
-    short int		dnReferringColumn;
-    NoteProperties	dnNoteProperties;
-    } DocumentNote;
+typedef struct DocumentNote {
+	DocumentTree dnDocumentTree;
+	short int dnNoteNumber;
+	short int dnReferringPage;
+	short int dnReferringColumn;
+	NoteProperties dnNoteProperties;
+} DocumentNote;
 
-# define NOTE_IS_DELETED( dn )	((dn)->dnNoteNumber < 0 )
+#define NOTE_IS_DELETED(dn) ((dn)->dnNoteNumber < 0)
 
 /************************************************************************/
 /*									*/
@@ -48,6 +47,6 @@ typedef struct DocumentNote
 /*									*/
 /************************************************************************/
 
-extern void docInitNote(		DocumentNote *		dn );
+extern void docInitNote(DocumentNote *dn);
 
-#   endif
+#endif

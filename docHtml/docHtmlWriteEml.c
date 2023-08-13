@@ -7,61 +7,51 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docHtmlConfig.h"
+#include "docHtmlConfig.h"
 
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	<appSystem.h>
-#   include	<sioGeneral.h>
-#   include	<sioBase64.h>
-#   include	<sioPushed.h>
-#   include	<utilMemoryBufferPrintf.h>
+#include <appSystem.h>
+#include <sioGeneral.h>
+#include <sioBase64.h>
+#include <sioPushed.h>
+#include <utilMemoryBufferPrintf.h>
 
-#   include	<docBuf.h>
-#   include	"docHtmlWriteImpl.h"
+#include <docBuf.h>
+#include "docHtmlWriteImpl.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   define	IDlenTAIL	200
+#define IDlenTAIL 200
 
-typedef struct EmlWriter
-    {
-    const char *	ewMimeBoundary;
-    char		ewContentIdTail[1+IDlenTAIL+1];
-    } EmlWriter;
+typedef struct EmlWriter {
+	const char *ewMimeBoundary;
+	char ewContentIdTail[1 + IDlenTAIL + 1];
+} EmlWriter;
 
-static SimpleOutputStream * docEmlOpenImageStream(
-					HtmlWritingContext *	hwc,
-					int			n,
-					const InsertedObject *	io,
-					const char *		mimeType,
-					const char *		ext );
+static SimpleOutputStream *docEmlOpenImageStream(HtmlWritingContext *hwc, int n,
+						 const InsertedObject *io,
+						 const char *mimeType,
+						 const char *ext);
 
-static int docEmlGetImageSrc(		MemoryBuffer *		target,
-					HtmlWritingContext *	hwc,
-					int			n,
-					const InsertedObject *	io,
-					const char *		ext );
+static int docEmlGetImageSrc(MemoryBuffer *target, HtmlWritingContext *hwc,
+			     int n, const InsertedObject *io, const char *ext);
 
-static SimpleOutputStream * docEmlOpenCssStream(
-					HtmlWritingContext *	hwc );
+static SimpleOutputStream *docEmlOpenCssStream(HtmlWritingContext *hwc);
 
-static int docEmlGetCssName(		MemoryBuffer *		target,
-					HtmlWritingContext *	hwc );
+static int docEmlGetCssName(MemoryBuffer *target, HtmlWritingContext *hwc);
 
-static int docEmlGetCssNameX(		MemoryBuffer *		target,
-					int			relative,
-					EmlWriter *		ew );
+static int docEmlGetCssNameX(MemoryBuffer *target, int relative, EmlWriter *ew);
 
-static void docInitEmlWriter(	EmlWriter *	ew )
-    {
-    ew->ewMimeBoundary= (const char *)0;
-    ew->ewContentIdTail[0]= '\0';
-    }
+static void docInitEmlWriter(EmlWriter *ew)
+{
+	ew->ewMimeBoundary = (const char *)0;
+	ew->ewContentIdTail[0] = '\0';
+}
 
-const char DocEmlDirectoryCssName[]= "document.css";
-const int  DocEmlDirectoryCssNameLength= sizeof(DocEmlDirectoryCssName)- 1;
+const char DocEmlDirectoryCssName[] = "document.css";
+const int DocEmlDirectoryCssNameLength = sizeof(DocEmlDirectoryCssName) - 1;
 
 /************************************************************************/
 /*									*/
@@ -69,120 +59,139 @@ const int  DocEmlDirectoryCssNameLength= sizeof(DocEmlDirectoryCssName)- 1;
 /*									*/
 /************************************************************************/
 
-int docEmlSaveDocument(		SimpleOutputStream *	sos,
-				BufferDocument *	bd,
-				const char *		mimeBoundary,
-				const LayoutContext *	lc )
-    {
-    int				rval= 0;
-    HtmlWritingContext		hwc;
-    EmlWriter			ew;
+int docEmlSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
+		       const char *mimeBoundary, const LayoutContext *lc)
+{
+	int rval = 0;
+	HtmlWritingContext hwc;
+	EmlWriter ew;
 
-    const DocumentProperties *	dp= &(bd->bdProperties);
-    SimpleOutputStream *	sosCss= (SimpleOutputStream *)0;
+	const DocumentProperties *dp = &(bd->bdProperties);
+	SimpleOutputStream *sosCss = (SimpleOutputStream *)0;
 
-    docInitHtmlWritingContext( &hwc );
-    docInitEmlWriter( &ew );
+	docInitHtmlWritingContext(&hwc);
+	docInitEmlWriter(&ew);
 
-    hwc.hwcSupportsBullets= 0;
-    hwc.hwcEmitBackground= 1;
+	hwc.hwcSupportsBullets = 0;
+	hwc.hwcEmitBackground = 1;
 
-    hwc.hwcXmlWriter.xwSos= sos;
-    hwc.hwcXmlWriter.xwCrlf= 1;
+	hwc.hwcXmlWriter.xwSos = sos;
+	hwc.hwcXmlWriter.xwCrlf = 1;
 
-    hwc.hwcLayoutContext= lc;
-    hwc.hwcOpenImageStream= docEmlOpenImageStream;
-    hwc.hwcGetImageSrc= docEmlGetImageSrc;
-    hwc.hwcGetCssName= docEmlGetCssName;
-    hwc.hwcPrivate= (void *)&ew;
-    hwc.hwcDocument= bd;
-    hwc.hwcInlineCss= 1;
-    hwc.hwcInlineNotes= 0;
+	hwc.hwcLayoutContext = lc;
+	hwc.hwcOpenImageStream = docEmlOpenImageStream;
+	hwc.hwcGetImageSrc = docEmlGetImageSrc;
+	hwc.hwcGetCssName = docEmlGetCssName;
+	hwc.hwcPrivate = (void *)&ew;
+	hwc.hwcDocument = bd;
+	hwc.hwcInlineCss = 1;
+	hwc.hwcInlineNotes = 0;
 
-    ew.ewMimeBoundary= mimeBoundary;
-    ew.ewContentIdTail[0]= '.';
-    if  ( appMakeUniqueString( ew.ewContentIdTail+ 1, IDlenTAIL ) )
-	{ LDEB(IDlenTAIL); rval= -1; goto ready;	}
-
-    /* {WHOLE */
-    if  ( ! utilMemoryBufferIsEmpty( &(dp->dpTitle) ) )
-	{
-	sioOutPutString( "Subject: ", sos );
-	sioOutPutString( utilMemoryBufferGetString( &(dp->dpTitle) ), sos );
-	sioOutPutString( "\r\n", sos );
+	ew.ewMimeBoundary = mimeBoundary;
+	ew.ewContentIdTail[0] = '.';
+	if (appMakeUniqueString(ew.ewContentIdTail + 1, IDlenTAIL)) {
+		LDEB(IDlenTAIL);
+		rval = -1;
+		goto ready;
 	}
 
-    sioOutPutString( "MIME-Version: 1.0", sos );
-    sioOutPutString( "\r\n", sos );
-
-    sioOutPutString( "Content-Transfer-Encoding: 8bit", sos );
-    sioOutPutString( "\r\n", sos );
-
-    sioOutPutString( "Content-Type: multipart/related; boundary=\"", sos );
-    sioOutPutString( mimeBoundary, sos );
-    sioOutPutString( "\"", sos );
-    sioOutPutString( "\r\n", sos );
-
-    sioOutPutString( "\r\n", sos );
-    /* WHOLE} */
-
-    sioOutPutString( "--", sos );
-    sioOutPutString( ew.ewMimeBoundary, sos );
-    sioOutPutString( "\r\n", sos );
-    sioOutPutString( "Content-Type: text/html; charset=UTF-8", sos );
-    sioOutPutString( "\r\n", sos );
-    sioOutPutString( "Content-Transfer-Encoding: 8bit", sos );
-    sioOutPutString( "\r\n", sos );
-
-    sioOutPutString( "\r\n", sos );
-
-    if  ( docHtmlStartDocument( &hwc ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( docHtmlSaveSelection( &hwc, &(bd->bdBody),
-					(const DocumentSelection *)0 ) )
-	{ LDEB(1); rval= -1; goto ready; }
-
-    if  ( ! hwc.hwcInlineNotes )
-	{
-	if  ( hwc.hwcNoteRefCount > 0	&&
-	      docHtmlSaveNotes( &hwc )	)
-	    { LDEB(hwc.hwcNoteRefCount); rval= -1; goto ready;	}
+	/* {WHOLE */
+	if (!utilMemoryBufferIsEmpty(&(dp->dpTitle))) {
+		sioOutPutString("Subject: ", sos);
+		sioOutPutString(utilMemoryBufferGetString(&(dp->dpTitle)), sos);
+		sioOutPutString("\r\n", sos);
 	}
 
-    if  ( docHtmlFinishDocument( &hwc ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	sioOutPutString("MIME-Version: 1.0", sos);
+	sioOutPutString("\r\n", sos);
 
-    if  ( ! hwc.hwcInlineCss )
-	{
-	sosCss= docEmlOpenCssStream( &hwc );
-	if  ( ! sosCss )
-	    { XDEB(sosCss); rval= -1; goto ready;	}
+	sioOutPutString("Content-Transfer-Encoding: 8bit", sos);
+	sioOutPutString("\r\n", sos);
 
-	if  ( docHtmlSaveDocumentStyles( &hwc, sosCss ) )
-	    { SDEB(DocEmlDirectoryCssName); rval= -1; goto ready; }
+	sioOutPutString("Content-Type: multipart/related; boundary=\"", sos);
+	sioOutPutString(mimeBoundary, sos);
+	sioOutPutString("\"", sos);
+	sioOutPutString("\r\n", sos);
 
-	sioOutClose( sosCss ); sosCss= (SimpleOutputStream *)0;
+	sioOutPutString("\r\n", sos);
+	/* WHOLE} */
+
+	sioOutPutString("--", sos);
+	sioOutPutString(ew.ewMimeBoundary, sos);
+	sioOutPutString("\r\n", sos);
+	sioOutPutString("Content-Type: text/html; charset=UTF-8", sos);
+	sioOutPutString("\r\n", sos);
+	sioOutPutString("Content-Transfer-Encoding: 8bit", sos);
+	sioOutPutString("\r\n", sos);
+
+	sioOutPutString("\r\n", sos);
+
+	if (docHtmlStartDocument(&hwc)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( hwc.hwcImageCount > 0		&&
-	  docHtmlSaveImages( &hwc )	)
-	{ LDEB(hwc.hwcImageCount); rval= -1; goto ready;	}
+	if (docHtmlSaveSelection(&hwc, &(bd->bdBody),
+				 (const DocumentSelection *)0)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    sioOutPutString( "--", sos );
-    sioOutPutString( ew.ewMimeBoundary, sos );
-    sioOutPutString( "--", sos );
-    sioOutPutString( "\r\n", sos );
+	if (!hwc.hwcInlineNotes) {
+		if (hwc.hwcNoteRefCount > 0 && docHtmlSaveNotes(&hwc)) {
+			LDEB(hwc.hwcNoteRefCount);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-  ready:
+	if (docHtmlFinishDocument(&hwc)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( sosCss )
-	{ sioOutClose( sosCss );	}
+	if (!hwc.hwcInlineCss) {
+		sosCss = docEmlOpenCssStream(&hwc);
+		if (!sosCss) {
+			XDEB(sosCss);
+			rval = -1;
+			goto ready;
+		}
 
-    docCleanHtmlWritingContext( &hwc );
+		if (docHtmlSaveDocumentStyles(&hwc, sosCss)) {
+			SDEB(DocEmlDirectoryCssName);
+			rval = -1;
+			goto ready;
+		}
 
-    return rval;
-    }
+		sioOutClose(sosCss);
+		sosCss = (SimpleOutputStream *)0;
+	}
+
+	if (hwc.hwcImageCount > 0 && docHtmlSaveImages(&hwc)) {
+		LDEB(hwc.hwcImageCount);
+		rval = -1;
+		goto ready;
+	}
+
+	sioOutPutString("--", sos);
+	sioOutPutString(ew.ewMimeBoundary, sos);
+	sioOutPutString("--", sos);
+	sioOutPutString("\r\n", sos);
+
+ready:
+
+	if (sosCss) {
+		sioOutClose(sosCss);
+	}
+
+	docCleanHtmlWritingContext(&hwc);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -190,63 +199,54 @@ int docEmlSaveDocument(		SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-static int docEmlGetImageSrcX(		MemoryBuffer *		target,
-					EmlWriter *		ew,
-					int			relative,
-					int			n,
-					const InsertedObject *	io,
-					const char *		ext )
-    {
-    const PictureProperties *	pip= &(io->ioPictureProperties);
+static int docEmlGetImageSrcX(MemoryBuffer *target, EmlWriter *ew, int relative,
+			      int n, const InsertedObject *io, const char *ext)
+{
+	const PictureProperties *pip = &(io->ioPictureProperties);
 
-    const char *		prefix;
-    const char *		suffix;
+	const char *prefix;
+	const char *suffix;
 
-    switch( relative )
-	{
+	switch (relative) {
 	case 0:
-	    prefix= "";
-	    suffix= ew->ewContentIdTail;
-	    break;
+		prefix = "";
+		suffix = ew->ewContentIdTail;
+		break;
 
 	case 1:
-	    prefix= "cid:";
-	    suffix= ew->ewContentIdTail;
-	    break;
+		prefix = "cid:";
+		suffix = ew->ewContentIdTail;
+		break;
 
 	case 2:
-	    prefix= "";
-	    suffix= "";
-	    break;
+		prefix = "";
+		suffix = "";
+		break;
 
 	default:
-	    LDEB(relative); return -1;
+		LDEB(relative);
+		return -1;
 	}
 
-    if  ( 1 || pip->pipBliptag == 0 )
-	{
-	utilMemoryBufferPrintf( target, "%si%d.%s%s",
-				    prefix, n, ext, suffix );
-	}
-    else{
-	utilMemoryBufferPrintf( target, "%sb%08lx.%s%s",
-				    prefix, pip->pipBliptag, ext, suffix );
+	if (1 || pip->pipBliptag == 0) {
+		utilMemoryBufferPrintf(target, "%si%d.%s%s", prefix, n, ext,
+				       suffix);
+	} else {
+		utilMemoryBufferPrintf(target, "%sb%08lx.%s%s", prefix,
+				       pip->pipBliptag, ext, suffix);
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
-static int docEmlGetImageSrc(		MemoryBuffer *		target,
-					HtmlWritingContext *	hwc,
-					int			n,
-					const InsertedObject *	io,
-					const char *		ext )
-    {
-    EmlWriter *		ew= (EmlWriter *)hwc->hwcPrivate;
-    const int		relative= 1;
+static int docEmlGetImageSrc(MemoryBuffer *target, HtmlWritingContext *hwc,
+			     int n, const InsertedObject *io, const char *ext)
+{
+	EmlWriter *ew = (EmlWriter *)hwc->hwcPrivate;
+	const int relative = 1;
 
-    return docEmlGetImageSrcX( target, ew, relative, n, io, ext );
-    }
+	return docEmlGetImageSrcX(target, ew, relative, n, io, ext);
+}
 
 /************************************************************************/
 /*									*/
@@ -254,41 +254,40 @@ static int docEmlGetImageSrc(		MemoryBuffer *		target,
 /*									*/
 /************************************************************************/
 
-static int docEmlStartMimePart(	SimpleOutputStream *	sos,
-				const EmlWriter *	ew,
-				const char *		mimeType,
-				const MemoryBuffer *	contentID,
-				const char *		contentTxEnc,
-				const MemoryBuffer *	fileName )
-    {
-    sioOutPutString( "--", sos );
-    sioOutPutString( ew->ewMimeBoundary, sos );
-    sioOutPutString( "\r\n", sos );
+static int docEmlStartMimePart(SimpleOutputStream *sos, const EmlWriter *ew,
+			       const char *mimeType,
+			       const MemoryBuffer *contentID,
+			       const char *contentTxEnc,
+			       const MemoryBuffer *fileName)
+{
+	sioOutPutString("--", sos);
+	sioOutPutString(ew->ewMimeBoundary, sos);
+	sioOutPutString("\r\n", sos);
 
-    sioOutPutString( "Content-Type: ", sos );
-    sioOutPutString( mimeType, sos );
-    sioOutPutString( "\r\n", sos );
+	sioOutPutString("Content-Type: ", sos);
+	sioOutPutString(mimeType, sos);
+	sioOutPutString("\r\n", sos);
 
-    sioOutPutString( "Content-Id: <", sos );
-    sioOutPutString( utilMemoryBufferGetString( contentID ), sos );
-    (void)sioOutPutByte( '>', sos );
-    sioOutPutString( "\r\n", sos );
+	sioOutPutString("Content-Id: <", sos);
+	sioOutPutString(utilMemoryBufferGetString(contentID), sos);
+	(void)sioOutPutByte('>', sos);
+	sioOutPutString("\r\n", sos);
 
-    sioOutPutString( "Content-Transfer-Encoding: ", sos );
-    sioOutPutString( contentTxEnc, sos );
-    sioOutPutString( "\r\n", sos );
+	sioOutPutString("Content-Transfer-Encoding: ", sos);
+	sioOutPutString(contentTxEnc, sos);
+	sioOutPutString("\r\n", sos);
 
-    sioOutPutString( "Content-Disposition: inline;", sos );
-    sioOutPutString( "\r\n", sos );
-    sioOutPutString( " filename=\"", sos );
-    sioOutPutString( utilMemoryBufferGetString( fileName ), sos );
-    (void)sioOutPutByte( '"', sos );
-    sioOutPutString( "\r\n", sos );
+	sioOutPutString("Content-Disposition: inline;", sos);
+	sioOutPutString("\r\n", sos);
+	sioOutPutString(" filename=\"", sos);
+	sioOutPutString(utilMemoryBufferGetString(fileName), sos);
+	(void)sioOutPutByte('"', sos);
+	sioOutPutString("\r\n", sos);
 
-    sioOutPutString( "\r\n", sos );
+	sioOutPutString("\r\n", sos);
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -296,43 +295,49 @@ static int docEmlStartMimePart(	SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-static SimpleOutputStream * docEmlOpenImageStream(
-					HtmlWritingContext *	hwc,
-					int			n,
-					const InsertedObject *	io,
-					const char *		mimeType,
-					const char *		ext )
-    {
-    EmlWriter *			ew= (EmlWriter *)hwc->hwcPrivate;
+static SimpleOutputStream *docEmlOpenImageStream(HtmlWritingContext *hwc, int n,
+						 const InsertedObject *io,
+						 const char *mimeType,
+						 const char *ext)
+{
+	EmlWriter *ew = (EmlWriter *)hwc->hwcPrivate;
 
-    SimpleOutputStream *	sosImage= (SimpleOutputStream *)0;
-    MemoryBuffer		contentID;
-    MemoryBuffer		fileName;
+	SimpleOutputStream *sosImage = (SimpleOutputStream *)0;
+	MemoryBuffer contentID;
+	MemoryBuffer fileName;
 
-    utilInitMemoryBuffer( &contentID );
-    utilInitMemoryBuffer( &fileName );
+	utilInitMemoryBuffer(&contentID);
+	utilInitMemoryBuffer(&fileName);
 
-    if  ( docEmlGetImageSrcX( &contentID, ew, /*r:*/ 0, n, io, ext ) < 0 )
-	{ SDEB(ext); goto ready;	}
+	if (docEmlGetImageSrcX(&contentID, ew, /*r:*/ 0, n, io, ext) < 0) {
+		SDEB(ext);
+		goto ready;
+	}
 
-    if  ( docEmlGetImageSrcX( &fileName, ew, /*r:*/ 2, n, io, ext ) < 0 )
-	{ SDEB(ext); goto ready;	}
+	if (docEmlGetImageSrcX(&fileName, ew, /*r:*/ 2, n, io, ext) < 0) {
+		SDEB(ext);
+		goto ready;
+	}
 
-    if  ( docEmlStartMimePart( hwc->hwcXmlWriter.xwSos, ew, mimeType,
-					    &contentID, "base64", &fileName ) )
-	{ SDEB(ext); goto ready;	}
+	if (docEmlStartMimePart(hwc->hwcXmlWriter.xwSos, ew, mimeType,
+				&contentID, "base64", &fileName)) {
+		SDEB(ext);
+		goto ready;
+	}
 
-    sosImage= sioOutBase64Open( hwc->hwcXmlWriter.xwSos );
-    if  ( ! sosImage )
-	{ XDEB(sosImage); goto ready; }
+	sosImage = sioOutBase64Open(hwc->hwcXmlWriter.xwSos);
+	if (!sosImage) {
+		XDEB(sosImage);
+		goto ready;
+	}
 
-  ready:
+ready:
 
-    utilCleanMemoryBuffer( &contentID );
-    utilCleanMemoryBuffer( &fileName );
+	utilCleanMemoryBuffer(&contentID);
+	utilCleanMemoryBuffer(&fileName);
 
-    return sosImage;
-    }
+	return sosImage;
+}
 
 /************************************************************************/
 /*									*/
@@ -340,48 +345,45 @@ static SimpleOutputStream * docEmlOpenImageStream(
 /*									*/
 /************************************************************************/
 
-static int docEmlGetCssNameX(		MemoryBuffer *		target,
-					int			relative,
-					EmlWriter *		ew )
-    {
-    const char *	prefix;
-    const char *	suffix;
+static int docEmlGetCssNameX(MemoryBuffer *target, int relative, EmlWriter *ew)
+{
+	const char *prefix;
+	const char *suffix;
 
-    switch( relative )
-	{
+	switch (relative) {
 	case 0:
-	    prefix= "";
-	    suffix= ew->ewContentIdTail;
-	    break;
+		prefix = "";
+		suffix = ew->ewContentIdTail;
+		break;
 
 	case 1:
-	    prefix= "cid:";
-	    suffix= ew->ewContentIdTail;
-	    break;
+		prefix = "cid:";
+		suffix = ew->ewContentIdTail;
+		break;
 
 	case 2:
-	    prefix= "";
-	    suffix= "";
-	    break;
+		prefix = "";
+		suffix = "";
+		break;
 
 	default:
-	    LDEB(relative); return -1;
+		LDEB(relative);
+		return -1;
 	}
 
-    utilMemoryBufferPrintf( target,
-			"%s%s%s", prefix, DocEmlDirectoryCssName, suffix );
+	utilMemoryBufferPrintf(target, "%s%s%s", prefix, DocEmlDirectoryCssName,
+			       suffix);
 
-    return 0;
-    }
+	return 0;
+}
 
-static int docEmlGetCssName(		MemoryBuffer *		target,
-					HtmlWritingContext *	hwc )
-    {
-    EmlWriter *		ew= (EmlWriter *)hwc->hwcPrivate;
-    const int		relative= 1;
+static int docEmlGetCssName(MemoryBuffer *target, HtmlWritingContext *hwc)
+{
+	EmlWriter *ew = (EmlWriter *)hwc->hwcPrivate;
+	const int relative = 1;
 
-    return docEmlGetCssNameX( target, relative, ew );
-    }
+	return docEmlGetCssNameX(target, relative, ew);
+}
 
 /************************************************************************/
 /*									*/
@@ -389,38 +391,44 @@ static int docEmlGetCssName(		MemoryBuffer *		target,
 /*									*/
 /************************************************************************/
 
-static SimpleOutputStream * docEmlOpenCssStream(
-					HtmlWritingContext *	hwc )
-    {
-    EmlWriter *			ew= (EmlWriter *)hwc->hwcPrivate;
+static SimpleOutputStream *docEmlOpenCssStream(HtmlWritingContext *hwc)
+{
+	EmlWriter *ew = (EmlWriter *)hwc->hwcPrivate;
 
-    SimpleOutputStream *	sosCss= (SimpleOutputStream *)0;
-    MemoryBuffer		contentID;
-    MemoryBuffer		fileName;
+	SimpleOutputStream *sosCss = (SimpleOutputStream *)0;
+	MemoryBuffer contentID;
+	MemoryBuffer fileName;
 
-    utilInitMemoryBuffer( &contentID );
-    utilInitMemoryBuffer( &fileName );
+	utilInitMemoryBuffer(&contentID);
+	utilInitMemoryBuffer(&fileName);
 
-    if  ( docEmlGetCssNameX( &contentID, /*r:*/ 0, ew ) < 0 )
-	{ LDEB(1); goto ready;	}
+	if (docEmlGetCssNameX(&contentID, /*r:*/ 0, ew) < 0) {
+		LDEB(1);
+		goto ready;
+	}
 
-    if  ( docEmlGetCssNameX( &fileName, /*r:*/ 2, ew ) < 0 )
-	{ LDEB(1); goto ready;	}
+	if (docEmlGetCssNameX(&fileName, /*r:*/ 2, ew) < 0) {
+		LDEB(1);
+		goto ready;
+	}
 
-    if  ( docEmlStartMimePart( hwc->hwcXmlWriter.xwSos, ew,
-					    "text/css; charset=UTF-8",
-					    &contentID, "8bit", &fileName ) )
-	{ LDEB(1); goto ready;	}
+	if (docEmlStartMimePart(hwc->hwcXmlWriter.xwSos, ew,
+				"text/css; charset=UTF-8", &contentID, "8bit",
+				&fileName)) {
+		LDEB(1);
+		goto ready;
+	}
 
-    sosCss= sioOutPushedOpen( hwc->hwcXmlWriter.xwSos );
-    if  ( ! sosCss )
-	{ XDEB(sosCss); return sosCss; }
+	sosCss = sioOutPushedOpen(hwc->hwcXmlWriter.xwSos);
+	if (!sosCss) {
+		XDEB(sosCss);
+		return sosCss;
+	}
 
-  ready:
+ready:
 
-    utilCleanMemoryBuffer( &contentID );
-    utilCleanMemoryBuffer( &fileName );
+	utilCleanMemoryBuffer(&contentID);
+	utilCleanMemoryBuffer(&fileName);
 
-    return sosCss;
-    }
-
+	return sosCss;
+}

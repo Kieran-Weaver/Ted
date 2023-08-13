@@ -4,10 +4,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_LAYOUT_OBJECT_H
-#   define		DOC_LAYOUT_OBJECT_H
+#ifndef DOC_LAYOUT_OBJECT_H
+#define DOC_LAYOUT_OBJECT_H
 
-#   include		<docBuf.h>
+#include <docBuf.h>
 
 /************************************************************************/
 /*									*/
@@ -15,27 +15,20 @@
 /*									*/
 /************************************************************************/
 
-extern int docGetBitmapForObject(	InsertedObject *	io );
+extern int docGetBitmapForObject(InsertedObject *io);
 
-extern int docCheckObjectLayout(	int *			pFixed,
-					InsertedObject *	io );
+extern int docCheckObjectLayout(int *pFixed, InsertedObject *io);
 
-extern int docGetBitmapForObjectData(
-				int				kind,
-				RasterImage *			ri,
-				const MemoryBuffer *		mb );
+extern int docGetBitmapForObjectData(int kind, RasterImage *ri,
+				     const MemoryBuffer *mb);
 
-extern void docLayoutScaleObjectToFitParagraphFrame(
-				int *				pChanged,
-				InsertedObject *		io,
-				int				pageHigh,
-				const DocumentRectangle *	drParaFrame );
+extern void
+docLayoutScaleObjectToFitParagraphFrame(int *pChanged, InsertedObject *io,
+					int pageHigh,
+					const DocumentRectangle *drParaFrame);
 
-extern void docScaleObjectToParagraph(
-				BufferDocument *		bd,
-				struct BufferItem *		paraBi,
-				double				xfac,
-				InsertedObject *		io );
+extern void docScaleObjectToParagraph(BufferDocument *bd,
+				      struct BufferItem *paraBi, double xfac,
+				      InsertedObject *io);
 
-#   endif	/*	DOC_LAYOUT_OBJECT_H	*/
-
+#endif /*	DOC_LAYOUT_OBJECT_H	*/

@@ -4,92 +4,111 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<stdlib.h>
-#   include	<string.h>
-#   include	<unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
-#   include	"appTagval.h"
-#   include	"sioCgiIn.h"
-#   include	<appDebugon.h>
+#include "appTagval.h"
+#include "sioCgiIn.h"
+#include <appDebugon.h>
 
-typedef struct CgiInputStream
-    {
-    int		cisContentLength;
-    int		cisConsumed;
-    int		cisExhausted;
-    } CgiInputStream;
+typedef struct CgiInputStream {
+	int cisContentLength;
+	int cisConsumed;
+	int cisExhausted;
+} CgiInputStream;
 
-static int sioInCgiClose(	void *	voidcis )
-    { free( voidcis ); return 0;	}
+static int sioInCgiClose(void *voidcis)
+{
+	free(voidcis);
+	return 0;
+}
 
-static int sioInCgiReadBytes(	void *		voidcis,
-				unsigned char *	buffer,
-				unsigned int	count )
-    {
-    CgiInputStream *	cis= (CgiInputStream *)voidcis;
-    int			done= 0;
+static int sioInCgiReadBytes(void *voidcis, unsigned char *buffer,
+			     unsigned int count)
+{
+	CgiInputStream *cis = (CgiInputStream *)voidcis;
+	int done = 0;
 
-    if  ( cis->cisExhausted )
-	{ return -1;	}
-
-    while( done < count && cis->cisConsumed < cis->cisContentLength )
-	{
-	int		todo= count- done;
-	int		got;
-
-	if  ( todo > cis->cisContentLength- cis->cisConsumed )
-	    { todo=  cis->cisContentLength- cis->cisConsumed;	}
-
-	got= read( 0, buffer, todo );
-	if  ( got < 1 )
-	    { cis->cisExhausted= 1; break;	}
-
-	done += got; cis->cisConsumed += got; buffer += got;
+	if (cis->cisExhausted) {
+		return -1;
 	}
 
-    return done;
-    }
+	while (done < count && cis->cisConsumed < cis->cisContentLength) {
+		int todo = count - done;
+		int got;
 
-SimpleInputStream * sioInCgiOpen(	CGIRequest *	cgir )
-    {
-    SimpleInputStream *	sis;
-    CgiInputStream *	cis;
+		if (todo > cis->cisContentLength - cis->cisConsumed) {
+			todo = cis->cisContentLength - cis->cisConsumed;
+		}
 
-    int			res;
-    int			null;
-    long		contentLength= 0;
+		got = read(0, buffer, todo);
+		if (got < 1) {
+			cis->cisExhausted = 1;
+			break;
+		}
 
-    if  ( ! cgir->cgirRequestMethod )
-	{ XDEB(cgir->cgirRequestMethod); return (SimpleInputStream *)0;	}
+		done += got;
+		cis->cisConsumed += got;
+		buffer += got;
+	}
 
-    if  ( strcmp( cgir->cgirRequestMethod, "POST" )	&&
-	  strcmp( cgir->cgirRequestMethod, "PUT" )	)
-	{ SDEB(cgir->cgirRequestMethod); return (SimpleInputStream *)0;	}
+	return done;
+}
 
-    if  ( cgir->cgirStdinUsed )
-	{ LDEB(cgir->cgirStdinUsed); return (SimpleInputStream *)0;	}
+SimpleInputStream *sioInCgiOpen(CGIRequest *cgir)
+{
+	SimpleInputStream *sis;
+	CgiInputStream *cis;
 
-    res= appTagvalGetLongValue( &contentLength, &null,
-			    cgir->cgirEnvironmentValues, "CONTENT_LENGTH" );
-    if  ( res || null )
-	{ LLDEB(res,null); return (SimpleInputStream *)0;	}
+	int res;
+	int null;
+	long contentLength = 0;
 
-    cis= (CgiInputStream *)malloc( sizeof(CgiInputStream) );
-    if  ( ! cis )
-	{ XDEB(cis); return (SimpleInputStream *)0;	}
+	if (!cgir->cgirRequestMethod) {
+		XDEB(cgir->cgirRequestMethod);
+		return (SimpleInputStream *)0;
+	}
 
-    cis->cisContentLength= contentLength;
-    cis->cisConsumed= 0;
-    cis->cisExhausted= 0;
+	if (strcmp(cgir->cgirRequestMethod, "POST") &&
+	    strcmp(cgir->cgirRequestMethod, "PUT")) {
+		SDEB(cgir->cgirRequestMethod);
+		return (SimpleInputStream *)0;
+	}
 
-    sis= sioInOpen( (void *)cis, sioInCgiReadBytes, sioInCgiClose );
+	if (cgir->cgirStdinUsed) {
+		LDEB(cgir->cgirStdinUsed);
+		return (SimpleInputStream *)0;
+	}
 
-    if  ( ! sis )
-	{ XDEB(sis); free( cis ); return (SimpleInputStream *)0; }
+	res = appTagvalGetLongValue(&contentLength, &null,
+				    cgir->cgirEnvironmentValues,
+				    "CONTENT_LENGTH");
+	if (res || null) {
+		LLDEB(res, null);
+		return (SimpleInputStream *)0;
+	}
 
-    cgir->cgirStdinUsed= 1;
-    return sis;
-    }
+	cis = (CgiInputStream *)malloc(sizeof(CgiInputStream));
+	if (!cis) {
+		XDEB(cis);
+		return (SimpleInputStream *)0;
+	}
 
+	cis->cisContentLength = contentLength;
+	cis->cisConsumed = 0;
+	cis->cisExhausted = 0;
+
+	sis = sioInOpen((void *)cis, sioInCgiReadBytes, sioInCgiClose);
+
+	if (!sis) {
+		XDEB(sis);
+		free(cis);
+		return (SimpleInputStream *)0;
+	}
+
+	cgir->cgirStdinUsed = 1;
+	return sis;
+}

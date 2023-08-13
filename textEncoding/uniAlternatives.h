@@ -7,11 +7,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	UNI_ALTERNATIVES_H
-#   define	UNI_ALTERNATIVES_H
+#ifndef UNI_ALTERNATIVES_H
+#define UNI_ALTERNATIVES_H
 
-#   include	<utilIndexSet.h>
-#   include	<utilIndexMapping.h>
+#include <utilIndexSet.h>
+#include <utilIndexMapping.h>
 
 /************************************************************************/
 /*									*/
@@ -19,10 +19,10 @@
 /*									*/
 /************************************************************************/
 
-extern int uniGetAlternative(		int 			unicode );
+extern int uniGetAlternative(int unicode);
 
-extern int uniIncludeWithAlternatives(	IndexSet *		is );
+extern int uniIncludeWithAlternatives(IndexSet *is);
 
-extern int uniMapToAlternatives(	IndexMapping *		im );
+extern int uniMapToAlternatives(IndexMapping *im);
 
-#   endif /*	UNI_ALTERNATIVES_H	*/
+#endif /*	UNI_ALTERNATIVES_H	*/

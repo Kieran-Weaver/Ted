@@ -4,39 +4,38 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_DRAW_SHAPE_ARROW_H
-#   define	DOC_DRAW_SHAPE_ARROW_H
+#ifndef DOC_DRAW_SHAPE_ARROW_H
+#define DOC_DRAW_SHAPE_ARROW_H
 
-#   include	"docShapeDrawing.h"
-#   include	<geo2DDouble.h>
+#include "docShapeDrawing.h"
+#include <geo2DDouble.h>
 
-typedef struct DrawShapeArrow
-    {
-			/**
+typedef struct DrawShapeArrow {
+	/**
 			 *  The line in the direction of the arrow (points 
 			 *  to the head. It is truncated to reserve space for 
 			 *  the head.
 			 */
-    Point2DD		dsaShaft[2];
-			/**
+	Point2DD dsaShaft[2];
+	/**
 			 *  The arrow from the shape
 			 */
-    ShapeArrow		dsaArrow;
-			/**
+	ShapeArrow dsaArrow;
+	/**
 			 *  The actual path of the arrow head
 			 */
-    Point2DD		dsaPath[7];
-			/**
+	Point2DD dsaPath[7];
+	/**
 			 *  The length of the actual path of the arrow head
 			 */
-    int			dsaPathLength;
+	int dsaPathLength;
 
-    Rectangle2DD	dsaArrowRectangle;
+	Rectangle2DD dsaArrowRectangle;
 
-    double		dsaLength;
-    double		dsaLength2;
-    double		dsaWidth;
-    } DrawShapeArrow;
+	double dsaLength;
+	double dsaLength2;
+	double dsaWidth;
+} DrawShapeArrow;
 
 /************************************************************************/
 /*									*/
@@ -44,10 +43,8 @@ typedef struct DrawShapeArrow
 /*									*/
 /************************************************************************/
 
-extern void docShapeArrowSizesTwips(	DrawShapeArrow *	dsa,
-					int			lineWidth,
-					double			xfac,
-					const Point2DD *	shaft,
-					const ShapeArrow *	sa );
+extern void docShapeArrowSizesTwips(DrawShapeArrow *dsa, int lineWidth,
+				    double xfac, const Point2DD *shaft,
+				    const ShapeArrow *sa);
 
-#   endif	/*  DOC_DRAW_SHAPE_ARROW_H	*/
+#endif /*  DOC_DRAW_SHAPE_ARROW_H	*/

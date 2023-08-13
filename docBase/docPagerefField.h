@@ -4,20 +4,19 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef DOC_PAGEREF_FIELD_H
-#   define DOC_PAGEREF_FIELD_H
+#ifndef DOC_PAGEREF_FIELD_H
+#define DOC_PAGEREF_FIELD_H
 
 struct DocumentField;
 
-#   include	<utilMemoryBuffer.h>
+#include <utilMemoryBuffer.h>
 
-typedef struct PagerefField
-    {
-    MemoryBuffer	pfBookmark;
-    unsigned char	pfNumberFormat;		/* \*	*/
-    unsigned char	pfAsHyperlink;		/* \h	*/
-    unsigned char	pfWithPosition;		/* \p	*/
-    } PagerefField;
+typedef struct PagerefField {
+	MemoryBuffer pfBookmark;
+	unsigned char pfNumberFormat; /* \*	*/
+	unsigned char pfAsHyperlink; /* \h	*/
+	unsigned char pfWithPosition; /* \p	*/
+} PagerefField;
 
 /************************************************************************/
 /*									*/
@@ -25,13 +24,11 @@ typedef struct PagerefField
 /*									*/
 /************************************************************************/
 
-extern void docInitPagerefField(	PagerefField *		pf );
-extern void docCleanPagerefField(	PagerefField *		pf );
+extern void docInitPagerefField(PagerefField *pf);
+extern void docCleanPagerefField(PagerefField *pf);
 
-extern int docGetPagerefField(		PagerefField *			pf,
-					const struct DocumentField *	df );
+extern int docGetPagerefField(PagerefField *pf, const struct DocumentField *df);
 
-extern int docSetPagerefField(		struct DocumentField *	df,
-					const PagerefField *	pf );
+extern int docSetPagerefField(struct DocumentField *df, const PagerefField *pf);
 
-#   endif /*  DOC_PAGEREF_FIELD_H  */
+#endif /*  DOC_PAGEREF_FIELD_H  */

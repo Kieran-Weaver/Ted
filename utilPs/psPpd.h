@@ -4,21 +4,20 @@
 /*									*/
 /************************************************************************/
 
-typedef struct Ppd
-    {
-    char *		ppdAdobe;
+typedef struct Ppd {
+	char *ppdAdobe;
 
-    char *		ppdModelName;
-    char *		ppdShortNickName;
-    char *		ppdNickName;
-    char *		ppdProduct;
-    char *		ppdManufacturer;
-    char *		ppdPSVersion;
+	char *ppdModelName;
+	char *ppdShortNickName;
+	char *ppdNickName;
+	char *ppdProduct;
+	char *ppdManufacturer;
+	char *ppdPSVersion;
 
-    unsigned char	ppdColorDevice;
-    int			ppdDefaultColorSpace;
-    unsigned char	ppdFileSystem;
-    } Ppd;
+	unsigned char ppdColorDevice;
+	int ppdDefaultColorSpace;
+	unsigned char ppdFileSystem;
+} Ppd;
 
 /************************************************************************/
 /*									*/
@@ -26,8 +25,7 @@ typedef struct Ppd
 /*									*/
 /************************************************************************/
 
-extern void psInitPpd(		Ppd *		ppd );
-extern void psCleanPpd(		Ppd *		ppd );
+extern void psInitPpd(Ppd *ppd);
+extern void psCleanPpd(Ppd *ppd);
 
-extern int psReadPpdFile(	Ppd *		ppd,
-				const char *	filename );
+extern int psReadPpdFile(Ppd *ppd, const char *filename);

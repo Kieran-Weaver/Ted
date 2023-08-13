@@ -4,19 +4,19 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	"tedApp.h"
-#   include	"tedDocFront.h"
-#   include	"tedDocument.h"
-#   include	"tedSelect.h"
-#   include	<docExpandedTextAttribute.h>
+#include "tedApp.h"
+#include "tedDocFront.h"
+#include "tedDocument.h"
+#include "tedSelect.h"
+#include <docExpandedTextAttribute.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -24,26 +24,28 @@
 /*									*/
 /************************************************************************/
 
-static int tedGetDocumentAttributes(	EditDocument *		ed,
-					PropertyMask *		pUpdMask,
-					TextAttribute *		pTaNew )
-    {
-    DocumentSelection		ds;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+static int tedGetDocumentAttributes(EditDocument *ed, PropertyMask *pUpdMask,
+				    TextAttribute *pTaNew)
+{
+	DocumentSelection ds;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    if  ( ! tedHasSelection( ed ) )
-	{ return 1;	}
+	if (!tedHasSelection(ed)) {
+		return 1;
+	}
 
-    if  ( tedGetSelection( &ds, &sg, &sd,
-			    (DocumentTree **)0, (struct BufferItem **)0, ed ) )
-	{ LDEB(1); return 1;	}
+	if (tedGetSelection(&ds, &sg, &sd, (DocumentTree **)0,
+			    (struct BufferItem **)0, ed)) {
+		LDEB(1);
+		return 1;
+	}
 
-    *pUpdMask= sd.sdTextAttributeMask;
-    *pTaNew= sd.sdTextAttribute;
+	*pUpdMask = sd.sdTextAttributeMask;
+	*pTaNew = sd.sdTextAttribute;
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -53,61 +55,62 @@ static int tedGetDocumentAttributes(	EditDocument *		ed,
 /************************************************************************/
 
 /*  1  */
-static void tedAdaptFontIndicatorsToValues(
-					EditDocument *		ed,
-					const PropertyMask *	taSetMask,
-					TextAttribute *		taSet )
-    {
-    TedDocument *	td= (TedDocument *)ed->edPrivateData;
+static void tedAdaptFontIndicatorsToValues(EditDocument *ed,
+					   const PropertyMask *taSetMask,
+					   TextAttribute *taSet)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
-    appGuiSetToggleItemState( td->tdFontBoldOption,
-			    PROPmaskISSET( taSetMask, TApropFONTBOLD ) &&
-			    taSet->taFontIsBold );
+	appGuiSetToggleItemState(td->tdFontBoldOption,
+				 PROPmaskISSET(taSetMask, TApropFONTBOLD) &&
+					 taSet->taFontIsBold);
 
-    appGuiSetToggleItemState( td->tdFontItalicOption,
-			    PROPmaskISSET( taSetMask, TApropFONTSLANTED ) &&
-			    taSet->taFontIsSlanted );
+	appGuiSetToggleItemState(td->tdFontItalicOption,
+				 PROPmaskISSET(taSetMask, TApropFONTSLANTED) &&
+					 taSet->taFontIsSlanted);
 
-    appGuiSetToggleItemState( td->tdFontUnderlinedOption,
-			    PROPmaskISSET( taSetMask, TApropTEXTUNDERLINED ) &&
-			    taSet->taTextIsUnderlined );
+	appGuiSetToggleItemState(td->tdFontUnderlinedOption,
+				 PROPmaskISSET(taSetMask,
+					       TApropTEXTUNDERLINED) &&
+					 taSet->taTextIsUnderlined);
 
-    appGuiSetToggleItemState( td->tdFontSuperscriptOption,
-			    PROPmaskISSET( taSetMask, TApropSUPERSUB ) &&
-			    taSet->taSuperSub == TEXTvaSUPERSCRIPT );
+	appGuiSetToggleItemState(td->tdFontSuperscriptOption,
+				 PROPmaskISSET(taSetMask, TApropSUPERSUB) &&
+					 taSet->taSuperSub ==
+						 TEXTvaSUPERSCRIPT);
 
-    appGuiSetToggleItemState( td->tdFontSubscriptOption,
-			    PROPmaskISSET( taSetMask, TApropSUPERSUB ) &&
-			    taSet->taSuperSub == TEXTvaSUBSCRIPT );
+	appGuiSetToggleItemState(td->tdFontSubscriptOption,
+				 PROPmaskISSET(taSetMask, TApropSUPERSUB) &&
+					 taSet->taSuperSub == TEXTvaSUBSCRIPT);
 
-    return;
-    }
+	return;
+}
 
 /*  2  */
-void tedAdaptFontIndicatorsToSelection(	EditDocument *		ed )
-    {
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
+void tedAdaptFontIndicatorsToSelection(EditDocument *ed)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
-    PropertyMask		taCurrMask;
-    TextAttribute		taCurr;
+	PropertyMask taCurrMask;
+	TextAttribute taCurr;
 
-    utilPropMaskClear( &taCurrMask );
-    utilInitTextAttribute( &taCurr );
+	utilPropMaskClear(&taCurrMask);
+	utilInitTextAttribute(&taCurr);
 
-    if  ( tedGetDocumentAttributes( ed, &taCurrMask, &taCurr ) )
-	{ goto ready;	}
+	if (tedGetDocumentAttributes(ed, &taCurrMask, &taCurr)) {
+		goto ready;
+	}
 
-    td->tdInProgrammaticChange++;
+	td->tdInProgrammaticChange++;
 
-    tedAdaptFontIndicatorsToValues( ed, &taCurrMask, &taCurr );
+	tedAdaptFontIndicatorsToValues(ed, &taCurrMask, &taCurr);
 
-    td->tdInProgrammaticChange--;
+	td->tdInProgrammaticChange--;
 
-  ready:
+ready:
 
-    return;
-    }
-
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -115,50 +118,47 @@ void tedAdaptFontIndicatorsToSelection(	EditDocument *		ed )
 /*									*/
 /************************************************************************/
 
-void tedToggleTextAttribute(	EditDocument *	ed,
-				int		set,
-				int		prop )
-    {
-    TedDocument *	td= (TedDocument *)ed->edPrivateData;
+void tedToggleTextAttribute(EditDocument *ed, int set, int prop)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
-    TextAttribute	taSet;
-    PropertyMask	taSetMask;
+	TextAttribute taSet;
+	PropertyMask taSetMask;
 
-    utilPropMaskClear( &taSetMask );
-    utilInitTextAttribute( &taSet );
+	utilPropMaskClear(&taSetMask);
+	utilInitTextAttribute(&taSet);
 
-    if  ( td->tdInProgrammaticChange )
-	{ return;	}
+	if (td->tdInProgrammaticChange) {
+		return;
+	}
 
-    switch( prop )
-	{
+	switch (prop) {
 	case TApropFONTBOLD:
-	    taSet.taFontIsBold= ( set != 0 );
-	    PROPmaskADD( &taSetMask, prop );
-	    break;
+		taSet.taFontIsBold = (set != 0);
+		PROPmaskADD(&taSetMask, prop);
+		break;
 
 	case TApropFONTSLANTED:
-	    taSet.taFontIsSlanted= ( set != 0 );
-	    PROPmaskADD( &taSetMask, prop );
-	    break;
+		taSet.taFontIsSlanted = (set != 0);
+		PROPmaskADD(&taSetMask, prop);
+		break;
 
 	case TApropTEXTUNDERLINED:
-	    taSet.taTextIsUnderlined= ( set != 0 );
-	    PROPmaskADD( &taSetMask, prop );
-	    break;
+		taSet.taTextIsUnderlined = (set != 0);
+		PROPmaskADD(&taSetMask, prop);
+		break;
 
 	default:
-	    LDEB(prop);
-	    return;
+		LDEB(prop);
+		return;
 	}
 
-    if  ( ! utilPropMaskIsEmpty( &taSetMask ) )
-	{
-	tedDocChangeTextAttribute( ed, &taSetMask, &taSet, td->tdTraced );
+	if (!utilPropMaskIsEmpty(&taSetMask)) {
+		tedDocChangeTextAttribute(ed, &taSetMask, &taSet, td->tdTraced);
 	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -166,25 +166,24 @@ void tedToggleTextAttribute(	EditDocument *	ed,
 /*									*/
 /************************************************************************/
 
-void tedSetFontSupersub(		EditDocument *		ed,
-					int			supersub )
-    {
-    TedDocument *	td= (TedDocument *)ed->edPrivateData;
+void tedSetFontSupersub(EditDocument *ed, int supersub)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
-    PropertyMask	taSetMask;
-    TextAttribute	taSet;
+	PropertyMask taSetMask;
+	TextAttribute taSet;
 
-    if  ( td->tdInProgrammaticChange )
-	{ return;	}
+	if (td->tdInProgrammaticChange) {
+		return;
+	}
 
-    utilPropMaskClear( &taSetMask );
-    PROPmaskADD( &taSetMask, TApropSUPERSUB );
+	utilPropMaskClear(&taSetMask);
+	PROPmaskADD(&taSetMask, TApropSUPERSUB);
 
-    utilInitTextAttribute( &taSet );
-    taSet.taSuperSub= supersub;
+	utilInitTextAttribute(&taSet);
+	taSet.taSuperSub = supersub;
 
-    tedDocChangeTextAttribute( ed, &taSetMask, &taSet, td->tdTraced );
+	tedDocChangeTextAttribute(ed, &taSetMask, &taSet, td->tdTraced);
 
-    return;
-    }
-
+	return;
+}

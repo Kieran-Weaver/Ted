@@ -1,8 +1,8 @@
-#   ifndef	APP_SCREEN_FONT_H
-#   define	APP_SCREEN_FONT_H
+#ifndef APP_SCREEN_FONT_H
+#define APP_SCREEN_FONT_H
 
-#   include	"drawScreenFontImpl.h"
-#   include	<drawDrawingSurface.h>
+#include "drawScreenFontImpl.h"
+#include <drawDrawingSurface.h>
 
 /************************************************************************/
 /*									*/
@@ -10,7 +10,6 @@
 /*									*/
 /************************************************************************/
 
-extern int guiSystemFont(		DrawingSurface		ds,
-					APP_FONT *		xfs );
+extern int guiSystemFont(DrawingSurface ds, APP_FONT *xfs);
 
-#   endif
+#endif

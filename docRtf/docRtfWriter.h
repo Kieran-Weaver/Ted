@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		RTF_WRITER_H
-#   define		RTF_WRITER_H
+#ifndef RTF_WRITER_H
+#define RTF_WRITER_H
 
-#   include	<sioGeneral.h>
-#   include	<docBuf.h>
+#include <sioGeneral.h>
+#include <docBuf.h>
 
 struct RtfWriter;
 typedef struct RtfWriter RtfWriter;
@@ -19,10 +19,9 @@ typedef struct RtfWriter RtfWriter;
 /*									*/
 /************************************************************************/
 
-extern RtfWriter *	docRtfOpenWriter(	SimpleOutputStream *	sos,
-						BufferDocument *	bd,
-						int			flags );
+extern RtfWriter *docRtfOpenWriter(SimpleOutputStream *sos, BufferDocument *bd,
+				   int flags);
 
-extern void docRtfCloseWriter(	RtfWriter *	rw );
+extern void docRtfCloseWriter(RtfWriter *rw);
 
-#   endif	/*	RTF_WRITER_H	*/
+#endif /*	RTF_WRITER_H	*/

@@ -38,25 +38,25 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdlib.h>
+#include <stddef.h>
+#include <stdlib.h>
 
-#   include	<drawDrawingSurface.h>
+#include <drawDrawingSurface.h>
 
-#   include	"docLayout.h"
-#   include	"docTextRun.h"
-#   include	"docScreenLayout.h"
-#   include	<geoGrid.h>
+#include "docLayout.h"
+#include "docTextRun.h"
+#include "docScreenLayout.h"
+#include <geoGrid.h>
 
-#   include	<docTreeNode.h>
-#   include	<docShape.h>
-#   include	<docTextLine.h>
-#   include	<docTextParticule.h>
-#   include	<docObjectProperties.h>
-#   include	<docDebug.h>
-#   include	<appDebugon.h>
+#include <docTreeNode.h>
+#include <docShape.h>
+#include <docTextLine.h>
+#include <docTextParticule.h>
+#include <docObjectProperties.h>
+#include <docDebug.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -64,100 +64,95 @@
 /*									*/
 /************************************************************************/
 
-static int docScreenSegmentedWidth(
-			DrawingSurface		ds,
-			int			fullScreenFont,
-			int			scapsScreenFont,
-			const char *		s,
-			const int *		segments,
-			int			segmentCount )
-    {
-    int				seg;
+static int docScreenSegmentedWidth(DrawingSurface ds, int fullScreenFont,
+				   int scapsScreenFont, const char *s,
+				   const int *segments, int segmentCount)
+{
+	int seg;
 
-    int				x= 0;
-    int				y= 0;
+	int x = 0;
+	int y = 0;
 
-    DocumentRectangle		drText;
+	DocumentRectangle drText;
 
-    for ( seg= 0; seg < segmentCount; seg++ )
-	{
-	if  ( segments[2* seg+ 0] > 0 )
-	    {
-	    drawGetTextExtents( &drText, ds, x, y,
-					    fullScreenFont,
-					    s, segments[2* seg+ 0] );
+	for (seg = 0; seg < segmentCount; seg++) {
+		if (segments[2 * seg + 0] > 0) {
+			drawGetTextExtents(&drText, ds, x, y, fullScreenFont, s,
+					   segments[2 * seg + 0]);
 
-	    s += segments[2* seg+ 0];
-	    x= drText.drX1+ 1;
-	    }
+			s += segments[2 * seg + 0];
+			x = drText.drX1 + 1;
+		}
 
-	if  ( segments[2* seg+ 1] > 0 )
-	    {
-	    drawGetTextExtents( &drText, ds, x, y,
-					    scapsScreenFont,
-					    s, segments[2* seg+ 1] );
+		if (segments[2 * seg + 1] > 0) {
+			drawGetTextExtents(&drText, ds, x, y, scapsScreenFont,
+					   s, segments[2 * seg + 1]);
 
-	    s += segments[2* seg+ 1];
-	    x= drText.drX1+ 1;
-	    }
+			s += segments[2 * seg + 1];
+			x = drText.drX1 + 1;
+		}
 	}
 
-    return x;
-    }
+	return x;
+}
 
-int docScreenTextWidth(		int				fullScreenFont,
-				const TextAttribute *		ta,
-				const LayoutContext *		lc,
-				const char *			printString,
-				int				len )
-    {
-    char *		upperString= (char *)0;
-    int *		segments= (int *)0;
-    int			segmentCount= 0;
+int docScreenTextWidth(int fullScreenFont, const TextAttribute *ta,
+		       const LayoutContext *lc, const char *printString,
+		       int len)
+{
+	char *upperString = (char *)0;
+	int *segments = (int *)0;
+	int segmentCount = 0;
 
-    int			wide;
+	int wide;
 
-    if  ( len < 0 )
-	{ LDEB(len);	}
-    if  ( len == 0 )
-	{ return 0;	}
-
-    if  ( ta->taSmallCaps || ta->taCapitals )
-	{
-	if  ( docMakeCapsString( &upperString, &segments, &segmentCount,
-						    ta, printString, len ) )
-	    { LDEB(len);		}
-	else{ printString= upperString;	}
+	if (len < 0) {
+		LDEB(len);
+	}
+	if (len == 0) {
+		return 0;
 	}
 
-    if  ( ta->taSmallCaps && ! ta->taCapitals )
-	{
-	int		scapsScreenFont= docLayoutScapsScreenFont( lc, ta );
-	if  ( scapsScreenFont < 0 )
-	    { LDEB(scapsScreenFont); return -1;	}
-
-	wide= docScreenSegmentedWidth( lc->lcDrawingSurface,
-				    fullScreenFont, scapsScreenFont,
-				    printString, segments, segmentCount );
-	}
-    else{
-	DocumentRectangle	drText;
-	int			x= 0;
-	int			y= 0;
-
-	drawGetTextExtents( &drText, lc->lcDrawingSurface, x, y,
-					fullScreenFont, printString, len );
-
-	wide= drText.drX1- drText.drX0+ 1;
+	if (ta->taSmallCaps || ta->taCapitals) {
+		if (docMakeCapsString(&upperString, &segments, &segmentCount,
+				      ta, printString, len)) {
+			LDEB(len);
+		} else {
+			printString = upperString;
+		}
 	}
 
-    if  ( upperString )
-	{ free( upperString );	}
-    if  ( segments )
-	{ free( segments );	}
+	if (ta->taSmallCaps && !ta->taCapitals) {
+		int scapsScreenFont = docLayoutScapsScreenFont(lc, ta);
+		if (scapsScreenFont < 0) {
+			LDEB(scapsScreenFont);
+			return -1;
+		}
 
-    return wide;
-    }
+		wide = docScreenSegmentedWidth(lc->lcDrawingSurface,
+					       fullScreenFont, scapsScreenFont,
+					       printString, segments,
+					       segmentCount);
+	} else {
+		DocumentRectangle drText;
+		int x = 0;
+		int y = 0;
+
+		drawGetTextExtents(&drText, lc->lcDrawingSurface, x, y,
+				   fullScreenFont, printString, len);
+
+		wide = drText.drX1 - drText.drX0 + 1;
+	}
+
+	if (upperString) {
+		free(upperString);
+	}
+	if (segments) {
+		free(segments);
+	}
+
+	return wide;
+}
 
 /************************************************************************/
 /*									*/
@@ -169,63 +164,57 @@ int docScreenTextWidth(		int				fullScreenFont,
 /*									*/
 /************************************************************************/
 
-static int docScreenLayoutPlaceSpan(
-				int *				pXPixels,
-				int *				pVisXPixels,
-				const BufferItem *		paraNode,
-				int				part,
-				int				upto,
-				int				xPixels,
-				int				xTwips,
-				int				x0Frame,
-				const LayoutContext *		lc )
-    {
-    TextParticule *	tp= paraNode->biParaParticules+ part;
+static int docScreenLayoutPlaceSpan(int *pXPixels, int *pVisXPixels,
+				    const BufferItem *paraNode, int part,
+				    int upto, int xPixels, int xTwips,
+				    int x0Frame, const LayoutContext *lc)
+{
+	TextParticule *tp = paraNode->biParaParticules + part;
 
-    int			done;
-    int			i;
+	int done;
+	int i;
 
-    int			x0Span;
-    int			len;
-    int			wide;
-    const char *	from;
+	int x0Span;
+	int len;
+	int wide;
+	const char *from;
 
-    int			fullScreenFont;
-    int			visXPixels= xPixels;
-    const int		separate= 0;
+	int fullScreenFont;
+	int visXPixels = xPixels;
+	const int separate = 0;
 
-    TextRun		tr;
+	TextRun tr;
 
-    from= (char *)docParaString( paraNode, tp->tpStroff );
-    x0Span= xPixels;
+	from = (char *)docParaString(paraNode, tp->tpStroff);
+	x0Span = xPixels;
 
-    done= docLayoutDelimitRun( &tr, xTwips,
-			lc->lcDocument, paraNode, part, upto, separate );
+	done = docLayoutDelimitRun(&tr, xTwips, lc->lcDocument, paraNode, part,
+				   upto, separate);
 
-    fullScreenFont= utilIndexMappingGet( lc->lcAttributeToScreenFont,
-						    tr.trTextAttributeNr );
+	fullScreenFont = utilIndexMappingGet(lc->lcAttributeToScreenFont,
+					     tr.trTextAttributeNr);
 
-    len= 0;
-    for ( i= 0; i < done; i++ )
-	{
-	tp->tpXContentXPixels= xPixels- x0Frame;
+	len = 0;
+	for (i = 0; i < done; i++) {
+		tp->tpXContentXPixels = xPixels - x0Frame;
 
-	len += tp->tpStrlen;
-	wide= docScreenTextWidth( fullScreenFont,
-				    &(tr.trTextAttribute), lc, from, len );
-	xPixels= x0Span+ wide;
+		len += tp->tpStrlen;
+		wide = docScreenTextWidth(fullScreenFont, &(tr.trTextAttribute),
+					  lc, from, len);
+		xPixels = x0Span + wide;
 
-	part++; tp++;
+		part++;
+		tp++;
 	}
 
-    wide= docScreenTextWidth( fullScreenFont, &(tr.trTextAttribute),
-						lc, from, tr.trStrlenNb );
-    visXPixels= x0Span+ wide;
+	wide = docScreenTextWidth(fullScreenFont, &(tr.trTextAttribute), lc,
+				  from, tr.trStrlenNb);
+	visXPixels = x0Span + wide;
 
-    *pXPixels= xPixels;
-    *pVisXPixels= visXPixels;
-    return done;
-    }
+	*pXPixels = xPixels;
+	*pVisXPixels = visXPixels;
+	return done;
+}
 
 /************************************************************************/
 /*									*/
@@ -234,48 +223,48 @@ static int docScreenLayoutPlaceSpan(
 /*									*/
 /************************************************************************/
 
-static int docScreenLayoutPlaceOneParticule(
-				int *				pXPixels,
-				const BufferItem *		paraNode,
-				int				part,
-				int				xPixels,
-				int				x0Frame,
-				const LayoutContext *		lc )
-    {
-    TextParticule *		tp= paraNode->biParaParticules+ part;
-    int				wide;
+static int docScreenLayoutPlaceOneParticule(int *pXPixels,
+					    const BufferItem *paraNode,
+					    int part, int xPixels, int x0Frame,
+					    const LayoutContext *lc)
+{
+	TextParticule *tp = paraNode->biParaParticules + part;
+	int wide;
 
-    switch( tp->tpKind )
-	{
+	switch (tp->tpKind) {
 	case DOCkindSPAN:
-	    LDEB(tp->tpKind); return -1;
+		LDEB(tp->tpKind);
+		return -1;
 
 	case DOCkindTAB:
-	    LDEB(tp->tpKind); return -1;
+		LDEB(tp->tpKind);
+		return -1;
 
-	case DOCkindOBJECT:
-	    {
-	    const InsertedObject *	io;
+	case DOCkindOBJECT: {
+		const InsertedObject *io;
 
-	    io= docGetObject( lc->lcDocument, tp->tpObjectNumber );
-	    if  ( ! io )
-		{ LPDEB(tp->tpObjectNumber,io);	}
+		io = docGetObject(lc->lcDocument, tp->tpObjectNumber);
+		if (!io) {
+			LPDEB(tp->tpObjectNumber, io);
+		}
 
-	    if  ( io && io->ioInline )
-		{ wide= io->ioPixelsWide;	}
-	    else{ wide= 0;			}
-	    }
+		if (io && io->ioInline) {
+			wide = io->ioPixelsWide;
+		} else {
+			wide = 0;
+		}
+	}
 
-	    tp->tpXContentXPixels= xPixels- x0Frame;
-	    xPixels += wide;
-	    break;
+		tp->tpXContentXPixels = xPixels - x0Frame;
+		xPixels += wide;
+		break;
 
 	case DOCkindCHFTNSEP:
 	case DOCkindCHFTNSEPC:
-	    wide= COORDtoGRID( lc->lcPixelsPerTwip, tp->tpTwipsWide );
-	    tp->tpXContentXPixels= xPixels- x0Frame;
-	    xPixels += wide;
-	    break;
+		wide = COORDtoGRID(lc->lcPixelsPerTwip, tp->tpTwipsWide);
+		tp->tpXContentXPixels = xPixels - x0Frame;
+		xPixels += wide;
+		break;
 
 	case DOCkindFIELDHEAD:
 	case DOCkindFIELDTAIL:
@@ -283,25 +272,27 @@ static int docScreenLayoutPlaceOneParticule(
 	case DOCkindPAGEBREAK:
 	case DOCkindCOLUMNBREAK:
 
-	    tp->tpXContentXPixels= xPixels- x0Frame;
-	    break;
+		tp->tpXContentXPixels = xPixels - x0Frame;
+		break;
 
 	case DOCkindOPT_HYPH:
 	case DOCkindLTR_MARK:
 	case DOCkindRTL_MARK:
-	    if  ( tp->tpTwipsWide > 0 )
-		{ LLDEB(tp->tpKind,tp->tpTwipsWide); /*return -1;*/	}
+		if (tp->tpTwipsWide > 0) {
+			LLDEB(tp->tpKind, tp->tpTwipsWide); /*return -1;*/
+		}
 
-	    tp->tpXContentXPixels= xPixels- x0Frame;
-	    break;
+		tp->tpXContentXPixels = xPixels - x0Frame;
+		break;
 
 	default:
-	    LDEB(tp->tpKind); return -1;
+		LDEB(tp->tpKind);
+		return -1;
 	}
 
-    *pXPixels= xPixels;
-    return 1;
-    }
+	*pXPixels = xPixels;
+	return 1;
+}
 
 /************************************************************************/
 /*									*/
@@ -310,48 +301,46 @@ static int docScreenLayoutPlaceOneParticule(
 /*									*/
 /************************************************************************/
 
-static int docScreenLayoutPlaceParticules(
-				int *				pXPixels,
-				int *				pVisXPixels,
-				const BufferItem *		paraNode,
-				int				part,
-				int				upto,
-				int				xPixels,
-				int				xTwips,
-				int				x0Frame,
-				const LayoutContext *		lc,
-				ParticuleData *			pd )
-    {
-    TextParticule *		tp= paraNode->biParaParticules+ part;
-    int				visXPixels= xPixels;
+static int docScreenLayoutPlaceParticules(int *pXPixels, int *pVisXPixels,
+					  const BufferItem *paraNode, int part,
+					  int upto, int xPixels, int xTwips,
+					  int x0Frame, const LayoutContext *lc,
+					  ParticuleData *pd)
+{
+	TextParticule *tp = paraNode->biParaParticules + part;
+	int visXPixels = xPixels;
 
-    while( part < upto )
-	{
-	int		done;
+	while (part < upto) {
+		int done;
 
-	if  ( tp->tpKind == DOCkindSPAN )
-	    {
-	    done= docScreenLayoutPlaceSpan( &xPixels, &visXPixels, paraNode, part, upto,
-				    xPixels, xTwips, x0Frame, lc );
-	    }
-	else{
-	    done= docScreenLayoutPlaceOneParticule( &xPixels, paraNode, part,
-						    xPixels, x0Frame, lc );
-	    visXPixels= xPixels;
-	    }
+		if (tp->tpKind == DOCkindSPAN) {
+			done = docScreenLayoutPlaceSpan(&xPixels, &visXPixels,
+							paraNode, part, upto,
+							xPixels, xTwips,
+							x0Frame, lc);
+		} else {
+			done = docScreenLayoutPlaceOneParticule(
+				&xPixels, paraNode, part, xPixels, x0Frame, lc);
+			visXPixels = xPixels;
+		}
 
-	if  ( done < 1 )
-	    { LDEB(done); return -1;	}
+		if (done < 1) {
+			LDEB(done);
+			return -1;
+		}
 
-	part += done; tp += done; pd += done;
-	if  ( part < upto )
-	    { xTwips= pd->pdX0;	}
+		part += done;
+		tp += done;
+		pd += done;
+		if (part < upto) {
+			xTwips = pd->pdX0;
+		}
 	}
 
-    *pVisXPixels= visXPixels;
-    *pXPixels= xPixels;
-    return 0;
-    }
+	*pVisXPixels = visXPixels;
+	*pXPixels = xPixels;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -370,238 +359,239 @@ static int docScreenLayoutPlaceParticules(
 /*									*/
 /************************************************************************/
 
-static void docScreenLayoutJustifyParticules(
-				const BufferItem *		paraNode,
-				int				part,
-				int				upto,
-				ParticuleData *			pd,
-				int				shift )
-    {
-    TextParticule *		tp= paraNode->biParaParticules+ part;
-    int				x0Twips= pd->pdX0;
-    int				x1Twips;
-    int				count= upto- part;
-    int				last= -1;
-    int				i;
+static void docScreenLayoutJustifyParticules(const BufferItem *paraNode,
+					     int part, int upto,
+					     ParticuleData *pd, int shift)
+{
+	TextParticule *tp = paraNode->biParaParticules + part;
+	int x0Twips = pd->pdX0;
+	int x1Twips;
+	int count = upto - part;
+	int last = -1;
+	int i;
 
-    /*  1  */
-    for ( i= count- 2; i >= 0; i-- )
-	{
-	if  ( pd[i].pdVisibleBBox.drX1 != pd[i].pdTwipsWide )
-	    { last= i+ 1; break;	}
-	}
-
-    /*  2  */
-    if  ( last < 0 )
-	{ return;	}
-
-    /*  3  */
-    x1Twips= pd[last].pdX0;
-
-    /*  4  */
-    i= 0;
-    while( i < count )
-	{
-	int	from= i++;
-
-	while( i < last && pd[i].pdVisibleBBox.drX1 == pd[i].pdTwipsWide )
-	    { i++;	}
-
-	if  ( i > from && x1Twips > x0Twips )
-	    {
-	    int		w0= pd[from].pdX0- x0Twips;
-	    int		w1= x1Twips- pd[from].pdX0;
-	    int		sh= ( w0* shift )/ ( w0+ w1 );
-
-	    while( from < i )
-		{
-		tp->tpXContentXPixels += sh;
-		tp++; from++;
+	/*  1  */
+	for (i = count - 2; i >= 0; i--) {
+		if (pd[i].pdVisibleBBox.drX1 != pd[i].pdTwipsWide) {
+			last = i + 1;
+			break;
 		}
-	    }
 	}
 
-    return;
-    }
+	/*  2  */
+	if (last < 0) {
+		return;
+	}
 
-static int docScreenLayoutAlignParticules(
-				int *				pXPixels,
-				const BufferItem *		paraNode,
-				int				part,
-				int				upto,
-				int				align,
-				int				x0Frame,
-				int				x1Frame,
-				const LayoutContext *		lc,
-				ParticuleData *			pd )
-    {
-    TextParticule *		tp= paraNode->biParaParticules+ part;
-    int				x0Twips;
-    int				x1Twips;
-    int				x0Pixels;
-    int				xPixels;
-    int				x1Pixels;
-    int				visXPixels;
-    int				shift;
+	/*  3  */
+	x1Twips = pd[last].pdX0;
 
-    int				last= upto- part- 1;
-    int				i;
+	/*  4  */
+	i = 0;
+	while (i < count) {
+		int from = i++;
 
-    x0Twips= pd->pdX0;
-    if  ( tp->tpFlags & TPflagLEFT_BORDER )
-	{ x0Twips += pd->pdLeftBorderWidth;	}
-    x0Pixels= docLayoutXPixels( lc, x0Twips );
+		while (i < last &&
+		       pd[i].pdVisibleBBox.drX1 == pd[i].pdTwipsWide) {
+			i++;
+		}
 
-    x1Twips= pd[last].pdX0+ pd[last].pdVisibleBBox.drX1;
-    if  ( tp[last].tpFlags & TPflagRIGHT_BORDER )
-	{ x1Twips -= pd->pdRightBorderWidth;	}
-    x1Pixels= docLayoutXPixels( lc, x1Twips );
+		if (i > from && x1Twips > x0Twips) {
+			int w0 = pd[from].pdX0 - x0Twips;
+			int w1 = x1Twips - pd[from].pdX0;
+			int sh = (w0 * shift) / (w0 + w1);
 
-    if  ( docScreenLayoutPlaceParticules( &xPixels, &visXPixels,
-			paraNode, part, upto,
-			x0Pixels, x0Twips, x0Frame, lc, pd ) )
-	{ LLDEB(part,upto); return -1;	}
+			while (from < i) {
+				tp->tpXContentXPixels += sh;
+				tp++;
+				from++;
+			}
+		}
+	}
 
-    switch( align )
-	{
+	return;
+}
+
+static int docScreenLayoutAlignParticules(int *pXPixels,
+					  const BufferItem *paraNode, int part,
+					  int upto, int align, int x0Frame,
+					  int x1Frame, const LayoutContext *lc,
+					  ParticuleData *pd)
+{
+	TextParticule *tp = paraNode->biParaParticules + part;
+	int x0Twips;
+	int x1Twips;
+	int x0Pixels;
+	int xPixels;
+	int x1Pixels;
+	int visXPixels;
+	int shift;
+
+	int last = upto - part - 1;
+	int i;
+
+	x0Twips = pd->pdX0;
+	if (tp->tpFlags & TPflagLEFT_BORDER) {
+		x0Twips += pd->pdLeftBorderWidth;
+	}
+	x0Pixels = docLayoutXPixels(lc, x0Twips);
+
+	x1Twips = pd[last].pdX0 + pd[last].pdVisibleBBox.drX1;
+	if (tp[last].tpFlags & TPflagRIGHT_BORDER) {
+		x1Twips -= pd->pdRightBorderWidth;
+	}
+	x1Pixels = docLayoutXPixels(lc, x1Twips);
+
+	if (docScreenLayoutPlaceParticules(&xPixels, &visXPixels, paraNode,
+					   part, upto, x0Pixels, x0Twips,
+					   x0Frame, lc, pd)) {
+		LLDEB(part, upto);
+		return -1;
+	}
+
+	switch (align) {
 	case DOCthaLEFT:
-	    /************************************************************/
-	    /*  Only squeeze the last line if it does not fit between	*/
-	    /*  the margins.						*/
-	    /************************************************************/
-	    if  ( upto >= paraNode->biParaParticuleCount		&&
-		  ! ( tp[last].tpFlags & TPflagXMATCH_RIGHT )	)
-		{ x1Pixels= x1Frame;	}
-	    shift= x1Pixels- visXPixels;
+		/************************************************************/
+		/*  Only squeeze the last line if it does not fit between	*/
+		/*  the margins.						*/
+		/************************************************************/
+		if (upto >= paraNode->biParaParticuleCount &&
+		    !(tp[last].tpFlags & TPflagXMATCH_RIGHT)) {
+			x1Pixels = x1Frame;
+		}
+		shift = x1Pixels - visXPixels;
 
-	    if  ( shift < 0 )
-		{
-		docScreenLayoutJustifyParticules( paraNode, part, upto, pd, shift );
-		xPixels= x1Pixels;
+		if (shift < 0) {
+			docScreenLayoutJustifyParticules(paraNode, part, upto,
+							 pd, shift);
+			xPixels = x1Pixels;
 		}
 
-	    break;
+		break;
 
 	case DOCthaRIGHT:
-	    shift= x1Pixels- visXPixels;
-	    if  ( shift < 0 )
-		{
-		docScreenLayoutJustifyParticules( paraNode, part, upto, pd, shift );
-		}
-	    else{
-		if  ( shift > 0 )
-		    {
-		    for ( i= part; i < upto; i++ )
-			{ tp->tpXContentXPixels += shift; tp++;	}
+		shift = x1Pixels - visXPixels;
+		if (shift < 0) {
+			docScreenLayoutJustifyParticules(paraNode, part, upto,
+							 pd, shift);
+		} else {
+			if (shift > 0) {
+				for (i = part; i < upto; i++) {
+					tp->tpXContentXPixels += shift;
+					tp++;
+				}
 
-		    xPixels= x1Pixels;
-		    }
+				xPixels = x1Pixels;
+			}
 		}
-	    break;
+		break;
 
 	case DOCthaJUSTIFIED:
-	    shift= x1Pixels- visXPixels;
-	    docScreenLayoutJustifyParticules( paraNode, part, upto, pd, shift );
-	    xPixels= x1Pixels;
-	    break;
+		shift = x1Pixels - visXPixels;
+		docScreenLayoutJustifyParticules(paraNode, part, upto, pd,
+						 shift);
+		xPixels = x1Pixels;
+		break;
 
 	case DOCthaCENTERED:
-	    LDEB(align); return -1;
+		LDEB(align);
+		return -1;
 	default:
-	    LDEB(align); return -1;
+		LDEB(align);
+		return -1;
 	}
 
-    *pXPixels= xPixels;
-    return 0;
-    }
+	*pXPixels = xPixels;
+	return 0;
+}
 
-static int docScreenLayoutScreenLine(
-				const TextLine *		tl,
-				const BufferItem *		paraNode,
-				const LayoutContext *		lc,
-				const ParagraphFrame *		pf,
-				ParticuleData *			pdFrom )
-    {
-    const DocumentRectangle *	drParaContent= &(pf->pfParaContentRect);
+static int docScreenLayoutScreenLine(const TextLine *tl,
+				     const BufferItem *paraNode,
+				     const LayoutContext *lc,
+				     const ParagraphFrame *pf,
+				     ParticuleData *pdFrom)
+{
+	const DocumentRectangle *drParaContent = &(pf->pfParaContentRect);
 
-    int				x0Frame= docLayoutXPixels( lc, drParaContent->drX0 );
-    int				x1Frame= docLayoutXPixels( lc, drParaContent->drX1 );
-    int				xPixels= x0Frame;
-    int				from;
+	int x0Frame = docLayoutXPixels(lc, drParaContent->drX0);
+	int x1Frame = docLayoutXPixels(lc, drParaContent->drX1);
+	int xPixels = x0Frame;
+	int from;
 
-    int				part= tl->tlFirstParticule;
-    TextParticule *		tp= paraNode->biParaParticules+ part;
-    int				pastLine;
+	int part = tl->tlFirstParticule;
+	TextParticule *tp = paraNode->biParaParticules + part;
+	int pastLine;
 
-    pastLine= tl->tlFirstParticule+ tl->tlParticuleCount;
+	pastLine = tl->tlFirstParticule + tl->tlParticuleCount;
 
-    from= part;
-    tp= paraNode->biParaParticules+ from;
-    while( from < pastLine )
-	{
-	int		align= -1;
-	int		upto= from;
-	ParticuleData *	pd= pdFrom+ from- tl->tlFirstParticule;
-	unsigned char	fromFlags= tp->tpFlags;
-	unsigned char	lastFlags= 0x0;
+	from = part;
+	tp = paraNode->biParaParticules + from;
+	while (from < pastLine) {
+		int align = -1;
+		int upto = from;
+		ParticuleData *pd = pdFrom + from - tl->tlFirstParticule;
+		unsigned char fromFlags = tp->tpFlags;
+		unsigned char lastFlags = 0x0;
 
-	if  ( tp->tpKind == DOCkindTAB )
-	    {
-	    tp->tpXContentXPixels= xPixels- x0Frame;
-	    xPixels= docLayoutXPixels( lc, pd->pdX0+ pd->pdTwipsWide );
-	    from++; tp++; continue;
-	    }
+		if (tp->tpKind == DOCkindTAB) {
+			tp->tpXContentXPixels = xPixels - x0Frame;
+			xPixels = docLayoutXPixels(lc,
+						   pd->pdX0 + pd->pdTwipsWide);
+			from++;
+			tp++;
+			continue;
+		}
 
-	lastFlags= tp->tpFlags;
-	upto++; tp++;
-	while( upto < pastLine						&&
-	       tp->tpKind != DOCkindTAB					&&
-	       ! ( tp->tpFlags &
-			    ( TPflagXMATCH_LEFT|TPflagXMATCH_RIGHT ) )	)
-	    {
-	    lastFlags= tp->tpFlags;
-	    upto++; tp++;
-	    }
+		lastFlags = tp->tpFlags;
+		upto++;
+		tp++;
+		while (upto < pastLine && tp->tpKind != DOCkindTAB &&
+		       !(tp->tpFlags &
+			 (TPflagXMATCH_LEFT | TPflagXMATCH_RIGHT))) {
+			lastFlags = tp->tpFlags;
+			upto++;
+			tp++;
+		}
 
-	if  ( upto < pastLine						&&
-	       tp->tpKind != DOCkindTAB					&&
-	      ( tp->tpFlags &
-			( TPflagXMATCH_LEFT|TPflagXMATCH_RIGHT ) ) ==
-						    TPflagXMATCH_RIGHT	)
-	    {
-	    lastFlags= tp->tpFlags;
-	    upto++; tp++;
-	    }
+		if (upto < pastLine && tp->tpKind != DOCkindTAB &&
+		    (tp->tpFlags & (TPflagXMATCH_LEFT | TPflagXMATCH_RIGHT)) ==
+			    TPflagXMATCH_RIGHT) {
+			lastFlags = tp->tpFlags;
+			upto++;
+			tp++;
+		}
 
-	if  ( fromFlags & TPflagXMATCH_LEFT )
-	    {
-	    if  ( lastFlags & TPflagXMATCH_RIGHT )
-		{ align= DOCthaJUSTIFIED;	}
-	    else{ align= DOCthaLEFT;		}
-	    }
-	else{
-	    if  ( lastFlags & TPflagXMATCH_RIGHT )
-		{ align= DOCthaRIGHT;	}
-	    else{
-		/*
+		if (fromFlags & TPflagXMATCH_LEFT) {
+			if (lastFlags & TPflagXMATCH_RIGHT) {
+				align = DOCthaJUSTIFIED;
+			} else {
+				align = DOCthaLEFT;
+			}
+		} else {
+			if (lastFlags & TPflagXMATCH_RIGHT) {
+				align = DOCthaRIGHT;
+			} else {
+				/*
 		LLXXDEB(from,upto,fromFlags,lastFlags);
 		*/
-		align= DOCthaLEFT;
+				align = DOCthaLEFT;
+			}
 		}
-	    }
 
-	if  ( from < upto )
-	    {
-	    if  ( docScreenLayoutAlignParticules( &xPixels, paraNode, from, upto,
-					align, x0Frame, x1Frame, lc, pd ) )
-		{ LLLDEB(from,upto,align); return -1;	}
-	    }
+		if (from < upto) {
+			if (docScreenLayoutAlignParticules(
+				    &xPixels, paraNode, from, upto, align,
+				    x0Frame, x1Frame, lc, pd)) {
+				LLLDEB(from, upto, align);
+				return -1;
+			}
+		}
 
-	from= upto;
+		from = upto;
 	}
 
-    return tl->tlParticuleCount;
-    }
+	return tl->tlParticuleCount;
+}
 
 /************************************************************************/
 /*									*/
@@ -613,39 +603,42 @@ static int docScreenLayoutScreenLine(
 /*									*/
 /************************************************************************/
 
-static int docScreenLayoutStartScreenPara(
-					BufferItem *		paraNode,
-					const ParagraphFrame *	pf,
-					const LayoutContext *	lc )
-    {
-    int			part;
-    TextParticule *	tp;
+static int docScreenLayoutStartScreenPara(BufferItem *paraNode,
+					  const ParagraphFrame *pf,
+					  const LayoutContext *lc)
+{
+	int part;
+	TextParticule *tp;
 
-    double		xfac= lc->lcPixelsPerTwip;
+	double xfac = lc->lcPixelsPerTwip;
 
-    if  ( docScreenLayoutOpenParaFonts( lc, paraNode ) )
-	{ LDEB(1); return -1;	}
-
-    tp= paraNode->biParaParticules;
-    for ( part= 0; part < paraNode->biParaParticuleCount; tp++, part++ )
-	{
-	if  ( tp->tpKind != DOCkindOBJECT )
-	    { continue;	}
-
-	if  ( 1 )
-	    {
-	    BufferDocument *	bd= lc->lcDocument;
-	    InsertedObject *	io= docGetObject( bd, tp->tpObjectNumber );
-
-	    if  ( ! io )
-		{ LPDEB(tp->tpObjectNumber,io); return -1;	}
-
-	    docObjectSetPixelSize( io, xfac );
-	    }
+	if (docScreenLayoutOpenParaFonts(lc, paraNode)) {
+		LDEB(1);
+		return -1;
 	}
 
-    return 0;
-    }
+	tp = paraNode->biParaParticules;
+	for (part = 0; part < paraNode->biParaParticuleCount; tp++, part++) {
+		if (tp->tpKind != DOCkindOBJECT) {
+			continue;
+		}
+
+		if (1) {
+			BufferDocument *bd = lc->lcDocument;
+			InsertedObject *io =
+				docGetObject(bd, tp->tpObjectNumber);
+
+			if (!io) {
+				LPDEB(tp->tpObjectNumber, io);
+				return -1;
+			}
+
+			docObjectSetPixelSize(io, xfac);
+		}
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -653,40 +646,39 @@ static int docScreenLayoutStartScreenPara(
 /*									*/
 /************************************************************************/
 
-int docScreenLayoutOpenParaFonts(
-				const LayoutContext *	lc,
-				BufferItem *		paraNode )
-    {
-    int			part;
-    int			textAttrNr0= -1;
-    BufferDocument *	bd= lc->lcDocument;
+int docScreenLayoutOpenParaFonts(const LayoutContext *lc, BufferItem *paraNode)
+{
+	int part;
+	int textAttrNr0 = -1;
+	BufferDocument *bd = lc->lcDocument;
 
-    for ( part= 0; part < paraNode->biParaParticuleCount; part++ )
-	{
-	TextAttribute	ta;
-	int		textAttrNr;
+	for (part = 0; part < paraNode->biParaParticuleCount; part++) {
+		TextAttribute ta;
+		int textAttrNr;
 
-	textAttrNr= docGetEffectiveTextAttributes( &ta, bd, paraNode, part );
+		textAttrNr =
+			docGetEffectiveTextAttributes(&ta, bd, paraNode, part);
 
-	if  ( textAttrNr == textAttrNr0 )
-	    { continue;	}
+		if (textAttrNr == textAttrNr0) {
+			continue;
+		}
 
-	textAttrNr0= textAttrNr;
+		textAttrNr0 = textAttrNr;
 
-	if  ( utilIndexMappingGet( lc->lcAttributeToScreenFont,
-							textAttrNr0 ) >= 0 )
-	    { continue;	}
+		if (utilIndexMappingGet(lc->lcAttributeToScreenFont,
+					textAttrNr0) >= 0) {
+			continue;
+		}
 
-	if  ( docOpenScreenFont( lc, textAttrNr0 ) < 0 )
-	    {
-	    LLDEB(part,textAttrNr0);
-	    docListNode(0,paraNode,0);
-	    return -1;
-	    }
+		if (docOpenScreenFont(lc, textAttrNr0) < 0) {
+			LLDEB(part, textAttrNr0);
+			docListNode(0, paraNode, 0);
+			return -1;
+		}
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -694,40 +686,42 @@ int docScreenLayoutOpenParaFonts(
 /*									*/
 /************************************************************************/
 
-void docSetScreenLayoutFunctions(	LayoutJob *	lj )
-    {
-    lj->ljStartScreenParagraph= docScreenLayoutStartScreenPara;
-    lj->ljLayoutScreenLine= docScreenLayoutScreenLine;
+void docSetScreenLayoutFunctions(LayoutJob *lj)
+{
+	lj->ljStartScreenParagraph = docScreenLayoutStartScreenPara;
+	lj->ljLayoutScreenLine = docScreenLayoutScreenLine;
 
-    return;
-    }
+	return;
+}
 
-int docScreenLayoutNode(	int *			pReachedBottom,
-				BufferItem *		node,
-				const LayoutContext *	lc,
-				DocumentRectangle *	drChanged )
-    {
-    LayoutJob			lj;
+int docScreenLayoutNode(int *pReachedBottom, BufferItem *node,
+			const LayoutContext *lc, DocumentRectangle *drChanged)
+{
+	LayoutJob lj;
 
-    docInitLayoutJob( &lj );
+	docInitLayoutJob(&lj);
 
-    if  ( lc->lcDrawingSurface )
-	{ docSetScreenLayoutFunctions( &lj );	}
+	if (lc->lcDrawingSurface) {
+		docSetScreenLayoutFunctions(&lj);
+	}
 
-    lj.ljChangedRectanglePixels= drChanged;
-    lj.ljContext= *lc;
-    lj.ljChangedNode= node;
+	lj.ljChangedRectanglePixels = drChanged;
+	lj.ljContext = *lc;
+	lj.ljChangedNode = node;
 
-    if  ( docLayoutNodeAndParents( node, &lj ) )
-	{ LDEB(1); return -1;	}
+	if (docLayoutNodeAndParents(node, &lj)) {
+		LDEB(1);
+		return -1;
+	}
 
-    if  ( pReachedBottom && lj.ljReachedDocumentBottom )
-	{ *pReachedBottom= 1;	}
+	if (pReachedBottom && lj.ljReachedDocumentBottom) {
+		*pReachedBottom = 1;
+	}
 
-    docCleanLayoutJob( &lj );
+	docCleanLayoutJob(&lj);
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -735,24 +729,24 @@ int docScreenLayoutNode(	int *			pReachedBottom,
 /*									*/
 /************************************************************************/
 
-static int docDelimitTablesInShapeText(	int		n,
-					void *		vio,
-					void *		vdps )
-    {
-    InsertedObject *		io= (InsertedObject *)vio;
-    DrawingShape *		ds;
-    const int			recursively= 1;
+static int docDelimitTablesInShapeText(int n, void *vio, void *vdps)
+{
+	InsertedObject *io = (InsertedObject *)vio;
+	DrawingShape *ds;
+	const int recursively = 1;
 
-    if  ( io->ioKind != DOCokDRAWING_SHAPE )
-	{ return 0;	}
+	if (io->ioKind != DOCokDRAWING_SHAPE) {
+		return 0;
+	}
 
-    ds= io->ioDrawingShape;
+	ds = io->ioDrawingShape;
 
-    if  ( ds->dsDocumentTree.dtRoot )
-	{ docDelimitTables( ds->dsDocumentTree.dtRoot, recursively );	}
+	if (ds->dsDocumentTree.dtRoot) {
+		docDelimitTables(ds->dsDocumentTree.dtRoot, recursively);
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -760,32 +754,37 @@ static int docDelimitTablesInShapeText(	int		n,
 /*									*/
 /************************************************************************/
 
-int docScreenLayoutDocumentBody( int *				pReachedBottom,
-				BufferDocument *		bd,
-				const LayoutContext *		lc )
-    {
-    DocumentProperties *	dp= &(bd->bdProperties);
+int docScreenLayoutDocumentBody(int *pReachedBottom, BufferDocument *bd,
+				const LayoutContext *lc)
+{
+	DocumentProperties *dp = &(bd->bdProperties);
 
-    DocumentRectangle		drChanged;
+	DocumentRectangle drChanged;
 
-    geoInitRectangle( &drChanged );
+	geoInitRectangle(&drChanged);
 
-    /*  1  */
-    if  ( dp->dpFontList->dflFontCount == 0 )
-	{ LDEB(dp->dpFontList->dflFontCount); return -1;	}
+	/*  1  */
+	if (dp->dpFontList->dflFontCount == 0) {
+		LDEB(dp->dpFontList->dflFontCount);
+		return -1;
+	}
 
-    if  ( docScreenLayoutNode( pReachedBottom,
-					bd->bdBody.dtRoot, lc, &drChanged ) )
-	{ LDEB(1); return -1;	}
+	if (docScreenLayoutNode(pReachedBottom, bd->bdBody.dtRoot, lc,
+				&drChanged)) {
+		LDEB(1);
+		return -1;
+	}
 
-    if  ( utilPagedListForAll( &(bd->bdObjectList.iolPagedList),
-				docDelimitTablesInShapeText, (void *)0 ) < 0 )
-	{ LDEB(1); return -1;	}
+	if (utilPagedListForAll(&(bd->bdObjectList.iolPagedList),
+				docDelimitTablesInShapeText, (void *)0) < 0) {
+		LDEB(1);
+		return -1;
+	}
 
-    /* LDEB(1);docListNode(0,bd->bdBody.dtRoot); */
+	/* LDEB(1);docListNode(0,bd->bdBody.dtRoot); */
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -793,19 +792,17 @@ int docScreenLayoutDocumentBody( int *				pReachedBottom,
 /*									*/
 /************************************************************************/
 
-int docStartScreenLayoutForTree(
-				LayoutJob *			lj,
-				DocumentTree *			ei,
-				int				page,
-				int				column )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
+int docStartScreenLayoutForTree(LayoutJob *lj, DocumentTree *ei, int page,
+				int column)
+{
+	const LayoutContext *lc = &(lj->ljContext);
 
-    if  ( lc->lcDrawingSurface )
-	{ docSetScreenLayoutFunctions( lj );	}
+	if (lc->lcDrawingSurface) {
+		docSetScreenLayoutFunctions(lj);
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -815,15 +812,15 @@ int docStartScreenLayoutForTree(
 /*									*/
 /************************************************************************/
 
-int docLayoutScapsScreenFont(	const LayoutContext *	lc,
-				const TextAttribute *	ta )
-    {
-    int		scapsAttrNr= docScapsAttributeNumber( lc->lcDocument, ta );
-    int		scapsScreenFont;
+int docLayoutScapsScreenFont(const LayoutContext *lc, const TextAttribute *ta)
+{
+	int scapsAttrNr = docScapsAttributeNumber(lc->lcDocument, ta);
+	int scapsScreenFont;
 
-    scapsScreenFont= docOpenScreenFont(	lc, scapsAttrNr );
-    if  ( scapsScreenFont < 0 )
-	{ LLDEB(scapsAttrNr,scapsScreenFont);	}
+	scapsScreenFont = docOpenScreenFont(lc, scapsAttrNr);
+	if (scapsScreenFont < 0) {
+		LLDEB(scapsAttrNr, scapsScreenFont);
+	}
 
-    return scapsScreenFont;
-    }
+	return scapsScreenFont;
+}

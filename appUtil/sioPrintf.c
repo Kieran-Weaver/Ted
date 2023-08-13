@@ -4,15 +4,15 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<string.h>
-#   include	<stdarg.h>
-#   include	<limits.h>
+#include <string.h>
+#include <stdarg.h>
+#include <limits.h>
 
-#   include	"sioGeneral.h"
-#   include	"sioVPrintf.h"
-#   include	<appDebugon.h>
+#include "sioGeneral.h"
+#include "sioVPrintf.h"
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -20,20 +20,20 @@
 /*									*/
 /************************************************************************/
 
-static const char	SIO_PrintfLowerDigits[16+1]= "0123456789abcdef";
-static const char	SIO_PrintfUpperDigits[16+1]= "0123456789ABCDEF";
+static const char SIO_PrintfLowerDigits[16 + 1] = "0123456789abcdef";
+static const char SIO_PrintfUpperDigits[16 + 1] = "0123456789ABCDEF";
 
-# define FLAG_LEFT		0x0001
-# define FLAG_SIGNED		0x0002
-# define FLAG_SPACE		0x0004
-# define FLAG_ALTERNATE		0x0008
-# define FLAG_ZEROPAD		0x0010
-# define FLAG_SHORT		0x0020
-# define FLAG_LONG		0x0040
-# define FLAG_LONGD		0x0080
-# define FLAG_WIDTH_INDIR	0x0100
-# define FLAG_PREC_INDIR	0x0200
-# define FLAG_HAS_PRECISION	0x0400
+#define FLAG_LEFT 0x0001
+#define FLAG_SIGNED 0x0002
+#define FLAG_SPACE 0x0004
+#define FLAG_ALTERNATE 0x0008
+#define FLAG_ZEROPAD 0x0010
+#define FLAG_SHORT 0x0020
+#define FLAG_LONG 0x0040
+#define FLAG_LONGD 0x0080
+#define FLAG_WIDTH_INDIR 0x0100
+#define FLAG_PREC_INDIR 0x0200
+#define FLAG_HAS_PRECISION 0x0400
 
 /************************************************************************/
 /*									*/
@@ -42,76 +42,99 @@ static const char	SIO_PrintfUpperDigits[16+1]= "0123456789ABCDEF";
 /*									*/
 /************************************************************************/
 
-static void sioOutPrintfGetConversion(	unsigned int *	pFlags,
-					int *		pMinWidth,
-					int *		pPrecision,
-					char *		pConversion,
-					const char **	pPast,
-					const char *	format )
-    {
-    unsigned int	flags= 0;
-    int			minWidth= 0;
-    int			precision= 0;
-    char		conversion;
+static void sioOutPrintfGetConversion(unsigned int *pFlags, int *pMinWidth,
+				      int *pPrecision, char *pConversion,
+				      const char **pPast, const char *format)
+{
+	unsigned int flags = 0;
+	int minWidth = 0;
+	int precision = 0;
+	char conversion;
 
-    for (;;)
-	{
-	switch( format[0] )
-	    {
-	    case '-': flags |= FLAG_LEFT;	format++; continue;
-	    case '+': flags |= FLAG_SIGNED;	format++; continue;
-	    case ' ': flags |= FLAG_SPACE;	format++; continue;
-	    case '#': flags |= FLAG_ALTERNATE;	format++; continue;
-	    case '0': flags |= FLAG_ZEROPAD;	format++; continue;
+	for (;;) {
+		switch (format[0]) {
+		case '-':
+			flags |= FLAG_LEFT;
+			format++;
+			continue;
+		case '+':
+			flags |= FLAG_SIGNED;
+			format++;
+			continue;
+		case ' ':
+			flags |= FLAG_SPACE;
+			format++;
+			continue;
+		case '#':
+			flags |= FLAG_ALTERNATE;
+			format++;
+			continue;
+		case '0':
+			flags |= FLAG_ZEROPAD;
+			format++;
+			continue;
 
-	    default:
+		default:
+			break;
+		}
+
 		break;
-	    }
-
-	break;
 	}
 
-    if  ( format[0] == '*' )
-	{ flags |= FLAG_WIDTH_INDIR; format++;	}
-    else{
-	while( isdigit( format[0] ) )
-	    { minWidth= 10* minWidth+ ( format[0]- '0' ); format++; }
+	if (format[0] == '*') {
+		flags |= FLAG_WIDTH_INDIR;
+		format++;
+	} else {
+		while (isdigit(format[0])) {
+			minWidth = 10 * minWidth + (format[0] - '0');
+			format++;
+		}
 	}
 
-    if  ( format[0] == '.' )
-	{
-	format++;
-	flags |= FLAG_HAS_PRECISION;
+	if (format[0] == '.') {
+		format++;
+		flags |= FLAG_HAS_PRECISION;
 
-	if  ( format[0] == '*' )
-	    { flags |= FLAG_PREC_INDIR; format++;	}
-	else{
-	    while( isdigit( format[0] ) )
-		{ precision= 10* precision+ ( format[0]- '0' ); format++; }
-	    }
+		if (format[0] == '*') {
+			flags |= FLAG_PREC_INDIR;
+			format++;
+		} else {
+			while (isdigit(format[0])) {
+				precision = 10 * precision + (format[0] - '0');
+				format++;
+			}
+		}
 	}
 
-    switch( format[0] )
-	{
-	case 'h': flags |= FLAG_SHORT;	format++; break;
-	case 'l': flags |= FLAG_LONG;	format++; break;
-	case 'L': flags |= FLAG_LONGD;	format++; break;
+	switch (format[0]) {
+	case 'h':
+		flags |= FLAG_SHORT;
+		format++;
+		break;
+	case 'l':
+		flags |= FLAG_LONG;
+		format++;
+		break;
+	case 'L':
+		flags |= FLAG_LONGD;
+		format++;
+		break;
 
 	default:
-	    break;
+		break;
 	}
 
-    conversion= *(format++);
+	conversion = *(format++);
 
-    *pPast= format;
+	*pPast = format;
 
-    *pFlags= flags;
-    *pMinWidth= minWidth;
-    *pPrecision= precision;
-    *pConversion= conversion;
+	*pFlags = flags;
+	*pMinWidth = minWidth;
+	*pPrecision = precision;
+	*pConversion = conversion;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -146,174 +169,166 @@ static void sioOutPrintfGetConversion(	unsigned int *	pFlags,
 /*									*/
 /************************************************************************/
 
-# define STACK_SIZE 509
+#define STACK_SIZE 509
 
-static int sioOutPrintf_dixou(	SimpleOutputStream *	sos,
-				unsigned int		flags,
-				int			minWidth,
-				int			precision,
-				int			base,
-				const char *		digits,
-				const char *		altPrefixRev,
-				int			sign,
-				unsigned long		value )
-    {
-    char	stack[STACK_SIZE+3];
-    int		digStacked= 0;
-    int		totStacked= 0;
+static int sioOutPrintf_dixou(SimpleOutputStream *sos, unsigned int flags,
+			      int minWidth, int precision, int base,
+			      const char *digits, const char *altPrefixRev,
+			      int sign, unsigned long value)
+{
+	char stack[STACK_SIZE + 3];
+	int digStacked = 0;
+	int totStacked = 0;
 
-    int		emitted= 0;
+	int emitted = 0;
 
-    /*  0  */
-    if  ( precision > STACK_SIZE )
-	{ LLDEB(precision,STACK_SIZE); precision= STACK_SIZE;	}
-
-    /*  1  */
-    if  ( ! ( flags & FLAG_HAS_PRECISION ) )
-	{ precision= 1;	}
-
-    /*  2  */
-    while( value > 0 )
-	{
-	stack[digStacked++]= digits[ value % base ];
-	value= value/ base;
+	/*  0  */
+	if (precision > STACK_SIZE) {
+		LLDEB(precision, STACK_SIZE);
+		precision = STACK_SIZE;
 	}
 
-    /*  3  */
-    while( digStacked < precision )
-	{ stack[digStacked++]= '0';	}
-
-    totStacked= digStacked;
-
-    /*  3a  */
-    if  ( flags & FLAG_ALTERNATE )
-	{
-	int		pos= totStacked- 1;
-	const char *	s;
-
-	s= altPrefixRev;
-	while( *s && pos >= 0 )
-	    {
-	    if  ( stack[pos] != *s )
-		{ break;	}
-
-	    s++; pos--;
-	    }
-
-	if  ( *s )
-	    {
-	    s= altPrefixRev;
-	    while( *s )
-		{ stack[totStacked++]= *(s++);	}
-	    }
+	/*  1  */
+	if (!(flags & FLAG_HAS_PRECISION)) {
+		precision = 1;
 	}
 
-    /*  4  */
-    if  ( sign < 0 )
-	{ stack[totStacked++]= '-';		}
-    else{
-	/*  5  */
-	if  ( flags & FLAG_SIGNED )
-	    { stack[totStacked++]= '+';	}
-	else{
-	    /*  6  */
-	    if  ( flags & FLAG_SPACE )
-		{ stack[totStacked++]= ' ';	}
-	    }
+	/*  2  */
+	while (value > 0) {
+		stack[digStacked++] = digits[value % base];
+		value = value / base;
 	}
 
-    /*  7  */
-    if  ( ! ( flags & FLAG_LEFT ) )
-	{
-	if  ( ( flags & FLAG_ZEROPAD ) && ! ( flags & FLAG_HAS_PRECISION ) )
-	    {
-	    while( totStacked > digStacked )
-		{
-		if  ( sioOutPutByte( stack[--totStacked], sos ) < 0 )
-		    { return -1;	}
-		emitted++;
+	/*  3  */
+	while (digStacked < precision) {
+		stack[digStacked++] = '0';
+	}
+
+	totStacked = digStacked;
+
+	/*  3a  */
+	if (flags & FLAG_ALTERNATE) {
+		int pos = totStacked - 1;
+		const char *s;
+
+		s = altPrefixRev;
+		while (*s && pos >= 0) {
+			if (stack[pos] != *s) {
+				break;
+			}
+
+			s++;
+			pos--;
 		}
 
-	    while( emitted+ totStacked < minWidth )
-		{
-		if  ( sioOutPutByte( '0', sos ) < 0 )
-		    { return -1;	}
-		emitted++;
+		if (*s) {
+			s = altPrefixRev;
+			while (*s) {
+				stack[totStacked++] = *(s++);
+			}
 		}
-	    }
-	else{
-	    while( emitted+ totStacked < minWidth )
-		{
-		if  ( sioOutPutByte( ' ', sos ) < 0 )
-		    { return -1;	}
-		emitted++;
+	}
+
+	/*  4  */
+	if (sign < 0) {
+		stack[totStacked++] = '-';
+	} else {
+		/*  5  */
+		if (flags & FLAG_SIGNED) {
+			stack[totStacked++] = '+';
+		} else {
+			/*  6  */
+			if (flags & FLAG_SPACE) {
+				stack[totStacked++] = ' ';
+			}
 		}
-	    }
 	}
 
-    /*  8  */
-    while( totStacked > 0 )
-	{
-	if  ( sioOutPutByte( stack[--totStacked], sos ) < 0 )
-	    { return -1;	}
-	emitted++;
+	/*  7  */
+	if (!(flags & FLAG_LEFT)) {
+		if ((flags & FLAG_ZEROPAD) && !(flags & FLAG_HAS_PRECISION)) {
+			while (totStacked > digStacked) {
+				if (sioOutPutByte(stack[--totStacked], sos) <
+				    0) {
+					return -1;
+				}
+				emitted++;
+			}
+
+			while (emitted + totStacked < minWidth) {
+				if (sioOutPutByte('0', sos) < 0) {
+					return -1;
+				}
+				emitted++;
+			}
+		} else {
+			while (emitted + totStacked < minWidth) {
+				if (sioOutPutByte(' ', sos) < 0) {
+					return -1;
+				}
+				emitted++;
+			}
+		}
 	}
 
-    /*  9  */
-    while( emitted < minWidth )
-	{
-	if  ( sioOutPutByte( ' ', sos ) < 0 )
-	    { return -1;	}
-
-	emitted++;
+	/*  8  */
+	while (totStacked > 0) {
+		if (sioOutPutByte(stack[--totStacked], sos) < 0) {
+			return -1;
+		}
+		emitted++;
 	}
 
-    return emitted;
-    }
+	/*  9  */
+	while (emitted < minWidth) {
+		if (sioOutPutByte(' ', sos) < 0) {
+			return -1;
+		}
 
-static int sioOutPrintf_xou(	SimpleOutputStream *	sos,
-				unsigned int		flags,
-				int			minWidth,
-				int			precision,
-				int			base,
-				const char *		digits,
-				const char *		altPrefixRev,
-				unsigned long		value )
-    {
-    int		sign= 0;
+		emitted++;
+	}
 
-    /*  A  */
-    flags &= ~FLAG_SPACE;
+	return emitted;
+}
 
-    /*  B  */
-    if  ( value > 0 )
-	{ sign= +1;	}
+static int sioOutPrintf_xou(SimpleOutputStream *sos, unsigned int flags,
+			    int minWidth, int precision, int base,
+			    const char *digits, const char *altPrefixRev,
+			    unsigned long value)
+{
+	int sign = 0;
 
-    return sioOutPrintf_dixou( sos, flags, minWidth, precision,
-				    base, digits, altPrefixRev, sign, value );
-    }
+	/*  A  */
+	flags &= ~FLAG_SPACE;
 
-static int sioOutPrintf_di(	SimpleOutputStream *	sos,
-				unsigned int		flags,
-				int			minWidth,
-				int			precision,
-				int			base,
-				const char *		digits,
-				long			value )
-    {
-    int			sign= 0;
-    const char *	altPrefixRev= "";
+	/*  B  */
+	if (value > 0) {
+		sign = +1;
+	}
 
-    /*  B  */
-    if  ( value > 0 )
-	{ sign= +1;	}
-    if  ( value < 0 )
-	{ sign= -1; value= -value;	}
+	return sioOutPrintf_dixou(sos, flags, minWidth, precision, base, digits,
+				  altPrefixRev, sign, value);
+}
 
-    return sioOutPrintf_dixou( sos, flags, minWidth, precision,
-				    base, digits, altPrefixRev, sign, value );
-    }
+static int sioOutPrintf_di(SimpleOutputStream *sos, unsigned int flags,
+			   int minWidth, int precision, int base,
+			   const char *digits, long value)
+{
+	int sign = 0;
+	const char *altPrefixRev = "";
 
+	/*  B  */
+	if (value > 0) {
+		sign = +1;
+	}
+	if (value < 0) {
+		sign = -1;
+		value = -value;
+	}
+
+	return sioOutPrintf_dixou(sos, flags, minWidth, precision, base, digits,
+				  altPrefixRev, sign, value);
+}
 
 /************************************************************************/
 /*									*/
@@ -327,46 +342,48 @@ static int sioOutPrintf_di(	SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-static int sioOutPrintf_efg(	SimpleOutputStream *	sos,
-				unsigned int		flags,
-				int			minWidth,
-				int			precision,
-				const char *		format,
-				const char *		past,
-				double			value )
-    {
-    int		emitted= 0;
+static int sioOutPrintf_efg(SimpleOutputStream *sos, unsigned int flags,
+			    int minWidth, int precision, const char *format,
+			    const char *past, double value)
+{
+	int emitted = 0;
 
-    char	sf[STACK_SIZE+3];
-    char	sv[STACK_SIZE+3];
+	char sf[STACK_SIZE + 3];
+	char sv[STACK_SIZE + 3];
 
-    /*  1  */
-    if  ( minWidth > STACK_SIZE )
-	{ LLDEB(minWidth,STACK_SIZE); return -1;	}
-    if  ( precision > STACK_SIZE )
-	{ LLDEB(precision,STACK_SIZE); return -1;	}
-
-    /*  1  */
-    if  ( past- format > STACK_SIZE )
-	{ LLDEB(past-format,STACK_SIZE); return -1;	}
-
-    /*  2  */
-    strncpy( sf, format, past- format )[past- format]= '\0';
-
-    /*  3  */
-    sprintf( sv, sf, value );
-
-    /*  4  */
-    while( sv[emitted] )
-	{
-	if  ( sioOutPutByte( sv[emitted], sos ) < 0 )
-	    { return -1;	}
-
-	emitted++;
+	/*  1  */
+	if (minWidth > STACK_SIZE) {
+		LLDEB(minWidth, STACK_SIZE);
+		return -1;
+	}
+	if (precision > STACK_SIZE) {
+		LLDEB(precision, STACK_SIZE);
+		return -1;
 	}
 
-    return emitted;
-    }
+	/*  1  */
+	if (past - format > STACK_SIZE) {
+		LLDEB(past - format, STACK_SIZE);
+		return -1;
+	}
+
+	/*  2  */
+	strncpy(sf, format, past - format)[past - format] = '\0';
+
+	/*  3  */
+	sprintf(sv, sf, value);
+
+	/*  4  */
+	while (sv[emitted]) {
+		if (sioOutPutByte(sv[emitted], sos) < 0) {
+			return -1;
+		}
+
+		emitted++;
+	}
+
+	return emitted;
+}
 
 /************************************************************************/
 /*									*/
@@ -378,42 +395,39 @@ static int sioOutPrintf_efg(	SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-static int sioOutPrintf_c(	SimpleOutputStream *	sos,
-				unsigned int		flags,
-				int			minWidth,
-				int			precision,
-				int			c )
-    {
-    int		emitted= 0;
+static int sioOutPrintf_c(SimpleOutputStream *sos, unsigned int flags,
+			  int minWidth, int precision, int c)
+{
+	int emitted = 0;
 
-    /*  1  */
-    if  ( ! ( flags & FLAG_LEFT ) )
-	{
-	while( emitted+ 1 < minWidth )
-	    {
-	    if  ( sioOutPutByte( ' ', sos ) < 0 )
-		{ return -1;	}
+	/*  1  */
+	if (!(flags & FLAG_LEFT)) {
+		while (emitted + 1 < minWidth) {
+			if (sioOutPutByte(' ', sos) < 0) {
+				return -1;
+			}
 
-	    emitted++;
-	    }
+			emitted++;
+		}
 	}
 
-    /*  2  */
-    if  ( sioOutPutByte( c, sos ) < 0 )
-	{ return -1;	}
-    emitted++;
-
-    /*  3  */
-    while( emitted < minWidth )
-	{
-	if  ( sioOutPutByte( ' ', sos ) < 0 )
-	    { return -1;	}
-
+	/*  2  */
+	if (sioOutPutByte(c, sos) < 0) {
+		return -1;
+	}
 	emitted++;
+
+	/*  3  */
+	while (emitted < minWidth) {
+		if (sioOutPutByte(' ', sos) < 0) {
+			return -1;
+		}
+
+		emitted++;
 	}
 
-    return emitted;
-    }
+	return emitted;
+}
 
 /************************************************************************/
 /*									*/
@@ -426,61 +440,62 @@ static int sioOutPrintf_c(	SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-static int sioOutPrintf_s(	SimpleOutputStream *	sos,
-				unsigned int		flags,
-				int			minWidth,
-				int			precision,
-				const char *		value )
-    {
-    const char *	s;
+static int sioOutPrintf_s(SimpleOutputStream *sos, unsigned int flags,
+			  int minWidth, int precision, const char *value)
+{
+	const char *s;
 
-    int			emitted= 0;
+	int emitted = 0;
 
-    if (!value) return -1;
+	if (!value)
+		return -1;
 
-    if  ( ! ( flags & FLAG_HAS_PRECISION ) )
-	{ precision= INT_MAX;	}
-
-    /*  1  */
-    if  ( ! ( flags & FLAG_LEFT ) )
-	{
-	int		leading= minWidth;
-
-	s= value;
-	while( *s && s- value < precision )
-	    { s++; leading--;	}
-
-	/*  2  */
-	while( emitted < leading )
-	    {
-	    if  ( sioOutPutByte( ' ', sos ) < 0 )
-		{ return -1;	}
-
-	    emitted++;
-	    }
+	if (!(flags & FLAG_HAS_PRECISION)) {
+		precision = INT_MAX;
 	}
 
-    /*  3  */
-    s= value;
-    while( *s && s- value < precision )
-	{
-	if  ( sioOutPutByte( *s, sos ) < 0 )
-	    { return -1;	}
+	/*  1  */
+	if (!(flags & FLAG_LEFT)) {
+		int leading = minWidth;
 
-	s++; emitted++;
+		s = value;
+		while (*s && s - value < precision) {
+			s++;
+			leading--;
+		}
+
+		/*  2  */
+		while (emitted < leading) {
+			if (sioOutPutByte(' ', sos) < 0) {
+				return -1;
+			}
+
+			emitted++;
+		}
 	}
 
-    /*  4  */
-    while( emitted < minWidth )
-	{
-	if  ( sioOutPutByte( ' ', sos ) < 0 )
-	    { return -1;	}
+	/*  3  */
+	s = value;
+	while (*s && s - value < precision) {
+		if (sioOutPutByte(*s, sos) < 0) {
+			return -1;
+		}
 
-	emitted++;
+		s++;
+		emitted++;
 	}
 
-    return emitted;
-    }
+	/*  4  */
+	while (emitted < minWidth) {
+		if (sioOutPutByte(' ', sos) < 0) {
+			return -1;
+		}
+
+		emitted++;
+	}
+
+	return emitted;
+}
 
 /************************************************************************/
 /*									*/
@@ -495,262 +510,297 @@ static int sioOutPrintf_s(	SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-int sioOutVPrintf(	SimpleOutputStream *	sos,
-			const char *		format,
-			va_list			ap )
-    {
-    int		emitted= 0;
+int sioOutVPrintf(SimpleOutputStream *sos, const char *format, va_list ap)
+{
+	int emitted = 0;
 
-    /*  1  */
-    while( format[0] )
-	{
-	unsigned int		flags;
-	char			conversion;
-	int			minWidth;
-	int			precision;
+	/*  1  */
+	while (format[0]) {
+		unsigned int flags;
+		char conversion;
+		int minWidth;
+		int precision;
 
-	int			res;
-	const char *		past;
+		int res;
+		const char *past;
 
-	const char *		altPrefixRev;
+		const char *altPrefixRev;
 
-	/*  2  */
-	while( format[0] && format[0] != '%' )
-	    {
-	    if  ( sioOutPutByte( format[0], sos ) < 0 )
-		{ LDEB(1); return -1;	}
+		/*  2  */
+		while (format[0] && format[0] != '%') {
+			if (sioOutPutByte(format[0], sos) < 0) {
+				LDEB(1);
+				return -1;
+			}
 
-	    format++; emitted++;
-	    }
-
-	if  ( ! format[0] )
-	    { break;	}
-
-	/*  3  */
-	sioOutPrintfGetConversion( &flags, &minWidth,
-						&precision, &conversion,
-						&past, format+ 1 );
-
-	/*  4  */
-	if  ( flags & FLAG_WIDTH_INDIR )
-	    {
-	    minWidth= va_arg( ap, int );
-
-	    if  ( minWidth < 0 )
-		{ minWidth= 0; }
-	    }
-
-	/*  5  */
-	if  ( flags & FLAG_PREC_INDIR )
-	    {
-	    precision= va_arg( ap, int );
-
-	    if  ( precision < 0 )
-		{ flags &= ~FLAG_HAS_PRECISION; precision= 0; }
-	    }
-
-	switch( conversion )
-	    {
-	    case 'd': case 'i':
-		if  ( flags & FLAG_LONG )
-		    {
-		    res= sioOutPrintf_di( sos, flags, minWidth, precision,
-					    10, SIO_PrintfLowerDigits,
-					    va_arg( ap, long ) );
-		    }
-		else{
-		    res= sioOutPrintf_di( sos, flags, minWidth, precision,
-					    10, SIO_PrintfLowerDigits,
-					    (long)( va_arg( ap, int ) ) );
-		    }
-
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
-
-		emitted += res;
-		break;
-
-	    case 'o':
-		altPrefixRev= "0";
-
-		if  ( flags & FLAG_LONG )
-		    {
-		    res= sioOutPrintf_xou( sos, flags, minWidth, precision,
-			    8, SIO_PrintfLowerDigits, altPrefixRev,
-			    va_arg( ap, unsigned long ) );
-		    }
-		else{
-		    res= sioOutPrintf_xou( sos, flags, minWidth, precision,
-			    8, SIO_PrintfLowerDigits, altPrefixRev,
-			    (unsigned long)( va_arg( ap, unsigned int ) ) );
-		    }
-
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
-
-		emitted += res;
-		break;
-					
-	    case 'u':
-		altPrefixRev= "";
-
-		if  ( flags & FLAG_LONG )
-		    {
-		    res= sioOutPrintf_xou( sos, flags, minWidth, precision,
-			    10, SIO_PrintfLowerDigits, altPrefixRev,
-			    va_arg( ap, unsigned long ) );
-		    }
-		else{
-		    res= sioOutPrintf_xou( sos, flags, minWidth, precision,
-			    10, SIO_PrintfLowerDigits, altPrefixRev,
-			    (unsigned long)( va_arg( ap, unsigned int ) ) );
-		    }
-
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
-
-		emitted += res;
-		break;
-					
-	    case 'x':
-		{
-		unsigned long	value;
-
-		altPrefixRev= "x0";
-
-		if  ( flags & FLAG_LONG )
-		    { value= va_arg( ap, unsigned long );	}
-		else{ value= (unsigned long)va_arg( ap, unsigned int ); }
-
-		if  ( value == 0 )
-		    { altPrefixRev= "";	}
-
-		res= sioOutPrintf_xou( sos, flags, minWidth, precision,
-			    16, SIO_PrintfLowerDigits, altPrefixRev, value );
+			format++;
+			emitted++;
 		}
 
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
-
-		emitted += res;
-		break;
-					
-	    case 'X':
-		{
-		unsigned long	value;
-
-		altPrefixRev= "X0";
-
-		if  ( flags & FLAG_LONG )
-		    { value= va_arg( ap, unsigned long );	}
-		else{ value= (unsigned long)va_arg( ap, unsigned int ); }
-
-		if  ( value == 0 )
-		    { altPrefixRev= "";	}
-
-		res= sioOutPrintf_xou( sos, flags, minWidth, precision,
-			    16, SIO_PrintfUpperDigits, altPrefixRev, value );
+		if (!format[0]) {
+			break;
 		}
 
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
+		/*  3  */
+		sioOutPrintfGetConversion(&flags, &minWidth, &precision,
+					  &conversion, &past, format + 1);
 
-		emitted += res;
-		break;
-					
-	    case 'f':
-	    case 'e': case 'E':
-	    case 'g': case 'G':
-		res= sioOutPrintf_efg( sos, flags, minWidth, precision,
-				    format, past, va_arg( ap, double ) );
+		/*  4  */
+		if (flags & FLAG_WIDTH_INDIR) {
+			minWidth = va_arg(ap, int);
 
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
+			if (minWidth < 0) {
+				minWidth = 0;
+			}
+		}
 
-		emitted += res;
-		break;
+		/*  5  */
+		if (flags & FLAG_PREC_INDIR) {
+			precision = va_arg(ap, int);
 
-	    case 'c':
-		res= sioOutPrintf_c( sos, flags, minWidth, precision,
-						    va_arg( ap, int ) );
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
+			if (precision < 0) {
+				flags &= ~FLAG_HAS_PRECISION;
+				precision = 0;
+			}
+		}
 
-		emitted += res;
-		break;
+		switch (conversion) {
+		case 'd':
+		case 'i':
+			if (flags & FLAG_LONG) {
+				res = sioOutPrintf_di(sos, flags, minWidth,
+						      precision, 10,
+						      SIO_PrintfLowerDigits,
+						      va_arg(ap, long));
+			} else {
+				res = sioOutPrintf_di(sos, flags, minWidth,
+						      precision, 10,
+						      SIO_PrintfLowerDigits,
+						      (long)(va_arg(ap, int)));
+			}
 
-	    case 's':
-		res= sioOutPrintf_s( sos, flags, minWidth, precision,
-					    va_arg( ap, const char * ) );
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
 
-		emitted += res;
-		break;
+			emitted += res;
+			break;
 
-	    case 'P':
-		flags |= FLAG_ALTERNATE;
-		res= sioOutPrintf_xou( sos, flags, minWidth, precision,
-				16, SIO_PrintfLowerDigits, "0x",
-				(unsigned long)va_arg( ap, void * ) );
+		case 'o':
+			altPrefixRev = "0";
 
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
+			if (flags & FLAG_LONG) {
+				res = sioOutPrintf_xou(
+					sos, flags, minWidth, precision, 8,
+					SIO_PrintfLowerDigits, altPrefixRev,
+					va_arg(ap, unsigned long));
+			} else {
+				res = sioOutPrintf_xou(
+					sos, flags, minWidth, precision, 8,
+					SIO_PrintfLowerDigits, altPrefixRev,
+					(unsigned long)(va_arg(ap,
+							       unsigned int)));
+			}
 
-		emitted += res;
-		break;
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
 
-	    case 'n':
-		if  ( flags & FLAG_SHORT )
-		    { *(va_arg( ap, short * ))= emitted;	}
-		else{
-		    if  ( flags & FLAG_LONG )
-			{ *(va_arg( ap, long * ))= emitted;	}
-		    else{ *(va_arg( ap, int * ))= emitted;	}
-		    }
+			emitted += res;
+			break;
 
-		break;
+		case 'u':
+			altPrefixRev = "";
 
-	    case '%':
-		if  ( past != format+ 2 )
-		    { SSDEB(format,past);	}
+			if (flags & FLAG_LONG) {
+				res = sioOutPrintf_xou(
+					sos, flags, minWidth, precision, 10,
+					SIO_PrintfLowerDigits, altPrefixRev,
+					va_arg(ap, unsigned long));
+			} else {
+				res = sioOutPrintf_xou(
+					sos, flags, minWidth, precision, 10,
+					SIO_PrintfLowerDigits, altPrefixRev,
+					(unsigned long)(va_arg(ap,
+							       unsigned int)));
+			}
 
-		res= sioOutPrintf_c( sos, flags, minWidth, precision, '%' );
-		if  ( res < 0 )
-		    { LDEB(res); return -1;	}
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
 
-		emitted += res;
-		break;
+			emitted += res;
+			break;
 
-	    default:
-		CDEB(conversion);
-		while( format < past )
-		    {
-		    if  ( sioOutPutByte( format[0], sos ) < 0 )
-			{ return -1;	}
-		    format++; emitted++;
-		    }
-		break;
-	    }
+		case 'x': {
+			unsigned long value;
 
-	format= past;
+			altPrefixRev = "x0";
+
+			if (flags & FLAG_LONG) {
+				value = va_arg(ap, unsigned long);
+			} else {
+				value = (unsigned long)va_arg(ap, unsigned int);
+			}
+
+			if (value == 0) {
+				altPrefixRev = "";
+			}
+
+			res = sioOutPrintf_xou(sos, flags, minWidth, precision,
+					       16, SIO_PrintfLowerDigits,
+					       altPrefixRev, value);
+		}
+
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
+
+			emitted += res;
+			break;
+
+		case 'X': {
+			unsigned long value;
+
+			altPrefixRev = "X0";
+
+			if (flags & FLAG_LONG) {
+				value = va_arg(ap, unsigned long);
+			} else {
+				value = (unsigned long)va_arg(ap, unsigned int);
+			}
+
+			if (value == 0) {
+				altPrefixRev = "";
+			}
+
+			res = sioOutPrintf_xou(sos, flags, minWidth, precision,
+					       16, SIO_PrintfUpperDigits,
+					       altPrefixRev, value);
+		}
+
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
+
+			emitted += res;
+			break;
+
+		case 'f':
+		case 'e':
+		case 'E':
+		case 'g':
+		case 'G':
+			res = sioOutPrintf_efg(sos, flags, minWidth, precision,
+					       format, past,
+					       va_arg(ap, double));
+
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
+
+			emitted += res;
+			break;
+
+		case 'c':
+			res = sioOutPrintf_c(sos, flags, minWidth, precision,
+					     va_arg(ap, int));
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
+
+			emitted += res;
+			break;
+
+		case 's':
+			res = sioOutPrintf_s(sos, flags, minWidth, precision,
+					     va_arg(ap, const char *));
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
+
+			emitted += res;
+			break;
+
+		case 'P':
+			flags |= FLAG_ALTERNATE;
+			res = sioOutPrintf_xou(sos, flags, minWidth, precision,
+					       16, SIO_PrintfLowerDigits, "0x",
+					       (unsigned long)va_arg(ap,
+								     void *));
+
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
+
+			emitted += res;
+			break;
+
+		case 'n':
+			if (flags & FLAG_SHORT) {
+				*(va_arg(ap, short *)) = emitted;
+			} else {
+				if (flags & FLAG_LONG) {
+					*(va_arg(ap, long *)) = emitted;
+				} else {
+					*(va_arg(ap, int *)) = emitted;
+				}
+			}
+
+			break;
+
+		case '%':
+			if (past != format + 2) {
+				SSDEB(format, past);
+			}
+
+			res = sioOutPrintf_c(sos, flags, minWidth, precision,
+					     '%');
+			if (res < 0) {
+				LDEB(res);
+				return -1;
+			}
+
+			emitted += res;
+			break;
+
+		default:
+			CDEB(conversion);
+			while (format < past) {
+				if (sioOutPutByte(format[0], sos) < 0) {
+					return -1;
+				}
+				format++;
+				emitted++;
+			}
+			break;
+		}
+
+		format = past;
 	}
 
-    return emitted;
-    }
+	return emitted;
+}
 
-int sioOutPrintf(	SimpleOutputStream *	sos,
-			const char *		format,
-			... )
-    {
-    int		emitted= 0;
-    va_list	valist;
+int sioOutPrintf(SimpleOutputStream *sos, const char *format, ...)
+{
+	int emitted = 0;
+	va_list valist;
 
-    va_start( valist, format );
+	va_start(valist, format);
 
-    emitted= sioOutVPrintf( sos, format, valist );
+	emitted = sioOutVPrintf(sos, format, valist);
 
-    va_end( valist );
+	va_end(valist);
 
-    return emitted;
-    }
+	return emitted;
+}

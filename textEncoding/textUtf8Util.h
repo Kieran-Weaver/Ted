@@ -4,17 +4,14 @@
 /*									*/
 /************************************************************************/
 
-#   ifdef	__cplusplus
-    extern "C"  {
-#   endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /************************************************************************/
 
-extern int textMirrorUtf8String(	char *			to,
-					const char *		from,
-					int			len );
+extern int textMirrorUtf8String(char *to, const char *from, int len);
 
-#   ifdef	__cplusplus
-    }
-#   endif
-
+#ifdef __cplusplus
+}
+#endif

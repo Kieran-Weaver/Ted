@@ -5,45 +5,45 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	<docTreeType.h>
-#   include	"docTreeNode.h"
-#   include	"docNodeTree.h"
+#include "docBuf.h"
+#include <docTreeType.h>
+#include "docTreeNode.h"
+#include "docNodeTree.h"
 
-int docSelectionSameRoot(
-			const DocumentSelection *	dsFrom,
-			const BufferItem *		biTo )
-    {
-    const SelectionScope *	ssFrom= &(dsFrom->dsSelectionScope);
-    const SelectionScope *	ssTo;
+int docSelectionSameRoot(const DocumentSelection *dsFrom,
+			 const BufferItem *biTo)
+{
+	const SelectionScope *ssFrom = &(dsFrom->dsSelectionScope);
+	const SelectionScope *ssTo;
 
-    if  ( biTo->biTreeType == DOCinBODY	&&
-          ssFrom->ssTreeType == DOCinBODY	)
-	{ return 1;	}
+	if (biTo->biTreeType == DOCinBODY && ssFrom->ssTreeType == DOCinBODY) {
+		return 1;
+	}
 
-    biTo= docGetSectNode( (BufferItem *)biTo );
-    if  ( ! biTo )
-	{ XDEB(biTo); return -1;	}
-    ssTo= &(biTo->biSectSelectionScope);
+	biTo = docGetSectNode((BufferItem *)biTo);
+	if (!biTo) {
+		XDEB(biTo);
+		return -1;
+	}
+	ssTo = &(biTo->biSectSelectionScope);
 
-    return docSelectionSameScope( ssFrom, ssTo );
-    }
+	return docSelectionSameScope(ssFrom, ssTo);
+}
 
-int docSelectionSameInstance(	const DocumentTree *		tree,
-				int				page,
-				int				column )
-    {
-    if  ( ! tree->dtRoot )
-	{ XDEB(tree->dtRoot); return -1;	}
+int docSelectionSameInstance(const DocumentTree *tree, int page, int column)
+{
+	if (!tree->dtRoot) {
+		XDEB(tree->dtRoot);
+		return -1;
+	}
 
-    switch( tree->dtRoot->biTreeType )
-	{
+	switch (tree->dtRoot->biTreeType) {
 	case DOCinBODY:
-	    return 1;
+		return 1;
 
 	case DOCinFTNSEP:
 	case DOCinFTNSEPC:
@@ -52,8 +52,8 @@ int docSelectionSameInstance(	const DocumentTree *		tree,
 	case DOCinAFTNSEPC:
 	case DOCinAFTNCN:
 
-	    return tree->dtPageSelectedUpon == page && 
-		    tree->dtColumnSelectedIn == column;
+		return tree->dtPageSelectedUpon == page &&
+		       tree->dtColumnSelectedIn == column;
 
 	case DOCinFIRST_HEADER:
 	case DOCinLEFT_HEADER:
@@ -63,18 +63,18 @@ int docSelectionSameInstance(	const DocumentTree *		tree,
 	case DOCinLEFT_FOOTER:
 	case DOCinRIGHT_FOOTER:
 
-	    return tree->dtPageSelectedUpon == page;
+		return tree->dtPageSelectedUpon == page;
 
 	case DOCinFOOTNOTE:
 	case DOCinENDNOTE:
 
-	    return 1;
+		return 1;
 
 	default:
-	    LDEB(tree->dtRoot->biTreeType);
-	    return -1;
+		LDEB(tree->dtRoot->biTreeType);
+		return -1;
 	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -82,19 +82,23 @@ int docSelectionSameInstance(	const DocumentTree *		tree,
 /*									*/
 /************************************************************************/
 
-void docGetSelectionScope(	SelectionScope *	ss,
-				const BufferItem *	node )
-    {
-    if  ( ! node )
-	{ XDEB(node);	}
+void docGetSelectionScope(SelectionScope *ss, const BufferItem *node)
+{
+	if (!node) {
+		XDEB(node);
+	}
 
-    node= docGetSectNode( (BufferItem *)node );
-    if  ( ! node )
-	{ XDEB(node);				}
-    else{ (*ss)= node->biSectSelectionScope;	}
+	node = docGetSectNode((BufferItem *)node);
+	if (!node) {
+		XDEB(node);
+	} else {
+		(*ss) = node->biSectSelectionScope;
+	}
 
-    return;
-    }
+	return;
+}
 
-void docSetSelectionScope(	DocumentSelection *	ds )
-    { docGetSelectionScope( &(ds->dsSelectionScope), ds->dsAnchor.dpNode ); }
+void docSetSelectionScope(DocumentSelection *ds)
+{
+	docGetSelectionScope(&(ds->dsSelectionScope), ds->dsAnchor.dpNode);
+}

@@ -6,27 +6,24 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef DOC_INSERTED_OBJECT_LIST_H
-#   define DOC_INSERTED_OBJECT_LIST_H
+#ifndef DOC_INSERTED_OBJECT_LIST_H
+#define DOC_INSERTED_OBJECT_LIST_H
 
-#   include	<utilPagedList.h>
+#include <utilPagedList.h>
 
 struct InsertedObject;
 
-typedef struct InsertedObjectList
-    {
-    PagedList		iolPagedList;
-    } InsertedObjectList;
+typedef struct InsertedObjectList {
+	PagedList iolPagedList;
+} InsertedObjectList;
 
-extern struct InsertedObject * docGetObjectByNumber(
-					const InsertedObjectList *	iol,
-					int				n );
+extern struct InsertedObject *
+docGetObjectByNumber(const InsertedObjectList *iol, int n);
 
-extern void docCleanObjectList(		InsertedObjectList *		iol );
-extern void docInitObjectList(		InsertedObjectList *		iol );
+extern void docCleanObjectList(InsertedObjectList *iol);
+extern void docInitObjectList(InsertedObjectList *iol);
 
-extern struct InsertedObject * docClaimInsertedObject(
-					int *				pNr,
-					InsertedObjectList *		iol );
+extern struct InsertedObject *docClaimInsertedObject(int *pNr,
+						     InsertedObjectList *iol);
 
-#   endif /*  DOC_INSERTED_OBJECT_LIST_H  */
+#endif /*  DOC_INSERTED_OBJECT_LIST_H  */

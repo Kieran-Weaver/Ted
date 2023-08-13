@@ -4,28 +4,28 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	<uniUtf8.h>
-#   include	<ucdGeneralCategory.h>
+#include <uniUtf8.h>
+#include <ucdGeneralCategory.h>
 
-#   include	"tedEdit.h"
-#   include	"tedDocument.h"
-#   include	"tedApp.h"
-#   include	"tedSelect.h"
-#   include	"tedToolFront.h"
-#   include	<docRtfTrace.h>
-#   include	<docTreeType.h>
-#   include	<docField.h>
-#   include	<docTextParticule.h>
-#   include	<docTreeNode.h>
-#   include	<docEditCommand.h>
+#include "tedEdit.h"
+#include "tedDocument.h"
+#include "tedApp.h"
+#include "tedSelect.h"
+#include "tedToolFront.h"
+#include <docRtfTrace.h>
+#include <docTreeType.h>
+#include <docField.h>
+#include <docTextParticule.h>
+#include <docTreeNode.h>
+#include <docEditCommand.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -48,30 +48,32 @@
 /*									*/
 /************************************************************************/
 
-int tedEditReplaceSelection(	TedEditOperation *	teo,
-				const char *		addedText,
-				int			addedLength,
-				int			textAttributeNr )
-    {
-    EditOperation *		eo= &(teo->teoEo);
+int tedEditReplaceSelection(TedEditOperation *teo, const char *addedText,
+			    int addedLength, int textAttributeNr)
+{
+	EditOperation *eo = &(teo->teoEo);
 
-    /*  b,c,d,e  */
-    if  ( docReplaceSelection( eo, addedText, addedLength, textAttributeNr ) )
-	{ LDEB(addedLength); return -1;	}
+	/*  b,c,d,e  */
+	if (docReplaceSelection(eo, addedText, addedLength, textAttributeNr)) {
+		LDEB(addedLength);
+		return -1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
-int tedEditDeleteSelection(	TedEditOperation *	teo )
-    {
-    EditOperation *		eo= &(teo->teoEo);
+int tedEditDeleteSelection(TedEditOperation *teo)
+{
+	EditOperation *eo = &(teo->teoEo);
 
-    /*  b,c,d,e  */
-    if  ( docDeleteSelection( eo ) )
-	{ LDEB(1); return -1;	}
+	/*  b,c,d,e  */
+	if (docDeleteSelection(eo)) {
+		LDEB(1);
+		return -1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -79,55 +81,64 @@ int tedEditDeleteSelection(	TedEditOperation *	teo )
 /*									*/
 /************************************************************************/
 
-int tedMergeParagraphsInSelection(	EditDocument *		ed,
-					int			traced )
-    {
-    int				rval= 0;
-    int				beforeEnd;
+int tedMergeParagraphsInSelection(EditDocument *ed, int traced)
+{
+	int rval = 0;
+	int beforeEnd;
 
-    TedEditOperation		teo;
-    EditOperation *		eo= &(teo.teoEo);
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	TedEditOperation teo;
+	EditOperation *eo = &(teo.teoEo);
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    DocumentSelection		dsTraced;
+	DocumentSelection dsTraced;
 
-    const int			fullWidth= 1;
+	const int fullWidth = 1;
 
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    if  ( tedEditStartReplace( &dsTraced, &teo,
-					EDITcmdMERGE_PARAS, DOClevSPAN, 0 ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    beforeEnd= docParaStrlen( eo->eoTailDp.dpNode )-
-					eo->eoSelectedRange.erTail.epStroff;
-
-    if  ( docMergeParagraphsInSelection( eo ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    eo->eoSelectedRange.erTail.epParaNr= eo->eoSelectedRange.erHead.epParaNr;
-    eo->eoSelectedRange.erTail.epStroff=
-				docParaStrlen( eo->eoHeadDp.dpNode )- beforeEnd;
-    eo->eoAffectedRange= eo->eoSelectedRange;
-
-    if  ( tedEditFinishOldSelection( &teo ) )
-	{ LDEB(1);	}
-
-    if  ( teo.teoEditTrace )
-	{
-	if  ( docRtfTraceNewContents( eo, SELposALL ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	if (tedEditStartReplace(&dsTraced, &teo, EDITcmdMERGE_PARAS, DOClevSPAN,
+				0)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    tedFinishEditOperation( &teo );
+	beforeEnd = docParaStrlen(eo->eoTailDp.dpNode) -
+		    eo->eoSelectedRange.erTail.epStroff;
 
-  ready:
+	if (docMergeParagraphsInSelection(eo)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    tedCleanEditOperation( &teo );
+	eo->eoSelectedRange.erTail.epParaNr =
+		eo->eoSelectedRange.erHead.epParaNr;
+	eo->eoSelectedRange.erTail.epStroff =
+		docParaStrlen(eo->eoHeadDp.dpNode) - beforeEnd;
+	eo->eoAffectedRange = eo->eoSelectedRange;
 
-    return rval;
-    }
+	if (tedEditFinishOldSelection(&teo)) {
+		LDEB(1);
+	}
+
+	if (teo.teoEditTrace) {
+		if (docRtfTraceNewContents(eo, SELposALL)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
+
+	tedFinishEditOperation(&teo);
+
+ready:
+
+	tedCleanEditOperation(&teo);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -135,87 +146,91 @@ int tedMergeParagraphsInSelection(	EditDocument *		ed,
 /*									*/
 /************************************************************************/
 
-static int tedReplaceSelectionImpl(	TedEditOperation *	teo,
-					const char *		word,
-					int			len,
-					int			typing,
-					int			textAttrNr )
-    {
-    EditOperation *		eo= &(teo->teoEo);
+static int tedReplaceSelectionImpl(TedEditOperation *teo, const char *word,
+				   int len, int typing, int textAttrNr)
+{
+	EditOperation *eo = &(teo->teoEo);
 
-    if  ( tedEditReplaceSelection( teo, word, len, textAttrNr ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( typing == TYPING_BLANK || typing == TYPING_NONBLANK )
-	{
-	EditDocument *		ed= teo->teoEditDocument;
-	TedDocument *		td= (TedDocument *)ed->edPrivateData;
-	EditTrace *		et= &(td->tdEditTrace);
-
-	eo->eoAffectedRange.erHead= et->etTypingOldRange.erHead;
+	if (tedEditReplaceSelection(teo, word, len, textAttrNr)) {
+		LDEB(1);
+		return -1;
 	}
 
-    /*  6,7  */
-    tedEditFinishSelectionTail( teo );
+	if (typing == TYPING_BLANK || typing == TYPING_NONBLANK) {
+		EditDocument *ed = teo->teoEditDocument;
+		TedDocument *td = (TedDocument *)ed->edPrivateData;
+		EditTrace *et = &(td->tdEditTrace);
 
-    if  ( teo->teoEditTrace )
-	{
-	if  ( docRtfTraceNewContents( eo, SELposTAIL ) )
-	    { LDEB(1); return -1;	}
+		eo->eoAffectedRange.erHead = et->etTypingOldRange.erHead;
 	}
 
-    tedFinishEditOperation( teo );
+	/*  6,7  */
+	tedEditFinishSelectionTail(teo);
 
-    return 0;
-    }
+	if (teo->teoEditTrace) {
+		if (docRtfTraceNewContents(eo, SELposTAIL)) {
+			LDEB(1);
+			return -1;
+		}
+	}
 
-int tedDeleteSelectionImpl(	TedEditOperation *	teo )
-    {
-    EditDocument *		ed= teo->teoEditDocument;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
+	tedFinishEditOperation(teo);
 
-    return tedReplaceSelectionImpl( teo, (const char *)0, 0, TYPING_NO,
-			td->tdSelectionDescription.sdTextAttributeNumber );
-    }
+	return 0;
+}
+
+int tedDeleteSelectionImpl(TedEditOperation *teo)
+{
+	EditDocument *ed = teo->teoEditDocument;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+
+	return tedReplaceSelectionImpl(
+		teo, (const char *)0, 0, TYPING_NO,
+		td->tdSelectionDescription.sdTextAttributeNumber);
+}
 
 /************************************************************************/
 
-static int tedDetermineTypingClass(	int *			pHeadClass,
-					const EditTrace *	et,
-					const char *		str,
-					int			length )
-    {
-    int			headClass= TYPING_NO;
-    int			tailClass= TYPING_NO;
+static int tedDetermineTypingClass(int *pHeadClass, const EditTrace *et,
+				   const char *str, int length)
+{
+	int headClass = TYPING_NO;
+	int tailClass = TYPING_NO;
 
-    int		done= 0;
+	int done = 0;
 
-    while( done < length )
-	{
-	unsigned short	uni;
-	int		step;
+	while (done < length) {
+		unsigned short uni;
+		int step;
 
-	step= uniGetUtf8( &uni, str+ done );
-	if  ( step < 1 )
-	    { LDEB(step); return -1;	}
+		step = uniGetUtf8(&uni, str + done);
+		if (step < 1) {
+			LDEB(step);
+			return -1;
+		}
 
-	if  ( ucdIsZ( uni ) )
-	    { tailClass= TYPING_BLANK;		}
-	else{ tailClass= TYPING_NONBLANK;	}
+		if (ucdIsZ(uni)) {
+			tailClass = TYPING_BLANK;
+		} else {
+			tailClass = TYPING_NONBLANK;
+		}
 
-	if  ( done == 0 )
-	    { headClass= tailClass;		}
+		if (done == 0) {
+			headClass = tailClass;
+		}
 
-	done += step;
+		done += step;
 	}
 
-    if  ( et->etTyping == TYPING_NO					||
-	  ( et->etTyping == TYPING_BLANK && headClass == TYPING_NONBLANK ) )
-	{ *pHeadClass= TYPING_START;	}
-    else{ *pHeadClass= et->etTyping;	}
+	if (et->etTyping == TYPING_NO ||
+	    (et->etTyping == TYPING_BLANK && headClass == TYPING_NONBLANK)) {
+		*pHeadClass = TYPING_START;
+	} else {
+		*pHeadClass = et->etTyping;
+	}
 
-    return tailClass;
-    }
+	return tailClass;
+}
 
 /************************************************************************/
 /*									*/
@@ -223,20 +238,20 @@ static int tedDetermineTypingClass(	int *			pHeadClass,
 /*									*/
 /************************************************************************/
 
-static int tedEditHoldsNoteHead(	const SelectionDescription *	sd,
-					const EditOperation *		eo )
-    {
-    if  ( sd->sdInTreeType == DOCinFOOTNOTE		||
-	  sd->sdInTreeType == DOCinENDNOTE		)
-	{
-	DocumentPosition	dp= eo->eoHeadDp;
+static int tedEditHoldsNoteHead(const SelectionDescription *sd,
+				const EditOperation *eo)
+{
+	if (sd->sdInTreeType == DOCinFOOTNOTE ||
+	    sd->sdInTreeType == DOCinENDNOTE) {
+		DocumentPosition dp = eo->eoHeadDp;
 
-	if  ( docPrevPosition( &dp ) )
-	    { return 1;	}
+		if (docPrevPosition(&dp)) {
+			return 1;
+		}
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -250,137 +265,158 @@ static int tedEditHoldsNoteHead(	const SelectionDescription *	sd,
 /*									*/
 /************************************************************************/
 
-int tedDocReplaceSelection(	EditDocument *		ed,
-				int			command,
-				const char *		str,
-				int			length,
-				int			traced )
-    {
-    int				rval =0;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    EditTrace *			et= &(td->tdEditTrace);
+int tedDocReplaceSelection(EditDocument *ed, int command, const char *str,
+			   int length, int traced)
+{
+	int rval = 0;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	EditTrace *et = &(td->tdEditTrace);
 
-    TedEditOperation		teo;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	TedEditOperation teo;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    const int			fullWidth= 0;
+	const int fullWidth = 0;
 
-    /*  1  */
-    if  ( ! tedHasSelection( ed ) )
-	{ LDEB(1); rval= -1; goto ready; }
-
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
-
-    /*  2  */
-    if  ( teo.teoEo.eoIBarSelectionOld && length == 0 )
-	{ goto ready;	}
-
-    /*  3  */
-    if  ( tedEditHoldsNoteHead( &sd, &(teo.teoEo) ) )
-	{ goto ready;	}
-
-    if  ( traced )
-	{
-	DocumentSelection		dsTraced;
-
-	if  ( tedEditStartReplace( &dsTraced, &teo, command, DOClevSPAN, 0 ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	/*  1  */
+	if (!tedHasSelection(ed)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( tedReplaceSelectionImpl( &teo, str, length, TYPING_NO,
-			td->tdSelectionDescription.sdTextAttributeNumber ) )
-	{ LDEB(length); rval= -1; goto ready;	}
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    et->etTyping= TYPING_NO;
-
-  ready:
-
-    tedCleanEditOperation( &teo );
-
-    return rval;
-    }
-
-int tedDocDeleteSelection(	EditDocument *		ed,
-				int			command,
-				int			traced )
-    {
-    return tedDocReplaceSelection( ed, command, (const char *)0, 0, traced );
-    }
-
-int tedDocReplaceSelectionTyping(	EditDocument *		ed,
-					const char *		str,
-					int			length )
-    {
-    int				rval =0;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    EditTrace *			et= &(td->tdEditTrace);
-
-    TedEditOperation		teo;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
-
-    const int			fullWidth= 0;
-
-    int				headClass= et->etTyping;
-    int				tailClass= TYPING_NO;
-
-    /*  1  */
-    if  ( ! tedHasSelection( ed ) )
-	{ LDEB(1); rval= -1; goto ready; }
-
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, td->tdTraced );
-
-    /*  3  */
-    if  ( tedEditHoldsNoteHead( &sd, &(teo.teoEo) ) )
-	{ goto ready;	}
-
-    if  ( td->tdTraced )
-	{
-	tailClass= tedDetermineTypingClass( &headClass, et, str, length );
-
-	if  ( tailClass < 0 )
-	    { LDEB(tailClass); rval= -1; goto ready;	}
-	}
-    else{
-	if  ( et->etTyping != TYPING_NO )
-	    { CDEB(et->etTyping);	}
+	/*  2  */
+	if (teo.teoEo.eoIBarSelectionOld && length == 0) {
+		goto ready;
 	}
 
-    if  ( td->tdTraced )
-	{
-	if  ( headClass == TYPING_BLANK		||
-	      headClass == TYPING_NONBLANK	)
-	    {
-	    if  ( teo.teoEditTrace					&&
-		  docTraceExtendReplace( &(teo.teoEo), teo.teoEditTrace,
-				    EDITcmdEXTEND_REPLACE, DOClevSPAN, 0 ) )
-		{ LDEB(1); rval= -1; goto ready;	}
-	    }
-	else{
-	    DocumentSelection		dsTraced;
-
-	    if  ( tedEditStartReplace( &dsTraced, &teo,
-					    EDITcmdREPLACE, DOClevSPAN, 0 ) )
-		{ LDEB(1); rval= -1; goto ready;	}
-
-	    if  ( headClass == TYPING_START )
-		{ docSetEditRange( &(et->etTypingOldRange), &dsTraced ); }
-	    }
+	/*  3  */
+	if (tedEditHoldsNoteHead(&sd, &(teo.teoEo))) {
+		goto ready;
 	}
 
-    if  ( tedReplaceSelectionImpl( &teo, str, length, headClass,
-			td->tdSelectionDescription.sdTextAttributeNumber ) )
-	{ LDEB(length); rval= -1; goto ready;	}
+	if (traced) {
+		DocumentSelection dsTraced;
 
-    et->etTyping= tailClass;
+		if (tedEditStartReplace(&dsTraced, &teo, command, DOClevSPAN,
+					0)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-  ready:
+	if (tedReplaceSelectionImpl(
+		    &teo, str, length, TYPING_NO,
+		    td->tdSelectionDescription.sdTextAttributeNumber)) {
+		LDEB(length);
+		rval = -1;
+		goto ready;
+	}
 
-    tedCleanEditOperation( &teo );
+	et->etTyping = TYPING_NO;
 
-    return rval;
-    }
+ready:
+
+	tedCleanEditOperation(&teo);
+
+	return rval;
+}
+
+int tedDocDeleteSelection(EditDocument *ed, int command, int traced)
+{
+	return tedDocReplaceSelection(ed, command, (const char *)0, 0, traced);
+}
+
+int tedDocReplaceSelectionTyping(EditDocument *ed, const char *str, int length)
+{
+	int rval = 0;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	EditTrace *et = &(td->tdEditTrace);
+
+	TedEditOperation teo;
+	SelectionGeometry sg;
+	SelectionDescription sd;
+
+	const int fullWidth = 0;
+
+	int headClass = et->etTyping;
+	int tailClass = TYPING_NO;
+
+	/*  1  */
+	if (!tedHasSelection(ed)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, td->tdTraced);
+
+	/*  3  */
+	if (tedEditHoldsNoteHead(&sd, &(teo.teoEo))) {
+		goto ready;
+	}
+
+	if (td->tdTraced) {
+		tailClass =
+			tedDetermineTypingClass(&headClass, et, str, length);
+
+		if (tailClass < 0) {
+			LDEB(tailClass);
+			rval = -1;
+			goto ready;
+		}
+	} else {
+		if (et->etTyping != TYPING_NO) {
+			CDEB(et->etTyping);
+		}
+	}
+
+	if (td->tdTraced) {
+		if (headClass == TYPING_BLANK || headClass == TYPING_NONBLANK) {
+			if (teo.teoEditTrace &&
+			    docTraceExtendReplace(
+				    &(teo.teoEo), teo.teoEditTrace,
+				    EDITcmdEXTEND_REPLACE, DOClevSPAN, 0)) {
+				LDEB(1);
+				rval = -1;
+				goto ready;
+			}
+		} else {
+			DocumentSelection dsTraced;
+
+			if (tedEditStartReplace(&dsTraced, &teo, EDITcmdREPLACE,
+						DOClevSPAN, 0)) {
+				LDEB(1);
+				rval = -1;
+				goto ready;
+			}
+
+			if (headClass == TYPING_START) {
+				docSetEditRange(&(et->etTypingOldRange),
+						&dsTraced);
+			}
+		}
+	}
+
+	if (tedReplaceSelectionImpl(
+		    &teo, str, length, headClass,
+		    td->tdSelectionDescription.sdTextAttributeNumber)) {
+		LDEB(length);
+		rval = -1;
+		goto ready;
+	}
+
+	et->etTyping = tailClass;
+
+ready:
+
+	tedCleanEditOperation(&teo);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -388,51 +424,54 @@ int tedDocReplaceSelectionTyping(	EditDocument *		ed,
 /*									*/
 /************************************************************************/
 
-void tedDocInsertStringWithAttribute(	EditDocument *		ed,
-					const char *		word,
-					int			len,
-					const TextAttribute *	taSet,
-					const PropertyMask *	taSetMask,
-					int			traced )
-    {
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
+void tedDocInsertStringWithAttribute(EditDocument *ed, const char *word,
+				     int len, const TextAttribute *taSet,
+				     const PropertyMask *taSetMask, int traced)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
 
-    TedEditOperation		teo;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	TedEditOperation teo;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    PropertyMask		taDoneMask;
+	PropertyMask taDoneMask;
 
-    TextAttribute		ta= td->tdSelectionDescription.sdTextAttribute;
-    int				textAttrNr= td->tdSelectionDescription.sdTextAttributeNumber;
+	TextAttribute ta = td->tdSelectionDescription.sdTextAttribute;
+	int textAttrNr = td->tdSelectionDescription.sdTextAttributeNumber;
 
-    DocumentSelection		dsTraced;
+	DocumentSelection dsTraced;
 
-    const int			fullWidth= 0;
+	const int fullWidth = 0;
 
-    /*  1  */
-    if  ( ! tedHasSelection( ed ) )
-	{ LDEB(1); goto ready; }
+	/*  1  */
+	if (!tedHasSelection(ed)) {
+		LDEB(1);
+		goto ready;
+	}
 
-    utilUpdateTextAttribute( &taDoneMask, &ta, taSetMask, taSet );
-    textAttrNr= docTextAttributeNumber( bd, &ta );
+	utilUpdateTextAttribute(&taDoneMask, &ta, taSetMask, taSet);
+	textAttrNr = docTextAttributeNumber(bd, &ta);
 
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    if  ( tedEditStartReplace( &dsTraced, &teo,
-					    EDITcmdREPLACE, DOClevSPAN, 0 ) )
-	{ LDEB(1); goto ready;	}
+	if (tedEditStartReplace(&dsTraced, &teo, EDITcmdREPLACE, DOClevSPAN,
+				0)) {
+		LDEB(1);
+		goto ready;
+	}
 
-    if  ( tedReplaceSelectionImpl( &teo, word, len, TYPING_NO, textAttrNr ) )
-	{ LDEB(len); goto ready;	}
+	if (tedReplaceSelectionImpl(&teo, word, len, TYPING_NO, textAttrNr)) {
+		LDEB(len);
+		goto ready;
+	}
 
-  ready:
+ready:
 
-    tedCleanEditOperation( &teo );
+	tedCleanEditOperation(&teo);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -443,103 +482,121 @@ void tedDocInsertStringWithAttribute(	EditDocument *		ed,
 /*									*/
 /************************************************************************/
 
-void tedEditInsertSpecialParticule(	EditDocument *	ed,
-					int		kind,
-					int		command,
-					int		redoLayout,
-					int		traced )
-    {
-    TextParticule *		tp;
+void tedEditInsertSpecialParticule(EditDocument *ed, int kind, int command,
+				   int redoLayout, int traced)
+{
+	TextParticule *tp;
 
-    TedEditOperation		teo;
-    EditOperation *		eo= &(teo.teoEo);
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	TedEditOperation teo;
+	EditOperation *eo = &(teo.teoEo);
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    DocumentSelection		dsTraced;
+	DocumentSelection dsTraced;
 
-    const int			fullWidth= 0;
+	const int fullWidth = 0;
 
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    if  ( tedEditStartReplace( &dsTraced, &teo, command, DOClevSPAN, 0 ) )
-	{ LDEB(1); goto ready;	}
-
-    if  ( tedEditDeleteSelection( &teo ) )
-	{ goto ready;	}
-
-    tp= docEditParaSpecialParticule( eo, kind );
-    if  ( ! tp )
-	{ XDEB(tp); goto ready;	}
-
-    if  ( docCheckNoBreakAsLast( eo, eo->eoTailDp.dpNode ) )
-	{ LDEB(1);	}
-
-    /*  3,4,5  */
-    if  ( redoLayout )
-	{ docEditIncludeNodeInReformatRange( eo, eo->eoTailDp.dpNode );	}
-
-    /*  6,7  */
-    tedEditFinishSelectionTail( &teo );
-
-    if  ( teo.teoEditTrace )
-	{
-	if  ( docRtfTraceNewContents( eo, SELposTAIL ) )
-	    { LDEB(1); goto ready;	}
+	if (tedEditStartReplace(&dsTraced, &teo, command, DOClevSPAN, 0)) {
+		LDEB(1);
+		goto ready;
 	}
 
-    tedFinishEditOperation( &teo );
-
-  ready:
-    tedCleanEditOperation( &teo );
-
-    return;
-    }
-
-int tedDocUpdField(	TedEditOperation *		teo,
-			DocumentField *			dfTo,
-			const FieldInstructions *	fi )
-    {
-    int			rval= 0;
-    EditDocument *	ed= teo->teoEditDocument;
-    EditOperation *	eo= &(teo->teoEo);
-
-    DocumentSelection	dsAround;
-
-    if  ( tedEditStartTypedStep( teo, EDITcmdUPD_FIELD, dfTo->dfKind ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( teo->teoEditTrace )
-	{
-	if  ( docRtfTraceOldField( eo, dfTo ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	if (tedEditDeleteSelection(&teo)) {
+		goto ready;
 	}
 
-    if  ( docCopyFieldInstructions( &(dfTo->dfInstructions), fi ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    tedFormatFieldListChanged( ed->edApplication );
-
-    if  ( dfTo->dfKind == DOCfkTOC			&&
-	  tedRefreshTocField( &dsAround, teo, dfTo )	)
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    tedEditFinishOldSelection( teo );
-
-    if  ( teo->teoEditTrace )
-	{
-	if  ( docRtfTraceNewField( eo, dfTo ) )
-	    { LDEB(1); rval= -1; goto ready;	}
-
-	docRtfTraceNewPosition( eo, (const SelectionScope *)0, SELposALL );
+	tp = docEditParaSpecialParticule(eo, kind);
+	if (!tp) {
+		XDEB(tp);
+		goto ready;
 	}
 
-    tedFinishEditOperation( teo );
+	if (docCheckNoBreakAsLast(eo, eo->eoTailDp.dpNode)) {
+		LDEB(1);
+	}
 
-  ready:
+	/*  3,4,5  */
+	if (redoLayout) {
+		docEditIncludeNodeInReformatRange(eo, eo->eoTailDp.dpNode);
+	}
 
-    return rval;
-    }
+	/*  6,7  */
+	tedEditFinishSelectionTail(&teo);
+
+	if (teo.teoEditTrace) {
+		if (docRtfTraceNewContents(eo, SELposTAIL)) {
+			LDEB(1);
+			goto ready;
+		}
+	}
+
+	tedFinishEditOperation(&teo);
+
+ready:
+	tedCleanEditOperation(&teo);
+
+	return;
+}
+
+int tedDocUpdField(TedEditOperation *teo, DocumentField *dfTo,
+		   const FieldInstructions *fi)
+{
+	int rval = 0;
+	EditDocument *ed = teo->teoEditDocument;
+	EditOperation *eo = &(teo->teoEo);
+
+	DocumentSelection dsAround;
+
+	if (tedEditStartTypedStep(teo, EDITcmdUPD_FIELD, dfTo->dfKind)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	if (teo->teoEditTrace) {
+		if (docRtfTraceOldField(eo, dfTo)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
+
+	if (docCopyFieldInstructions(&(dfTo->dfInstructions), fi)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	tedFormatFieldListChanged(ed->edApplication);
+
+	if (dfTo->dfKind == DOCfkTOC &&
+	    tedRefreshTocField(&dsAround, teo, dfTo)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	tedEditFinishOldSelection(teo);
+
+	if (teo->teoEditTrace) {
+		if (docRtfTraceNewField(eo, dfTo)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+
+		docRtfTraceNewPosition(eo, (const SelectionScope *)0,
+				       SELposALL);
+	}
+
+	tedFinishEditOperation(teo);
+
+ready:
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -551,92 +608,106 @@ int tedDocUpdField(	TedEditOperation *		teo,
 /*									*/
 /************************************************************************/
 
-int tedDocSetField(	TedEditOperation *		teo,
-			const DocumentSelection *	ds,
-			int				command,
-			int				fieldKind,
-			const FieldInstructions *	fi,
-			const PropertyMask *		taSetMask,
-			const TextAttribute *		taSet )
-    {
-    int			rval= 0;
+int tedDocSetField(TedEditOperation *teo, const DocumentSelection *ds,
+		   int command, int fieldKind, const FieldInstructions *fi,
+		   const PropertyMask *taSetMask, const TextAttribute *taSet)
+{
+	int rval = 0;
 
-    EditDocument *	ed= teo->teoEditDocument;
-    EditOperation *	eo= &(teo->teoEo);
+	EditDocument *ed = teo->teoEditDocument;
+	EditOperation *eo = &(teo->teoEo);
 
-    DocumentField *	df;
-    DocumentSelection	dsField;
+	DocumentField *df;
+	DocumentSelection dsField;
 
-    DocumentSelection	dsInside;
-    DocumentSelection	dsAround;
-    int			headPart;
-    int			tailPart;
+	DocumentSelection dsInside;
+	DocumentSelection dsAround;
+	int headPart;
+	int tailPart;
 
-    if  ( taSetMask && utilPropMaskIsEmpty( taSetMask ) )
-	{ taSetMask= (const PropertyMask *)0;	}
-
-    dsField= *ds;
-
-    if  ( DOC_FieldKinds[fieldKind].fkiSingleParagraph )
-	{
-	int	beginMoved;
-	int	endMoved;
-
-	docConstrainSelectionToOneParagraph( &beginMoved, &endMoved,
-							    &dsField );
-	eo->eoHeadDp= dsField.dsHead;
-	eo->eoTailDp= dsField.dsTail;
-	eo->eoLastDp= eo->eoTailDp;
+	if (taSetMask && utilPropMaskIsEmpty(taSetMask)) {
+		taSetMask = (const PropertyMask *)0;
 	}
 
-    if  ( tedEditStartStep( teo, command ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	dsField = *ds;
 
-    if  ( teo->teoEditTrace && taSetMask )
-	{
-	DocumentSelection	dsTraced;
+	if (DOC_FieldKinds[fieldKind].fkiSingleParagraph) {
+		int beginMoved;
+		int endMoved;
 
-	if  ( docRtfTraceNewProperties( eo,
-		    taSetMask, taSet,
-		    (const PropertyMask *)0, (const ParagraphProperties *)0,
-		    (const PropertyMask *)0, (const CellProperties *)0,
-		    (const PropertyMask *)0, (const RowProperties *)0,
-		    (const PropertyMask *)0, (const SectionProperties *)0,
-		    (const PropertyMask *)0, (const DocumentProperties *)0 ) )
-	    { LDEB(1); rval= -1; goto ready;	}
-
-	if  ( docRtfTraceOldContents( &dsTraced, eo, DOClevSPAN, 0 ) )
-	    { LDEB(1); goto ready;	}
+		docConstrainSelectionToOneParagraph(&beginMoved, &endMoved,
+						    &dsField);
+		eo->eoHeadDp = dsField.dsHead;
+		eo->eoTailDp = dsField.dsTail;
+		eo->eoLastDp = eo->eoTailDp;
 	}
 
-    /*  4  */
-    if  ( docEditSurroundTextSelectionByField( eo, &df,
-			&dsInside, &dsAround, &headPart, &tailPart,
-			taSetMask, taSet, fieldKind, fi ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    /*  5  */
-    if  ( tedLayoutNodeOfField( teo, &dsAround, FIELDdoNOTHING ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    tedFormatFieldListChanged( ed->edApplication );
-
-    tedEditFinishSelection( teo, &dsInside );
-
-    if  ( teo->teoEditTrace )
-	{
-	if  ( docRtfTraceNewField( eo, df ) )
-	    { LDEB(1); rval= -1; goto ready;	}
-
-	docRtfTraceNewPosition( eo, (const SelectionScope *)0, SELposALL );
+	if (tedEditStartStep(teo, command)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    tedFinishEditOperation( teo );
+	if (teo->teoEditTrace && taSetMask) {
+		DocumentSelection dsTraced;
 
-  ready:
+		if (docRtfTraceNewProperties(
+			    eo, taSetMask, taSet, (const PropertyMask *)0,
+			    (const ParagraphProperties *)0,
+			    (const PropertyMask *)0, (const CellProperties *)0,
+			    (const PropertyMask *)0, (const RowProperties *)0,
+			    (const PropertyMask *)0,
+			    (const SectionProperties *)0,
+			    (const PropertyMask *)0,
+			    (const DocumentProperties *)0)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
 
-    return rval;
-    }
+		if (docRtfTraceOldContents(&dsTraced, eo, DOClevSPAN, 0)) {
+			LDEB(1);
+			goto ready;
+		}
+	}
+
+	/*  4  */
+	if (docEditSurroundTextSelectionByField(eo, &df, &dsInside, &dsAround,
+						&headPart, &tailPart, taSetMask,
+						taSet, fieldKind, fi)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	/*  5  */
+	if (tedLayoutNodeOfField(teo, &dsAround, FIELDdoNOTHING)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	tedFormatFieldListChanged(ed->edApplication);
+
+	tedEditFinishSelection(teo, &dsInside);
+
+	if (teo->teoEditTrace) {
+		if (docRtfTraceNewField(eo, df)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+
+		docRtfTraceNewPosition(eo, (const SelectionScope *)0,
+				       SELposALL);
+	}
+
+	tedFinishEditOperation(teo);
+
+ready:
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -644,56 +715,57 @@ int tedDocSetField(	TedEditOperation *		teo,
 /*									*/
 /************************************************************************/
 
-int tedEditShiftRowsInTable(	EditDocument *		ed,
-				int			direction,
-				int			traced )
-    {
-    int				rval= 0;
-    TedEditOperation		teo;
-    EditOperation *		eo= &(teo.teoEo);
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+int tedEditShiftRowsInTable(EditDocument *ed, int direction, int traced)
+{
+	int rval = 0;
+	TedEditOperation teo;
+	EditOperation *eo = &(teo.teoEo);
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    const int			move= 1;
-    int				rowsdown= 0;
-    int				command= -1;
+	const int move = 1;
+	int rowsdown = 0;
+	int command = -1;
 
-    const int			fullWidth= 1;
+	const int fullWidth = 1;
 
-    if  ( direction > 0 )
-	{
-	rowsdown=  1;
-	command= EDITcmdSHIFT_ROWS_DOWN;
+	if (direction > 0) {
+		rowsdown = 1;
+		command = EDITcmdSHIFT_ROWS_DOWN;
 	}
 
-    if  ( direction < 0 )
-	{
-	rowsdown= -1;
-	command= EDITcmdSHIFT_ROWS_UP;
+	if (direction < 0) {
+		rowsdown = -1;
+		command = EDITcmdSHIFT_ROWS_UP;
 	}
 
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    if  ( tedEditStartStep( &teo, command ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( tedDocRollRowsInTableImpl( &teo, &(sd.sdTableRectangle),
-							    move, rowsdown ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    tedEditFinishOldSelection( &teo );
-
-    if  ( teo.teoEditTrace )
-	{
-	docRtfTraceNewPosition( eo, (const SelectionScope *)0, SELposALL );
+	if (tedEditStartStep(&teo, command)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    tedFinishEditOperation( &teo );
+	if (tedDocRollRowsInTableImpl(&teo, &(sd.sdTableRectangle), move,
+				      rowsdown)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	tedEditFinishOldSelection(&teo);
 
-    tedCleanEditOperation( &teo );
+	if (teo.teoEditTrace) {
+		docRtfTraceNewPosition(eo, (const SelectionScope *)0,
+				       SELposALL);
+	}
 
-    return rval;
-    }
+	tedFinishEditOperation(&teo);
 
+ready:
+
+	tedCleanEditOperation(&teo);
+
+	return rval;
+}

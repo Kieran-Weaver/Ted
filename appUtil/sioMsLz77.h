@@ -5,6 +5,6 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInMsLz77Open(SimpleInputStream *	sisMsLz77 );
+extern SimpleInputStream *sioInMsLz77Open(SimpleInputStream *sisMsLz77);

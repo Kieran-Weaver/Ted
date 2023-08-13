@@ -5,12 +5,12 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBaseConfig.h"
+#include "docBaseConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docSelectionScope.h"
-#   include	"docTreeType.h"
+#include "docSelectionScope.h"
+#include "docTreeType.h"
 
 /************************************************************************/
 /*									*/
@@ -18,13 +18,13 @@
 /*									*/
 /************************************************************************/
 
-void docInitSelectionScope(	SelectionScope *	ss )
-    {
-    ss->ssTreeType= DOCinUNKNOWN;
-    ss->ssSectNr= -1;
-    ss->ssOwnerSectNr= -1;
-    ss->ssOwnerNumber= -1;
-    }
+void docInitSelectionScope(SelectionScope *ss)
+{
+	ss->ssTreeType = DOCinUNKNOWN;
+	ss->ssSectNr = -1;
+	ss->ssOwnerSectNr = -1;
+	ss->ssOwnerNumber = -1;
+}
 
 /************************************************************************/
 /*									*/
@@ -35,14 +35,14 @@ void docInitSelectionScope(	SelectionScope *	ss )
 /*									*/
 /************************************************************************/
 
-int docSelectionSameScope(	const SelectionScope *	ssFrom,
-				const SelectionScope *	ssTo )
-    {
-    if  ( ssTo->ssTreeType != ssFrom->ssTreeType )
-	{ return 0;	}
+int docSelectionSameScope(const SelectionScope *ssFrom,
+			  const SelectionScope *ssTo)
+{
+	if (ssTo->ssTreeType != ssFrom->ssTreeType) {
+		return 0;
+	}
 
-    switch( ssTo->ssTreeType )
-	{
+	switch (ssTo->ssTreeType) {
 	case DOCinBODY:
 
 	case DOCinFTNSEP:
@@ -52,7 +52,7 @@ int docSelectionSameScope(	const SelectionScope *	ssFrom,
 	case DOCinAFTNSEPC:
 	case DOCinAFTNCN:
 
-	    return 1;
+		return 1;
 
 	case DOCinFIRST_HEADER:
 	case DOCinLEFT_HEADER:
@@ -62,31 +62,33 @@ int docSelectionSameScope(	const SelectionScope *	ssFrom,
 	case DOCinLEFT_FOOTER:
 	case DOCinRIGHT_FOOTER:
 
-	    if  ( ssTo->ssOwnerSectNr != ssFrom->ssOwnerSectNr )
-		{ return 0;	}
+		if (ssTo->ssOwnerSectNr != ssFrom->ssOwnerSectNr) {
+			return 0;
+		}
 
-	    return 1;
+		return 1;
 
 	case DOCinFOOTNOTE:
 	case DOCinENDNOTE:
 
-	    /*  Implied by ssOwnerNumber test:
+		/*  Implied by ssOwnerNumber test:
 	    if  ( ssTo->ssOwnerSectNr != ssFrom->ssOwnerSectNr )
 		{ return 0;	}
 	    */
-	    if  ( ssTo->ssOwnerNumber != ssFrom->ssOwnerNumber )
-		{ return 0;	}
+		if (ssTo->ssOwnerNumber != ssFrom->ssOwnerNumber) {
+			return 0;
+		}
 
-	    return 1;
+		return 1;
 
 	case DOCinSHPTXT:
-	    if  ( ssTo->ssOwnerNumber != ssFrom->ssOwnerNumber )
-		{ return 0;	}
-	    return 1;
+		if (ssTo->ssOwnerNumber != ssFrom->ssOwnerNumber) {
+			return 0;
+		}
+		return 1;
 
 	default:
-	    LLDEB(ssTo->ssTreeType,ssFrom->ssTreeType);
-	    return -1;
+		LLDEB(ssTo->ssTreeType, ssFrom->ssTreeType);
+		return -1;
 	}
-    }
-
+}

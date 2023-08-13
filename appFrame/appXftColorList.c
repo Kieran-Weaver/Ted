@@ -4,20 +4,20 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stdlib.h>
-#   include	<stdio.h>
-#   include	<string.h>
-#   include	<limits.h>
-#   include	<utilColor.h>
-#   include	"drawImpl.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <limits.h>
+#include <utilColor.h>
+#include "drawImpl.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   ifdef USE_XFT
+#ifdef USE_XFT
 
-#   include	"appXftColorList.h"
+#include "appXftColorList.h"
 
 /************************************************************************/
 /*									*/
@@ -25,109 +25,110 @@
 /*									*/
 /************************************************************************/
 
-#   define	AXCLsizePAGE	256
+#define AXCLsizePAGE 256
 
-static void appInitAppXftColor(	AppXftColor *	axc )
-    {
-    /* KEY */
-    axc->axcXRenderColor.red= 0;
-    axc->axcXRenderColor.green= 0;
-    axc->axcXRenderColor.blue= 0;
-    axc->axcXRenderColor.alpha= 0;
+static void appInitAppXftColor(AppXftColor *axc)
+{
+	/* KEY */
+	axc->axcXRenderColor.red = 0;
+	axc->axcXRenderColor.green = 0;
+	axc->axcXRenderColor.blue = 0;
+	axc->axcXRenderColor.alpha = 0;
 
-    /* DEP */
-    axc->axcXftColorAllocated= 0;
-    axc->axcList= (AppXftColorList *)0;
+	/* DEP */
+	axc->axcXftColorAllocated = 0;
+	axc->axcList = (AppXftColorList *)0;
 
-    return;
-    }
+	return;
+}
 
-static void appCleanAppXftColor(	AppXftColor *	axc )
-    {
-    if  ( axc->axcXftColorAllocated && axc->axcList )
-	{
-	AppXftColorList *	axcl= axc->axcList;
+static void appCleanAppXftColor(AppXftColor *axc)
+{
+	if (axc->axcXftColorAllocated && axc->axcList) {
+		AppXftColorList *axcl = axc->axcList;
 
-	XftColorFree( axcl->axclDisplay, axcl->axclVisual,
-				    axcl->axclColormap, &(axc->axcXftColor) );
+		XftColorFree(axcl->axclDisplay, axcl->axclVisual,
+			     axcl->axclColormap, &(axc->axcXftColor));
 	}
 
-    return;
-    }
+	return;
+}
 
-int appXftAllocateColor(	AppXftColor *		axc,
-				AppXftColorList *	axcl )
-    {
-    int			num= appAppXftColorNumber( axcl, axc );
-    AppXftColor *	got;
+int appXftAllocateColor(AppXftColor *axc, AppXftColorList *axcl)
+{
+	int num = appAppXftColorNumber(axcl, axc);
+	AppXftColor *got;
 
-    if  ( num < 0 )
-	{ LDEB(num); return -1;	}
-
-    got= (AppXftColor *)utilPagedListGetItemByNumber(
-			    &(axcl->axclPropertiesList.nplPagedList), num );
-    if  ( ! got )
-	{ LXDEB(num,got); return -1;	}
-
-    if  ( ! got->axcXftColorAllocated )
-	{
-	if  ( ! XftColorAllocValue( axcl->axclDisplay,
-						axcl->axclVisual,
-						axcl->axclColormap, 
-						&(got->axcXRenderColor),
-						&(got->axcXftColor) ) )
-	    { LDEB(1); return -1;	}
-
-	got->axcXftColorAllocated= 1;
-	got->axcList= axcl;
+	if (num < 0) {
+		LDEB(num);
+		return -1;
 	}
 
-    axc->axcXftColor= got->axcXftColor;
-    axc->axcXftColorAllocated= got->axcXftColorAllocated;
-    return 0;
-    }
+	got = (AppXftColor *)utilPagedListGetItemByNumber(
+		&(axcl->axclPropertiesList.nplPagedList), num);
+	if (!got) {
+		LXDEB(num, got);
+		return -1;
+	}
 
-void appSolidXftColor(		AppXftColor *		to,
-				const APP_COLOR_RGB *	from )
-    {
-    const int	solid= USHRT_MAX;
+	if (!got->axcXftColorAllocated) {
+		if (!XftColorAllocValue(axcl->axclDisplay, axcl->axclVisual,
+					axcl->axclColormap,
+					&(got->axcXRenderColor),
+					&(got->axcXftColor))) {
+			LDEB(1);
+			return -1;
+		}
 
-    /* KEY */
-    if  ( to->axcXRenderColor.red == from->red		&&
-	  to->axcXRenderColor.green == from->green	&&
-	  to->axcXRenderColor.blue == from->blue	&&
-	  to->axcXRenderColor.alpha == solid		)
-	{ return;	}
+		got->axcXftColorAllocated = 1;
+		got->axcList = axcl;
+	}
 
-    to->axcXRenderColor.red= from->red;
-    to->axcXRenderColor.green= from->green;
-    to->axcXRenderColor.blue= from->blue;
-    to->axcXRenderColor.alpha= solid;
+	axc->axcXftColor = got->axcXftColor;
+	axc->axcXftColorAllocated = got->axcXftColorAllocated;
+	return 0;
+}
 
-    /* DEP */
-    to->axcXftColorAllocated= 0;
+void appSolidXftColor(AppXftColor *to, const APP_COLOR_RGB *from)
+{
+	const int solid = USHRT_MAX;
 
-    return;
-    }
+	/* KEY */
+	if (to->axcXRenderColor.red == from->red &&
+	    to->axcXRenderColor.green == from->green &&
+	    to->axcXRenderColor.blue == from->blue &&
+	    to->axcXRenderColor.alpha == solid) {
+		return;
+	}
 
-static int appXftColorGetProperty(	const AppXftColor *	axc,
-					int			prop )
-    {
-    switch( prop )
-	{
+	to->axcXRenderColor.red = from->red;
+	to->axcXRenderColor.green = from->green;
+	to->axcXRenderColor.blue = from->blue;
+	to->axcXRenderColor.alpha = solid;
+
+	/* DEP */
+	to->axcXftColorAllocated = 0;
+
+	return;
+}
+
+static int appXftColorGetProperty(const AppXftColor *axc, int prop)
+{
+	switch (prop) {
 	case RGBAcompRED:
-	    return axc->axcXRenderColor.red;
+		return axc->axcXRenderColor.red;
 	case RGBAcompGREEN:
-	    return axc->axcXRenderColor.green;
+		return axc->axcXRenderColor.green;
 	case RGBAcompBLUE:
-	    return axc->axcXRenderColor.blue;
+		return axc->axcXRenderColor.blue;
 	case RGBAcompALPHA:
-	    return axc->axcXRenderColor.alpha;
+		return axc->axcXRenderColor.alpha;
 
 	default:
-	    LDEB(prop); return -1;
+		LDEB(prop);
+		return -1;
 	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -135,39 +136,39 @@ static int appXftColorGetProperty(	const AppXftColor *	axc,
 /*									*/
 /************************************************************************/
 
-void appInitAppXftColorList(	AppXftColorList *	axcl )
-    {
-    int			num;
+void appInitAppXftColorList(AppXftColorList *axcl)
+{
+	int num;
 
-    axcl->axclDisplay= (Display *)0;
-    axcl->axclVisual= (Visual *)0;
-    axcl->axclColormap= (Colormap)0;
+	axcl->axclDisplay = (Display *)0;
+	axcl->axclVisual = (Visual *)0;
+	axcl->axclColormap = (Colormap)0;
 
-    utilInitNumberedPropertiesList( &(axcl->axclPropertiesList) );
+	utilInitNumberedPropertiesList(&(axcl->axclPropertiesList));
 
-    utilStartNumberedPropertyList( &(axcl->axclPropertiesList),
-			RGBAcomp_COUNT,
-			(NumberedPropertiesGetProperty)appXftColorGetProperty,
+	utilStartNumberedPropertyList(
+		&(axcl->axclPropertiesList), RGBAcomp_COUNT,
+		(NumberedPropertiesGetProperty)appXftColorGetProperty,
 
-			sizeof(AppXftColor),
-			(InitPagedListItem)appInitAppXftColor,
-			(CleanPagedListItem)appCleanAppXftColor );
+		sizeof(AppXftColor), (InitPagedListItem)appInitAppXftColor,
+		(CleanPagedListItem)appCleanAppXftColor);
 
-    appInitAppXftColor( &(axcl->axclCurrentColor) );
+	appInitAppXftColor(&(axcl->axclCurrentColor));
 
-    num= appAppXftColorNumber( axcl, &(axcl->axclCurrentColor) );
-    if  ( num != 0 )
-	{ LDEB(num);	}
+	num = appAppXftColorNumber(axcl, &(axcl->axclCurrentColor));
+	if (num != 0) {
+		LDEB(num);
+	}
 
-    return;
-    }
+	return;
+}
 
-void appCleanAppXftColorList(	AppXftColorList *	axcl )
-    {
-    utilCleanNumberedPropertiesList( &(axcl->axclPropertiesList) );
+void appCleanAppXftColorList(AppXftColorList *axcl)
+{
+	utilCleanNumberedPropertiesList(&(axcl->axclPropertiesList));
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -175,20 +176,22 @@ void appCleanAppXftColorList(	AppXftColorList *	axcl )
 /*									*/
 /************************************************************************/
 
-void appGetAppXftColorByNumber(	AppXftColor *			axc,
-				const AppXftColorList *		axcl,
-				int				n )
-    {
-    void *	vaxc;
+void appGetAppXftColorByNumber(AppXftColor *axc, const AppXftColorList *axcl,
+			       int n)
+{
+	void *vaxc;
 
-    vaxc= utilPagedListGetItemByNumber(
-				&(axcl->axclPropertiesList.nplPagedList), n );
-    if  ( ! vaxc )
-	{ LXDEB(n,vaxc); appInitAppXftColor( axc ); return;	}
+	vaxc = utilPagedListGetItemByNumber(
+		&(axcl->axclPropertiesList.nplPagedList), n);
+	if (!vaxc) {
+		LXDEB(n, vaxc);
+		appInitAppXftColor(axc);
+		return;
+	}
 
-    *axc= *((AppXftColor *)vaxc);
-    return;
-    }
+	*axc = *((AppXftColor *)vaxc);
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -196,12 +199,11 @@ void appGetAppXftColorByNumber(	AppXftColor *			axc,
 /*									*/
 /************************************************************************/
 
-int appAppXftColorNumber(	AppXftColorList *		axcl,
-				const AppXftColor *		axc )
-    {
-    const int	make= 1;
-    return utilGetPropertyNumber( &(axcl->axclPropertiesList),
-						    make, (void *)axc );
-    }
+int appAppXftColorNumber(AppXftColorList *axcl, const AppXftColor *axc)
+{
+	const int make = 1;
+	return utilGetPropertyNumber(&(axcl->axclPropertiesList), make,
+				     (void *)axc);
+}
 
-#   endif
+#endif

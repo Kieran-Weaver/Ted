@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docSelectionGeometry.h"
+#include "docSelectionGeometry.h"
 
 /************************************************************************/
 /*									*/
@@ -16,32 +16,31 @@
 /*									*/
 /************************************************************************/
 
-void docInitPositionGeometry(	PositionGeometry *		pg )
-    {
-    pg->pgLine= 0;
-    pg->pgPositionFlags= 0;
+void docInitPositionGeometry(PositionGeometry *pg)
+{
+	pg->pgLine = 0;
+	pg->pgPositionFlags = 0;
 
-    pg->pgXTwips= -1;
-    pg->pgXPixels= -1;
-    docInitLayoutPosition( &pg->pgTopPosition );
-    docInitLayoutPosition( &pg->pgBasePosition );
-    docInitLayoutPosition( &pg->pgBottomPosition );
+	pg->pgXTwips = -1;
+	pg->pgXPixels = -1;
+	docInitLayoutPosition(&pg->pgTopPosition);
+	docInitLayoutPosition(&pg->pgBasePosition);
+	docInitLayoutPosition(&pg->pgBottomPosition);
 
-    pg->pgParaFrameX0= 0;
-    pg->pgParaFrameX1= 0;
+	pg->pgParaFrameX0 = 0;
+	pg->pgParaFrameX1 = 0;
 
-    pg->pgBlockFrameX0= 0;
-    pg->pgBlockFrameX1= 0;
+	pg->pgBlockFrameX0 = 0;
+	pg->pgBlockFrameX1 = 0;
 
-    return;
-    }
+	return;
+}
 
-void docInitSelectionGeometry(	SelectionGeometry *		sg )
-    {
-    geoInitRectangle( &(sg->sgRectangle) );
+void docInitSelectionGeometry(SelectionGeometry *sg)
+{
+	geoInitRectangle(&(sg->sgRectangle));
 
-    docInitPositionGeometry( &(sg->sgHead) );
-    docInitPositionGeometry( &(sg->sgTail) );
-    docInitPositionGeometry( &(sg->sgAnchor) );
-    }
-
+	docInitPositionGeometry(&(sg->sgHead));
+	docInitPositionGeometry(&(sg->sgTail));
+	docInitPositionGeometry(&(sg->sgAnchor));
+}

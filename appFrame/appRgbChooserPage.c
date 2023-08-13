@@ -4,19 +4,19 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stdio.h>
-#   include	<stddef.h>
+#include <stdio.h>
+#include <stddef.h>
 
-#   include	"appFrame.h"
-#   include	"appRgbChooserPage.h"
-#   include	"guiWidgetDrawingSurface.h"
-#   include	"guiDrawingWidget.h"
-#   include	"guiToolUtil.h"
-#   include	"guiTextUtil.h"
+#include "appFrame.h"
+#include "appRgbChooserPage.h"
+#include "guiWidgetDrawingSurface.h"
+#include "guiDrawingWidget.h"
+#include "guiToolUtil.h"
+#include "guiTextUtil.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -24,58 +24,56 @@
 /*									*/
 /************************************************************************/
 
-static void appRgbChooserRefreshTexts(	RgbChooserPage *	rcp )
-    {
-    appIntegerToTextWidget( rcp->rcpRedText, rcp->rcpRGBChosen.rgb8Red );
-    appIntegerToTextWidget( rcp->rcpGreenText, rcp->rcpRGBChosen.rgb8Green );
-    appIntegerToTextWidget( rcp->rcpBlueText, rcp->rcpRGBChosen.rgb8Blue );
-    }
+static void appRgbChooserRefreshTexts(RgbChooserPage *rcp)
+{
+	appIntegerToTextWidget(rcp->rcpRedText, rcp->rcpRGBChosen.rgb8Red);
+	appIntegerToTextWidget(rcp->rcpGreenText, rcp->rcpRGBChosen.rgb8Green);
+	appIntegerToTextWidget(rcp->rcpBlueText, rcp->rcpRGBChosen.rgb8Blue);
+}
 
-static void appRgbChooserRefreshCube(	RgbChooserPage *	rcp )
-    {
-    appRgbCubeSelectColor( &(rcp->rcpRgbCube), &(rcp->rcpRGBChosen) );
+static void appRgbChooserRefreshCube(RgbChooserPage *rcp)
+{
+	appRgbCubeSelectColor(&(rcp->rcpRgbCube), &(rcp->rcpRGBChosen));
 
-    if  ( rcp->rcpDrawing )
-	{ guiExposeDrawingWidget( rcp->rcpDrawing );	}
+	if (rcp->rcpDrawing) {
+		guiExposeDrawingWidget(rcp->rcpDrawing);
+	}
 
-    return;
-    }
+	return;
+}
 
-static void appRgbChooserRefreshPage(	RgbChooserPage *	rcp )
-    {
-    appRgbChooserRefreshTexts( rcp );
-    appRgbChooserRefreshCube( rcp );
+static void appRgbChooserRefreshPage(RgbChooserPage *rcp)
+{
+	appRgbChooserRefreshTexts(rcp);
+	appRgbChooserRefreshCube(rcp);
 
-    return;
-    }
+	return;
+}
 
-void appRgbChooserRefresh(	RgbChooserPage *		rcp,
-				int *				pEnabled,
-				InspectorSubject *		is,
-				const RGB8Color *		rgbSet )
-    {
-    if  ( ! rgbSet )
-	{ return;	}
+void appRgbChooserRefresh(RgbChooserPage *rcp, int *pEnabled,
+			  InspectorSubject *is, const RGB8Color *rgbSet)
+{
+	if (!rgbSet) {
+		return;
+	}
 
-    rcp->rcpRGBChosen= *rgbSet;
-    rcp->rcpRGBSet= *rgbSet;
+	rcp->rcpRGBChosen = *rgbSet;
+	rcp->rcpRGBSet = *rgbSet;
 
-    appRgbChooserRefreshPage( rcp );
+	appRgbChooserRefreshPage(rcp);
 
-    *pEnabled= 1;
+	*pEnabled = 1;
 
-    return;
-    }
+	return;
+}
 
-void appRgbChooserSetContext(	RgbChooserPage *	rcp,
-				int			subjectPage,
-				int			property )
-    {
-    rcp->rcpSubject= subjectPage;
-    rcp->rcpProperty= property;
+void appRgbChooserSetContext(RgbChooserPage *rcp, int subjectPage, int property)
+{
+	rcp->rcpSubject = subjectPage;
+	rcp->rcpProperty = property;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -83,52 +81,55 @@ void appRgbChooserSetContext(	RgbChooserPage *	rcp,
 /*									*/
 /************************************************************************/
 
-static APP_BUTTON_CALLBACK_H( appRgbChooserChangeRGB, w, voidrcp )
-    {
-    RgbChooserPage *		rcp= (RgbChooserPage *)voidrcp;
+static APP_BUTTON_CALLBACK_H(appRgbChooserChangeRGB, w, voidrcp)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    int				subject= rcp->rcpSubject;
-    int				property= rcp->rcpProperty;
+	int subject = rcp->rcpSubject;
+	int property = rcp->rcpProperty;
 
-    const int			adaptToMin= 0;
-    const int			adaptToMax= 0;
+	const int adaptToMin = 0;
+	const int adaptToMax = 0;
 
-    int				r= rcp->rcpRGBChosen.rgb8Red;
-    int				g= rcp->rcpRGBChosen.rgb8Green;
-    int				b= rcp->rcpRGBChosen.rgb8Blue;
+	int r = rcp->rcpRGBChosen.rgb8Red;
+	int g = rcp->rcpRGBChosen.rgb8Green;
+	int b = rcp->rcpRGBChosen.rgb8Blue;
 
-    if  ( appGetIntegerFromTextWidget( rcp->rcpRedText, &r,
-					0, adaptToMin, 255, adaptToMax ) )
-	{ return;	}
-    if  ( appGetIntegerFromTextWidget( rcp->rcpGreenText, &g,
-					0, adaptToMin, 255, adaptToMax ) )
-	{ return;	}
-    if  ( appGetIntegerFromTextWidget( rcp->rcpBlueText, &b,
-					0, adaptToMin, 255, adaptToMax ) )
-	{ return;	}
+	if (appGetIntegerFromTextWidget(rcp->rcpRedText, &r, 0, adaptToMin, 255,
+					adaptToMax)) {
+		return;
+	}
+	if (appGetIntegerFromTextWidget(rcp->rcpGreenText, &g, 0, adaptToMin,
+					255, adaptToMax)) {
+		return;
+	}
+	if (appGetIntegerFromTextWidget(rcp->rcpBlueText, &b, 0, adaptToMin,
+					255, adaptToMax)) {
+		return;
+	}
 
-    rcp->rcpRGBChosen.rgb8Red= r;
-    rcp->rcpRGBChosen.rgb8Green= g;
-    rcp->rcpRGBChosen.rgb8Blue= b;
+	rcp->rcpRGBChosen.rgb8Red = r;
+	rcp->rcpRGBChosen.rgb8Green = g;
+	rcp->rcpRGBChosen.rgb8Blue = b;
 
-    appInspectorGotColor( rcp->rcpInspector, subject, property,
-						    &(rcp->rcpRGBChosen) );
+	appInspectorGotColor(rcp->rcpInspector, subject, property,
+			     &(rcp->rcpRGBChosen));
 
-    return;
-    }
+	return;
+}
 
-static APP_BUTTON_CALLBACK_H( appRgbChooserCancelRGB, w, voidrcp )
-    {
-    RgbChooserPage *		rcp= (RgbChooserPage *)voidrcp;
+static APP_BUTTON_CALLBACK_H(appRgbChooserCancelRGB, w, voidrcp)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    int				subject= rcp->rcpSubject;
-    int				property= rcp->rcpProperty;
+	int subject = rcp->rcpSubject;
+	int property = rcp->rcpProperty;
 
-    appInspectorGotColor( rcp->rcpInspector, subject, property,
-						    (const RGB8Color *)0 );
+	appInspectorGotColor(rcp->rcpInspector, subject, property,
+			     (const RGB8Color *)0);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -136,16 +137,16 @@ static APP_BUTTON_CALLBACK_H( appRgbChooserCancelRGB, w, voidrcp )
 /*									*/
 /************************************************************************/
 
-static APP_BUTTON_CALLBACK_H( appRgbChooserRevertRGB, w, voidrcp )
-    {
-    RgbChooserPage *	rcp= (RgbChooserPage *)voidrcp;
+static APP_BUTTON_CALLBACK_H(appRgbChooserRevertRGB, w, voidrcp)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    rcp->rcpRGBChosen= rcp->rcpRGBSet;
+	rcp->rcpRGBChosen = rcp->rcpRGBSet;
 
-    appRgbChooserRefreshPage( rcp );
+	appRgbChooserRefreshPage(rcp);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -153,23 +154,23 @@ static APP_BUTTON_CALLBACK_H( appRgbChooserRevertRGB, w, voidrcp )
 /*									*/
 /************************************************************************/
 
-static APP_EVENT_HANDLER_H( appRGBDrawChooser, w, voidrcp, exposeEvent )
-    {
-    RgbChooserPage *		rcp= (RgbChooserPage *)voidrcp;
+static APP_EVENT_HANDLER_H(appRGBDrawChooser, w, voidrcp, exposeEvent)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    int				wide;
-    int				high;
-    DocumentRectangle		drClip;
+	int wide;
+	int high;
+	DocumentRectangle drClip;
 
-    guiCollectExposures( &drClip, rcp->rcpDrawing, exposeEvent );
+	guiCollectExposures(&drClip, rcp->rcpDrawing, exposeEvent);
 
-    guiDrawGetSizeOfWidget( &wide, &high, w );
+	guiDrawGetSizeOfWidget(&wide, &high, w);
 
-    appRedrawRgbCube( &(rcp->rcpRgbCube), wide, high, &drClip,
-						    rcp->rcpDrawingSurface );
+	appRedrawRgbCube(&(rcp->rcpRgbCube), wide, high, &drClip,
+			 rcp->rcpDrawingSurface);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -177,60 +178,62 @@ static APP_EVENT_HANDLER_H( appRGBDrawChooser, w, voidrcp, exposeEvent )
 /*									*/
 /************************************************************************/
 
-static APP_EVENT_HANDLER_H( appRGBMouseClick, w, voidrcp, downEvent )
-    {
-    RgbChooserPage *		rcp= (RgbChooserPage *)voidrcp;
+static APP_EVENT_HANDLER_H(appRGBMouseClick, w, voidrcp, downEvent)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    int				button;
-    int				upDown;
-    int				seq;
-    unsigned int		keyState= 0;
+	int button;
+	int upDown;
+	int seq;
+	unsigned int keyState = 0;
 
-    int				mouseX;
-    int				mouseY;
+	int mouseX;
+	int mouseY;
 
-    int				wide;
-    int				high;
+	int wide;
+	int high;
 
-    int				canSplit= 0;
+	int canSplit = 0;
 
-    if  ( guiGetCoordinatesFromMouseButtonEvent( &mouseX, &mouseY,
-					    &button, &upDown, &seq, &keyState,
-					    w, downEvent ) )
-	{ LDEB(1); return;	}
-
-    guiDrawGetSizeOfWidget( &wide, &high, w );
-
-    if  ( appRgbCubeFindColor( &(rcp->rcpRGBChosen), &canSplit,
-					    &(rcp->rcpRgbCube),
-					    mouseX, mouseY, wide, high ) )
-	{
-	appRotateRgbCube( &(rcp->rcpRgbCube), mouseX, mouseY, wide, high );
-
-	if  ( rcp->rcpDrawing )
-	    { guiExposeDrawingWidget( rcp->rcpDrawing );	}
-	}
-    else{
-	RgbCube *	rc= &(rcp->rcpRgbCube);
-
-	int		refresh= 1;
-
-	appRgbChooserRefreshTexts( rcp );
-
-	appRgbCubeSelectColor( rc, &(rcp->rcpRGBChosen) );
-
-	if  ( canSplit )
-	    {
-	    appRgbCubeRefreshSplit( rc, &(rcp->rcpRGBChosen) );
-	    refresh= 1;
-	    }
-
-	if  ( refresh && rcp->rcpDrawing )
-	    { guiExposeDrawingWidget( rcp->rcpDrawing );	}
+	if (guiGetCoordinatesFromMouseButtonEvent(&mouseX, &mouseY, &button,
+						  &upDown, &seq, &keyState, w,
+						  downEvent)) {
+		LDEB(1);
+		return;
 	}
 
-    return;
-    }
+	guiDrawGetSizeOfWidget(&wide, &high, w);
+
+	if (appRgbCubeFindColor(&(rcp->rcpRGBChosen), &canSplit,
+				&(rcp->rcpRgbCube), mouseX, mouseY, wide,
+				high)) {
+		appRotateRgbCube(&(rcp->rcpRgbCube), mouseX, mouseY, wide,
+				 high);
+
+		if (rcp->rcpDrawing) {
+			guiExposeDrawingWidget(rcp->rcpDrawing);
+		}
+	} else {
+		RgbCube *rc = &(rcp->rcpRgbCube);
+
+		int refresh = 1;
+
+		appRgbChooserRefreshTexts(rcp);
+
+		appRgbCubeSelectColor(rc, &(rcp->rcpRGBChosen));
+
+		if (canSplit) {
+			appRgbCubeRefreshSplit(rc, &(rcp->rcpRGBChosen));
+			refresh = 1;
+		}
+
+		if (refresh && rcp->rcpDrawing) {
+			guiExposeDrawingWidget(rcp->rcpDrawing);
+		}
+	}
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -238,122 +241,125 @@ static APP_EVENT_HANDLER_H( appRGBMouseClick, w, voidrcp, downEvent )
 /*									*/
 /************************************************************************/
 
-static void appRgbChooserGotColor(	RgbChooserPage *	rcp,
-					unsigned char *		pValue,
-					APP_WIDGET		w )
-    {
-    int				value;
-    const int			adaptToMin= 0;
-    const int			adaptToMax= 0;
+static void appRgbChooserGotColor(RgbChooserPage *rcp, unsigned char *pValue,
+				  APP_WIDGET w)
+{
+	int value;
+	const int adaptToMin = 0;
+	const int adaptToMax = 0;
 
-    if  ( appGetIntegerFromTextWidget( w, &value,
-					0, adaptToMin, 255, adaptToMax ) )
-	{ return;	}
+	if (appGetIntegerFromTextWidget(w, &value, 0, adaptToMin, 255,
+					adaptToMax)) {
+		return;
+	}
 
-    *pValue= value;
+	*pValue = value;
 
-    appRgbCubeSelectColor( &(rcp->rcpRgbCube), &(rcp->rcpRGBChosen) );
+	appRgbCubeSelectColor(&(rcp->rcpRgbCube), &(rcp->rcpRGBChosen));
 
-    appRgbChooserRefreshCube( rcp );
+	appRgbChooserRefreshCube(rcp);
 
-    return;
-    }
+	return;
+}
 
-static APP_TXACTIVATE_CALLBACK_H( appRgbChooserGotRed, w, voidrcp )
-    {
-    RgbChooserPage *		rcp= (RgbChooserPage *)voidrcp;
+static APP_TXACTIVATE_CALLBACK_H(appRgbChooserGotRed, w, voidrcp)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    appRgbChooserGotColor( rcp, &(rcp->rcpRGBChosen.rgb8Red),
-							rcp->rcpRedText );
+	appRgbChooserGotColor(rcp, &(rcp->rcpRGBChosen.rgb8Red),
+			      rcp->rcpRedText);
 
-    return;
-    }
+	return;
+}
 
-static APP_TXACTIVATE_CALLBACK_H( appRgbChooserGotGreen, w, voidrcp )
-    {
-    RgbChooserPage *		rcp= (RgbChooserPage *)voidrcp;
+static APP_TXACTIVATE_CALLBACK_H(appRgbChooserGotGreen, w, voidrcp)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    appRgbChooserGotColor( rcp, &(rcp->rcpRGBChosen.rgb8Green),
-							rcp->rcpGreenText );
+	appRgbChooserGotColor(rcp, &(rcp->rcpRGBChosen.rgb8Green),
+			      rcp->rcpGreenText);
 
-    return;
-    }
+	return;
+}
 
-static APP_TXACTIVATE_CALLBACK_H( appRgbChooserGotBlue, w, voidrcp )
-    {
-    RgbChooserPage *		rcp= (RgbChooserPage *)voidrcp;
+static APP_TXACTIVATE_CALLBACK_H(appRgbChooserGotBlue, w, voidrcp)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    appRgbChooserGotColor( rcp, &(rcp->rcpRGBChosen.rgb8Blue),
-							rcp->rcpBlueText );
+	appRgbChooserGotColor(rcp, &(rcp->rcpRGBChosen.rgb8Blue),
+			      rcp->rcpBlueText);
 
-    return;
-    }
+	return;
+}
 
-static void appRgbChooserColorToggled(	RgbChooserPage *	rcp,
-					int			set,
-					int			splitColor )
-    {
-    RgbCube *		rc= &(rcp->rcpRgbCube);
-    int			oldSplitColor= rc->rcSplitColor;
-    int			newSplitColor= oldSplitColor;
+static void appRgbChooserColorToggled(RgbChooserPage *rcp, int set,
+				      int splitColor)
+{
+	RgbCube *rc = &(rcp->rcpRgbCube);
+	int oldSplitColor = rc->rcSplitColor;
+	int newSplitColor = oldSplitColor;
 
-    if  ( ! set && oldSplitColor != splitColor )
-	{ return;	}
-    if  ( ! set && oldSplitColor == splitColor )
-	{ newSplitColor= RCsplitNONE;	}
-    if  ( set )
-	{ newSplitColor= splitColor;	}
+	if (!set && oldSplitColor != splitColor) {
+		return;
+	}
+	if (!set && oldSplitColor == splitColor) {
+		newSplitColor = RCsplitNONE;
+	}
+	if (set) {
+		newSplitColor = splitColor;
+	}
 
-    appRgbCubeSetSplit( &(rcp->rcpRgbCube),
-				    newSplitColor, &(rc->rcSplitValues) );
+	appRgbCubeSetSplit(&(rcp->rcpRgbCube), newSplitColor,
+			   &(rc->rcSplitValues));
 
-    appGuiSetToggleState( rcp->rcpRedToggle, newSplitColor == RCsplitRED );
-    appGuiSetToggleState( rcp->rcpGreenToggle, newSplitColor == RCsplitGREEN );
-    appGuiSetToggleState( rcp->rcpBlueToggle, newSplitColor == RCsplitBLUE );
+	appGuiSetToggleState(rcp->rcpRedToggle, newSplitColor == RCsplitRED);
+	appGuiSetToggleState(rcp->rcpGreenToggle,
+			     newSplitColor == RCsplitGREEN);
+	appGuiSetToggleState(rcp->rcpBlueToggle, newSplitColor == RCsplitBLUE);
 
-    appRgbChooserRefreshCube( rcp );
+	appRgbChooserRefreshCube(rcp);
 
-    return;
-    }
+	return;
+}
 
-static APP_TOGGLE_CALLBACK_H( appRgbChooserRedToggled, w, voidrcp, voidtbcs )
-    {
-    RgbChooserPage *	rcp= (RgbChooserPage *)voidrcp;
+static APP_TOGGLE_CALLBACK_H(appRgbChooserRedToggled, w, voidrcp, voidtbcs)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    int			set;
+	int set;
 
-    set= appGuiGetToggleStateFromCallback( w, voidtbcs );
+	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
-    appRgbChooserColorToggled( rcp, set, RCsplitRED );
+	appRgbChooserColorToggled(rcp, set, RCsplitRED);
 
-    return;
-    }
+	return;
+}
 
-static APP_TOGGLE_CALLBACK_H( appRgbChooserGreenToggled, w, voidrcp, voidtbcs )
-    {
-    RgbChooserPage *	rcp= (RgbChooserPage *)voidrcp;
+static APP_TOGGLE_CALLBACK_H(appRgbChooserGreenToggled, w, voidrcp, voidtbcs)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    int			set;
+	int set;
 
-    set= appGuiGetToggleStateFromCallback( w, voidtbcs );
+	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
-    appRgbChooserColorToggled( rcp, set, RCsplitGREEN );
+	appRgbChooserColorToggled(rcp, set, RCsplitGREEN);
 
-    return;
-    }
+	return;
+}
 
-static APP_TOGGLE_CALLBACK_H( appRgbChooserBlueToggled, w, voidrcp, voidtbcs )
-    {
-    RgbChooserPage *	rcp= (RgbChooserPage *)voidrcp;
+static APP_TOGGLE_CALLBACK_H(appRgbChooserBlueToggled, w, voidrcp, voidtbcs)
+{
+	RgbChooserPage *rcp = (RgbChooserPage *)voidrcp;
 
-    int			set;
+	int set;
 
-    set= appGuiGetToggleStateFromCallback( w, voidtbcs );
+	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
-    appRgbChooserColorToggled( rcp, set, RCsplitBLUE );
+	appRgbChooserColorToggled(rcp, set, RCsplitBLUE);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -361,90 +367,85 @@ static APP_TOGGLE_CALLBACK_H( appRgbChooserBlueToggled, w, voidrcp, voidtbcs )
 /*									*/
 /************************************************************************/
 
-void appRgbChooserPageFillPage(	RgbChooserPage *		rcp,
-				const RgbChooserPageResources *	rcpr,
-				InspectorSubject *		is,
-				APP_WIDGET			pageWidget,
-				const InspectorSubjectResources * isr )
-    {
-    APP_WIDGET		row;
+void appRgbChooserPageFillPage(RgbChooserPage *rcp,
+			       const RgbChooserPageResources *rcpr,
+			       InspectorSubject *is, APP_WIDGET pageWidget,
+			       const InspectorSubjectResources *isr)
+{
+	APP_WIDGET row;
 
-    const int		textColumns= 5;
-    const int		textEnabled= 1;
+	const int textColumns = 5;
+	const int textEnabled = 1;
 
-    /**/
+	/**/
 
-    /**/
-    rcp->rcpPageResources= rcpr;
-    rcp->rcpSubject= -1;
-    rcp->rcpProperty= -1;
+	/**/
+	rcp->rcpPageResources = rcpr;
+	rcp->rcpSubject = -1;
+	rcp->rcpProperty = -1;
 
-    /**/
+	/**/
 
-    rcp->rcpDrawingSurface= (DrawingSurface)0;
-    appInitRgbCube( &(rcp->rcpRgbCube) );
+	rcp->rcpDrawingSurface = (DrawingSurface)0;
+	appInitRgbCube(&(rcp->rcpRgbCube));
 
-    /**************/
+	/**************/
 
-    {
-    const int	wide= -1;
-    const int	high= -1;
-    const int	heightResizable= 1;
+	{
+		const int wide = -1;
+		const int high = -1;
+		const int heightResizable = 1;
 
-    appGuiMakeDrawingAreaInColumn( &(rcp->rcpDrawing), pageWidget,
-			    wide, high, heightResizable,
-			    appRGBDrawChooser, (void *)rcp );
+		appGuiMakeDrawingAreaInColumn(&(rcp->rcpDrawing), pageWidget,
+					      wide, high, heightResizable,
+					      appRGBDrawChooser, (void *)rcp);
 
-    guiDrawSetButtonPressHandler( rcp->rcpDrawing, appRGBMouseClick,
-							    (void *)rcp );
-    }
+		guiDrawSetButtonPressHandler(rcp->rcpDrawing, appRGBMouseClick,
+					     (void *)rcp);
+	}
 
-    /**/
-    guiToolMakeToggleAndTextRow( &row, &(rcp->rcpRedToggle), &(rcp->rcpRedText),
-		    pageWidget, rcpr->rcprRedText,
-		    appRgbChooserRedToggled, (void *)rcp,
-		    textColumns, textEnabled );
+	/**/
+	guiToolMakeToggleAndTextRow(&row, &(rcp->rcpRedToggle),
+				    &(rcp->rcpRedText), pageWidget,
+				    rcpr->rcprRedText, appRgbChooserRedToggled,
+				    (void *)rcp, textColumns, textEnabled);
 
-    appGuiSetGotValueCallbackForText( rcp->rcpRedText,
-				    appRgbChooserGotRed, (void *)rcp );
+	appGuiSetGotValueCallbackForText(rcp->rcpRedText, appRgbChooserGotRed,
+					 (void *)rcp);
 
-    /**/
-    guiToolMakeToggleAndTextRow( &row,
-		    &(rcp->rcpGreenToggle), &(rcp->rcpGreenText),
-		    pageWidget, rcpr->rcprGreenText,
-		    appRgbChooserGreenToggled, (void *)rcp,
-		    textColumns, textEnabled );
+	/**/
+	guiToolMakeToggleAndTextRow(&row, &(rcp->rcpGreenToggle),
+				    &(rcp->rcpGreenText), pageWidget,
+				    rcpr->rcprGreenText,
+				    appRgbChooserGreenToggled, (void *)rcp,
+				    textColumns, textEnabled);
 
-    appGuiSetGotValueCallbackForText( rcp->rcpGreenText,
-				    appRgbChooserGotGreen, (void *)rcp );
+	appGuiSetGotValueCallbackForText(rcp->rcpGreenText,
+					 appRgbChooserGotGreen, (void *)rcp);
 
-    /**/
-    guiToolMakeToggleAndTextRow( &row,
-		    &(rcp->rcpBlueToggle), &(rcp->rcpBlueText),
-		    pageWidget, rcpr->rcprBlueText,
-		    appRgbChooserBlueToggled, (void *)rcp,
-		    textColumns, textEnabled );
+	/**/
+	guiToolMakeToggleAndTextRow(&row, &(rcp->rcpBlueToggle),
+				    &(rcp->rcpBlueText), pageWidget,
+				    rcpr->rcprBlueText,
+				    appRgbChooserBlueToggled, (void *)rcp,
+				    textColumns, textEnabled);
 
-    appGuiSetGotValueCallbackForText( rcp->rcpBlueText,
-				    appRgbChooserGotBlue, (void *)rcp );
+	appGuiSetGotValueCallbackForText(rcp->rcpBlueText, appRgbChooserGotBlue,
+					 (void *)rcp);
 
-    /**/
-    guiToolMake3ButtonRow( &(is->isApplyRow), pageWidget,
-					&(is->isRevertButton),
-					&(rcp->rcpCancelButton),
-					&(is->isApplyButton),
+	/**/
+	guiToolMake3ButtonRow(&(is->isApplyRow), pageWidget,
+			      &(is->isRevertButton), &(rcp->rcpCancelButton),
+			      &(is->isApplyButton),
 
-					isr->isrRevert,
-					rcpr->rcprCancelText,
-					isr->isrApplyToSubject,
+			      isr->isrRevert, rcpr->rcprCancelText,
+			      isr->isrApplyToSubject,
 
-					appRgbChooserRevertRGB,
-					appRgbChooserCancelRGB,
-					appRgbChooserChangeRGB,
-					(void *)rcp );
+			      appRgbChooserRevertRGB, appRgbChooserCancelRGB,
+			      appRgbChooserChangeRGB, (void *)rcp);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -452,25 +453,29 @@ void appRgbChooserPageFillPage(	RgbChooserPage *		rcp,
 /*									*/
 /************************************************************************/
 
-void appRgbChooserPageFinishPage(	RgbChooserPage *		rcp,
-					const RgbChooserPageResources *	rcpr )
-    {
-    const int		avoidFontconfig= 0;
+void appRgbChooserPageFinishPage(RgbChooserPage *rcp,
+				 const RgbChooserPageResources *rcpr)
+{
+	const int avoidFontconfig = 0;
 
-    if  ( ! rcp->rcpDrawing )
-	{ XDEB(rcp->rcpDrawing); return;	}
+	if (!rcp->rcpDrawing) {
+		XDEB(rcp->rcpDrawing);
+		return;
+	}
 
-    rcp->rcpDrawingSurface= guiDrawingSurfaceForNativeWidget(
-					rcp->rcpDrawing, avoidFontconfig );
-    if  ( ! rcp->rcpDrawingSurface )
-	{ XDEB(rcp->rcpDrawingSurface);	}
+	rcp->rcpDrawingSurface = guiDrawingSurfaceForNativeWidget(
+		rcp->rcpDrawing, avoidFontconfig);
+	if (!rcp->rcpDrawingSurface) {
+		XDEB(rcp->rcpDrawingSurface);
+	}
 
-    if  ( appPrepareRgbCube( &(rcp->rcpRgbCube), rcp->rcpDrawingSurface,
-								6, 6, 6 ) )
-	{ LDEB(6);	}
+	if (appPrepareRgbCube(&(rcp->rcpRgbCube), rcp->rcpDrawingSurface, 6, 6,
+			      6)) {
+		LDEB(6);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -478,15 +483,16 @@ void appRgbChooserPageFinishPage(	RgbChooserPage *		rcp,
 /*									*/
 /************************************************************************/
 
-void appRgbChooserPageCleanPage(	RgbChooserPage *		rcp )
-    {
-    appCleanRgbCube( &(rcp->rcpRgbCube) );
+void appRgbChooserPageCleanPage(RgbChooserPage *rcp)
+{
+	appCleanRgbCube(&(rcp->rcpRgbCube));
 
-    if  ( rcp->rcpDrawingSurface )
-	{ drawFreeDrawingSurface( rcp->rcpDrawingSurface );	}
+	if (rcp->rcpDrawingSurface) {
+		drawFreeDrawingSurface(rcp->rcpDrawingSurface);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -494,59 +500,53 @@ void appRgbChooserPageCleanPage(	RgbChooserPage *		rcp )
 /*									*/
 /************************************************************************/
 
-static AppConfigurableResource APP_RGBSubjectResourceTable[]=
-    {
-    APP_RESOURCE( "rgbChooserColor",
-		offsetof(InspectorSubjectResources,isrSubjectName),
-		"Choose Color" ),
+static AppConfigurableResource APP_RGBSubjectResourceTable[] = {
+	APP_RESOURCE("rgbChooserColor",
+		     offsetof(InspectorSubjectResources, isrSubjectName),
+		     "Choose Color"),
 
-    APP_RESOURCE( "rgbChooserChooseColor",
-		offsetof(InspectorSubjectResources,isrApplyToSubject),
-		"Choose Color" ),
-    APP_RESOURCE( "rgbChooserRevertColor",
-		offsetof(InspectorSubjectResources,isrRevert),
-		"Revert" ),
-    };
+	APP_RESOURCE("rgbChooserChooseColor",
+		     offsetof(InspectorSubjectResources, isrApplyToSubject),
+		     "Choose Color"),
+	APP_RESOURCE("rgbChooserRevertColor",
+		     offsetof(InspectorSubjectResources, isrRevert), "Revert"),
+};
 
-static AppConfigurableResource APP_RGBToolResourceTable[]=
-    {
-    APP_RESOURCE( "rgbChooserCancel",
-		offsetof(RgbChooserPageResources,rcprCancelText),
-		"Cancel" ),
+static AppConfigurableResource APP_RGBToolResourceTable[] = {
+	APP_RESOURCE("rgbChooserCancel",
+		     offsetof(RgbChooserPageResources, rcprCancelText),
+		     "Cancel"),
 
-    APP_RESOURCE( "rgbChooserRedComponent",
-		offsetof(RgbChooserPageResources,rcprRedText),
-		"Red" ),
-    APP_RESOURCE( "rgbChooserGreenComponent",
-		offsetof(RgbChooserPageResources,rcprGreenText),
-		"Green" ),
-    APP_RESOURCE( "rgbChooserBlueComponent",
-		offsetof(RgbChooserPageResources,rcprBlueText),
-		"Blue" ),
-    };
+	APP_RESOURCE("rgbChooserRedComponent",
+		     offsetof(RgbChooserPageResources, rcprRedText), "Red"),
+	APP_RESOURCE("rgbChooserGreenComponent",
+		     offsetof(RgbChooserPageResources, rcprGreenText), "Green"),
+	APP_RESOURCE("rgbChooserBlueComponent",
+		     offsetof(RgbChooserPageResources, rcprBlueText), "Blue"),
+};
 
-void appRgbChooserPageGetResourceTable(	EditApplication *		ea,
-					RgbChooserPageResources *	rcpr,
-					InspectorSubjectResources *	isr )
-    {
-    static int	gotToolResources;
-    static int	gotSubjectResources;
+void appRgbChooserPageGetResourceTable(EditApplication *ea,
+				       RgbChooserPageResources *rcpr,
+				       InspectorSubjectResources *isr)
+{
+	static int gotToolResources;
+	static int gotSubjectResources;
 
-    if  ( ! gotToolResources )
-	{
-	appGuiGetResourceValues( &gotToolResources, ea, (void *)rcpr,
-				APP_RGBToolResourceTable,
-				sizeof(APP_RGBToolResourceTable)/
-				sizeof(AppConfigurableResource) );
+	if (!gotToolResources) {
+		appGuiGetResourceValues(
+			&gotToolResources, ea, (void *)rcpr,
+			APP_RGBToolResourceTable,
+			sizeof(APP_RGBToolResourceTable) /
+				sizeof(AppConfigurableResource));
 	}
 
-    if  ( ! gotSubjectResources )
-	{
-	appGuiGetResourceValues( &gotSubjectResources, ea, (void *)isr,
-				APP_RGBSubjectResourceTable,
-				sizeof(APP_RGBSubjectResourceTable)/
-				sizeof(AppConfigurableResource) );
+	if (!gotSubjectResources) {
+		appGuiGetResourceValues(
+			&gotSubjectResources, ea, (void *)isr,
+			APP_RGBSubjectResourceTable,
+			sizeof(APP_RGBSubjectResourceTable) /
+				sizeof(AppConfigurableResource));
 	}
 
-    return;
-    }
+	return;
+}

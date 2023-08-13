@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_FONT_H
-#   define	DOC_FONT_H
+#ifndef DOC_FONT_H
+#define DOC_FONT_H
 
-#   include	<psFontInfo.h>
-#   include	<utilIndexMapping.h>
-#   include	<textOfficeCharset.h>
-#   include	<utilIndexSet.h>
+#include <psFontInfo.h>
+#include <utilIndexMapping.h>
+#include <textOfficeCharset.h>
+#include <utilIndexSet.h>
 
 /************************************************************************/
 /*									*/
@@ -46,58 +46,55 @@
 /*									*/
 /************************************************************************/
 
-					/*  fprqN			*/
-#   define FONTpitchDEFAULT		0
-#   define FONTpitchFIXED		1
-#   define FONTpitchVARIABLE		2
+/*  fprqN			*/
+#define FONTpitchDEFAULT 0
+#define FONTpitchFIXED 1
+#define FONTpitchVARIABLE 2
 
-#   define FONTlenPANOSE		20
+#define FONTlenPANOSE 20
 
-typedef enum FontFaceIndex
-    {
-    FONTfaceREGULAR= 0,
-    FONTfaceBOLD,
-    FONTfaceSLANTED,
-    FONTfaceBOLD_SLANTED,
+typedef enum FontFaceIndex {
+	FONTfaceREGULAR = 0,
+	FONTfaceBOLD,
+	FONTfaceSLANTED,
+	FONTfaceBOLD_SLANTED,
 
-    FONTface_COUNT
-    } FontFaceIndex;
+	FONTface_COUNT
+} FontFaceIndex;
 
-typedef struct DocumentFont
-    {
-    char *				dfName;		/*  4		*/
-    char *				dfAltName;	/*  5		*/
-    short int				dfDocFontNumber;/*  6		*/
+typedef struct DocumentFont {
+	char *dfName; /*  4		*/
+	char *dfAltName; /*  5		*/
+	short int dfDocFontNumber; /*  6		*/
 
-    unsigned char			dfStyleInt;	/*  3		*/
-    unsigned char			dfPitch;	/*  9		*/
-    char				dfPanose[FONTlenPANOSE+1];
+	unsigned char dfStyleInt; /*  3		*/
+	unsigned char dfPitch; /*  9		*/
+	char dfPanose[FONTlenPANOSE + 1];
 
-    AfmFontInfo *			dfPsFontInfo[FONTface_COUNT];
+	AfmFontInfo *dfPsFontInfo[FONTface_COUNT];
 
-					/**
+	/**
 					 * Mostly used while reading/
 					 * opening/writing a document:
 					 */
-    IndexSet				dfUnicodesUsed;
-    IndexMapping			dfUnicodeToCharset;
+	IndexSet dfUnicodesUsed;
+	IndexMapping dfUnicodeToCharset;
 
-    int					dfCharsetIdxUsed[CHARSETidx_COUNT];
-    int					dfCharsetIdxUsedCount;
-    } DocumentFont;
+	int dfCharsetIdxUsed[CHARSETidx_COUNT];
+	int dfCharsetIdxUsedCount;
+} DocumentFont;
 
-typedef enum DocumentFontProperty
-    {
-    DFpropFAMILY_STYLE= 0,
-    DFpropNAME,
-    DFpropALT_NAME,
-    DFpropCHARSET,
-    DFpropCODEPAGE,
-    DFpropPITCH,
-    DFpropPANOSE,
+typedef enum DocumentFontProperty {
+	DFpropFAMILY_STYLE = 0,
+	DFpropNAME,
+	DFpropALT_NAME,
+	DFpropCHARSET,
+	DFpropCODEPAGE,
+	DFpropPITCH,
+	DFpropPANOSE,
 
-    DFprop_COUNT
-    } DocumentFontProperty;
+	DFprop_COUNT
+} DocumentFontProperty;
 
 /************************************************************************/
 /*									*/
@@ -105,33 +102,26 @@ typedef enum DocumentFontProperty
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentFont(	DocumentFont *		df );
+extern void docInitDocumentFont(DocumentFont *df);
 
-extern void docCleanDocumentFont(	DocumentFont *		df );
+extern void docCleanDocumentFont(DocumentFont *df);
 
-extern int docCopyDocumentFont(		DocumentFont *		to,
-					const DocumentFont *	from );
+extern int docCopyDocumentFont(DocumentFont *to, const DocumentFont *from);
 
-extern int docFontSetFamilyStyle(	DocumentFont *	df,
-					int		style );
+extern int docFontSetFamilyStyle(DocumentFont *df, int style);
 
-extern int docFontSetFamilyName(	DocumentFont *	df,
-					const char *	name );
+extern int docFontSetFamilyName(DocumentFont *df, const char *name);
 
-extern int docFontSetAltName(		DocumentFont *	df,
-					const char *	name );
+extern int docFontSetAltName(DocumentFont *df, const char *name);
 
-extern void utilCopyFontFaceMatches(	DocumentFont *		dfTo,
-					const DocumentFont *	dfFrom );
+extern void utilCopyFontFaceMatches(DocumentFont *dfTo,
+				    const DocumentFont *dfFrom);
 
-extern int docFontFindLegacyEncodings(	DocumentFont *		df );
+extern int docFontFindLegacyEncodings(DocumentFont *df);
 
-extern int utilRemoveCharsetFromFontName( DocumentFont *	df,
-					int			charset );
+extern int utilRemoveCharsetFromFontName(DocumentFont *df, int charset);
 
-extern int cssFontFamilyIndicator(	char *			target,
-					int			maxSize,
-					int			styleInt,
-					const char *		familyName );
+extern int cssFontFamilyIndicator(char *target, int maxSize, int styleInt,
+				  const char *familyName);
 
-#   endif	/*  DOC_FONT_H	*/
+#endif /*  DOC_FONT_H	*/

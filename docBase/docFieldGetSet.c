@@ -4,29 +4,28 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBaseConfig.h"
+#include "docBaseConfig.h"
 
-#   include	<stdlib.h>
-#   include	<string.h>
-#   include	<ctype.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docFieldFormat.h"
+#include "docFieldFormat.h"
 
+int docFieldHasMergeformat(const FieldInstructions *fi, int comp)
+{
+	const InstructionsComponent *ic = fi->fiComponents + comp;
 
-int docFieldHasMergeformat(		const FieldInstructions *	fi,
-					int				comp )
-    {
-    const InstructionsComponent *	ic= fi->fiComponents+ comp;
+	if (comp < fi->fiComponentCount - 1 &&
+	    docComponentIsFlag(fi, comp, '*') &&
+	    docComponentEqualsWordNoCase(ic + 1, "mergeformat", 11)) {
+		return 1;
+	}
 
-    if  ( comp < fi->fiComponentCount -1			&&
-	  docComponentIsFlag( fi, comp, '*' )			&&
-	  docComponentEqualsWordNoCase( ic+ 1, "mergeformat", 11 )	)
-	{ return 1;	}
-
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -35,111 +34,103 @@ int docFieldHasMergeformat(		const FieldInstructions *	fi,
 /*									*/
 /************************************************************************/
 
-static const char * FieldFormats[]=
-    {
-    "",			/*  MERGE_ASIS	*/
+static const char *FieldFormats[] = {
+	"", /*  MERGE_ASIS	*/
 
-	    /* Case shifting	*/
-    "Lower",
-    "Upper",
-    "FirstCap",
-    "Caps",
+	/* Case shifting	*/
+	"Lower", "Upper", "FirstCap", "Caps",
 
-	    /* Number formatting */
-    "Alphabetic",	/*  MERGE_ALPHABETIC_UPPER	*/
-    "Arabic",
-    "CardText",
-    "DollarText",
-    "Hex",		/*  MERGE_HEX_UPPER		*/
-    "Ordinal",
-    "OrdText",
-    "Roman",		/*  MERGE_ROMAN_UPPER		*/
+	/* Number formatting */
+	"Alphabetic", /*  MERGE_ALPHABETIC_UPPER	*/
+	"Arabic", "CardText", "DollarText",
+	"Hex", /*  MERGE_HEX_UPPER		*/
+	"Ordinal", "OrdText", "Roman", /*  MERGE_ROMAN_UPPER		*/
 
-    "CharFormat",
-    "MergeFormat",
+	"CharFormat", "MergeFormat",
 
-    "alphabetic",	/*  MERGE_ALPHABETIC_LOWER	*/
-    "hex",		/*  MERGE_HEX_LOWER		*/
-    "roman",		/*  MERGE_ROMAN_LOWER		*/
-    };
+	"alphabetic", /*  MERGE_ALPHABETIC_LOWER	*/
+	"hex", /*  MERGE_HEX_LOWER		*/
+	"roman", /*  MERGE_ROMAN_LOWER		*/
+};
 
-const int FieldFormatCount= sizeof(FieldFormats)/sizeof(char *);
+const int FieldFormatCount = sizeof(FieldFormats) / sizeof(char *);
 
-static int FieldFormatLength[sizeof(FieldFormats)/sizeof(char *)]=
-    {
-    -1,
-    };
+static int FieldFormatLength[sizeof(FieldFormats) / sizeof(char *)] = {
+	-1,
+};
 
-int docFieldFormatInt(	const InstructionsComponent *	ic ) 
-    {
-    const char *	format;
-    int			i;
+int docFieldFormatInt(const InstructionsComponent *ic)
+{
+	const char *format;
+	int i;
 
-    format= utilMemoryBufferGetString( &(ic->icBuffer) );
+	format = utilMemoryBufferGetString(&(ic->icBuffer));
 
-    if  ( FieldFormatCount != MERGE__COUNT )
-	{ LLDEB(FieldFormatCount,MERGE__COUNT);	}
-
-    if  ( FieldFormatLength[0] < 0 )
-	{
-	for ( i= 0; i < FieldFormatCount; i++ )
-	    { FieldFormatLength[i]= strlen( FieldFormats[i] ); }
+	if (FieldFormatCount != MERGE__COUNT) {
+		LLDEB(FieldFormatCount, MERGE__COUNT);
 	}
 
-    for ( i= 1; i < FieldFormatCount; i++ )
-	{
-	int		j;
-	const char *	ref= FieldFormats[i];
-
-	if  ( FieldFormatLength[i] != ic->icBuffer.mbSize )
-	    { continue;	}
-
-	for ( j= 0; j < ic->icBuffer.mbSize; j++ )
-	    {
-	    if  ( tolower( format[j] ) != tolower( ref[j] ) )
-		{ break;	}
-	    }
-
-	if  ( j == ic->icBuffer.mbSize )
-	    {
-	    if  ( i == MERGE_ROMAN_UPPER	&&
-		  islower( format[0] )		)
-		{ return MERGE_ROMAN_LOWER;		}
-
-	    if  ( i == MERGE_ALPHABETIC_UPPER	&&
-		  islower( format[0] )		)
-		{ return MERGE_ALPHABETIC_LOWER;	}
-
-	    if  ( i == MERGE_HEX_UPPER		&&
-		  islower( format[0] )		)
-		{ return MERGE_HEX_LOWER;		}
-
-	    return i;
-	    }
+	if (FieldFormatLength[0] < 0) {
+		for (i = 0; i < FieldFormatCount; i++) {
+			FieldFormatLength[i] = strlen(FieldFormats[i]);
+		}
 	}
 
-    return -1;
-    }
+	for (i = 1; i < FieldFormatCount; i++) {
+		int j;
+		const char *ref = FieldFormats[i];
 
-int docFieldInstructionsAddFormat(	FieldInstructions *	fi,
-					int			format )
-    {
-    MemoryBuffer	mb;
+		if (FieldFormatLength[i] != ic->icBuffer.mbSize) {
+			continue;
+		}
 
-    if  ( FieldFormatCount != MERGE__COUNT )
-	{ LLDEB(FieldFormatCount,MERGE__COUNT);	}
+		for (j = 0; j < ic->icBuffer.mbSize; j++) {
+			if (tolower(format[j]) != tolower(ref[j])) {
+				break;
+			}
+		}
 
-    if  ( format < 0 || format >= FieldFormatCount )
-	{ LLDEB(format,FieldFormatCount);	}
+		if (j == ic->icBuffer.mbSize) {
+			if (i == MERGE_ROMAN_UPPER && islower(format[0])) {
+				return MERGE_ROMAN_LOWER;
+			}
 
-    if  ( format == MERGE_ASIS )
-	{ return 0;	}
+			if (i == MERGE_ALPHABETIC_UPPER && islower(format[0])) {
+				return MERGE_ALPHABETIC_LOWER;
+			}
 
-    mb.mbBytes= (unsigned char *)FieldFormats[format];
-    mb.mbSize= strlen( FieldFormats[format] );
+			if (i == MERGE_HEX_UPPER && islower(format[0])) {
+				return MERGE_HEX_LOWER;
+			}
 
-    return docFieldInstructionsAddArgFlag( fi, '*', &mb );
-    }
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+int docFieldInstructionsAddFormat(FieldInstructions *fi, int format)
+{
+	MemoryBuffer mb;
+
+	if (FieldFormatCount != MERGE__COUNT) {
+		LLDEB(FieldFormatCount, MERGE__COUNT);
+	}
+
+	if (format < 0 || format >= FieldFormatCount) {
+		LLDEB(format, FieldFormatCount);
+	}
+
+	if (format == MERGE_ASIS) {
+		return 0;
+	}
+
+	mb.mbBytes = (unsigned char *)FieldFormats[format];
+	mb.mbSize = strlen(FieldFormats[format]);
+
+	return docFieldInstructionsAddArgFlag(fi, '*', &mb);
+}
 
 /************************************************************************/
 /*									*/
@@ -147,44 +138,45 @@ int docFieldInstructionsAddFormat(	FieldInstructions *	fi,
 /*									*/
 /************************************************************************/
 
-int docFieldComponentInt(	int *				pVal,
-				const InstructionsComponent *	ic ) 
-    {
-    const char *	format;
-    char *		p;
-    long		l;
+int docFieldComponentInt(int *pVal, const InstructionsComponent *ic)
+{
+	const char *format;
+	char *p;
+	long l;
 
-    if  ( ic->icBuffer.mbSize < 1 )
-	{ LDEB(ic->icBuffer.mbSize); return -1;	}
-
-    format= (const char *)ic->icBuffer.mbBytes;
-    p= (char *)format;
-
-    l= strtol( format, &p, 10 );
-    if  ( p == format )
-	{ return -1;	}
-    else{
-	while( p- format < ic->icBuffer.mbSize && p[0] == ' ' )
-	    { p++;	}
-	if  ( p- format < ic->icBuffer.mbSize )
-	    { return -1;	}
+	if (ic->icBuffer.mbSize < 1) {
+		LDEB(ic->icBuffer.mbSize);
+		return -1;
 	}
 
-    *pVal= l;
-    return 0;
-    }
+	format = (const char *)ic->icBuffer.mbBytes;
+	p = (char *)format;
+
+	l = strtol(format, &p, 10);
+	if (p == format) {
+		return -1;
+	} else {
+		while (p - format < ic->icBuffer.mbSize && p[0] == ' ') {
+			p++;
+		}
+		if (p - format < ic->icBuffer.mbSize) {
+			return -1;
+		}
+	}
+
+	*pVal = l;
+	return 0;
+}
 
 /************************************************************************/
 
-int docFieldComponentNumberFormat(
-				unsigned char *			pNumberFormat,
-				const InstructionsComponent *	ic ) 
-    {
-    int		f;
+int docFieldComponentNumberFormat(unsigned char *pNumberFormat,
+				  const InstructionsComponent *ic)
+{
+	int f;
 
-    f= docFieldFormatInt( ic );
-    switch( f )
-	{
+	f = docFieldFormatInt(ic);
+	switch (f) {
 	case MERGE_ALPHABETIC_UPPER:
 	case MERGE_ARABIC:
 	case MERGE_CARDTEXT:
@@ -197,42 +189,41 @@ int docFieldComponentNumberFormat(
 	case MERGE_ALPHABETIC_LOWER:
 	case MERGE_HEX_LOWER:
 	case MERGE_ROMAN_LOWER:
-	    *pNumberFormat= f;
-	    break;
+		*pNumberFormat = f;
+		break;
 
 	case MERGE_MERGEFORMAT:
-	    break;
+		break;
 
 	default:
-	    LDEB(f); return -1;
+		LDEB(f);
+		return -1;
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
+int docFieldComponentCaseShift(unsigned char *pCaseShift,
+			       const InstructionsComponent *ic)
+{
+	int f;
 
-int docFieldComponentCaseShift(	unsigned char *			pCaseShift,
-				const InstructionsComponent *	ic ) 
-    {
-    int		f;
-
-    f= docFieldFormatInt( ic );
-    switch( f )
-	{
+	f = docFieldFormatInt(ic);
+	switch (f) {
 	case MERGE_MERGEFORMAT:
-	    break;
+		break;
 
 	case MERGE_LOWER:
 	case MERGE_UPPER:
 	case MERGE_FIRSTCAP:
 	case MERGE_CAPS:
-	    *pCaseShift= f;
-	    break;
+		*pCaseShift = f;
+		break;
 
 	default:
-	    LDEB(f); return -1;
+		LDEB(f);
+		return -1;
 	}
 
-    return 0;
-    }
-
+	return 0;
+}

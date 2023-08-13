@@ -5,10 +5,9 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInFlateOpen(SimpleInputStream *	sisFlate );
+extern SimpleInputStream *sioInFlateOpen(SimpleInputStream *sisFlate);
 
-extern SimpleOutputStream * sioOutFlateOpen(
-					SimpleOutputStream *	sosFlate,
-					int			gzipEmbedded );
+extern SimpleOutputStream *sioOutFlateOpen(SimpleOutputStream *sosFlate,
+					   int gzipEmbedded);

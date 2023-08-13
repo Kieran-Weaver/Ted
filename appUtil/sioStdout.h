@@ -4,6 +4,6 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleOutputStream * sioOutStdoutOpen( void );
+extern SimpleOutputStream *sioOutStdoutOpen(void);

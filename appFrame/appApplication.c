@@ -4,16 +4,16 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
+#include <stddef.h>
+#include <stdio.h>
 
-#   include	<utilFontmap.h>
-#   include	"appFrame.h"
-#   include	"appMatchFont.h"
+#include <utilFontmap.h>
+#include "appFrame.h"
+#include "appMatchFont.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -23,53 +23,62 @@
 /*									*/
 /************************************************************************/
 
-int appPostScriptFontCatalog(		EditApplication *	ea )
-    {
-    int			rval= 0;
+int appPostScriptFontCatalog(EditApplication *ea)
+{
+	int rval = 0;
 
-    MemoryBuffer	afmDirectory;
+	MemoryBuffer afmDirectory;
 
-    utilInitMemoryBuffer( &afmDirectory );
+	utilInitMemoryBuffer(&afmDirectory);
 
-    if  ( utilMemoryBufferSetString( &afmDirectory, ea->eaAfmDirectory ) )
-	{ SDEB(ea->eaAfmDirectory); rval= -1; goto ready;	}
-
-    if  ( ea->eaPostScriptFontList.psflFamilyCount > 0 )
-	{ goto ready;	}
-
-#   ifdef USE_FONTCONFIG
-    ea->eaPostScriptFontList.psflAvoidFontconfig= ea->eaAvoidFontconfigInt > 0;
-
-    if  ( ! ea->eaPostScriptFontList.psflAvoidFontconfig )
-	{
-	appFcListFonts( &(ea->eaPostScriptFontList) );
-
-	if  ( ea->eaPostScriptFontList.psflFamilyCount > 0 )
-	    { goto ready;	}
-	}
-#   else
-    ea->eaPostScriptFontList.psflAvoidFontconfig= 1;
-#   endif
-
-    if  ( psFontCatalog( &(ea->eaPostScriptFontList),
-				ea->eaUseKerningInt <= 0, &afmDirectory ) )
-	{ SDEB(ea->eaAfmDirectory); rval= -1; goto ready;	}
-
-    if  ( ea->eaGhostscriptFontmap			&&
-	  ! ea->eaGhostscriptMappingsRead		)
-	{
-	if  ( utilFontmapReadMap( ea->eaGhostscriptFontmap ) )
-	    { SDEB(ea->eaGhostscriptFontmap); rval= -1; goto ready;	}
-
-	ea->eaGhostscriptMappingsRead= 1;
+	if (utilMemoryBufferSetString(&afmDirectory, ea->eaAfmDirectory)) {
+		SDEB(ea->eaAfmDirectory);
+		rval = -1;
+		goto ready;
 	}
 
-  ready:
+	if (ea->eaPostScriptFontList.psflFamilyCount > 0) {
+		goto ready;
+	}
 
-    utilCleanMemoryBuffer( &afmDirectory );
+#ifdef USE_FONTCONFIG
+	ea->eaPostScriptFontList.psflAvoidFontconfig =
+		ea->eaAvoidFontconfigInt > 0;
 
-    return rval;
-    }
+	if (!ea->eaPostScriptFontList.psflAvoidFontconfig) {
+		appFcListFonts(&(ea->eaPostScriptFontList));
+
+		if (ea->eaPostScriptFontList.psflFamilyCount > 0) {
+			goto ready;
+		}
+	}
+#else
+	ea->eaPostScriptFontList.psflAvoidFontconfig = 1;
+#endif
+
+	if (psFontCatalog(&(ea->eaPostScriptFontList), ea->eaUseKerningInt <= 0,
+			  &afmDirectory)) {
+		SDEB(ea->eaAfmDirectory);
+		rval = -1;
+		goto ready;
+	}
+
+	if (ea->eaGhostscriptFontmap && !ea->eaGhostscriptMappingsRead) {
+		if (utilFontmapReadMap(ea->eaGhostscriptFontmap)) {
+			SDEB(ea->eaGhostscriptFontmap);
+			rval = -1;
+			goto ready;
+		}
+
+		ea->eaGhostscriptMappingsRead = 1;
+	}
+
+ready:
+
+	utilCleanMemoryBuffer(&afmDirectory);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -77,22 +86,23 @@ int appPostScriptFontCatalog(		EditApplication *	ea )
 /*									*/
 /************************************************************************/
 
-int appGetPrintDestinations(		EditApplication *	ea )
-    {
-    if  ( ea->eaPrintDestinationsCollected )
-	{ return 0;	}
+int appGetPrintDestinations(EditApplication *ea)
+{
+	if (ea->eaPrintDestinationsCollected) {
+		return 0;
+	}
 
-    ea->eaPrintDestinationsCollected= 1;
+	ea->eaPrintDestinationsCollected = 1;
 
-    if  ( utilPrinterGetPrinters( &(ea->eaPrintDestinationCount),
-				    &(ea->eaDefaultPrintDestination),
-				    &(ea->eaPrintDestinations),
-				    ea->eaCustomPrintCommand,
-				    ea->eaCustomPrinterName,
-				    ea->eaCustomPrintCommand2,
-				    ea->eaCustomPrinterName2 ) )
-	{ LDEB(1); return -1; 	}
+	if (utilPrinterGetPrinters(
+		    &(ea->eaPrintDestinationCount),
+		    &(ea->eaDefaultPrintDestination),
+		    &(ea->eaPrintDestinations), ea->eaCustomPrintCommand,
+		    ea->eaCustomPrinterName, ea->eaCustomPrintCommand2,
+		    ea->eaCustomPrinterName2)) {
+		LDEB(1);
+		return -1;
+	}
 
-    return 0;
-    }
-
+	return 0;
+}

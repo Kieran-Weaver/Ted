@@ -1,73 +1,67 @@
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stdlib.h>
-#   include	<stdio.h>
-#   include	<string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-#   include	"guiWidgets.h"
+#include "guiWidgets.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   ifdef USE_GTK
+#ifdef USE_GTK
 
-void appMakeTextInRow(		APP_WIDGET *		pText,
-				APP_WIDGET		row,
-				int			column,
-				int			colspan,
-				int			textColumns,
-				int			textEnabled )
-    {
-    APP_WIDGET		text= gtk_entry_new();
+void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
+		      int colspan, int textColumns, int textEnabled)
+{
+	APP_WIDGET text = gtk_entry_new();
 
-    gtk_widget_set_name(GTK_WIDGET (text), "tedRowText");
+	gtk_widget_set_name(GTK_WIDGET(text), "tedRowText");
 
-#   if GTK_MAJOR_VERSION >= 2
-    if  ( textColumns > 0 )
-	{ gtk_entry_set_width_chars( GTK_ENTRY( text ), textColumns );	}
-#   endif
+#if GTK_MAJOR_VERSION >= 2
+	if (textColumns > 0) {
+		gtk_entry_set_width_chars(GTK_ENTRY(text), textColumns);
+	}
+#endif
 
-    gtk_table_attach( GTK_TABLE( row ),
-			text,
-			column, column+ colspan,
-			0, 1,
-			GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			ROW_XPADDING_GTK, ROW_YPADDING_GTK );
+	gtk_table_attach(GTK_TABLE(row), text, column, column + colspan, 0, 1,
+			 GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, ROW_XPADDING_GTK,
+			 ROW_YPADDING_GTK);
 
-    gtk_widget_show( text );
+	gtk_widget_show(text);
 
-    gtk_entry_set_editable( GTK_ENTRY( text ), textEnabled != 0 );
+	gtk_entry_set_editable(GTK_ENTRY(text), textEnabled != 0);
 
-    if  ( ! textEnabled )
-	{ gtk_widget_set_sensitive( text, FALSE );	}
+	if (!textEnabled) {
+		gtk_widget_set_sensitive(text, FALSE);
+	}
 
-    *pText= text;
-    }
+	*pText = text;
+}
 
-void appMakeTextInHBox(		APP_WIDGET *		pText,
-				APP_WIDGET		hbox,
-				int			textColumns,
-				int			textEnabled )
-    {
-    APP_WIDGET		text= gtk_entry_new();
+void appMakeTextInHBox(APP_WIDGET *pText, APP_WIDGET hbox, int textColumns,
+		       int textEnabled)
+{
+	APP_WIDGET text = gtk_entry_new();
 
-#   if GTK_MAJOR_VERSION >= 2
-    if  ( textColumns > 0 )
-	{ gtk_entry_set_width_chars( GTK_ENTRY( text ), textColumns );	}
-#   endif
+#if GTK_MAJOR_VERSION >= 2
+	if (textColumns > 0) {
+		gtk_entry_set_width_chars(GTK_ENTRY(text), textColumns);
+	}
+#endif
 
-    gtk_box_pack_start( GTK_BOX( hbox ), text, FALSE, FALSE, 0 );
+	gtk_box_pack_start(GTK_BOX(hbox), text, FALSE, FALSE, 0);
 
-    gtk_widget_show( text );
+	gtk_widget_show(text);
 
-    gtk_entry_set_editable( GTK_ENTRY( text ), textEnabled != 0 );
+	gtk_entry_set_editable(GTK_ENTRY(text), textEnabled != 0);
 
-    if  ( ! textEnabled )
-	{ gtk_widget_set_sensitive( text, FALSE );	}
+	if (!textEnabled) {
+		gtk_widget_set_sensitive(text, FALSE);
+	}
 
-    *pText= text;
-    }
-
+	*pText = text;
+}
 
 /************************************************************************/
 /*									*/
@@ -75,40 +69,39 @@ void appMakeTextInHBox(		APP_WIDGET *		pText,
 /*									*/
 /************************************************************************/
 
-void appMakeTextInColumn(	APP_WIDGET *	pText,
-				APP_WIDGET	column,
-				int		textColumns,
-				int		textEnabled )
-    {
-    APP_WIDGET		text;
+void appMakeTextInColumn(APP_WIDGET *pText, APP_WIDGET column, int textColumns,
+			 int textEnabled)
+{
+	APP_WIDGET text;
 
-    text= gtk_entry_new();
+	text = gtk_entry_new();
 
-    gtk_widget_set_name(GTK_WIDGET (text), "tedColumnText");
+	gtk_widget_set_name(GTK_WIDGET(text), "tedColumnText");
 
-#   if GTK_MAJOR_VERSION >= 2
-    if  ( textColumns > 0 )
-	{ gtk_entry_set_width_chars( GTK_ENTRY( text ), textColumns );	}
-#   endif
+#if GTK_MAJOR_VERSION >= 2
+	if (textColumns > 0) {
+		gtk_entry_set_width_chars(GTK_ENTRY(text), textColumns);
+	}
+#endif
 
-    gtk_box_pack_start( GTK_BOX( column ), text, FALSE, TRUE, 0 );
+	gtk_box_pack_start(GTK_BOX(column), text, FALSE, TRUE, 0);
 
-    gtk_entry_set_editable( GTK_ENTRY( text ), textEnabled != 0 );
+	gtk_entry_set_editable(GTK_ENTRY(text), textEnabled != 0);
 
-    gtk_widget_show( text );
+	gtk_widget_show(text);
 
-    *pText= text;
-    }
+	*pText = text;
+}
 
-void appRefuseTextValue(	APP_WIDGET		text )
-    {
-    gtk_entry_select_region( GTK_ENTRY( text ), 0, 
-			strlen( gtk_entry_get_text( GTK_ENTRY( text ) ) ) );
+void appRefuseTextValue(APP_WIDGET text)
+{
+	gtk_entry_select_region(GTK_ENTRY(text), 0,
+				strlen(gtk_entry_get_text(GTK_ENTRY(text))));
 
-    gtk_widget_grab_focus( text );
+	gtk_widget_grab_focus(text);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -116,13 +109,12 @@ void appRefuseTextValue(	APP_WIDGET		text )
 /*									*/
 /************************************************************************/
 
-void appStringToTextWidget(		APP_WIDGET	text,
-					const char *	s )
-    {
-    gtk_entry_set_text( GTK_ENTRY( text ), s );
+void appStringToTextWidget(APP_WIDGET text, const char *s)
+{
+	gtk_entry_set_text(GTK_ENTRY(text), s);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -130,13 +122,11 @@ void appStringToTextWidget(		APP_WIDGET	text,
 /*									*/
 /************************************************************************/
 
-void appTextSelectContents(		APP_WIDGET	w,
-					int		from,
-					int		upto )
-    {
-    gtk_entry_select_region( GTK_ENTRY(w), from, upto );
-    return;
-    }
+void appTextSelectContents(APP_WIDGET w, int from, int upto)
+{
+	gtk_entry_select_region(GTK_ENTRY(w), from, upto);
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -144,12 +134,11 @@ void appTextSelectContents(		APP_WIDGET	w,
 /*									*/
 /************************************************************************/
 
-void guiEnableText(		APP_WIDGET	text,
-				int		enabled )
-    {
-    gtk_widget_set_sensitive( text, enabled != 0 );
-    gtk_entry_set_editable( GTK_ENTRY( text ), enabled != 0 );
-    }
+void guiEnableText(APP_WIDGET text, int enabled)
+{
+	gtk_widget_set_sensitive(text, enabled != 0);
+	gtk_entry_set_editable(GTK_ENTRY(text), enabled != 0);
+}
 
 /************************************************************************/
 /*									*/
@@ -159,36 +148,35 @@ void guiEnableText(		APP_WIDGET	text,
 /************************************************************************/
 
 /*  1  */
-char *	appGetStringFromTextWidget(	APP_WIDGET	text )
-    {
-    return strdup( gtk_entry_get_text( GTK_ENTRY( text ) ) );
-    }
+char *appGetStringFromTextWidget(APP_WIDGET text)
+{
+	return strdup(gtk_entry_get_text(GTK_ENTRY(text)));
+}
 
 /*  2  */
-void appFreeStringFromTextWidget(	char *		s )
-    {
-    free( s );
-    }
+void appFreeStringFromTextWidget(char *s)
+{
+	free(s);
+}
 
-void appGuiSetTypingCallbackForText(	APP_WIDGET		text,
-					APP_TXTYPING_CALLBACK_T	callBack,
-					void *			through )
-    {
-    gtk_signal_connect( GTK_OBJECT( text ), "changed",
-					(GtkSignalFunc)callBack, through );
+void appGuiSetTypingCallbackForText(APP_WIDGET text,
+				    APP_TXTYPING_CALLBACK_T callBack,
+				    void *through)
+{
+	gtk_signal_connect(GTK_OBJECT(text), "changed", (GtkSignalFunc)callBack,
+			   through);
 
-    return;
-    }
+	return;
+}
 
-void appGuiSetGotValueCallbackForText(
-				APP_WIDGET			text,
-				APP_TXACTIVATE_CALLBACK_T	callBack,
-				void *				through )
-    {
-    gtk_signal_connect( GTK_OBJECT( text ), "activate",
-					(GtkSignalFunc)callBack, through );
+void appGuiSetGotValueCallbackForText(APP_WIDGET text,
+				      APP_TXACTIVATE_CALLBACK_T callBack,
+				      void *through)
+{
+	gtk_signal_connect(GTK_OBJECT(text), "activate",
+			   (GtkSignalFunc)callBack, through);
 
-    return;
-    }
+	return;
+}
 
-#   endif
+#endif

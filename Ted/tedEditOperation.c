@@ -4,29 +4,29 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	<docScreenLayout.h>
-#   include	<docField.h>
-#   include	"tedEdit.h"
-#   include	"tedLayout.h"
-#   include	"tedSelect.h"
-#   include	"tedDocument.h"
-#   include	"tedApp.h"
-#   include	<docTreeType.h>
-#   include	<docTreeNode.h>
-#   include	<docRecalculateFields.h>
-#   include	<docRtfTrace.h>
-#   include	<docDocumentNote.h>
-#   include	<docNotes.h>
+#include <docScreenLayout.h>
+#include <docField.h>
+#include "tedEdit.h"
+#include "tedLayout.h"
+#include "tedSelect.h"
+#include "tedDocument.h"
+#include "tedApp.h"
+#include <docTreeType.h>
+#include <docTreeNode.h>
+#include <docRecalculateFields.h>
+#include <docRtfTrace.h>
+#include <docDocumentNote.h>
+#include <docNotes.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   define	VALIDATE_TREE		0
+#define VALIDATE_TREE 0
 
 /************************************************************************/
 /*									*/
@@ -34,47 +34,50 @@
 /*									*/
 /************************************************************************/
 
-static int tedEditRedoTreeLayout(	TedEditOperation *	teo,
-					BufferItem *		bodySectNode,
-					DocumentTree *		dt )
-    {
-    const int		page= dt->dtPageFormattedFor;
-    const int		column= dt->dtColumnFormattedFor;
-    const int		adjustDocument= 1;
+static int tedEditRedoTreeLayout(TedEditOperation *teo,
+				 BufferItem *bodySectNode, DocumentTree *dt)
+{
+	const int page = dt->dtPageFormattedFor;
+	const int column = dt->dtColumnFormattedFor;
+	const int adjustDocument = 1;
 
-    docInvalidateTreeLayout( dt );
+	docInvalidateTreeLayout(dt);
 
-    if  ( docLayoutDocumentTree( dt, &(teo->teoChangedRect),
-			    page, column, dt->dtY0UsedTwips,
-			    bodySectNode, 
-			    &(teo->teoLayoutContext),
-			    docStartScreenLayoutForTree, adjustDocument ) )
-	{ LDEB(1); return -1;	}
+	if (docLayoutDocumentTree(
+		    dt, &(teo->teoChangedRect), page, column, dt->dtY0UsedTwips,
+		    bodySectNode, &(teo->teoLayoutContext),
+		    docStartScreenLayoutForTree, adjustDocument)) {
+		LDEB(1);
+		return -1;
+	}
 
-    if  ( tedOpenTreeObjects( dt, &(teo->teoLayoutContext) ) )
-	{ LDEB(1); return -1;	}
+	if (tedOpenTreeObjects(dt, &(teo->teoLayoutContext))) {
+		LDEB(1);
+		return -1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 
-static int tedEditRecalculateTextLevelFields(	EditOperation *		eo,
-						RecalculateFields *	rf,
-						DocumentTree *		tree )
-    {
-    rf->rfSelectedTree= eo->eoTree;
-    rf->rfSelHead= eo->eoSelectedRange.erHead;
-    rf->rfSelTail= eo->eoSelectedRange.erTail;
+static int tedEditRecalculateTextLevelFields(EditOperation *eo,
+					     RecalculateFields *rf,
+					     DocumentTree *tree)
+{
+	rf->rfSelectedTree = eo->eoTree;
+	rf->rfSelHead = eo->eoSelectedRange.erHead;
+	rf->rfSelTail = eo->eoSelectedRange.erTail;
 
-    if  ( docRecalculateTextLevelFields( rf, tree->dtRoot ) )
-	{ LDEB(1);	}
+	if (docRecalculateTextLevelFields(rf, tree->dtRoot)) {
+		LDEB(1);
+	}
 
-    eo->eoSelectedRange.erHead= rf->rfSelHead;
-    eo->eoSelectedRange.erTail= rf->rfSelTail;
+	eo->eoSelectedRange.erHead = rf->rfSelHead;
+	eo->eoSelectedRange.erTail = rf->rfSelTail;
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -82,54 +85,61 @@ static int tedEditRecalculateTextLevelFields(	EditOperation *		eo,
 /*									*/
 /************************************************************************/
 
-static int tedEditRedoRangeLayout(	TedEditOperation *	teo,
-					DocumentTree *		tree,
-					BufferItem *		bodySectNode )
-    {
-    EditOperation *		eo= &(teo->teoEo);
-    BufferDocument *		bd= eo->eoDocument;
-    EditRange *			er= &(eo->eoReformatRange);
+static int tedEditRedoRangeLayout(TedEditOperation *teo, DocumentTree *tree,
+				  BufferItem *bodySectNode)
+{
+	EditOperation *eo = &(teo->teoEo);
+	BufferDocument *bd = eo->eoDocument;
+	EditRange *er = &(eo->eoReformatRange);
 
-    BufferItem *		selRootNode;
-    DocumentSelection		dsLayout;
+	BufferItem *selRootNode;
+	DocumentSelection dsLayout;
 
-    if  ( docLayoutInvalidateRange( &dsLayout, bd, tree, er ) )
-	{ LDEB(1); return -1;	}
-
-    selRootNode= docGetSelectionRoot( (DocumentTree **)0,
-					(BufferItem **)0, bd, &dsLayout );
-    if  ( ! selRootNode )
-	{ XDEB(selRootNode); return -1;	}
-
-    while( selRootNode->biParent				&&
-	   selRootNode->biParent->biChildCount == 1	)
-	{ selRootNode= selRootNode->biParent;	}
-
-    if  ( selRootNode->biTreeType != DOCinBODY	&&
-	  ! selRootNode->biParent		)
-	{
-	if  ( tedEditRedoTreeLayout( teo, bodySectNode, tree ) )
-	    { LDEB(1); return -1;	}
-	}
-    else{
-	int		reachedBottom= 0;
-
-	docInvalidateNodeLayout( selRootNode );
-
-	if  ( docScreenLayoutNode( &reachedBottom, selRootNode,
-					    &(teo->teoLayoutContext),
-					    &(teo->teoChangedRect) ) )
-	    { LDEB(1);	}
-
-	if  ( tedOpenNodeObjects( selRootNode, &(teo->teoLayoutContext) ) )
-	    { LDEB(1); return -1;	}
-
-	if  ( reachedBottom )
-	    { teo->teoRefreshScreenRectangle= 1;	}
+	if (docLayoutInvalidateRange(&dsLayout, bd, tree, er)) {
+		LDEB(1);
+		return -1;
 	}
 
-    return 0;
-    }
+	selRootNode = docGetSelectionRoot((DocumentTree **)0, (BufferItem **)0,
+					  bd, &dsLayout);
+	if (!selRootNode) {
+		XDEB(selRootNode);
+		return -1;
+	}
+
+	while (selRootNode->biParent &&
+	       selRootNode->biParent->biChildCount == 1) {
+		selRootNode = selRootNode->biParent;
+	}
+
+	if (selRootNode->biTreeType != DOCinBODY && !selRootNode->biParent) {
+		if (tedEditRedoTreeLayout(teo, bodySectNode, tree)) {
+			LDEB(1);
+			return -1;
+		}
+	} else {
+		int reachedBottom = 0;
+
+		docInvalidateNodeLayout(selRootNode);
+
+		if (docScreenLayoutNode(&reachedBottom, selRootNode,
+					&(teo->teoLayoutContext),
+					&(teo->teoChangedRect))) {
+			LDEB(1);
+		}
+
+		if (tedOpenNodeObjects(selRootNode, &(teo->teoLayoutContext))) {
+			LDEB(1);
+			return -1;
+		}
+
+		if (reachedBottom) {
+			teo->teoRefreshScreenRectangle = 1;
+		}
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -137,169 +147,185 @@ static int tedEditRedoRangeLayout(	TedEditOperation *	teo,
 /*									*/
 /************************************************************************/
 
-static int tedEditRedoNoteLayout(	int			n,
-					void *			voidteo );
+static int tedEditRedoNoteLayout(int n, void *voidteo);
 
-static int tedEditRefreshLayout(	TedEditOperation *	teo )
-    {
-    const LayoutContext  *	lc= &(teo->teoLayoutContext);
-    EditOperation *		eo= &(teo->teoEo);
-    BufferDocument *		bd= eo->eoDocument;
-    EditRange *			er= &(eo->eoReformatRange);
+static int tedEditRefreshLayout(TedEditOperation *teo)
+{
+	const LayoutContext *lc = &(teo->teoLayoutContext);
+	EditOperation *eo = &(teo->teoEo);
+	BufferDocument *bd = eo->eoDocument;
+	EditRange *er = &(eo->eoReformatRange);
 
-    EditDocument *		ed= teo->teoEditDocument;
+	EditDocument *ed = teo->teoEditDocument;
 
-    RecalculateFields		rf;
+	RecalculateFields rf;
 
-    DocumentTree *		tree;
-    BufferItem *		bodySectNode;
-    int				reachedBottom= 0;
+	DocumentTree *tree;
+	BufferItem *bodySectNode;
+	int reachedBottom = 0;
 
-    DocumentPosition		dpLast;
-    int				lastParaNr;
+	DocumentPosition dpLast;
+	int lastParaNr;
 
-    if  ( docGetRootOfSelectionScope( &tree, &bodySectNode,
-						bd, &(eo->eoSelectionScope) ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( docTailPosition( &dpLast, tree->dtRoot ) )
-	{ LDEB(1); return -1;	}
-    lastParaNr= docNumberOfParagraph( dpLast.dpNode );
-
-    if  ( er->erHead.epParaNr <= lastParaNr )
-	{
-	if  ( docEditFixParaBreakKind( eo, tree, bd, er->erHead.epParaNr ) )
-	    { LDEB(er->erHead.epParaNr);	}
-	}
-    if  ( er->erTail.epParaNr <= lastParaNr )
-	{
-	if  ( docEditFixParaBreakKind( eo, tree, bd, er->erTail.epParaNr ) )
-	    { LDEB(er->erTail.epParaNr);	}
+	if (docGetRootOfSelectionScope(&tree, &bodySectNode, bd,
+				       &(eo->eoSelectionScope))) {
+		LDEB(1);
+		return -1;
 	}
 
-#   if LOG_RELAYOUT
-    docLogRectangle( "EDITED", &(teo->teoChangedRect) );
-#   endif
+	if (docTailPosition(&dpLast, tree->dtRoot)) {
+		LDEB(1);
+		return -1;
+	}
+	lastParaNr = docNumberOfParagraph(dpLast.dpNode);
 
-    docInitRecalculateFields( &rf );
-
-    rf.rfDocument= bd;
-    rf.rfTree= tree;
-    rf.rfSelectedTree= tree;
-    rf.rfCloseObject= lc->lcCloseObject;
-    rf.rfUpdateFlags= eo->eoFieldUpdate;
-    rf.rfFieldsUpdated= 0;
-    rf.rfBodySectNode= bodySectNode;
-
-    if  ( ( eo->eoFieldUpdate & FIELDdoCHFTN ) != 0		||
-	  utilIndexSetGetFirst( &(eo->eoNoteFieldsAdded) ) >= 0	||
-	  eo->eoSectionsDeleted > 0				||
-	  eo->eoSectionsAdded > 0				)
-	{
-	int			changed= 0;
-
-	docRenumberNotes( &changed, bd );
-
-	if  ( changed )
-	    { rf.rfUpdateFlags |= FIELDdoCHFTN;	}
+	if (er->erHead.epParaNr <= lastParaNr) {
+		if (docEditFixParaBreakKind(eo, tree, bd,
+					    er->erHead.epParaNr)) {
+			LDEB(er->erHead.epParaNr);
+		}
+	}
+	if (er->erTail.epParaNr <= lastParaNr) {
+		if (docEditFixParaBreakKind(eo, tree, bd,
+					    er->erTail.epParaNr)) {
+			LDEB(er->erTail.epParaNr);
+		}
 	}
 
-    if  ( rf.rfUpdateFlags )
-	{
-	if  ( tedEditRecalculateTextLevelFields( eo, &rf, &(bd->bdBody) ) )
-	    { LDEB(1);	}
+#if LOG_RELAYOUT
+	docLogRectangle("EDITED", &(teo->teoChangedRect));
+#endif
+
+	docInitRecalculateFields(&rf);
+
+	rf.rfDocument = bd;
+	rf.rfTree = tree;
+	rf.rfSelectedTree = tree;
+	rf.rfCloseObject = lc->lcCloseObject;
+	rf.rfUpdateFlags = eo->eoFieldUpdate;
+	rf.rfFieldsUpdated = 0;
+	rf.rfBodySectNode = bodySectNode;
+
+	if ((eo->eoFieldUpdate & FIELDdoCHFTN) != 0 ||
+	    utilIndexSetGetFirst(&(eo->eoNoteFieldsAdded)) >= 0 ||
+	    eo->eoSectionsDeleted > 0 || eo->eoSectionsAdded > 0) {
+		int changed = 0;
+
+		docRenumberNotes(&changed, bd);
+
+		if (changed) {
+			rf.rfUpdateFlags |= FIELDdoCHFTN;
+		}
 	}
 
-    if  ( utilIndexSetForAll( &(eo->eoNoteFieldsAdded),
-				    tedEditRedoNoteLayout, (void *)teo ) < 0 )
-	{ LDEB(1); return -1;	}
-
-    if  ( rf.rfFieldsUpdated > 0 )
-	{ eo->eoReformatNeeded= REFORMAT_DOCUMENT;	}
-
-    if  ( eo->eoReformatNeeded != REFORMAT_DOCUMENT )
-	{
-	if  ( ( eo->eoFieldUpdate & FIELDdoCHFTN ) != 0			||
-	      utilIndexSetGetFirst( &(eo->eoNoteFieldsAdded) ) >= 0	||
-	      eo->eoSectionsDeleted > 0					||
-	      eo->eoSectionsAdded > 0					)
-	    {
-	    docInvalidateNodeLayout( bd->bdBody.dtRoot );
-
-	    eo->eoReformatNeeded= REFORMAT_DOCUMENT;
-	    }
+	if (rf.rfUpdateFlags) {
+		if (tedEditRecalculateTextLevelFields(eo, &rf, &(bd->bdBody))) {
+			LDEB(1);
+		}
 	}
 
-    switch( eo->eoReformatNeeded )
-	{
-	DocumentSelection	dsLayout;
+	if (utilIndexSetForAll(&(eo->eoNoteFieldsAdded), tedEditRedoNoteLayout,
+			       (void *)teo) < 0) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (rf.rfFieldsUpdated > 0) {
+		eo->eoReformatNeeded = REFORMAT_DOCUMENT;
+	}
+
+	if (eo->eoReformatNeeded != REFORMAT_DOCUMENT) {
+		if ((eo->eoFieldUpdate & FIELDdoCHFTN) != 0 ||
+		    utilIndexSetGetFirst(&(eo->eoNoteFieldsAdded)) >= 0 ||
+		    eo->eoSectionsDeleted > 0 || eo->eoSectionsAdded > 0) {
+			docInvalidateNodeLayout(bd->bdBody.dtRoot);
+
+			eo->eoReformatNeeded = REFORMAT_DOCUMENT;
+		}
+	}
+
+	switch (eo->eoReformatNeeded) {
+		DocumentSelection dsLayout;
 
 	case REFORMAT_ADJUST_PARAGRAPH:
-	    if  ( eo->eoParaAdjustParagraphNumber < 0	||
-		  tedAdjustParagraphLayout( teo, tree )	)
-		{ LDEB(eo->eoParaAdjustParagraphNumber); }
+		if (eo->eoParaAdjustParagraphNumber < 0 ||
+		    tedAdjustParagraphLayout(teo, tree)) {
+			LDEB(eo->eoParaAdjustParagraphNumber);
+		}
 
-#	    if LOG_RELAYOUT
-	    docLogRectangle( "ADJPAR", &(teo->teoChangedRect) );
-#	    endif
-	    break;
+#if LOG_RELAYOUT
+		docLogRectangle("ADJPAR", &(teo->teoChangedRect));
+#endif
+		break;
 
 	case REFORMAT_RANGE:
 
-	    if  ( tedEditRedoRangeLayout( teo, tree, bodySectNode ) )
-		{ LDEB(1); return -1;	}
+		if (tedEditRedoRangeLayout(teo, tree, bodySectNode)) {
+			LDEB(1);
+			return -1;
+		}
 
-#	    if LOG_RELAYOUT
-	    docLogRectangle( "RANGE-", &(teo->teoChangedRect) );
-#	    endif
-	    break;
+#if LOG_RELAYOUT
+		docLogRectangle("RANGE-", &(teo->teoChangedRect));
+#endif
+		break;
 
 	case REFORMAT_BODY_SECT:
-	    docInvalidateNodeLayout( eo->eoBodySectNode );
+		docInvalidateNodeLayout(eo->eoBodySectNode);
 
-	    if  ( docScreenLayoutNode( &reachedBottom, eo->eoBodySectNode,
-				    &(teo->teoLayoutContext),
-				    &(teo->teoChangedRect) ) )
-		{ LDEB(1);	}
+		if (docScreenLayoutNode(&reachedBottom, eo->eoBodySectNode,
+					&(teo->teoLayoutContext),
+					&(teo->teoChangedRect))) {
+			LDEB(1);
+		}
 
-	    if  ( tedOpenNodeObjects( eo->eoBodySectNode,
-						&(teo->teoLayoutContext) ) )
-		{ LDEB(1); return -1;	}
-#	    if LOG_RELAYOUT
-	    docLogRectangle( "SECT--", &(teo->teoChangedRect) );
-#	    endif
-	    break;
+		if (tedOpenNodeObjects(eo->eoBodySectNode,
+				       &(teo->teoLayoutContext))) {
+			LDEB(1);
+			return -1;
+		}
+#if LOG_RELAYOUT
+		docLogRectangle("SECT--", &(teo->teoChangedRect));
+#endif
+		break;
 
 	case REFORMAT_DOCUMENT:
-	    if  ( docLayoutInvalidateRange( &dsLayout, bd, tree, er ) )
-		{ LDEB(1); return -1;	}
+		if (docLayoutInvalidateRange(&dsLayout, bd, tree, er)) {
+			LDEB(1);
+			return -1;
+		}
 
-	    if  ( tedLayoutDocumentBody( &reachedBottom,
-						&(teo->teoLayoutContext) ) )
-		{ LDEB(1); return -1;	}
+		if (tedLayoutDocumentBody(&reachedBottom,
+					  &(teo->teoLayoutContext))) {
+			LDEB(1);
+			return -1;
+		}
 
-	    if  ( tedOpenNodeObjects( bd->bdBody.dtRoot, lc ) )
-		{ LDEB(1); return -1;	}
+		if (tedOpenNodeObjects(bd->bdBody.dtRoot, lc)) {
+			LDEB(1);
+			return -1;
+		}
 
-	    tedIncludeRectangleInChange( teo, &(ed->edFullRect) );
-#	    if LOG_RELAYOUT
-	    docLogRectangle( "DOC---", &(teo->teoChangedRect) );
-#	    endif
+		tedIncludeRectangleInChange(teo, &(ed->edFullRect));
+#if LOG_RELAYOUT
+		docLogRectangle("DOC---", &(teo->teoChangedRect));
+#endif
 
-	    break;
+		break;
 
 	case REFORMAT_NOTHING:
-	    break;
+		break;
 
 	default:
-	    LDEB(eo->eoReformatNeeded);
+		LDEB(eo->eoReformatNeeded);
 	}
 
-    if  ( reachedBottom )
-	{ teo->teoRefreshScreenRectangle= 1;	}
+	if (reachedBottom) {
+		teo->teoRefreshScreenRectangle = 1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -307,130 +333,135 @@ static int tedEditRefreshLayout(	TedEditOperation *	teo )
 /*									*/
 /************************************************************************/
 
-static int tedEditRedoNoteLayout(	int			fieldNr,
-					void *			voidteo )
-    {
-    TedEditOperation *		teo= (TedEditOperation *)voidteo;
-    EditOperation *		eo= &(teo->teoEo);
-    const LayoutContext  *	lc= &(teo->teoLayoutContext);
-    BufferDocument *		bd= lc->lcDocument;
-    DocumentField *		df;
-    DocumentNote *		dn;
+static int tedEditRedoNoteLayout(int fieldNr, void *voidteo)
+{
+	TedEditOperation *teo = (TedEditOperation *)voidteo;
+	EditOperation *eo = &(teo->teoEo);
+	const LayoutContext *lc = &(teo->teoLayoutContext);
+	BufferDocument *bd = lc->lcDocument;
+	DocumentField *df;
+	DocumentNote *dn;
 
-    RecalculateFields		rf;
-    const unsigned int		fieldUpdMask= FIELDdoCHFTN;
+	RecalculateFields rf;
+	const unsigned int fieldUpdMask = FIELDdoCHFTN;
 
-    int				reachedBottom= 0;
+	int reachedBottom = 0;
 
-    df= docGetFieldByNumber( &(bd->bdFieldList), fieldNr );
-    if  ( ! df || df->dfKind != DOCfkCHFTN )
-	{ LXDEB(fieldNr,df); return -1;	}
-    dn= docGetNoteOfField( df, bd );
-    if  ( ! dn )
-	{ XDEB(dn); return -1;	}
+	df = docGetFieldByNumber(&(bd->bdFieldList), fieldNr);
+	if (!df || df->dfKind != DOCfkCHFTN) {
+		LXDEB(fieldNr, df);
+		return -1;
+	}
+	dn = docGetNoteOfField(df, bd);
+	if (!dn) {
+		XDEB(dn);
+		return -1;
+	}
 
-    if  ( docCheckSeparatorItemForNoteType( bd,
-					dn->dnNoteProperties.npTreeType ) )
-	{ LDEB(1); return -1;	}
+	if (docCheckSeparatorItemForNoteType(bd,
+					     dn->dnNoteProperties.npTreeType)) {
+		LDEB(1);
+		return -1;
+	}
 
-    /*  3  */
-    docInitRecalculateFields( &rf );
+	/*  3  */
+	docInitRecalculateFields(&rf);
 
-    rf.rfDocument= bd;
-    rf.rfTree= &(dn->dnDocumentTree);
-    rf.rfCloseObject= teo->teoLayoutContext.lcCloseObject;
-    rf.rfUpdateFlags= fieldUpdMask;
-    rf.rfFieldsUpdated= 0;
+	rf.rfDocument = bd;
+	rf.rfTree = &(dn->dnDocumentTree);
+	rf.rfCloseObject = teo->teoLayoutContext.lcCloseObject;
+	rf.rfUpdateFlags = fieldUpdMask;
+	rf.rfFieldsUpdated = 0;
 
-    if  ( tedEditRecalculateTextLevelFields( eo, &rf, &(dn->dnDocumentTree) ) )
-	{ XDEB(fieldUpdMask);	}
+	if (tedEditRecalculateTextLevelFields(eo, &rf, &(dn->dnDocumentTree))) {
+		XDEB(fieldUpdMask);
+	}
 
-    /*  NO! Is just to setup the note.
+	/*  NO! Is just to setup the note.
     docEditIncludeNodeInReformatRange( eo, dn->dnDocumentTree.dtRoot );
     */
 
-    /*  Exclude from Edit operation: In another tree */
-    if  ( docScreenLayoutNode( &reachedBottom, dn->dnDocumentTree.dtRoot,
-					    &(teo->teoLayoutContext),
-					    &(teo->teoChangedRect) ) )
-	{ LDEB(1); return -1;	}
+	/*  Exclude from Edit operation: In another tree */
+	if (docScreenLayoutNode(&reachedBottom, dn->dnDocumentTree.dtRoot,
+				&(teo->teoLayoutContext),
+				&(teo->teoChangedRect))) {
+		LDEB(1);
+		return -1;
+	}
 
-    if  ( reachedBottom )
-	{ teo->teoRefreshScreenRectangle= 1;	}
+	if (reachedBottom) {
+		teo->teoRefreshScreenRectangle = 1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 
-static void tedEditRefreshScreenRectangle(	TedEditOperation *	teo )
-    {
-    EditDocument *		ed= teo->teoEditDocument;
-    const LayoutContext  *	lc= &(teo->teoLayoutContext);
-    BufferDocument *		bd= lc->lcDocument;
+static void tedEditRefreshScreenRectangle(TedEditOperation *teo)
+{
+	EditDocument *ed = teo->teoEditDocument;
+	const LayoutContext *lc = &(teo->teoLayoutContext);
+	BufferDocument *bd = lc->lcDocument;
 
-    DocumentRectangle		drFull;
-    BufferItem *		rootNode= bd->bdBody.dtRoot;
+	DocumentRectangle drFull;
+	BufferItem *rootNode = bd->bdBody.dtRoot;
 
-    docGetPixelRectangleForPages( &drFull,
-					&(teo->teoLayoutContext),
-					rootNode->biTopPosition.lpPage,
-					rootNode->biBelowPosition.lpPage );
+	docGetPixelRectangleForPages(&drFull, &(teo->teoLayoutContext),
+				     rootNode->biTopPosition.lpPage,
+				     rootNode->biBelowPosition.lpPage);
 
-    if  ( drFull.drX1 != ed->edFullRect.drX1	||
-	  drFull.drY1 != ed->edFullRect.drY1	)
-	{
-	DocumentRectangle	drAround;
-	DocumentRectangle	drExtra;
+	if (drFull.drX1 != ed->edFullRect.drX1 ||
+	    drFull.drY1 != ed->edFullRect.drY1) {
+		DocumentRectangle drAround;
+		DocumentRectangle drExtra;
 
-	drAround= drFull;
+		drAround = drFull;
 
-	if  ( drAround.drX1 < ed->edFullRect.drX1 )
-	    { drAround.drX1=  ed->edFullRect.drX1;	}
-	if  ( drAround.drY1 < ed->edFullRect.drY1 )
-	    { drAround.drY1=  ed->edFullRect.drY1;	}
+		if (drAround.drX1 < ed->edFullRect.drX1) {
+			drAround.drX1 = ed->edFullRect.drX1;
+		}
+		if (drAround.drY1 < ed->edFullRect.drY1) {
+			drAround.drY1 = ed->edFullRect.drY1;
+		}
 
-	drExtra= drAround;
-	if  ( ed->edFullRect.drX1 < drFull.drX1 )
-	    {
-	    drExtra.drX0= ed->edFullRect.drX1+ 1;
-	    drExtra.drX1= drFull.drX1;
+		drExtra = drAround;
+		if (ed->edFullRect.drX1 < drFull.drX1) {
+			drExtra.drX0 = ed->edFullRect.drX1 + 1;
+			drExtra.drX1 = drFull.drX1;
 
-	    geoUnionRectangle( &(teo->teoChangedRect),
-					&(teo->teoChangedRect), &drExtra );
-	    }
+			geoUnionRectangle(&(teo->teoChangedRect),
+					  &(teo->teoChangedRect), &drExtra);
+		}
 
-	if  ( drFull.drX1 < ed->edFullRect.drX1 )
-	    {
-	    drExtra.drX0= drFull.drX1+ 1;
-	    drExtra.drX1= ed->edFullRect.drX1;
+		if (drFull.drX1 < ed->edFullRect.drX1) {
+			drExtra.drX0 = drFull.drX1 + 1;
+			drExtra.drX1 = ed->edFullRect.drX1;
 
-	    geoUnionRectangle( &(teo->teoChangedRect),
-					&(teo->teoChangedRect), &drExtra );
-	    }
+			geoUnionRectangle(&(teo->teoChangedRect),
+					  &(teo->teoChangedRect), &drExtra);
+		}
 
-	drExtra= drAround;
-	if  ( ed->edFullRect.drY1 < drFull.drY1 )
-	    {
-	    drExtra.drY0= ed->edFullRect.drY1+ 1;
-	    drExtra.drY1= drFull.drY1;
+		drExtra = drAround;
+		if (ed->edFullRect.drY1 < drFull.drY1) {
+			drExtra.drY0 = ed->edFullRect.drY1 + 1;
+			drExtra.drY1 = drFull.drY1;
 
-	    geoUnionRectangle( &(teo->teoChangedRect),
-					&(teo->teoChangedRect), &drExtra );
-	    }
+			geoUnionRectangle(&(teo->teoChangedRect),
+					  &(teo->teoChangedRect), &drExtra);
+		}
 
-	if  ( drFull.drY1 < ed->edFullRect.drY1 )
-	    {
-	    drExtra.drY0= drFull.drY1+ 1;
-	    drExtra.drY1= ed->edFullRect.drY1;
+		if (drFull.drY1 < ed->edFullRect.drY1) {
+			drExtra.drY0 = drFull.drY1 + 1;
+			drExtra.drY1 = ed->edFullRect.drY1;
 
-	    geoUnionRectangle( &(teo->teoChangedRect),
-					&(teo->teoChangedRect), &drExtra );
-	    }
+			geoUnionRectangle(&(teo->teoChangedRect),
+					  &(teo->teoChangedRect), &drExtra);
+		}
 
-	ed->edFullRect= drFull;
+		ed->edFullRect = drFull;
 	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -445,97 +476,98 @@ static void tedEditRefreshScreenRectangle(	TedEditOperation *	teo )
 /*									*/
 /************************************************************************/
 
-static int tedEditFinishIBarSelection2(
-			    TedEditOperation *		teo,
-			    const DocumentPosition *	dpNew )
-    {
-    EditDocument *		ed= teo->teoEditDocument;
-    BufferDocument *		bd= teo->teoEo.eoDocument;
+static int tedEditFinishIBarSelection2(TedEditOperation *teo,
+				       const DocumentPosition *dpNew)
+{
+	EditDocument *ed = teo->teoEditDocument;
+	BufferDocument *bd = teo->teoEo.eoDocument;
 
-    int				scrolledX= 0;
-    int				scrolledY= 0;
+	int scrolledX = 0;
+	int scrolledY = 0;
 
-    const int			lastLine= 0;
+	const int lastLine = 0;
 
-    /*  1  */
-    if  ( teo->teoRefreshScreenRectangle )
-	{ tedEditRefreshScreenRectangle( teo );	}
-
-    if  ( ed->edFullRect.drY1 > teo->teoOldScreenRectangle.drY1 )
-	{
-	appDocSetScrollbarValues( ed );
+	/*  1  */
+	if (teo->teoRefreshScreenRectangle) {
+		tedEditRefreshScreenRectangle(teo);
 	}
 
-    if  ( dpNew->dpNode )
-	{
-	DocumentPosition	dpIbar;
-
-	/*  2  */
-	dpIbar= *dpNew;
-	docAvoidParaHeadField( &dpIbar, (int *)0, bd );
-
-	tedSetIBarSelection( ed, &dpIbar, lastLine, &scrolledX, &scrolledY );
-	}
-    else{ XDEB(dpNew->dpNode);	}
-
-
-    /*  1  */
-    if  ( ed->edFullRect.drY1 < teo->teoOldScreenRectangle.drY1 )
-	{
-	appDocSetScrollbarValues( ed );
+	if (ed->edFullRect.drY1 > teo->teoOldScreenRectangle.drY1) {
+		appDocSetScrollbarValues(ed);
 	}
 
-    appDocExposeRectangle( ed, &(teo->teoChangedRect), scrolledX, scrolledY );
+	if (dpNew->dpNode) {
+		DocumentPosition dpIbar;
 
-    if  ( tedHasIBarSelection( ed ) )
-	{ tedStartCursorBlink( ed );	}
+		/*  2  */
+		dpIbar = *dpNew;
+		docAvoidParaHeadField(&dpIbar, (int *)0, bd);
 
-    return 0;
-    }
+		tedSetIBarSelection(ed, &dpIbar, lastLine, &scrolledX,
+				    &scrolledY);
+	} else {
+		XDEB(dpNew->dpNode);
+	}
 
-int tedEditFinishPosition(	TedEditOperation *		teo,
-				const EditPosition *		epNew )
-    {
-    EditOperation *		eo= &(teo->teoEo);
-    DocumentPosition		dpNew;
+	/*  1  */
+	if (ed->edFullRect.drY1 < teo->teoOldScreenRectangle.drY1) {
+		appDocSetScrollbarValues(ed);
+	}
 
-    if  ( tedEditRefreshLayout( teo ) )
-	{ LDEB(1); /* return -1; */	}
+	appDocExposeRectangle(ed, &(teo->teoChangedRect), scrolledX, scrolledY);
 
-    docPositionForEditPosition( &dpNew, epNew, eo->eoTree );
+	if (tedHasIBarSelection(ed)) {
+		tedStartCursorBlink(ed);
+	}
 
-    return tedEditFinishIBarSelection2( teo, &dpNew );
-    }
+	return 0;
+}
 
-int tedEditFinishSelectionTail(	TedEditOperation *		teo )
-    {
-    EditOperation *		eo= &(teo->teoEo);
+int tedEditFinishPosition(TedEditOperation *teo, const EditPosition *epNew)
+{
+	EditOperation *eo = &(teo->teoEo);
+	DocumentPosition dpNew;
 
-    return tedEditFinishPosition( teo, &(eo->eoSelectedRange.erTail) );
-    }
+	if (tedEditRefreshLayout(teo)) {
+		LDEB(1); /* return -1; */
+	}
 
-int tedEditFinishSelectionHead(	TedEditOperation *		teo )
-    {
-    EditOperation *		eo= &(teo->teoEo);
+	docPositionForEditPosition(&dpNew, epNew, eo->eoTree);
 
-    return tedEditFinishPosition( teo, &(eo->eoAffectedRange.erHead) );
-    }
+	return tedEditFinishIBarSelection2(teo, &dpNew);
+}
 
-int tedEditFinishSelectionHeadNext(	TedEditOperation *		teo )
-    {
-    EditOperation *		eo= &(teo->teoEo);
-    DocumentPosition		dpNew;
+int tedEditFinishSelectionTail(TedEditOperation *teo)
+{
+	EditOperation *eo = &(teo->teoEo);
 
-    if  ( tedEditRefreshLayout( teo ) )
-	{ LDEB(1); /* return -1; */	}
+	return tedEditFinishPosition(teo, &(eo->eoSelectedRange.erTail));
+}
 
-    docPositionForEditPosition( &dpNew,
-			    &(eo->eoAffectedRange.erHead), eo->eoTree );
-    if  ( docNextPosition( &dpNew ) )
-	{ LDEB(1);	}
+int tedEditFinishSelectionHead(TedEditOperation *teo)
+{
+	EditOperation *eo = &(teo->teoEo);
 
-    return tedEditFinishIBarSelection2( teo, &dpNew );
-    }
+	return tedEditFinishPosition(teo, &(eo->eoAffectedRange.erHead));
+}
+
+int tedEditFinishSelectionHeadNext(TedEditOperation *teo)
+{
+	EditOperation *eo = &(teo->teoEo);
+	DocumentPosition dpNew;
+
+	if (tedEditRefreshLayout(teo)) {
+		LDEB(1); /* return -1; */
+	}
+
+	docPositionForEditPosition(&dpNew, &(eo->eoAffectedRange.erHead),
+				   eo->eoTree);
+	if (docNextPosition(&dpNew)) {
+		LDEB(1);
+	}
+
+	return tedEditFinishIBarSelection2(teo, &dpNew);
+}
 
 /************************************************************************/
 /*									*/
@@ -543,106 +575,114 @@ int tedEditFinishSelectionHeadNext(	TedEditOperation *		teo )
 /*									*/
 /************************************************************************/
 
-static int tedEditFinishSelection2(	TedEditOperation *		teo,
-					const DocumentSelection *	dsNew )
-    {
-    EditDocument *		ed= teo->teoEditDocument;
+static int tedEditFinishSelection2(TedEditOperation *teo,
+				   const DocumentSelection *dsNew)
+{
+	EditDocument *ed = teo->teoEditDocument;
 
-    int				scrolledX= 0;
-    int				scrolledY= 0;
+	int scrolledX = 0;
+	int scrolledY = 0;
 
-    const int			lastLine= 0;
+	const int lastLine = 0;
 
-    if  ( docIsIBarSelection( dsNew ) )
-	{ return tedEditFinishIBarSelection2( teo, &(dsNew->dsHead) );	}
-
-    if  ( teo->teoRefreshScreenRectangle )
-	{ tedEditRefreshScreenRectangle( teo );	}
-
-    if  ( ed->edFullRect.drY1 > teo->teoOldScreenRectangle.drY1 )
-	{
-	appDocSetScrollbarValues( ed );
+	if (docIsIBarSelection(dsNew)) {
+		return tedEditFinishIBarSelection2(teo, &(dsNew->dsHead));
 	}
 
-    tedSetSelection( ed, dsNew, lastLine, &scrolledX, &scrolledY );
-
-    if  ( ed->edFullRect.drY1 < teo->teoOldScreenRectangle.drY1 )
-	{
-	appDocSetScrollbarValues( ed );
+	if (teo->teoRefreshScreenRectangle) {
+		tedEditRefreshScreenRectangle(teo);
 	}
 
-    appDocExposeRectangle( ed, &(teo->teoChangedRect), scrolledX, scrolledY );
+	if (ed->edFullRect.drY1 > teo->teoOldScreenRectangle.drY1) {
+		appDocSetScrollbarValues(ed);
+	}
 
-    return 0;
-    }
+	tedSetSelection(ed, dsNew, lastLine, &scrolledX, &scrolledY);
 
+	if (ed->edFullRect.drY1 < teo->teoOldScreenRectangle.drY1) {
+		appDocSetScrollbarValues(ed);
+	}
 
-int tedEditFinishSelection(	TedEditOperation *		teo,
-				const DocumentSelection *	dsNew )
-    {
-    int		rval;
+	appDocExposeRectangle(ed, &(teo->teoChangedRect), scrolledX, scrolledY);
 
-    if  ( tedEditRefreshLayout( teo ) )
-	{ LDEB(1); return -1;	}
+	return 0;
+}
 
-    rval= tedEditFinishSelection2( teo, dsNew );
+int tedEditFinishSelection(TedEditOperation *teo,
+			   const DocumentSelection *dsNew)
+{
+	int rval;
 
-    return rval;
-    }
+	if (tedEditRefreshLayout(teo)) {
+		LDEB(1);
+		return -1;
+	}
 
-int tedEditFinishRange(	TedEditOperation *		teo,
-			int				col0,
-			int				col1,
-			const EditRange *		erNew )
-    {
-    int				rval;
-    EditOperation *		eo= &(teo->teoEo);
-    DocumentSelection		dsNew;
+	rval = tedEditFinishSelection2(teo, dsNew);
 
-    if  ( tedEditRefreshLayout( teo ) )
-	{ LDEB(1); return -1;	}
+	return rval;
+}
 
-    docInitDocumentSelection( &dsNew );
+int tedEditFinishRange(TedEditOperation *teo, int col0, int col1,
+		       const EditRange *erNew)
+{
+	int rval;
+	EditOperation *eo = &(teo->teoEo);
+	DocumentSelection dsNew;
 
-    if  ( docSelectionForEditPositionsInTree( &dsNew, eo->eoTree,
-				    &(erNew->erHead), &(erNew->erTail) ) )
-	{ LDEB(1); return -1;	}
+	if (tedEditRefreshLayout(teo)) {
+		LDEB(1);
+		return -1;
+	}
 
-    dsNew.dsCol0= col0;
-    dsNew.dsCol1= col1;
+	docInitDocumentSelection(&dsNew);
 
-    rval= tedEditFinishSelection2( teo, &dsNew );
+	if (docSelectionForEditPositionsInTree(
+		    &dsNew, eo->eoTree, &(erNew->erHead), &(erNew->erTail))) {
+		LDEB(1);
+		return -1;
+	}
 
-    return rval;
-    }
+	dsNew.dsCol0 = col0;
+	dsNew.dsCol1 = col1;
 
-int tedEditFinishOldSelection(		TedEditOperation *		teo )
-    {
-    EditOperation *		eo= &(teo->teoEo);
-    const EditRange *		er= &(teo->teoEo.eoSelectedRange);
-    int				rval;
+	rval = tedEditFinishSelection2(teo, &dsNew);
 
-    EditDocument *		ed= teo->teoEditDocument;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
+	return rval;
+}
 
-    DocumentSelection		dsNew;
+int tedEditFinishOldSelection(TedEditOperation *teo)
+{
+	EditOperation *eo = &(teo->teoEo);
+	const EditRange *er = &(teo->teoEo.eoSelectedRange);
+	int rval;
 
-    if  ( tedEditRefreshLayout( teo ) )
-	{ LDEB(1); return -1;	}
+	EditDocument *ed = teo->teoEditDocument;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
-    docInitDocumentSelection( &dsNew );
+	DocumentSelection dsNew;
 
-    if  ( docSelectionForEditPositionsInTree( &dsNew, eo->eoTree,
-					&(er->erHead), &(er->erTail) ) )
-	{ LDEB(1); return -1;	}
+	if (tedEditRefreshLayout(teo)) {
+		LDEB(1);
+		return -1;
+	}
 
-    rval= tedEditFinishSelection2( teo, &dsNew );
+	docInitDocumentSelection(&dsNew);
 
-    td->tdSelectionDescription.sdTextAttribute= teo->teoSavedTextAttribute;
-    td->tdSelectionDescription.sdTextAttributeNumber= teo->teoSavedTextAttributeNumber;
+	if (docSelectionForEditPositionsInTree(&dsNew, eo->eoTree,
+					       &(er->erHead), &(er->erTail))) {
+		LDEB(1);
+		return -1;
+	}
 
-    return rval;
-    }
+	rval = tedEditFinishSelection2(teo, &dsNew);
+
+	td->tdSelectionDescription.sdTextAttribute = teo->teoSavedTextAttribute;
+	td->tdSelectionDescription.sdTextAttributeNumber =
+		teo->teoSavedTextAttributeNumber;
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -654,139 +694,147 @@ int tedEditFinishOldSelection(		TedEditOperation *		teo )
 /*									*/
 /************************************************************************/
 
-void tedInitEditOperation(	TedEditOperation *	teo )
-    {
-    docInitEditOperation( &(teo->teoEo) );
+void tedInitEditOperation(TedEditOperation *teo)
+{
+	docInitEditOperation(&(teo->teoEo));
 
-    teo->teoEditDocument= (EditDocument *)0;
-    layoutInitContext( &(teo->teoLayoutContext) );
+	teo->teoEditDocument = (EditDocument *)0;
+	layoutInitContext(&(teo->teoLayoutContext));
 
-    geoInitRectangle( &(teo->teoChangedRect) );
-    geoInitRectangle( &(teo->teoOldScreenRectangle) );
-    teo->teoChangedRectSet= 0;
-    teo->teoRefreshScreenRectangle= 0;
-    }
+	geoInitRectangle(&(teo->teoChangedRect));
+	geoInitRectangle(&(teo->teoOldScreenRectangle));
+	teo->teoChangedRectSet = 0;
+	teo->teoRefreshScreenRectangle = 0;
+}
 
-void tedCleanEditOperation(	TedEditOperation *	teo )
-    {
-    docCleanEditOperation( &(teo->teoEo) );
+void tedCleanEditOperation(TedEditOperation *teo)
+{
+	docCleanEditOperation(&(teo->teoEo));
 
-    return;
-    }
+	return;
+}
 
 /*  1  */
-int tedStartEditOperation(	TedEditOperation *	teo,
-				SelectionGeometry *	sg,
-				SelectionDescription *	sd,
-				EditDocument *		ed,
-				int			fullWidth,
-				int			traced )
-    {
-    EditOperation *		eo= &(teo->teoEo);
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
+int tedStartEditOperation(TedEditOperation *teo, SelectionGeometry *sg,
+			  SelectionDescription *sd, EditDocument *ed,
+			  int fullWidth, int traced)
+{
+	EditOperation *eo = &(teo->teoEo);
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
 
-    DocumentSelection		ds;
+	DocumentSelection ds;
 
-#   if VALIDATE_TREE
-    {
-    LDEB(1);
-    if  ( docCheckNode( &(bd->bdItem) ) )
-	{ LDEB(2); docListNode( 0, &(bd->bdItem) ); abort(); }
-    }
-#   endif
-
-    tedInitEditOperation( teo );
-
-    /**/
-    teo->teoEditDocument= ed;
-    tedSetScreenLayoutContext( &(teo->teoLayoutContext), ed );
-    eo->eoCloseObject= teo->teoLayoutContext.lcCloseObject;
-
-    if  ( tedGetSelection( &ds, sg, sd,
-				&(eo->eoTree), &(eo->eoBodySectNode), ed ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( docStartEditOperation( eo, &ds, bd ) )
-	{ LDEB(1); return -1;	}
-
-    teo->teoSavedTextAttribute= td->tdSelectionDescription.sdTextAttribute;
-    teo->teoSavedTextAttributeNumber= td->tdSelectionDescription.sdTextAttributeNumber;
-
-    eo->eoIBarSelectionOld= sd->sdIsIBarSelection;
-    eo->eoMultiParagraphSelectionOld= ! sd->sdIsSingleParagraph;
-
-    tedIncludeRectangleInChange( teo, &(sg->sgRectangle) );
-    teo->teoChangedRect.drX1= ed->edFullRect.drX1;
-
-    if  ( fullWidth )
-	{ teo->teoChangedRect.drX0= ed->edFullRect.drX0; }
-
-    teo->teoOldScreenRectangle= ed->edFullRect;
-
-    if  ( traced )
-	{ teo->teoEditTrace= &(td->tdEditTrace);	}
-    else{ teo->teoEditTrace= (EditTrace *)0;		}
-
-    tedStopCursorBlink( ed );
-
-    return 0;
-    }
-
-int tedEditStartReplace(	DocumentSelection *	dsTraced,
-				TedEditOperation *	teo,
-				int			command,
-				int			level,
-				unsigned int		flags )
-    {
-    if  ( teo->teoEditTrace						&&
-	  docTraceStartReplace( dsTraced, &(teo->teoEo), teo->teoEditTrace,
-						    command, level, flags ) )
-	{ LLDEB(command,level); return -1;	}
-
-    return 0;
-    }
-
-int tedEditStartTypedStep(	TedEditOperation *	teo,
-				int			command,
-				int			fieldKind )
-    {
-    if  ( teo->teoEditTrace						&&
-	  docTraceStartStep( &(teo->teoEo), teo->teoEditTrace,
-						  command, fieldKind ) )
-	{ LDEB(command); return -1;	}
-
-    return 0;
-    }
-
-
-int tedEditStartStep(		TedEditOperation *	teo,
-				int			command )
-    {
-    int		fieldKind= -1;
-
-    return tedEditStartTypedStep( teo, command, fieldKind );
-    }
-
-int tedFinishEditOperation(		TedEditOperation *	teo )
-    {
-    EditDocument *		ed= teo->teoEditDocument;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-
-    if  ( teo->teoEditTrace )
+#if VALIDATE_TREE
 	{
-	if  ( docRtfTraceCloseTrace( &(teo->teoEo), teo->teoEditTrace ) )
-	    { LDEB(1); return -1;	}
+		LDEB(1);
+		if (docCheckNode(&(bd->bdItem))) {
+			LDEB(2);
+			docListNode(0, &(bd->bdItem));
+			abort();
+		}
+	}
+#endif
+
+	tedInitEditOperation(teo);
+
+	/**/
+	teo->teoEditDocument = ed;
+	tedSetScreenLayoutContext(&(teo->teoLayoutContext), ed);
+	eo->eoCloseObject = teo->teoLayoutContext.lcCloseObject;
+
+	if (tedGetSelection(&ds, sg, sd, &(eo->eoTree), &(eo->eoBodySectNode),
+			    ed)) {
+		LDEB(1);
+		return -1;
 	}
 
-    if  ( td->tdTraced )
-	{ tedSetTracedChangedFlag( teo->teoEditDocument );	}
-    else{ appDocumentChanged( teo->teoEditDocument, 1 );	}
+	if (docStartEditOperation(eo, &ds, bd)) {
+		LDEB(1);
+		return -1;
+	}
 
-    tedAdaptToolsToSelection( teo->teoEditDocument );
+	teo->teoSavedTextAttribute = td->tdSelectionDescription.sdTextAttribute;
+	teo->teoSavedTextAttributeNumber =
+		td->tdSelectionDescription.sdTextAttributeNumber;
 
-    return 0;
-    }
+	eo->eoIBarSelectionOld = sd->sdIsIBarSelection;
+	eo->eoMultiParagraphSelectionOld = !sd->sdIsSingleParagraph;
+
+	tedIncludeRectangleInChange(teo, &(sg->sgRectangle));
+	teo->teoChangedRect.drX1 = ed->edFullRect.drX1;
+
+	if (fullWidth) {
+		teo->teoChangedRect.drX0 = ed->edFullRect.drX0;
+	}
+
+	teo->teoOldScreenRectangle = ed->edFullRect;
+
+	if (traced) {
+		teo->teoEditTrace = &(td->tdEditTrace);
+	} else {
+		teo->teoEditTrace = (EditTrace *)0;
+	}
+
+	tedStopCursorBlink(ed);
+
+	return 0;
+}
+
+int tedEditStartReplace(DocumentSelection *dsTraced, TedEditOperation *teo,
+			int command, int level, unsigned int flags)
+{
+	if (teo->teoEditTrace &&
+	    docTraceStartReplace(dsTraced, &(teo->teoEo), teo->teoEditTrace,
+				 command, level, flags)) {
+		LLDEB(command, level);
+		return -1;
+	}
+
+	return 0;
+}
+
+int tedEditStartTypedStep(TedEditOperation *teo, int command, int fieldKind)
+{
+	if (teo->teoEditTrace &&
+	    docTraceStartStep(&(teo->teoEo), teo->teoEditTrace, command,
+			      fieldKind)) {
+		LDEB(command);
+		return -1;
+	}
+
+	return 0;
+}
+
+int tedEditStartStep(TedEditOperation *teo, int command)
+{
+	int fieldKind = -1;
+
+	return tedEditStartTypedStep(teo, command, fieldKind);
+}
+
+int tedFinishEditOperation(TedEditOperation *teo)
+{
+	EditDocument *ed = teo->teoEditDocument;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+
+	if (teo->teoEditTrace) {
+		if (docRtfTraceCloseTrace(&(teo->teoEo), teo->teoEditTrace)) {
+			LDEB(1);
+			return -1;
+		}
+	}
+
+	if (td->tdTraced) {
+		tedSetTracedChangedFlag(teo->teoEditDocument);
+	} else {
+		appDocumentChanged(teo->teoEditDocument, 1);
+	}
+
+	tedAdaptToolsToSelection(teo->teoEditDocument);
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -794,64 +842,61 @@ int tedFinishEditOperation(		TedEditOperation *	teo )
 /*									*/
 /************************************************************************/
 
-int tedEditIncludeNodeInRedraw(	TedEditOperation *	teo,
-				const BufferItem *	bi )
-    {
-    EditDocument *		ed= teo->teoEditDocument;
-    const LayoutContext  *	lc= &(teo->teoLayoutContext);
-    DocumentRectangle		drLocal;
+int tedEditIncludeNodeInRedraw(TedEditOperation *teo, const BufferItem *bi)
+{
+	EditDocument *ed = teo->teoEditDocument;
+	const LayoutContext *lc = &(teo->teoLayoutContext);
+	DocumentRectangle drLocal;
 
-    drLocal.drX0= ed->edFullRect.drX0;
-    drLocal.drX1= ed->edFullRect.drX1;
-    drLocal.drY0= docLayoutYPixels( lc, &(bi->biTopPosition) )- 1;
-    drLocal.drY1= docLayoutYPixels( lc, &(bi->biBelowPosition) )- 1;
+	drLocal.drX0 = ed->edFullRect.drX0;
+	drLocal.drX1 = ed->edFullRect.drX1;
+	drLocal.drY0 = docLayoutYPixels(lc, &(bi->biTopPosition)) - 1;
+	drLocal.drY1 = docLayoutYPixels(lc, &(bi->biBelowPosition)) - 1;
 
-    if  ( docIsRowNode( bi ) )
-	{
-	drLocal.drY1=
-		docLayoutYPixels( lc, &(bi->biRowBelowAllCellsPosition) )- 1;
+	if (docIsRowNode(bi)) {
+		drLocal.drY1 = docLayoutYPixels(
+				       lc, &(bi->biRowBelowAllCellsPosition)) -
+			       1;
 	}
 
-    tedIncludeRectangleInChange( teo, &drLocal );
+	tedIncludeRectangleInChange(teo, &drLocal);
 
-    return 0;
-    }
+	return 0;
+}
 
-int tedEditIncludeRowsInRedraw(	TedEditOperation *	teo,
-				const BufferItem *	parentNode,
-				int			row0,
-				int			row1 )
-    {
-    EditDocument *		ed= teo->teoEditDocument;
-    const LayoutContext  *	lc= &(teo->teoLayoutContext);
-    const BufferItem *		rowNode;
-    DocumentRectangle		drLocal;
+int tedEditIncludeRowsInRedraw(TedEditOperation *teo,
+			       const BufferItem *parentNode, int row0, int row1)
+{
+	EditDocument *ed = teo->teoEditDocument;
+	const LayoutContext *lc = &(teo->teoLayoutContext);
+	const BufferItem *rowNode;
+	DocumentRectangle drLocal;
 
-    drLocal.drX0= ed->edFullRect.drX0;
-    drLocal.drX1= ed->edFullRect.drX1;
+	drLocal.drX0 = ed->edFullRect.drX0;
+	drLocal.drX1 = ed->edFullRect.drX1;
 
-    rowNode= parentNode->biChildren[row0];
-    drLocal.drY0= docLayoutYPixels( lc, &(rowNode->biTopPosition) )- 1;
+	rowNode = parentNode->biChildren[row0];
+	drLocal.drY0 = docLayoutYPixels(lc, &(rowNode->biTopPosition)) - 1;
 
-    rowNode= parentNode->biChildren[row1];
-    drLocal.drY1= docLayoutYPixels( lc, &(rowNode->biRowBelowAllCellsPosition) )- 1;
+	rowNode = parentNode->biChildren[row1];
+	drLocal.drY1 =
+		docLayoutYPixels(lc, &(rowNode->biRowBelowAllCellsPosition)) -
+		1;
 
-    tedIncludeRectangleInChange( teo, &drLocal );
+	tedIncludeRectangleInChange(teo, &drLocal);
 
-    return 0;
-    }
+	return 0;
+}
 
-void tedIncludeRectangleInChange(	TedEditOperation *		teo,
-					const DocumentRectangle *	dr )
-    {
-    if  ( teo->teoChangedRectSet )
-	{
-	geoUnionRectangle( &(teo->teoChangedRect), &(teo->teoChangedRect), dr );
-	return;
+void tedIncludeRectangleInChange(TedEditOperation *teo,
+				 const DocumentRectangle *dr)
+{
+	if (teo->teoChangedRectSet) {
+		geoUnionRectangle(&(teo->teoChangedRect),
+				  &(teo->teoChangedRect), dr);
+		return;
+	} else {
+		teo->teoChangedRect = *dr;
+		teo->teoChangedRectSet = 1;
 	}
-    else{
-	teo->teoChangedRect= *dr;
-	teo->teoChangedRectSet= 1;
-	}
-    }
-
+}

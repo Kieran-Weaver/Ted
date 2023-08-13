@@ -4,14 +4,14 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docRtfConfig.h"
+#include "docRtfConfig.h"
 
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docRtfWriterImpl.h"
+#include "docRtfWriterImpl.h"
 
 /************************************************************************/
 /*									*/
@@ -19,34 +19,32 @@
 /*									*/
 /************************************************************************/
 
-int docRtfWriteColorTable(	RtfWriter *			rwc,
-				const DocumentProperties *	dp )
-    {
-    int				i;
-    const RGB8Color *		rgb8= dp->dpColorPalette->cpColors;
+int docRtfWriteColorTable(RtfWriter *rwc, const DocumentProperties *dp)
+{
+	int i;
+	const RGB8Color *rgb8 = dp->dpColorPalette->cpColors;
 
-    docRtfWriteDestinationBegin( rwc, "colortbl" );
-    docRtfWriteNextLine( rwc );
+	docRtfWriteDestinationBegin(rwc, "colortbl");
+	docRtfWriteNextLine(rwc);
 
-    for ( i= 0; i < dp->dpColorPalette->cpColorCount; rgb8++, i++ )
-	{
-	if  ( i != dp->dpDefaultColor )
-	    {
-	    docRtfWriteArgTag( rwc, "red", rgb8->rgb8Red );
-	    docRtfWriteArgTag( rwc, "green", rgb8->rgb8Green );
-	    docRtfWriteArgTag( rwc, "blue", rgb8->rgb8Blue );
-	    }
+	for (i = 0; i < dp->dpColorPalette->cpColorCount; rgb8++, i++) {
+		if (i != dp->dpDefaultColor) {
+			docRtfWriteArgTag(rwc, "red", rgb8->rgb8Red);
+			docRtfWriteArgTag(rwc, "green", rgb8->rgb8Green);
+			docRtfWriteArgTag(rwc, "blue", rgb8->rgb8Blue);
+		}
 
-	if  ( sioOutPutByte( ';', rwc->rwSosOut ) < 0 )
-	    { LDEB(1); return -1;	}
+		if (sioOutPutByte(';', rwc->rwSosOut) < 0) {
+			LDEB(1);
+			return -1;
+		}
 
-	rwc->rwCol += 1;
-	docRtfWriteNextLine( rwc );
+		rwc->rwCol += 1;
+		docRtfWriteNextLine(rwc);
 	}
 
-    docRtfWriteDestinationEnd( rwc );
-    docRtfWriteNextLine( rwc );
+	docRtfWriteDestinationEnd(rwc);
+	docRtfWriteNextLine(rwc);
 
-    return 0;
-    }
-
+	return 0;
+}

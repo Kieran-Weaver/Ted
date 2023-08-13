@@ -1,5 +1,5 @@
-#   ifndef	DOC_LIST_FONTS_H
-#   define	DOC_LIST_FONTS_H
+#ifndef DOC_LIST_FONTS_H
+#define DOC_LIST_FONTS_H
 
 /************************************************************************/
 /*									*/
@@ -9,7 +9,7 @@
 
 struct BufferItem;
 
-#   include	"docFind.h"
+#include "docFind.h"
 
 /************************************************************************/
 /*									*/
@@ -17,33 +17,23 @@ struct BufferItem;
 /*									*/
 /************************************************************************/
 
-typedef int (*DocListObjectFonts)(
-				const InsertedObject *		io,
-				const char *			prefix,
-				void *				through );
+typedef int (*DocListObjectFonts)(const InsertedObject *io, const char *prefix,
+				  void *through);
 
-typedef int (*DocListSpanFont)(
-				BufferDocument *		bd,
-				struct BufferItem *		paraNode,
-				int				textAttrNr,
-				const TextAttribute *		ta,
-				int				from,
-				int				upto,
-				void *				through );
+typedef int (*DocListSpanFont)(BufferDocument *bd, struct BufferItem *paraNode,
+			       int textAttrNr, const TextAttribute *ta,
+			       int from, int upto, void *through);
 
-typedef int (*DocListObject)(
-				const BufferDocument *		bd,
-				struct BufferItem *		paraNode,
-				const TextAttribute *		ta,
-				void *				through );
+typedef int (*DocListObject)(const BufferDocument *bd,
+			     struct BufferItem *paraNode,
+			     const TextAttribute *ta, void *through);
 
-typedef struct ScanDocumentFonts
-    {
-    DocListObjectFonts	sdfListObjectFonts;
-    DocListSpanFont	sdfDocListSpanFont;
-    DocListObject	sdfListObject;
-    void *		sdfThrough;
-    } ScanDocumentFonts;
+typedef struct ScanDocumentFonts {
+	DocListObjectFonts sdfListObjectFonts;
+	DocListSpanFont sdfDocListSpanFont;
+	DocListObject sdfListObject;
+	void *sdfThrough;
+} ScanDocumentFonts;
 
 /************************************************************************/
 /*									*/
@@ -51,13 +41,11 @@ typedef struct ScanDocumentFonts
 /*									*/
 /************************************************************************/
 
-extern void docInitScanDocumentFonts(	ScanDocumentFonts *		sdf );
+extern void docInitScanDocumentFonts(ScanDocumentFonts *sdf);
 
-extern int docListDocumentFonts(	BufferDocument *		bd,
-					ScanDocumentFonts *		sdf );
+extern int docListDocumentFonts(BufferDocument *bd, ScanDocumentFonts *sdf);
 
-extern int docListTreeFonts(		BufferDocument *		bd,
-					const DocumentTree *		dt,
-					ScanDocumentFonts *		sdf );
+extern int docListTreeFonts(BufferDocument *bd, const DocumentTree *dt,
+			    ScanDocumentFonts *sdf);
 
-#   endif	/*  DOC_LIST_FONTS_H	*/
+#endif /*  DOC_LIST_FONTS_H	*/

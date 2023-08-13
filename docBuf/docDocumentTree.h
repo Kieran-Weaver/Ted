@@ -5,11 +5,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_EXTERNAL_ITEM_H
-#   define	DOC_EXTERNAL_ITEM_H
+#ifndef DOC_EXTERNAL_ITEM_H
+#define DOC_EXTERNAL_ITEM_H
 
-#   include	<docDocumentField.h>
-#   include	<docListNumberTree.h>
+#include <docDocumentField.h>
+#include <docListNumberTree.h>
 
 /************************************************************************/
 /*									*/
@@ -33,15 +33,14 @@ struct DocumentField;
 /*									*/
 /************************************************************************/
 
-typedef enum WhatPages
-    {
-    PAGES_FIRST_PAGE= 0,
-    PAGES_SUBSEQUENT_PAGES,
-    PAGES_ALL_PAGES,
-    PAGES_ODD_PAGES,
-    PAGES_EVEN_PAGES,
-    PAGES__COUNT
-    } WhatPages;
+typedef enum WhatPages {
+	PAGES_FIRST_PAGE = 0,
+	PAGES_SUBSEQUENT_PAGES,
+	PAGES_ALL_PAGES,
+	PAGES_ODD_PAGES,
+	PAGES_EVEN_PAGES,
+	PAGES__COUNT
+} WhatPages;
 
 extern const int DOC_HeaderScopes[PAGES__COUNT];
 extern const int DOC_FooterScopes[PAGES__COUNT];
@@ -52,30 +51,29 @@ extern const int DOC_FooterScopes[PAGES__COUNT];
 /*									*/
 /************************************************************************/
 
-typedef struct DocumentTree
-    {
-    struct BufferItem *		dtRoot;
-    int				dtPageFormattedFor;
-    int				dtColumnFormattedFor;
-    int				dtY0UsedTwips;
-    int				dtY1UsedTwips;
-				/**
+typedef struct DocumentTree {
+	struct BufferItem *dtRoot;
+	int dtPageFormattedFor;
+	int dtColumnFormattedFor;
+	int dtY0UsedTwips;
+	int dtY1UsedTwips;
+	/**
 				 *  The top position that is reserved for the 
 				 *  tree. For the page footers, this also 
 				 *  determines the page bottom for the body 
 				 *  text and the notes.
 				 */
-    int				dtY0ReservedTwips;
-    int				dtY1ReservedTwips;
+	int dtY0ReservedTwips;
+	int dtY1ReservedTwips;
 
-    int				dtPageSelectedUpon;
-    int				dtColumnSelectedIn;
+	int dtPageSelectedUpon;
+	int dtColumnSelectedIn;
 
-    ListNumberTrees		dtListNumberTrees;
-    ListNumberTreeNode		dtOutlineTree;
+	ListNumberTrees dtListNumberTrees;
+	ListNumberTreeNode dtOutlineTree;
 
-    ChildFields			dtRootFields;
-    } DocumentTree;
+	ChildFields dtRootFields;
+} DocumentTree;
 
 /************************************************************************/
 /*									*/
@@ -83,14 +81,12 @@ typedef struct DocumentTree
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentTree(	DocumentTree *		dt );
+extern void docInitDocumentTree(DocumentTree *dt);
 
-extern void docCleanDocumentTree(	struct BufferDocument *	bd,
-					DocumentTree *		dt );
+extern void docCleanDocumentTree(struct BufferDocument *bd, DocumentTree *dt);
 
-extern void docInvalidateTreeLayout(	DocumentTree *		dt );
+extern void docInvalidateTreeLayout(DocumentTree *dt);
 
-extern int docAddRootFieldToTree(	DocumentTree *		dt,
-					DocumentField *		dfCh );
+extern int docAddRootFieldToTree(DocumentTree *dt, DocumentField *dfCh);
 
-#   endif
+#endif

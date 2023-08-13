@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		APP_SYMBL_PICKER_H
-#   define		APP_SYMBL_PICKER_H
+#ifndef APP_SYMBL_PICKER_H
+#define APP_SYMBL_PICKER_H
 
-#   include	"appFrame.h"
-#   include	"appInspector.h"
-#   include	<docExpandedTextAttribute.h>
-#   include	<utilMemoryBuffer.h>
+#include "appFrame.h"
+#include "appInspector.h"
+#include <docExpandedTextAttribute.h>
+#include <utilMemoryBuffer.h>
 
 /************************************************************************/
 /*									*/
@@ -18,12 +18,11 @@
 /*									*/
 /************************************************************************/
 
-typedef struct SymbolPickerResources
-    {
-    char *	sprFont;
-    char *	sprBlock;
-    char *	sprNone;
-    } SymbolPickerResources;
+typedef struct SymbolPickerResources {
+	char *sprFont;
+	char *sprBlock;
+	char *sprNone;
+} SymbolPickerResources;
 
 /************************************************************************/
 /*									*/
@@ -31,12 +30,9 @@ typedef struct SymbolPickerResources
 /*									*/
 /************************************************************************/
 
-typedef void (*SymbolPickerInsert)(
-				void *				target,
-				const char *			bytes,
-				int				size,
-				const TextAttribute *		taSet,
-				const PropertyMask *		taSetMask );
+typedef void (*SymbolPickerInsert)(void *target, const char *bytes, int size,
+				   const TextAttribute *taSet,
+				   const PropertyMask *taSetMask);
 
 /************************************************************************/
 /*									*/
@@ -44,62 +40,61 @@ typedef void (*SymbolPickerInsert)(
 /*									*/
 /************************************************************************/
 
-typedef struct SymbolPicker
-    {
-    EditApplication *			spApplication;
-    AppInspector *			spInspector;
+typedef struct SymbolPicker {
+	EditApplication *spApplication;
+	AppInspector *spInspector;
 
-    unsigned int			spCurrentDocumentId;
-    unsigned char			spEnabled;
+	unsigned int spCurrentDocumentId;
+	unsigned char spEnabled;
 
-    const SymbolPickerResources *	spResources;
+	const SymbolPickerResources *spResources;
 
-    APP_WIDGET				spFontFrame;
-    APP_WIDGET				spFontPaned;
+	APP_WIDGET spFontFrame;
+	APP_WIDGET spFontPaned;
 
-    APP_WIDGET				spNextPageButton;
-    APP_WIDGET				spPrevPageButton;
-    APP_WIDGET				spClearButton;
-    APP_WIDGET				spInsertButton;
+	APP_WIDGET spNextPageButton;
+	APP_WIDGET spPrevPageButton;
+	APP_WIDGET spClearButton;
+	APP_WIDGET spInsertButton;
 
-    AppOptionmenu			spFontOptionmenu;
-    AppOptionmenu			spBlockOptionmenu;
+	AppOptionmenu spFontOptionmenu;
+	AppOptionmenu spBlockOptionmenu;
 
-    APP_WIDGET				spSymbolDrawing;
+	APP_WIDGET spSymbolDrawing;
 
-    SymbolPickerInsert			spInsert;
-    void *				spTarget;
+	SymbolPickerInsert spInsert;
+	void *spTarget;
 
-    int					spSymbolSelected;
-    int					spSymbolOffset;
+	int spSymbolSelected;
+	int spSymbolOffset;
 
-    DocumentFontList			spDocumentFontList;
-    const PostScriptFontList *		spPostScriptFontList;
-    TextAttribute			spTextAttribute;
-    int					spFontFamilyChosen;
-    const AfmFontInfo *			spFontInfo;
+	DocumentFontList spDocumentFontList;
+	const PostScriptFontList *spPostScriptFontList;
+	TextAttribute spTextAttribute;
+	int spFontFamilyChosen;
+	const AfmFontInfo *spFontInfo;
 
-    double				spPixelsPerTwip;
-    DrawingSurface			spDrawingSurface;
-    RGB8Color				spBackgroundColor;
-    int					spScreenFont;
+	double spPixelsPerTwip;
+	DrawingSurface spDrawingSurface;
+	RGB8Color spBackgroundColor;
+	int spScreenFont;
 
-    int					spCellSizePixels;
-    int					spCellsWide;
-    int					spCellsHigh;
+	int spCellSizePixels;
+	int spCellsWide;
+	int spCellsHigh;
 
-    APP_WIDGET *			spFontFamilyOpts;
-    int					spFontFamilyOptCount;
-    APP_WIDGET *			spUnicodeBlockOpts;
-    int					spUnicodeBlockOptCount;
+	APP_WIDGET *spFontFamilyOpts;
+	int spFontFamilyOptCount;
+	APP_WIDGET *spUnicodeBlockOpts;
+	int spUnicodeBlockOptCount;
 
-    MemoryBuffer			spCollectedString;
-    					/*
+	MemoryBuffer spCollectedString;
+	/*
 					 *  Cope with silly double clicks 
 					 *  From GTK.
 					 */
-    int					spPreviousSize;
-    } SymbolPicker;
+	int spPreviousSize;
+} SymbolPicker;
 
 /************************************************************************/
 /*									*/
@@ -107,36 +102,31 @@ typedef struct SymbolPicker
 /*									*/
 /************************************************************************/
 
-extern void appFillSymbolPicker( SymbolPicker *			sp,
-				const SymbolPickerResources *	spr,
-				AppInspector *			ai,
-				int				subjectPage,
-				InspectorSubject *		is,
-				APP_WIDGET			pageWidget,
-				const InspectorSubjectResources * isr );
+extern void appFillSymbolPicker(SymbolPicker *sp,
+				const SymbolPickerResources *spr,
+				AppInspector *ai, int subjectPage,
+				InspectorSubject *is, APP_WIDGET pageWidget,
+				const InspectorSubjectResources *isr);
 
-extern int appAdaptSymbolPickerToFontFamily(
-				void *				voidasp,
-				unsigned int			documentId,
-				const DocumentFontList *	dfl,
-				const PropertyMask *		taSetMask,
-				const TextAttribute *		taSet );
+extern int appAdaptSymbolPickerToFontFamily(void *voidasp,
+					    unsigned int documentId,
+					    const DocumentFontList *dfl,
+					    const PropertyMask *taSetMask,
+					    const TextAttribute *taSet);
 
-extern void appSymbolPickerGetResourceTable(
-					EditApplication *		ea,
-					SymbolPickerResources *		spr,
-					InspectorSubjectResources *	isr );
+extern void appSymbolPickerGetResourceTable(EditApplication *ea,
+					    SymbolPickerResources *spr,
+					    InspectorSubjectResources *isr);
 
-extern void appInitSymbolPicker(	SymbolPicker *	sp );
-extern void appCleanSymbolPicker(	SymbolPicker *	sp );
+extern void appInitSymbolPicker(SymbolPicker *sp);
+extern void appCleanSymbolPicker(SymbolPicker *sp);
 
-extern void appSymbolPickerFillChoosers( SymbolPicker *			sp,
-					const SymbolPickerResources *	spr );
+extern void appSymbolPickerFillChoosers(SymbolPicker *sp,
+					const SymbolPickerResources *spr);
 
-extern void appFinishSymbolPicker(	SymbolPicker *			sp,
-					const SymbolPickerResources *	spr );
+extern void appFinishSymbolPicker(SymbolPicker *sp,
+				  const SymbolPickerResources *spr);
 
-extern void appEnableSymbolPicker(	SymbolPicker *		sp,
-					int			enabled );
+extern void appEnableSymbolPicker(SymbolPicker *sp, int enabled);
 
-#   endif	/*	APP_SYMBL_PICKER_H	*/
+#endif /*	APP_SYMBL_PICKER_H	*/

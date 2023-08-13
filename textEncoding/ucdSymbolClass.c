@@ -1,4 +1,4 @@
-#   include	"ucdIntern.h"
+#include "ucdIntern.h"
 
 /************************************************************************/
 /*									*/
@@ -19,32 +19,36 @@
 /*									*/
 /************************************************************************/
 
-int ucdSymbolClass(	const int						sym,
-			const unsigned char * const * const * const * const	pppp,
-			int							def )
-    {
-    int						s= sym;
-    const unsigned char * const * const *	ppp;
-    const unsigned char * const *		pp;
-    const unsigned char * 			p;
+int ucdSymbolClass(const int sym,
+		   const unsigned char *const *const *const *const pppp,
+		   int def)
+{
+	int s = sym;
+	const unsigned char *const *const *ppp;
+	const unsigned char *const *pp;
+	const unsigned char *p;
 
-    if  ( sym < 0 || sym >= 256* 256 )
-	{ return def;	}
+	if (sym < 0 || sym >= 256 * 256) {
+		return def;
+	}
 
-    ppp= pppp[s/( 16* 16* 16 )];
-    if  ( ! ppp )
-	{ return def;	}
-    s= s % ( 16* 16 * 16 );
+	ppp = pppp[s / (16 * 16 * 16)];
+	if (!ppp) {
+		return def;
+	}
+	s = s % (16 * 16 * 16);
 
-    pp= ppp[s/( 16* 16 )];
-    if  ( ! pp )
-	{ return def;	}
-    s= s % ( 16* 16 );
+	pp = ppp[s / (16 * 16)];
+	if (!pp) {
+		return def;
+	}
+	s = s % (16 * 16);
 
-    p= pp[s/( 16 )];
-    if  ( ! p )
-	{ return def;	}
-    s= s % ( 16 );
+	p = pp[s / (16)];
+	if (!p) {
+		return def;
+	}
+	s = s % (16);
 
-    return p[s];
-    }
+	return p[s];
+}

@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	TED_PARA_ORNAMENTS_TOOL_H
-#   define	TED_PARA_ORNAMENTS_TOOL_H
+#ifndef TED_PARA_ORNAMENTS_TOOL_H
+#define TED_PARA_ORNAMENTS_TOOL_H
 
-#   include	"tedBorderTool.h"
-#   include	"tedShadingTool.h"
-#   include	<docSelectionDescription.h>
-#   include	<docSelectionGeometry.h>
+#include "tedBorderTool.h"
+#include "tedShadingTool.h"
+#include <docSelectionDescription.h>
+#include <docSelectionGeometry.h>
 
 /************************************************************************/
 /*									*/
@@ -18,18 +18,17 @@
 /*									*/
 /************************************************************************/
 
-typedef struct ParagraphOrnamentsPageResources
-    {
-    char *			poprShading;
-    ShadingToolResources	poprShadingResources;
-    BorderToolResources		poprBorderToolResources;
+typedef struct ParagraphOrnamentsPageResources {
+	char *poprShading;
+	ShadingToolResources poprShadingResources;
+	BorderToolResources poprBorderToolResources;
 
-    char *			poprBorders;
-    char *			poprTopBorder;
-    char *			poprBottomBorder;
-    char *			poprLeftBorder;
-    char *			poprRightBorder;
-    } ParagraphOrnamentsPageResources;
+	char *poprBorders;
+	char *poprTopBorder;
+	char *poprBottomBorder;
+	char *poprLeftBorder;
+	char *poprRightBorder;
+} ParagraphOrnamentsPageResources;
 
 /************************************************************************/
 /*									*/
@@ -37,26 +36,25 @@ typedef struct ParagraphOrnamentsPageResources
 /*									*/
 /************************************************************************/
 
-typedef struct ParagraphOrnamentsTool
-    {
-    EditApplication *				potApplication;
-    AppInspector *				potInspector;
-    const ParagraphOrnamentsPageResources *	potPageResources;
+typedef struct ParagraphOrnamentsTool {
+	EditApplication *potApplication;
+	AppInspector *potInspector;
+	const ParagraphOrnamentsPageResources *potPageResources;
 
-    ParagraphProperties				potPropertiesSet;
-    ParagraphProperties				potPropertiesChosen;
+	ParagraphProperties potPropertiesSet;
+	ParagraphProperties potPropertiesChosen;
 
-    unsigned char				potCanChange;
+	unsigned char potCanChange;
 
-    APP_WIDGET					potBordersFrame;
-    APP_WIDGET					potBordersPaned;
-    BorderTool					potTopBorderTool;
-    BorderTool					potBottomBorderTool;
-    BorderTool					potLeftBorderTool;
-    BorderTool					potRightBorderTool;
+	APP_WIDGET potBordersFrame;
+	APP_WIDGET potBordersPaned;
+	BorderTool potTopBorderTool;
+	BorderTool potBottomBorderTool;
+	BorderTool potLeftBorderTool;
+	BorderTool potRightBorderTool;
 
-    ShadingTool					potShadingTool;
-    } ParagraphOrnamentsTool;
+	ShadingTool potShadingTool;
+} ParagraphOrnamentsTool;
 
 /************************************************************************/
 /*									*/
@@ -65,40 +63,33 @@ typedef struct ParagraphOrnamentsTool
 /************************************************************************/
 
 extern void tedFormatToolGetParaOrnamentsResourceTable(
-				    EditApplication *			ea,
-				    ParagraphOrnamentsPageResources *	plpr,
-				    InspectorSubjectResources *		isr );
+	EditApplication *ea, ParagraphOrnamentsPageResources *plpr,
+	InspectorSubjectResources *isr);
 
-extern void tedParaOrnamentsToolFillChoosers(
-				ParagraphOrnamentsTool *		pot,
-				const ParagraphOrnamentsPageResources *	popr );
+extern void
+tedParaOrnamentsToolFillChoosers(ParagraphOrnamentsTool *pot,
+				 const ParagraphOrnamentsPageResources *popr);
 
-extern void tedFormatFillParagraphOrnamentsPage(
-			ParagraphOrnamentsTool *		pot,
-			const ParagraphOrnamentsPageResources *	popr,
-			AppInspector *				ai,
-			int					subjectPage,
-			InspectorSubject *			is,
-			APP_WIDGET				pgW,
-			const InspectorSubjectResources *	isr );
+extern void
+tedFormatFillParagraphOrnamentsPage(ParagraphOrnamentsTool *pot,
+				    const ParagraphOrnamentsPageResources *popr,
+				    AppInspector *ai, int subjectPage,
+				    InspectorSubject *is, APP_WIDGET pgW,
+				    const InspectorSubjectResources *isr);
 
-extern void tedRefreshParaOrnamentsTool(
-				ParagraphOrnamentsTool *	pot,
-				int *				pEnabled,
-				int *				pPref,
-				InspectorSubject *		is,
-				const DocumentSelection *	ds,
-				const SelectionGeometry *	sg,
-				const SelectionDescription *	sd,
-				const unsigned char *		cmdEnabled );
+extern void tedRefreshParaOrnamentsTool(ParagraphOrnamentsTool *pot,
+					int *pEnabled, int *pPref,
+					InspectorSubject *is,
+					const DocumentSelection *ds,
+					const SelectionGeometry *sg,
+					const SelectionDescription *sd,
+					const unsigned char *cmdEnabled);
 
-extern void tedInitParaOrnamentsTool(
-				ParagraphOrnamentsTool *	pot );
-extern void tedCleanParaOrnamentsTool(
-				ParagraphOrnamentsTool *	pot );
+extern void tedInitParaOrnamentsTool(ParagraphOrnamentsTool *pot);
+extern void tedCleanParaOrnamentsTool(ParagraphOrnamentsTool *pot);
 
-extern void tedFormatFinishParaOrnamentsPage(
-				ParagraphOrnamentsTool *		pot,
-				const ParagraphOrnamentsPageResources *	popr );
+extern void
+tedFormatFinishParaOrnamentsPage(ParagraphOrnamentsTool *pot,
+				 const ParagraphOrnamentsPageResources *popr);
 
-#   endif	/*  TED_PARA_ORNAMENTS_TOOL_H */
+#endif /*  TED_PARA_ORNAMENTS_TOOL_H */

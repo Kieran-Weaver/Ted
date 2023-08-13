@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	APP_GUI_KEYS_H
-#   define	APP_GUI_KEYS_H
+#ifndef APP_GUI_KEYS_H
+#define APP_GUI_KEYS_H
 
-	    /* yes BOTH! for dependencies in makefile */
-#   include "appGuiKeysMotif.h"
-#   include "appGuiKeysGtk.h"
+/* yes BOTH! for dependencies in makefile */
+#include "appGuiKeysMotif.h"
+#include "appGuiKeysGtk.h"
 
-#   endif	/* APP_GUI_KEYS_H */
+#endif /* APP_GUI_KEYS_H */

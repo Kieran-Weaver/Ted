@@ -5,13 +5,10 @@
 /*									*/
 /************************************************************************/
 
-#   include	<sioGeneral.h>
+#include <sioGeneral.h>
 
-extern SimpleInputStream * sioInUtf8_16Open(
-				    SimpleInputStream * 	sisUtf16,
-				    int				endian );
+extern SimpleInputStream *sioInUtf8_16Open(SimpleInputStream *sisUtf16,
+					   int endian);
 
-extern SimpleOutputStream * sioOutUtf8_16Open(
-				    SimpleOutputStream *	sosUtf16,
-				    int				endian,
-				    int				bom );
+extern SimpleOutputStream *sioOutUtf8_16Open(SimpleOutputStream *sosUtf16,
+					     int endian, int bom);

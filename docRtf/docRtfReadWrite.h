@@ -4,14 +4,14 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_RTF_RW_H
-#   define	DOC_RTF_RW_H
+#ifndef DOC_RTF_RW_H
+#define DOC_RTF_RW_H
 
-#   include	<stdio.h>
-#   include	<time.h>
+#include <stdio.h>
+#include <time.h>
 
-#   include	<docBuf.h>
-#   include	<sioGeneral.h>
+#include <docBuf.h>
+#include <sioGeneral.h>
 
 /************************************************************************/
 /*									*/
@@ -19,17 +19,13 @@
 /*									*/
 /************************************************************************/
 
-extern int docWriteRtfMail(	SimpleOutputStream *		sos,
-				const char *			mimeBoundary,
-				BufferDocument *		bd );
+extern int docWriteRtfMail(SimpleOutputStream *sos, const char *mimeBoundary,
+			   BufferDocument *bd);
 
-extern int docRtfSaveDocument(	SimpleOutputStream *		sos,
-				BufferDocument *		bd,
-				const DocumentSelection *	bs,
-				int				flags );
+extern int docRtfSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
+			      const DocumentSelection *bs, int flags);
 
-extern BufferDocument *	docRtfReadFile(
-				SimpleInputStream *		sis,
-				unsigned int			flags );
+extern BufferDocument *docRtfReadFile(SimpleInputStream *sis,
+				      unsigned int flags);
 
-#    endif	/*  DOC_RTF_RW_H	*/
+#endif /*  DOC_RTF_RW_H	*/

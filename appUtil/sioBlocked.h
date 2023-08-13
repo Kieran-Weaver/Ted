@@ -6,8 +6,8 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInBlockedOpen(	SimpleInputStream * sisBlocks );
+extern SimpleInputStream *sioInBlockedOpen(SimpleInputStream *sisBlocks);
 
-extern SimpleOutputStream * sioOutBlockedOpen( SimpleOutputStream * sosBlocks );
+extern SimpleOutputStream *sioOutBlockedOpen(SimpleOutputStream *sosBlocks);

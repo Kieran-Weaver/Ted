@@ -1,7 +1,7 @@
-#   ifndef	BM_GETROW_H
-#   define	BM_GETROW_H
+#ifndef BM_GETROW_H
+#define BM_GETROW_H
 
-#   include	"bmintern.h"
+#include "bmintern.h"
 
 /************************************************************************/
 /*									*/
@@ -12,20 +12,16 @@
 /*									*/
 /************************************************************************/
 
-typedef struct ColorValue
-    {
-    long	cvR;
-    long	cvG;
-    long	cvB;
-    int		cvN;
-    } ColorValue;
+typedef struct ColorValue {
+	long cvR;
+	long cvG;
+	long cvB;
+	int cvN;
+} ColorValue;
 
-typedef void (*GetSourceRow)(	ColorValue *			cv,
-				int				col0Out,
-				const unsigned char *		from,
-				int				col0In,
-				int				colPIn,
-				const BitmapDescription *	bdIn );
+typedef void (*GetSourceRow)(ColorValue *cv, int col0Out,
+			     const unsigned char *from, int col0In, int colPIn,
+			     const BitmapDescription *bdIn);
 
 /************************************************************************/
 /*									*/
@@ -33,10 +29,8 @@ typedef void (*GetSourceRow)(	ColorValue *			cv,
 /*									*/
 /************************************************************************/
 
-extern void bmInitColorRow(	ColorValue *			cv,
-				int				wide );
+extern void bmInitColorRow(ColorValue *cv, int wide);
 
-extern int bmGetGetRow(		GetSourceRow *			pGetRow,
-				const BitmapDescription *	bdIn );
+extern int bmGetGetRow(GetSourceRow *pGetRow, const BitmapDescription *bdIn);
 
-#   endif
+#endif

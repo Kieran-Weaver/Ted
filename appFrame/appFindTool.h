@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		APP_FIND_TOOL_H
-#   define		APP_FIND_TOOL_H
+#ifndef APP_FIND_TOOL_H
+#define APP_FIND_TOOL_H
 
-#   include	"appFrame.h"
-#   include	"appInspector.h"
+#include "appFrame.h"
+#include "appInspector.h"
 
 /************************************************************************/
 /*									*/
@@ -16,12 +16,10 @@
 /*									*/
 /************************************************************************/
 
-typedef int (*FindToolFind)(		void *			target );
-typedef void (*FindToolReplace)(	void *			target,
-					const char *		guess );
-typedef int (*FindToolSetPattern)(	void *			voidea,
-					const char *		pattern,
-					int			useRegex );
+typedef int (*FindToolFind)(void *target);
+typedef void (*FindToolReplace)(void *target, const char *guess);
+typedef int (*FindToolSetPattern)(void *voidea, const char *pattern,
+				  int useRegex);
 
 /************************************************************************/
 /*									*/
@@ -29,46 +27,44 @@ typedef int (*FindToolSetPattern)(	void *			voidea,
 /*									*/
 /************************************************************************/
 
-typedef struct FindToolResources
-    {
-    char *	aftrFindTitle;
+typedef struct FindToolResources {
+	char *aftrFindTitle;
 
-    char *	aftrUseRegex;
+	char *aftrUseRegex;
 
-    char *	aftrReplaceTitle;
-    char *	aftrReplaceFound;
-    char *	aftrReplaceNext;
+	char *aftrReplaceTitle;
+	char *aftrReplaceFound;
+	char *aftrReplaceNext;
 
-    char *	aftrExplicitFocus;
-    } FindToolResources;
+	char *aftrExplicitFocus;
+} FindToolResources;
 
-typedef struct FindTool
-    {
-    EditApplication *		aftApplication;
-    AppInspector *		aftInspector;
-    int				aftSubjectPage;
+typedef struct FindTool {
+	EditApplication *aftApplication;
+	AppInspector *aftInspector;
+	int aftSubjectPage;
 
-    APP_WIDGET			aftFindFrame;
-    APP_WIDGET			aftPatternText;
-    APP_WIDGET			aftReplaceText;
-    APP_WIDGET			aftReplaceFrame;
-    APP_WIDGET			aftReplaceButton;
-    APP_WIDGET			aftReplaceNextButton;
-    APP_WIDGET			aftFindNextButton;
-    APP_WIDGET			aftFindPrevButton;
+	APP_WIDGET aftFindFrame;
+	APP_WIDGET aftPatternText;
+	APP_WIDGET aftReplaceText;
+	APP_WIDGET aftReplaceFrame;
+	APP_WIDGET aftReplaceButton;
+	APP_WIDGET aftReplaceNextButton;
+	APP_WIDGET aftFindNextButton;
+	APP_WIDGET aftFindPrevButton;
 
-    APP_WIDGET			aftRegexToggle;
+	APP_WIDGET aftRegexToggle;
 
-    FindToolFind		aftFindNext;
-    FindToolFind		aftFindPrev;
-    FindToolReplace		aftReplace;
-    FindToolSetPattern		aftSetPattern;
+	FindToolFind aftFindNext;
+	FindToolFind aftFindPrev;
+	FindToolReplace aftReplace;
+	FindToolSetPattern aftSetPattern;
 
-    int				aftReplaceEnabled;
-    int				aftLastFindResult;
-    int				aftUseRegex;
-    int				aftExplicitFocus;
-    } FindTool;
+	int aftReplaceEnabled;
+	int aftLastFindResult;
+	int aftUseRegex;
+	int aftExplicitFocus;
+} FindTool;
 
 /************************************************************************/
 /*									*/
@@ -76,26 +72,21 @@ typedef struct FindTool
 /*									*/
 /************************************************************************/
 
-extern void appFillFindTool(	FindTool *			aft,
-				const FindToolResources *	aftr,
-				AppInspector *			ai,
-				int				subjectPage,
-				InspectorSubject *		is,
-				APP_WIDGET			pageWidget,
-				const InspectorSubjectResources * isr );
+extern void appFillFindTool(FindTool *aft, const FindToolResources *aftr,
+			    AppInspector *ai, int subjectPage,
+			    InspectorSubject *is, APP_WIDGET pageWidget,
+			    const InspectorSubjectResources *isr);
 
-extern void appFindToolEnableReplace(	FindTool *	aft,
-					int		enabled );
+extern void appFindToolEnableReplace(FindTool *aft, int enabled);
 
-extern void appFindToolSetPattern(	FindTool *		aft,
-					const char *		pattern,
-					int			useRegex );
+extern void appFindToolSetPattern(FindTool *aft, const char *pattern,
+				  int useRegex);
 
-extern void appFindToolGetResourceTable( EditApplication *		ea,
-					FindToolResources *		spr,
-					InspectorSubjectResources *	isr );
+extern void appFindToolGetResourceTable(EditApplication *ea,
+					FindToolResources *spr,
+					InspectorSubjectResources *isr);
 
-extern void appInitFindTool(		FindTool *			aft );
-extern void appCleanFindTool(		FindTool *			aft );
+extern void appInitFindTool(FindTool *aft);
+extern void appCleanFindTool(FindTool *aft);
 
-#   endif	/*	APP_FIND_TOOL_H	*/
+#endif /*	APP_FIND_TOOL_H	*/

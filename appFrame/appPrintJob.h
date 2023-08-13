@@ -4,15 +4,14 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	APP_PRINT_JOB_H
-#   define	APP_PRINT_JOB_H
+#ifndef APP_PRINT_JOB_H
+#define APP_PRINT_JOB_H
 
-#   include	<drawDrawingSurface.h>
+#include <drawDrawingSurface.h>
 
-# ifdef __cplusplus
-extern "C"
-    {
-# endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct PrintGeometry;
 
@@ -22,15 +21,14 @@ struct PrintGeometry;
 /*									*/
 /************************************************************************/
 
-typedef struct PrintJob
-    {
-    void *				pjPrivateData;
-    int					pjFormat;
-    const char *			pjTitle;
-    DrawingSurface			pjDrawingSurface;
-    struct EditApplication *		pjApplication;
-    const struct PrintGeometry *	pjPrintGeometry;
-    } PrintJob;
+typedef struct PrintJob {
+	void *pjPrivateData;
+	int pjFormat;
+	const char *pjTitle;
+	DrawingSurface pjDrawingSurface;
+	struct EditApplication *pjApplication;
+	const struct PrintGeometry *pjPrintGeometry;
+} PrintJob;
 
 /************************************************************************/
 /*									*/
@@ -38,8 +36,8 @@ typedef struct PrintJob
 /*									*/
 /************************************************************************/
 
-# ifdef __cplusplus
-    }
-# endif
+#ifdef __cplusplus
+}
+#endif
 
-#   endif
+#endif

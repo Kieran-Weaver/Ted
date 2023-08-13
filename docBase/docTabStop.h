@@ -4,74 +4,69 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_TAB_STOP_H
-#   define	DOC_TAB_STOP_H
+#ifndef DOC_TAB_STOP_H
+#define DOC_TAB_STOP_H
 
-typedef enum TabAlignment
-    {
-    DOCtaLEFT= 0,
-    DOCtaRIGHT,
-    DOCtaCENTER,
-    DOCtaDECIMAL,
+typedef enum TabAlignment {
+	DOCtaLEFT = 0,
+	DOCtaRIGHT,
+	DOCtaCENTER,
+	DOCtaDECIMAL,
 
-    DOCta_COUNT
-    } TabAlignment;
+	DOCta_COUNT
+} TabAlignment;
 
-typedef enum TabLeader
-    {
-    DOCtlNONE= 0,
+typedef enum TabLeader {
+	DOCtlNONE = 0,
 
-    DOCtlDOTS,
-    DOCtlUNDERLINE,
-    DOCtlHYPH,
+	DOCtlDOTS,
+	DOCtlUNDERLINE,
+	DOCtlHYPH,
 
-    DOCtlTHICK,
-    DOCtlEQUAL,
+	DOCtlTHICK,
+	DOCtlEQUAL,
 
-    DOCtl_COUNT
-    } TabLeader;
+	DOCtl_COUNT
+} TabLeader;
 
-typedef struct TabStop
-    {
-			/**
+typedef struct TabStop {
+	/**
 			 *  Position in twips
 			 */
-    int			tsTwips;
-			/**
+	int tsTwips;
+	/**
 			 *  Alignment: A DOCta* value
 			 */
-    unsigned char	tsAlignment;
-			/**
+	unsigned char tsAlignment;
+	/**
 			 *  Tab leader: a DOCtl* value
 			 */
-    unsigned char	tsLeader;
-			/**
+	unsigned char tsLeader;
+	/**
 			 *  True if the tab comes from a style or a
 			 *  list.
 			 */
-    unsigned char	tsFromStyleOrList;
-			/**
+	unsigned char tsFromStyleOrList;
+	/**
 			 *  Position in pixels. A derived property.
 			 */
-    short int		tsPixels;
-    } TabStop;
+	short int tsPixels;
+} TabStop;
 
-typedef enum TabProperty
-    {
-    TABpropX= 0,
-    TABpropALIGN,
-    TABpropLEADER,
-    TABpropFROM_STYLE,
+typedef enum TabProperty {
+	TABpropX = 0,
+	TABpropALIGN,
+	TABpropLEADER,
+	TABpropFROM_STYLE,
 
-    TABprop_COUNT
-    } TabProperty;
+	TABprop_COUNT
+} TabProperty;
 
-# define docEqualTabStop( a, b ) ( \
-		(a)->tsTwips == (b)->tsTwips				&& \
-		(a)->tsAlignment == (b)->tsAlignment			&& \
-		(a)->tsLeader == (b)->tsLeader				&& \
-		(a)->tsFromStyleOrList == (b)->tsFromStyleOrList	)
-
+#define docEqualTabStop(a, b)                    \
+	((a)->tsTwips == (b)->tsTwips &&         \
+	 (a)->tsAlignment == (b)->tsAlignment && \
+	 (a)->tsLeader == (b)->tsLeader &&       \
+	 (a)->tsFromStyleOrList == (b)->tsFromStyleOrList)
 
 /************************************************************************/
 /*									*/
@@ -79,16 +74,13 @@ typedef enum TabProperty
 /*									*/
 /************************************************************************/
 
-extern void docInitTabStop(	TabStop *		ts );
+extern void docInitTabStop(TabStop *ts);
 
-extern int docTabStopGetProperty(	const TabStop *		ts,
-					int			prop );
+extern int docTabStopGetProperty(const TabStop *ts, int prop);
 
-extern int docTabStopSetProperty(	TabStop *		ts,
-					int			prop,
-					int			val );
+extern int docTabStopSetProperty(TabStop *ts, int prop, int val);
 
-extern const char * docTabAlignmentStr(	int	alignment );
-extern const char * docTabLeaderStr(	int	leader );
+extern const char *docTabAlignmentStr(int alignment);
+extern const char *docTabLeaderStr(int leader);
 
-#   endif	/*  DOC_TAB_STOP_H	*/
+#endif /*  DOC_TAB_STOP_H	*/

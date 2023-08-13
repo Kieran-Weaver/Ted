@@ -4,10 +4,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	UTIL_TEXT_ATTRIBUTE_UTIL_H
-#   define	UTIL_TEXT_ATTRIBUTE_UTIL_H
+#ifndef UTIL_TEXT_ATTRIBUTE_UTIL_H
+#define UTIL_TEXT_ATTRIBUTE_UTIL_H
 
-#   include	"textAttribute.h"
+#include "textAttribute.h"
 
 /************************************************************************/
 /*									*/
@@ -15,7 +15,6 @@
 /*									*/
 /************************************************************************/
 
-extern int textGetPixelSize(	double				pixelsPerTwip,
-				const TextAttribute *		ta );
+extern int textGetPixelSize(double pixelsPerTwip, const TextAttribute *ta);
 
-#   endif	/*  UTIL_TEXT_ATTRIBUTE_UTIL_H	*/
+#endif /*  UTIL_TEXT_ATTRIBUTE_UTIL_H	*/

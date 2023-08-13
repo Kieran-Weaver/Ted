@@ -4,21 +4,21 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	"tedEdit.h"
-#   include	"tedDocFront.h"
-#   include	"tedSelect.h"
-#   include	"tedDocument.h"
-#   include	<docRtfTrace.h>
-#   include	<docEditImpl.h>
-#   include	<docEditCommand.h>
+#include "tedEdit.h"
+#include "tedDocFront.h"
+#include "tedSelect.h"
+#include "tedDocument.h"
+#include <docRtfTrace.h>
+#include <docEditImpl.h>
+#include <docEditCommand.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -26,62 +26,77 @@
 /*									*/
 /************************************************************************/
 
-int tedDocChangeCurrentList(	EditDocument *		ed,
-				const DocumentList *	dlNew,
-				int			traced )
-    {
-    int					rval= 0;
+int tedDocChangeCurrentList(EditDocument *ed, const DocumentList *dlNew,
+			    int traced)
+{
+	int rval = 0;
 
-    struct ListOverride *		lo;
-    DocumentList *			dl;
+	struct ListOverride *lo;
+	DocumentList *dl;
 
-    SelectionGeometry			sg;
-    SelectionDescription		sd;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    TedEditOperation			teo;
-    EditOperation *			eo= &(teo.teoEo);
+	TedEditOperation teo;
+	EditOperation *eo = &(teo.teoEo);
 
-    const int				fullWidth= 1;
+	const int fullWidth = 1;
 
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    if  ( ! sd.sdHasLists		||
-	  sd.sdListOverride < 1	)
-	{ LLDEB(sd.sdHasLists,sd.sdListOverride); return -1;	}
-
-    if  ( docGetListOfParagraph( &lo, &dl, sd.sdListOverride, eo->eoDocument ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( tedEditStartStep( &teo, EDITcmdUPD_LIST ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( teo.teoEditTrace )
-	{
-	if  ( docRtfTraceOldList( eo, dl ) )
-	    { LDEB(1); rval= -1; goto ready;	}
-	if  ( docRtfTraceNewList( eo, dlNew ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	if (!sd.sdHasLists || sd.sdListOverride < 1) {
+		LLDEB(sd.sdHasLists, sd.sdListOverride);
+		return -1;
 	}
 
-    if  ( docEditChangeList( eo, dl, lo, dlNew ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( tedEditFinishOldSelection( &teo ) )
-	{ LDEB(1);	}
-
-    if  ( teo.teoEditTrace )
-	{
-	docRtfTraceNewPosition( eo, (const SelectionScope *)0, SELposALL );
+	if (docGetListOfParagraph(&lo, &dl, sd.sdListOverride,
+				  eo->eoDocument)) {
+		LDEB(1);
+		return -1;
 	}
 
-    tedFinishEditOperation( &teo );
+	if (tedEditStartStep(&teo, EDITcmdUPD_LIST)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	if (teo.teoEditTrace) {
+		if (docRtfTraceOldList(eo, dl)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+		if (docRtfTraceNewList(eo, dlNew)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-    tedCleanEditOperation( &teo );
+	if (docEditChangeList(eo, dl, lo, dlNew)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    return rval;
-    }
+	if (tedEditFinishOldSelection(&teo)) {
+		LDEB(1);
+	}
+
+	if (teo.teoEditTrace) {
+		docRtfTraceNewPosition(eo, (const SelectionScope *)0,
+				       SELposALL);
+	}
+
+	tedFinishEditOperation(&teo);
+
+ready:
+
+	tedCleanEditOperation(&teo);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -89,67 +104,77 @@ int tedDocChangeCurrentList(	EditDocument *		ed,
 /*									*/
 /************************************************************************/
 
-int tedDocListFontToolSet(	EditDocument *			ed,
-				const PropertyMask *		taSetMask,
-				const ExpandedTextAttribute *	etaSet )
-    {
-    int				rval= 0;
+int tedDocListFontToolSet(EditDocument *ed, const PropertyMask *taSetMask,
+			  const ExpandedTextAttribute *etaSet)
+{
+	int rval = 0;
 
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
-    DocumentProperties *	dp= &(bd->bdProperties);
-    DocumentFontList *		dfl= dp->dpFontList;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
+	DocumentProperties *dp = &(bd->bdProperties);
+	DocumentFontList *dfl = dp->dpFontList;
 
-    DocumentList		dlNew;
+	DocumentList dlNew;
 
-    ListLevel *			ll;
+	ListLevel *ll;
 
-    TextAttribute		taSet;
+	TextAttribute taSet;
 
-    DocumentSelection		ds;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	DocumentSelection ds;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    docInitDocumentList( &dlNew );
+	docInitDocumentList(&dlNew);
 
-    if  ( tedGetSelection( &ds, &sg, &sd,
-			    (DocumentTree **)0, (struct BufferItem **)0, ed ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (tedGetSelection(&ds, &sg, &sd, (DocumentTree **)0,
+			    (struct BufferItem **)0, ed)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( ! sd.sdHasLists	||
-	  sd.sdListOverride < 1	||
-	  sd.sdMultiList	||
-	  sd.sdMultiLevel	)
-	{ LLDEB(sd.sdHasLists,sd.sdListOverride); goto ready; }
+	if (!sd.sdHasLists || sd.sdListOverride < 1 || sd.sdMultiList ||
+	    sd.sdMultiLevel) {
+		LLDEB(sd.sdHasLists, sd.sdListOverride);
+		goto ready;
+	}
 
-    {
-    struct ListOverride *	lo;
-    DocumentList *		dlOld= (DocumentList *)0;
+	{
+		struct ListOverride *lo;
+		DocumentList *dlOld = (DocumentList *)0;
 
-    if  ( docGetListOfParagraph( &lo, &dlOld, sd.sdListOverride, bd ) )
-	{ LDEB(1); goto ready;	}
+		if (docGetListOfParagraph(&lo, &dlOld, sd.sdListOverride, bd)) {
+			LDEB(1);
+			goto ready;
+		}
 
-    if  ( docCopyDocumentListSameDocument( &dlNew, dlOld ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-    }
+		if (docCopyDocumentListSameDocument(&dlNew, dlOld)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-    utilInitTextAttribute( &taSet );
+	utilInitTextAttribute(&taSet);
 
-    docIndirectTextAttribute( (PropertyMask *)0, &taSet, etaSet, taSetMask,
-						dfl, dp->dpColorPalette );
+	docIndirectTextAttribute((PropertyMask *)0, &taSet, etaSet, taSetMask,
+				 dfl, dp->dpColorPalette);
 
-    ll= &(dlNew.dlLevels[sd.sdListLevel]);
-    docListLevelApplyTextAttribute( ll, taSetMask, &taSet );
+	ll = &(dlNew.dlLevels[sd.sdListLevel]);
+	docListLevelApplyTextAttribute(ll, taSetMask, &taSet);
 
-    if  ( tedDocChangeCurrentList( ed, &dlNew, td->tdTraced ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (tedDocChangeCurrentList(ed, &dlNew, td->tdTraced)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+ready:
 
-    docCleanDocumentList( &dlNew );
+	docCleanDocumentList(&dlNew);
 
-    return rval;
-    }
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -157,119 +182,135 @@ int tedDocListFontToolSet(	EditDocument *			ed,
 /*									*/
 /************************************************************************/
 
-int tedDocSetNewList(		EditDocument *		ed,
-				int			traced )
-    {
-    int				rval= 0;
-    PropertyMask		ppSetMask;
-    PropertyMask		ppOldMask;
-    ParagraphProperties		ppSet;
-    int				ls;
-    int				lsExample= -1;
+int tedDocSetNewList(EditDocument *ed, int traced)
+{
+	int rval = 0;
+	PropertyMask ppSetMask;
+	PropertyMask ppOldMask;
+	ParagraphProperties ppSet;
+	int ls;
+	int lsExample = -1;
 
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
-    const DocumentList *	dl= (const DocumentList *)0;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
+	const DocumentList *dl = (const DocumentList *)0;
 
-    PropertyMask		taSetMask;
-    TextAttribute		taNew;
+	PropertyMask taSetMask;
+	TextAttribute taNew;
 
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
-    DocumentSelection		ds;
+	SelectionGeometry sg;
+	SelectionDescription sd;
+	DocumentSelection ds;
 
-    TedEditOperation		teo;
-    EditOperation *		eo= &(teo.teoEo);
-    const int			fullWidth= 1;
+	TedEditOperation teo;
+	EditOperation *eo = &(teo.teoEo);
+	const int fullWidth = 1;
 
-    DocumentSelection		dsTraced;
+	DocumentSelection dsTraced;
 
-    utilPropMaskClear( &taSetMask );
-    utilInitTextAttribute( &taNew );
+	utilPropMaskClear(&taSetMask);
+	utilInitTextAttribute(&taNew);
 
-    utilPropMaskClear( &ppSetMask );
-    utilPropMaskClear( &ppOldMask );
-    docInitParagraphProperties( &ppSet );
+	utilPropMaskClear(&ppSetMask);
+	utilPropMaskClear(&ppOldMask);
+	docInitParagraphProperties(&ppSet);
 
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    docEditOperationGetSelection( &ds, eo );
+	docEditOperationGetSelection(&ds, eo);
 
-    ls= docNewList( &dl, (const struct ListOverride **)0, lsExample, bd,
-							&taSetMask, &taNew );
-    if  ( ls < 0 )
-	{ LDEB(ls); rval= -1; goto ready;	}
-
-    ppSet.ppListOverride= ls;
-
-    PROPmaskADD( &ppSetMask, PPpropLISTOVERRIDE );
-    ppOldMask= ppSetMask;
-    PROPmaskADD( &ppOldMask, PPpropFIRST_INDENT );
-    PROPmaskADD( &ppOldMask, PPpropLEFT_INDENT );
-
-    if  ( tedEditStartStep( &teo, EDITcmdSET_NEW_LIST ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( teo.teoEditTrace )
-	{
-	if  ( docRtfTraceOldProperties( &dsTraced, eo, DOClevPARA,
-		    (const PropertyMask *)0, &ppOldMask,
-		    (const PropertyMask *)0, (const PropertyMask *)0,
-		    (const PropertyMask *)0, (const PropertyMask *)0 ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	ls = docNewList(&dl, (const struct ListOverride **)0, lsExample, bd,
+			&taSetMask, &taNew);
+	if (ls < 0) {
+		LDEB(ls);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( sd.sdHasLists		&&
-	  ! sd.sdMultiList	&&
-	  sd.sdListOverride > 0	)
-	{ lsExample= sd.sdListOverride;	}
+	ppSet.ppListOverride = ls;
 
-    utilPropMaskFill( &taSetMask, TAprop_COUNT );
-    taNew= td->tdSelectionDescription.sdTextAttribute;
+	PROPmaskADD(&ppSetMask, PPpropLISTOVERRIDE);
+	ppOldMask = ppSetMask;
+	PROPmaskADD(&ppOldMask, PPpropFIRST_INDENT);
+	PROPmaskADD(&ppOldMask, PPpropLEFT_INDENT);
 
-    PROPmaskUNSET( &taSetMask, TApropSUPERSUB );
-    PROPmaskUNSET( &taSetMask, TApropSMALLCAPS );
-    PROPmaskUNSET( &taSetMask, TApropCAPITALS );
-    PROPmaskUNSET( &taSetMask, TApropSTRIKETHROUGH );
-    PROPmaskUNSET( &taSetMask, TApropTEXT_COLOR );
-    PROPmaskUNSET( &taSetMask, TApropTEXT_STYLE );
+	if (tedEditStartStep(&teo, EDITcmdSET_NEW_LIST)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( teo.teoEditTrace )
-	{
-	if  ( docRtfTraceNewProperties( eo,
-		    (const PropertyMask *)0, (const TextAttribute *)0,
-		    &ppOldMask, &ppSet,
+	if (teo.teoEditTrace) {
+		if (docRtfTraceOldProperties(
+			    &dsTraced, eo, DOClevPARA, (const PropertyMask *)0,
+			    &ppOldMask, (const PropertyMask *)0,
+			    (const PropertyMask *)0, (const PropertyMask *)0,
+			    (const PropertyMask *)0)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
+
+	if (sd.sdHasLists && !sd.sdMultiList && sd.sdListOverride > 0) {
+		lsExample = sd.sdListOverride;
+	}
+
+	utilPropMaskFill(&taSetMask, TAprop_COUNT);
+	taNew = td->tdSelectionDescription.sdTextAttribute;
+
+	PROPmaskUNSET(&taSetMask, TApropSUPERSUB);
+	PROPmaskUNSET(&taSetMask, TApropSMALLCAPS);
+	PROPmaskUNSET(&taSetMask, TApropCAPITALS);
+	PROPmaskUNSET(&taSetMask, TApropSTRIKETHROUGH);
+	PROPmaskUNSET(&taSetMask, TApropTEXT_COLOR);
+	PROPmaskUNSET(&taSetMask, TApropTEXT_STYLE);
+
+	if (teo.teoEditTrace) {
+		if (docRtfTraceNewProperties(
+			    eo, (const PropertyMask *)0,
+			    (const TextAttribute *)0, &ppOldMask, &ppSet,
+			    (const PropertyMask *)0, (const CellProperties *)0,
+			    (const PropertyMask *)0, (const RowProperties *)0,
+			    (const PropertyMask *)0,
+			    (const SectionProperties *)0,
+			    (const PropertyMask *)0,
+			    (const DocumentProperties *)0)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
+
+	if (tedEditChangeSelectionPropertiesImpl(
+		    &teo, &ds, (const PropertyMask *)0,
+		    (const TextAttribute *)0, &ppSetMask, &ppSet,
 		    (const PropertyMask *)0, (const CellProperties *)0,
 		    (const PropertyMask *)0, (const RowProperties *)0,
 		    (const PropertyMask *)0, (const SectionProperties *)0,
-		    (const PropertyMask *)0, (const DocumentProperties *)0 ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+		    (const PropertyMask *)0, (const DocumentProperties *)0)) {
+		LDEB(ls);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( tedEditChangeSelectionPropertiesImpl( &teo, &ds,
-		    (const PropertyMask *)0, (const TextAttribute *)0,
-		    &ppSetMask, &ppSet,
-		    (const PropertyMask *)0, (const CellProperties *)0,
-		    (const PropertyMask *)0, (const RowProperties *)0,
-		    (const PropertyMask *)0, (const SectionProperties *)0,
-		    (const PropertyMask *)0, (const DocumentProperties *)0 ) )
-	{ LDEB(ls); rval= -1; goto ready;	}
-
-    if  ( tedEditFinishOldSelection( &teo ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( teo.teoEditTrace )
-	{
-	docRtfTraceNewPosition( eo, (const SelectionScope *)0, SELposALL );
+	if (tedEditFinishOldSelection(&teo)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    tedFinishEditOperation( &teo );
+	if (teo.teoEditTrace) {
+		docRtfTraceNewPosition(eo, (const SelectionScope *)0,
+				       SELposALL);
+	}
 
-  ready:
+	tedFinishEditOperation(&teo);
 
-    docCleanParagraphProperties( &ppSet );
-    tedCleanEditOperation( &teo );
+ready:
 
-    return rval;
-    }
+	docCleanParagraphProperties(&ppSet);
+	tedCleanEditOperation(&teo);
 
+	return rval;
+}

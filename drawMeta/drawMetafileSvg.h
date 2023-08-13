@@ -4,14 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   include	<svgWriter.h>
-#   include	"drawMetafile.h"
+#include <svgWriter.h>
+#include "drawMetafile.h"
 
-#   ifndef		DRAW_METAFILE_SVG_H
-#   define		DRAW_METAFILE_SVG_H
+#ifndef DRAW_METAFILE_SVG_H
+#define DRAW_METAFILE_SVG_H
 
-typedef int (*MetafileWriteSvg)( SvgWriter *			sw,
-				const MetafilePlayer *		player );
+typedef int (*MetafileWriteSvg)(SvgWriter *sw, const MetafilePlayer *player);
 
 /************************************************************************/
 /*									*/
@@ -19,13 +18,10 @@ typedef int (*MetafileWriteSvg)( SvgWriter *			sw,
 /*									*/
 /************************************************************************/
 
-extern int appMetaPlayWmfSvg(	SvgWriter *			sw,
-				const MetafilePlayer *		player );
+extern int appMetaPlayWmfSvg(SvgWriter *sw, const MetafilePlayer *player);
 
-extern int appMacPictPlayFileSvg( SvgWriter *			sw,
-				const MetafilePlayer *		player );
+extern int appMacPictPlayFileSvg(SvgWriter *sw, const MetafilePlayer *player);
 
-extern int appMetaPlayEmfSvg(	SvgWriter *			sw,
-				const MetafilePlayer *		player );
+extern int appMetaPlayEmfSvg(SvgWriter *sw, const MetafilePlayer *player);
 
-#   endif	/*	DRAW_METAFILE_SVG_H	*/
+#endif /*	DRAW_METAFILE_SVG_H	*/

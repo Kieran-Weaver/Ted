@@ -4,17 +4,17 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
+#include <stddef.h>
 
-#   include	"docLayout.h"
-#   include	<docDebug.h>
-#   include	<docTreeType.h>
-#   include	<docTreeNode.h>
-#   include	<docNodeTree.h>
+#include "docLayout.h"
+#include <docDebug.h>
+#include <docTreeType.h>
+#include <docTreeNode.h>
+#include <docNodeTree.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -24,70 +24,70 @@
 /*									*/
 /************************************************************************/
 
-static int docLayoutParaNode(	LayoutPosition *	lpBelow,
-				const LayoutPosition *	lpTop,
-				BufferItem *		paraBi,
-				BlockFrame *		bf,
-				LayoutJob *		lj )
-    {
-    int				rval= 0;
-    ParagraphLayoutJob		plj;
-    const int			line= 0;
-    const int			part= 0;
+static int docLayoutParaNode(LayoutPosition *lpBelow,
+			     const LayoutPosition *lpTop, BufferItem *paraBi,
+			     BlockFrame *bf, LayoutJob *lj)
+{
+	int rval = 0;
+	ParagraphLayoutJob plj;
+	const int line = 0;
+	const int part = 0;
 
-    docInitParagraphLayoutJob( &plj );
+	docInitParagraphLayoutJob(&plj);
 
-    docBeginParagraphLayoutProgress( &plj,
-			paraBi->biNumberInParent, line, part,
-			paraBi->biNumberInParent+ 1,
-			lpTop );
+	docBeginParagraphLayoutProgress(&plj, paraBi->biNumberInParent, line,
+					part, paraBi->biNumberInParent + 1,
+					lpTop);
 
-    if  ( docLayoutStackedStrip( paraBi->biParent, bf, lj, &plj ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( paraBi->biParaLineCount < 1 )
-	{
-	LDEB(paraBi->biParaLineCount); docListNode(0,paraBi,0);
-	rval= -1; goto ready;
+	if (docLayoutStackedStrip(paraBi->biParent, bf, lj, &plj)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    *lpBelow= plj.pljPos.plpPos;
+	if (paraBi->biParaLineCount < 1) {
+		LDEB(paraBi->biParaLineCount);
+		docListNode(0, paraBi, 0);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	*lpBelow = plj.pljPos.plpPos;
 
-    docCleanParagraphLayoutJob( &plj );
+ready:
 
-    return rval;
-    }
+	docCleanParagraphLayoutJob(&plj);
 
-int docLayoutCellNode(	LayoutPosition *	lpBelow,
-			const LayoutPosition *	lpTop,
-			BufferItem *		cellNode,
-			int			from,
-			BlockFrame *		bf,
-			LayoutJob *		lj )
-    {
-    int				rval= 0;
-    ParagraphLayoutJob		plj;
-    const int			line= 0;
-    const int			part= 0;
+	return rval;
+}
 
-    docInitParagraphLayoutJob( &plj );
+int docLayoutCellNode(LayoutPosition *lpBelow, const LayoutPosition *lpTop,
+		      BufferItem *cellNode, int from, BlockFrame *bf,
+		      LayoutJob *lj)
+{
+	int rval = 0;
+	ParagraphLayoutJob plj;
+	const int line = 0;
+	const int part = 0;
 
-    docBeginParagraphLayoutProgress( &plj,
-				from, line, part, cellNode->biChildCount,
-				lpTop );
+	docInitParagraphLayoutJob(&plj);
 
-    if  ( docLayoutStackedStrip( cellNode, bf, lj, &plj ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	docBeginParagraphLayoutProgress(&plj, from, line, part,
+					cellNode->biChildCount, lpTop);
 
-    *lpBelow= plj.pljPos.plpPos;
+	if (docLayoutStackedStrip(cellNode, bf, lj, &plj)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
-    docCleanParagraphLayoutJob( &plj );
+	*lpBelow = plj.pljPos.plpPos;
 
-    return rval;
-    }
+ready:
+	docCleanParagraphLayoutJob(&plj);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -96,29 +96,29 @@ int docLayoutCellNode(	LayoutPosition *	lpBelow,
 /*									*/
 /************************************************************************/
 
-static void docItemLayoutStartPosition(	LayoutPosition *	lp,
-					const BufferItem *	node )
-    {
-    if  ( node->biNumberInParent == 0 )
-	{
-	if  ( node->biParent )
-	    { *lp= node->biParent->biTopPosition;	}
-	else{
-	    if  ( node->biTreeType == DOCinBODY )
-		{ docInitLayoutPosition( lp );		}
-	    else{ *lp= node->biTopPosition;		}
-	    }
+static void docItemLayoutStartPosition(LayoutPosition *lp,
+				       const BufferItem *node)
+{
+	if (node->biNumberInParent == 0) {
+		if (node->biParent) {
+			*lp = node->biParent->biTopPosition;
+		} else {
+			if (node->biTreeType == DOCinBODY) {
+				docInitLayoutPosition(lp);
+			} else {
+				*lp = node->biTopPosition;
+			}
+		}
+	} else {
+		const BufferItem *prevBi;
+
+		prevBi = node->biParent->biChildren[node->biNumberInParent - 1];
+
+		*lp = prevBi->biBelowPosition;
 	}
-    else{
-	const BufferItem *	prevBi;
 
-	prevBi= node->biParent->biChildren[node->biNumberInParent- 1];
-
-	*lp= prevBi->biBelowPosition;
-	}
-
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -126,59 +126,77 @@ static void docItemLayoutStartPosition(	LayoutPosition *	lp,
 /*									*/
 /************************************************************************/
 
-static int docLayoutBodyNode(		LayoutPosition *	lpBelow,
-					const LayoutPosition *	lpTop,
-					BufferItem *		docNode,
-					BlockFrame *		bf,
-					LayoutJob *		lj )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    BufferDocument *		bd= lc->lcDocument;
-    const DocumentProperties *	dp= &(bd->bdProperties);
-    const NotesProperties *	npEndnotes= &(dp->dpNotesProps.fepEndnotesProps);
+static int docLayoutBodyNode(LayoutPosition *lpBelow,
+			     const LayoutPosition *lpTop, BufferItem *docNode,
+			     BlockFrame *bf, LayoutJob *lj)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	BufferDocument *bd = lc->lcDocument;
+	const DocumentProperties *dp = &(bd->bdProperties);
+	const NotesProperties *npEndnotes =
+		&(dp->dpNotesProps.fepEndnotesProps);
 
-    LayoutPosition		lpHere= *lpTop;
+	LayoutPosition lpHere = *lpTop;
 
-    int				i;
+	int i;
 
-    if  ( docNode->biChildCount > 0 )
-	{
-	lj->ljBodySectNode= docNode->biChildren[0];
+	if (docNode->biChildCount > 0) {
+		lj->ljBodySectNode = docNode->biChildren[0];
 
-	if  ( docTreePrelayout( &(bd->bdEiFtnsep), lj->ljBodySectNode, lj ) )
-	    { LDEB(1); return -1;	}
-	if  ( docTreePrelayout( &(bd->bdEiFtnsepc), lj->ljBodySectNode, lj ) )
-	    { LDEB(1); return -1;	}
-	if  ( docTreePrelayout( &(bd->bdEiFtncn), lj->ljBodySectNode, lj ) )
-	    { LDEB(1); return -1;	}
+		if (docTreePrelayout(&(bd->bdEiFtnsep), lj->ljBodySectNode,
+				     lj)) {
+			LDEB(1);
+			return -1;
+		}
+		if (docTreePrelayout(&(bd->bdEiFtnsepc), lj->ljBodySectNode,
+				     lj)) {
+			LDEB(1);
+			return -1;
+		}
+		if (docTreePrelayout(&(bd->bdEiFtncn), lj->ljBodySectNode,
+				     lj)) {
+			LDEB(1);
+			return -1;
+		}
 
-	if  ( docTreePrelayout( &(bd->bdEiAftnsep), lj->ljBodySectNode, lj ) )
-	    { LDEB(1); return -1;	}
-	if  ( docTreePrelayout( &(bd->bdEiAftnsepc), lj->ljBodySectNode, lj ) )
-	    { LDEB(1); return -1;	}
-	if  ( docTreePrelayout( &(bd->bdEiAftncn), lj->ljBodySectNode, lj ) )
-	    { LDEB(1); return -1;	}
+		if (docTreePrelayout(&(bd->bdEiAftnsep), lj->ljBodySectNode,
+				     lj)) {
+			LDEB(1);
+			return -1;
+		}
+		if (docTreePrelayout(&(bd->bdEiAftnsepc), lj->ljBodySectNode,
+				     lj)) {
+			LDEB(1);
+			return -1;
+		}
+		if (docTreePrelayout(&(bd->bdEiAftncn), lj->ljBodySectNode,
+				     lj)) {
+			LDEB(1);
+			return -1;
+		}
 	}
 
-    for ( i= 0; i < docNode->biChildCount; i++ )
-	{
-	lj->ljBodySectNode= docNode->biChildren[i];
+	for (i = 0; i < docNode->biChildCount; i++) {
+		lj->ljBodySectNode = docNode->biChildren[i];
 
-	if  ( docLayoutNodeImplementation( &lpHere, &lpHere,
-					    docNode->biChildren[i], bf, lj ) )
-	    { LDEB(1); return -1;	}
+		if (docLayoutNodeImplementation(
+			    &lpHere, &lpHere, docNode->biChildren[i], bf, lj)) {
+			LDEB(1);
+			return -1;
+		}
 	}
 
-    if  ( docNode->biTreeType == DOCinBODY		&&
-	  npEndnotes->npPlacement == FTNplaceDOC_END	)
-	{
-	if  ( docLayoutEndnotesForDocument( &lpHere, &lpHere, bf, lj ) )
-	    { LDEB(1); return -1;	}
+	if (docNode->biTreeType == DOCinBODY &&
+	    npEndnotes->npPlacement == FTNplaceDOC_END) {
+		if (docLayoutEndnotesForDocument(&lpHere, &lpHere, bf, lj)) {
+			LDEB(1);
+			return -1;
+		}
 	}
 
-    *lpBelow= lpHere;
-    return 0;
-    }
+	*lpBelow = lpHere;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -191,93 +209,105 @@ static int docLayoutBodyNode(		LayoutPosition *	lpBelow,
 /*									*/
 /************************************************************************/
 
-int docLayoutNodeImplementation(	LayoutPosition *	lpBelow,
-					const LayoutPosition *	lpTop,
-					BufferItem *		node,
-					BlockFrame *		bf,
-					LayoutJob *		lj )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    int				i;
+int docLayoutNodeImplementation(LayoutPosition *lpBelow,
+				const LayoutPosition *lpTop, BufferItem *node,
+				BlockFrame *bf, LayoutJob *lj)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	int i;
 
-    LayoutPosition		lpHere= *lpTop;
+	LayoutPosition lpHere = *lpTop;
 
-    /*  1  */
-    if  ( lj->ljBalancePage >= 0				&&
-	  node->biBelowPosition.lpPage < lj->ljBalancePage	)
-	{ *lpBelow= node->biBelowPosition; return 0;	}
-
-    docLayoutStartNodeLayout( node, lj, &lpHere );
-
-    switch( node->biLevel )
-	{
-	case DOClevBODY:
-
-	    if  ( docLayoutBodyNode( &lpHere, &lpHere, node, bf, lj ) )
-		{ LDEB(1); return -1;	}
-	    break;
-
-	rowAsGroup:
-	sectAsGroup:
-	    for ( i= 0; i < node->biChildCount; i++ )
-		{
-		if  ( docLayoutNodeImplementation( &lpHere, &lpHere,
-						node->biChildren[i], bf, lj ) )
-		    { LDEB(1); return -1;	}
-		}
-	    if  ( node->biChildCount > 0 )
-		{ node->biTopPosition= node->biChildren[0]->biTopPosition; }
-	    break;
-
-	case DOClevCELL:
-	    if  ( docLayoutCellNode( &lpHere, &lpHere, node, 0, bf, lj ) )
-		{ LDEB(1); return -1;	}
-	    break;
-
-	case DOClevSECT:
-	    if  ( ! node->biParent )
-		{ goto sectAsGroup;	}
-
-	    if  ( docLayoutSectNode( &lpHere, &lpHere, node, bf, lj ) )
-		{ LDEB(1); return -1;	}
-	    break;
-
-	case DOClevROW:
-	    {
-	    int		stopCode= FORMATstopREADY;
-	    int		stayInThisColumn= 0;
-
-	    if  ( ! docIsRowNode( node ) )
-		{
-		if  ( node->biNumberInParent > 0 )
-		    {
-		    docLayoutCalculateAfterRowTopInset( node, lc->lcDocument );
-		    }
-
-		goto rowAsGroup;
-		}
-
-	    if  ( docLayoutRowNode( &stopCode, &lpHere, &lpHere,
-					    node, bf, stayInThisColumn, lj ) )
-		{ LDEB(1); return -1;	}
-	    }
-	    break;
-
-	case DOClevPARA:
-	    if  ( docLayoutParaNode( &lpHere, &lpHere, node, bf, lj ) )
-		{ LDEB(1); return -1;	}
-
-	    break;
-
-	default:
-	    LDEB(node->biLevel); return -1;
+	/*  1  */
+	if (lj->ljBalancePage >= 0 &&
+	    node->biBelowPosition.lpPage < lj->ljBalancePage) {
+		*lpBelow = node->biBelowPosition;
+		return 0;
 	}
 
-    docLayoutFinishNodeLayout( (int *)0, node, lj, &lpHere );
+	docLayoutStartNodeLayout(node, lj, &lpHere);
 
-    *lpBelow= lpHere;
-    return 0;
-    }
+	switch (node->biLevel) {
+	case DOClevBODY:
+
+		if (docLayoutBodyNode(&lpHere, &lpHere, node, bf, lj)) {
+			LDEB(1);
+			return -1;
+		}
+		break;
+
+rowAsGroup:
+sectAsGroup:
+		for (i = 0; i < node->biChildCount; i++) {
+			if (docLayoutNodeImplementation(&lpHere, &lpHere,
+							node->biChildren[i], bf,
+							lj)) {
+				LDEB(1);
+				return -1;
+			}
+		}
+		if (node->biChildCount > 0) {
+			node->biTopPosition =
+				node->biChildren[0]->biTopPosition;
+		}
+		break;
+
+	case DOClevCELL:
+		if (docLayoutCellNode(&lpHere, &lpHere, node, 0, bf, lj)) {
+			LDEB(1);
+			return -1;
+		}
+		break;
+
+	case DOClevSECT:
+		if (!node->biParent) {
+			goto sectAsGroup;
+		}
+
+		if (docLayoutSectNode(&lpHere, &lpHere, node, bf, lj)) {
+			LDEB(1);
+			return -1;
+		}
+		break;
+
+	case DOClevROW: {
+		int stopCode = FORMATstopREADY;
+		int stayInThisColumn = 0;
+
+		if (!docIsRowNode(node)) {
+			if (node->biNumberInParent > 0) {
+				docLayoutCalculateAfterRowTopInset(
+					node, lc->lcDocument);
+			}
+
+			goto rowAsGroup;
+		}
+
+		if (docLayoutRowNode(&stopCode, &lpHere, &lpHere, node, bf,
+				     stayInThisColumn, lj)) {
+			LDEB(1);
+			return -1;
+		}
+	} break;
+
+	case DOClevPARA:
+		if (docLayoutParaNode(&lpHere, &lpHere, node, bf, lj)) {
+			LDEB(1);
+			return -1;
+		}
+
+		break;
+
+	default:
+		LDEB(node->biLevel);
+		return -1;
+	}
+
+	docLayoutFinishNodeLayout((int *)0, node, lj, &lpHere);
+
+	*lpBelow = lpHere;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -296,57 +326,66 @@ int docLayoutNodeImplementation(	LayoutPosition *	lpBelow,
 /*									*/
 /************************************************************************/
 
-int docLayoutNodeAndParents(	BufferItem *		node,
-				LayoutJob *		lj )
-    {
-    int				rval= 0;
-    BlockFrame			bf;
-    LayoutPosition		lpHere;
-    const LayoutContext *	lc= &(lj->ljContext);
-    const BufferItem *		bodyNode= lc->lcDocument->bdBody.dtRoot;
-    const BufferItem *		sectNode= docGetSectNode( node );
+int docLayoutNodeAndParents(BufferItem *node, LayoutJob *lj)
+{
+	int rval = 0;
+	BlockFrame bf;
+	LayoutPosition lpHere;
+	const LayoutContext *lc = &(lj->ljContext);
+	const BufferItem *bodyNode = lc->lcDocument->bdBody.dtRoot;
+	const BufferItem *sectNode = docGetSectNode(node);
 
-    docLayoutInitBlockFrame( &bf );
+	docLayoutInitBlockFrame(&bf);
 
-    docItemLayoutStartPosition( &lpHere, node );
+	docItemLayoutStartPosition(&lpHere, node);
 
-    if  ( node->biTreeType == DOCinBODY )
-	{
-	if  ( ! sectNode )
-	    { sectNode= bodyNode->biChildren[0];		}
+	if (node->biTreeType == DOCinBODY) {
+		if (!sectNode) {
+			sectNode = bodyNode->biChildren[0];
+		}
 
-	lj->ljBodySectNode= sectNode;
+		lj->ljBodySectNode = sectNode;
+	} else {
+		const BufferItem *bodySectNode;
+
+		if (!sectNode) {
+			XDEB(sectNode);
+			bodySectNode = bodyNode->biChildren[0];
+		} else {
+			const SelectionScope *ss =
+				&(sectNode->biSectSelectionScope);
+
+			bodySectNode = bodyNode->biChildren[ss->ssOwnerSectNr];
+		}
+
+		lj->ljBodySectNode = bodySectNode;
 	}
-    else{
-	const BufferItem *		bodySectNode;
 
-	if  ( ! sectNode )
-	    { XDEB(sectNode); bodySectNode= bodyNode->biChildren[0];	}
-	else{
-	    const SelectionScope *	ss= &(sectNode->biSectSelectionScope);
-
-	    bodySectNode= bodyNode->biChildren[ss->ssOwnerSectNr];
-	    }
-
-	lj->ljBodySectNode= bodySectNode;
+	/*  1  */
+	if (node->biLevel != DOClevBODY &&
+	    docLayoutGetInitialFrame(&bf, lj, &lpHere, node)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    /*  1  */
-    if  ( node->biLevel != DOClevBODY				&&
-	  docLayoutGetInitialFrame( &bf, lj, &lpHere, node )	)
-	{ LDEB(1); rval= -1; goto ready;	}
+	/*  4  */
+	if (docLayoutNodeImplementation(&lpHere, &lpHere, node, &bf, lj)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    /*  4  */
-    if  ( docLayoutNodeImplementation( &lpHere, &lpHere, node, &bf, lj ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	/*  5  */
+	if (docAdjustParentLayout(&lpHere, node, &bf, lj)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    /*  5  */
-    if  ( docAdjustParentLayout( &lpHere, node, &bf, lj ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+ready:
 
-  ready:
+	docLayoutCleanBlockFrame(&bf);
 
-    docLayoutCleanBlockFrame( &bf );
-
-    return rval;
-    }
+	return rval;
+}

@@ -4,38 +4,34 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
+#include <stddef.h>
 
-#   include	<docBuf.h>
-#   include	"docLayout.h"
-#   include	<docPageGrid.h>
-#   include	<docTreeType.h>
-#   include	<docTreeNode.h>
-#   include	<docNodeTree.h>
+#include <docBuf.h>
+#include "docLayout.h"
+#include <docPageGrid.h>
+#include <docTreeType.h>
+#include <docTreeNode.h>
+#include <docNodeTree.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-void docLayoutBlockFrame(	BlockFrame *			bf,
-				BufferItem *			node,
-				const LayoutJob *		lj,
-				int				page,
-				int				column )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    BufferDocument *		bd= lc->lcDocument;
+void docLayoutBlockFrame(BlockFrame *bf, BufferItem *node, const LayoutJob *lj,
+			 int page, int column)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	BufferDocument *bd = lc->lcDocument;
 
-    docBlockFrameTwips( bf, node, bd, page, column );
+	docBlockFrameTwips(bf, node, bd, page, column);
 
-    if  ( page == lj->ljBalancePage )
-	{
-	bf->bfContentRect.drY1= lj->ljBalanceY1;
-	bf->bfFlowRect.drY1= lj->ljBalanceY1;
+	if (page == lj->ljBalancePage) {
+		bf->bfContentRect.drY1 = lj->ljBalanceY1;
+		bf->bfFlowRect.drY1 = lj->ljBalanceY1;
 	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -46,36 +42,34 @@ void docLayoutBlockFrame(	BlockFrame *			bf,
 /*									*/
 /************************************************************************/
 
-void docLayoutColumnTop(	LayoutPosition *	lpTop,
-				BlockFrame *		bf,
-				BufferItem *		bodySectNode,
-				const LayoutJob *	lj )
-    {
-    if  ( bodySectNode->biTreeType != DOCinBODY )
-	{ SDEB(docTreeTypeStr(bodySectNode->biTreeType));	}
+void docLayoutColumnTop(LayoutPosition *lpTop, BlockFrame *bf,
+			BufferItem *bodySectNode, const LayoutJob *lj)
+{
+	if (bodySectNode->biTreeType != DOCinBODY) {
+		SDEB(docTreeTypeStr(bodySectNode->biTreeType));
+	}
 
-    /* Can actually happen while formatting endnotes
+	/* Can actually happen while formatting endnotes
     if  ( lj->ljBodySectNode != bodySectNode )
 	{ XXDEB(lj->ljBodySectNode,bodySectNode);	}
     */
 
-    docLayoutBlockFrame( bf, bodySectNode, lj, lpTop->lpPage, lpTop->lpColumn );
+	docLayoutBlockFrame(bf, bodySectNode, lj, lpTop->lpPage,
+			    lpTop->lpColumn);
 
-    lpTop->lpPageYTwips= bf->bfContentRect.drY0;
-    lpTop->lpAtTopOfColumn= 1;
+	lpTop->lpPageYTwips = bf->bfContentRect.drY0;
+	lpTop->lpAtTopOfColumn = 1;
 
-    /*  1  */
-    if  ( DOC_SECTnodeBELOW_PREVIOUS( bodySectNode )		&&
-	  lpTop->lpPage == bodySectNode->biTopPosition.lpPage	&&
-	  bodySectNode->biSectColumnCount > 1			&&
-	  lpTop->lpColumn > 0					)
-	{
-	lpTop->lpPageYTwips= bodySectNode->biTopPosition.lpPageYTwips;
-	/* NO: we are at the top for this section lpTop->lpAtTopOfColumn= 0; */
+	/*  1  */
+	if (DOC_SECTnodeBELOW_PREVIOUS(bodySectNode) &&
+	    lpTop->lpPage == bodySectNode->biTopPosition.lpPage &&
+	    bodySectNode->biSectColumnCount > 1 && lpTop->lpColumn > 0) {
+		lpTop->lpPageYTwips = bodySectNode->biTopPosition.lpPageYTwips;
+		/* NO: we are at the top for this section lpTop->lpAtTopOfColumn= 0; */
 	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -84,61 +78,60 @@ void docLayoutColumnTop(	LayoutPosition *	lpTop,
 /*									*/
 /************************************************************************/
 
-void docLayoutToNextColumn(	LayoutPosition *	lpTop,
-				BlockFrame *		bf,
-				BufferItem *		node,
-				const LayoutJob *	lj )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    const BufferDocument *	bd= lc->lcDocument;
-    BufferItem *		bodyNode= bd->bdBody.dtRoot;
-    BufferItem *		bodySectNode;
+void docLayoutToNextColumn(LayoutPosition *lpTop, BlockFrame *bf,
+			   BufferItem *node, const LayoutJob *lj)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	const BufferDocument *bd = lc->lcDocument;
+	BufferItem *bodyNode = bd->bdBody.dtRoot;
+	BufferItem *bodySectNode;
 
-    node= docGetSectNode( node );
-    if  ( ! node )
-	{ XDEB(node); return;	}
+	node = docGetSectNode(node);
+	if (!node) {
+		XDEB(node);
+		return;
+	}
 
-    switch( node->biTreeType )
-	{
-	SelectionScope *	ss;
-	int			extTo;
+	switch (node->biTreeType) {
+		SelectionScope *ss;
+		int extTo;
 
 	case DOCinBODY:
-	    bodySectNode= node;
-	    break;
+		bodySectNode = node;
+		break;
 
 	case DOCinAFTNSEP:
-	    extTo= bodyNode->biChildCount- 1;
-	    bodySectNode= bodyNode->biChildren[extTo];
-	    break;
+		extTo = bodyNode->biChildCount - 1;
+		bodySectNode = bodyNode->biChildren[extTo];
+		break;
 
 	default:
-	    ss= &(node->biSectSelectionScope);
-	    extTo= ss->ssOwnerSectNr;
-	    if  ( extTo < 0 )
-		{
-		SLDEB(docTreeTypeStr(node->biTreeType),extTo);
-		return;
+		ss = &(node->biSectSelectionScope);
+		extTo = ss->ssOwnerSectNr;
+		if (extTo < 0) {
+			SLDEB(docTreeTypeStr(node->biTreeType), extTo);
+			return;
 		}
-	    bodySectNode= bodyNode->biChildren[extTo];
-	    break;
+		bodySectNode = bodyNode->biChildren[extTo];
+		break;
 	}
 
-    lpTop->lpColumn++;
-    if  ( lpTop->lpColumn >= bodySectNode->biSectColumnCount )
-	{ lpTop->lpPage++; lpTop->lpColumn= 0; }
-
-    if  ( lj->ljBodySectNode != bodySectNode		&&
-	  node->biTreeType != DOCinENDNOTE		)
-	{
-	XXDEB(lj->ljBodySectNode,bodySectNode);
-	SDEB(docTreeTypeStr(node->biTreeType));
+	lpTop->lpColumn++;
+	if (lpTop->lpColumn >= bodySectNode->biSectColumnCount) {
+		lpTop->lpPage++;
+		lpTop->lpColumn = 0;
 	}
 
-    docLayoutColumnTop( lpTop, bf, bodySectNode, lj );
+	if (lj->ljBodySectNode != bodySectNode &&
+	    node->biTreeType != DOCinENDNOTE) {
+		XXDEB(lj->ljBodySectNode, bodySectNode);
+		SDEB(docTreeTypeStr(node->biTreeType));
+	}
 
-    return;
-    }
+	docLayoutColumnTop(lpTop, bf, bodySectNode, lj);
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -146,64 +139,60 @@ void docLayoutToNextColumn(	LayoutPosition *	lpTop,
 /*									*/
 /************************************************************************/
 
-void docLayoutFinishFrame(	const FrameProperties *		fp,
-				BlockFrame *			bfTextFrame,
-				const BlockFrame *		bfFlow,
-				const LayoutJob *		lj,
-				const ParagraphLayoutPosition *	plpFlow,
-				BufferItem *			cellBi,
-				int				paraFrom,
-				int				paraUpto )
-    {
-    BufferItem *		paraBi0= cellBi->biChildren[paraFrom];
-    BufferItem *		paraBi1= cellBi->biChildren[paraUpto- 1];
+void docLayoutFinishFrame(const FrameProperties *fp, BlockFrame *bfTextFrame,
+			  const BlockFrame *bfFlow, const LayoutJob *lj,
+			  const ParagraphLayoutPosition *plpFlow,
+			  BufferItem *cellBi, int paraFrom, int paraUpto)
+{
+	BufferItem *paraBi0 = cellBi->biChildren[paraFrom];
+	BufferItem *paraBi1 = cellBi->biChildren[paraUpto - 1];
 
-    int				y0= bfTextFrame->bfContentRect.drY0;
-    int				y1= paraBi1->biBelowPosition.lpPageYTwips;
+	int y0 = bfTextFrame->bfContentRect.drY0;
+	int y1 = paraBi1->biBelowPosition.lpPageYTwips;
 
-    int				frameHeight;
-    BlockFrame			bfRedo;
+	int frameHeight;
+	BlockFrame bfRedo;
 
-    if  ( ! DOCisFRAME( fp ) )
-	{ LDEB(1); return;	}
+	if (!DOCisFRAME(fp)) {
+		LDEB(1);
+		return;
+	}
 
-    if  ( fp->fpHighTwips < 0 )
-	{
-	y1= y0- fp->fpHighTwips;
+	if (fp->fpHighTwips < 0) {
+		y1 = y0 - fp->fpHighTwips;
 
-	/*
+		/*
 	if  ( paraBi1->biBelowPosition.lpPageYTwips > y1 )
 	    { LLDEB(paraBi1->biBelowPosition.lpPageYTwips,y1);	}
 	*/
 	}
 
-    if  ( fp->fpHighTwips > 0 )
-	{ y1= y0+ fp->fpHighTwips;	}
-
-    if  ( paraBi1->biBelowPosition.lpPageYTwips < y1 )
-	{ paraBi1->biBelowPosition.lpPageYTwips=  y1;	}
-
-    frameHeight= y1- y0;
-    docLayoutInitBlockFrame( &bfRedo );
-    docLayoutSetTextFrame( &bfRedo, &(plpFlow->plpPos),
-						bfFlow, fp, frameHeight );
-
-    if  ( bfRedo.bfContentRect.drY0		!=
-	  bfTextFrame->bfContentRect.drY0	)
-	{
-	int		yBelow;
-	LayoutPosition	lpTop= paraBi0->biTopPosition;
-
-	lpTop.lpPageYTwips= bfRedo.bfContentRect.drY0;
-
-	yBelow= bfRedo.bfContentRect.drY0+ frameHeight;
-
-	docRedoParaStripLayout( lj, bfTextFrame, &lpTop,
-						cellBi, paraFrom, paraUpto );
-
-	paraBi1->biBelowPosition.lpPageYTwips= yBelow;
+	if (fp->fpHighTwips > 0) {
+		y1 = y0 + fp->fpHighTwips;
 	}
 
-    return;
-    }
+	if (paraBi1->biBelowPosition.lpPageYTwips < y1) {
+		paraBi1->biBelowPosition.lpPageYTwips = y1;
+	}
 
+	frameHeight = y1 - y0;
+	docLayoutInitBlockFrame(&bfRedo);
+	docLayoutSetTextFrame(&bfRedo, &(plpFlow->plpPos), bfFlow, fp,
+			      frameHeight);
+
+	if (bfRedo.bfContentRect.drY0 != bfTextFrame->bfContentRect.drY0) {
+		int yBelow;
+		LayoutPosition lpTop = paraBi0->biTopPosition;
+
+		lpTop.lpPageYTwips = bfRedo.bfContentRect.drY0;
+
+		yBelow = bfRedo.bfContentRect.drY0 + frameHeight;
+
+		docRedoParaStripLayout(lj, bfTextFrame, &lpTop, cellBi,
+				       paraFrom, paraUpto);
+
+		paraBi1->biBelowPosition.lpPageYTwips = yBelow;
+	}
+
+	return;
+}

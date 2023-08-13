@@ -4,8 +4,8 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	UTIL_X11_FONT_NAMES_H
-#   define	UTIL_X11_FONT_NAMES_H
+#ifndef UTIL_X11_FONT_NAMES_H
+#define UTIL_X11_FONT_NAMES_H
 
 /************************************************************************/
 /*									*/
@@ -13,9 +13,7 @@
 /*									*/
 /************************************************************************/
 
-extern int utilX11SplitFontsDirLine(	char *		scratch,
-					int *		pX11Start,
-					int *		pX11Length,
-					int		line );
+extern int utilX11SplitFontsDirLine(char *scratch, int *pX11Start,
+				    int *pX11Length, int line);
 
-#   endif
+#endif

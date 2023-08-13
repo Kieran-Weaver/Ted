@@ -4,17 +4,17 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<ctype.h>
+#include <ctype.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	"docTreeNode.h"
-#   include	"docFind.h"
+#include "docBuf.h"
+#include "docTreeNode.h"
+#include "docFind.h"
 
-#   include	<reg.h>
+#include <reg.h>
 
 /************************************************************************/
 /*									*/
@@ -22,29 +22,30 @@
 /*									*/
 /************************************************************************/
 
-int docFindSetPattern(		void **			pProg,
-				const char *		pattern,
-				int			useRegex )
-    {
-    regProg *			prog= (regProg *)0;
-    int				options= 0;
+int docFindSetPattern(void **pProg, const char *pattern, int useRegex)
+{
+	regProg *prog = (regProg *)0;
+	int options = 0;
 
-    if  ( ! useRegex )
-	{ options |= REGflagESCAPE_REGEX;	}
-
-    if  ( pattern )
-	{
-	prog= regCompile( pattern, options );
-	if  ( ! prog )
-	    { SXDEB((char *)pattern,prog); return -1;	}
+	if (!useRegex) {
+		options |= REGflagESCAPE_REGEX;
 	}
 
-    if  ( *pProg )
-	{ regFree( *pProg );	}
-    *pProg= (void *)prog;
+	if (pattern) {
+		prog = regCompile(pattern, options);
+		if (!prog) {
+			SXDEB((char *)pattern, prog);
+			return -1;
+		}
+	}
 
-    return 0;
-    }
+	if (*pProg) {
+		regFree(*pProg);
+	}
+	*pProg = (void *)prog;
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -52,63 +53,60 @@ int docFindSetPattern(		void **			pProg,
 /*									*/
 /************************************************************************/
 
-int docFindParaFindNext(	DocumentSelection *		ds,
-				BufferItem *			paraBi,
-				BufferDocument *		bd,
-				const DocumentPosition *	dpFrom,
-				void *				through )
-    {
-    regProg *		prog= (regProg *)through;
-    int			res;
-    const int		direction= 1;
-    ExpressionMatch	em;
+int docFindParaFindNext(DocumentSelection *ds, BufferItem *paraBi,
+			BufferDocument *bd, const DocumentPosition *dpFrom,
+			void *through)
+{
+	regProg *prog = (regProg *)through;
+	int res;
+	const int direction = 1;
+	ExpressionMatch em;
 
-    int			from;
-    int			past;
+	int from;
+	int past;
 
-    if  (  docParaStrlen( paraBi ) == 0 )
-	{ return 1;	}
+	if (docParaStrlen(paraBi) == 0) {
+		return 1;
+	}
 
-    res= regFindLeftToRight( &em, prog,
-		    (char *)docParaString( paraBi, 0 ),
-		    dpFrom->dpStroff, docParaStrlen( paraBi ) );
+	res = regFindLeftToRight(&em, prog, (char *)docParaString(paraBi, 0),
+				 dpFrom->dpStroff, docParaStrlen(paraBi));
 
-    if  ( ! res )
-	{ return 1;	}
+	if (!res) {
+		return 1;
+	}
 
-    regGetFullMatch( &from, &past, &em );
-    docSetParaSelection( ds, paraBi, direction, from, past- from );
+	regGetFullMatch(&from, &past, &em);
+	docSetParaSelection(ds, paraBi, direction, from, past - from);
 
-    return 0;
-    }
+	return 0;
+}
 
-int docFindParaFindPrev(	DocumentSelection *		ds,
-				BufferItem *			paraBi,
-				BufferDocument *		bd,
-				const DocumentPosition *	dpFrom,
-				void *				through )
-    {
-    regProg *		prog= (regProg *)through;
-    int			res;
-    const int		direction= -1;
-    ExpressionMatch	em;
+int docFindParaFindPrev(DocumentSelection *ds, BufferItem *paraBi,
+			BufferDocument *bd, const DocumentPosition *dpFrom,
+			void *through)
+{
+	regProg *prog = (regProg *)through;
+	int res;
+	const int direction = -1;
+	ExpressionMatch em;
 
-    int			from;
-    int			past;
+	int from;
+	int past;
 
-    if  (  docParaStrlen( paraBi ) == 0 )
-	{ return 1;	}
+	if (docParaStrlen(paraBi) == 0) {
+		return 1;
+	}
 
-    res= regFindRightToLeft( &em, prog,
-		    (char *)docParaString( paraBi, 0 ),
-		    dpFrom->dpStroff, docParaStrlen( paraBi ) );
+	res = regFindRightToLeft(&em, prog, (char *)docParaString(paraBi, 0),
+				 dpFrom->dpStroff, docParaStrlen(paraBi));
 
-    if  ( ! res )
-	{ return 1;	}
+	if (!res) {
+		return 1;
+	}
 
-    regGetFullMatch( &from, &past, &em );
-    docSetParaSelection( ds, paraBi, direction, from, past- from );
+	regGetFullMatch(&from, &past, &em);
+	docSetParaSelection(ds, paraBi, direction, from, past - from);
 
-    return 0;
-    }
-
+	return 0;
+}

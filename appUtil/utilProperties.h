@@ -5,12 +5,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		UTIL_PROPERTIES_H
-#   define		UTIL_PROPERTIES_H
+#ifndef UTIL_PROPERTIES_H
+#define UTIL_PROPERTIES_H
 
-#   include	"utilMemoryBuffer.h"
+#include "utilMemoryBuffer.h"
 
-extern int utilPropertiesReadFile(	void *			tree,
-					const MemoryBuffer *	filename );
+extern int utilPropertiesReadFile(void *tree, const MemoryBuffer *filename);
 
-#   endif	/*	UTIL_PROPERTIES_H	*/
+#endif /*	UTIL_PROPERTIES_H	*/

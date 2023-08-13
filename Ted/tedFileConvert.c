@@ -4,26 +4,26 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<string.h>
-#   include	<ctype.h>
-#   include	<ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <ctype.h>
 
-#   include	"tedApp.h"
+#include "tedApp.h"
 
-#   include	<psBuildConfigFiles.h>
-#   include	<sioFileio.h>
-#   include	<sioStdout.h>
-#   include	<appFindX11Fonts.h>
-#   include	<appMatchFont.h>
-#   include	<appSystem.h>
-#   include	<docFontsDocuments.h>
-#   include	"tedFileConvert.h"
+#include <psBuildConfigFiles.h>
+#include <sioFileio.h>
+#include <sioStdout.h>
+#include <appFindX11Fonts.h>
+#include <appMatchFont.h>
+#include <appSystem.h>
+#include <docFontsDocuments.h>
+#include "tedFileConvert.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -31,27 +31,26 @@
 /*									*/
 /************************************************************************/
 
-static SimpleOutputStream * tedFileConvertOpenOut(
-					    const char *	nameOut )
-    {
-    SimpleOutputStream *	sosOut= (SimpleOutputStream *)0;
+static SimpleOutputStream *tedFileConvertOpenOut(const char *nameOut)
+{
+	SimpleOutputStream *sosOut = (SimpleOutputStream *)0;
 
-    if  ( ! strcmp( nameOut, "-" ) )
-	{
-	sosOut= sioOutStdoutOpen();
-	if  ( ! sosOut )
-	    { SXDEB(nameOut,sosOut);	}
+	if (!strcmp(nameOut, "-")) {
+		sosOut = sioOutStdoutOpen();
+		if (!sosOut) {
+			SXDEB(nameOut, sosOut);
+		}
+	} else {
+		sosOut = sioOutFileioOpenS(nameOut);
+		if (!sosOut) {
+			SXDEB(nameOut, sosOut);
+		}
 	}
-    else{
-	sosOut= sioOutFileioOpenS( nameOut );
-	if  ( ! sosOut )
-	    { SXDEB(nameOut,sosOut);	}
-	}
 
-    return sosOut;
-    }
+	return sosOut;
+}
 
-# if 0
+#if 0
 
 static int tedFileConvert(
 		    EditApplication *	ea,
@@ -95,70 +94,87 @@ static int tedFileConvert(
     return rval;
     }
 
-# endif
+#endif
 
-int tedTtfToAfm(		EditApplication *	ea,
-				const char *		prog,
-				const char *		call,
-				int			argc,
-				char **			argv )
-    {
-    int				rval= 2;
-    SimpleOutputStream *	sosOut= (SimpleOutputStream *)0;
+int tedTtfToAfm(EditApplication *ea, const char *prog, const char *call,
+		int argc, char **argv)
+{
+	int rval = 2;
+	SimpleOutputStream *sosOut = (SimpleOutputStream *)0;
 
-    MemoryBuffer		psDir;
+	MemoryBuffer psDir;
 
-    utilInitMemoryBuffer( &psDir );
+	utilInitMemoryBuffer(&psDir);
 
-    if  ( argc < 2 )
-	{ SLDEB(argv[0],argc); rval= 1; goto ready;	}
+	if (argc < 2) {
+		SLDEB(argv[0], argc);
+		rval = 1;
+		goto ready;
+	}
 
-    if  ( utilMemoryBufferSetString( &psDir, PSSCRIPT_DIR ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (utilMemoryBufferSetString(&psDir, PSSCRIPT_DIR)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    sosOut= tedFileConvertOpenOut( argv[1] );
-    if  ( ! sosOut )
-	{ SXDEB(argv[1],sosOut); rval= -1; goto ready;	}
+	sosOut = tedFileConvertOpenOut(argv[1]);
+	if (!sosOut) {
+		SXDEB(argv[1], sosOut);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( psFontFileToAfm( sosOut, ea->eaUseKerningInt < 0, argv[0], &psDir ) )
-	{ SSSDEB(call,argv[0],argv[1]); rval= -1; goto ready;	}
+	if (psFontFileToAfm(sosOut, ea->eaUseKerningInt < 0, argv[0], &psDir)) {
+		SSSDEB(call, argv[0], argv[1]);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+ready:
 
-    utilCleanMemoryBuffer( &psDir );
+	utilCleanMemoryBuffer(&psDir);
 
-    if  ( sosOut )
-	{ sioOutClose( sosOut );	}
+	if (sosOut) {
+		sioOutClose(sosOut);
+	}
 
-    return rval;
-    }
+	return rval;
+}
 
-int tedAfmToGSFontmap(		EditApplication *	ea,
-				const char *		prog,
-				const char *		call,
-				int			argc,
-				char **			argv )
-    {
-    int				rval= 2;
-    SimpleOutputStream *	sosOut= (SimpleOutputStream *)0;
+int tedAfmToGSFontmap(EditApplication *ea, const char *prog, const char *call,
+		      int argc, char **argv)
+{
+	int rval = 2;
+	SimpleOutputStream *sosOut = (SimpleOutputStream *)0;
 
-    if  ( argc < 2 )
-	{ SLDEB(argv[0],argc); rval= 1; goto ready;	}
+	if (argc < 2) {
+		SLDEB(argv[0], argc);
+		rval = 1;
+		goto ready;
+	}
 
-    sosOut= tedFileConvertOpenOut( argv[1] );
-    if  ( ! sosOut )
-	{ SXDEB(argv[1],sosOut); rval= -1; goto ready;	}
+	sosOut = tedFileConvertOpenOut(argv[1]);
+	if (!sosOut) {
+		SXDEB(argv[1], sosOut);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( psAfmToGSFontmap( sosOut, argv[0] ) )
-	{ SSSDEB(call,argv[0],argv[1]); rval= -1; goto ready;	}
+	if (psAfmToGSFontmap(sosOut, argv[0])) {
+		SSSDEB(call, argv[0], argv[1]);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+ready:
 
-    if  ( sosOut )
-	{ sioOutClose( sosOut );	}
+	if (sosOut) {
+		sioOutClose(sosOut);
+	}
 
-    return rval;
-    }
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -166,118 +182,157 @@ int tedAfmToGSFontmap(		EditApplication *	ea,
 /*									*/
 /************************************************************************/
 
-int tedAfmForFontFiles(	EditApplication *		ea,
-			const char *			prog,
-			const char *			call,
-			int				argc,
-			char **				argv )
-    {
-    int			ret= argc;
+int tedAfmForFontFiles(EditApplication *ea, const char *prog, const char *call,
+		       int argc, char **argv)
+{
+	int ret = argc;
 
-    PostScriptFontList	psfl;
-    MemoryBuffer	afmDir;
-    MemoryBuffer	psDir;
+	PostScriptFontList psfl;
+	MemoryBuffer afmDir;
+	MemoryBuffer psDir;
 
-    utilInitMemoryBuffer( &afmDir );
-    utilInitMemoryBuffer( &psDir );
+	utilInitMemoryBuffer(&afmDir);
+	utilInitMemoryBuffer(&psDir);
 
-    psInitPostScriptFontList( &psfl );
+	psInitPostScriptFontList(&psfl);
 
-    if  ( ! ea->eaAfmDirectory )
-	{ XDEB(ea->eaAfmDirectory); ret= -1; goto ready;	}
-    if  ( utilMemoryBufferSetString( &afmDir, ea->eaAfmDirectory ) )
-	{ LDEB(1); ret= -1; goto ready;	}
-    if  ( utilMemoryBufferSetString( &psDir, PSSCRIPT_DIR ) )
-	{ LDEB(1); ret= -1; goto ready;	}
-
-    if  ( psAfmForFontFiles( &psfl, ea->eaUseKerningInt < 0, argc, argv,
-							&afmDir, &psDir ) )
-	{
-	SSSDEB(call,ea->eaAfmDirectory,PSSCRIPT_DIR);
-	ret= -1; goto ready;
+	if (!ea->eaAfmDirectory) {
+		XDEB(ea->eaAfmDirectory);
+		ret = -1;
+		goto ready;
+	}
+	if (utilMemoryBufferSetString(&afmDir, ea->eaAfmDirectory)) {
+		LDEB(1);
+		ret = -1;
+		goto ready;
+	}
+	if (utilMemoryBufferSetString(&psDir, PSSCRIPT_DIR)) {
+		LDEB(1);
+		ret = -1;
+		goto ready;
 	}
 
-    if  ( ea->eaToplevel.atTopWidget				&&
-	  appFindX11Fonts( ea->eaToplevel.atTopWidget, &psfl )	)
-	{ XDEB(ea->eaToplevel.atTopWidget); ret= -1; goto ready;	}
+	if (psAfmForFontFiles(&psfl, ea->eaUseKerningInt < 0, argc, argv,
+			      &afmDir, &psDir)) {
+		SSSDEB(call, ea->eaAfmDirectory, PSSCRIPT_DIR);
+		ret = -1;
+		goto ready;
+	}
 
-    if  ( psSaveAfms( &psfl, ea->eaUseKerningInt < 0, &afmDir ) )
-	{ SDEB(ea->eaAfmDirectory); ret= -1; goto ready;	}
+	if (ea->eaToplevel.atTopWidget &&
+	    appFindX11Fonts(ea->eaToplevel.atTopWidget, &psfl)) {
+		XDEB(ea->eaToplevel.atTopWidget);
+		ret = -1;
+		goto ready;
+	}
 
-  ready:
+	if (psSaveAfms(&psfl, ea->eaUseKerningInt < 0, &afmDir)) {
+		SDEB(ea->eaAfmDirectory);
+		ret = -1;
+		goto ready;
+	}
 
-    utilCleanMemoryBuffer( &afmDir );
-    utilCleanMemoryBuffer( &psDir );
+ready:
 
-    psCleanPostScriptFontList( &psfl );
+	utilCleanMemoryBuffer(&afmDir);
+	utilCleanMemoryBuffer(&psDir);
 
-    return ret;
-    }
+	psCleanPostScriptFontList(&psfl);
 
-int tedFontsDocuments(	EditApplication *		ea,
-			const char *			prog,
-			const char *			call,
-			int				argc,
-			char **				argv )
-    {
-    int				rval= 1;
+	return ret;
+}
 
-    MemoryBuffer		templDir;
-    MemoryBuffer		outDir;
-    MemoryBuffer		scriptRelative;
-    MemoryBuffer		scriptAbsoluteFrom;
-    MemoryBuffer		scriptAbsoluteTo;
+int tedFontsDocuments(EditApplication *ea, const char *prog, const char *call,
+		      int argc, char **argv)
+{
+	int rval = 1;
 
-    const int			relativeIsFile= 0;
+	MemoryBuffer templDir;
+	MemoryBuffer outDir;
+	MemoryBuffer scriptRelative;
+	MemoryBuffer scriptAbsoluteFrom;
+	MemoryBuffer scriptAbsoluteTo;
 
-    utilInitMemoryBuffer( &templDir );
-    utilInitMemoryBuffer( &outDir );
-    utilInitMemoryBuffer( &scriptRelative );
-    utilInitMemoryBuffer( &scriptAbsoluteFrom );
-    utilInitMemoryBuffer( &scriptAbsoluteTo );
+	const int relativeIsFile = 0;
 
-    if  ( argc < 1 )
-	{ LDEB(argc); rval= -1; goto ready;	}
+	utilInitMemoryBuffer(&templDir);
+	utilInitMemoryBuffer(&outDir);
+	utilInitMemoryBuffer(&scriptRelative);
+	utilInitMemoryBuffer(&scriptAbsoluteFrom);
+	utilInitMemoryBuffer(&scriptAbsoluteTo);
 
-    if  ( utilMemoryBufferSetString( &templDir, FONT_TPL_DIR ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-    if  ( utilMemoryBufferSetString( &outDir, argv[0] ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-    if  ( utilMemoryBufferSetString( &scriptRelative, "checkfontsdocs.sh" ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (argc < 1) {
+		LDEB(argc);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( appAbsoluteName( &scriptAbsoluteFrom,
-			    &scriptRelative, relativeIsFile, &templDir ) < 0 )
-	{ SDEB(utilMemoryBufferGetString(&templDir)); rval= -1; goto ready; }
-    if  ( appAbsoluteName( &scriptAbsoluteTo,
-			    &scriptRelative, relativeIsFile, &outDir ) < 0 )
-	{ SDEB(utilMemoryBufferGetString(&outDir)); rval= -1; goto ready; }
+	if (utilMemoryBufferSetString(&templDir, FONT_TPL_DIR)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+	if (utilMemoryBufferSetString(&outDir, argv[0])) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+	if (utilMemoryBufferSetString(&scriptRelative, "checkfontsdocs.sh")) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( appPostScriptFontCatalog( ea ) )
-	{ SDEB(ea->eaAfmDirectory); rval= -1; goto ready;	}
+	if (appAbsoluteName(&scriptAbsoluteFrom, &scriptRelative,
+			    relativeIsFile, &templDir) < 0) {
+		SDEB(utilMemoryBufferGetString(&templDir));
+		rval = -1;
+		goto ready;
+	}
+	if (appAbsoluteName(&scriptAbsoluteTo, &scriptRelative, relativeIsFile,
+			    &outDir) < 0) {
+		SDEB(utilMemoryBufferGetString(&outDir));
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( appGetDeferredFontMetricsForList( &(ea->eaPostScriptFontList) ) )
-	{ SDEB(ea->eaAfmDirectory); rval= -1; /*goto ready;*/	}
+	if (appPostScriptFontCatalog(ea)) {
+		SDEB(ea->eaAfmDirectory);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( appTestDirectory( &outDir )	&&
-	  appMakeDirectories( &outDir )	)
-	{ SDEB(utilMemoryBufferGetString(&outDir)); rval= -1; goto ready; }
+	if (appGetDeferredFontMetricsForList(&(ea->eaPostScriptFontList))) {
+		SDEB(ea->eaAfmDirectory);
+		rval = -1; /*goto ready;*/
+	}
 
-    if  ( appCopyFile( &scriptAbsoluteTo, &scriptAbsoluteFrom ) )
-	{ SDEB(argv[0]); rval= -1; goto ready;	}
+	if (appTestDirectory(&outDir) && appMakeDirectories(&outDir)) {
+		SDEB(utilMemoryBufferGetString(&outDir));
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( docFontsDocuments( &(ea->eaPostScriptFontList),
-						    &templDir, &outDir ) )
-	{ SDEB(argv[0]); rval= -1; goto ready;	}
+	if (appCopyFile(&scriptAbsoluteTo, &scriptAbsoluteFrom)) {
+		SDEB(argv[0]);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	if (docFontsDocuments(&(ea->eaPostScriptFontList), &templDir,
+			      &outDir)) {
+		SDEB(argv[0]);
+		rval = -1;
+		goto ready;
+	}
 
-    utilCleanMemoryBuffer( &templDir );
-    utilCleanMemoryBuffer( &outDir );
-    utilCleanMemoryBuffer( &scriptRelative );
-    utilCleanMemoryBuffer( &scriptAbsoluteFrom );
-    utilCleanMemoryBuffer( &scriptAbsoluteTo );
+ready:
 
-    return rval;
-    }
+	utilCleanMemoryBuffer(&templDir);
+	utilCleanMemoryBuffer(&outDir);
+	utilCleanMemoryBuffer(&scriptRelative);
+	utilCleanMemoryBuffer(&scriptAbsoluteFrom);
+	utilCleanMemoryBuffer(&scriptAbsoluteTo);
 
+	return rval;
+}

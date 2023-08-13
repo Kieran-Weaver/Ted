@@ -4,28 +4,27 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_PROPERTY_ADMIN_H
-#   define	DOC_PROPERTY_ADMIN_H
+#ifndef DOC_PROPERTY_ADMIN_H
+#define DOC_PROPERTY_ADMIN_H
 
-#   include	<utilNumberedPropertiesAdmin.h>
-#   include	<utilDocFontList.h>
-#   include	<utilPalette.h>
+#include <utilNumberedPropertiesAdmin.h>
+#include <utilDocFontList.h>
+#include <utilPalette.h>
 
-#   include	"docListAdmin.h"
+#include "docListAdmin.h"
 
-typedef struct DocumentPropertyLists
-    {
-    NumberedPropertiesList	dplTextAttributeList;
-    NumberedPropertiesList	dplBorderPropertyList;
-    NumberedPropertiesList	dplItemShadingList;
-    NumberedPropertiesList	dplFramePropertyList;
-    NumberedPropertiesList	dplTabStopListList;
-    NumberedPropertiesList	dplCellPropertyList;
+typedef struct DocumentPropertyLists {
+	NumberedPropertiesList dplTextAttributeList;
+	NumberedPropertiesList dplBorderPropertyList;
+	NumberedPropertiesList dplItemShadingList;
+	NumberedPropertiesList dplFramePropertyList;
+	NumberedPropertiesList dplTabStopListList;
+	NumberedPropertiesList dplCellPropertyList;
 
-    DocumentFontList		dplFontList;
-    ListAdmin			dplListAdmin;
-    ColorPalette		dplColorPalette;
-    } DocumentPropertyLists;
+	DocumentFontList dplFontList;
+	ListAdmin dplListAdmin;
+	ColorPalette dplColorPalette;
+} DocumentPropertyLists;
 
 /************************************************************************/
 /*									*/
@@ -33,8 +32,8 @@ typedef struct DocumentPropertyLists
 /*									*/
 /************************************************************************/
 
-extern DocumentPropertyLists * docMakeDocumentPropertyLists( void );
+extern DocumentPropertyLists *docMakeDocumentPropertyLists(void);
 
-extern void docFreeDocumentPropertyLists( DocumentPropertyLists * dpl );
+extern void docFreeDocumentPropertyLists(DocumentPropertyLists *dpl);
 
-#   endif	/*  DOC_PROPERTY_ADMIN_H	*/
+#endif /*  DOC_PROPERTY_ADMIN_H	*/

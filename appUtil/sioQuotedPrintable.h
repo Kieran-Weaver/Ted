@@ -5,10 +5,10 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInQuotedPrintableOpen(
-					    SimpleInputStream * sisQuoted );
+extern SimpleInputStream *
+sioInQuotedPrintableOpen(SimpleInputStream *sisQuoted);
 
-extern SimpleOutputStream * sioOutQuotedPrintableOpen(
-					    SimpleOutputStream * sosQuoted );
+extern SimpleOutputStream *
+sioOutQuotedPrintableOpen(SimpleOutputStream *sosQuoted);

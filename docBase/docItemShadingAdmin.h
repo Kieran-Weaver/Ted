@@ -4,16 +4,15 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_ITEM_SHADING_ADMIN_H
-#   define	DOC_ITEM_SHADING_ADMIN_H
+#ifndef DOC_ITEM_SHADING_ADMIN_H
+#define DOC_ITEM_SHADING_ADMIN_H
 
-#   include	"docItemShading.h"
-#   include	<utilIntegerValueNode.h>
-#   include	<utilNumberedPropertiesAdmin.h>
+#include "docItemShading.h"
+#include <utilIntegerValueNode.h>
+#include <utilNumberedPropertiesAdmin.h>
 
-typedef void (*ItemShadingFunction)(	const ItemShading *	is,
-					int			n,
-					void *			through );
+typedef void (*ItemShadingFunction)(const ItemShading *is, int n,
+				    void *through);
 
 /************************************************************************/
 /*									*/
@@ -21,27 +20,23 @@ typedef void (*ItemShadingFunction)(	const ItemShading *	is,
 /*									*/
 /************************************************************************/
 
-extern void docInitItemShadingList(	NumberedPropertiesList *	isl );
+extern void docInitItemShadingList(NumberedPropertiesList *isl);
 
-extern int docItemShadingNumberImpl(	NumberedPropertiesList *	isl,
-					const ItemShading *	is );
+extern int docItemShadingNumberImpl(NumberedPropertiesList *isl,
+				    const ItemShading *is);
 
-extern int docShadingNumberIsShadingImpl(
-					const NumberedPropertiesList *	isl,
-					int				n );
+extern int docShadingNumberIsShadingImpl(const NumberedPropertiesList *isl,
+					 int n);
 
-extern void docForAllItemShadings(	const NumberedPropertiesList *	isl,
-					ItemShadingFunction	f,
-					void *			through );
+extern void docForAllItemShadings(const NumberedPropertiesList *isl,
+				  ItemShadingFunction f, void *through);
 
-extern void docGetItemShadingByNumberImpl( ItemShading *		is,
-					const NumberedPropertiesList *	isl,
-					int				n );
+extern void docGetItemShadingByNumberImpl(ItemShading *is,
+					  const NumberedPropertiesList *isl,
+					  int n);
 
-extern int docMergeItemShadingLists(
-				int **				pShadingMap,
-				const int *			colorMap,
-				NumberedPropertiesList *	islTo,
-				const NumberedPropertiesList *	islFrom );
+extern int docMergeItemShadingLists(int **pShadingMap, const int *colorMap,
+				    NumberedPropertiesList *islTo,
+				    const NumberedPropertiesList *islFrom);
 
-#   endif	/*  DOC_ITEM_SHADING_ADMIN_H	*/
+#endif /*  DOC_ITEM_SHADING_ADMIN_H	*/

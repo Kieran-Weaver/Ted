@@ -15,71 +15,68 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	UTIL_POSTSCRIPT_FACE_H
-#   define	UTIL_POSTSCRIPT_FACE_H
+#ifndef UTIL_POSTSCRIPT_FACE_H
+#define UTIL_POSTSCRIPT_FACE_H
 
-#   include	"psFontInfo.h"
-#   include	"textAttribute.h"
+#include "psFontInfo.h"
+#include "textAttribute.h"
 
-#   define	FACElenID	24
+#define FACElenID 24
 
-# define UPP		256
-# define UtoPAGE( u )	((u)/UPP)
-# define UNPAGE		(UtoPAGE( 256*256- 1 )+1)
+#define UPP 256
+#define UtoPAGE(u) ((u) / UPP)
+#define UNPAGE (UtoPAGE(256 * 256 - 1) + 1)
 
-typedef struct FaceReference
-    {
-		/*  KEY  */
-    int		frDocFontIndex;
-    int		frDocFaceIndex;
-    char	frFaceId[FACElenID+1];
+typedef struct FaceReference {
+	/*  KEY  */
+	int frDocFontIndex;
+	int frDocFaceIndex;
+	char frFaceId[FACElenID + 1];
 
-		/*  DEP  */
-    int		frAppearsInText;
-    } FaceReference;
+	/*  DEP  */
+	int frAppearsInText;
+} FaceReference;
 
-typedef struct PostScriptFace
-    {
-    const AfmFontInfo *	psfAfi;				/*  3		*/
+typedef struct PostScriptFace {
+	const AfmFontInfo *psfAfi; /*  3		*/
 
-    FaceReference *	psfReferences;
-    int			psfReferenceCount;
-    int			psfAppearsInText;
-    int			psfEmbed;
-#			define	PSembedNO	-1
-#			define	PSembedUNKNOWN	0
-#			define	PSembedCOPY	1
-#			define	PSembedBTOA	2
-#			define	PSembedTTFTO42	3
-#			define	PSembedTTCTO42	4
-    MemoryBuffer	psfFontFileName;
-    int			psfFontFileIndex;
+	FaceReference *psfReferences;
+	int psfReferenceCount;
+	int psfAppearsInText;
+	int psfEmbed;
+#define PSembedNO -1
+#define PSembedUNKNOWN 0
+#define PSembedCOPY 1
+#define PSembedBTOA 2
+#define PSembedTTFTO42 3
+#define PSembedTTCTO42 4
+	MemoryBuffer psfFontFileName;
+	int psfFontFileIndex;
 
-			/**
+	/**
 			 *  Set if the font has a glyph for a code point 
 			 *  on this page.
 			 */
-    unsigned char	psfPageUsed[UNPAGE];
-			/**
+	unsigned char psfPageUsed[UNPAGE];
+	/**
 			 *  Set if a code point on this page ONLY has a 
 			 *  glyph with a non standard name.
 			 */
-    unsigned char	psfPageNonStd[UNPAGE];
-    } PostScriptFace;
+	unsigned char psfPageNonStd[UNPAGE];
+} PostScriptFace;
 
-typedef struct PostScriptTypeList
-    {
-    void *		pstlFaceTree;
-    int			pstlFaceCount;
-    			/**
+typedef struct PostScriptTypeList {
+	void *pstlFaceTree;
+	int pstlFaceCount;
+	/**
 			 *  For those fonts that do not have a file name,
 			 *  make an attempt to find the font file in this 
 			 *  directory.
 			 */
-    MemoryBuffer	pstlFontDirectory;
+	MemoryBuffer pstlFontDirectory;
 
-    unsigned char	pstlPageUsed[UNPAGE];
-    } PostScriptTypeList;
+	unsigned char pstlPageUsed[UNPAGE];
+} PostScriptTypeList;
 
 /************************************************************************/
 /*									*/
@@ -87,13 +84,12 @@ typedef struct PostScriptTypeList
 /*									*/
 /************************************************************************/
 
-extern int psRememberPostsciptFace(	PostScriptTypeList *	pstl,
-					const AfmFontInfo *	afi,
-					const TextAttribute *	ta,
-					const char *		prefix,
-					int			appearsInText );
+extern int psRememberPostsciptFace(PostScriptTypeList *pstl,
+				   const AfmFontInfo *afi,
+				   const TextAttribute *ta, const char *prefix,
+				   int appearsInText);
 
-extern void psInitPostScriptFaceList( PostScriptTypeList *	pstl );
-extern void psCleanPostScriptFaceList( PostScriptTypeList *	pstl );
+extern void psInitPostScriptFaceList(PostScriptTypeList *pstl);
+extern void psCleanPostScriptFaceList(PostScriptTypeList *pstl);
 
-#   endif	/*  UTIL_POSTSCRIPT_FACE_H	*/
+#endif /*  UTIL_POSTSCRIPT_FACE_H	*/

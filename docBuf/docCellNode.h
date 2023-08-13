@@ -4,8 +4,8 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_CELL_NODE_H
-#   define	DOC_CELL_NODE_H
+#ifndef DOC_CELL_NODE_H
+#define DOC_CELL_NODE_H
 
 /************************************************************************/
 /*									*/
@@ -13,17 +13,16 @@
 /*									*/
 /************************************************************************/
 
-typedef struct CellNode
-    {
-				/**
+typedef struct CellNode {
+	/**
 				 *  Used for the vertical alignment of
 				 *  table cells: The first line of the 
 				 *  first paragraph is shifted by this 
 				 *  amount.
 				 */
-    int				bcTopInset;
+	int bcTopInset;
 
-				/**
+	/**
 				 *  Set by the formatter to know whether 
 				 *  the cell is part of a rowspan. It is 
 				 *  used to know when to calculate the 
@@ -31,9 +30,9 @@ typedef struct CellNode
 				 *  to reformat the correct rows after the 
 				 *  height of the cell changes.
 				 */
-    int				bcRowspan;
+	int bcRowspan;
 
-				/**
+	/**
 				 *  The number of the row in the table that 
 				 *  holds the top cell of a stack of cells 
 				 *  in a rowspan.
@@ -42,8 +41,8 @@ typedef struct CellNode
 				 *  formatted. It is only set in the 
 				 *  bottom cell of the rowspan.
 				 */
-    int				bcMergedCellTopRow;
-				/**
+	int bcMergedCellTopRow;
+	/**
 				 *  The number of the column in the table that 
 				 *  holds the top cell of a stack of cells 
 				 *  in a rowspan.
@@ -52,8 +51,8 @@ typedef struct CellNode
 				 *  formatted. It is only set in the 
 				 *  bottom cell of the rowspan.
 				 */
-    int				bcMergedCellTopCol;
-    } CellNode;
+	int bcMergedCellTopCol;
+} CellNode;
 
 /************************************************************************/
 /*									*/
@@ -61,9 +60,9 @@ typedef struct CellNode
 /*									*/
 /************************************************************************/
 
-#   define	biCellTopInset		BIU.biuCell.bcTopInset
-#   define	biCellRowspan		BIU.biuCell.bcRowspan
-#   define	biCellMergedCellTopRow	BIU.biuCell.bcMergedCellTopRow
-#   define	biCellMergedCellTopCol	BIU.biuCell.bcMergedCellTopCol
+#define biCellTopInset BIU.biuCell.bcTopInset
+#define biCellRowspan BIU.biuCell.bcRowspan
+#define biCellMergedCellTopRow BIU.biuCell.bcMergedCellTopRow
+#define biCellMergedCellTopCol BIU.biuCell.bcMergedCellTopCol
 
-#   endif
+#endif

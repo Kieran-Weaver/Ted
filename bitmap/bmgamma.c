@@ -1,17 +1,17 @@
-#   include	"bitmapConfig.h"
+#include "bitmapConfig.h"
 
-#   include	<stdlib.h>
-#   include	<string.h>
+#include <stdlib.h>
+#include <string.h>
 
-#   include	"bmintern.h"
+#include "bmintern.h"
 
-#   define	y0	math_y0
-#   define	y1	math_y1
-#   include	<math.h>
-#   undef	y0
-#   undef	y1
+#define y0 math_y0
+#define y1 math_y1
+#include <math.h>
+#undef y0
+#undef y1
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -30,72 +30,89 @@
 /*									*/
 /************************************************************************/
 
-#   define	MAX_COMPONENTS	4
+#define MAX_COMPONENTS 4
 
-int bmGammaCorrect(	RasterImage *			riOut,
-			const RasterImage *		riIn,
-			double				gammaValue )
-    {
-    const BitmapDescription *	bdIn= &(riIn->riDescription);
-    int				rval= 0;
+int bmGammaCorrect(RasterImage *riOut, const RasterImage *riIn,
+		   double gammaValue)
+{
+	const BitmapDescription *bdIn = &(riIn->riDescription);
+	int rval = 0;
 
-    int				map[256*MAX_COMPONENTS];
-    double			gammas[MAX_COMPONENTS];
-    int *			mp;
-    int				mxv;
+	int map[256 * MAX_COMPONENTS];
+	double gammas[MAX_COMPONENTS];
+	int *mp;
+	int mxv;
 
-    int				i;
-    int				j;
+	int i;
+	int j;
 
-    RasterImage			ri;
+	RasterImage ri;
 
-    bmInitRasterImage( &ri );
+	bmInitRasterImage(&ri);
 
-    /*  1  */
-    if  ( gammaValue <= 0.0001 )
-	{ FDEB(gammaValue); rval= -1; goto ready;	}
-    if  ( bdIn->bdBitsPerSample > 8 )
-	{ LDEB(bdIn->bdBitsPerSample); rval= -1; goto ready;	}
-
-    for ( j= 0; j < bdIn->bdSamplesPerPixel; j++ )
-	{ gammas[j]= gammaValue;	}
-
-    /*  2  */
-    mxv= 1;
-    for ( i= 0; i < bdIn->bdBitsPerSample; i++ )
-	{ mxv *= 2;	}
-    mxv--;
-
-    /*  3  */
-    mp= map;
-    for ( i= 0; i <= mxv; i++ )
-	{
-	for ( j= 0; j < bdIn->bdSamplesPerPixel; j++ )
-	    { *(mp++)= mxv* pow( (double)i/(double)mxv, gammas[j] );	}
+	/*  1  */
+	if (gammaValue <= 0.0001) {
+		FDEB(gammaValue);
+		rval = -1;
+		goto ready;
+	}
+	if (bdIn->bdBitsPerSample > 8) {
+		LDEB(bdIn->bdBitsPerSample);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( bmCopyDescription( &(ri.riDescription), bdIn ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	for (j = 0; j < bdIn->bdSamplesPerPixel; j++) {
+		gammas[j] = gammaValue;
+	}
 
-    /*  4  */
-    ri.riBytes= (unsigned char *)malloc( bdIn->bdBufferLength+ bdIn->bdSamplesPerPixel- 1 );
-    if  ( ! ri.riBytes )
-	{ LXDEB(bdIn->bdBufferLength,ri.riBytes); rval= -1; goto ready; }
+	/*  2  */
+	mxv = 1;
+	for (i = 0; i < bdIn->bdBitsPerSample; i++) {
+		mxv *= 2;
+	}
+	mxv--;
 
-    memcpy( ri.riBytes, riIn->riBytes, bdIn->bdBufferLength );
+	/*  3  */
+	mp = map;
+	for (i = 0; i <= mxv; i++) {
+		for (j = 0; j < bdIn->bdSamplesPerPixel; j++) {
+			*(mp++) = mxv * pow((double)i / (double)mxv, gammas[j]);
+		}
+	}
 
-    /*  5  */
-    if  ( bmMapImageColors( &(ri.riDescription), map, ri.riBytes ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (bmCopyDescription(&(ri.riDescription), bdIn)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    /*  6  */
-    /* steal */
-    *riOut= ri; bmInitRasterImage( &ri );
+	/*  4  */
+	ri.riBytes = (unsigned char *)malloc(bdIn->bdBufferLength +
+					     bdIn->bdSamplesPerPixel - 1);
+	if (!ri.riBytes) {
+		LXDEB(bdIn->bdBufferLength, ri.riBytes);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	memcpy(ri.riBytes, riIn->riBytes, bdIn->bdBufferLength);
 
-    bmCleanRasterImage( &ri );
+	/*  5  */
+	if (bmMapImageColors(&(ri.riDescription), map, ri.riBytes)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    return rval;
-    }
+	/*  6  */
+	/* steal */
+	*riOut = ri;
+	bmInitRasterImage(&ri);
 
+ready:
+
+	bmCleanRasterImage(&ri);
+
+	return rval;
+}

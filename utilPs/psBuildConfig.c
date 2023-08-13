@@ -4,171 +4,192 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilPsConfig.h"
+#include "utilPsConfig.h"
 
-#   include	<stdio.h>
-#   include	<stdlib.h>
-#   include	<string.h>
-#   include	<ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-#   include	<locale.h>
+#include <locale.h>
 
-#   include	<reg.h>
+#include <reg.h>
 
-#   include	<sioFileio.h>
-#   include	<sioPfb.h>
-#   include	<sioPipe.h>
-#   include	<appSystem.h>
-#   include	<utilMemoryBuffer.h>
-#   include	<utilMemoryBufferPrintf.h>
-#   include	"psTtf.h"
-#   include	"psBuildConfigFiles.h"
-#   include	"psReadWriteFontInfo.h"
+#include <sioFileio.h>
+#include <sioPfb.h>
+#include <sioPipe.h>
+#include <appSystem.h>
+#include <utilMemoryBuffer.h>
+#include <utilMemoryBufferPrintf.h>
+#include "psTtf.h"
+#include "psBuildConfigFiles.h"
+#include "psReadWriteFontInfo.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   ifdef __VMS
-    static const char * const		afmExtension= "AFM";
-    static const char * const		pfbExtension= "PFB";
-    static const char * const		pfaExtension= "PFA";
-#   else
-    static const char * const		afmExtension= "afm";
-    static const char * const		pfbExtension= "pfb";
-    static const char * const		pfaExtension= "pfa";
-#   endif
-    static const char * const		ttfExtension= "ttf";
-    static const char * const		TTFExtension= "TTF";
+#ifdef __VMS
+static const char *const afmExtension = "AFM";
+static const char *const pfbExtension = "PFB";
+static const char *const pfaExtension = "PFA";
+#else
+static const char *const afmExtension = "afm";
+static const char *const pfbExtension = "pfb";
+static const char *const pfaExtension = "pfa";
+#endif
+static const char *const ttfExtension = "ttf";
+static const char *const TTFExtension = "TTF";
 
-static const char * PS_FontNamePattern=
-			"^/FontName[ \t]*/([^ \t]*)[ \t][ \t]*def";
+static const char *PS_FontNamePattern =
+	"^/FontName[ \t]*/([^ \t]*)[ \t][ \t]*def";
 
-static const char * PS_LocalAfmDir= "localfonts";
+static const char *PS_LocalAfmDir = "localfonts";
 
 /************************************************************************/
 
-typedef struct AfmDirBuilder
-    {
-    MemoryBuffer		adbAfmDirectory;
-    MemoryBuffer		adbAfmCommand;
-    MemoryBuffer		adbCwd;
-    regProg *			adbFontNameProg;
-				/**
+typedef struct AfmDirBuilder {
+	MemoryBuffer adbAfmDirectory;
+	MemoryBuffer adbAfmCommand;
+	MemoryBuffer adbCwd;
+	regProg *adbFontNameProg;
+	/**
 				 *  Owned by the caller. To be 
 				 *  augmented here.
 				 */
-    PostScriptFontList *	adbPostScriptFontList;
-    int				adbAfmFlags;
-    } AfmDirBuilder;
+	PostScriptFontList *adbPostScriptFontList;
+	int adbAfmFlags;
+} AfmDirBuilder;
 
-static void psInitAfmDirBuilder(	AfmDirBuilder *	adb )
-    {
-    utilInitMemoryBuffer( &(adb->adbAfmDirectory) );
-    utilInitMemoryBuffer( &(adb->adbAfmCommand) );
-    utilInitMemoryBuffer( &(adb->adbCwd) );
-    adb->adbFontNameProg= (regProg *)0;
-    adb->adbPostScriptFontList= (PostScriptFontList *)0;
-    adb->adbAfmFlags= 0;
-    }
+static void psInitAfmDirBuilder(AfmDirBuilder *adb)
+{
+	utilInitMemoryBuffer(&(adb->adbAfmDirectory));
+	utilInitMemoryBuffer(&(adb->adbAfmCommand));
+	utilInitMemoryBuffer(&(adb->adbCwd));
+	adb->adbFontNameProg = (regProg *)0;
+	adb->adbPostScriptFontList = (PostScriptFontList *)0;
+	adb->adbAfmFlags = 0;
+}
 
-static void psCleanAfmDirBuilder(	AfmDirBuilder *	adb )
-    {
-    utilCleanMemoryBuffer( &(adb->adbAfmDirectory) );
-    utilCleanMemoryBuffer( &(adb->adbAfmCommand) );
-    utilCleanMemoryBuffer( &(adb->adbCwd) );
+static void psCleanAfmDirBuilder(AfmDirBuilder *adb)
+{
+	utilCleanMemoryBuffer(&(adb->adbAfmDirectory));
+	utilCleanMemoryBuffer(&(adb->adbAfmCommand));
+	utilCleanMemoryBuffer(&(adb->adbCwd));
 
-    if  ( adb->adbFontNameProg )
-	{ regFree( adb->adbFontNameProg );	}
-    }
+	if (adb->adbFontNameProg) {
+		regFree(adb->adbFontNameProg);
+	}
+}
 
-static int psStartAfmDirBuilder(	AfmDirBuilder *		adb,
-					PostScriptFontList *	psfl,
-					int			ignoreKerning,
-					const MemoryBuffer *	afmDirectory,
-					const MemoryBuffer *	psDirectory )
-    {
-    int			rval= 0;
-    const int		relativeIsFile= 0;
-    const int		options= 0;
+static int psStartAfmDirBuilder(AfmDirBuilder *adb, PostScriptFontList *psfl,
+				int ignoreKerning,
+				const MemoryBuffer *afmDirectory,
+				const MemoryBuffer *psDirectory)
+{
+	int rval = 0;
+	const int relativeIsFile = 0;
+	const int options = 0;
 
-    const char *	afmBase= "gs -sthefont=%s -q %s/gsfontmetrics.ps -c quit";
+	const char *afmBase = "gs -sthefont=%s -q %s/gsfontmetrics.ps -c quit";
 
-    MemoryBuffer	local;
+	MemoryBuffer local;
 
-    utilInitMemoryBuffer( &local );
+	utilInitMemoryBuffer(&local);
 
-    adb->adbPostScriptFontList= psfl;
+	adb->adbPostScriptFontList = psfl;
 
-    if  ( ignoreKerning )
-	{ adb->adbAfmFlags |= PSflagIGNORE_KERNING;	}
-
-    if  ( utilMemoryBufferSetString( &local, PS_LocalAfmDir ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( afmDirectory )
-	{
-	if  ( appAbsoluteName( &(adb->adbAfmDirectory),
-				&local, relativeIsFile, afmDirectory ) < 0 )
-	    { SDEB(PS_LocalAfmDir); rval= -1; goto ready;	}
+	if (ignoreKerning) {
+		adb->adbAfmFlags |= PSflagIGNORE_KERNING;
 	}
 
-    adb->adbFontNameProg= regCompile( PS_FontNamePattern, options );
-    if  ( ! adb->adbFontNameProg )
-	{ XDEB(adb->adbFontNameProg); rval= -1; goto ready;	}
-
-    if  ( psDirectory )
-	{
-	utilMemoryBufferPrintf( &(adb->adbAfmCommand), afmBase, "%s",
-				utilMemoryBufferGetString( psDirectory ) );
+	if (utilMemoryBufferSetString(&local, PS_LocalAfmDir)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( appCurrentDirectory( &(adb->adbCwd) ) < 0 )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-  ready:
-
-    utilCleanMemoryBuffer( &local );
-
-    return rval;
-    }
-
-static int psGetNameExt(	MemoryBuffer *		file,
-				MemoryBuffer *		extension,
-				const AfmDirBuilder *	adb,
-				const char *		fontFileName )
-    {
-    int				rval= 0;
-    MemoryBuffer		filename;
-
-    utilInitMemoryBuffer( &filename );
-
-    if  ( utilMemoryBufferSetString( &filename, fontFileName ) )
-	{ SDEB(fontFileName); rval= -1; goto ready;	}
-
-    if  ( appFileGetFileExtension( extension, &filename ) < 0 )
-	{ LDEB(1); rval= -1; goto ready;	}
-    if  ( utilMemoryBufferIsEmpty( extension ) )
-	{ rval= -1; rval= 1; goto ready;	}
-
-    if  ( ! appFileNameIsAbsolute( fontFileName ) )
-	{
-	int		l;
-	const int	relativeIsFile= 0;
-
-	l= appAbsoluteName( file, &filename, relativeIsFile, &(adb->adbCwd) );
-	if  ( l < 0 )
-	    { LDEB(l); rval= -1; rval= 1; goto ready;	}
-	}
-    else{
-	if  ( utilCopyMemoryBuffer( file, &filename ) )
-	    { LDEB(1);	}
+	if (afmDirectory) {
+		if (appAbsoluteName(&(adb->adbAfmDirectory), &local,
+				    relativeIsFile, afmDirectory) < 0) {
+			SDEB(PS_LocalAfmDir);
+			rval = -1;
+			goto ready;
+		}
 	}
 
-  ready:
+	adb->adbFontNameProg = regCompile(PS_FontNamePattern, options);
+	if (!adb->adbFontNameProg) {
+		XDEB(adb->adbFontNameProg);
+		rval = -1;
+		goto ready;
+	}
 
-    utilCleanMemoryBuffer( &filename );
+	if (psDirectory) {
+		utilMemoryBufferPrintf(&(adb->adbAfmCommand), afmBase, "%s",
+				       utilMemoryBufferGetString(psDirectory));
+	}
 
-    return rval;
-    }
+	if (appCurrentDirectory(&(adb->adbCwd)) < 0) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+ready:
+
+	utilCleanMemoryBuffer(&local);
+
+	return rval;
+}
+
+static int psGetNameExt(MemoryBuffer *file, MemoryBuffer *extension,
+			const AfmDirBuilder *adb, const char *fontFileName)
+{
+	int rval = 0;
+	MemoryBuffer filename;
+
+	utilInitMemoryBuffer(&filename);
+
+	if (utilMemoryBufferSetString(&filename, fontFileName)) {
+		SDEB(fontFileName);
+		rval = -1;
+		goto ready;
+	}
+
+	if (appFileGetFileExtension(extension, &filename) < 0) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+	if (utilMemoryBufferIsEmpty(extension)) {
+		rval = -1;
+		rval = 1;
+		goto ready;
+	}
+
+	if (!appFileNameIsAbsolute(fontFileName)) {
+		int l;
+		const int relativeIsFile = 0;
+
+		l = appAbsoluteName(file, &filename, relativeIsFile,
+				    &(adb->adbCwd));
+		if (l < 0) {
+			LDEB(l);
+			rval = -1;
+			rval = 1;
+			goto ready;
+		}
+	} else {
+		if (utilCopyMemoryBuffer(file, &filename)) {
+			LDEB(1);
+		}
+	}
+
+ready:
+
+	utilCleanMemoryBuffer(&filename);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -176,211 +197,248 @@ static int psGetNameExt(	MemoryBuffer *		file,
 /*									*/
 /************************************************************************/
 
-static int psFontNameFromPf(	MemoryBuffer *		fontname,
-				SimpleInputStream *	sisFont,
-				regProg *		prog )
-    {
-    int			rval= 1;
-    char		scratch[550+1];
+static int psFontNameFromPf(MemoryBuffer *fontname, SimpleInputStream *sisFont,
+			    regProg *prog)
+{
+	int rval = 1;
+	char scratch[550 + 1];
 
-    while( sioInGetString( scratch, sizeof(scratch)-1, sisFont ) )
-	{
-	ExpressionMatch		em;
+	while (sioInGetString(scratch, sizeof(scratch) - 1, sisFont)) {
+		ExpressionMatch em;
 
-	scratch[sizeof(scratch)-1]= '\0';
+		scratch[sizeof(scratch) - 1] = '\0';
 
-	if  ( regFindLeftToRight( &em, prog, scratch, 0, strlen( scratch ) ) )
-	    {
-	    int		from;
-	    int		past;
+		if (regFindLeftToRight(&em, prog, scratch, 0,
+				       strlen(scratch))) {
+			int from;
+			int past;
 
-	    regGetMatch( &from, &past, &em, 0 );
+			regGetMatch(&from, &past, &em, 0);
 
-	    if  ( utilMemoryBufferSetBytes( fontname,
-				(unsigned char *)scratch+ from, past- from ) )
-		{ LLDEB(past,from); rval= -1; break;	}
+			if (utilMemoryBufferSetBytes(
+				    fontname, (unsigned char *)scratch + from,
+				    past - from)) {
+				LLDEB(past, from);
+				rval = -1;
+				break;
+			}
 
-	    rval= 0; break;
-	    }
+			rval = 0;
+			break;
+		}
 	}
 
-    if  ( rval )
-	{ LDEB(rval);	}
-
-    return rval;
-    }
-
-static AfmFontInfo * psFillAfiForPf(
-				SimpleInputStream *	sisFont,
-				const AfmDirBuilder *	adb,
-				const MemoryBuffer *	filename )
-    {
-    int			rval= 0;
-
-    MemoryBuffer	fontname;
-    MemoryBuffer	command;
-
-    SimpleInputStream *	sisCmd= (SimpleInputStream *)0;
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
-
-    utilInitMemoryBuffer( &fontname );
-    utilInitMemoryBuffer( &command );
-
-    afi= (AfmFontInfo *)malloc( sizeof(AfmFontInfo) );
-    if  ( ! afi )
-	{ XDEB(afi); rval= -1; goto ready;	}
-    psInitAfmFontInfo( afi );
-
-    if  ( psFontNameFromPf( &fontname, sisFont, adb->adbFontNameProg ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    utilMemoryBufferPrintf( &command,
-		    utilMemoryBufferGetString( &(adb->adbAfmCommand) ),
-		    utilMemoryBufferGetString( &fontname ) );
-
-    sisCmd= sioInPipeOpen( &command );
-    if  ( ! sisCmd )
-	{
-	SXDEB(utilMemoryBufferGetString(&command),sisCmd);
-	rval= -1; goto ready;
+	if (rval) {
+		LDEB(rval);
 	}
 
-    rval= psAfmReadAfm( sisCmd, afi, adb->adbAfmFlags );
-    if  ( rval  )
-	{
-	SLDEB(utilMemoryBufferGetString(&command),rval); rval= -1;
-	rval= -1; goto ready;
+	return rval;
+}
+
+static AfmFontInfo *psFillAfiForPf(SimpleInputStream *sisFont,
+				   const AfmDirBuilder *adb,
+				   const MemoryBuffer *filename)
+{
+	int rval = 0;
+
+	MemoryBuffer fontname;
+	MemoryBuffer command;
+
+	SimpleInputStream *sisCmd = (SimpleInputStream *)0;
+	AfmFontInfo *afi = (AfmFontInfo *)0;
+
+	utilInitMemoryBuffer(&fontname);
+	utilInitMemoryBuffer(&command);
+
+	afi = (AfmFontInfo *)malloc(sizeof(AfmFontInfo));
+	if (!afi) {
+		XDEB(afi);
+		rval = -1;
+		goto ready;
+	}
+	psInitAfmFontInfo(afi);
+
+	if (psFontNameFromPf(&fontname, sisFont, adb->adbFontNameProg)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( utilCopyMemoryBuffer( &(afi->afiFontFileName), filename ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	utilMemoryBufferPrintf(&command,
+			       utilMemoryBufferGetString(&(adb->adbAfmCommand)),
+			       utilMemoryBufferGetString(&fontname));
 
-    if  ( psGetUnicodesFromGlyphNames( afi ) )
-	{ SDEB(afi->afiFullName);	}
-    if  ( psGetAlternateGlyphs( afi ) )
-	{ SDEB(afi->afiFullName);	}
-    if  ( psResolveFallbackGlyph( afi ) )
-	{ SDEB(afi->afiFullName);	}
-
-  ready:
-
-    if  ( rval && afi )
-	{
-	psFreeAfmFontInfo( afi );
-	afi= (AfmFontInfo *)0;
+	sisCmd = sioInPipeOpen(&command);
+	if (!sisCmd) {
+		SXDEB(utilMemoryBufferGetString(&command), sisCmd);
+		rval = -1;
+		goto ready;
 	}
 
-    utilCleanMemoryBuffer( &fontname );
-    utilCleanMemoryBuffer( &command );
+	rval = psAfmReadAfm(sisCmd, afi, adb->adbAfmFlags);
+	if (rval) {
+		SLDEB(utilMemoryBufferGetString(&command), rval);
+		rval = -1;
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( sisCmd )
-	{ sioInClose( sisCmd );	}
+	if (utilCopyMemoryBuffer(&(afi->afiFontFileName), filename)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    return afi;
-    }
+	if (psGetUnicodesFromGlyphNames(afi)) {
+		SDEB(afi->afiFullName);
+	}
+	if (psGetAlternateGlyphs(afi)) {
+		SDEB(afi->afiFullName);
+	}
+	if (psResolveFallbackGlyph(afi)) {
+		SDEB(afi->afiFullName);
+	}
 
-static int psFontNameFromPfa(	MemoryBuffer *		fontname,
-				regProg *		prog,
-				const MemoryBuffer *	filename )
-    {
-    int			rval= 0;
-    SimpleInputStream *	sisFile= (SimpleInputStream *)0;
+ready:
 
-    sisFile= sioInFileioOpen( filename );
-    if  ( ! sisFile )
-	{ XDEB(sisFile); rval= -1; goto ready;	}
+	if (rval && afi) {
+		psFreeAfmFontInfo(afi);
+		afi = (AfmFontInfo *)0;
+	}
 
-    rval= psFontNameFromPf( fontname, sisFile, prog );
-    if  ( rval )
-	{ LDEB(rval);	}
+	utilCleanMemoryBuffer(&fontname);
+	utilCleanMemoryBuffer(&command);
 
-  ready:
+	if (sisCmd) {
+		sioInClose(sisCmd);
+	}
 
-    if  ( sisFile )
-	{ sioInClose( sisFile );	}
+	return afi;
+}
 
-    return rval;
-    }
+static int psFontNameFromPfa(MemoryBuffer *fontname, regProg *prog,
+			     const MemoryBuffer *filename)
+{
+	int rval = 0;
+	SimpleInputStream *sisFile = (SimpleInputStream *)0;
 
-static AfmFontInfo * psFillAfiForPfa(	const AfmDirBuilder *	adb,
-					const MemoryBuffer *	filename )
-    {
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
-    SimpleInputStream *	sisFile= (SimpleInputStream *)0;
+	sisFile = sioInFileioOpen(filename);
+	if (!sisFile) {
+		XDEB(sisFile);
+		rval = -1;
+		goto ready;
+	}
 
-    sisFile= sioInFileioOpen( filename );
-    if  ( ! sisFile )
-	{ XDEB(sisFile); goto ready;	}
+	rval = psFontNameFromPf(fontname, sisFile, prog);
+	if (rval) {
+		LDEB(rval);
+	}
 
-    afi= psFillAfiForPf( sisFile, adb, filename );
-    if  ( ! afi )
-	{ XDEB(afi);	}
+ready:
 
-  ready:
+	if (sisFile) {
+		sioInClose(sisFile);
+	}
 
-    if  ( sisFile )
-	{ sioInClose( sisFile );	}
+	return rval;
+}
 
-    return afi;
-    }
+static AfmFontInfo *psFillAfiForPfa(const AfmDirBuilder *adb,
+				    const MemoryBuffer *filename)
+{
+	AfmFontInfo *afi = (AfmFontInfo *)0;
+	SimpleInputStream *sisFile = (SimpleInputStream *)0;
 
-static int psFontNameFromPfb(	MemoryBuffer *		fontname,
-				regProg *		prog,
-				const MemoryBuffer *	filename )
-    {
-    int			rval= 0;
-    SimpleInputStream *	sisFile= (SimpleInputStream *)0;
-    SimpleInputStream *	sisFont= (SimpleInputStream *)0;
+	sisFile = sioInFileioOpen(filename);
+	if (!sisFile) {
+		XDEB(sisFile);
+		goto ready;
+	}
 
-    sisFile= sioInFileioOpen( filename );
-    if  ( ! sisFile )
-	{ XDEB(sisFile); goto ready;	}
+	afi = psFillAfiForPf(sisFile, adb, filename);
+	if (!afi) {
+		XDEB(afi);
+	}
 
-    sisFont= sioInPfbOpen( sisFile );
-    if  ( ! sisFont )
-	{ XDEB(sisFont); goto ready;	}
+ready:
 
-    rval= psFontNameFromPf( fontname, sisFont, prog );
-    if  ( rval )
-	{ LDEB(rval);	}
+	if (sisFile) {
+		sioInClose(sisFile);
+	}
 
-  ready:
+	return afi;
+}
 
-    if  ( sisFont )
-	{ sioInClose( sisFont );	}
-    if  ( sisFile )
-	{ sioInClose( sisFile );	}
+static int psFontNameFromPfb(MemoryBuffer *fontname, regProg *prog,
+			     const MemoryBuffer *filename)
+{
+	int rval = 0;
+	SimpleInputStream *sisFile = (SimpleInputStream *)0;
+	SimpleInputStream *sisFont = (SimpleInputStream *)0;
 
-    return rval;
-    }
+	sisFile = sioInFileioOpen(filename);
+	if (!sisFile) {
+		XDEB(sisFile);
+		goto ready;
+	}
 
-static AfmFontInfo * psFillAfiForPfb(	const AfmDirBuilder *	adb,
-					const MemoryBuffer *	filename )
-    {
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
-    SimpleInputStream *	sisFile= (SimpleInputStream *)0;
-    SimpleInputStream *	sisFont= (SimpleInputStream *)0;
+	sisFont = sioInPfbOpen(sisFile);
+	if (!sisFont) {
+		XDEB(sisFont);
+		goto ready;
+	}
 
-    sisFile= sioInFileioOpen( filename );
-    if  ( ! sisFile )
-	{ XDEB(sisFile); goto ready;	}
+	rval = psFontNameFromPf(fontname, sisFont, prog);
+	if (rval) {
+		LDEB(rval);
+	}
 
-    sisFont= sioInPfbOpen( sisFile );
-    if  ( ! sisFont )
-	{ XDEB(sisFont); goto ready;	}
+ready:
 
-    afi= psFillAfiForPf( sisFont, adb, filename );
-    if  ( ! afi )
-	{ XDEB(afi);	}
+	if (sisFont) {
+		sioInClose(sisFont);
+	}
+	if (sisFile) {
+		sioInClose(sisFile);
+	}
 
-  ready:
-    if  ( sisFont )
-	{ sioInClose( sisFont );	}
-    if  ( sisFile )
-	{ sioInClose( sisFile );	}
+	return rval;
+}
 
-    return afi;
-    }
+static AfmFontInfo *psFillAfiForPfb(const AfmDirBuilder *adb,
+				    const MemoryBuffer *filename)
+{
+	AfmFontInfo *afi = (AfmFontInfo *)0;
+	SimpleInputStream *sisFile = (SimpleInputStream *)0;
+	SimpleInputStream *sisFont = (SimpleInputStream *)0;
+
+	sisFile = sioInFileioOpen(filename);
+	if (!sisFile) {
+		XDEB(sisFile);
+		goto ready;
+	}
+
+	sisFont = sioInPfbOpen(sisFile);
+	if (!sisFont) {
+		XDEB(sisFont);
+		goto ready;
+	}
+
+	afi = psFillAfiForPf(sisFont, adb, filename);
+	if (!afi) {
+		XDEB(afi);
+	}
+
+ready:
+	if (sisFont) {
+		sioInClose(sisFont);
+	}
+	if (sisFile) {
+		sioInClose(sisFile);
+	}
+
+	return afi;
+}
 
 /************************************************************************/
 /*									*/
@@ -389,117 +447,146 @@ static AfmFontInfo * psFillAfiForPfb(	const AfmDirBuilder *	adb,
 /*									*/
 /************************************************************************/
 
-static AfmFontInfo * psFillAfiForTtf(	const MemoryBuffer *	filename )
-    {
-    int			rval= 0;
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
-    SimpleInputStream *	sisFile= (SimpleInputStream *)0;
+static AfmFontInfo *psFillAfiForTtf(const MemoryBuffer *filename)
+{
+	int rval = 0;
+	AfmFontInfo *afi = (AfmFontInfo *)0;
+	SimpleInputStream *sisFile = (SimpleInputStream *)0;
 
-    afi= (AfmFontInfo *)malloc( sizeof(AfmFontInfo) );
-    if  ( ! afi )
-	{ XDEB(afi); rval= -1; goto ready;	}
-    psInitAfmFontInfo( afi );
+	afi = (AfmFontInfo *)malloc(sizeof(AfmFontInfo));
+	if (!afi) {
+		XDEB(afi);
+		rval = -1;
+		goto ready;
+	}
+	psInitAfmFontInfo(afi);
 
-    sisFile= sioInFileioOpen( filename );
-    if  ( ! sisFile )
-	{ XDEB(sisFile); rval= -1; goto ready;	}
-
-    if  ( psTtfToAfi( afi, filename, sisFile ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-  ready:
-
-    if  ( rval && afi )
-	{
-	psFreeAfmFontInfo( afi );
-	afi= (AfmFontInfo *)0;
+	sisFile = sioInFileioOpen(filename);
+	if (!sisFile) {
+		XDEB(sisFile);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( sisFile )
-	{ sioInClose( sisFile );	}
-
-    return afi;
-    }
-
-static AfmFontInfo * psFillAfiForAfm(	int			afmFlags,
-					const MemoryBuffer *	filename )
-    {
-    int			rval= 0;
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
-    SimpleInputStream *	sisAfm= (SimpleInputStream *)0;
-
-    afi= (AfmFontInfo *)malloc( sizeof(AfmFontInfo) );
-    if  ( ! afi )
-	{ XDEB(afi); rval= -1; goto ready;	}
-    psInitAfmFontInfo( afi );
-
-    sisAfm= sioInFileioOpen( filename );
-    if  ( ! sisAfm )
-	{ XDEB(sisAfm); rval= -1; goto ready;	}
-
-    if  ( psAfmReadAfm( sisAfm, afi, afmFlags ) )
-	{ SDEB(utilMemoryBufferGetString(filename)); rval= -1; goto ready; }
-
-  ready:
-
-    if  ( rval && afi )
-	{
-	psFreeAfmFontInfo( afi );
-	afi= (AfmFontInfo *)0;
+	if (psTtfToAfi(afi, filename, sisFile)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( sisAfm )
-	{ sioInClose( sisAfm );	}
+ready:
 
-    return afi;
-    }
+	if (rval && afi) {
+		psFreeAfmFontInfo(afi);
+		afi = (AfmFontInfo *)0;
+	}
 
-static int psFontNameFromTtf(	MemoryBuffer *		fontname,
-				const MemoryBuffer *	filename )
-    {
-    int			rval= 0;
-    AfmFontInfo *	afi= (AfmFontInfo*)0;
+	if (sisFile) {
+		sioInClose(sisFile);
+	}
 
-    afi= psFillAfiForTtf( filename );
-    if  ( ! afi )
-	{ XDEB(afi); goto ready;	}
+	return afi;
+}
 
-    if  ( utilMemoryBufferSetString( fontname, afi->afiFontName ) )
-	{ LDEB(1); rval= -1;	}
+static AfmFontInfo *psFillAfiForAfm(int afmFlags, const MemoryBuffer *filename)
+{
+	int rval = 0;
+	AfmFontInfo *afi = (AfmFontInfo *)0;
+	SimpleInputStream *sisAfm = (SimpleInputStream *)0;
 
-  ready:
+	afi = (AfmFontInfo *)malloc(sizeof(AfmFontInfo));
+	if (!afi) {
+		XDEB(afi);
+		rval = -1;
+		goto ready;
+	}
+	psInitAfmFontInfo(afi);
 
-    if  ( afi )
-	{ psFreeAfmFontInfo( afi );	}
+	sisAfm = sioInFileioOpen(filename);
+	if (!sisAfm) {
+		XDEB(sisAfm);
+		rval = -1;
+		goto ready;
+	}
 
-    return rval;
-    }
+	if (psAfmReadAfm(sisAfm, afi, afmFlags)) {
+		SDEB(utilMemoryBufferGetString(filename));
+		rval = -1;
+		goto ready;
+	}
 
-static int psFontNameFromAfm(	MemoryBuffer *		fontname,
-				MemoryBuffer *		filename )
-    {
-    int			rval= 0;
-    AfmFontInfo *	afi= (AfmFontInfo*)0;
+ready:
 
-    const int		afmFlags= PSflagDEFER_METRICS | PSflagIGNORE_KERNING;
+	if (rval && afi) {
+		psFreeAfmFontInfo(afi);
+		afi = (AfmFontInfo *)0;
+	}
 
-    afi= psFillAfiForAfm( afmFlags, filename );
-    if  ( ! afi )
-	{ SDEB(utilMemoryBufferGetString(filename)); rval= -1; goto ready; }
+	if (sisAfm) {
+		sioInClose(sisAfm);
+	}
 
-    if  ( utilMemoryBufferSetString( fontname, afi->afiFontName ) )
-	{ LDEB(1); rval= -1;	}
+	return afi;
+}
 
-    if  ( utilCopyMemoryBuffer( filename, &(afi->afiFontFileName) ) )
-	{ LDEB(1); rval= -1;	}
+static int psFontNameFromTtf(MemoryBuffer *fontname,
+			     const MemoryBuffer *filename)
+{
+	int rval = 0;
+	AfmFontInfo *afi = (AfmFontInfo *)0;
 
-  ready:
+	afi = psFillAfiForTtf(filename);
+	if (!afi) {
+		XDEB(afi);
+		goto ready;
+	}
 
-    if  ( afi )
-	{ psFreeAfmFontInfo( afi );	}
+	if (utilMemoryBufferSetString(fontname, afi->afiFontName)) {
+		LDEB(1);
+		rval = -1;
+	}
 
-    return rval;
-    }
+ready:
+
+	if (afi) {
+		psFreeAfmFontInfo(afi);
+	}
+
+	return rval;
+}
+
+static int psFontNameFromAfm(MemoryBuffer *fontname, MemoryBuffer *filename)
+{
+	int rval = 0;
+	AfmFontInfo *afi = (AfmFontInfo *)0;
+
+	const int afmFlags = PSflagDEFER_METRICS | PSflagIGNORE_KERNING;
+
+	afi = psFillAfiForAfm(afmFlags, filename);
+	if (!afi) {
+		SDEB(utilMemoryBufferGetString(filename));
+		rval = -1;
+		goto ready;
+	}
+
+	if (utilMemoryBufferSetString(fontname, afi->afiFontName)) {
+		LDEB(1);
+		rval = -1;
+	}
+
+	if (utilCopyMemoryBuffer(filename, &(afi->afiFontFileName))) {
+		LDEB(1);
+		rval = -1;
+	}
+
+ready:
+
+	if (afi) {
+		psFreeAfmFontInfo(afi);
+	}
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -510,246 +597,296 @@ static int psFontNameFromAfm(	MemoryBuffer *		fontname,
 /*									*/
 /************************************************************************/
 
-int psFontmapForFiles(		SimpleOutputStream *	sosOut,
-				int			fileCount,
-				const char * const *	fileNames )
-    {
-    int			rval= 0;
-    int			f;
+int psFontmapForFiles(SimpleOutputStream *sosOut, int fileCount,
+		      const char *const *fileNames)
+{
+	int rval = 0;
+	int f;
 
-    const int		ignoreKerning= 1;
+	const int ignoreKerning = 1;
 
-    AfmDirBuilder	adb;
-    MemoryBuffer	file;
-    MemoryBuffer	extension;
-    MemoryBuffer	fontname;
+	AfmDirBuilder adb;
+	MemoryBuffer file;
+	MemoryBuffer extension;
+	MemoryBuffer fontname;
 
-    utilInitMemoryBuffer( &file );
-    utilInitMemoryBuffer( &extension );
-    utilInitMemoryBuffer( &fontname );
+	utilInitMemoryBuffer(&file);
+	utilInitMemoryBuffer(&extension);
+	utilInitMemoryBuffer(&fontname);
 
-    psInitAfmDirBuilder( &adb );
+	psInitAfmDirBuilder(&adb);
 
-    if  ( psStartAfmDirBuilder( &adb, (PostScriptFontList *)0, ignoreKerning,
-						(const MemoryBuffer *)0,
-						(const MemoryBuffer *)0 ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    for ( f= 0; f < fileCount; f++ )
-	{
-	int	ret;
-
-	utilEmptyMemoryBuffer( &fontname );
-
-	ret= psGetNameExt( &file, &extension, &adb, fileNames[f] );
-	if  ( ret )
-	    { LDEB(ret); rval= -1; goto ready;	}
-
-	if  ( appFileGetFileExtension( &extension, &file ) < 0 )
-	    { LDEB(1); rval= -1; goto ready;	}
-	if  ( utilMemoryBufferIsEmpty( &extension ) )
-	    { SDEB(fileNames[f]); rval= -1; continue;	}
-
-	if  ( utilMemoryBufferEqualsString( &extension, pfaExtension ) )
-	    {
-	    if  ( psFontNameFromPfa( &fontname, adb.adbFontNameProg, &file ) )
-		{ SDEB(fileNames[f]); rval= -1;	}
-	    }
-
-	if  ( utilMemoryBufferEqualsString( &extension, pfbExtension ) )
-	    {
-	    if  ( psFontNameFromPfb( &fontname, adb.adbFontNameProg, &file ) )
-		{ SDEB(fileNames[f]); rval= -1;	}
-	    }
-
-	if  ( utilMemoryBufferEqualsString( &extension, afmExtension ) )
-	    {
-	    if  ( psFontNameFromAfm( &fontname, &file ) )
-		{ SDEB(fileNames[f]); rval= -1;	}
-	    }
-
-	if  ( utilMemoryBufferEqualsString( &extension, ttfExtension ) ||
-	      utilMemoryBufferEqualsString( &extension, TTFExtension ) )
-	    {
-	    if  ( psFontNameFromTtf( &fontname, &file ) )
-		{ SDEB(fileNames[f]); rval= -1;	}
-	    }
-
-	/*  Note that the afm reader potentially modifies the file name */
-
-	if  ( ! utilMemoryBufferIsEmpty( &fontname )	&&
-	      ! utilMemoryBufferIsEmpty( &file )	)
-	    {
-	    sioOutPrintf( sosOut, "/%s (%s) ;\n",
-		    utilMemoryBufferGetString( &fontname ),
-		    utilMemoryBufferGetString( &file ) );
-	    }
+	if (psStartAfmDirBuilder(&adb, (PostScriptFontList *)0, ignoreKerning,
+				 (const MemoryBuffer *)0,
+				 (const MemoryBuffer *)0)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-  ready:
+	for (f = 0; f < fileCount; f++) {
+		int ret;
 
-    psCleanAfmDirBuilder( &adb );
+		utilEmptyMemoryBuffer(&fontname);
 
-    utilCleanMemoryBuffer( &file );
-    utilCleanMemoryBuffer( &extension );
-    utilCleanMemoryBuffer( &fontname );
+		ret = psGetNameExt(&file, &extension, &adb, fileNames[f]);
+		if (ret) {
+			LDEB(ret);
+			rval = -1;
+			goto ready;
+		}
 
-    return rval;
-    }
+		if (appFileGetFileExtension(&extension, &file) < 0) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+		if (utilMemoryBufferIsEmpty(&extension)) {
+			SDEB(fileNames[f]);
+			rval = -1;
+			continue;
+		}
+
+		if (utilMemoryBufferEqualsString(&extension, pfaExtension)) {
+			if (psFontNameFromPfa(&fontname, adb.adbFontNameProg,
+					      &file)) {
+				SDEB(fileNames[f]);
+				rval = -1;
+			}
+		}
+
+		if (utilMemoryBufferEqualsString(&extension, pfbExtension)) {
+			if (psFontNameFromPfb(&fontname, adb.adbFontNameProg,
+					      &file)) {
+				SDEB(fileNames[f]);
+				rval = -1;
+			}
+		}
+
+		if (utilMemoryBufferEqualsString(&extension, afmExtension)) {
+			if (psFontNameFromAfm(&fontname, &file)) {
+				SDEB(fileNames[f]);
+				rval = -1;
+			}
+		}
+
+		if (utilMemoryBufferEqualsString(&extension, ttfExtension) ||
+		    utilMemoryBufferEqualsString(&extension, TTFExtension)) {
+			if (psFontNameFromTtf(&fontname, &file)) {
+				SDEB(fileNames[f]);
+				rval = -1;
+			}
+		}
+
+		/*  Note that the afm reader potentially modifies the file name */
+
+		if (!utilMemoryBufferIsEmpty(&fontname) &&
+		    !utilMemoryBufferIsEmpty(&file)) {
+			sioOutPrintf(sosOut, "/%s (%s) ;\n",
+				     utilMemoryBufferGetString(&fontname),
+				     utilMemoryBufferGetString(&file));
+		}
+	}
+
+ready:
+
+	psCleanAfmDirBuilder(&adb);
+
+	utilCleanMemoryBuffer(&file);
+	utilCleanMemoryBuffer(&extension);
+	utilCleanMemoryBuffer(&fontname);
+
+	return rval;
+}
 
 /************************************************************************/
 
-static int psSaveAfmFile(	AfmFontInfo *		afi,
-				AfmDirBuilder *		adb )
-    {
-    int				rval= 0;
-    const int			relativeIsFile= 0;
-    unsigned char *		s;
+static int psSaveAfmFile(AfmFontInfo *afi, AfmDirBuilder *adb)
+{
+	int rval = 0;
+	const int relativeIsFile = 0;
+	unsigned char *s;
 
-    MemoryBuffer		relative;
+	MemoryBuffer relative;
 
-    utilInitMemoryBuffer( &relative );
+	utilInitMemoryBuffer(&relative);
 
-    if  ( utilMemoryBufferSetString( &relative, afi->afiFontName ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-    if  ( utilMemoryBufferAppendBytes( &relative,
-				    (const unsigned char *)".afm", 4 ) )
-	{ LDEB(4); rval= -1; goto ready;	}
-
-    s= relative.mbBytes;
-    while( *s )
-	{
-	if  ( isspace( *s ) )
-	    { *s= '-';	}
-	s++;
+	if (utilMemoryBufferSetString(&relative, afi->afiFontName)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
-    if  ( appAbsoluteName( &(afi->afiAfmFileName), &relative,
-				relativeIsFile, &(adb->adbAfmDirectory) ) < 0 )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (utilMemoryBufferAppendBytes(&relative,
+					(const unsigned char *)".afm", 4)) {
+		LDEB(4);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( psPostScriptFontListAddInfo( adb->adbPostScriptFontList, afi ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	s = relative.mbBytes;
+	while (*s) {
+		if (isspace(*s)) {
+			*s = '-';
+		}
+		s++;
+	}
+	if (appAbsoluteName(&(afi->afiAfmFileName), &relative, relativeIsFile,
+			    &(adb->adbAfmDirectory)) < 0) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	if (psPostScriptFontListAddInfo(adb->adbPostScriptFontList, afi)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    utilCleanMemoryBuffer( &relative );
+ready:
 
-    return rval;
-    }
+	utilCleanMemoryBuffer(&relative);
 
-static int psAfmFromPfaFile(	const MemoryBuffer *	filename,
-				void *			through )
-    {
-    int			rval= 0;
-    AfmDirBuilder *	adb= (AfmDirBuilder *)through;
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
+	return rval;
+}
 
-    /* Broken symlinks */
-    if  ( appTestFileExists( filename ) )
-	{ goto ready;	}
+static int psAfmFromPfaFile(const MemoryBuffer *filename, void *through)
+{
+	int rval = 0;
+	AfmDirBuilder *adb = (AfmDirBuilder *)through;
+	AfmFontInfo *afi = (AfmFontInfo *)0;
 
-    afi= psFillAfiForPfa( adb, filename );
-    if  ( ! afi )
-	{ XDEB(afi); goto ready;	} /* do not fail */
+	/* Broken symlinks */
+	if (appTestFileExists(filename)) {
+		goto ready;
+	}
 
-    if  ( psSaveAfmFile( afi, adb ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	afi = psFillAfiForPfa(adb, filename);
+	if (!afi) {
+		XDEB(afi);
+		goto ready;
+	} /* do not fail */
 
-    afi= (AfmFontInfo *)0; /* steal */
+	if (psSaveAfmFile(afi, adb)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	afi = (AfmFontInfo *)0; /* steal */
 
-    if  ( afi )
-	{ psFreeAfmFontInfo( afi );	}
+ready:
 
-    return rval;
-    }
+	if (afi) {
+		psFreeAfmFontInfo(afi);
+	}
 
-static int psAfmFromPfbFile(	const MemoryBuffer *	filename,
-				void *			through )
-    {
-    int			rval= 0;
-    AfmDirBuilder *	adb= (AfmDirBuilder *)through;
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
+	return rval;
+}
 
-    /* Broken symlinks */
-    if  ( appTestFileExists( filename ) )
-	{ goto ready;	}
+static int psAfmFromPfbFile(const MemoryBuffer *filename, void *through)
+{
+	int rval = 0;
+	AfmDirBuilder *adb = (AfmDirBuilder *)through;
+	AfmFontInfo *afi = (AfmFontInfo *)0;
 
-    afi= psFillAfiForPfb( adb, filename );
-    if  ( ! afi )
-	{ XDEB(afi); goto ready;	} /* do not fail */
+	/* Broken symlinks */
+	if (appTestFileExists(filename)) {
+		goto ready;
+	}
 
-    if  ( psSaveAfmFile( afi, adb ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	afi = psFillAfiForPfb(adb, filename);
+	if (!afi) {
+		XDEB(afi);
+		goto ready;
+	} /* do not fail */
 
-    afi= (AfmFontInfo *)0; /* steal */
+	if (psSaveAfmFile(afi, adb)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	afi = (AfmFontInfo *)0; /* steal */
 
-    if  ( afi )
-	{ psFreeAfmFontInfo( afi );	}
+ready:
 
-    return rval;
-    }
+	if (afi) {
+		psFreeAfmFontInfo(afi);
+	}
 
-static int psAfmFromTtfFile(	const MemoryBuffer *	filename,
-				void *			through )
-    {
-    int			rval= 0;
-    AfmDirBuilder *	adb= (AfmDirBuilder *)through;
+	return rval;
+}
 
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
+static int psAfmFromTtfFile(const MemoryBuffer *filename, void *through)
+{
+	int rval = 0;
+	AfmDirBuilder *adb = (AfmDirBuilder *)through;
 
-    /* Broken symlinks */
-    if  ( appTestFileExists( filename ) )
-	{ goto ready;	}
+	AfmFontInfo *afi = (AfmFontInfo *)0;
 
-    afi= psFillAfiForTtf( filename );
-    if  ( ! afi )
-	{ XDEB(afi); goto ready;	} /* do not fail */
+	/* Broken symlinks */
+	if (appTestFileExists(filename)) {
+		goto ready;
+	}
 
-    if  ( psSaveAfmFile( afi, adb ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	afi = psFillAfiForTtf(filename);
+	if (!afi) {
+		XDEB(afi);
+		goto ready;
+	} /* do not fail */
 
-    afi= (AfmFontInfo *)0;
+	if (psSaveAfmFile(afi, adb)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	afi = (AfmFontInfo *)0;
 
-    if  ( afi )
-	{ psFreeAfmFontInfo( afi );	}
+ready:
 
-    return rval;
-    }
+	if (afi) {
+		psFreeAfmFontInfo(afi);
+	}
 
-static int psAfmFromAfmFile(	const MemoryBuffer *	filename,
-				void *			through )
-    {
-    int			rval= 0;
-    AfmDirBuilder *	adb= (AfmDirBuilder *)through;
+	return rval;
+}
 
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
+static int psAfmFromAfmFile(const MemoryBuffer *filename, void *through)
+{
+	int rval = 0;
+	AfmDirBuilder *adb = (AfmDirBuilder *)through;
 
-    /* Broken symlinks */
-    if  ( appTestFileExists( filename ) )
-	{ goto ready;	}
+	AfmFontInfo *afi = (AfmFontInfo *)0;
 
-    afi= psFillAfiForAfm( adb->adbAfmFlags, filename );
-    if  ( ! afi )
-	{ LDEB(1); goto ready;	} /* do not fail */
+	/* Broken symlinks */
+	if (appTestFileExists(filename)) {
+		goto ready;
+	}
 
-    if  ( psSaveAfmFile( afi, adb ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	afi = psFillAfiForAfm(adb->adbAfmFlags, filename);
+	if (!afi) {
+		LDEB(1);
+		goto ready;
+	} /* do not fail */
 
-    afi= (AfmFontInfo *)0;
+	if (psSaveAfmFile(afi, adb)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	afi = (AfmFontInfo *)0;
 
-    if  ( afi )
-	{ psFreeAfmFontInfo( afi );	}
+ready:
 
-    return rval;
-    }
+	if (afi) {
+		psFreeAfmFontInfo(afi);
+	}
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -758,88 +895,112 @@ static int psAfmFromAfmFile(	const MemoryBuffer *	filename,
 /*									*/
 /************************************************************************/
 
-int psGSLibAfmDirectory(	PostScriptFontList *	psfl,
-				int			ignoreKerning,
-				const MemoryBuffer *	afmDirectory,
-				const MemoryBuffer *	psDirectory )
-    {
-    int				rval= 0;
-    SimpleInputStream *		sisCmd= (SimpleInputStream *)0;
+int psGSLibAfmDirectory(PostScriptFontList *psfl, int ignoreKerning,
+			const MemoryBuffer *afmDirectory,
+			const MemoryBuffer *psDirectory)
+{
+	int rval = 0;
+	SimpleInputStream *sisCmd = (SimpleInputStream *)0;
 
-    AfmDirBuilder		adb;
-    MemoryBuffer		dir;
-    MemoryBuffer		libCommand;
+	AfmDirBuilder adb;
+	MemoryBuffer dir;
+	MemoryBuffer libCommand;
 
-    char			scratch[500+1];
+	char scratch[500 + 1];
 
-    const char *		libBase= "gs -q %s/gslibpath.ps -c quit";
+	const char *libBase = "gs -q %s/gslibpath.ps -c quit";
 
-    utilInitMemoryBuffer( &dir );
-    utilInitMemoryBuffer( &libCommand );
+	utilInitMemoryBuffer(&dir);
+	utilInitMemoryBuffer(&libCommand);
 
-    psInitAfmDirBuilder( &adb );
+	psInitAfmDirBuilder(&adb);
 
-    if  ( psStartAfmDirBuilder( &adb, psfl, ignoreKerning,
-					    afmDirectory, psDirectory ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    utilMemoryBufferPrintf( &libCommand, libBase,
-				utilMemoryBufferGetString( psDirectory ) );
-
-    sisCmd= sioInPipeOpen( &libCommand );
-    if  ( ! sisCmd )
-	{ SXDEB(libBase,sisCmd); rval= -1; goto ready;	}
-
-    setlocale( LC_NUMERIC, "C" );
-
-    while( sioInGetString( scratch, sizeof(scratch)- 1, sisCmd ) )
-	{
-	int		l;
-
-	scratch[sizeof(scratch)- 1]= '\0';
-	l= strlen( scratch );
-	if  ( l < 2 )
-	    { LDEB(l); rval= -1; goto ready;	}
-	if  ( scratch[l-1] != '\n' )
-	    { SDEB(scratch); rval= -1; goto ready;	}
-	scratch[l-1]= '\0';
-
-	if  ( utilMemoryBufferSetString( &dir, scratch ) )
-	    { LDEB(1); rval= -1; goto ready;	}
-
-	if  ( ! appFileNameIsAbsolute( scratch ) )
-	    { continue;	}
-	if  ( appTestDirectory( &dir ) )
-	    { continue;	}
-
-	l= appForAllFiles( &dir, pfaExtension, &adb, psAfmFromPfaFile );
-	if  ( l )
-	    { SDEB(scratch); rval= -1;	}
-	l= appForAllFiles( &dir, pfbExtension, &adb, psAfmFromPfbFile );
-	if  ( l )
-	    { SDEB(scratch); rval= -1;	}
-	l= appForAllFiles( &dir, ttfExtension, &adb, psAfmFromTtfFile );
-	if  ( l )
-	    { SDEB(scratch); rval= -1;	}
-	l= appForAllFiles( &dir, TTFExtension, &adb, psAfmFromTtfFile );
-	if  ( l )
-	    { SDEB(scratch); rval= -1;	}
+	if (psStartAfmDirBuilder(&adb, psfl, ignoreKerning, afmDirectory,
+				 psDirectory)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-  ready:
+	utilMemoryBufferPrintf(&libCommand, libBase,
+			       utilMemoryBufferGetString(psDirectory));
 
-    setlocale( LC_NUMERIC, "" );
+	sisCmd = sioInPipeOpen(&libCommand);
+	if (!sisCmd) {
+		SXDEB(libBase, sisCmd);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( sisCmd )
-	{ sioInClose( sisCmd );	}
+	setlocale(LC_NUMERIC, "C");
 
-    psCleanAfmDirBuilder( &adb );
+	while (sioInGetString(scratch, sizeof(scratch) - 1, sisCmd)) {
+		int l;
 
-    utilCleanMemoryBuffer( &dir );
-    utilCleanMemoryBuffer( &libCommand );
+		scratch[sizeof(scratch) - 1] = '\0';
+		l = strlen(scratch);
+		if (l < 2) {
+			LDEB(l);
+			rval = -1;
+			goto ready;
+		}
+		if (scratch[l - 1] != '\n') {
+			SDEB(scratch);
+			rval = -1;
+			goto ready;
+		}
+		scratch[l - 1] = '\0';
 
-    return rval;
-    }
+		if (utilMemoryBufferSetString(&dir, scratch)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+
+		if (!appFileNameIsAbsolute(scratch)) {
+			continue;
+		}
+		if (appTestDirectory(&dir)) {
+			continue;
+		}
+
+		l = appForAllFiles(&dir, pfaExtension, &adb, psAfmFromPfaFile);
+		if (l) {
+			SDEB(scratch);
+			rval = -1;
+		}
+		l = appForAllFiles(&dir, pfbExtension, &adb, psAfmFromPfbFile);
+		if (l) {
+			SDEB(scratch);
+			rval = -1;
+		}
+		l = appForAllFiles(&dir, ttfExtension, &adb, psAfmFromTtfFile);
+		if (l) {
+			SDEB(scratch);
+			rval = -1;
+		}
+		l = appForAllFiles(&dir, TTFExtension, &adb, psAfmFromTtfFile);
+		if (l) {
+			SDEB(scratch);
+			rval = -1;
+		}
+	}
+
+ready:
+
+	setlocale(LC_NUMERIC, "");
+
+	if (sisCmd) {
+		sioInClose(sisCmd);
+	}
+
+	psCleanAfmDirBuilder(&adb);
+
+	utilCleanMemoryBuffer(&dir);
+	utilCleanMemoryBuffer(&libCommand);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -847,172 +1008,204 @@ int psGSLibAfmDirectory(	PostScriptFontList *	psfl,
 /*									*/
 /************************************************************************/
 
-int psAfmForFontFiles(	PostScriptFontList *	psfl,
-			int			ignoreKerning,
-			int			fileCount,
-			char **			fileNames,
-			const MemoryBuffer *	afmDirectory,
-			const MemoryBuffer *	psDirectory )
-    {
-    int				rval= 0;
-    int				f;
+int psAfmForFontFiles(PostScriptFontList *psfl, int ignoreKerning,
+		      int fileCount, char **fileNames,
+		      const MemoryBuffer *afmDirectory,
+		      const MemoryBuffer *psDirectory)
+{
+	int rval = 0;
+	int f;
 
+	AfmDirBuilder adb;
+	MemoryBuffer file;
+	MemoryBuffer extension;
 
-    AfmDirBuilder		adb;
-    MemoryBuffer		file;
-    MemoryBuffer		extension;
+	utilInitMemoryBuffer(&file);
+	utilInitMemoryBuffer(&extension);
 
-    utilInitMemoryBuffer( &file );
-    utilInitMemoryBuffer( &extension );
+	psInitAfmDirBuilder(&adb);
 
-    psInitAfmDirBuilder( &adb );
-
-    if  ( psStartAfmDirBuilder( &adb, psfl, ignoreKerning,
-						afmDirectory, psDirectory ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    setlocale( LC_NUMERIC, "C" );
-
-    for ( f= 0; f < fileCount; f++ )
-	{
-	int	ret;
-
-	ret= psGetNameExt( &file, &extension, &adb, fileNames[f] );
-	if  ( ret < 0 )
-	    { LDEB(ret); rval= -1; goto ready;	}
-	if  ( ret > 0 )
-	    { LDEB(ret); rval= -1; continue;	}
-
-	if  ( utilMemoryBufferEqualsString( &extension, pfaExtension ) )
-	    {
-	    if  ( psAfmFromPfaFile( &file, &adb ) )
-		{ SDEB(fileNames[f]); rval= -1;	}
-
-	    continue;
-	    }
-
-	if  ( utilMemoryBufferEqualsString( &extension, pfbExtension ) )
-	    {
-	    if  ( psAfmFromPfbFile( &file, &adb ) )
-		{ SDEB(fileNames[f]); rval= -1;	}
-
-	    continue;
-	    }
-
-	if  ( utilMemoryBufferEqualsString( &extension, afmExtension ) )
-	    {
-	    if  ( psAfmFromAfmFile( &file, &adb ) )
-		{ SDEB(fileNames[f]); rval= -1;	}
-
-	    continue;
-	    }
-
-	if  ( utilMemoryBufferEqualsString( &extension, ttfExtension ) ||
-	      utilMemoryBufferEqualsString( &extension, TTFExtension ) )
-	    {
-	    if  ( psAfmFromTtfFile( &file, &adb ) )
-		{ SDEB(fileNames[f]); rval= -1;	}
-
-	    continue;
-	    }
-
-	SDEB(fileNames[f]); rval= -1; continue;
+	if (psStartAfmDirBuilder(&adb, psfl, ignoreKerning, afmDirectory,
+				 psDirectory)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-  ready:
+	setlocale(LC_NUMERIC, "C");
 
-    setlocale( LC_NUMERIC, "" );
+	for (f = 0; f < fileCount; f++) {
+		int ret;
 
-    psCleanAfmDirBuilder( &adb );
+		ret = psGetNameExt(&file, &extension, &adb, fileNames[f]);
+		if (ret < 0) {
+			LDEB(ret);
+			rval = -1;
+			goto ready;
+		}
+		if (ret > 0) {
+			LDEB(ret);
+			rval = -1;
+			continue;
+		}
 
-    utilCleanMemoryBuffer( &file );
-    utilCleanMemoryBuffer( &extension );
+		if (utilMemoryBufferEqualsString(&extension, pfaExtension)) {
+			if (psAfmFromPfaFile(&file, &adb)) {
+				SDEB(fileNames[f]);
+				rval = -1;
+			}
 
-    return rval;
-    }
+			continue;
+		}
 
-int psAfmToGSFontmap(	SimpleOutputStream *	sosFontDir,
-			const char *		afmFileName )
-    {
-    return psFontmapForFiles( sosFontDir, 1, &(afmFileName) );
-    }
+		if (utilMemoryBufferEqualsString(&extension, pfbExtension)) {
+			if (psAfmFromPfbFile(&file, &adb)) {
+				SDEB(fileNames[f]);
+				rval = -1;
+			}
 
-int psFontFileToAfm(	SimpleOutputStream *	sosAfm,
-			int			omitKernPairs,
-			const char *		fontFileName,
-			const MemoryBuffer *	psDirectory )
-    {
-    int			rval= 0;
-    int			ret;
-    AfmFontInfo *	afi= (AfmFontInfo *)0;
+			continue;
+		}
 
-    AfmDirBuilder	adb;
-    MemoryBuffer	file;
-    MemoryBuffer	extension;
+		if (utilMemoryBufferEqualsString(&extension, afmExtension)) {
+			if (psAfmFromAfmFile(&file, &adb)) {
+				SDEB(fileNames[f]);
+				rval = -1;
+			}
 
-    utilInitMemoryBuffer( &file );
-    utilInitMemoryBuffer( &extension );
+			continue;
+		}
 
-    psInitAfmDirBuilder( &adb );
+		if (utilMemoryBufferEqualsString(&extension, ttfExtension) ||
+		    utilMemoryBufferEqualsString(&extension, TTFExtension)) {
+			if (psAfmFromTtfFile(&file, &adb)) {
+				SDEB(fileNames[f]);
+				rval = -1;
+			}
 
-    if  ( psStartAfmDirBuilder( &adb, (PostScriptFontList *)0, omitKernPairs,
-				    (const MemoryBuffer *)0, psDirectory ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+			continue;
+		}
 
-    setlocale( LC_NUMERIC, "C" );
-
-    ret= psGetNameExt( &file, &extension, &adb, fontFileName );
-    if  ( ret < 0 )
-	{ LDEB(ret); rval= -1; goto ready;	}
-    if  ( ret > 0 )
-	{ LDEB(ret); rval= -1; goto ready;	}
-
-    if  ( utilMemoryBufferEqualsString( &extension, pfaExtension ) )
-	{
-	afi= psFillAfiForPfa( &adb, &file );
-	if  ( ! afi )
-	    { SXDEB(fontFileName,afi); rval= -1; goto ready;	}
+		SDEB(fileNames[f]);
+		rval = -1;
+		continue;
 	}
 
-    if  ( utilMemoryBufferEqualsString( &extension, pfbExtension ) )
-	{
-	afi= psFillAfiForPfb( &adb, &file );
-	if  ( ! afi )
-	    { SXDEB(fontFileName,afi); rval= -1; goto ready;	}
+ready:
+
+	setlocale(LC_NUMERIC, "");
+
+	psCleanAfmDirBuilder(&adb);
+
+	utilCleanMemoryBuffer(&file);
+	utilCleanMemoryBuffer(&extension);
+
+	return rval;
+}
+
+int psAfmToGSFontmap(SimpleOutputStream *sosFontDir, const char *afmFileName)
+{
+	return psFontmapForFiles(sosFontDir, 1, &(afmFileName));
+}
+
+int psFontFileToAfm(SimpleOutputStream *sosAfm, int omitKernPairs,
+		    const char *fontFileName, const MemoryBuffer *psDirectory)
+{
+	int rval = 0;
+	int ret;
+	AfmFontInfo *afi = (AfmFontInfo *)0;
+
+	AfmDirBuilder adb;
+	MemoryBuffer file;
+	MemoryBuffer extension;
+
+	utilInitMemoryBuffer(&file);
+	utilInitMemoryBuffer(&extension);
+
+	psInitAfmDirBuilder(&adb);
+
+	if (psStartAfmDirBuilder(&adb, (PostScriptFontList *)0, omitKernPairs,
+				 (const MemoryBuffer *)0, psDirectory)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( utilMemoryBufferEqualsString( &extension, afmExtension ) )
-	{
-	afi= psFillAfiForAfm( adb.adbAfmFlags, &file );
-	if  ( ! afi )
-	    { SXDEB(fontFileName,afi); rval= -1; goto ready;	}
+	setlocale(LC_NUMERIC, "C");
+
+	ret = psGetNameExt(&file, &extension, &adb, fontFileName);
+	if (ret < 0) {
+		LDEB(ret);
+		rval = -1;
+		goto ready;
+	}
+	if (ret > 0) {
+		LDEB(ret);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( utilMemoryBufferEqualsString( &extension, ttfExtension ) ||
-	  utilMemoryBufferEqualsString( &extension, TTFExtension ) )
-	{
-	afi= psFillAfiForTtf( &file );
-	if  ( ! afi )
-	    { SXDEB(fontFileName,afi); rval= -1; goto ready;	}
+	if (utilMemoryBufferEqualsString(&extension, pfaExtension)) {
+		afi = psFillAfiForPfa(&adb, &file);
+		if (!afi) {
+			SXDEB(fontFileName, afi);
+			rval = -1;
+			goto ready;
+		}
 	}
 
-    if  ( ! afi )
-	{ XDEB(afi); rval= -1; goto ready;	}
+	if (utilMemoryBufferEqualsString(&extension, pfbExtension)) {
+		afi = psFillAfiForPfb(&adb, &file);
+		if (!afi) {
+			SXDEB(fontFileName, afi);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-    if  ( psWriteAfmFile( sosAfm, adb.adbAfmFlags, afi ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (utilMemoryBufferEqualsString(&extension, afmExtension)) {
+		afi = psFillAfiForAfm(adb.adbAfmFlags, &file);
+		if (!afi) {
+			SXDEB(fontFileName, afi);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-  ready:
+	if (utilMemoryBufferEqualsString(&extension, ttfExtension) ||
+	    utilMemoryBufferEqualsString(&extension, TTFExtension)) {
+		afi = psFillAfiForTtf(&file);
+		if (!afi) {
+			SXDEB(fontFileName, afi);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-    setlocale( LC_NUMERIC, "" );
+	if (!afi) {
+		XDEB(afi);
+		rval = -1;
+		goto ready;
+	}
 
-    psCleanAfmDirBuilder( &adb );
+	if (psWriteAfmFile(sosAfm, adb.adbAfmFlags, afi)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    utilCleanMemoryBuffer( &file );
-    utilCleanMemoryBuffer( &extension );
+ready:
 
-    if  ( afi )
-	{ psFreeAfmFontInfo( afi );	}
+	setlocale(LC_NUMERIC, "");
 
-    return rval;
-    }
+	psCleanAfmDirBuilder(&adb);
+
+	utilCleanMemoryBuffer(&file);
+	utilCleanMemoryBuffer(&extension);
+
+	if (afi) {
+		psFreeAfmFontInfo(afi);
+	}
+
+	return rval;
+}

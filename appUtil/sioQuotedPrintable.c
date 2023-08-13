@@ -5,12 +5,12 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<stdlib.h>
+#include <stdlib.h>
 
-#   include	"sioQuotedPrintable.h"
-#   include	<appDebugon.h>
+#include "sioQuotedPrintable.h"
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -18,8 +18,8 @@
 /*									*/
 /************************************************************************/
 
-static const unsigned char	SioHexDigits[]= "0123456789ABCDEF";
-static unsigned char		SioHexIndices[256];
+static const unsigned char SioHexDigits[] = "0123456789ABCDEF";
+static unsigned char SioHexIndices[256];
 
 /************************************************************************/
 /*									*/
@@ -32,90 +32,98 @@ static unsigned char		SioHexIndices[256];
 /*									*/
 /************************************************************************/
 
-typedef struct QuotedInputStream
-    {
-    SimpleInputStream *		qisSisQuoted;
-    int				qisExhausted;
-    int				qisColumn;
-    } QuotedInputStream;
+typedef struct QuotedInputStream {
+	SimpleInputStream *qisSisQuoted;
+	int qisExhausted;
+	int qisColumn;
+} QuotedInputStream;
 
-static int sioInQuotedReadBytes(	void *		voidqis,
-					unsigned char *	buffer,
-					unsigned int	count )
-    {
-    QuotedInputStream *		qis= (QuotedInputStream *)voidqis;
-    int				done= 0;
+static int sioInQuotedReadBytes(void *voidqis, unsigned char *buffer,
+				unsigned int count)
+{
+	QuotedInputStream *qis = (QuotedInputStream *)voidqis;
+	int done = 0;
 
-    if  ( qis->qisExhausted )
-	{ return -1;	}
-
-    while( done < count )
-	{
-	int			c;
-
-	c= sioInGetByte( qis->qisSisQuoted );
-	if  ( c == EOF )
-	    { qis->qisExhausted= 1; break;	}
-
-	if  ( c == '-' && qis->qisColumn == 0 )
-	    {
-	    sioInUngetLastRead( qis->qisSisQuoted );
-	    qis->qisExhausted= 1; break;
-	    }
-
-	if  ( c == '\r' )
-	    {
-	    c= sioInGetByte( qis->qisSisQuoted );
-	    if  ( c != '\n' )
-		{ *(buffer++)= '\r'; done++;	}
-
-	    sioInUngetLastRead( qis->qisSisQuoted );
-
-	    continue;
-	    }
-	if  ( c == '\n' )
-	    { *(buffer++)= c; done++; qis->qisColumn= 0; continue; }
-
-	if  ( c == '=' )
-	    {
-	    int		x1;
-	    int		x2;
-
-	    x1= sioInGetByte( qis->qisSisQuoted );
-
-	    switch( x1 )
-		{
-		case '\n':
-		    continue;
-
-		case '\r':
-		    x2= sioInGetByte( qis->qisSisQuoted );
-		    if  ( x2 != '\n' )
-			{
-			CDEB(x2);
-			if  ( x2 != EOF )
-			    { sioInUngetLastRead( qis->qisSisQuoted ); }
-			}
-		    continue;
-
-		case EOF:
-		    XDEB(x1);
-		    qis->qisExhausted= 1;
-		    return -1;
-
-		default:
-		    XDEB(x1);
-		    sioInUngetLastRead( qis->qisSisQuoted );
-		    *(buffer++)= c; done++;
-		    break;
-		}
-	    }
-
-	*(buffer++)= c; done++; qis->qisColumn++; continue;
+	if (qis->qisExhausted) {
+		return -1;
 	}
 
-    return done;
-    }
+	while (done < count) {
+		int c;
+
+		c = sioInGetByte(qis->qisSisQuoted);
+		if (c == EOF) {
+			qis->qisExhausted = 1;
+			break;
+		}
+
+		if (c == '-' && qis->qisColumn == 0) {
+			sioInUngetLastRead(qis->qisSisQuoted);
+			qis->qisExhausted = 1;
+			break;
+		}
+
+		if (c == '\r') {
+			c = sioInGetByte(qis->qisSisQuoted);
+			if (c != '\n') {
+				*(buffer++) = '\r';
+				done++;
+			}
+
+			sioInUngetLastRead(qis->qisSisQuoted);
+
+			continue;
+		}
+		if (c == '\n') {
+			*(buffer++) = c;
+			done++;
+			qis->qisColumn = 0;
+			continue;
+		}
+
+		if (c == '=') {
+			int x1;
+			int x2;
+
+			x1 = sioInGetByte(qis->qisSisQuoted);
+
+			switch (x1) {
+			case '\n':
+				continue;
+
+			case '\r':
+				x2 = sioInGetByte(qis->qisSisQuoted);
+				if (x2 != '\n') {
+					CDEB(x2);
+					if (x2 != EOF) {
+						sioInUngetLastRead(
+							qis->qisSisQuoted);
+					}
+				}
+				continue;
+
+			case EOF:
+				XDEB(x1);
+				qis->qisExhausted = 1;
+				return -1;
+
+			default:
+				XDEB(x1);
+				sioInUngetLastRead(qis->qisSisQuoted);
+				*(buffer++) = c;
+				done++;
+				break;
+			}
+		}
+
+		*(buffer++) = c;
+		done++;
+		qis->qisColumn++;
+		continue;
+	}
+
+	return done;
+}
 
 /************************************************************************/
 /*									*/
@@ -126,59 +134,67 @@ static int sioInQuotedReadBytes(	void *		voidqis,
 /*									*/
 /************************************************************************/
 
-static int sioInQuotedClose(	void *	voidqis )
-    {
-    int				rval= 0;
-    QuotedInputStream *		qis= (QuotedInputStream *)voidqis;
+static int sioInQuotedClose(void *voidqis)
+{
+	int rval = 0;
+	QuotedInputStream *qis = (QuotedInputStream *)voidqis;
 
-    while( ! qis->qisExhausted )
-	{
-	int		res;
-	unsigned char	scratch[SIOsizBUF];
+	while (!qis->qisExhausted) {
+		int res;
+		unsigned char scratch[SIOsizBUF];
 
-	res= sioInQuotedReadBytes( voidqis, scratch, SIOsizBUF );
-	if  ( res < 0 )
-	    { LDEB(res); rval= -1; break;	}
+		res = sioInQuotedReadBytes(voidqis, scratch, SIOsizBUF);
+		if (res < 0) {
+			LDEB(res);
+			rval = -1;
+			break;
+		}
 	}
 
-    free( qis );
+	free(qis);
 
-    return rval;
-    }
+	return rval;
+}
 
-SimpleInputStream * sioInQuotedPrintableOpen(
-					SimpleInputStream *	sisQuoted )
-    {
-    SimpleInputStream *	sis;
-    QuotedInputStream *	qis;
+SimpleInputStream *sioInQuotedPrintableOpen(SimpleInputStream *sisQuoted)
+{
+	SimpleInputStream *sis;
+	QuotedInputStream *qis;
 
-    if  ( SioHexIndices[0] == 0 )
-	{
-	unsigned int	i;
+	if (SioHexIndices[0] == 0) {
+		unsigned int i;
 
-	for ( i= 0; i < sizeof(SioHexIndices); i++ )
-	    { SioHexIndices[i]= 0xff;	}
+		for (i = 0; i < sizeof(SioHexIndices); i++) {
+			SioHexIndices[i] = 0xff;
+		}
 
-	i= 0;
-	while( SioHexDigits[i] )
-	    { SioHexIndices[SioHexDigits[i]]= i; i++;	}
+		i = 0;
+		while (SioHexDigits[i]) {
+			SioHexIndices[SioHexDigits[i]] = i;
+			i++;
+		}
 	}
 
-    qis= (QuotedInputStream *)malloc( sizeof(QuotedInputStream) );
-    if  ( ! qis )
-	{ XDEB(qis); return (SimpleInputStream *)0;	}
+	qis = (QuotedInputStream *)malloc(sizeof(QuotedInputStream));
+	if (!qis) {
+		XDEB(qis);
+		return (SimpleInputStream *)0;
+	}
 
-    qis->qisSisQuoted= sisQuoted;
-    qis->qisExhausted= 0;
-    qis->qisColumn= 0;
+	qis->qisSisQuoted = sisQuoted;
+	qis->qisExhausted = 0;
+	qis->qisColumn = 0;
 
-    sis= sioInOpen( (void *)qis, sioInQuotedReadBytes, sioInQuotedClose );
+	sis = sioInOpen((void *)qis, sioInQuotedReadBytes, sioInQuotedClose);
 
-    if  ( ! sis )
-	{ XDEB(sis); free( qis ); return (SimpleInputStream *)0; }
+	if (!sis) {
+		XDEB(sis);
+		free(qis);
+		return (SimpleInputStream *)0;
+	}
 
-    return sis;
-    }
+	return sis;
+}
 
 /************************************************************************/
 /*									*/
@@ -186,12 +202,11 @@ SimpleInputStream * sioInQuotedPrintableOpen(
 /*									*/
 /************************************************************************/
 
-typedef struct QuotedOutputStream
-    {
-    SimpleOutputStream *	qosSosQuoted;
-    int				qosColumn;
-    int				qosAfterWhiteSpace;
-    } QuotedOutputStream;
+typedef struct QuotedOutputStream {
+	SimpleOutputStream *qosSosQuoted;
+	int qosColumn;
+	int qosAfterWhiteSpace;
+} QuotedOutputStream;
 
 /************************************************************************/
 /*									*/
@@ -201,27 +216,29 @@ typedef struct QuotedOutputStream
 /*									*/
 /************************************************************************/
 
-static int sioOutQuotedClose(	void *	voidqos )
-    {
-    int				rval= 0;
-    QuotedOutputStream *	qos= (QuotedOutputStream *)voidqos;
+static int sioOutQuotedClose(void *voidqos)
+{
+	int rval = 0;
+	QuotedOutputStream *qos = (QuotedOutputStream *)voidqos;
 
-    /*  1  */
-    if  ( qos->qosColumn > 0 )
-	{
-	if  ( sioOutPutByte( '=',  qos->qosSosQuoted ) < 0 )
-	    { rval= -1;	}
-	if  ( sioOutPutByte( '\r', qos->qosSosQuoted ) < 0 )
-	    { rval= -1;	}
-	if  ( sioOutPutByte( '\n', qos->qosSosQuoted ) < 0 )
-	    { rval= -1;	}
+	/*  1  */
+	if (qos->qosColumn > 0) {
+		if (sioOutPutByte('=', qos->qosSosQuoted) < 0) {
+			rval = -1;
+		}
+		if (sioOutPutByte('\r', qos->qosSosQuoted) < 0) {
+			rval = -1;
+		}
+		if (sioOutPutByte('\n', qos->qosSosQuoted) < 0) {
+			rval = -1;
+		}
 
-	qos->qosColumn= 0;
+		qos->qosColumn = 0;
 	}
 
-    free( qos );
-    return rval;
-    }
+	free(qos);
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -229,115 +246,137 @@ static int sioOutQuotedClose(	void *	voidqos )
 /*									*/
 /************************************************************************/
 
-static int sioOutQuotedBreakLine(	QuotedOutputStream *	qos )
-    {
-    if  ( sioOutPutByte( '=',  qos->qosSosQuoted ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( '\r', qos->qosSosQuoted ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( '\n', qos->qosSosQuoted ) < 0 )
-	{ return -1;	}
-
-    qos->qosColumn= 0;
-    qos->qosAfterWhiteSpace= 0;
-
-    return 0;
-    }
-
-static int sioOutQoutedEmitHex(	QuotedOutputStream *	qos,
-					int			c )
-    {
-    if  ( sioOutPutByte( '=', qos->qosSosQuoted ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( SioHexDigits[( c >> 4 ) & 0x0f], qos->qosSosQuoted ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( SioHexDigits[( c >> 0 ) & 0x0f], qos->qosSosQuoted ) < 0 )
-	{ return -1;	}
-
-    qos->qosColumn += 3;
-    qos->qosAfterWhiteSpace= 0;
-
-    return 0;
-    }
-
-static int sioOutQuotedWriteBytes(	void *			voidqos,
-					const unsigned char *	buffer,
-					int			count )
-    {
-    QuotedOutputStream *	qos= (QuotedOutputStream *)voidqos;
-    int				done= 0;
-
-    while( done < count )
-	{
-	if  ( *buffer == '\r' && qos->qosAfterWhiteSpace )
-	    {
-	    if  ( qos->qosColumn > 72 )
-		{ sioOutQuotedBreakLine( qos );	}
-
-	    sioOutQoutedEmitHex( qos, *buffer );
-
-	    buffer++; done++; continue;
-	    }
-
-	if  ( *buffer == '\n' && qos->qosAfterWhiteSpace )
-	    {
-	    if  ( qos->qosColumn > 72 )
-		{ sioOutQuotedBreakLine( qos );	}
-
-	    sioOutQoutedEmitHex( qos, *buffer );
-	    sioOutQuotedBreakLine( qos );
-
-	    buffer++; done++; continue;
-	    }
-
-	if  ( *buffer == '='				||
-	      *buffer < 32				||	/* ' '	*/
-	      *buffer > 126				||	/* '~'	*/
-	      ( *buffer == '-' && qos->qosColumn == 0 )	)
-	    {
-	    if  ( qos->qosColumn > 72 )
-		{ sioOutQuotedBreakLine( qos );	}
-
-	    sioOutQoutedEmitHex( qos, *buffer );
-
-	    buffer++; done++; continue;
-	    }
-
-	if  ( qos->qosColumn > 75 )
-	    { sioOutQuotedBreakLine( qos );	}
-
-	if  ( *buffer == ' ' || *buffer == '\t' )
-	    { qos->qosAfterWhiteSpace= 1;	}
-	else{ qos->qosAfterWhiteSpace= 0;	}
-
-	if  ( sioOutPutByte( *buffer, qos->qosSosQuoted ) < 0 )
-	    { LDEB(1); return -1;	}
-
-	qos->qosColumn += 1;
-	buffer++; done++; continue;
+static int sioOutQuotedBreakLine(QuotedOutputStream *qos)
+{
+	if (sioOutPutByte('=', qos->qosSosQuoted) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte('\r', qos->qosSosQuoted) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte('\n', qos->qosSosQuoted) < 0) {
+		return -1;
 	}
 
-    return count;
-    }
+	qos->qosColumn = 0;
+	qos->qosAfterWhiteSpace = 0;
 
-SimpleOutputStream * sioOutQuotedPrintableOpen(
-				    SimpleOutputStream *	sosQuoted )
-    {
-    SimpleOutputStream *	sos;
-    QuotedOutputStream *	qos;
+	return 0;
+}
 
-    qos= (QuotedOutputStream *)malloc( sizeof(QuotedOutputStream) );
-    if  ( ! qos )
-	{ XDEB(qos); return (SimpleOutputStream *)0;	}
+static int sioOutQoutedEmitHex(QuotedOutputStream *qos, int c)
+{
+	if (sioOutPutByte('=', qos->qosSosQuoted) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(SioHexDigits[(c >> 4) & 0x0f], qos->qosSosQuoted) <
+	    0) {
+		return -1;
+	}
+	if (sioOutPutByte(SioHexDigits[(c >> 0) & 0x0f], qos->qosSosQuoted) <
+	    0) {
+		return -1;
+	}
 
-    qos->qosSosQuoted= sosQuoted;
-    qos->qosColumn= 0;
-    qos->qosAfterWhiteSpace= 0;
+	qos->qosColumn += 3;
+	qos->qosAfterWhiteSpace = 0;
 
-    sos= sioOutOpen( (void *)qos, sioOutQuotedWriteBytes, sioOutQuotedClose );
+	return 0;
+}
 
-    if  ( ! sos )
-	{ XDEB(sos); free( qos ); return (SimpleOutputStream *)0; }
+static int sioOutQuotedWriteBytes(void *voidqos, const unsigned char *buffer,
+				  int count)
+{
+	QuotedOutputStream *qos = (QuotedOutputStream *)voidqos;
+	int done = 0;
 
-    return sos;
-    }
+	while (done < count) {
+		if (*buffer == '\r' && qos->qosAfterWhiteSpace) {
+			if (qos->qosColumn > 72) {
+				sioOutQuotedBreakLine(qos);
+			}
+
+			sioOutQoutedEmitHex(qos, *buffer);
+
+			buffer++;
+			done++;
+			continue;
+		}
+
+		if (*buffer == '\n' && qos->qosAfterWhiteSpace) {
+			if (qos->qosColumn > 72) {
+				sioOutQuotedBreakLine(qos);
+			}
+
+			sioOutQoutedEmitHex(qos, *buffer);
+			sioOutQuotedBreakLine(qos);
+
+			buffer++;
+			done++;
+			continue;
+		}
+
+		if (*buffer == '=' || *buffer < 32 || /* ' '	*/
+		    *buffer > 126 || /* '~'	*/
+		    (*buffer == '-' && qos->qosColumn == 0)) {
+			if (qos->qosColumn > 72) {
+				sioOutQuotedBreakLine(qos);
+			}
+
+			sioOutQoutedEmitHex(qos, *buffer);
+
+			buffer++;
+			done++;
+			continue;
+		}
+
+		if (qos->qosColumn > 75) {
+			sioOutQuotedBreakLine(qos);
+		}
+
+		if (*buffer == ' ' || *buffer == '\t') {
+			qos->qosAfterWhiteSpace = 1;
+		} else {
+			qos->qosAfterWhiteSpace = 0;
+		}
+
+		if (sioOutPutByte(*buffer, qos->qosSosQuoted) < 0) {
+			LDEB(1);
+			return -1;
+		}
+
+		qos->qosColumn += 1;
+		buffer++;
+		done++;
+		continue;
+	}
+
+	return count;
+}
+
+SimpleOutputStream *sioOutQuotedPrintableOpen(SimpleOutputStream *sosQuoted)
+{
+	SimpleOutputStream *sos;
+	QuotedOutputStream *qos;
+
+	qos = (QuotedOutputStream *)malloc(sizeof(QuotedOutputStream));
+	if (!qos) {
+		XDEB(qos);
+		return (SimpleOutputStream *)0;
+	}
+
+	qos->qosSosQuoted = sosQuoted;
+	qos->qosColumn = 0;
+	qos->qosAfterWhiteSpace = 0;
+
+	sos = sioOutOpen((void *)qos, sioOutQuotedWriteBytes,
+			 sioOutQuotedClose);
+
+	if (!sos) {
+		XDEB(sos);
+		free(qos);
+		return (SimpleOutputStream *)0;
+	}
+
+	return sos;
+}

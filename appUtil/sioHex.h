@@ -5,13 +5,11 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInHexOpen(	SimpleInputStream * sisHex );
+extern SimpleInputStream *sioInHexOpen(SimpleInputStream *sisHex);
 
-extern SimpleOutputStream * sioOutHexOpenFolded(
-				    SimpleOutputStream *	sosHex,
-				    int				wide,
-				    int				lastNl );
+extern SimpleOutputStream *sioOutHexOpenFolded(SimpleOutputStream *sosHex,
+					       int wide, int lastNl);
 
-extern SimpleOutputStream * sioOutHexOpen(	SimpleOutputStream * sosHex );
+extern SimpleOutputStream *sioOutHexOpen(SimpleOutputStream *sosHex);

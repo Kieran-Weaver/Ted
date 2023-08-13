@@ -1,8 +1,8 @@
-#   include	"docBaseConfig.h"
+#include "docBaseConfig.h"
 
-#   include	"docBlockOrnaments.h"
+#include "docBlockOrnaments.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -10,20 +10,19 @@
 /*									*/
 /************************************************************************/
 
-void docInitBlockOrnaments(	BlockOrnaments *	bo )
-    {
-    utilPropMaskClear( &(bo->boPropMask) );
+void docInitBlockOrnaments(BlockOrnaments *bo)
+{
+	utilPropMaskClear(&(bo->boPropMask));
 
-    bo->boTopBorderNumber= -1;
-    bo->boLeftBorderNumber= -1;
-    bo->boRightBorderNumber= -1;
-    bo->boBottomBorderNumber= -1;
+	bo->boTopBorderNumber = -1;
+	bo->boLeftBorderNumber = -1;
+	bo->boRightBorderNumber = -1;
+	bo->boBottomBorderNumber = -1;
 
-    docInitBorderProperties( &(bo->boTopBorder) );
-    docInitBorderProperties( &(bo->boLeftBorder) );
-    docInitBorderProperties( &(bo->boRightBorder) );
-    docInitBorderProperties( &(bo->boBottomBorder) );
+	docInitBorderProperties(&(bo->boTopBorder));
+	docInitBorderProperties(&(bo->boLeftBorder));
+	docInitBorderProperties(&(bo->boRightBorder));
+	docInitBorderProperties(&(bo->boBottomBorder));
 
-    docInitItemShading( &(bo->boShading) );
-    }
-
+	docInitItemShading(&(bo->boShading));
+}

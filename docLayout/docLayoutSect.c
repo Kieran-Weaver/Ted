@@ -4,16 +4,16 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
+#include <stddef.h>
 
-#   include	<docPageGrid.h>
-#   include	"docLayout.h"
-#   include	<docTreeType.h>
-#   include	<docTreeNode.h>
+#include <docPageGrid.h>
+#include "docLayout.h"
+#include <docTreeType.h>
+#include <docTreeNode.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -27,113 +27,105 @@
 /*									*/
 /************************************************************************/
 
-static void docLayoutPlaceSectTop(	BufferItem *		sectNode,
-					LayoutPosition *	lpHere,
-					BlockFrame *		bf,
-					LayoutJob *		lj )
-    {
-    int		changedFrame= 0;
+static void docLayoutPlaceSectTop(BufferItem *sectNode, LayoutPosition *lpHere,
+				  BlockFrame *bf, LayoutJob *lj)
+{
+	int changedFrame = 0;
 
-    if  ( sectNode->biNumberInParent == 0 )
-	{
-	lpHere->lpPage= 0;
-	lpHere->lpColumn= 0;
-	lpHere->lpAtTopOfColumn= 1;
+	if (sectNode->biNumberInParent == 0) {
+		lpHere->lpPage = 0;
+		lpHere->lpColumn = 0;
+		lpHere->lpAtTopOfColumn = 1;
 
-	if  ( lj->ljBodySectNode != sectNode )
-	    { XXDEB(lj->ljBodySectNode,sectNode);	}
+		if (lj->ljBodySectNode != sectNode) {
+			XXDEB(lj->ljBodySectNode, sectNode);
+		}
 
-	docLayoutColumnTop( lpHere, bf, sectNode, lj );
-	}
-    else{
-	if  ( ! DOC_SECTnodeBELOW_PREVIOUS( sectNode ) )
-	    {
-	    const int		belowText= 0;
-	    LayoutPosition	lpBelowNotes;
+		docLayoutColumnTop(lpHere, bf, sectNode, lj);
+	} else {
+		if (!DOC_SECTnodeBELOW_PREVIOUS(sectNode)) {
+			const int belowText = 0;
+			LayoutPosition lpBelowNotes;
 
-	    if  ( BF_HAS_FOOTNOTES( bf )				&&
-		  ( sectNode->biTreeType == DOCinBODY	||
-		    sectNode->biTreeType == DOCinENDNOTE	)	&&
-		  docLayoutFootnotesForColumn( &lpBelowNotes, lpHere, bf,
-						      belowText, lj )	)
-		{ LDEB(1); return;	}
+			if (BF_HAS_FOOTNOTES(bf) &&
+			    (sectNode->biTreeType == DOCinBODY ||
+			     sectNode->biTreeType == DOCinENDNOTE) &&
+			    docLayoutFootnotesForColumn(&lpBelowNotes, lpHere,
+							bf, belowText, lj)) {
+				LDEB(1);
+				return;
+			}
 
-	    docLayoutToNextColumn( lpHere, bf, sectNode, lj );
-	    changedFrame= 1;
-	    }
+			docLayoutToNextColumn(lpHere, bf, sectNode, lj);
+			changedFrame = 1;
+		}
 	}
 
-    switch( sectNode->biSectBreakKind )
-	{
+	switch (sectNode->biSectBreakKind) {
 	case DOCibkNONE:
-	    if  ( ! DOC_SECTnodeBELOW_PREVIOUS( sectNode ) )
-		{ goto pageCase;	}
+		if (!DOC_SECTnodeBELOW_PREVIOUS(sectNode)) {
+			goto pageCase;
+		}
 
-	    lpHere->lpColumn= 0;
+		lpHere->lpColumn = 0;
 
-	    docLayoutBlockFrame( bf, sectNode, lj,
-					lpHere->lpPage, lpHere->lpColumn );
-	    break;
+		docLayoutBlockFrame(bf, sectNode, lj, lpHere->lpPage,
+				    lpHere->lpColumn);
+		break;
 	case DOCibkCOL:
-	    break;
+		break;
 
 	case DOCibkPAGE:
-	  pageCase:
-	    while( lpHere->lpColumn > 0 )
-		{
-		docLayoutToNextColumn( lpHere, bf, sectNode, lj );
-		changedFrame= 1;
+pageCase:
+		while (lpHere->lpColumn > 0) {
+			docLayoutToNextColumn(lpHere, bf, sectNode, lj);
+			changedFrame = 1;
 		}
-	    break;
+		break;
 
-	case DOCibkEVEN:	/*  1  */
-	    while( lpHere->lpColumn > 0 )
-		{
-		docLayoutToNextColumn( lpHere, bf, sectNode, lj );
-		changedFrame= 1;
+	case DOCibkEVEN: /*  1  */
+		while (lpHere->lpColumn > 0) {
+			docLayoutToNextColumn(lpHere, bf, sectNode, lj);
+			changedFrame = 1;
 		}
-	    while( ! ( lpHere->lpPage % 2 ) )
-		{
-		docLayoutToNextColumn( lpHere, bf, sectNode, lj );
-		changedFrame= 1;
+		while (!(lpHere->lpPage % 2)) {
+			docLayoutToNextColumn(lpHere, bf, sectNode, lj);
+			changedFrame = 1;
 		}
-	    break;
+		break;
 
-	case DOCibkODD:	/*  1  */
-	    while( lpHere->lpColumn > 0 )
-		{
-		docLayoutToNextColumn( lpHere, bf, sectNode, lj );
-		changedFrame= 1;
+	case DOCibkODD: /*  1  */
+		while (lpHere->lpColumn > 0) {
+			docLayoutToNextColumn(lpHere, bf, sectNode, lj);
+			changedFrame = 1;
 		}
-	    while( lpHere->lpPage % 2 )
-		{
-		docLayoutToNextColumn( lpHere, bf, sectNode, lj );
-		changedFrame= 1;
+		while (lpHere->lpPage % 2) {
+			docLayoutToNextColumn(lpHere, bf, sectNode, lj);
+			changedFrame = 1;
 		}
-	    break;
+		break;
 
 	default:
-	    LDEB(sectNode->biSectBreakKind);
-	    break;
+		LDEB(sectNode->biSectBreakKind);
+		break;
 	}
 
-    sectNode->biTopPosition= *lpHere;
-    if  ( changedFrame )
-	{
-	docLayoutBlockFrame( bf, sectNode, lj,
-					lpHere->lpPage, lpHere->lpColumn );
+	sectNode->biTopPosition = *lpHere;
+	if (changedFrame) {
+		docLayoutBlockFrame(bf, sectNode, lj, lpHere->lpPage,
+				    lpHere->lpColumn);
 
-	lpHere->lpPageYTwips= bf->bfContentRect.drY0;
-	lpHere->lpAtTopOfColumn= 1;
-	sectNode->biTopPosition= *lpHere;
+		lpHere->lpPageYTwips = bf->bfContentRect.drY0;
+		lpHere->lpAtTopOfColumn = 1;
+		sectNode->biTopPosition = *lpHere;
 	}
 
-    if  ( sectNode->biNumberInParent == 0		&&
-	  sectNode->biParent			)
-	{ sectNode->biParent->biTopPosition= *lpHere; }
+	if (sectNode->biNumberInParent == 0 && sectNode->biParent) {
+		sectNode->biParent->biTopPosition = *lpHere;
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -150,91 +142,96 @@ static void docLayoutPlaceSectTop(	BufferItem *		sectNode,
 /*									*/
 /************************************************************************/
 
-int docLayoutSectChildren(	LayoutPosition *	lpBelow,
-				const LayoutPosition *	lpTop,
-				BufferItem *		sectNode,
-				int			from,
-				BlockFrame *		bf,
-				LayoutJob *		lj )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    int				i;
+int docLayoutSectChildren(LayoutPosition *lpBelow, const LayoutPosition *lpTop,
+			  BufferItem *sectNode, int from, BlockFrame *bf,
+			  LayoutJob *lj)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	int i;
 
-    LayoutPosition		lpHere= *lpTop;
+	LayoutPosition lpHere = *lpTop;
 
-    /*  2  */
-    i= from;
-    while( i > 0 )
-	{
-	BufferItem *	childNode= sectNode->biChildren[--i];
+	/*  2  */
+	i = from;
+	while (i > 0) {
+		BufferItem *childNode = sectNode->biChildren[--i];
 
-	if  ( ! docIsRowNode( childNode ) )
-	    { break;	}
-	if  ( ! childNode->biRow_Keepfollow )
-	    { break;	}
+		if (!docIsRowNode(childNode)) {
+			break;
+		}
+		if (!childNode->biRow_Keepfollow) {
+			break;
+		}
 	}
 
-    i= from;
-    while( i < sectNode->biChildCount )
-	{
-	/*  3  */
-	while( i < sectNode->biChildCount )
-	    {
-	    BufferItem *	childNode= sectNode->biChildren[i];
+	i = from;
+	while (i < sectNode->biChildCount) {
+		/*  3  */
+		while (i < sectNode->biChildCount) {
+			BufferItem *childNode = sectNode->biChildren[i];
 
-	    if  ( docIsRowNode( childNode ) )
-		{ break;	}
+			if (docIsRowNode(childNode)) {
+				break;
+			}
 
-	    if  ( docLayoutNodeImplementation( &lpHere, &lpHere,
-							childNode, bf, lj ) )
-		{ LDEB(i); return -1;	}
+			if (docLayoutNodeImplementation(&lpHere, &lpHere,
+							childNode, bf, lj)) {
+				LDEB(i);
+				return -1;
+			}
 
-	    i++;
-	    }
-
-	/*  4  */
-	if  ( i < sectNode->biChildCount )
-	    {
-	    int			upto= i+ 1;
-
-	    while( upto < sectNode->biChildCount )
-		{
-		BufferItem *	childNode= sectNode->biChildren[upto];
-
-		if  ( ! docIsRowNode( childNode ) )
-		    { break;	}
-
-		upto++;
+			i++;
 		}
 
-	    if  ( docLayoutTableSlice( &lpHere, &lpHere,
-						sectNode, i, upto, bf, lj ) )
-		{ LLDEB(i,upto); return -1;	}
+		/*  4  */
+		if (i < sectNode->biChildCount) {
+			int upto = i + 1;
 
-	    docLayoutFinishNodeLayout( (int *)0,
-				sectNode->biChildren[upto- 1], lj, &lpHere );
+			while (upto < sectNode->biChildCount) {
+				BufferItem *childNode =
+					sectNode->biChildren[upto];
 
-	    i= upto;
-	    }
+				if (!docIsRowNode(childNode)) {
+					break;
+				}
+
+				upto++;
+			}
+
+			if (docLayoutTableSlice(&lpHere, &lpHere, sectNode, i,
+						upto, bf, lj)) {
+				LLDEB(i, upto);
+				return -1;
+			}
+
+			docLayoutFinishNodeLayout(
+				(int *)0, sectNode->biChildren[upto - 1], lj,
+				&lpHere);
+
+			i = upto;
+		}
 	}
 
-    /*  5  */
-    {
-    const DocumentProperties *	dp= &(lc->lcDocument->bdProperties);
-    const NotesProperties *	npEndnotes= &(dp->dpNotesProps.fepEndnotesProps);
-
-    if  ( sectNode->biTreeType == DOCinBODY		&&
-	  npEndnotes->npPlacement == FTNplaceSECT_END	)
+	/*  5  */
 	{
-	if  ( docLayoutEndnotesForSection( &lpHere, &lpHere,
-					sectNode->biNumberInParent, bf, lj ) )
-	    { LDEB(sectNode->biNumberInParent); return -1;	}
-	}
-    }
+		const DocumentProperties *dp = &(lc->lcDocument->bdProperties);
+		const NotesProperties *npEndnotes =
+			&(dp->dpNotesProps.fepEndnotesProps);
 
-    *lpBelow= lpHere;
-    return 0;
-    }
+		if (sectNode->biTreeType == DOCinBODY &&
+		    npEndnotes->npPlacement == FTNplaceSECT_END) {
+			if (docLayoutEndnotesForSection(
+				    &lpHere, &lpHere,
+				    sectNode->biNumberInParent, bf, lj)) {
+				LDEB(sectNode->biNumberInParent);
+				return -1;
+			}
+		}
+	}
+
+	*lpBelow = lpHere;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -259,132 +256,144 @@ int docLayoutSectChildren(	LayoutPosition *	lpBelow,
 /*									*/
 /************************************************************************/
 
-static int docBalanceSectionColumns(	LayoutPosition *	lpBelow,
-					BlockFrame *		bf,
-					BufferItem *		sectNode,
-					const LayoutJob *	refLj )
-    {
-    int				rval= 0;
-    const LayoutContext *	lc= &(refLj->ljContext);
-    BufferDocument *		bd= lc->lcDocument;
-    int				l, m, r;
+static int docBalanceSectionColumns(LayoutPosition *lpBelow, BlockFrame *bf,
+				    BufferItem *sectNode,
+				    const LayoutJob *refLj)
+{
+	int rval = 0;
+	const LayoutContext *lc = &(refLj->ljContext);
+	BufferDocument *bd = lc->lcDocument;
+	int l, m, r;
 
-    int				fromSectTop;
-    int				pageY0;
-    int				col0;
-    int				from;
+	int fromSectTop;
+	int pageY0;
+	int col0;
+	int from;
 
-    int				col;
+	int col;
 
-    BufferItem *		childNode;
+	BufferItem *childNode;
 
-    BlockFrame			bfFrom;
-    LayoutPosition		lpFrom;
-    DocumentPosition		dpFrom;
+	BlockFrame bfFrom;
+	LayoutPosition lpFrom;
+	DocumentPosition dpFrom;
 
-    LayoutPosition		lpHere;
-    LayoutJob			balanceLj;
+	LayoutPosition lpHere;
+	LayoutJob balanceLj;
 
-    const int			partFrom= 0;
-    const int			columnFrom= 0;
+	const int partFrom = 0;
+	const int columnFrom = 0;
 
-    BlockFrame			bfCol;
+	BlockFrame bfCol;
 
-    docLayoutInitBlockFrame( &bfFrom );
-    docLayoutInitBlockFrame( &bfCol );
+	docLayoutInitBlockFrame(&bfFrom);
+	docLayoutInitBlockFrame(&bfCol);
 
-    if  ( sectNode->biTopPosition.lpPage < lpBelow->lpPage )
-	{
-	col0= 0;
-	fromSectTop= 0;
-	}
-    else{
-	if  ( sectNode->biTopPosition.lpPage > lpBelow->lpPage )
-	    { LLDEB(sectNode->biTopPosition.lpPage,lpBelow->lpPage);	}
+	if (sectNode->biTopPosition.lpPage < lpBelow->lpPage) {
+		col0 = 0;
+		fromSectTop = 0;
+	} else {
+		if (sectNode->biTopPosition.lpPage > lpBelow->lpPage) {
+			LLDEB(sectNode->biTopPosition.lpPage, lpBelow->lpPage);
+		}
 
-	col0= sectNode->biTopPosition.lpColumn;
-	fromSectTop= 1;
+		col0 = sectNode->biTopPosition.lpColumn;
+		fromSectTop = 1;
 	}
 
-    /*  1  */
-    if  ( col0 > 0 )
-	{ goto ready;	}
-
-    col= lpBelow->lpColumn;
-    docBlockFrameTwips( &bfCol, sectNode, bd, lpBelow->lpPage, col );
-
-    if  ( fromSectTop )
-	{ pageY0= sectNode->biTopPosition.lpPageYTwips;	}
-    else{ pageY0= bfCol.bfContentRect.drY0;		}
-
-    childNode= (BufferItem *)0;
-    for ( from= 0; from < sectNode->biChildCount; from++ )
-	{
-	childNode= sectNode->biChildren[from];
-
-	if  ( childNode->biBelowPosition.lpPage >= lpBelow->lpPage )
-	    { break;	}
-	}
-    if  ( from >= sectNode->biChildCount || ! childNode )
-	{ LLDEB(sectNode->biChildCount,lpBelow->lpPage); rval= -1; goto ready; }
-
-    lpFrom= childNode->biTopPosition;
-    balanceLj= *refLj;
-    balanceLj.ljBodySectNode= sectNode;
-    balanceLj.ljBalancePage= lpBelow->lpPage;
-
-    l= 240;
-    r= bf->bfPageGeometry.dgPageHighTwips- pageY0-
-				    bf->bfPageGeometry.dgBottomMarginTwips;
-    m= ( l+ r )/ 2;
-
-    bfFrom= *bf;
-
-    if  ( docHeadPosition( &dpFrom, childNode ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    balanceLj.ljBalanceY1= pageY0+ m;
-    docLayoutBlockFrame( &bfFrom, sectNode, &balanceLj,
-					lpFrom.lpPage, lpFrom.lpColumn );
-
-    if  ( docCollectFootnotesFromColumn( &bfFrom, &dpFrom, partFrom, bd,
-						lpFrom.lpPage, columnFrom ) )
-	{ LLDEB(lpFrom.lpPage,columnFrom); rval= -1; goto ready;	}
-
-    for (;;)
-	{
-	balanceLj.ljBalanceY1= pageY0+ m;
-	lpHere= lpFrom;
-	*bf= bfFrom;
-	docLayoutBlockFrame( bf, sectNode, &balanceLj,
-					lpHere.lpPage, lpHere.lpColumn );
-	if  ( docLayoutSectChildren( &lpHere, &lpHere, sectNode, from,
-							bf, &balanceLj ) )
-	    { LDEB(1); rval= -1; goto ready;	}
-
-	if  ( lpHere.lpPage > lpBelow->lpPage )
-	    {
-	    l= m+ 1;
-	    m= ( l+ r )/ 2;
-	    continue;
-	    }
-	else{
-	    r= m; m= ( l+ r )/ 2;
-	    if  ( l == m )
-		{ break;	}
-	    }
+	/*  1  */
+	if (col0 > 0) {
+		goto ready;
 	}
 
-    lpHere.lpPageYTwips= balanceLj.ljBalanceY1;
+	col = lpBelow->lpColumn;
+	docBlockFrameTwips(&bfCol, sectNode, bd, lpBelow->lpPage, col);
 
-    *lpBelow= lpHere;
+	if (fromSectTop) {
+		pageY0 = sectNode->biTopPosition.lpPageYTwips;
+	} else {
+		pageY0 = bfCol.bfContentRect.drY0;
+	}
 
-  ready:
-    docLayoutCleanBlockFrame( &bfCol );
-    docLayoutCleanBlockFrame( &bfFrom );
+	childNode = (BufferItem *)0;
+	for (from = 0; from < sectNode->biChildCount; from++) {
+		childNode = sectNode->biChildren[from];
 
-    return rval;
-    }
+		if (childNode->biBelowPosition.lpPage >= lpBelow->lpPage) {
+			break;
+		}
+	}
+	if (from >= sectNode->biChildCount || !childNode) {
+		LLDEB(sectNode->biChildCount, lpBelow->lpPage);
+		rval = -1;
+		goto ready;
+	}
+
+	lpFrom = childNode->biTopPosition;
+	balanceLj = *refLj;
+	balanceLj.ljBodySectNode = sectNode;
+	balanceLj.ljBalancePage = lpBelow->lpPage;
+
+	l = 240;
+	r = bf->bfPageGeometry.dgPageHighTwips - pageY0 -
+	    bf->bfPageGeometry.dgBottomMarginTwips;
+	m = (l + r) / 2;
+
+	bfFrom = *bf;
+
+	if (docHeadPosition(&dpFrom, childNode)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	balanceLj.ljBalanceY1 = pageY0 + m;
+	docLayoutBlockFrame(&bfFrom, sectNode, &balanceLj, lpFrom.lpPage,
+			    lpFrom.lpColumn);
+
+	if (docCollectFootnotesFromColumn(&bfFrom, &dpFrom, partFrom, bd,
+					  lpFrom.lpPage, columnFrom)) {
+		LLDEB(lpFrom.lpPage, columnFrom);
+		rval = -1;
+		goto ready;
+	}
+
+	for (;;) {
+		balanceLj.ljBalanceY1 = pageY0 + m;
+		lpHere = lpFrom;
+		*bf = bfFrom;
+		docLayoutBlockFrame(bf, sectNode, &balanceLj, lpHere.lpPage,
+				    lpHere.lpColumn);
+		if (docLayoutSectChildren(&lpHere, &lpHere, sectNode, from, bf,
+					  &balanceLj)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+
+		if (lpHere.lpPage > lpBelow->lpPage) {
+			l = m + 1;
+			m = (l + r) / 2;
+			continue;
+		} else {
+			r = m;
+			m = (l + r) / 2;
+			if (l == m) {
+				break;
+			}
+		}
+	}
+
+	lpHere.lpPageYTwips = balanceLj.ljBalanceY1;
+
+	*lpBelow = lpHere;
+
+ready:
+	docLayoutCleanBlockFrame(&bfCol);
+	docLayoutCleanBlockFrame(&bfFrom);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -392,25 +401,24 @@ static int docBalanceSectionColumns(	LayoutPosition *	lpBelow,
 /*									*/
 /************************************************************************/
 
-int docSectColumnsAreBalanced(	const BufferItem *		sectNode )
-    {
-    const SectionProperties *	sp= &(sectNode->biSectProperties);
-    int				nrInParent= sectNode->biNumberInParent;
+int docSectColumnsAreBalanced(const BufferItem *sectNode)
+{
+	const SectionProperties *sp = &(sectNode->biSectProperties);
+	int nrInParent = sectNode->biNumberInParent;
 
-    if  ( sp->spColumnCount > 1					&&
-	  sectNode->biParent					&&
-	  nrInParent < sectNode->biParent->biChildCount- 1	)
-	{
-	const BufferItem *	nextSectNode;
+	if (sp->spColumnCount > 1 && sectNode->biParent &&
+	    nrInParent < sectNode->biParent->biChildCount - 1) {
+		const BufferItem *nextSectNode;
 
-	nextSectNode= sectNode->biParent->biChildren[nrInParent+ 1];
+		nextSectNode = sectNode->biParent->biChildren[nrInParent + 1];
 
-	if  ( DOC_SECTnodeBELOW_PREVIOUS( nextSectNode ) )
-	    { return 1;	}
+		if (DOC_SECTnodeBELOW_PREVIOUS(nextSectNode)) {
+			return 1;
+		}
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -418,23 +426,22 @@ int docSectColumnsAreBalanced(	const BufferItem *		sectNode )
 /*									*/
 /************************************************************************/
 
-int docLayoutFinishSectNode(	LayoutPosition *		lpBelow,
-				const LayoutPosition *		lpTop,
-				BufferItem *			sectNode,
-				BlockFrame *			bf,
-				LayoutJob *			lj )
-    {
-    LayoutPosition		lpHere= *lpTop;
+int docLayoutFinishSectNode(LayoutPosition *lpBelow,
+			    const LayoutPosition *lpTop, BufferItem *sectNode,
+			    BlockFrame *bf, LayoutJob *lj)
+{
+	LayoutPosition lpHere = *lpTop;
 
-    if  ( docSectColumnsAreBalanced( sectNode ) )
-	{
-	if  ( docBalanceSectionColumns( &lpHere, bf, sectNode, lj ) )
-	    { LDEB(1); return -1;	}
+	if (docSectColumnsAreBalanced(sectNode)) {
+		if (docBalanceSectionColumns(&lpHere, bf, sectNode, lj)) {
+			LDEB(1);
+			return -1;
+		}
 	}
 
-    *lpBelow= lpHere;
-    return 0;
-    }
+	*lpBelow = lpHere;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -442,50 +449,58 @@ int docLayoutFinishSectNode(	LayoutPosition *		lpBelow,
 /*									*/
 /************************************************************************/
 
-int docLayoutSectNode(	LayoutPosition *		lpBelow,
-			const LayoutPosition *		lpTop,
-			BufferItem *			sectNode,
-			BlockFrame *			bf,
-			LayoutJob *			lj )
-    {
-    LayoutPosition		lpHere= *lpTop;
-    const int			recursively= 0;
+int docLayoutSectNode(LayoutPosition *lpBelow, const LayoutPosition *lpTop,
+		      BufferItem *sectNode, BlockFrame *bf, LayoutJob *lj)
+{
+	LayoutPosition lpHere = *lpTop;
+	const int recursively = 0;
 
-    if  ( sectNode->biTreeType != DOCinBODY )
-	{ SDEB(docTreeTypeStr(sectNode->biTreeType));	}
+	if (sectNode->biTreeType != DOCinBODY) {
+		SDEB(docTreeTypeStr(sectNode->biTreeType));
+	}
 
-    /**/
-    docDelimitTables( sectNode, recursively );
+	/**/
+	docDelimitTables(sectNode, recursively);
 
-    /**/
+	/**/
 
-    if  ( sectNode->biTreeType == DOCinBODY		&&
-	  docSectHeaderFooterPrelayout( sectNode, lj )	)
-	{ LDEB(1); return -1;	}
+	if (sectNode->biTreeType == DOCinBODY &&
+	    docSectHeaderFooterPrelayout(sectNode, lj)) {
+		LDEB(1);
+		return -1;
+	}
 
-    /**/
-    if  ( docSectNotesPrelayout( sectNode->biNumberInParent, sectNode, lj ) )
-	{ LDEB(sectNode->biNumberInParent); return -1;	}
+	/**/
+	if (docSectNotesPrelayout(sectNode->biNumberInParent, sectNode, lj)) {
+		LDEB(sectNode->biNumberInParent);
+		return -1;
+	}
 
-    /**/
+	/**/
 
-    if  ( sectNode->biTreeType == DOCinBODY )
-	{ lj->ljBodySectNode= sectNode;	}
+	if (sectNode->biTreeType == DOCinBODY) {
+		lj->ljBodySectNode = sectNode;
+	}
 
-    docLayoutPlaceSectTop( sectNode, &lpHere, bf, lj );
+	docLayoutPlaceSectTop(sectNode, &lpHere, bf, lj);
 
-    if  ( docLayoutSectChildren( &lpHere, &lpHere, sectNode, 0, bf, lj ) )
-	{ LDEB(1); return -1;	}
+	if (docLayoutSectChildren(&lpHere, &lpHere, sectNode, 0, bf, lj)) {
+		LDEB(1);
+		return -1;
+	}
 
-    if  ( sectNode->biChildCount > 0 )
-	{ sectNode->biTopPosition=  sectNode->biChildren[0]->biTopPosition; }
+	if (sectNode->biChildCount > 0) {
+		sectNode->biTopPosition =
+			sectNode->biChildren[0]->biTopPosition;
+	}
 
-    /**/
+	/**/
 
-    if  ( docLayoutFinishSectNode( &lpHere, &lpHere, sectNode, bf, lj ) )
-	{ LDEB(1); return -1;	}
+	if (docLayoutFinishSectNode(&lpHere, &lpHere, sectNode, bf, lj)) {
+		LDEB(1);
+		return -1;
+	}
 
-    *lpBelow= lpHere;
-    return 0;
-    }
-
+	*lpBelow = lpHere;
+	return 0;
+}

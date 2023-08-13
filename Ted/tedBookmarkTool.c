@@ -4,23 +4,23 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<string.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
-#   include	"tedAppFront.h"
-#   include	"tedBookmarkTool.h"
-#   include	"tedToolUtil.h"
-#   include	<appInspector.h>
-#   include	<guiToolUtil.h>
-#   include	<guiTextUtil.h>
-#   include	<docField.h>
-#   include	<docBookmarkField.h>
-#   include	<docEditCommand.h>
+#include "tedAppFront.h"
+#include "tedBookmarkTool.h"
+#include "tedToolUtil.h"
+#include <appInspector.h>
+#include <guiToolUtil.h>
+#include <guiTextUtil.h>
+#include <docField.h>
+#include <docBookmarkField.h>
+#include <docEditCommand.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -29,57 +29,52 @@
 /*									*/
 /************************************************************************/
 
-static void tedBookmarkAdaptToText(	const BookmarkTool *	bt,
-					int			adaptString )
-    {
-    const BookmarkList *	bl= &(bt->btBookmarkList);
+static void tedBookmarkAdaptToText(const BookmarkTool *bt, int adaptString)
+{
+	const BookmarkList *bl = &(bt->btBookmarkList);
 
-    int				gotChosen;
-    int				changed;
+	int gotChosen;
+	int changed;
 
-    changed= utilMemoryCompareBuffers( &(bt->btMarkChosen), &(bt->btMarkSet) );
-    gotChosen= ! utilMemoryBufferIsEmpty( &(bt->btMarkChosen) );
+	changed =
+		utilMemoryCompareBuffers(&(bt->btMarkChosen), &(bt->btMarkSet));
+	gotChosen = !utilMemoryBufferIsEmpty(&(bt->btMarkChosen));
 
-    guiEnableWidget( bt->btSetBookmarkButton,
-		    ! bl->blMarkChosenExists		&&
-		    bt->btCanChange			&&
-		    changed && gotChosen		);
+	guiEnableWidget(bt->btSetBookmarkButton, !bl->blMarkChosenExists &&
+							 bt->btCanChange &&
+							 changed && gotChosen);
 
-    guiEnableWidget( bt->btRevertButton, changed );
+	guiEnableWidget(bt->btRevertButton, changed);
 
-    guiEnableWidget( bt->btRemoveBookmarkButton,
-		     bt->btCanChange			&&
-		     ! changed && gotChosen		);
+	guiEnableWidget(bt->btRemoveBookmarkButton,
+			bt->btCanChange && !changed && gotChosen);
 
-    guiEnableWidget( bt->btGoToBookmarkButton,
-		    bl->blMarkChosenExists && gotChosen );
+	guiEnableWidget(bt->btGoToBookmarkButton,
+			bl->blMarkChosenExists && gotChosen);
 
-    guiEnableWidget( bl->blMarkListWidget, bl->blIsLocal );
-    guiEnableText( bl->blMarkTextWidget, bt->btCanChange );
+	guiEnableWidget(bl->blMarkListWidget, bl->blIsLocal);
+	guiEnableText(bl->blMarkTextWidget, bt->btCanChange);
 
-    if  ( adaptString )
-	{
-	guiBufferToText( bl->blMarkTextWidget, &(bt->btMarkChosen) );
+	if (adaptString) {
+		guiBufferToText(bl->blMarkTextWidget, &(bt->btMarkChosen));
 	}
 
-    return;
-    }
+	return;
+}
 
-static void tedBookmarkAdaptToBookmark(	BookmarkTool *		bt,
-					int			adaptString,
-					int			select )
-    {
-    tedBookmarkFindChosen( &(bt->btBookmarkList), bt->btApplication,
-							&(bt->btMarkChosen) );
+static void tedBookmarkAdaptToBookmark(BookmarkTool *bt, int adaptString,
+				       int select)
+{
+	tedBookmarkFindChosen(&(bt->btBookmarkList), bt->btApplication,
+			      &(bt->btMarkChosen));
 
-    if  ( select )
-	{
-	tedBookmarkUpdateSelectionInList( &(bt->btBookmarkList),
-							&(bt->btMarkChosen) );
+	if (select) {
+		tedBookmarkUpdateSelectionInList(&(bt->btBookmarkList),
+						 &(bt->btMarkChosen));
 	}
 
-    tedBookmarkAdaptToText( bt, adaptString );
-    }
+	tedBookmarkAdaptToText(bt, adaptString);
+}
 
 /************************************************************************/
 /*									*/
@@ -87,22 +82,22 @@ static void tedBookmarkAdaptToBookmark(	BookmarkTool *		bt,
 /*									*/
 /************************************************************************/
 
-static APP_BUTTON_CALLBACK_H( tedBookmarkRevertPushed, w, voidbt )
-    {
-    BookmarkTool *		bt= (BookmarkTool *)voidbt;
-    const int			adaptString= 1;
-    const int			select= 1;
+static APP_BUTTON_CALLBACK_H(tedBookmarkRevertPushed, w, voidbt)
+{
+	BookmarkTool *bt = (BookmarkTool *)voidbt;
+	const int adaptString = 1;
+	const int select = 1;
 
-    utilCopyMemoryBuffer( &(bt->btMarkChosen), &(bt->btMarkSet) );
+	utilCopyMemoryBuffer(&(bt->btMarkChosen), &(bt->btMarkSet));
 
-    bt->btInProgrammaticChange++;
+	bt->btInProgrammaticChange++;
 
-    tedBookmarkAdaptToBookmark( bt, adaptString, select );
+	tedBookmarkAdaptToBookmark(bt, adaptString, select);
 
-    bt->btInProgrammaticChange--;
+	bt->btInProgrammaticChange--;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -110,48 +105,52 @@ static APP_BUTTON_CALLBACK_H( tedBookmarkRevertPushed, w, voidbt )
 /*									*/
 /************************************************************************/
 
-static APP_BUTTON_CALLBACK_H( tedBookmarkChangePushed, button, voidbt )
-    {
-    BookmarkTool *		bt= (BookmarkTool *)voidbt;
-    const BookmarkList *	bl= &(bt->btBookmarkList);
+static APP_BUTTON_CALLBACK_H(tedBookmarkChangePushed, button, voidbt)
+{
+	BookmarkTool *bt = (BookmarkTool *)voidbt;
+	const BookmarkList *bl = &(bt->btBookmarkList);
 
-    if  ( appBufferFromTextWidget( &(bt->btMarkChosen),
-						bl->blMarkTextWidget ) )
-	{ LDEB(1); return;	}
-    else{
-	if  ( docAdaptBookmarkName( &(bt->btMarkChosen) ) )
-	    {
-	    bt->btInProgrammaticChange++;
+	if (appBufferFromTextWidget(&(bt->btMarkChosen),
+				    bl->blMarkTextWidget)) {
+		LDEB(1);
+		return;
+	} else {
+		if (docAdaptBookmarkName(&(bt->btMarkChosen))) {
+			bt->btInProgrammaticChange++;
 
-	    guiBufferToText( bl->blMarkTextWidget,
-						    &(bt->btMarkChosen) );
-	    appRefuseTextValue( bl->blMarkTextWidget );
+			guiBufferToText(bl->blMarkTextWidget,
+					&(bt->btMarkChosen));
+			appRefuseTextValue(bl->blMarkTextWidget);
 
-	    bt->btInProgrammaticChange--;
-	    return;
-	    }
+			bt->btInProgrammaticChange--;
+			return;
+		}
 
-	/*  1  */
-	bt->btCurrentDocumentId= 0;
+		/*  1  */
+		bt->btCurrentDocumentId = 0;
 
-	if  ( tedAppSetBookmark( bt->btApplication, &(bt->btMarkChosen) ) )
-	    { LDEB(1);	}
+		if (tedAppSetBookmark(bt->btApplication, &(bt->btMarkChosen))) {
+			LDEB(1);
+		}
 	}
-    }
+}
 
-static APP_BUTTON_CALLBACK_H( tedBookmarkGotoPushed, button, voidbt )
-    {
-    BookmarkTool *		bt= (BookmarkTool *)voidbt;
-    const BookmarkList *	bl= &(bt->btBookmarkList);
+static APP_BUTTON_CALLBACK_H(tedBookmarkGotoPushed, button, voidbt)
+{
+	BookmarkTool *bt = (BookmarkTool *)voidbt;
+	const BookmarkList *bl = &(bt->btBookmarkList);
 
-    if  ( appBufferFromTextWidget( &(bt->btMarkChosen),
-						bl->blMarkTextWidget ) )
-	{ LDEB(1); return;	}
-    else{
-	if  ( tedAppGoToBookmark( bt->btApplication, &(bt->btMarkChosen) ) )
-	    { LDEB(1);	}
+	if (appBufferFromTextWidget(&(bt->btMarkChosen),
+				    bl->blMarkTextWidget)) {
+		LDEB(1);
+		return;
+	} else {
+		if (tedAppGoToBookmark(bt->btApplication,
+				       &(bt->btMarkChosen))) {
+			LDEB(1);
+		}
 	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -161,18 +160,19 @@ static APP_BUTTON_CALLBACK_H( tedBookmarkGotoPushed, button, voidbt )
 /*									*/
 /************************************************************************/
 
-static APP_BUTTON_CALLBACK_H( tedBookmarkRemovePushed, w, voidbt )
-    {
-    BookmarkTool *		bt= (BookmarkTool *)voidbt;
+static APP_BUTTON_CALLBACK_H(tedBookmarkRemovePushed, w, voidbt)
+{
+	BookmarkTool *bt = (BookmarkTool *)voidbt;
 
-    /*  1  */
-    bt->btCurrentDocumentId= 0;
+	/*  1  */
+	bt->btCurrentDocumentId = 0;
 
-    if  ( tedAppRemoveBookmark( bt->btApplication ) )
-	{ LDEB(1);	}
+	if (tedAppRemoveBookmark(bt->btApplication)) {
+		LDEB(1);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -180,24 +180,26 @@ static APP_BUTTON_CALLBACK_H( tedBookmarkRemovePushed, w, voidbt )
 /*									*/
 /************************************************************************/
 
-static APP_TXTYPING_CALLBACK_H( tedBookmarkDestinationChanged, w, voidbt )
-    {
-    BookmarkTool *		bt= (BookmarkTool *)voidbt;
-    const BookmarkList *	bl= &(bt->btBookmarkList);
+static APP_TXTYPING_CALLBACK_H(tedBookmarkDestinationChanged, w, voidbt)
+{
+	BookmarkTool *bt = (BookmarkTool *)voidbt;
+	const BookmarkList *bl = &(bt->btBookmarkList);
 
-    const int			adaptString= 0;
-    const int			select= 1;
+	const int adaptString = 0;
+	const int select = 1;
 
-    guiEnableWidget( bt->btRemoveBookmarkButton, 0 );
+	guiEnableWidget(bt->btRemoveBookmarkButton, 0);
 
-    if  ( appBufferFromTextWidget( &(bt->btMarkChosen),
-						bl->blMarkTextWidget ) )
-	{ LDEB(1); return;	}
+	if (appBufferFromTextWidget(&(bt->btMarkChosen),
+				    bl->blMarkTextWidget)) {
+		LDEB(1);
+		return;
+	}
 
-    tedBookmarkAdaptToBookmark( bt, adaptString, select );
+	tedBookmarkAdaptToBookmark(bt, adaptString, select);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -205,45 +207,52 @@ static APP_TXTYPING_CALLBACK_H( tedBookmarkDestinationChanged, w, voidbt )
 /*									*/
 /************************************************************************/
 
-static APP_LIST_CALLBACK_H( tedBookmarkChosen, w, voidbt, voidlcs )
-    {
-    BookmarkTool *		bt= (BookmarkTool *)voidbt;
-    BookmarkList *		bl= &(bt->btBookmarkList);
-    const int			adaptString= 0;
+static APP_LIST_CALLBACK_H(tedBookmarkChosen, w, voidbt, voidlcs)
+{
+	BookmarkTool *bt = (BookmarkTool *)voidbt;
+	BookmarkList *bl = &(bt->btBookmarkList);
+	const int adaptString = 0;
 
-    char *			markName= (char *)0;
+	char *markName = (char *)0;
 
-    if  ( bt->btInProgrammaticChange )
-	{ return;	}
-
-    bt->btInProgrammaticChange++;
-
-    if  ( bt->btCanChange )
-	{
-	tedBookmarkListToText( bl, &(bt->btMarkChosen), voidlcs, w );
-	tedBookmarkAdaptToText( bt, adaptString );
-	}
-    else{
-	markName= appGuiGetStringFromListCallback( w, voidlcs );
-	if  ( ! markName )
-	    { XDEB(markName); goto ready;	}
-
-	if  ( utilMemoryBufferSetString( &(bt->btMarkChosen), markName ) )
-	    { SDEB(markName); goto ready;	}
-
-	if  ( tedAppGoToBookmark( bt->btApplication, &(bt->btMarkChosen) ) )
-	    { LDEB(1); goto ready;	}
+	if (bt->btInProgrammaticChange) {
+		return;
 	}
 
-  ready:
+	bt->btInProgrammaticChange++;
 
-    if  ( markName )
-	{ appFreeStringFromListCallback( markName );	}
+	if (bt->btCanChange) {
+		tedBookmarkListToText(bl, &(bt->btMarkChosen), voidlcs, w);
+		tedBookmarkAdaptToText(bt, adaptString);
+	} else {
+		markName = appGuiGetStringFromListCallback(w, voidlcs);
+		if (!markName) {
+			XDEB(markName);
+			goto ready;
+		}
 
-    bt->btInProgrammaticChange--;
+		if (utilMemoryBufferSetString(&(bt->btMarkChosen), markName)) {
+			SDEB(markName);
+			goto ready;
+		}
 
-    return;
-    }
+		if (tedAppGoToBookmark(bt->btApplication,
+				       &(bt->btMarkChosen))) {
+			LDEB(1);
+			goto ready;
+		}
+	}
+
+ready:
+
+	if (markName) {
+		appFreeStringFromListCallback(markName);
+	}
+
+	bt->btInProgrammaticChange--;
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -252,46 +261,47 @@ static APP_LIST_CALLBACK_H( tedBookmarkChosen, w, voidbt, voidlcs )
 /*									*/
 /************************************************************************/
 
-void tedFillBookmarkTool(	BookmarkTool *			bt,
-				const BookmarkPageResources *	bpr,
-				InspectorSubject *		is,
-				APP_WIDGET			pageWidget,
-				const InspectorSubjectResources * isr )
-    {
-    BookmarkList *	bl= &(bt->btBookmarkList);
-    APP_WIDGET		row;
+void tedFillBookmarkTool(BookmarkTool *bt, const BookmarkPageResources *bpr,
+			 InspectorSubject *is, APP_WIDGET pageWidget,
+			 const InspectorSubjectResources *isr)
+{
+	BookmarkList *bl = &(bt->btBookmarkList);
+	APP_WIDGET row;
 
-    const int		listVisibleItems= 5;
+	const int listVisibleItems = 5;
 
-    bt->btResources= bpr;
+	bt->btResources = bpr;
 
-    /* FULL WIDTH */
-    appMakeLabelInColumn( &(bl->blMarkLabelWidget),
-				pageWidget, bpr->bprMarkText );
-    appMakeTextInColumn( &(bl->blMarkTextWidget), pageWidget, 0, 1 );
+	/* FULL WIDTH */
+	appMakeLabelInColumn(&(bl->blMarkLabelWidget), pageWidget,
+			     bpr->bprMarkText);
+	appMakeTextInColumn(&(bl->blMarkTextWidget), pageWidget, 0, 1);
 
-    appGuiSetTypingCallbackForText( bl->blMarkTextWidget,
-				tedBookmarkDestinationChanged, (void *)bt );
+	appGuiSetTypingCallbackForText(bl->blMarkTextWidget,
+				       tedBookmarkDestinationChanged,
+				       (void *)bt);
 
-    appGuiMakeListInColumn( &(bl->blMarkListWidget),
-		pageWidget, listVisibleItems,
-		tedBookmarkChosen, (APP_BUTTON_CALLBACK_T)0, (void *)bt );
+	appGuiMakeListInColumn(&(bl->blMarkListWidget), pageWidget,
+			       listVisibleItems, tedBookmarkChosen,
+			       (APP_BUTTON_CALLBACK_T)0, (void *)bt);
 
-    guiToolMake2BottonRow( &row, pageWidget,
-	    &(bt->btGoToBookmarkButton), &(bt->btRemoveBookmarkButton),
-	    isr->isrSelectButtonText, isr->isrDeleteButtonText,
-	    tedBookmarkGotoPushed, tedBookmarkRemovePushed, (void *)bt );
+	guiToolMake2BottonRow(&row, pageWidget, &(bt->btGoToBookmarkButton),
+			      &(bt->btRemoveBookmarkButton),
+			      isr->isrSelectButtonText,
+			      isr->isrDeleteButtonText, tedBookmarkGotoPushed,
+			      tedBookmarkRemovePushed, (void *)bt);
 
-    guiToolMake2BottonRow( &(is->isApplyRow), pageWidget,
-	    &(is->isRevertButton), &(is->isApplyButton),
-	    isr->isrRevert, isr->isrApplyToSubject,
-	    tedBookmarkRevertPushed, tedBookmarkChangePushed, (void *)bt );
+	guiToolMake2BottonRow(&(is->isApplyRow), pageWidget,
+			      &(is->isRevertButton), &(is->isApplyButton),
+			      isr->isrRevert, isr->isrApplyToSubject,
+			      tedBookmarkRevertPushed, tedBookmarkChangePushed,
+			      (void *)bt);
 
-    bt->btSetBookmarkButton= is->isApplyButton;
-    bt->btRevertButton= is->isRevertButton;
+	bt->btSetBookmarkButton = is->isApplyButton;
+	bt->btRevertButton = is->isRevertButton;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -299,33 +309,33 @@ void tedFillBookmarkTool(	BookmarkTool *			bt,
 /*									*/
 /************************************************************************/
 
-void tedInitBookmarkTool(		BookmarkTool *		bt )
-    {
-    bt->btCurrentDocumentId= 0;
+void tedInitBookmarkTool(BookmarkTool *bt)
+{
+	bt->btCurrentDocumentId = 0;
 
-    tedInitBookmarkList( &(bt->btBookmarkList) );
-    bt->btBookmarkList.blIsLocal= 1;
+	tedInitBookmarkList(&(bt->btBookmarkList));
+	bt->btBookmarkList.blIsLocal = 1;
 
-    bt->btSetBookmarkButton= (APP_WIDGET)0;
-    bt->btRevertButton= (APP_WIDGET)0;
-    bt->btGoToBookmarkButton= (APP_WIDGET)0;
-    bt->btRemoveBookmarkButton= (APP_WIDGET)0;
+	bt->btSetBookmarkButton = (APP_WIDGET)0;
+	bt->btRevertButton = (APP_WIDGET)0;
+	bt->btGoToBookmarkButton = (APP_WIDGET)0;
+	bt->btRemoveBookmarkButton = (APP_WIDGET)0;
 
-    utilInitMemoryBuffer( &(bt->btMarkSet) );
-    utilInitMemoryBuffer( &(bt->btMarkChosen) );
+	utilInitMemoryBuffer(&(bt->btMarkSet));
+	utilInitMemoryBuffer(&(bt->btMarkChosen));
 
-    bt->btInProgrammaticChange= 0;
+	bt->btInProgrammaticChange = 0;
 
-    return;
-    }
+	return;
+}
 
-void tedFormatCleanBookmarkTool(		BookmarkTool *		bt )
-    {
-    utilCleanMemoryBuffer( &(bt->btMarkSet) );
-    utilCleanMemoryBuffer( &(bt->btMarkChosen) );
+void tedFormatCleanBookmarkTool(BookmarkTool *bt)
+{
+	utilCleanMemoryBuffer(&(bt->btMarkSet));
+	utilCleanMemoryBuffer(&(bt->btMarkChosen));
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -333,15 +343,15 @@ void tedFormatCleanBookmarkTool(		BookmarkTool *		bt )
 /*									*/
 /************************************************************************/
 
-void tedBookmarkToolFillChoosers( BookmarkTool *		bt )
-    {
-    return;
-    }
+void tedBookmarkToolFillChoosers(BookmarkTool *bt)
+{
+	return;
+}
 
-void tedFinishBookmarkTool(	BookmarkTool *			bt )
-    {
-    return;
-    }
+void tedFinishBookmarkTool(BookmarkTool *bt)
+{
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -349,82 +359,86 @@ void tedFinishBookmarkTool(	BookmarkTool *			bt )
 /*									*/
 /************************************************************************/
 
-void tedRefreshBookmarkTool(	BookmarkTool *			bt,
-				int *				pEnabled,
-				int *				pPref,
-				InspectorSubject *		is,
-				const DocumentSelection *	ds,
-				const SelectionDescription *	sd,
-				DocumentTree *			ei,
-				BufferDocument *		bd,
-				const unsigned char *		cmdEnabled )
-    {
-    const int			adaptString= 1;
+void tedRefreshBookmarkTool(BookmarkTool *bt, int *pEnabled, int *pPref,
+			    InspectorSubject *is, const DocumentSelection *ds,
+			    const SelectionDescription *sd, DocumentTree *ei,
+			    BufferDocument *bd, const unsigned char *cmdEnabled)
+{
+	const int adaptString = 1;
 
-    bt->btInProgrammaticChange++;
+	bt->btInProgrammaticChange++;
 
-    if  ( bt->btCurrentDocumentId != sd->sdDocumentId )
-	{
-	const BookmarkPageResources *	bpr= bt->btResources;
-	int				includeTocMarks= 0;
+	if (bt->btCurrentDocumentId != sd->sdDocumentId) {
+		const BookmarkPageResources *bpr = bt->btResources;
+		int includeTocMarks = 0;
 
-	if  ( bpr->bprShowTocMarks && ! strcmp( bpr->bprShowTocMarks, "1" ) )
-	    { includeTocMarks= 1;	}
+		if (bpr->bprShowTocMarks &&
+		    !strcmp(bpr->bprShowTocMarks, "1")) {
+			includeTocMarks = 1;
+		}
 
-	tedFillBookmarkList( &(bt->btBookmarkList), includeTocMarks, bd );
+		tedFillBookmarkList(&(bt->btBookmarkList), includeTocMarks, bd);
 
-	bt->btCurrentDocumentId= sd->sdDocumentId;
+		bt->btCurrentDocumentId = sd->sdDocumentId;
 	}
 
-    bt->btCanChange= cmdEnabled[EDITcmdSET_BOOKMARK];
+	bt->btCanChange = cmdEnabled[EDITcmdSET_BOOKMARK];
 
-    utilCleanMemoryBuffer( &(bt->btMarkSet) );
-    utilInitMemoryBuffer( &(bt->btMarkSet) );
-    utilCleanMemoryBuffer( &(bt->btMarkChosen) );
-    utilInitMemoryBuffer( &(bt->btMarkChosen) );
+	utilCleanMemoryBuffer(&(bt->btMarkSet));
+	utilInitMemoryBuffer(&(bt->btMarkSet));
+	utilCleanMemoryBuffer(&(bt->btMarkChosen));
+	utilInitMemoryBuffer(&(bt->btMarkChosen));
 
-    if  ( sd->sdHeadInBookmark )
-	{
-	DocumentField *		dfBookmark;
+	if (sd->sdHeadInBookmark) {
+		DocumentField *dfBookmark;
 
-	const MemoryBuffer *	markName= (const MemoryBuffer *)0;
+		const MemoryBuffer *markName = (const MemoryBuffer *)0;
 
-	dfBookmark= docFindTypedFieldForPosition( bd, &(ds->dsHead),
-							    DOCfkBOOKMARK, 0 );
-	if  ( docFieldGetBookmark( &markName, dfBookmark ) )
-	    { LDEB(1); *pEnabled= 0; goto ready;	}
+		dfBookmark = docFindTypedFieldForPosition(bd, &(ds->dsHead),
+							  DOCfkBOOKMARK, 0);
+		if (docFieldGetBookmark(&markName, dfBookmark)) {
+			LDEB(1);
+			*pEnabled = 0;
+			goto ready;
+		}
 
-	if  ( utilCopyMemoryBuffer( &(bt->btMarkSet), markName ) )
-	    { LDEB(1); *pEnabled= 0; goto ready;	}
-	if  ( utilCopyMemoryBuffer( &(bt->btMarkChosen), &(bt->btMarkSet) ) )
-	    { LDEB(1); *pEnabled= 0; goto ready;	}
+		if (utilCopyMemoryBuffer(&(bt->btMarkSet), markName)) {
+			LDEB(1);
+			*pEnabled = 0;
+			goto ready;
+		}
+		if (utilCopyMemoryBuffer(&(bt->btMarkChosen),
+					 &(bt->btMarkSet))) {
+			LDEB(1);
+			*pEnabled = 0;
+			goto ready;
+		}
 
-	bt->btBookmarkList.blMarkChosenExists= 1;
-	tedBookmarkAdaptToText( bt, adaptString );
+		bt->btBookmarkList.blMarkChosenExists = 1;
+		tedBookmarkAdaptToText(bt, adaptString);
 
-	if  ( ! docIsTocBookmark( (long *)0, dfBookmark ) )
-	    {
-	    *pPref += 3;
+		if (!docIsTocBookmark((long *)0, dfBookmark)) {
+			*pPref += 3;
 
-	    tedBookmarkUpdateSelectionInList( &(bt->btBookmarkList),
-							&(bt->btMarkChosen) );
-	    }
+			tedBookmarkUpdateSelectionInList(&(bt->btBookmarkList),
+							 &(bt->btMarkChosen));
+		}
+	} else {
+		const int select = 1;
+
+		if (!sd->sdIsIBarSelection) {
+			docSuggestNewBookmarkName(&(bt->btMarkChosen), bd, ds);
+		}
+
+		tedBookmarkAdaptToBookmark(bt, adaptString, select);
 	}
-    else{
-	const int	select= 1;
 
-	if  ( ! sd->sdIsIBarSelection )
-	    { docSuggestNewBookmarkName( &(bt->btMarkChosen), bd, ds );	}
+ready:
 
-	tedBookmarkAdaptToBookmark( bt, adaptString, select );
-	}
+	bt->btInProgrammaticChange--;
 
-  ready:
-
-    bt->btInProgrammaticChange--;
-
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -432,59 +446,54 @@ void tedRefreshBookmarkTool(	BookmarkTool *			bt,
 /*									*/
 /************************************************************************/
 
-static AppConfigurableResource TED_TedBookmarkSubjectResourceTable[]=
-    {
-    APP_RESOURCE( "formatToolBookmark",
-	    offsetof(InspectorSubjectResources,isrSubjectName),
-	    "Bookmark" ),
+static AppConfigurableResource TED_TedBookmarkSubjectResourceTable[] = {
+	APP_RESOURCE("formatToolBookmark",
+		     offsetof(InspectorSubjectResources, isrSubjectName),
+		     "Bookmark"),
 
-    APP_RESOURCE( "bookmarkSetBookmark",
-	    offsetof(InspectorSubjectResources,isrApplyToSubject),
-	    "Set Bookmark" ),
-    APP_RESOURCE( "bookmarkRevert",
-	    offsetof(InspectorSubjectResources,isrRevert),
-	    "Revert" ),
+	APP_RESOURCE("bookmarkSetBookmark",
+		     offsetof(InspectorSubjectResources, isrApplyToSubject),
+		     "Set Bookmark"),
+	APP_RESOURCE("bookmarkRevert",
+		     offsetof(InspectorSubjectResources, isrRevert), "Revert"),
 
-    APP_RESOURCE( "bookmarkGoToBookmark",
-	    offsetof(InspectorSubjectResources,isrSelectButtonText),
-	    "Go To Bookmark" ),
-    APP_RESOURCE( "bookmarkRemoveBookmark",
-	    offsetof(InspectorSubjectResources,isrDeleteButtonText),
-	    "Remove Bookmark" ),
-    };
+	APP_RESOURCE("bookmarkGoToBookmark",
+		     offsetof(InspectorSubjectResources, isrSelectButtonText),
+		     "Go To Bookmark"),
+	APP_RESOURCE("bookmarkRemoveBookmark",
+		     offsetof(InspectorSubjectResources, isrDeleteButtonText),
+		     "Remove Bookmark"),
+};
 
-static AppConfigurableResource TED_TedBookmarkToolResourceTable[]=
-    {
-    APP_RESOURCE( "bookmarkBookmark",
-	    offsetof(BookmarkPageResources,bprMarkText),
-	    "Bookmark" ),
-    APP_RESOURCE( "bookmarkShowTocMarks",
-	    offsetof(BookmarkPageResources,bprShowTocMarks),
-	    "0" ),
-    };
+static AppConfigurableResource TED_TedBookmarkToolResourceTable[] = {
+	APP_RESOURCE("bookmarkBookmark",
+		     offsetof(BookmarkPageResources, bprMarkText), "Bookmark"),
+	APP_RESOURCE("bookmarkShowTocMarks",
+		     offsetof(BookmarkPageResources, bprShowTocMarks), "0"),
+};
 
-void tedBookmarkToolGetResourceTable(	EditApplication *		ea,
-					BookmarkPageResources *		bpr,
-					InspectorSubjectResources *	isr )
-    {
-    static int	gotToolResources= 0;
-    static int	gotSubjectResources= 0;
+void tedBookmarkToolGetResourceTable(EditApplication *ea,
+				     BookmarkPageResources *bpr,
+				     InspectorSubjectResources *isr)
+{
+	static int gotToolResources = 0;
+	static int gotSubjectResources = 0;
 
-    if  ( ! gotToolResources )
-	{
-	appGuiGetResourceValues( &gotToolResources, ea, (void *)bpr,
-				TED_TedBookmarkToolResourceTable,
-				sizeof(TED_TedBookmarkToolResourceTable)/
-				sizeof(AppConfigurableResource) );
+	if (!gotToolResources) {
+		appGuiGetResourceValues(
+			&gotToolResources, ea, (void *)bpr,
+			TED_TedBookmarkToolResourceTable,
+			sizeof(TED_TedBookmarkToolResourceTable) /
+				sizeof(AppConfigurableResource));
 	}
 
-    if  ( ! gotSubjectResources )
-	{
-	appGuiGetResourceValues( &gotSubjectResources, ea, (void *)isr,
-				TED_TedBookmarkSubjectResourceTable,
-				sizeof(TED_TedBookmarkSubjectResourceTable)/
-				sizeof(AppConfigurableResource) );
+	if (!gotSubjectResources) {
+		appGuiGetResourceValues(
+			&gotSubjectResources, ea, (void *)isr,
+			TED_TedBookmarkSubjectResourceTable,
+			sizeof(TED_TedBookmarkSubjectResourceTable) /
+				sizeof(AppConfigurableResource));
 	}
 
-    return;
-    }
+	return;
+}

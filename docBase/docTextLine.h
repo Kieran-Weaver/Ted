@@ -4,10 +4,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_TEXT_LINE_H
-#   define	DOC_TEXT_LINE_H
+#ifndef DOC_TEXT_LINE_H
+#define DOC_TEXT_LINE_H
 
-#   include	"docLayoutPosition.h"
+#include "docLayoutPosition.h"
 
 /************************************************************************/
 /*									*/
@@ -38,43 +38,42 @@
 /*									*/
 /************************************************************************/
 
-typedef struct TextLine
-    {
-								/*  1,2	*/
-    int			tlStroff;
-    int			tlFirstParticule;
-    short int		tlStrlen;
-    short int		tlParticuleCount;
-    short int		tlWordCount;
-								/*  3  */
-    LayoutPosition	tlTopPosition;
-								/*  4  */
-    short int		tlAscY0;
-    short int		tlDescY1;
-    short int		tlLineStride;
-								/*  5  */
-    unsigned char	tlFlags;
-#			define TLflagBLOCKBREAK		0x01
+typedef struct TextLine {
+	/*  1,2	*/
+	int tlStroff;
+	int tlFirstParticule;
+	short int tlStrlen;
+	short int tlParticuleCount;
+	short int tlWordCount;
+	/*  3  */
+	LayoutPosition tlTopPosition;
+	/*  4  */
+	short int tlAscY0;
+	short int tlDescY1;
+	short int tlLineStride;
+	/*  5  */
+	unsigned char tlFlags;
+#define TLflagBLOCKBREAK 0x01
 /*			define TLflagLINEBREAK		0x02 */
-#			define TLflagINLINECONTENT	0x04
-#			define TLflagSHADING		0x08
-#			define TLflagBORDER		0x10
+#define TLflagINLINECONTENT 0x04
+#define TLflagSHADING 0x08
+#define TLflagBORDER 0x10
 
-    unsigned short int	tlFlowWidthTwips;			/*  6  */
-    short int		tlLineIndent;				/*  7  */
-    } TextLine;
-
-/************************************************************************/
-
-# define TL_LEADING( tl ) ( (tl)->tlLineStride- (tl)->tlDescY1+ (tl)->tlAscY0 )
-# define TL_BASELINE( tl ) ( -(tl)->tlAscY0+ TL_LEADING( tl ) )
+	unsigned short int tlFlowWidthTwips; /*  6  */
+	short int tlLineIndent; /*  7  */
+} TextLine;
 
 /************************************************************************/
 
-# define docInvalidateTextLine( tl ) (tl)->tlFlowWidthTwips= 0
+#define TL_LEADING(tl) ((tl)->tlLineStride - (tl)->tlDescY1 + (tl)->tlAscY0)
+#define TL_BASELINE(tl) (-(tl)->tlAscY0 + TL_LEADING(tl))
 
 /************************************************************************/
 
-extern void docInitTextLine(		TextLine *	tl );
+#define docInvalidateTextLine(tl) (tl)->tlFlowWidthTwips = 0
 
-#   endif
+/************************************************************************/
+
+extern void docInitTextLine(TextLine *tl);
+
+#endif

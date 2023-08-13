@@ -10,15 +10,15 @@
 *  3 Sep 90 - Version 1.1 by Gershon Elber (Support for Gif89, Unique names). *
 ******************************************************************************/
 
-#   include	<stdio.h>
-#   include	<stdlib.h>
-#   include	<string.h>
-#   include	"bm_gif_lib.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "bm_gif_lib.h"
 
-#   include	<sioBlocked.h>
-#   include	<sioLzw.h>
-#   include	<sioEndian.h>
-#   include	<appDebugon.h>
+#include <sioBlocked.h>
+#include <sioLzw.h>
+#include <sioEndian.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -26,48 +26,45 @@
 /*									*/
 /************************************************************************/
 
-void bmGifInitGifColorMap(	GifColorMap *	gcm )
-    {
-    int		i;
-    RGB8Color *	rgb8;
+void bmGifInitGifColorMap(GifColorMap *gcm)
+{
+	int i;
+	RGB8Color *rgb8;
 
-    gcm->gcmColorCount= 0;
-    gcm->gcmBitsPerPixel= 0;
+	gcm->gcmColorCount = 0;
+	gcm->gcmBitsPerPixel = 0;
 
-    rgb8= gcm->gcmColors;
-    for ( i = 0; i < 256; rgb8++, i++ )
-	{
-	rgb8->rgb8Red= 255;
-	rgb8->rgb8Green= 255;
-	rgb8->rgb8Blue= 255;
-	rgb8->rgb8Alpha= 255;
+	rgb8 = gcm->gcmColors;
+	for (i = 0; i < 256; rgb8++, i++) {
+		rgb8->rgb8Red = 255;
+		rgb8->rgb8Green = 255;
+		rgb8->rgb8Blue = 255;
+		rgb8->rgb8Alpha = 255;
 	}
 
-    return;
-    }
+	return;
+}
 
-static int bmGifReadColorMap(	GifFileType *		gft,
-				GifColorMap *		gcm,
-				int			bitsPerPixel )
-    {
-    RGB8Color *		rgb8;
-    int			i;
+static int bmGifReadColorMap(GifFileType *gft, GifColorMap *gcm,
+			     int bitsPerPixel)
+{
+	RGB8Color *rgb8;
+	int i;
 
-    bmGifInitGifColorMap( gcm );
+	bmGifInitGifColorMap(gcm);
 
-    gcm->gcmBitsPerPixel= bitsPerPixel;
-    gcm->gcmColorCount= 1 << bitsPerPixel;
+	gcm->gcmBitsPerPixel = bitsPerPixel;
+	gcm->gcmColorCount = 1 << bitsPerPixel;
 
-    rgb8= gcm->gcmColors;
-    for ( i = 0; i < gcm->gcmColorCount; rgb8++, i++ )
-	{
-	rgb8->rgb8Red= sioInGetByte( gft->gftSis );
-	rgb8->rgb8Green= sioInGetByte( gft->gftSis );
-	rgb8->rgb8Blue= sioInGetByte( gft->gftSis );
+	rgb8 = gcm->gcmColors;
+	for (i = 0; i < gcm->gcmColorCount; rgb8++, i++) {
+		rgb8->rgb8Red = sioInGetByte(gft->gftSis);
+		rgb8->rgb8Green = sioInGetByte(gft->gftSis);
+		rgb8->rgb8Blue = sioInGetByte(gft->gftSis);
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -83,44 +80,45 @@ static int bmGifReadColorMap(	GifFileType *		gft,
 /*									*/
 /************************************************************************/
 
-static int bmGifReadScreenDescriptor(	GifFileType *	gft )
+static int bmGifReadScreenDescriptor(GifFileType *gft)
 {
-    GifScreenDescriptor *	gsd= &(gft->gftScreenDescriptor);
+	GifScreenDescriptor *gsd = &(gft->gftScreenDescriptor);
 
-    int				bitsPerPixel;
+	int bitsPerPixel;
 
-    /*  1  */
-    if  ( ! gft->gftSis )
-	{
-	XDEB(gft->gftSis);
-	_GifError= D_GIF_ERR_NOT_READABLE;
-	return GIF_ERROR;
+	/*  1  */
+	if (!gft->gftSis) {
+		XDEB(gft->gftSis);
+		_GifError = D_GIF_ERR_NOT_READABLE;
+		return GIF_ERROR;
 	}
 
-    bmGifInitGifColorMap( &(gsd->gsdScreenColorMap) );
+	bmGifInitGifColorMap(&(gsd->gsdScreenColorMap));
 
-    /*  2  */
-    gsd->gsdScreenWide= sioEndianGetLeInt16( gft->gftSis );
-    gsd->gsdScreenHigh= sioEndianGetLeInt16( gft->gftSis );
+	/*  2  */
+	gsd->gsdScreenWide = sioEndianGetLeInt16(gft->gftSis);
+	gsd->gsdScreenHigh = sioEndianGetLeInt16(gft->gftSis);
 
-    /*  3  */
-    gsd->gsdPackedFields= sioInGetByte( gft->gftSis );
-    gsd->gsdScreenBackgroundColor= sioInGetByte( gft->gftSis );
-    gsd->gsdScreenAspectRatio= sioInGetByte( gft->gftSis );
+	/*  3  */
+	gsd->gsdPackedFields = sioInGetByte(gft->gftSis);
+	gsd->gsdScreenBackgroundColor = sioInGetByte(gft->gftSis);
+	gsd->gsdScreenAspectRatio = sioInGetByte(gft->gftSis);
 
-    /*  4  */
-    gsd->gsdScreenBitsPerPixel = (((gsd->gsdPackedFields & 0x70) + 1) >> 4) + 1;
-    bitsPerPixel= ( gsd->gsdPackedFields & 0x07 ) + 1;
+	/*  4  */
+	gsd->gsdScreenBitsPerPixel =
+		(((gsd->gsdPackedFields & 0x70) + 1) >> 4) + 1;
+	bitsPerPixel = (gsd->gsdPackedFields & 0x07) + 1;
 
-    /*  5  */
-    if  ( gsd->gsdPackedFields & 0x80 )
-	{
-	if  ( bmGifReadColorMap( gft,
-			    &(gsd->gsdScreenColorMap), bitsPerPixel ) )
-	    { LDEB(bitsPerPixel); return GIF_ERROR;	}
+	/*  5  */
+	if (gsd->gsdPackedFields & 0x80) {
+		if (bmGifReadColorMap(gft, &(gsd->gsdScreenColorMap),
+				      bitsPerPixel)) {
+			LDEB(bitsPerPixel);
+			return GIF_ERROR;
+		}
 	}
 
-    return GIF_OK;
+	return GIF_OK;
 }
 
 /************************************************************************/
@@ -133,53 +131,61 @@ static int bmGifReadScreenDescriptor(	GifFileType *	gft )
 /*									*/
 /************************************************************************/
 
-static int DGifSetupDecompress(	GifFileType *	gft )
+static int DGifSetupDecompress(GifFileType *gft)
 {
-    int				codeSize;
+	int codeSize;
 
-    codeSize= sioInGetByte( gft->gftSis );
-    if  ( codeSize == EOF )
-	{ LDEB(codeSize); return GIF_ERROR;	}
+	codeSize = sioInGetByte(gft->gftSis);
+	if (codeSize == EOF) {
+		LDEB(codeSize);
+		return GIF_ERROR;
+	}
 
-    /*  3  */
-    if  ( gft->gftSisBlocked )
-	{ XDEB(gft->gftSisBlocked);	}
+	/*  3  */
+	if (gft->gftSisBlocked) {
+		XDEB(gft->gftSisBlocked);
+	}
 
-    gft->gftSisBlocked= sioInBlockedOpen( gft->gftSis );
-    if  ( ! gft->gftSisBlocked )
-	{ XDEB(gft->gftSisBlocked); return GIF_ERROR;	}
+	gft->gftSisBlocked = sioInBlockedOpen(gft->gftSis);
+	if (!gft->gftSisBlocked) {
+		XDEB(gft->gftSisBlocked);
+		return GIF_ERROR;
+	}
 
-    /*  4  */
-    if  ( gft->gftSisLzw )
-	{ XDEB(gft->gftSisLzw);	}
+	/*  4  */
+	if (gft->gftSisLzw) {
+		XDEB(gft->gftSisLzw);
+	}
 
-    gft->gftSisLzw= sioInLzwGifOpen( gft->gftSisBlocked, codeSize );
-    if  ( ! gft->gftSisLzw )
-	{ XDEB(gft->gftSisLzw); return GIF_ERROR;	}
+	gft->gftSisLzw = sioInLzwGifOpen(gft->gftSisBlocked, codeSize);
+	if (!gft->gftSisLzw) {
+		XDEB(gft->gftSisLzw);
+		return GIF_ERROR;
+	}
 
-    return GIF_OK;
+	return GIF_OK;
 }
 
-static void bmGifCleanupDecompress(	GifFileType *	gft )
-    {
-    if  ( gft->gftSisLzw )
-	{
-	if  ( sioInClose( gft->gftSisLzw ) )
-	    { XDEB(gft->gftSisLzw);	}
+static void bmGifCleanupDecompress(GifFileType *gft)
+{
+	if (gft->gftSisLzw) {
+		if (sioInClose(gft->gftSisLzw)) {
+			XDEB(gft->gftSisLzw);
+		}
 
-	gft->gftSisLzw= (SimpleInputStream *)0;
+		gft->gftSisLzw = (SimpleInputStream *)0;
 	}
 
-    if  ( gft->gftSisBlocked )
-	{
-	if  ( sioInClose( gft->gftSisBlocked ) )
-	    { XDEB(gft->gftSisBlocked);	}
+	if (gft->gftSisBlocked) {
+		if (sioInClose(gft->gftSisBlocked)) {
+			XDEB(gft->gftSisBlocked);
+		}
 
-	gft->gftSisBlocked= (SimpleInputStream *)0;
+		gft->gftSisBlocked = (SimpleInputStream *)0;
 	}
 
-    return;
-    }
+	return;
+}
 
 /******************************************************************************
 *   Update a new gif file, given its file handle.                             *
@@ -187,51 +193,50 @@ static void bmGifCleanupDecompress(	GifFileType *	gft )
 *   info record. _GifError is cleared if succesfull.                          *
 ******************************************************************************/
 
-GifFileType *DGifOpenFileHandle(	SimpleInputStream *	sis )
+GifFileType *DGifOpenFileHandle(SimpleInputStream *sis)
 {
-    GifFileType *		gft;
+	GifFileType *gft;
 
-    gft= (GifFileType *)malloc( sizeof(GifFileType) );
-    if  ( ! gft )
-	{ XDEB(gft); return (GifFileType *)0;	}
-
-    memset( gft, '\0', sizeof(GifFileType));
-
-    strncpy( gft->gftVersionString, GIF87_STAMP, 6 )[6]= '\0';
-
-    gft->gftSis= sis;
-    gft->gftSisBlocked= (SimpleInputStream *)0;
-    gft->gftSisLzw= (SimpleInputStream *)0;
-
-    /* Lets see if this is a GIF file: */
-    if  ( sioInReadBytes( gft->gftSis,
-			    (unsigned char *)gft->gftVersionString, 6 ) != 6 )
-	{
-	LDEB(6);
-        _GifError= D_GIF_ERR_READ_FAILED;
-        free( gft );
-        return (GifFileType *)0;
+	gft = (GifFileType *)malloc(sizeof(GifFileType));
+	if (!gft) {
+		XDEB(gft);
+		return (GifFileType *)0;
 	}
 
-    if  ( strcmp( gft->gftVersionString, GIF87_STAMP )	&&
-	  strcmp( gft->gftVersionString, GIF89_STAMP )	)
-	{
-	SDEB(gft->gftVersionString);
-        _GifError= D_GIF_ERR_NOT_GIF_FILE;
-        free( gft );
-        return (GifFileType *)0;
+	memset(gft, '\0', sizeof(GifFileType));
+
+	strncpy(gft->gftVersionString, GIF87_STAMP, 6)[6] = '\0';
+
+	gft->gftSis = sis;
+	gft->gftSisBlocked = (SimpleInputStream *)0;
+	gft->gftSisLzw = (SimpleInputStream *)0;
+
+	/* Lets see if this is a GIF file: */
+	if (sioInReadBytes(gft->gftSis, (unsigned char *)gft->gftVersionString,
+			   6) != 6) {
+		LDEB(6);
+		_GifError = D_GIF_ERR_READ_FAILED;
+		free(gft);
+		return (GifFileType *)0;
 	}
 
-    if  ( bmGifReadScreenDescriptor( gft ) == GIF_ERROR )
-	{
-	LDEB(1);
-        free( gft );
-        return (GifFileType *)0;
+	if (strcmp(gft->gftVersionString, GIF87_STAMP) &&
+	    strcmp(gft->gftVersionString, GIF89_STAMP)) {
+		SDEB(gft->gftVersionString);
+		_GifError = D_GIF_ERR_NOT_GIF_FILE;
+		free(gft);
+		return (GifFileType *)0;
 	}
 
-    _GifError = 0;
+	if (bmGifReadScreenDescriptor(gft) == GIF_ERROR) {
+		LDEB(1);
+		free(gft);
+		return (GifFileType *)0;
+	}
 
-    return gft;
+	_GifError = 0;
+
+	return gft;
 }
 
 /******************************************************************************
@@ -240,40 +245,38 @@ GifFileType *DGifOpenFileHandle(	SimpleInputStream *	sis )
 
 int bmGifGetRecordType(GifFileType *gft, GifRecordType *Type)
 {
-    unsigned char		c;
+	unsigned char c;
 
-    /*  1  */
-    if  ( ! gft->gftSis )
-	{
-	XDEB(gft->gftSis);
-	_GifError= D_GIF_ERR_NOT_READABLE;
-	return GIF_ERROR;
+	/*  1  */
+	if (!gft->gftSis) {
+		XDEB(gft->gftSis);
+		_GifError = D_GIF_ERR_NOT_READABLE;
+		return GIF_ERROR;
 	}
 
-    c= sioInGetByte( gft->gftSis );
+	c = sioInGetByte(gft->gftSis);
 
-    switch( c )
-	{
+	switch (c) {
 	case ',':
-	    *Type= IMAGE_DESC_RECORD_TYPE;
-	    break;
+		*Type = IMAGE_DESC_RECORD_TYPE;
+		break;
 
 	case '!':
-	    *Type= EXTENSION_RECORD_TYPE;
-	    break;
+		*Type = EXTENSION_RECORD_TYPE;
+		break;
 
 	case ';':
-	    *Type= TERMINATE_RECORD_TYPE;
-	    break;
+		*Type = TERMINATE_RECORD_TYPE;
+		break;
 
 	default:
-	    CDEB(c);
-	    *Type= UNDEFINED_RECORD_TYPE;
-	    _GifError = D_GIF_ERR_WRONG_RECORD;
-	    return GIF_ERROR;
+		CDEB(c);
+		*Type = UNDEFINED_RECORD_TYPE;
+		_GifError = D_GIF_ERR_WRONG_RECORD;
+		return GIF_ERROR;
 	}
 
-    return GIF_OK;
+	return GIF_OK;
 }
 
 /************************************************************************/
@@ -288,47 +291,47 @@ int bmGifGetRecordType(GifFileType *gft, GifRecordType *Type)
 /*									*/
 /************************************************************************/
 
-int DGifGetImageDesc(	GifFileType *	gft )
+int DGifGetImageDesc(GifFileType *gft)
 {
-    int				bitsPerPixel;
-    GifByteType			Buf[3];
-    GifImageDesc *		gid= &(gft->gftCurrentImageDescriptor);
+	int bitsPerPixel;
+	GifByteType Buf[3];
+	GifImageDesc *gid = &(gft->gftCurrentImageDescriptor);
 
-    /*  1  */
-    if  ( ! gft->gftSis )
-	{
-	XDEB(gft->gftSis);
-	_GifError= D_GIF_ERR_NOT_READABLE;
-	return GIF_ERROR;
+	/*  1  */
+	if (!gft->gftSis) {
+		XDEB(gft->gftSis);
+		_GifError = D_GIF_ERR_NOT_READABLE;
+		return GIF_ERROR;
 	}
 
-    /*  2  */
-    gid->Left= sioEndianGetLeInt16( gft->gftSis );
-    gid->Top= sioEndianGetLeInt16( gft->gftSis );
-    gid->Width= sioEndianGetLeInt16( gft->gftSis );
-    gid->Height= sioEndianGetLeInt16( gft->gftSis );
+	/*  2  */
+	gid->Left = sioEndianGetLeInt16(gft->gftSis);
+	gid->Top = sioEndianGetLeInt16(gft->gftSis);
+	gid->Width = sioEndianGetLeInt16(gft->gftSis);
+	gid->Height = sioEndianGetLeInt16(gft->gftSis);
 
-    /*  3  */
-    Buf[0]= sioInGetByte( gft->gftSis );
+	/*  3  */
+	Buf[0] = sioInGetByte(gft->gftSis);
 
-    bitsPerPixel= (Buf[0] & 0x07) + 1;
-    gid->Interlace= (Buf[0] & 0x40);
+	bitsPerPixel = (Buf[0] & 0x07) + 1;
+	gid->Interlace = (Buf[0] & 0x40);
 
-    bmGifInitGifColorMap( &(gid->gidImageColorMap) );
+	bmGifInitGifColorMap(&(gid->gidImageColorMap));
 
-    /*  4  */
-    if  ( Buf[0] & 0x80 )
-	{
-	if  ( bmGifReadColorMap( gft, &(gid->gidImageColorMap),
-							    bitsPerPixel ) )
-	    { LDEB(bitsPerPixel); return GIF_ERROR;	}
+	/*  4  */
+	if (Buf[0] & 0x80) {
+		if (bmGifReadColorMap(gft, &(gid->gidImageColorMap),
+				      bitsPerPixel)) {
+			LDEB(bitsPerPixel);
+			return GIF_ERROR;
+		}
 	}
 
-    gft->gftPixelCount= (long)gid->Width *(long)gid->Height;
+	gft->gftPixelCount = (long)gid->Width * (long)gid->Height;
 
-    DGifSetupDecompress( gft );  /* Reset decompress algorithm parameters. */
+	DGifSetupDecompress(gft); /* Reset decompress algorithm parameters. */
 
-    return GIF_OK;
+	return GIF_OK;
 }
 
 /************************************************************************/
@@ -340,47 +343,43 @@ int DGifGetImageDesc(	GifFileType *	gft )
 /*									*/
 /************************************************************************/
 
-int bmGifGetPixels(	GifFileType *	gft,
-			int *		pFoundTransparent,
-			unsigned char *	buffer,
-			int		count,
-			int		transparentColor )
+int bmGifGetPixels(GifFileType *gft, int *pFoundTransparent,
+		   unsigned char *buffer, int count, int transparentColor)
 {
-    if  ( ! gft->gftSis )
-	{
-	XDEB(gft->gftSis);
-	_GifError= D_GIF_ERR_NOT_READABLE;
-	return GIF_ERROR;
+	if (!gft->gftSis) {
+		XDEB(gft->gftSis);
+		_GifError = D_GIF_ERR_NOT_READABLE;
+		return GIF_ERROR;
 	}
 
-    if  ( count > gft->gftPixelCount )
-	{
-	LLDEB(count,gft->gftPixelCount);
-	_GifError = D_GIF_ERR_DATA_TOO_BIG;
-	return GIF_ERROR;
+	if (count > gft->gftPixelCount) {
+		LLDEB(count, gft->gftPixelCount);
+		_GifError = D_GIF_ERR_DATA_TOO_BIG;
+		return GIF_ERROR;
 	}
 
-    gft->gftPixelCount -= count;
+	gft->gftPixelCount -= count;
 
-    if  ( sioInReadBytes( gft->gftSisLzw, buffer, count ) == count )
-	{
-	if  ( transparentColor >= 0 && ! *pFoundTransparent )
-	    {
-	    int		i;
+	if (sioInReadBytes(gft->gftSisLzw, buffer, count) == count) {
+		if (transparentColor >= 0 && !*pFoundTransparent) {
+			int i;
 
-	    for ( i= 0; i < count; i++ )
-		{
-		if  ( buffer[i] == transparentColor )
-		    { *pFoundTransparent= 1;	}
+			for (i = 0; i < count; i++) {
+				if (buffer[i] == transparentColor) {
+					*pFoundTransparent = 1;
+				}
+			}
 		}
-	    }
 
-	if  ( gft->gftPixelCount == 0 )
-	    { bmGifCleanupDecompress( gft );	}
+		if (gft->gftPixelCount == 0) {
+			bmGifCleanupDecompress(gft);
+		}
 
-	return GIF_OK;
+		return GIF_OK;
+	} else {
+		LDEB(count);
+		return GIF_ERROR;
 	}
-    else{ LDEB(count); return GIF_ERROR;	}
 }
 
 /************************************************************************/
@@ -395,30 +394,31 @@ int bmGifGetPixels(	GifFileType *	gft,
 /*									*/
 /************************************************************************/
 
-int DGifGetExtension(	GifFileType *		gft,
-			int *			ExtCode,
-			GifByteType		Extension[256] )
+int DGifGetExtension(GifFileType *gft, int *ExtCode, GifByteType Extension[256])
 {
-    GifByteType			Buf;
-    int				got;
+	GifByteType Buf;
+	int got;
 
-    if  ( ! gft->gftSis )
-	{
-	XDEB(gft->gftSis);
-	_GifError= D_GIF_ERR_NOT_READABLE;
-	return GIF_ERROR;
+	if (!gft->gftSis) {
+		XDEB(gft->gftSis);
+		_GifError = D_GIF_ERR_NOT_READABLE;
+		return GIF_ERROR;
 	}
 
-    Buf= sioInGetByte( gft->gftSis );
+	Buf = sioInGetByte(gft->gftSis);
 
-    *ExtCode= Buf;
+	*ExtCode = Buf;
 
-    if  ( DGifGetExtensionNext( gft, &got, Extension) != GIF_OK )
-	{ LDEB(1); return GIF_ERROR;	}
-    if  ( ! got )
-	{ LDEB(got); return GIF_ERROR;	}
+	if (DGifGetExtensionNext(gft, &got, Extension) != GIF_OK) {
+		LDEB(1);
+		return GIF_ERROR;
+	}
+	if (!got) {
+		LDEB(got);
+		return GIF_ERROR;
+	}
 
-    return GIF_OK;
+	return GIF_OK;
 }
 
 /************************************************************************/
@@ -430,31 +430,31 @@ int DGifGetExtension(	GifFileType *		gft,
 /*									*/
 /************************************************************************/
 
-int DGifGetExtensionNext(	GifFileType *	gft,
-				int *		pGot,
-				GifByteType	Extension[256] )
+int DGifGetExtensionNext(GifFileType *gft, int *pGot,
+			 GifByteType Extension[256])
 {
-    int				byte;
+	int byte;
 
-    byte= sioInGetByte( gft->gftSis );
-    if  ( byte == EOF )
-	{
-	XDEB(byte);
-	_GifError = D_GIF_ERR_READ_FAILED;
-	return GIF_ERROR;
+	byte = sioInGetByte(gft->gftSis);
+	if (byte == EOF) {
+		XDEB(byte);
+		_GifError = D_GIF_ERR_READ_FAILED;
+		return GIF_ERROR;
 	}
 
-    if  ( byte == 0 )
-	{ *pGot= 0; return GIF_OK; }
-
-    if  ( sioInReadBytes( gft->gftSis, Extension+ 1, byte ) != byte )
-	{
-	LDEB(byte);
-	_GifError = D_GIF_ERR_READ_FAILED; return GIF_ERROR;
+	if (byte == 0) {
+		*pGot = 0;
+		return GIF_OK;
 	}
-    *pGot= 1;
-    Extension[0]= byte;
-    return GIF_OK;
+
+	if (sioInReadBytes(gft->gftSis, Extension + 1, byte) != byte) {
+		LDEB(byte);
+		_GifError = D_GIF_ERR_READ_FAILED;
+		return GIF_ERROR;
+	}
+	*pGot = 1;
+	Extension[0] = byte;
+	return GIF_OK;
 }
 
 /************************************************************************/
@@ -466,19 +466,18 @@ int DGifGetExtensionNext(	GifFileType *	gft,
 
 int DGifCloseFile(GifFileType *gft)
 {
-    if (gft == NULL) return GIF_ERROR;
+	if (gft == NULL)
+		return GIF_ERROR;
 
-    if  ( ! gft->gftSis )
-	{
-	XDEB(gft->gftSis);
-	_GifError= D_GIF_ERR_NOT_READABLE;
-	return GIF_ERROR;
+	if (!gft->gftSis) {
+		XDEB(gft->gftSis);
+		_GifError = D_GIF_ERR_NOT_READABLE;
+		return GIF_ERROR;
 	}
 
-    bmGifCleanupDecompress( gft );
+	bmGifCleanupDecompress(gft);
 
-    free(gft);
+	free(gft);
 
-    return GIF_OK;
+	return GIF_OK;
 }
-

@@ -4,19 +4,18 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef DOC_INCLUDEPICTURE_FIELD_H
-#   define DOC_INCLUDEPICTURE_FIELD_H
+#ifndef DOC_INCLUDEPICTURE_FIELD_H
+#define DOC_INCLUDEPICTURE_FIELD_H
 
-#   include	<utilMemoryBuffer.h>
+#include <utilMemoryBuffer.h>
 
 struct DocumentField;
 
-typedef struct IncludePictureField
-    {
-    MemoryBuffer	ipfFilename;
-    MemoryBuffer	ipfConverter;		/* \c	*/
-    unsigned char	ipfDoNotSaveResult;	/* \d	*/
-    } IncludePictureField;
+typedef struct IncludePictureField {
+	MemoryBuffer ipfFilename;
+	MemoryBuffer ipfConverter; /* \c	*/
+	unsigned char ipfDoNotSaveResult; /* \d	*/
+} IncludePictureField;
 
 /************************************************************************/
 /*									*/
@@ -24,10 +23,10 @@ typedef struct IncludePictureField
 /*									*/
 /************************************************************************/
 
-extern void docInitIncludePictureField(		IncludePictureField *	ipf );
-extern void docCleanIncludePictureField(	IncludePictureField *	ipf );
+extern void docInitIncludePictureField(IncludePictureField *ipf);
+extern void docCleanIncludePictureField(IncludePictureField *ipf);
 
-extern int docGetIncludePictureField(	IncludePictureField *		ipf,
-					const struct DocumentField *	df );
+extern int docGetIncludePictureField(IncludePictureField *ipf,
+				     const struct DocumentField *df);
 
-#   endif /*  DOC_INCLUDEPICTURE_FIELD_H  */
+#endif /*  DOC_INCLUDEPICTURE_FIELD_H  */

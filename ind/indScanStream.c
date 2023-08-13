@@ -1,10 +1,10 @@
-#   include	"indConfig.h"
+#include "indConfig.h"
 
-#   include	<ucdGeneralCategory.h>
-#   include	"indScanStream.h"
-#   include	<sioGeneral.h>
+#include <ucdGeneralCategory.h>
+#include "indScanStream.h"
+#include <sioGeneral.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -20,80 +20,82 @@
 /*									*/
 /************************************************************************/
 
-int indScanStream(	SimpleInputStream *	sis,
-			SpellCheckContext *	scc,
-			void *			through )
-    {
-    int				rval= 0;
+int indScanStream(SimpleInputStream *sis, SpellCheckContext *scc, void *through)
+{
+	int rval = 0;
 
-    SpellScanJob		ssj;
-    SpellGuessContext		sgc;
-    IndGuessList		igl;
+	SpellScanJob ssj;
+	SpellGuessContext sgc;
+	IndGuessList igl;
 
-    int				position= -1;
-    int				acceptedPos= position;
+	int position = -1;
+	int acceptedPos = position;
 
-    indInitSpellScanJob( &ssj );
-    indInitGuessList( &igl );
-    indInitSpellGuessContext( &sgc, &igl, scc );
+	indInitSpellScanJob(&ssj);
+	indInitGuessList(&igl);
+	indInitSpellGuessContext(&sgc, &igl, scc);
 
-    for (;;)
-	{
-	int		c;
-	int		count;
+	for (;;) {
+		int c;
+		int count;
 
-	/*  1  */
-	while( ( c= sioInGetByte( sis ) ) != EOF )
-	    {
-	    position++;
-	    if  ( ucdIsL( c ) )
-		{ break;	}
-	    }
+		/*  1  */
+		while ((c = sioInGetByte(sis)) != EOF) {
+			position++;
+			if (ucdIsL(c)) {
+				break;
+			}
+		}
 
-	/*  2  */
-	if  ( c == EOF )
-	    { goto ready;	}
+		/*  2  */
+		if (c == EOF) {
+			goto ready;
+		}
 
-	/*  3  */
+		/*  3  */
 
-	if  ( indNewPossibility( &ssj, position ) )
-	    { LDEB(position); rval= -1; goto ready;	}
-	indAddCharacterToPossibilities( &ssj, c );
+		if (indNewPossibility(&ssj, position)) {
+			LDEB(position);
+			rval = -1;
+			goto ready;
+		}
+		indAddCharacterToPossibilities(&ssj, c);
 
-	/*  4  */
-	while( ( c= sioInGetByte( sis ) ) != EOF )
-	    {
-	    position++;
-	    if  ( ! ucdIsL( c ) )
-		{ break;	}
+		/*  4  */
+		while ((c = sioInGetByte(sis)) != EOF) {
+			position++;
+			if (!ucdIsL(c)) {
+				break;
+			}
 
-	    indAddCharacterToPossibilities( &ssj, c );
-	    }
+			indAddCharacterToPossibilities(&ssj, c);
+		}
 
-	/*  5  */
-	count= indCountPossibilities( &ssj, scc, position, c == EOF );
+		/*  5  */
+		count = indCountPossibilities(&ssj, scc, position, c == EOF);
 
-	/*  6  */
-	if  ( count == 0 )
-	    {
-	    PossibleWord *	maxpw;
+		/*  6  */
+		if (count == 0) {
+			PossibleWord *maxpw;
 
-	    maxpw= indMaximalPossibility( &ssj );
+			maxpw = indMaximalPossibility(&ssj);
 
-	    if  ( ! maxpw )
-		{ XDEB(maxpw); rval= -1; goto ready;	}
-	    }
+			if (!maxpw) {
+				XDEB(maxpw);
+				rval = -1;
+				goto ready;
+			}
+		}
 
-	indRejectPossibilities( &acceptedPos, acceptedPos, &ssj );
-	indAddCharacterToPossibilities( &ssj, c );
+		indRejectPossibilities(&acceptedPos, acceptedPos, &ssj);
+		indAddCharacterToPossibilities(&ssj, c);
 	}
 
-  ready:
+ready:
 
-    indCleanGuessList( &igl );
-    indCleanSpellGuessContext( &sgc );
-    indCleanSpellScanJob( &ssj );
+	indCleanGuessList(&igl);
+	indCleanSpellGuessContext(&sgc);
+	indCleanSpellScanJob(&ssj);
 
-    return rval;
-    }
-
+	return rval;
+}

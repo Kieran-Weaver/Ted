@@ -4,15 +4,15 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	TED_TABLE_TOOL_H
-#   define	TED_TABLE_TOOL_H
+#ifndef TED_TABLE_TOOL_H
+#define TED_TABLE_TOOL_H
 
-#   include	<appFrame.h>
-#   include	<appInspector.h>
-#   include	<docBuf.h>
-#   include	"tedRowMarginsTool.h"
-#   include	<docSelectionDescription.h>
-#   include	<docSelectionGeometry.h>
+#include <appFrame.h>
+#include <appInspector.h>
+#include <docBuf.h>
+#include "tedRowMarginsTool.h"
+#include <docSelectionDescription.h>
+#include <docSelectionGeometry.h>
 
 /************************************************************************/
 /*									*/
@@ -20,10 +20,9 @@
 /*									*/
 /************************************************************************/
 
-typedef struct TablePageResources
-    {
-    RowMarginsToolResources	tprMarginsResources;
-    } TablePageResources;
+typedef struct TablePageResources {
+	RowMarginsToolResources tprMarginsResources;
+} TablePageResources;
 
 /************************************************************************/
 /*									*/
@@ -31,21 +30,20 @@ typedef struct TablePageResources
 /*									*/
 /************************************************************************/
 
-typedef struct TableTool
-    {
-    EditApplication *		ttApplication;
-    AppInspector *		ttInspector;
-    const TablePageResources *	ttPageResources;
+typedef struct TableTool {
+	EditApplication *ttApplication;
+	AppInspector *ttInspector;
+	const TablePageResources *ttPageResources;
 
-    RowProperties		ttPropertiesSet;
-    RowProperties		ttPropertiesChosen;
+	RowProperties ttPropertiesSet;
+	RowProperties ttPropertiesChosen;
 
-    TableRectangle		ttTableRectangle;
+	TableRectangle ttTableRectangle;
 
-    unsigned char		ttCanChange;
+	unsigned char ttCanChange;
 
-    RowMarginsTool		ttMarginsTool;
-    } TableTool;
+	RowMarginsTool ttMarginsTool;
+} TableTool;
 
 /************************************************************************/
 /*									*/
@@ -53,28 +51,20 @@ typedef struct TableTool
 /*									*/
 /************************************************************************/
 
-extern void tedFormatFillTablePage( TableTool *			tt,
-				const TablePageResources *	tpr,
-				InspectorSubject *		is,
-				APP_WIDGET			pageWidget,
-				const InspectorSubjectResources * isr );
+extern void tedFormatFillTablePage(TableTool *tt, const TablePageResources *tpr,
+				   InspectorSubject *is, APP_WIDGET pageWidget,
+				   const InspectorSubjectResources *isr);
 
-extern void tedFormatToolGetTableResourceTable(
-					EditApplication *		ea,
-					TablePageResources *		tpr,
-					InspectorSubjectResources *	isr );
+extern void tedFormatToolGetTableResourceTable(EditApplication *ea,
+					       TablePageResources *tpr,
+					       InspectorSubjectResources *isr);
 
-extern void tedRefreshTableTool(
-				TableTool *			tt,
-				int *				pEnabled,
-				int *				pPref,
-				InspectorSubject *		is,
-				const DocumentSelection *	ds,
-				const SelectionGeometry *	sg,
-				const SelectionDescription *	sd,
-				BufferDocument *		bd,
-				const unsigned char *		cmdEnabled );
+extern void
+tedRefreshTableTool(TableTool *tt, int *pEnabled, int *pPref,
+		    InspectorSubject *is, const DocumentSelection *ds,
+		    const SelectionGeometry *sg, const SelectionDescription *sd,
+		    BufferDocument *bd, const unsigned char *cmdEnabled);
 
-extern void tedFormatCleanTableTool(	TableTool *		tt );
+extern void tedFormatCleanTableTool(TableTool *tt);
 
-#   endif	/*  TED_TABLE_TOOL_H */
+#endif /*  TED_TABLE_TOOL_H */

@@ -1,9 +1,9 @@
-#   ifndef	APP_IMAGE_H
-#   define	APP_IMAGE_H
+#ifndef APP_IMAGE_H
+#define APP_IMAGE_H
 
-#   include	<bitmap.h>
+#include <bitmap.h>
 
-#   include	"appGuiBase.h"
+#include "appGuiBase.h"
 
 /************************************************************************/
 /*									*/
@@ -11,14 +11,12 @@
 /*									*/
 /************************************************************************/
 
-extern int appImgPastePixmap(		RasterImage *		abi,
-					APP_WIDGET		w,
-					APP_SELECTION_EVENT *	event );
+extern int appImgPastePixmap(RasterImage *abi, APP_WIDGET w,
+			     APP_SELECTION_EVENT *event);
 
-#   ifdef USE_MOTIF
-    extern int appGetImageMotif(	RasterImage *		abi,
-					const APP_IMAGE *	xim,
-					Display *		display );
-#   endif
+#ifdef USE_MOTIF
+extern int appGetImageMotif(RasterImage *abi, const APP_IMAGE *xim,
+			    Display *display);
+#endif
 
-#   endif
+#endif

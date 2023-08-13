@@ -1,17 +1,17 @@
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	"docDraw.h"
-#   include	<docPageGrid.h>
-#   include	"docLayout.h"
-#   include	<docTreeType.h>
-#   include	<docTreeNode.h>
-#   include	<docNodeTree.h>
-#   include	<docTextLine.h>
-#   include	<docNotes.h>
-#   include	<docDocumentNote.h>
-#   include	"docSelectLayout.h"
+#include "docDraw.h"
+#include <docPageGrid.h>
+#include "docLayout.h"
+#include <docTreeType.h>
+#include <docTreeNode.h>
+#include <docNodeTree.h>
+#include <docTextLine.h>
+#include <docNotes.h>
+#include <docDocumentNote.h>
+#include "docSelectLayout.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -19,98 +19,108 @@
 /*									*/
 /************************************************************************/
 
-static int docDrawLineLeftOfColumn(	BufferItem *		nextBodyNode,
-					void *			through,
-					LayoutPosition *	lpHere,
-					BlockFrame *		bf,
-					DrawingContext *	dc )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    const SectionProperties *	sp= &(nextBodyNode->biSectProperties);
+static int docDrawLineLeftOfColumn(BufferItem *nextBodyNode, void *through,
+				   LayoutPosition *lpHere, BlockFrame *bf,
+				   DrawingContext *dc)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
+	const SectionProperties *sp = &(nextBodyNode->biSectProperties);
 
-    DocumentRectangle		drLLine;
-    DocumentRectangle		drRLine;
-    int				x0;
-    int				x1;
+	DocumentRectangle drLLine;
+	DocumentRectangle drRLine;
+	int x0;
+	int x1;
 
-    BlockOrnaments		ornaments;
+	BlockOrnaments ornaments;
 
-    struct DocumentNote *	dn0;
-    const DocumentField *	df0;
+	struct DocumentNote *dn0;
+	const DocumentField *df0;
 
-    int				alongNotes= 0;
-    BufferItem *		biColBottomRoot;
+	int alongNotes = 0;
+	BufferItem *biColBottomRoot;
 
-    DocumentPosition		dpBottom;
-    int				lineBottom;
-    int				partBottom;
-    const TextLine *		tlBottom= (const TextLine *)0;
+	DocumentPosition dpBottom;
+	int lineBottom;
+	int partBottom;
+	const TextLine *tlBottom = (const TextLine *)0;
 
-    if  ( ! docIsSectNode( nextBodyNode ) )
-	{ LDEB(nextBodyNode->biLevel); return -1;	}
-
-    df0= docGetFirstNoteOnPage( &dn0, lc->lcDocument,
-					    lpHere->lpPage, DOCinFOOTNOTE );
-    if  ( df0 )
-	{
-	if  ( dn0->dnDocumentTree.dtRoot->biSectSelectionScope.ssOwnerSectNr >=
-						nextBodyNode->biNumberInParent )
-	    { alongNotes= 1;	}
+	if (!docIsSectNode(nextBodyNode)) {
+		LDEB(nextBodyNode->biLevel);
+		return -1;
 	}
 
-    docInitBlockOrnaments( &ornaments );
-    PROPmaskADD( &(ornaments.boPropMask), ORNdrawLEFT_BORDER );
+	df0 = docGetFirstNoteOnPage(&dn0, lc->lcDocument, lpHere->lpPage,
+				    DOCinFOOTNOTE);
+	if (df0) {
+		if (dn0->dnDocumentTree.dtRoot->biSectSelectionScope
+			    .ssOwnerSectNr >= nextBodyNode->biNumberInParent) {
+			alongNotes = 1;
+		}
+	}
 
-    ornaments.boLeftBorder.bpStyle= DOCbsS;
-    ornaments.boLeftBorder.bpPenWideTwips= 15;
-    ornaments.boLeftBorderNumber= 1; /* FAKE */
+	docInitBlockOrnaments(&ornaments);
+	PROPmaskADD(&(ornaments.boPropMask), ORNdrawLEFT_BORDER);
 
-    drLLine= bf->bfFlowRect;
+	ornaments.boLeftBorder.bpStyle = DOCbsS;
+	ornaments.boLeftBorder.bpPenWideTwips = 15;
+	ornaments.boLeftBorderNumber = 1; /* FAKE */
 
-    if  ( nextBodyNode->biTopPosition.lpPage == lpHere->lpPage )
-	{ drLLine.drY0= nextBodyNode->biTopPosition.lpPageYTwips; }
+	drLLine = bf->bfFlowRect;
 
-    /* Why?
+	if (nextBodyNode->biTopPosition.lpPage == lpHere->lpPage) {
+		drLLine.drY0 = nextBodyNode->biTopPosition.lpPageYTwips;
+	}
+
+	/* Why?
     biColBottomRoot= lc->lcDocument->bdBody.dtRoot;
     */
-    biColBottomRoot= nextBodyNode;
-    if  ( alongNotes )
-	{
-	DocumentNote *		dnz;
-	const DocumentField *	dfz;
+	biColBottomRoot = nextBodyNode;
+	if (alongNotes) {
+		DocumentNote *dnz;
+		const DocumentField *dfz;
 
-	dfz= docGetLastNoteInColumn( &dnz, lc->lcDocument,
-			    lpHere->lpPage, lpHere->lpColumn, DOCinFOOTNOTE );
-	if  ( dfz )
-	    { biColBottomRoot= dnz->dnDocumentTree.dtRoot;	}
+		dfz = docGetLastNoteInColumn(&dnz, lc->lcDocument,
+					     lpHere->lpPage, lpHere->lpColumn,
+					     DOCinFOOTNOTE);
+		if (dfz) {
+			biColBottomRoot = dnz->dnDocumentTree.dtRoot;
+		}
 	}
 
-    if  ( nextBodyNode->biTopPosition.lpPage <= lpHere->lpPage )
-	{
-	if  ( docGetLastInColumnForNode( &dpBottom, &lineBottom, &partBottom,
-			biColBottomRoot, lpHere->lpPage, lpHere->lpColumn ) )
-	    { LLDEB(lpHere->lpPage,lpHere->lpColumn); return -1;	}
+	if (nextBodyNode->biTopPosition.lpPage <= lpHere->lpPage) {
+		if (docGetLastInColumnForNode(&dpBottom, &lineBottom,
+					      &partBottom, biColBottomRoot,
+					      lpHere->lpPage,
+					      lpHere->lpColumn)) {
+			LLDEB(lpHere->lpPage, lpHere->lpColumn);
+			return -1;
+		}
 
-	tlBottom= dpBottom.dpNode->biParaLines+ lineBottom;
-	drLLine.drY1= tlBottom->tlTopPosition.lpPageYTwips+
-						    tlBottom->tlLineStride;
+		tlBottom = dpBottom.dpNode->biParaLines + lineBottom;
+		drLLine.drY1 = tlBottom->tlTopPosition.lpPageYTwips +
+			       tlBottom->tlLineStride;
 
-	if  ( nextBodyNode->biBelowPosition.lpPage == lpHere->lpPage )
-	    { drLLine.drY1= nextBodyNode->biBelowPosition.lpPageYTwips; }
+		if (nextBodyNode->biBelowPosition.lpPage == lpHere->lpPage) {
+			drLLine.drY1 =
+				nextBodyNode->biBelowPosition.lpPageYTwips;
+		}
 
-	docSectGetColumnX( &(drLLine.drX0), &x0, &x1, sp,
-				&(bf->bfPageGeometry), lpHere->lpColumn );
-	drRLine= drLLine;
-	drRLine.drX0= drLLine.drX0- ornaments.boLeftBorder.bpPenWideTwips;
+		docSectGetColumnX(&(drLLine.drX0), &x0, &x1, sp,
+				  &(bf->bfPageGeometry), lpHere->lpColumn);
+		drRLine = drLLine;
+		drRLine.drX0 =
+			drLLine.drX0 - ornaments.boLeftBorder.bpPenWideTwips;
 
-	if  ( (*dc->dcDrawOrnaments)( &ornaments, lpHere->lpPage,
-					    &drRLine, &drLLine, through, dc ) )
-	    { LDEB(1); return -1;	}
+		if ((*dc->dcDrawOrnaments)(&ornaments, lpHere->lpPage, &drRLine,
+					   &drLLine, through, dc)) {
+			LDEB(1);
+			return -1;
+		}
 	}
 
-    docCleanBorderProperties( &bpLine );
-    return 0;
-    }
+	docCleanBorderProperties(&bpLine);
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -122,127 +132,133 @@ static int docDrawLineLeftOfColumn(	BufferItem *		nextBodyNode,
 /*									*/
 /************************************************************************/
 
-int docDrawToNextColumn(		BufferItem *		thisBodyNode,
-					BufferItem *		nextBodyNode,
-					void *			through,
-					LayoutPosition *	lpHere,
-					BlockFrame *		bf,
-					DrawingContext *	dc )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    BufferDocument *		bd= lc->lcDocument;
+int docDrawToNextColumn(BufferItem *thisBodyNode, BufferItem *nextBodyNode,
+			void *through, LayoutPosition *lpHere, BlockFrame *bf,
+			DrawingContext *dc)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
+	BufferDocument *bd = lc->lcDocument;
 
-    const int			asLast= 0;
+	const int asLast = 0;
 
-    int				startNewPage= 0;
-    int				nextPage;
-    int				nextColumn;
-    int				isPageBreak= 0;
+	int startNewPage = 0;
+	int nextPage;
+	int nextColumn;
+	int isPageBreak = 0;
 
-    thisBodyNode= docGetSectNode( thisBodyNode );
-    nextBodyNode= docGetSectNode( nextBodyNode );
+	thisBodyNode = docGetSectNode(thisBodyNode);
+	nextBodyNode = docGetSectNode(nextBodyNode);
 
-    nextPage= lpHere->lpPage;
-    nextColumn= lpHere->lpColumn;
+	nextPage = lpHere->lpPage;
+	nextColumn = lpHere->lpColumn;
 
-    nextColumn++;
+	nextColumn++;
 
-    if  ( nextBodyNode )
-	{
-	if  ( nextColumn >= nextBodyNode->biSectColumnCount )
-	    { nextPage++; nextColumn= 0; }
-	}
-    else{
-	if  ( nextColumn >= thisBodyNode->biSectColumnCount )
-	    { nextPage++; nextColumn= 0; }
-	}
-
-    if  ( nextPage != lpHere->lpPage )
-	{ isPageBreak= 1; }
-
-    if  ( dc->dcLastPage >= 0		&&
-	  nextPage > dc->dcLastPage	)
-	{ return 1; }
-
-    if  ( dc->dcFirstPage < 0				||
-	  lpHere->lpPage >= dc->dcFirstPage		)
-	{
-	const int	belowText= 0;
-
-	startNewPage= 1;
-
-	if  ( thisBodyNode && thisBodyNode->biTreeType != DOCinBODY )
-	    { SDEB(docTreeTypeStr(thisBodyNode->biTreeType));	}
-
-	if  ( thisBodyNode					&&
-              thisBodyNode->biTreeType == DOCinBODY		&&
-	      dc->dcDrawExternalItems				)
-	    {
-	    if  ( docDrawFootnotesForColumn( lpHere->lpPage, lpHere->lpColumn,
-								through, dc ) )
-		{ LDEB(lpHere->lpPage); return -1;	}
-
-	    if  ( ! dc->dcPostponeHeadersFooters			&&
-		  isPageBreak						&&
-		  docDrawPageFooter( thisBodyNode, through, dc,
-						    lpHere->lpPage )	)
-		{ LDEB(lpHere->lpPage); return -1;	}
-	    }
-
-	/*  A  */
-	if  ( docDrawShapesForPage( through, dc, belowText, lpHere->lpPage ) )
-	    { LDEB(lpHere->lpPage);	}
-
-	if  ( isPageBreak						&&
-	      dc->dcFinishPage						&&
-	      (*dc->dcFinishPage)( through, dc, thisBodyNode,
-					    lpHere->lpPage, asLast )	)
-	    { LDEB(1); return -1;	}
+	if (nextBodyNode) {
+		if (nextColumn >= nextBodyNode->biSectColumnCount) {
+			nextPage++;
+			nextColumn = 0;
+		}
+	} else {
+		if (nextColumn >= thisBodyNode->biSectColumnCount) {
+			nextPage++;
+			nextColumn = 0;
+		}
 	}
 
-    if  ( dc->dcLastPage < 0		||
-	  nextPage <= dc->dcLastPage	)
-	{
-	lpHere->lpColumn= nextColumn;
-	lpHere->lpPage= nextPage;
+	if (nextPage != lpHere->lpPage) {
+		isPageBreak = 1;
+	}
 
-	if  ( nextBodyNode )
-	    {
-	    const SectionProperties *	sp= &(nextBodyNode->biSectProperties);
-	    const DocumentGeometry *	dg= &(sp->spDocumentGeometry);
-	    const int			belowText= 1;
+	if (dc->dcLastPage >= 0 && nextPage > dc->dcLastPage) {
+		return 1;
+	}
 
-	    docLayoutSectColumnTop( lpHere, bf, nextBodyNode, bd );
+	if (dc->dcFirstPage < 0 || lpHere->lpPage >= dc->dcFirstPage) {
+		const int belowText = 0;
 
-	    if  ( isPageBreak && startNewPage )
-		{
-		if  ( dc->dcStartPage					&&
-		      (*dc->dcStartPage)( through, dg, dc,
-						    lpHere->lpPage )	)
-		    { LDEB(1); return -1;	}
+		startNewPage = 1;
 
-		if  ( docDrawShapesForPage(
-				    through, dc, belowText, lpHere->lpPage ) )
-		    { LDEB(lpHere->lpPage);	}
-
-		if  ( dc->dcDrawExternalItems				&&
-		      ! dc->dcPostponeHeadersFooters			&&
-		      docDrawPageHeader( nextBodyNode, through, dc,
-						    lpHere->lpPage )	)
-		    { LDEB(lpHere->lpPage); return -1;	}
+		if (thisBodyNode && thisBodyNode->biTreeType != DOCinBODY) {
+			SDEB(docTreeTypeStr(thisBodyNode->biTreeType));
 		}
 
-	    if  ( lpHere->lpColumn > 0					&&
-		  sp->spLineBetweenColumns				&&
-		  dc->dcDrawOrnaments					&&
-		  docDrawLineLeftOfColumn( nextBodyNode, through,
-						    lpHere, bf, dc )	)
-		{ LDEB(sp->spLineBetweenColumns);	}
-	    }
+		if (thisBodyNode && thisBodyNode->biTreeType == DOCinBODY &&
+		    dc->dcDrawExternalItems) {
+			if (docDrawFootnotesForColumn(lpHere->lpPage,
+						      lpHere->lpColumn, through,
+						      dc)) {
+				LDEB(lpHere->lpPage);
+				return -1;
+			}
+
+			if (!dc->dcPostponeHeadersFooters && isPageBreak &&
+			    docDrawPageFooter(thisBodyNode, through, dc,
+					      lpHere->lpPage)) {
+				LDEB(lpHere->lpPage);
+				return -1;
+			}
+		}
+
+		/*  A  */
+		if (docDrawShapesForPage(through, dc, belowText,
+					 lpHere->lpPage)) {
+			LDEB(lpHere->lpPage);
+		}
+
+		if (isPageBreak && dc->dcFinishPage &&
+		    (*dc->dcFinishPage)(through, dc, thisBodyNode,
+					lpHere->lpPage, asLast)) {
+			LDEB(1);
+			return -1;
+		}
 	}
 
-    return 0;
-    }
+	if (dc->dcLastPage < 0 || nextPage <= dc->dcLastPage) {
+		lpHere->lpColumn = nextColumn;
+		lpHere->lpPage = nextPage;
+
+		if (nextBodyNode) {
+			const SectionProperties *sp =
+				&(nextBodyNode->biSectProperties);
+			const DocumentGeometry *dg = &(sp->spDocumentGeometry);
+			const int belowText = 1;
+
+			docLayoutSectColumnTop(lpHere, bf, nextBodyNode, bd);
+
+			if (isPageBreak && startNewPage) {
+				if (dc->dcStartPage &&
+				    (*dc->dcStartPage)(through, dg, dc,
+						       lpHere->lpPage)) {
+					LDEB(1);
+					return -1;
+				}
+
+				if (docDrawShapesForPage(through, dc, belowText,
+							 lpHere->lpPage)) {
+					LDEB(lpHere->lpPage);
+				}
+
+				if (dc->dcDrawExternalItems &&
+				    !dc->dcPostponeHeadersFooters &&
+				    docDrawPageHeader(nextBodyNode, through, dc,
+						      lpHere->lpPage)) {
+					LDEB(lpHere->lpPage);
+					return -1;
+				}
+			}
+
+			if (lpHere->lpColumn > 0 && sp->spLineBetweenColumns &&
+			    dc->dcDrawOrnaments &&
+			    docDrawLineLeftOfColumn(nextBodyNode, through,
+						    lpHere, bf, dc)) {
+				LDEB(sp->spLineBetweenColumns);
+			}
+		}
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -252,104 +268,105 @@ int docDrawToNextColumn(		BufferItem *		thisBodyNode,
 /*									*/
 /************************************************************************/
 
-int docDrawToColumnOfNode(		BufferItem *		prevBodyNode,
-					BufferItem *		thisBodyNode,
-					BufferItem *		thisNode,
-					void *			through,
-					LayoutPosition *	lpHere,
-					DrawingContext *	dc,
-					const BlockOrigin *	bo )
-    {
-    int			rval= 0;
-    BlockFrame		bf;
-    LayoutPosition	lpTop;
+int docDrawToColumnOfNode(BufferItem *prevBodyNode, BufferItem *thisBodyNode,
+			  BufferItem *thisNode, void *through,
+			  LayoutPosition *lpHere, DrawingContext *dc,
+			  const BlockOrigin *bo)
+{
+	int rval = 0;
+	BlockFrame bf;
+	LayoutPosition lpTop;
 
-    docLayoutInitBlockFrame( &bf );
+	docLayoutInitBlockFrame(&bf);
 
-if  ( thisNode->biTreeType == DOCinSHPTXT )
-    { goto ready;	}
-
-    docShiftPosition( &lpTop, bo, &(thisNode->biTopPosition) );
-
-    /*  1  */
-    if  ( lpTop.lpPage < dc->dcFirstPage )
-	{ goto ready; }
-
-    while( lpHere->lpPage < lpTop.lpPage )
-	{
-	if  ( docDrawToNextColumn( prevBodyNode, thisBodyNode, through,
-						    lpHere, &bf, dc )	)
-	    { SDEB(docLevelStr(thisNode->biLevel)); rval= -1; goto ready; }
+	if (thisNode->biTreeType == DOCinSHPTXT) {
+		goto ready;
 	}
 
-    while( lpHere->lpPage == lpTop.lpPage	&&
-           lpHere->lpColumn < lpTop.lpColumn	)
-	{
-	if  ( docDrawToNextColumn( prevBodyNode, thisBodyNode, through,
-						    lpHere, &bf, dc )	)
-	    { SDEB(docLevelStr(thisNode->biLevel)); rval= -1; goto ready; }
+	docShiftPosition(&lpTop, bo, &(thisNode->biTopPosition));
+
+	/*  1  */
+	if (lpTop.lpPage < dc->dcFirstPage) {
+		goto ready;
 	}
 
-  ready:
+	while (lpHere->lpPage < lpTop.lpPage) {
+		if (docDrawToNextColumn(prevBodyNode, thisBodyNode, through,
+					lpHere, &bf, dc)) {
+			SDEB(docLevelStr(thisNode->biLevel));
+			rval = -1;
+			goto ready;
+		}
+	}
 
-    docLayoutCleanBlockFrame( &bf );
+	while (lpHere->lpPage == lpTop.lpPage &&
+	       lpHere->lpColumn < lpTop.lpColumn) {
+		if (docDrawToNextColumn(prevBodyNode, thisBodyNode, through,
+					lpHere, &bf, dc)) {
+			SDEB(docLevelStr(thisNode->biLevel));
+			rval = -1;
+			goto ready;
+		}
+	}
 
-    return rval;
-    }
+ready:
 
-static void docTableHeaderRectangle(
-				DocumentRectangle *	drPixels,
-				const BlockFrame *	bf,
-				BufferItem *		node,
-				DrawingContext *	dc )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
+	docLayoutCleanBlockFrame(&bf);
 
-    LayoutPosition	lpHeader= node->biRowAboveHeaderPosition;
+	return rval;
+}
 
-    docGetPixelRectForPos( drPixels, lc,
-			    bf->bfContentRect.drX0, bf->bfContentRect.drX1,
-			    &lpHeader, &(node->biTopPosition) );
+static void docTableHeaderRectangle(DocumentRectangle *drPixels,
+				    const BlockFrame *bf, BufferItem *node,
+				    DrawingContext *dc)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-    return;
-    }
+	LayoutPosition lpHeader = node->biRowAboveHeaderPosition;
+
+	docGetPixelRectForPos(drPixels, lc, bf->bfContentRect.drX0,
+			      bf->bfContentRect.drX1, &lpHeader,
+			      &(node->biTopPosition));
+
+	return;
+}
 
 /************************************************************************/
 
-static int docDrawHeaderForClippedRow(	BufferItem *		childNode,
-					void *			through,
-					DrawingContext *	dc )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    int				rval= 0;
-    BlockFrame			bf;
+static int docDrawHeaderForClippedRow(BufferItem *childNode, void *through,
+				      DrawingContext *dc)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
+	int rval = 0;
+	BlockFrame bf;
 
-    DocumentRectangle		drChild;
+	DocumentRectangle drChild;
 
-    docLayoutInitBlockFrame( &bf );
+	docLayoutInitBlockFrame(&bf);
 
-    docBlockFrameTwips( &bf, childNode, lc->lcDocument,
-					    childNode->biTopPosition.lpPage,
-					    childNode->biTopPosition.lpColumn );
+	docBlockFrameTwips(&bf, childNode, lc->lcDocument,
+			   childNode->biTopPosition.lpPage,
+			   childNode->biTopPosition.lpColumn);
 
-    docTableHeaderRectangle( &drChild, &bf, childNode, dc );
+	docTableHeaderRectangle(&drChild, &bf, childNode, dc);
 
-    if  ( geoIntersectRectangle( &drChild, &drChild, dc->dcClipRect ) )
-	{
-	int		high;
+	if (geoIntersectRectangle(&drChild, &drChild, dc->dcClipRect)) {
+		int high;
 
-	if  ( docDrawTableHeader( &high,
-		    childNode, &bf, through,
-		    dc, &(childNode->biRowAboveHeaderPosition) ) )
-	    { LDEB(childNode->biRowPrecededByHeader); rval= -1; goto ready; }
+		if (docDrawTableHeader(&high, childNode, &bf, through, dc,
+				       &(childNode->biRowAboveHeaderPosition))) {
+			LDEB(childNode->biRowPrecededByHeader);
+			rval = -1;
+			goto ready;
+		}
 	}
 
-  ready:
+ready:
 
-    docLayoutCleanBlockFrame( &bf );
+	docLayoutCleanBlockFrame(&bf);
 
-    return rval;
-    }
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -363,76 +380,80 @@ static int docDrawHeaderForClippedRow(	BufferItem *		childNode,
 /*									*/
 /************************************************************************/
 
-static int docDrawGroupNode(	LayoutPosition *		lpBelow,
-				const BufferItem *		node,
-				void *				through,
-				DrawingContext *		dc,
-				const BlockOrigin *		bo )
-    {
-    int				i;
-    LayoutPosition		lpHere;
+static int docDrawGroupNode(LayoutPosition *lpBelow, const BufferItem *node,
+			    void *through, DrawingContext *dc,
+			    const BlockOrigin *bo)
+{
+	int i;
+	LayoutPosition lpHere;
 
-    BufferItem *		prevNode= (BufferItem *)0;
+	BufferItem *prevNode = (BufferItem *)0;
 
-    if  ( node->biChildCount > 0 )
-	{ prevNode= node->biChildren[0];	}
-
-    lpHere= node->biTopPosition;
-    for ( i= 0; i < node->biChildCount; i++ )
-	{
-	BufferItem *		childNode= node->biChildren[i];
-
-	if  ( dc->dcClipRect )
-	    {
-	    DocumentRectangle	drChild;
-
-	    docNodeRectangle( &drChild, childNode, &(dc->dcLayoutContext), bo );
-
-	    if  ( ! geoIntersectRectangle( &drChild, &drChild,
-							dc->dcClipRect ) )
-		{
-		if  ( childNode->biLevel == DOClevROW	&&
-		      childNode->biRowPrecededByHeader	)
-		    {
-		    if  ( docDrawHeaderForClippedRow( childNode, through, dc ) )
-			{ LDEB(i); return -1;	}
-		    }
-
-		continue;
-		}
-	    }
-
-	if  ( dc->dcSelection					&&
-	      docSelectionSameRoot( dc->dcSelection, childNode )	&&
-	      docCompareNodePositionToSelection( childNode,
-					dc->dcSelection ) > 0	)
-	    { break;	}
-
-	/*  3  */
-	if  ( dc->dcLastPage >= 0				&&
-	      ! bo->boOverrideFrame				&&
-	      childNode->biTopPosition.lpPage > dc->dcLastPage	)
-	    { break;	}
-
-	/*  4  */
-	if  ( dc->dcFirstPage < 0					||
-	      childNode->biBelowPosition.lpPage >= dc->dcFirstPage	)
-	    {
-	    if  ( docDrawToColumnOfNode( prevNode, childNode, childNode,
-					    through, &lpHere, dc, bo ) )
-		{ SDEB(docLevelStr(childNode->biLevel)); return -1;	}
-
-	    if  ( docDrawNode( lpBelow, childNode, through, dc ) )
-		{ LDEB(i); return -1;	}
-
-	    lpHere= childNode->biBelowPosition;
-	    }
-
-	prevNode= childNode;
+	if (node->biChildCount > 0) {
+		prevNode = node->biChildren[0];
 	}
 
-    return 0;
-    }
+	lpHere = node->biTopPosition;
+	for (i = 0; i < node->biChildCount; i++) {
+		BufferItem *childNode = node->biChildren[i];
+
+		if (dc->dcClipRect) {
+			DocumentRectangle drChild;
+
+			docNodeRectangle(&drChild, childNode,
+					 &(dc->dcLayoutContext), bo);
+
+			if (!geoIntersectRectangle(&drChild, &drChild,
+						   dc->dcClipRect)) {
+				if (childNode->biLevel == DOClevROW &&
+				    childNode->biRowPrecededByHeader) {
+					if (docDrawHeaderForClippedRow(
+						    childNode, through, dc)) {
+						LDEB(i);
+						return -1;
+					}
+				}
+
+				continue;
+			}
+		}
+
+		if (dc->dcSelection &&
+		    docSelectionSameRoot(dc->dcSelection, childNode) &&
+		    docCompareNodePositionToSelection(childNode,
+						      dc->dcSelection) > 0) {
+			break;
+		}
+
+		/*  3  */
+		if (dc->dcLastPage >= 0 && !bo->boOverrideFrame &&
+		    childNode->biTopPosition.lpPage > dc->dcLastPage) {
+			break;
+		}
+
+		/*  4  */
+		if (dc->dcFirstPage < 0 ||
+		    childNode->biBelowPosition.lpPage >= dc->dcFirstPage) {
+			if (docDrawToColumnOfNode(prevNode, childNode,
+						  childNode, through, &lpHere,
+						  dc, bo)) {
+				SDEB(docLevelStr(childNode->biLevel));
+				return -1;
+			}
+
+			if (docDrawNode(lpBelow, childNode, through, dc)) {
+				LDEB(i);
+				return -1;
+			}
+
+			lpHere = childNode->biBelowPosition;
+		}
+
+		prevNode = childNode;
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -440,38 +461,39 @@ static int docDrawGroupNode(	LayoutPosition *		lpBelow,
 /*									*/
 /************************************************************************/
 
-static int docDrawDocNode(	LayoutPosition *		lpBelow,
-				const BufferItem *		docBi,
-				void *				through,
-				DrawingContext *		dc )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    BufferDocument *		bd= lc->lcDocument;
-    const DocumentProperties *	dp= &(bd->bdProperties);
-    const NotesProperties *	npEndnotes= &(dp->dpNotesProps.fepEndnotesProps);
+static int docDrawDocNode(LayoutPosition *lpBelow, const BufferItem *docBi,
+			  void *through, DrawingContext *dc)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
+	BufferDocument *bd = lc->lcDocument;
+	const DocumentProperties *dp = &(bd->bdProperties);
+	const NotesProperties *npEndnotes =
+		&(dp->dpNotesProps.fepEndnotesProps);
 
-    BlockOrigin			bo;
+	BlockOrigin bo;
 
-    docInitBlockOrigin( &bo );
+	docInitBlockOrigin(&bo);
 
-    if  ( docDrawGroupNode( lpBelow, docBi, through, dc, &bo ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( docBi->biTreeType == DOCinBODY		&&
-	  npEndnotes->npPlacement == FTNplaceDOC_END	)
-	{
-	if  ( docDrawEndnotesForDocument( lpBelow, through, dc ) )
-	    { LDEB(1); return -1;	}
+	if (docDrawGroupNode(lpBelow, docBi, through, dc, &bo)) {
+		LDEB(1);
+		return -1;
 	}
 
-    if  ( dc->dcDrawExternalItems )
-	{
-	docDrawFootnotesForColumn( lpBelow->lpPage, lpBelow->lpColumn,
-								through, dc );
+	if (docBi->biTreeType == DOCinBODY &&
+	    npEndnotes->npPlacement == FTNplaceDOC_END) {
+		if (docDrawEndnotesForDocument(lpBelow, through, dc)) {
+			LDEB(1);
+			return -1;
+		}
 	}
 
-    return 0;
-    }
+	if (dc->dcDrawExternalItems) {
+		docDrawFootnotesForColumn(lpBelow->lpPage, lpBelow->lpColumn,
+					  through, dc);
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -479,33 +501,35 @@ static int docDrawDocNode(	LayoutPosition *		lpBelow,
 /*									*/
 /************************************************************************/
 
-static int docDrawSectNode(	LayoutPosition *		lpBelow,
-				const BufferItem *		sectNode,
-				void *				through,
-				DrawingContext *		dc )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    BufferDocument *		bd= lc->lcDocument;
-    const DocumentProperties *	dp= &(bd->bdProperties);
-    const NotesProperties *	npEndnotes= &(dp->dpNotesProps.fepEndnotesProps);
+static int docDrawSectNode(LayoutPosition *lpBelow, const BufferItem *sectNode,
+			   void *through, DrawingContext *dc)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
+	BufferDocument *bd = lc->lcDocument;
+	const DocumentProperties *dp = &(bd->bdProperties);
+	const NotesProperties *npEndnotes =
+		&(dp->dpNotesProps.fepEndnotesProps);
 
-    BlockOrigin			bo;
+	BlockOrigin bo;
 
-    docInitBlockOrigin( &bo );
+	docInitBlockOrigin(&bo);
 
-    if  ( docDrawGroupNode( lpBelow, sectNode, through, dc, &bo ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( sectNode->biTreeType == DOCinBODY		&&
-	  npEndnotes->npPlacement == FTNplaceSECT_END	)
-	{
-	if  ( docDrawEndnotesForSection( lpBelow, sectNode->biNumberInParent,
-							    through, dc ) )
-	    { LDEB(1); return -1;	}
+	if (docDrawGroupNode(lpBelow, sectNode, through, dc, &bo)) {
+		LDEB(1);
+		return -1;
 	}
 
-    return 0;
-    }
+	if (sectNode->biTreeType == DOCinBODY &&
+	    npEndnotes->npPlacement == FTNplaceSECT_END) {
+		if (docDrawEndnotesForSection(
+			    lpBelow, sectNode->biNumberInParent, through, dc)) {
+			LDEB(1);
+			return -1;
+		}
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -518,93 +542,104 @@ static int docDrawSectNode(	LayoutPosition *		lpBelow,
 /*									*/
 /************************************************************************/
 
-int docDrawNode(	LayoutPosition *		lpBelow,
-			BufferItem *			node,
-			void *				through,
-			DrawingContext *		dc )
-    {
-    const DocumentSelection *	ds= dc->dcSelection;
+int docDrawNode(LayoutPosition *lpBelow, BufferItem *node, void *through,
+		DrawingContext *dc)
+{
+	const DocumentSelection *ds = dc->dcSelection;
 
-    LayoutPosition		lpBelowNodeOffspring;
+	LayoutPosition lpBelowNodeOffspring;
 
-    BlockOrigin			bo;
+	BlockOrigin bo;
 
-    docInitBlockOrigin( &bo );
+	docInitBlockOrigin(&bo);
 
-    /*  1  */
-    lpBelowNodeOffspring= node->biBelowPosition;
-    if  ( docIsRowNode( node ) )
-	{ lpBelowNodeOffspring= node->biRowBelowAllCellsPosition;	}
-
-    /*  2  */
-    if  ( dc->dcClipRect )
-	{
-	DocumentRectangle	drNode;
-
-	docNodeRectangle( &drNode, node, &(dc->dcLayoutContext), &bo );
-
-	if  ( ! geoIntersectRectangle( &drNode, &drNode, dc->dcClipRect )  )
-	    { return 0;	}
+	/*  1  */
+	lpBelowNodeOffspring = node->biBelowPosition;
+	if (docIsRowNode(node)) {
+		lpBelowNodeOffspring = node->biRowBelowAllCellsPosition;
 	}
 
-    /*  3  */
-    if  ( ds && docSelectionSameRoot( ds, node ) )
-	{
-	if  ( docCompareNodePositionToSelection( node, ds ) != 0 )
-	    { return 0;	}
+	/*  2  */
+	if (dc->dcClipRect) {
+		DocumentRectangle drNode;
+
+		docNodeRectangle(&drNode, node, &(dc->dcLayoutContext), &bo);
+
+		if (!geoIntersectRectangle(&drNode, &drNode, dc->dcClipRect)) {
+			return 0;
+		}
 	}
 
-    /*  4  */
-    if  ( dc->dcFirstPage >= 0				&&
-	  lpBelowNodeOffspring.lpPage < dc->dcFirstPage		)
-	{ return 0;	}
-
-    if  ( dc->dcLastPage >= 0				&&
-	  node->biTopPosition.lpPage > dc->dcLastPage	)
-	{ return 0;	}
-
-    if  ( lpBelow )
-	{
-	docLayoutPushBottomDown( lpBelow, &(node->biTopPosition) );
+	/*  3  */
+	if (ds && docSelectionSameRoot(ds, node)) {
+		if (docCompareNodePositionToSelection(node, ds) != 0) {
+			return 0;
+		}
 	}
 
-    switch( node->biLevel )
-	{
+	/*  4  */
+	if (dc->dcFirstPage >= 0 &&
+	    lpBelowNodeOffspring.lpPage < dc->dcFirstPage) {
+		return 0;
+	}
+
+	if (dc->dcLastPage >= 0 &&
+	    node->biTopPosition.lpPage > dc->dcLastPage) {
+		return 0;
+	}
+
+	if (lpBelow) {
+		docLayoutPushBottomDown(lpBelow, &(node->biTopPosition));
+	}
+
+	switch (node->biLevel) {
 	case DOClevBODY:
-	    if  ( docDrawDocNode( lpBelow, node, through, dc ) )
-		{ LDEB(1); return -1;	}
-	    break;
+		if (docDrawDocNode(lpBelow, node, through, dc)) {
+			LDEB(1);
+			return -1;
+		}
+		break;
 
 	case DOClevSECT:
-	    if  ( docDrawSectNode( lpBelow, node, through, dc ) )
-		{ LDEB(1); return -1;	}
-	    break;
+		if (docDrawSectNode(lpBelow, node, through, dc)) {
+			LDEB(1);
+			return -1;
+		}
+		break;
 
 	case DOClevCELL:
-	rowAsGroup:
-	    if  ( docDrawGroupNode( lpBelow, node, through, dc, &bo ) )
-		{ LDEB(1); return -1;	}
-	    break;
+rowAsGroup:
+		if (docDrawGroupNode(lpBelow, node, through, dc, &bo)) {
+			LDEB(1);
+			return -1;
+		}
+		break;
 
 	case DOClevROW:
-	    if  ( ! docIsRowNode( node ) )
-		{ goto rowAsGroup;	}
+		if (!docIsRowNode(node)) {
+			goto rowAsGroup;
+		}
 
-	    if  ( docDrawRowNode( node, through, dc, &bo ) )
-		{ LDEB(1); return -1;	}
-	    break;
+		if (docDrawRowNode(node, through, dc, &bo)) {
+			LDEB(1);
+			return -1;
+		}
+		break;
 
 	case DOClevPARA:
-	    if  ( docDrawParaNode( lpBelow, node, through, dc, &bo ) )
-		{ LDEB(1); return -1;	}
-	    break;
+		if (docDrawParaNode(lpBelow, node, through, dc, &bo)) {
+			LDEB(1);
+			return -1;
+		}
+		break;
 
 	default:
-	    LDEB(node->biLevel); return -1;
+		LDEB(node->biLevel);
+		return -1;
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -612,61 +647,69 @@ int docDrawNode(	LayoutPosition *		lpBelow,
 /*									*/
 /************************************************************************/
 
-int docDrawPageRange(	DrawingContext *	dc,
-			void *			through )
-    {
-    BufferItem * const		rootNode= dc->dcLayoutContext.lcDocument->bdBody.dtRoot;
+int docDrawPageRange(DrawingContext *dc, void *through)
+{
+	BufferItem *const rootNode =
+		dc->dcLayoutContext.lcDocument->bdBody.dtRoot;
 
-    int				sectNr;
-    int				page;
+	int sectNr;
+	int page;
 
-    if  ( docDrawNode( (LayoutPosition *)0, rootNode, through, dc ) )
-	{ LDEB(1);	}
+	if (docDrawNode((LayoutPosition *)0, rootNode, through, dc)) {
+		LDEB(1);
+	}
 
-    for ( sectNr= 0; sectNr < rootNode->biChildCount; sectNr++ )
-	{
-	BufferItem *	bodySectNode= rootNode->biChildren[sectNr];
-	BufferItem *	prevSectNode= (BufferItem *)0;
-	int		first= bodySectNode->biTopPosition.lpPage;
-	int		last= bodySectNode->biBelowPosition.lpPage;
+	for (sectNr = 0; sectNr < rootNode->biChildCount; sectNr++) {
+		BufferItem *bodySectNode = rootNode->biChildren[sectNr];
+		BufferItem *prevSectNode = (BufferItem *)0;
+		int first = bodySectNode->biTopPosition.lpPage;
+		int last = bodySectNode->biBelowPosition.lpPage;
 
-	if  ( first < dc->dcFirstPage )
-	    { first=  dc->dcFirstPage;	}
-	if  ( last >  dc->dcLastPage )
-	    { last=   dc->dcLastPage;		}
+		if (first < dc->dcFirstPage) {
+			first = dc->dcFirstPage;
+		}
+		if (last > dc->dcLastPage) {
+			last = dc->dcLastPage;
+		}
 
-	if  ( sectNr > 0 )
-	    { prevSectNode= rootNode->biChildren[sectNr- 1];	}
-	/*
+		if (sectNr > 0) {
+			prevSectNode = rootNode->biChildren[sectNr - 1];
+		}
+		/*
 	Word draws the footer of the first section on the page.
 	if  ( sectNr < rootNode->biChildCount- 1 )
 	    { nextSectBi= rootNode->biChildren[sectNr+ 1];	}
 	*/
 
-	for ( page= first; page <= last; page++ )
-	    {
-	    int		col;
-	    const int	belowText= 0;
+		for (page = first; page <= last; page++) {
+			int col;
+			const int belowText = 0;
 
-	    if  ( ! prevSectNode				||
-		  prevSectNode->biBelowPosition.lpPage < page	)
-		{ docDrawPageHeader( bodySectNode, through, dc, page ); }
+			if (!prevSectNode ||
+			    prevSectNode->biBelowPosition.lpPage < page) {
+				docDrawPageHeader(bodySectNode, through, dc,
+						  page);
+			}
 
-	    for ( col= 0; col < bodySectNode->biSectColumnCount; col++ )
-		{
-		docDrawFootnotesForColumn( page, col, through, dc );
+			for (col = 0; col < bodySectNode->biSectColumnCount;
+			     col++) {
+				docDrawFootnotesForColumn(page, col, through,
+							  dc);
+			}
+
+			/* Word draws the footer of the first section on the page. */
+			if (!prevSectNode ||
+			    prevSectNode->biBelowPosition.lpPage < page) {
+				docDrawPageFooter(bodySectNode, through, dc,
+						  page);
+			}
+
+			if (docDrawShapesForPage(through, dc, belowText,
+						 page)) {
+				LDEB(page);
+			}
 		}
-
-	    /* Word draws the footer of the first section on the page. */
-	    if  ( ! prevSectNode				||
-		  prevSectNode->biBelowPosition.lpPage < page	)
-		{ docDrawPageFooter( bodySectNode, through, dc, page ); }
-
-	    if  ( docDrawShapesForPage( through, dc, belowText, page ) )
-		{ LDEB(page);	}
-	    }
 	}
 
-    return 0;
-    }
-
+	return 0;
+}

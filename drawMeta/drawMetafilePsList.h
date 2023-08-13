@@ -4,16 +4,15 @@
 /*									*/
 /************************************************************************/
 
-#   include	<psFace.h>
-#   include	"drawMetafile.h"
+#include <psFace.h>
+#include "drawMetafile.h"
 
-#   ifndef		DRAW_METAFILE_PS_H
-#   define		DRAW_METAFILE_PS_H
+#ifndef DRAW_METAFILE_PS_H
+#define DRAW_METAFILE_PS_H
 
-typedef int (*MetafileWriteListPs)(
-				PostScriptTypeList *		pstl,
-				const MetafilePlayer *		player,
-				const char *			prefix );
+typedef int (*MetafileWriteListPs)(PostScriptTypeList *pstl,
+				   const MetafilePlayer *player,
+				   const char *prefix);
 
 /************************************************************************/
 /*									*/
@@ -21,16 +20,14 @@ typedef int (*MetafileWriteListPs)(
 /*									*/
 /************************************************************************/
 
-extern int appWmfListFontsPs(	PostScriptTypeList *		pstl,
-				const MetafilePlayer *		player,
-				const char *			prefix );
+extern int appWmfListFontsPs(PostScriptTypeList *pstl,
+			     const MetafilePlayer *player, const char *prefix);
 
-extern int appMacPictListFontsPs( PostScriptTypeList *		pstl,
-				const MetafilePlayer *		player,
-				const char *			prefix );
+extern int appMacPictListFontsPs(PostScriptTypeList *pstl,
+				 const MetafilePlayer *player,
+				 const char *prefix);
 
-extern int appEmfListFontsPs(	PostScriptTypeList *		pstl,
-				const MetafilePlayer *		player,
-				const char *			prefix );
+extern int appEmfListFontsPs(PostScriptTypeList *pstl,
+			     const MetafilePlayer *player, const char *prefix);
 
-#   endif	/*	DRAW_METAFILE_PS_H	*/
+#endif /*	DRAW_METAFILE_PS_H	*/

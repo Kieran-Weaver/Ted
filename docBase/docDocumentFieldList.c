@@ -4,16 +4,16 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBaseConfig.h"
+#include "docBaseConfig.h"
 
-#   include	<stdlib.h>
-#   include	<string.h>
+#include <stdlib.h>
+#include <string.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docDocumentFieldList.h"
-#   include	"docBookmarkField.h"
-#   include	"docDocumentField.h"
+#include "docDocumentFieldList.h"
+#include "docBookmarkField.h"
+#include "docDocumentField.h"
 
 /************************************************************************/
 /*									*/
@@ -27,87 +27,92 @@
 /*									*/
 /************************************************************************/
 
-DocumentField *	docClaimFieldCopy(	DocumentFieldList *	dfl,
-					const DocumentField *	dfFrom,
-					const SelectionScope *	ss,
-					const EditPosition *	epStart )
-    {
-    DocumentField *	dfTo;
+DocumentField *docClaimFieldCopy(DocumentFieldList *dfl,
+				 const DocumentField *dfFrom,
+				 const SelectionScope *ss,
+				 const EditPosition *epStart)
+{
+	DocumentField *dfTo;
 
-    dfTo= docClaimField( dfl );
-    if  ( ! dfTo )
-	{ XDEB(dfTo); return (DocumentField *)0;	}
-
-    if  ( docCopyFieldProperties( dfTo, dfFrom ) )
-	{
-	docDeleteFieldFromList( dfl, dfTo );
-	return (DocumentField *)0;
+	dfTo = docClaimField(dfl);
+	if (!dfTo) {
+		XDEB(dfTo);
+		return (DocumentField *)0;
 	}
 
-    dfTo->dfPage= -1;
-    dfTo->dfSelectionScope= *ss;
-    dfTo->dfHeadPosition= *epStart;
+	if (docCopyFieldProperties(dfTo, dfFrom)) {
+		docDeleteFieldFromList(dfl, dfTo);
+		return (DocumentField *)0;
+	}
 
-    return dfTo;
-    }
+	dfTo->dfPage = -1;
+	dfTo->dfSelectionScope = *ss;
+	dfTo->dfHeadPosition = *epStart;
 
-DocumentField * docGetFieldByNumber(	const DocumentFieldList *	dfl,
-					int				n )
-    {
-    void *	vdf= utilPagedListGetItemByNumber( &(dfl->dflPagedList), n );
+	return dfTo;
+}
 
-    return (DocumentField *)vdf;
-    }
+DocumentField *docGetFieldByNumber(const DocumentFieldList *dfl, int n)
+{
+	void *vdf = utilPagedListGetItemByNumber(&(dfl->dflPagedList), n);
 
-int docGetFieldKindByNumber(	const DocumentFieldList *	dfl,
-				int				n )
-    {
-    DocumentField *	df= docGetFieldByNumber( dfl, n );
+	return (DocumentField *)vdf;
+}
 
-    if  ( ! df )
-	{ return -1;	}
+int docGetFieldKindByNumber(const DocumentFieldList *dfl, int n)
+{
+	DocumentField *df = docGetFieldByNumber(dfl, n);
 
-    return df->dfKind;
-    }
+	if (!df) {
+		return -1;
+	}
 
-void docDeleteFieldFromList(	DocumentFieldList *		dfl,
-				DocumentField *			df )
-    {
-    if  ( docGetFieldByNumber( dfl, df->dfFieldNumber ) != df )
-	{ LDEB(df->dfFieldNumber);	}
+	return df->dfKind;
+}
 
-    utilPagedListDeleteItemByNumber( &(dfl->dflPagedList), df->dfFieldNumber );
+void docDeleteFieldFromList(DocumentFieldList *dfl, DocumentField *df)
+{
+	if (docGetFieldByNumber(dfl, df->dfFieldNumber) != df) {
+		LDEB(df->dfFieldNumber);
+	}
 
-    return;
-    }
+	utilPagedListDeleteItemByNumber(&(dfl->dflPagedList),
+					df->dfFieldNumber);
 
-DocumentField * docClaimField(	DocumentFieldList *	dfl )
-    {
-    void *		vdf;
-    int			n;
-    DocumentField *	df;
+	return;
+}
 
-    vdf= utilPagedListClaimNewItem( &n, &(dfl->dflPagedList) );
-    if  ( ! vdf )
-	{ PDEB(vdf); return (DocumentField *)0;	}
+DocumentField *docClaimField(DocumentFieldList *dfl)
+{
+	void *vdf;
+	int n;
+	DocumentField *df;
 
-    df= (DocumentField *)vdf;
-    df->dfFieldNumber= n;
+	vdf = utilPagedListClaimNewItem(&n, &(dfl->dflPagedList));
+	if (!vdf) {
+		PDEB(vdf);
+		return (DocumentField *)0;
+	}
 
-    return df;
-    }
+	df = (DocumentField *)vdf;
+	df->dfFieldNumber = n;
 
-void docInitFieldList(	DocumentFieldList *	dfl )
-    {
-    utilInitPagedList( &(dfl->dflPagedList) );
-    utilStartPagedList( &(dfl->dflPagedList), sizeof(DocumentField),
-			    (InitPagedListItem)docInitDocumentField,
-			    (CleanPagedListItem)docCleanDocumentField );
-    return;
-    }
+	return df;
+}
 
-void docCleanFieldList(	DocumentFieldList *	dfl )
-    { utilCleanPagedList( &(dfl->dflPagedList) );	}
+void docInitFieldList(DocumentFieldList *dfl)
+{
+	utilInitPagedList(&(dfl->dflPagedList));
+	utilStartPagedList(&(dfl->dflPagedList), sizeof(DocumentField),
+			   (InitPagedListItem)docInitDocumentField,
+			   (CleanPagedListItem)docCleanDocumentField);
+	return;
+}
+
+void docCleanFieldList(DocumentFieldList *dfl)
+{
+	utilCleanPagedList(&(dfl->dflPagedList));
+}
 
 /************************************************************************/
 /*									*/
@@ -115,19 +120,19 @@ void docCleanFieldList(	DocumentFieldList *	dfl )
 /*									*/
 /************************************************************************/
 
-int docSetPageOfField(		DocumentFieldList *	dfl,
-				int			n,
-				int			page )
-    {
-    DocumentField *	df= docGetFieldByNumber( dfl, n );
+int docSetPageOfField(DocumentFieldList *dfl, int n, int page)
+{
+	DocumentField *df = docGetFieldByNumber(dfl, n);
 
-    if  ( ! df )
-	{ LPDEB(n,df); return -1;	}
+	if (!df) {
+		LPDEB(n, df);
+		return -1;
+	}
 
-    df->dfPage= page;
+	df->dfPage = page;
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -137,27 +142,28 @@ int docSetPageOfField(		DocumentFieldList *	dfl,
 /*									*/
 /************************************************************************/
 
-int docFindBookmarkField(	DocumentField **		pDf,
-				const DocumentFieldList *	dfl,
-				const MemoryBuffer *		markName )
-    {
-    int			n;
-    const int		fieldCount= dfl->dflPagedList.plItemCount;
+int docFindBookmarkField(DocumentField **pDf, const DocumentFieldList *dfl,
+			 const MemoryBuffer *markName)
+{
+	int n;
+	const int fieldCount = dfl->dflPagedList.plItemCount;
 
-    /*  1  */
-    for ( n= fieldCount- 1; n >= 0; n-- )
-	{
-	DocumentField *	df= docGetFieldByNumber( dfl, n );
+	/*  1  */
+	for (n = fieldCount - 1; n >= 0; n--) {
+		DocumentField *df = docGetFieldByNumber(dfl, n);
 
-	if  ( ! df )
-	    { continue;	}
+		if (!df) {
+			continue;
+		}
 
-	if  ( docFieldMatchesBookmark( df, markName )	)
-	    { *pDf= df; return n;	}
+		if (docFieldMatchesBookmark(df, markName)) {
+			*pDf = df;
+			return n;
+		}
 	}
 
-    return -1;
-    }
+	return -1;
+}
 
 /************************************************************************/
 /*									*/
@@ -165,84 +171,90 @@ int docFindBookmarkField(	DocumentField **		pDf,
 /*									*/
 /************************************************************************/
 
-static int docCompareBookmarkStrings(	const void *	pv1,
-					const void *	pv2 )
-    {
-    const char * const *	ps1= (const char * const *)pv1;
-    const char * const *	ps2= (const char * const *)pv2;
+static int docCompareBookmarkStrings(const void *pv1, const void *pv2)
+{
+	const char *const *ps1 = (const char *const *)pv1;
+	const char *const *ps2 = (const char *const *)pv2;
 
-    return strcmp( *ps1, *ps2 );
-    }
+	return strcmp(*ps1, *ps2);
+}
 
-int docMakeBookmarkList(	char ***			pBookmarks,
-				int *				pBookmarkCount,
-				int				includeTocMarks,
-				const DocumentFieldList *	dfl )
-    {
-    int				rval= 0;
-    int				n;
+int docMakeBookmarkList(char ***pBookmarks, int *pBookmarkCount,
+			int includeTocMarks, const DocumentFieldList *dfl)
+{
+	int rval = 0;
+	int n;
 
-    int				bookmarkCount= 0;
-    char **			bookmarks= (char **)0;
-    const int			fieldCount= dfl->dflPagedList.plItemCount;
+	int bookmarkCount = 0;
+	char **bookmarks = (char **)0;
+	const int fieldCount = dfl->dflPagedList.plItemCount;
 
-    const MemoryBuffer *	mbBookmark;
+	const MemoryBuffer *mbBookmark;
 
-    if  ( fieldCount == 0 )
-	{ goto ready;	}
-
-    /*  2  */
-    bookmarks= (char **)malloc( fieldCount* sizeof(char *) );
-    if  ( ! bookmarks )
-	{ LXDEB(fieldCount,bookmarks); rval= -1; goto ready;	}
-
-    for ( n= 0; n < fieldCount; n++ )
-	{
-	DocumentField *	df= docGetFieldByNumber( dfl, n );
-	int		size;
-
-	if  ( ! df )
-	    { continue;	}
-
-	if  ( df->dfKind != DOCfkBOOKMARK		||
-	      docFieldGetBookmark( &mbBookmark, df )	)
-	    { continue;		}
-
-	size= mbBookmark->mbSize;
-	if  ( size == 0					||
-	      ( ! includeTocMarks && mbBookmark->mbBytes[0] == '_' )	||
-	      size > DOCmaxBOOKMARK			)
-	    { continue;	}
-
-	bookmarks[bookmarkCount]= (char *)malloc( size+ 1 );
-	if  ( ! bookmarks[bookmarkCount] )
-	    { LXDEB(size,bookmarks[bookmarkCount]); rval= -1; goto ready; }
-
-	strncpy( bookmarks[bookmarkCount],
-				(char *)mbBookmark->mbBytes, size )[size]= '\0';
-	bookmarkCount++;
+	if (fieldCount == 0) {
+		goto ready;
 	}
 
-    /*  3  */
-    qsort( bookmarks, bookmarkCount, sizeof(char *),
-					    docCompareBookmarkStrings );
-
-    *pBookmarks= bookmarks; bookmarks= (char **)0; /* steal */
-    *pBookmarkCount= bookmarkCount; bookmarkCount= 0;
-
-  ready:
-
-    if  ( bookmarks )
-	{
-	for ( n= 0; n < bookmarkCount; n++ )
-	    {
-	    if  ( bookmarks[n] )
-		{ free( bookmarks[n] );	}
-	    }
-
-	free( bookmarks );
+	/*  2  */
+	bookmarks = (char **)malloc(fieldCount * sizeof(char *));
+	if (!bookmarks) {
+		LXDEB(fieldCount, bookmarks);
+		rval = -1;
+		goto ready;
 	}
 
-    return rval;
-    }
+	for (n = 0; n < fieldCount; n++) {
+		DocumentField *df = docGetFieldByNumber(dfl, n);
+		int size;
 
+		if (!df) {
+			continue;
+		}
+
+		if (df->dfKind != DOCfkBOOKMARK ||
+		    docFieldGetBookmark(&mbBookmark, df)) {
+			continue;
+		}
+
+		size = mbBookmark->mbSize;
+		if (size == 0 ||
+		    (!includeTocMarks && mbBookmark->mbBytes[0] == '_') ||
+		    size > DOCmaxBOOKMARK) {
+			continue;
+		}
+
+		bookmarks[bookmarkCount] = (char *)malloc(size + 1);
+		if (!bookmarks[bookmarkCount]) {
+			LXDEB(size, bookmarks[bookmarkCount]);
+			rval = -1;
+			goto ready;
+		}
+
+		strncpy(bookmarks[bookmarkCount], (char *)mbBookmark->mbBytes,
+			size)[size] = '\0';
+		bookmarkCount++;
+	}
+
+	/*  3  */
+	qsort(bookmarks, bookmarkCount, sizeof(char *),
+	      docCompareBookmarkStrings);
+
+	*pBookmarks = bookmarks;
+	bookmarks = (char **)0; /* steal */
+	*pBookmarkCount = bookmarkCount;
+	bookmarkCount = 0;
+
+ready:
+
+	if (bookmarks) {
+		for (n = 0; n < bookmarkCount; n++) {
+			if (bookmarks[n]) {
+				free(bookmarks[n]);
+			}
+		}
+
+		free(bookmarks);
+	}
+
+	return rval;
+}

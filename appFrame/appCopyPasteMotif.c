@@ -4,61 +4,64 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<stdlib.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#   include	"appFrame.h"
+#include "appFrame.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   ifdef	USE_MOTIF
+#ifdef USE_MOTIF
 
 /************************************************************************/
 /*									*/
 /*  Respond to selection events.					*/
 /*									*/
 /************************************************************************/
-# define ADEB(ev,a) SDEB(((a)==None?"None":XGetAtomName((ev)->display,(a))))
+#define ADEB(ev, a) \
+	SDEB(((a) == None ? "None" : XGetAtomName((ev)->display, (a))))
 
-static Atom	XA_MULTIPLE= None;
-static Atom	XA_TARGETS= None;
+static Atom XA_MULTIPLE = None;
+static Atom XA_TARGETS = None;
 
-static int appGetResponseType(	AppSelectionType **		pAst,
-				AppSelectionTargetType **	pAstt,
-				int *				pTtargetFound,
-				AppSelectionType *		ast,
-				int				astCount,
-				Atom				selection,
-				Atom				target )
-    {
-    int				i;
+static int appGetResponseType(AppSelectionType **pAst,
+			      AppSelectionTargetType **pAstt,
+			      int *pTtargetFound, AppSelectionType *ast,
+			      int astCount, Atom selection, Atom target)
+{
+	int i;
 
-    AppSelectionTargetType *	astt;
+	AppSelectionTargetType *astt;
 
-    for ( i= 0; i < astCount; ast++, i++ )
-	{
-	if  ( ast->astSelectionAtom == selection )
-	    { break;	}
+	for (i = 0; i < astCount; ast++, i++) {
+		if (ast->astSelectionAtom == selection) {
+			break;
+		}
 	}
 
-    if  ( i >= astCount )
-	{ return -1; }
-
-    astt= ast->astTargetTypes;
-    for ( i= 0; i < ast->astTargetTypeCount; astt++, i++ )
-	{
-	if  ( astt->asttTargetAtom == target )
-	    { break;	}
+	if (i >= astCount) {
+		return -1;
 	}
 
-    if  ( i >= ast->astTargetTypeCount )
-	{ return -1; }
+	astt = ast->astTargetTypes;
+	for (i = 0; i < ast->astTargetTypeCount; astt++, i++) {
+		if (astt->asttTargetAtom == target) {
+			break;
+		}
+	}
 
-    *pAst= ast; *pTtargetFound= i; *pAstt= astt; return 0;
-    }
+	if (i >= ast->astTargetTypeCount) {
+		return -1;
+	}
+
+	*pAst = ast;
+	*pTtargetFound = i;
+	*pAstt = astt;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -66,24 +69,22 @@ static int appGetResponseType(	AppSelectionType **		pAst,
 /*									*/
 /************************************************************************/
 
-static void appDocGotPasteReply(	Widget			w,
-					void *			voided,
-					XEvent *		event,
-					Boolean *		pRefused )
-    {
-    XSelectionEvent *		selEvent= (XSelectionEvent *)event;
-    EditDocument *		ed= (EditDocument *)voided;
-    EditApplication *		ea= ed->edApplication;
+static void appDocGotPasteReply(Widget w, void *voided, XEvent *event,
+				Boolean *pRefused)
+{
+	XSelectionEvent *selEvent = (XSelectionEvent *)event;
+	EditDocument *ed = (EditDocument *)voided;
+	EditApplication *ea = ed->edApplication;
 
-    AppSelectionType *		ast;
-    AppSelectionTargetType *	astt;
-    int				targetFound;
+	AppSelectionType *ast;
+	AppSelectionTargetType *astt;
+	int targetFound;
 
-    Display *			display= XtDisplay( w );
+	Display *display = XtDisplay(w);
 
-    char *			propertyName= (char *)0;
+	char *propertyName = (char *)0;
 
-    /*
+	/*
     appDebug( "PASTE " );
     appDebug( "selection= %s target= %s, property= %s\n",
 			selEvent->selection == None ? "None" :
@@ -94,54 +95,53 @@ static void appDocGotPasteReply(	Widget			w,
 			    XGetAtomName( display, selEvent->property ) );
     */
 
-    if  ( appGetResponseType( &ast, &astt, &targetFound,
-				    ea->eaDocSelectionTypes,
-				    ea->eaDocSelectionTypeCount,
-				    selEvent->selection, selEvent->target ) )
-	{ LDEB(1); return;	}
-
-    if  ( selEvent->property != None )
-	{ propertyName= XGetAtomName( display, selEvent->property ); }
-
-    if  ( selEvent->property == None				||
-	  ( propertyName && ! strcmp( propertyName, "NONE" ) )	)
-	{
-	ea->eaGotPaste= -1;
-
-	if  ( targetFound < ast->astTargetTypeCount- 1 )
-	    {
-	    Window		win= XtWindow( w );
-
-	    XConvertSelection( display, selEvent->selection,
-			    astt[1].asttTargetAtom,
-			    selEvent->selection, win, selEvent->time );
-
-	    ea->eaGotPaste= 0;
-	    }
-	}
-    else{
-	(*astt->asttUsePaste)( w, voided, event, pRefused );
-	ea->eaGotPaste= 1;
+	if (appGetResponseType(&ast, &astt, &targetFound,
+			       ea->eaDocSelectionTypes,
+			       ea->eaDocSelectionTypeCount, selEvent->selection,
+			       selEvent->target)) {
+		LDEB(1);
+		return;
 	}
 
-    return;
-    }
+	if (selEvent->property != None) {
+		propertyName = XGetAtomName(display, selEvent->property);
+	}
 
-static void appAppUsePaste(		Widget			w,
-					void *			voidea,
-					XEvent *		event,
-					Boolean *		pRefused )
-    {
-    EditApplication *		ea= (EditApplication *)voidea;
-    XSelectionEvent *		selEvent= (XSelectionEvent *)event;
+	if (selEvent->property == None ||
+	    (propertyName && !strcmp(propertyName, "NONE"))) {
+		ea->eaGotPaste = -1;
 
-    AppSelectionType *		ast;
-    AppSelectionTargetType *	astt;
-    int				targetFound;
+		if (targetFound < ast->astTargetTypeCount - 1) {
+			Window win = XtWindow(w);
 
-    Display *			display= XtDisplay( w );
+			XConvertSelection(display, selEvent->selection,
+					  astt[1].asttTargetAtom,
+					  selEvent->selection, win,
+					  selEvent->time);
 
-    /*
+			ea->eaGotPaste = 0;
+		}
+	} else {
+		(*astt->asttUsePaste)(w, voided, event, pRefused);
+		ea->eaGotPaste = 1;
+	}
+
+	return;
+}
+
+static void appAppUsePaste(Widget w, void *voidea, XEvent *event,
+			   Boolean *pRefused)
+{
+	EditApplication *ea = (EditApplication *)voidea;
+	XSelectionEvent *selEvent = (XSelectionEvent *)event;
+
+	AppSelectionType *ast;
+	AppSelectionTargetType *astt;
+	int targetFound;
+
+	Display *display = XtDisplay(w);
+
+	/*
     appDebug( "PASTE " );
     appDebug( "selection= %s target= %s, property= %s\n",
 			selEvent->selection == None ? "None" :
@@ -152,34 +152,34 @@ static void appAppUsePaste(		Widget			w,
 			    XGetAtomName( display, selEvent->property ) );
     */
 
-    if  ( appGetResponseType( &ast, &astt, &targetFound,
-				    ea->eaAppSelectionTypes,
-				    ea->eaAppSelectionTypeCount,
-				    selEvent->selection, selEvent->target ) )
-	{ LDEB(1); return;	}
-
-    if  ( selEvent->property == None )
-	{
-	ea->eaGotPaste= -1;
-
-	if  ( targetFound < ast->astTargetTypeCount- 1 )
-	    {
-	    Window		win= XtWindow( w );
-
-	    XConvertSelection( display, selEvent->selection,
-			    astt[1].asttTargetAtom,
-			    selEvent->selection, win, selEvent->time );
-
-	    ea->eaGotPaste= 0;
-	    }
-	}
-    else{
-	(*astt->asttUsePaste)( w, voidea, event, pRefused );
-	ea->eaGotPaste= 1;
+	if (appGetResponseType(&ast, &astt, &targetFound,
+			       ea->eaAppSelectionTypes,
+			       ea->eaAppSelectionTypeCount, selEvent->selection,
+			       selEvent->target)) {
+		LDEB(1);
+		return;
 	}
 
-    return;
-    }
+	if (selEvent->property == None) {
+		ea->eaGotPaste = -1;
+
+		if (targetFound < ast->astTargetTypeCount - 1) {
+			Window win = XtWindow(w);
+
+			XConvertSelection(display, selEvent->selection,
+					  astt[1].asttTargetAtom,
+					  selEvent->selection, win,
+					  selEvent->time);
+
+			ea->eaGotPaste = 0;
+		}
+	} else {
+		(*astt->asttUsePaste)(w, voidea, event, pRefused);
+		ea->eaGotPaste = 1;
+	}
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -188,21 +188,21 @@ static void appAppUsePaste(		Widget			w,
 /*									*/
 /************************************************************************/
 
-APP_GIVE_COPY( appDocReplyToCopyRequest, w, event, voided )
-    {
-    XSelectionRequestEvent *	reqEvent= &(event->xselectionrequest);
-    EditDocument *		ed= (EditDocument *)voided;
-    EditApplication *		ea= ed->edApplication;
+APP_GIVE_COPY(appDocReplyToCopyRequest, w, event, voided)
+{
+	XSelectionRequestEvent *reqEvent = &(event->xselectionrequest);
+	EditDocument *ed = (EditDocument *)voided;
+	EditApplication *ea = ed->edApplication;
 
-    AppSelectionType *		ast;
-    AppSelectionTargetType *	astt;
-    int				targetFound;
+	AppSelectionType *ast;
+	AppSelectionTargetType *astt;
+	int targetFound;
 
-    Display *			display= XtDisplay( w );
+	Display *display = XtDisplay(w);
 
-    XEvent			response;
+	XEvent response;
 
-    /*
+	/*
     appDebug( "COPY  " );
     appDebug( "selection= %s target= %s, property= %s\n",
 			    reqEvent->selection == None ? "None" :
@@ -213,149 +213,168 @@ APP_GIVE_COPY( appDocReplyToCopyRequest, w, event, voided )
 				XGetAtomName( display, reqEvent->property ) );
     */
 
-    response.type= SelectionNotify;
-    response.xselection.display= reqEvent->display;
-    response.xselection.requestor= reqEvent->requestor;
-    response.xselection.selection= reqEvent->selection;
-    response.xselection.target= reqEvent->target;
-    response.xselection.property= reqEvent->property;
-    response.xselection.time= reqEvent->time;
+	response.type = SelectionNotify;
+	response.xselection.display = reqEvent->display;
+	response.xselection.requestor = reqEvent->requestor;
+	response.xselection.selection = reqEvent->selection;
+	response.xselection.target = reqEvent->target;
+	response.xselection.property = reqEvent->property;
+	response.xselection.time = reqEvent->time;
 
-    if  ( response.xselection.target == XA_TARGETS )
-	{
-	static Atom *		atoms;
-	Atom *			fresh;
-	int			i;
+	if (response.xselection.target == XA_TARGETS) {
+		static Atom *atoms;
+		Atom *fresh;
+		int i;
 
-	if  ( ed->edTargetTypeCount < 1 )
-	    { LDEB(ed->edTargetTypeCount); goto refuse;	}
+		if (ed->edTargetTypeCount < 1) {
+			LDEB(ed->edTargetTypeCount);
+			goto refuse;
+		}
 
-	fresh= (Atom *)realloc( atoms, ed->edTargetTypeCount* sizeof(Atom) );
-	if  ( ! fresh )
-	    { XDEB(fresh); goto refuse;	}
-	atoms= fresh;
+		fresh = (Atom *)realloc(atoms,
+					ed->edTargetTypeCount * sizeof(Atom));
+		if (!fresh) {
+			XDEB(fresh);
+			goto refuse;
+		}
+		atoms = fresh;
 
-	for ( i= 0; i < ed->edTargetTypeCount; i++ )
-	    { atoms[i]= ed->edTargetTypes[i].asttTargetAtom; }
+		for (i = 0; i < ed->edTargetTypeCount; i++) {
+			atoms[i] = ed->edTargetTypes[i].asttTargetAtom;
+		}
 
-	XChangeProperty( display,
-			response.xselection.requestor,
-			response.xselection.property,
-			response.xselection.target,
-			8* sizeof(Atom), PropModeReplace,
-			(unsigned char *)atoms,
-			ed->edTargetTypeCount );
+		XChangeProperty(display, response.xselection.requestor,
+				response.xselection.property,
+				response.xselection.target, 8 * sizeof(Atom),
+				PropModeReplace, (unsigned char *)atoms,
+				ed->edTargetTypeCount);
 
-	XSendEvent( display, response.xselection.requestor, False, 0L,
-								&response );
-	return;
+		XSendEvent(display, response.xselection.requestor, False, 0L,
+			   &response);
+		return;
 	}
 
-    if  ( response.xselection.target == XA_MULTIPLE )
-	{
-#	define		FST		( 2* 10L )
+	if (response.xselection.target == XA_MULTIPLE) {
+#define FST (2 * 10L)
 
-	unsigned char *	vatomPairs;
-	Atom *		xatomPairs;
+		unsigned char *vatomPairs;
+		Atom *xatomPairs;
 
-	int		ret;
-	int		i;
+		int ret;
+		int i;
 
-	unsigned long	itemsReturned;
-	unsigned long	itemsLeft;
-	Atom		typeFound;
-	int		formatFound;
+		unsigned long itemsReturned;
+		unsigned long itemsLeft;
+		Atom typeFound;
+		int formatFound;
 
-	ret= XGetWindowProperty( display, reqEvent->requestor,
-		reqEvent->property,
-		0L, FST, False, AnyPropertyType,
-		&typeFound, &formatFound,
-		&itemsReturned, &itemsLeft, &vatomPairs );
+		ret = XGetWindowProperty(display, reqEvent->requestor,
+					 reqEvent->property, 0L, FST, False,
+					 AnyPropertyType, &typeFound,
+					 &formatFound, &itemsReturned,
+					 &itemsLeft, &vatomPairs);
 
-	xatomPairs= (Atom *)vatomPairs;
+		xatomPairs = (Atom *)vatomPairs;
 
-	if  ( ret != Success )
-	    { LLDEB(ret,Success); goto refuse;	}
+		if (ret != Success) {
+			LLDEB(ret, Success);
+			goto refuse;
+		}
 
-	if  ( itemsLeft > 0 )
-	    {
-	    XFree( vatomPairs );
+		if (itemsLeft > 0) {
+			XFree(vatomPairs);
 
-	    ret= XGetWindowProperty( display, reqEvent->requestor,
-		    reqEvent->property,
-		    0L, FST+ itemsLeft, False, AnyPropertyType,
-		    &typeFound, &formatFound,
-		    &itemsReturned, &itemsLeft, &vatomPairs );
+			ret = XGetWindowProperty(display, reqEvent->requestor,
+						 reqEvent->property, 0L,
+						 FST + itemsLeft, False,
+						 AnyPropertyType, &typeFound,
+						 &formatFound, &itemsReturned,
+						 &itemsLeft, &vatomPairs);
 
-	    xatomPairs= (Atom *)vatomPairs;
-	    }
+			xatomPairs = (Atom *)vatomPairs;
+		}
 
-	if  ( ret != Success )
-	    { LLDEB(ret,Success); goto refuse;	}
-	if  ( itemsReturned == 0 || itemsReturned % 2 )
-	    { LDEB(itemsReturned); goto refuse;	}
-	if  ( formatFound != 32 )
-	    { LLDEB(typeFound,formatFound); goto refuse;	}
+		if (ret != Success) {
+			LLDEB(ret, Success);
+			goto refuse;
+		}
+		if (itemsReturned == 0 || itemsReturned % 2) {
+			LDEB(itemsReturned);
+			goto refuse;
+		}
+		if (formatFound != 32) {
+			LLDEB(typeFound, formatFound);
+			goto refuse;
+		}
 
-	for ( i= 0; i < (int)itemsReturned; i += 2 )
-	    {
-	    XEvent	evPaste;
+		for (i = 0; i < (int)itemsReturned; i += 2) {
+			XEvent evPaste;
 
-	    evPaste= response;
+			evPaste = response;
 
-	    if  ( appGetResponseType( &ast, &astt, &targetFound,
-					ea->eaDocSelectionTypes,
-					ea->eaDocSelectionTypeCount,
-					reqEvent->selection, xatomPairs[i] ) )
-		{ LDEB(1); goto refuse;	}
+			if (appGetResponseType(&ast, &astt, &targetFound,
+					       ea->eaDocSelectionTypes,
+					       ea->eaDocSelectionTypeCount,
+					       reqEvent->selection,
+					       xatomPairs[i])) {
+				LDEB(1);
+				goto refuse;
+			}
 
-	    if  ( ! astt->asttGiveCopy )
-		{ XDEB(astt->asttGiveCopy); goto refuse;	}
+			if (!astt->asttGiveCopy) {
+				XDEB(astt->asttGiveCopy);
+				goto refuse;
+			}
 
-	    evPaste.xselection.requestor= response.xselection.requestor;
-	    evPaste.xselection.property= xatomPairs[i+1];
-	    evPaste.xselection.target= xatomPairs[i];
+			evPaste.xselection.requestor =
+				response.xselection.requestor;
+			evPaste.xselection.property = xatomPairs[i + 1];
+			evPaste.xselection.target = xatomPairs[i];
 
-	    (*astt->asttGiveCopy)( w, ed, &evPaste, pRefused );
-	    }
+			(*astt->asttGiveCopy)(w, ed, &evPaste, pRefused);
+		}
 
-	XFree( vatomPairs );
-	XSendEvent( display, response.xselection.requestor, False, 0L,
-								&response );
-	return;
+		XFree(vatomPairs);
+		XSendEvent(display, response.xselection.requestor, False, 0L,
+			   &response);
+		return;
 	}
 
-    /*  ICCM L.2.2; ICCM L.2.6.2  */
-    if  ( response.xselection.property == None )
-	{ response.xselection.property= response.xselection.target;	}
+	/*  ICCM L.2.2; ICCM L.2.6.2  */
+	if (response.xselection.property == None) {
+		response.xselection.property = response.xselection.target;
+	}
 
-    if  ( appGetResponseType( &ast, &astt, &targetFound,
-				    ea->eaDocSelectionTypes,
-				    ea->eaDocSelectionTypeCount,
-				    reqEvent->selection, reqEvent->target ) )
-	{ goto refuse;	}
+	if (appGetResponseType(&ast, &astt, &targetFound,
+			       ea->eaDocSelectionTypes,
+			       ea->eaDocSelectionTypeCount, reqEvent->selection,
+			       reqEvent->target)) {
+		goto refuse;
+	}
 
-    if  ( ! astt->asttGiveCopy )
-	{ XDEB(astt->asttGiveCopy); goto refuse;	}
+	if (!astt->asttGiveCopy) {
+		XDEB(astt->asttGiveCopy);
+		goto refuse;
+	}
 
-    (*astt->asttGiveCopy)( w, voided, &response, pRefused );
+	(*astt->asttGiveCopy)(w, voided, &response, pRefused);
 
-    XSendEvent( display, response.xselection.requestor,
-						    False, 0L, &response );
-    return;
+	XSendEvent(display, response.xselection.requestor, False, 0L,
+		   &response);
+	return;
 
-  refuse:
-    /*
+refuse:
+	/*
     SDEB(XGetAtomName(display,reqEvent->selection));
     SDEB(XGetAtomName(display,reqEvent->target));
     */
 
-    response.xselection.property= None;
-    XSendEvent( display, reqEvent->requestor,
-				    False, PropertyChangeMask, &response );
+	response.xselection.property = None;
+	XSendEvent(display, reqEvent->requestor, False, PropertyChangeMask,
+		   &response);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -364,32 +383,34 @@ APP_GIVE_COPY( appDocReplyToCopyRequest, w, event, voided )
 /*									*/
 /************************************************************************/
 
-static void appDocForgetCopiedSelection(	APP_WIDGET		w,
-						void *			voided,
-						APP_EVENT *		event )
-    {
-    XSelectionClearEvent *	clrEvent= &(event->xselectionclear);
-    EditDocument *		ed= (EditDocument *)voided;
-    EditApplication *		ea= ed->edApplication;
+static void appDocForgetCopiedSelection(APP_WIDGET w, void *voided,
+					APP_EVENT *event)
+{
+	XSelectionClearEvent *clrEvent = &(event->xselectionclear);
+	EditDocument *ed = (EditDocument *)voided;
+	EditApplication *ea = ed->edApplication;
 
-    int				i;
-    AppSelectionType *		ast;
+	int i;
+	AppSelectionType *ast;
 
-    ast= ea->eaDocSelectionTypes;
-    for ( i= 0; i < ea->eaDocSelectionTypeCount; ast++, i++ )
-	{
-	if  ( ast->astSelectionAtom == clrEvent->selection )
-	    { break;	}
+	ast = ea->eaDocSelectionTypes;
+	for (i = 0; i < ea->eaDocSelectionTypeCount; ast++, i++) {
+		if (ast->astSelectionAtom == clrEvent->selection) {
+			break;
+		}
 	}
 
-    if  ( i >= ea->eaDocSelectionTypeCount )
-	{ ADEB(clrEvent,clrEvent->selection); return; }
+	if (i >= ea->eaDocSelectionTypeCount) {
+		ADEB(clrEvent, clrEvent->selection);
+		return;
+	}
 
-    if  ( ast->astForgetCopy )
-	{ (*ast->astForgetCopy)( w, voided, event );	}
+	if (ast->astForgetCopy) {
+		(*ast->astForgetCopy)(w, voided, event);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -397,156 +418,154 @@ static void appDocForgetCopiedSelection(	APP_WIDGET		w,
 /*									*/
 /************************************************************************/
 
-APP_EVENT_HANDLER_H( appDocCopyPasteHandler, w, voided, event )
-    {
-    if  ( XA_MULTIPLE == None )
-	{ XA_MULTIPLE= XInternAtom( XtDisplay( w ), "MULTIPLE", False ); }
-    if  ( XA_TARGETS == None )
-	{ XA_TARGETS= XInternAtom( XtDisplay( w ), "TARGETS", False ); }
+APP_EVENT_HANDLER_H(appDocCopyPasteHandler, w, voided, event)
+{
+	if (XA_MULTIPLE == None) {
+		XA_MULTIPLE = XInternAtom(XtDisplay(w), "MULTIPLE", False);
+	}
+	if (XA_TARGETS == None) {
+		XA_TARGETS = XInternAtom(XtDisplay(w), "TARGETS", False);
+	}
 
-    switch( event->type )
-	{
+	switch (event->type) {
 	case SelectionNotify:
-	    appDocGotPasteReply( w, voided, event, pRefused );
-	    *pRefused= False;
-	    break;
+		appDocGotPasteReply(w, voided, event, pRefused);
+		*pRefused = False;
+		break;
 
 	case SelectionRequest:
-	    appDocReplyToCopyRequest( w, voided, event, pRefused );
-	    *pRefused= False;
-	    break;
+		appDocReplyToCopyRequest(w, voided, event, pRefused);
+		*pRefused = False;
+		break;
 
 	case SelectionClear:
-	    appDocForgetCopiedSelection( w, voided, event );
-	    *pRefused= False;
-	    break;
+		appDocForgetCopiedSelection(w, voided, event);
+		*pRefused = False;
+		break;
 
 	case PropertyNotify:
-	    *pRefused= True;
-	    break;
+		*pRefused = True;
+		break;
 
 	case GraphicsExpose:
-	    appDocExposeHandler( w, voided, event, pRefused );
-	    *pRefused= False;
-	    break;
+		appDocExposeHandler(w, voided, event, pRefused);
+		*pRefused = False;
+		break;
 
 	case NoExpose:
-	    break;
+		break;
 
 	case ClientMessage:
-	default:
-	    {
-	    EditDocument *	ed= (EditDocument *)voided;
+	default: {
+		EditDocument *ed = (EditDocument *)voided;
 
-	    appDebug( "SELECTION \"%s\": %s\n",
-			    utilMemoryBufferGetString( &(ed->edTitle) ),
-			    APP_X11EventNames[event->type] );
-	    *pRefused= True;
-	    }
-	    break;
+		appDebug("SELECTION \"%s\": %s\n",
+			 utilMemoryBufferGetString(&(ed->edTitle)),
+			 APP_X11EventNames[event->type]);
+		*pRefused = True;
+	} break;
 	}
 
-    return;
-    }
+	return;
+}
 
-void appAppGotPasteCall(	Widget		w,
-				void *		voidea,
-				XEvent *	event,
-				Boolean *	pRefused )
-    {
-    EditApplication *	ea= (EditApplication *)voidea;
+void appAppGotPasteCall(Widget w, void *voidea, XEvent *event,
+			Boolean *pRefused)
+{
+	EditApplication *ea = (EditApplication *)voidea;
 
-    if  ( XA_MULTIPLE == None )
-	{ XA_MULTIPLE= XInternAtom( XtDisplay( w ), "MULTIPLE", False ); }
-    if  ( XA_TARGETS == None )
-	{ XA_TARGETS= XInternAtom( XtDisplay( w ), "TARGETS", False ); }
+	if (XA_MULTIPLE == None) {
+		XA_MULTIPLE = XInternAtom(XtDisplay(w), "MULTIPLE", False);
+	}
+	if (XA_TARGETS == None) {
+		XA_TARGETS = XInternAtom(XtDisplay(w), "TARGETS", False);
+	}
 
-    switch( event->type )
-	{
+	switch (event->type) {
 	case SelectionNotify:
-	    appAppUsePaste( w, voidea, event, pRefused );
-	    *pRefused= False;
-	    break;
+		appAppUsePaste(w, voidea, event, pRefused);
+		*pRefused = False;
+		break;
 	case PropertyNotify:
-	    *pRefused= True;
-	    break;
+		*pRefused = True;
+		break;
 	case SelectionClear:
 	case NoExpose:
 	case GraphicsExpose:
 	case SelectionRequest:
 	default:
-	    appDebug( "SELECTION \"%s\": %s\n",
-		    ea->eaApplicationName, APP_X11EventNames[event->type] );
-	    *pRefused= True;
-	    break;
+		appDebug("SELECTION \"%s\": %s\n", ea->eaApplicationName,
+			 APP_X11EventNames[event->type]);
+		*pRefused = True;
+		break;
 	}
 
-    return;
-    }
+	return;
+}
 
-int appDocReleaseSelection(	EditDocument *			ed,
-				const char *			selection )
-    {
-    EditApplication *		ea= ed->edApplication;
-    Display *			display= XtDisplay( ed->edDocumentWidget.dwWidget );
-    const AppSelectionType *	ast;
+int appDocReleaseSelection(EditDocument *ed, const char *selection)
+{
+	EditApplication *ea = ed->edApplication;
+	Display *display = XtDisplay(ed->edDocumentWidget.dwWidget);
+	const AppSelectionType *ast;
 
-    ast= appDocGetSelectionType( ea, selection );
-    if  ( ! ast )
-	{ SXDEB(selection,ast); return -1;	}
-
-    XSetSelectionOwner( display, ast->astSelectionAtom, None, CurrentTime );
-
-    return 0;
-    }
-
-int appDocOwnSelection(		EditDocument *			ed,
-				const char *			selection,
-				AppSelectionTargetType * 	targets,
-				int				targetCount )
-    {
-    int				i;
-    const AppSelectionType *	ast;
-
-    EditApplication *		ea= ed->edApplication;
-    Display *			display= XtDisplay( ed->edDocumentWidget.dwWidget );
-    Window			win= XtWindow( ed->edDocumentWidget.dwWidget );
-
-
-    ast= appDocGetSelectionType( ea, selection );
-    if  ( ! ast )
-	{ SXDEB(selection,ast); return -1;	}
-
-    if  ( ast->astTargetTypeCount == 0 )
-	{ SLDEB(selection,ast->astTargetTypeCount); return -1;	}
-
-    for ( i= 0; i < targetCount; i++ )
-	{
-	if  ( targets[i].asttTargetAtom == None )
-	    {
-	    targets[i].asttTargetAtom=
-		    XInternAtom( XtDisplay( ed->edDocumentWidget.dwWidget ),
-		    targets[i].asttTargetString, False );
-
-	    if  ( ! targets[i].asttTargetAtom )
-		{
-		SDEB(targets[i].asttTargetString);
-		XDEB(targets[i].asttTargetAtom);
+	ast = appDocGetSelectionType(ea, selection);
+	if (!ast) {
+		SXDEB(selection, ast);
 		return -1;
-		}
-	    }
 	}
 
-    ed->edTargetTypes= targets;
-    ed->edTargetTypeCount= targetCount;
+	XSetSelectionOwner(display, ast->astSelectionAtom, None, CurrentTime);
 
-    XSetSelectionOwner( display, ast->astSelectionAtom, win, CurrentTime );
+	return 0;
+}
 
-    if  ( XGetSelectionOwner( display, ast->astSelectionAtom ) != win )
-	{ return -1;	}
+int appDocOwnSelection(EditDocument *ed, const char *selection,
+		       AppSelectionTargetType *targets, int targetCount)
+{
+	int i;
+	const AppSelectionType *ast;
 
-    return 0;
-    }
+	EditApplication *ea = ed->edApplication;
+	Display *display = XtDisplay(ed->edDocumentWidget.dwWidget);
+	Window win = XtWindow(ed->edDocumentWidget.dwWidget);
+
+	ast = appDocGetSelectionType(ea, selection);
+	if (!ast) {
+		SXDEB(selection, ast);
+		return -1;
+	}
+
+	if (ast->astTargetTypeCount == 0) {
+		SLDEB(selection, ast->astTargetTypeCount);
+		return -1;
+	}
+
+	for (i = 0; i < targetCount; i++) {
+		if (targets[i].asttTargetAtom == None) {
+			targets[i].asttTargetAtom = XInternAtom(
+				XtDisplay(ed->edDocumentWidget.dwWidget),
+				targets[i].asttTargetString, False);
+
+			if (!targets[i].asttTargetAtom) {
+				SDEB(targets[i].asttTargetString);
+				XDEB(targets[i].asttTargetAtom);
+				return -1;
+			}
+		}
+	}
+
+	ed->edTargetTypes = targets;
+	ed->edTargetTypeCount = targetCount;
+
+	XSetSelectionOwner(display, ast->astSelectionAtom, win, CurrentTime);
+
+	if (XGetSelectionOwner(display, ast->astSelectionAtom) != win) {
+		return -1;
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -560,45 +579,47 @@ int appDocOwnSelection(		EditDocument *			ed,
 /*									*/
 /************************************************************************/
 
-static int appAskForPaste(	Widget			w,
-				EditApplication *	ea,
-				const char *		selection )
-    {
-    const AppSelectionType *	ast;
+static int appAskForPaste(Widget w, EditApplication *ea, const char *selection)
+{
+	const AppSelectionType *ast;
 
-    Display *			display= XtDisplay( w );
-    Window			win= XtWindow( w );
+	Display *display = XtDisplay(w);
+	Window win = XtWindow(w);
 
-    ea->eaGotPaste= 0;
+	ea->eaGotPaste = 0;
 
-    ast= appDocGetSelectionType( ea, selection );
-    if  ( ! ast )
-	{ SXDEB(selection,ast); return -1;	}
-
-    if  ( ast->astTargetTypeCount == 0 )
-	{ SLDEB(selection,ast->astTargetTypeCount); return -1;	}
-
-    XConvertSelection( display,
-		/*  selection	*/  ast->astSelectionAtom,
-		/*  target	*/  ast->astTargetTypes[0].asttTargetAtom,
-		/*  property	*/  ast->astSelectionAtom,
-				    win, CurrentTime );
-
-    while( ! ea->eaGotPaste )
-	{
-	XEvent		event;
-
-	XtAppNextEvent( ea->eaContext, &event );
-	XtDispatchEvent( &event );
+	ast = appDocGetSelectionType(ea, selection);
+	if (!ast) {
+		SXDEB(selection, ast);
+		return -1;
 	}
 
-    /*  1  */
-    if  ( ea->eaGotPaste < 0 )
-	{ return -1;	}
+	if (ast->astTargetTypeCount == 0) {
+		SLDEB(selection, ast->astTargetTypeCount);
+		return -1;
+	}
 
-    return 0;
-    }
-				
+	XConvertSelection(
+		display,
+		/*  selection	*/ ast->astSelectionAtom,
+		/*  target	*/ ast->astTargetTypes[0].asttTargetAtom,
+		/*  property	*/ ast->astSelectionAtom, win, CurrentTime);
+
+	while (!ea->eaGotPaste) {
+		XEvent event;
+
+		XtAppNextEvent(ea->eaContext, &event);
+		XtDispatchEvent(&event);
+	}
+
+	/*  1  */
+	if (ea->eaGotPaste < 0) {
+		return -1;
+	}
+
+	return 0;
+}
+
 /************************************************************************/
 /*									*/
 /*  Ask for a paste of a particular selection.				*/
@@ -609,19 +630,17 @@ static int appAskForPaste(	Widget			w,
 /************************************************************************/
 
 /*  1  */
-int appDocAskForPaste(		EditDocument *		ed,
-				const char *		selection )
-    {
-    return appAskForPaste( ed->edDocumentWidget.dwWidget,
-				    ed->edApplication, selection );
-    }
-				
+int appDocAskForPaste(EditDocument *ed, const char *selection)
+{
+	return appAskForPaste(ed->edDocumentWidget.dwWidget, ed->edApplication,
+			      selection);
+}
+
 /*  2  */
-int appAppAskForPaste(		EditApplication *	ea,
-				const char *		selection )
-    {
-    return appAskForPaste( ea->eaToplevel.atTopWidget, ea, selection );
-    }
+int appAppAskForPaste(EditApplication *ea, const char *selection)
+{
+	return appAskForPaste(ea->eaToplevel.atTopWidget, ea, selection);
+}
 
 /************************************************************************/
 /*									*/
@@ -629,77 +648,76 @@ int appAppAskForPaste(		EditApplication *	ea,
 /*									*/
 /************************************************************************/
 
-void appAllocateCopyPasteTargetAtoms(	EditApplication *	ea )
-    {
-    AppSelectionType *		ast;
-    int				i;
+void appAllocateCopyPasteTargetAtoms(EditApplication *ea)
+{
+	AppSelectionType *ast;
+	int i;
 
-    int				j;
-    AppSelectionTargetType *	astt;
+	int j;
+	AppSelectionTargetType *astt;
 
-    Display *			display;
+	Display *display;
 
-    display= XtDisplay( ea->eaToplevel.atTopWidget );
+	display = XtDisplay(ea->eaToplevel.atTopWidget);
 
-    ast= ea->eaDocSelectionTypes;
-    for ( i= 0; i < ea->eaDocSelectionTypeCount; ast++, i++ )
-	{
-	if  ( ast->astSelectionAtom == None )
-	    {
-	    ast->astSelectionAtom= XInternAtom( display,
-					    ast->astSelectionString, 0 );
-	    if  ( ast->astSelectionAtom == None )
-		{ SLDEB(ast->astSelectionString, ast->astSelectionAtom); }
-	    }
-	astt= ast->astTargetTypes;
-	for ( j= 0; j < ast->astTargetTypeCount; astt++, j++ )
-	    {
-	    if  ( astt->asttTargetAtom == None )
-		{
-		astt->asttTargetAtom= XInternAtom( display,
-					    astt->asttTargetString, 0 );
-		if  ( astt->asttTargetAtom == None )
-		    { SLDEB(astt->asttTargetString, astt->asttTargetAtom); }
+	ast = ea->eaDocSelectionTypes;
+	for (i = 0; i < ea->eaDocSelectionTypeCount; ast++, i++) {
+		if (ast->astSelectionAtom == None) {
+			ast->astSelectionAtom = XInternAtom(
+				display, ast->astSelectionString, 0);
+			if (ast->astSelectionAtom == None) {
+				SLDEB(ast->astSelectionString,
+				      ast->astSelectionAtom);
+			}
 		}
-	    }
+		astt = ast->astTargetTypes;
+		for (j = 0; j < ast->astTargetTypeCount; astt++, j++) {
+			if (astt->asttTargetAtom == None) {
+				astt->asttTargetAtom = XInternAtom(
+					display, astt->asttTargetString, 0);
+				if (astt->asttTargetAtom == None) {
+					SLDEB(astt->asttTargetString,
+					      astt->asttTargetAtom);
+				}
+			}
+		}
 	}
 
-    ast= ea->eaAppSelectionTypes;
-    for ( i= 0; i < ea->eaAppSelectionTypeCount; ast++, i++ )
-	{
-	if  ( ast->astSelectionAtom == None )
-	    {
-	    ast->astSelectionAtom= XInternAtom( display,
-					    ast->astSelectionString, 0 );
-	    if  ( ast->astSelectionAtom == None )
-		{ SLDEB(ast->astSelectionString, ast->astSelectionAtom); }
-	    }
-	astt= ast->astTargetTypes;
-	for ( j= 0; j < ast->astTargetTypeCount; astt++, j++ )
-	    {
-	    if  ( astt->asttTargetAtom == None )
-		{
-		astt->asttTargetAtom= XInternAtom( display,
-					    astt->asttTargetString, 0 );
-		if  ( astt->asttTargetAtom == None )
-		    { SLDEB(astt->asttTargetString, astt->asttTargetAtom); }
+	ast = ea->eaAppSelectionTypes;
+	for (i = 0; i < ea->eaAppSelectionTypeCount; ast++, i++) {
+		if (ast->astSelectionAtom == None) {
+			ast->astSelectionAtom = XInternAtom(
+				display, ast->astSelectionString, 0);
+			if (ast->astSelectionAtom == None) {
+				SLDEB(ast->astSelectionString,
+				      ast->astSelectionAtom);
+			}
 		}
-	    }
+		astt = ast->astTargetTypes;
+		for (j = 0; j < ast->astTargetTypeCount; astt++, j++) {
+			if (astt->asttTargetAtom == None) {
+				astt->asttTargetAtom = XInternAtom(
+					display, astt->asttTargetString, 0);
+				if (astt->asttTargetAtom == None) {
+					SLDEB(astt->asttTargetString,
+					      astt->asttTargetAtom);
+				}
+			}
+		}
 	}
 
-    return;
-    }
+	return;
+}
 
-void appCopyPixmapValue(	APP_SELECTION_EVENT *	event,
-				APP_BITMAP_IMAGE	pixmapCopied )
-    {
-    XSelectionEvent *	selEvent= &(event->xselection);
+void appCopyPixmapValue(APP_SELECTION_EVENT *event,
+			APP_BITMAP_IMAGE pixmapCopied)
+{
+	XSelectionEvent *selEvent = &(event->xselection);
 
-    XChangeProperty( selEvent->display,
-		    selEvent->requestor, selEvent->property, selEvent->target,
-		    8* sizeof(Pixmap), PropModeReplace,
-		    (unsigned char *)&pixmapCopied,
-		    1 );
-    }
+	XChangeProperty(selEvent->display, selEvent->requestor,
+			selEvent->property, selEvent->target,
+			8 * sizeof(Pixmap), PropModeReplace,
+			(unsigned char *)&pixmapCopied, 1);
+}
 
-#   endif
+#endif

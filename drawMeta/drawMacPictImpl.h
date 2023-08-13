@@ -4,8 +4,8 @@
 /*									*/
 /************************************************************************/
 
-#   include	"drawMacPict.h"
-#   include	<sioGeneral.h>
+#include "drawMacPict.h"
+#include <sioGeneral.h>
 
 /************************************************************************/
 /*									*/
@@ -13,5 +13,5 @@
 /*									*/
 /************************************************************************/
 
-extern int appMacPictGetDeviceHeader(	MacPictHeader *		mph,
-					SimpleInputStream *	sis );
+extern int appMacPictGetDeviceHeader(MacPictHeader *mph,
+				     SimpleInputStream *sis);

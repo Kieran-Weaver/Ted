@@ -1,9 +1,9 @@
-#   ifndef	UTIL_NUP_H
-#   define	UTIL_NUP_H
+#ifndef UTIL_NUP_H
+#define UTIL_NUP_H
 
-#   include	<geo2DInteger.h>
-#   include	<utilDocumentGeometry.h>
-#   include	<geoAffineTransform.h>
+#include <geo2DInteger.h>
+#include <utilDocumentGeometry.h>
+#include <geoAffineTransform.h>
 
 /************************************************************************/
 /*									*/
@@ -11,15 +11,14 @@
 /*									*/
 /************************************************************************/
 
-typedef struct NupSchema
-    {
-    AffineTransform2D		nsBaseTransform;
-    int				nsNup;
-    int				nsRows;
-    int				nsCols;
-    AffineTransform2D *		nsNupTransforms;
-    int				nsXShift;
-    } NupSchema;
+typedef struct NupSchema {
+	AffineTransform2D nsBaseTransform;
+	int nsNup;
+	int nsRows;
+	int nsCols;
+	AffineTransform2D *nsNupTransforms;
+	int nsXShift;
+} NupSchema;
 
 /************************************************************************/
 /*									*/
@@ -27,37 +26,36 @@ typedef struct NupSchema
 /*									*/
 /************************************************************************/
 
-typedef struct PrintGeometry
-    {
-    DocumentGeometry	pgSheetGeometry;
-    int			pgRotatePage90;
-    int			pgCenterPageHorizontally;
-    int			pgGridRows;
-    int			pgGridCols;
-    int			pgGridHorizontal;
-    int			pgScalePagesToFit;
+typedef struct PrintGeometry {
+	DocumentGeometry pgSheetGeometry;
+	int pgRotatePage90;
+	int pgCenterPageHorizontally;
+	int pgGridRows;
+	int pgGridCols;
+	int pgGridHorizontal;
+	int pgScalePagesToFit;
 
-    int			pgPrintOddSides;
-    int			pgPrintEvenSides;
-    int			pgPrintSheetsReverse;
-    int			pgPrintBookletOrder;
+	int pgPrintOddSides;
+	int pgPrintEvenSides;
+	int pgPrintSheetsReverse;
+	int pgPrintBookletOrder;
 
-    int			pgFirstPage;
-    int			pgLastPage;
-    int			pgUsePostScriptFilters;
-    int			pgUsePostScriptIndexedImages;
-    int			pg7Bits;
-    int			pgSkipEmptyPages;
-    int			pgSkipBlankPages;
-    int			pgOmitHeadersOnEmptyPages;
-    int			pgEmbedFonts;
+	int pgFirstPage;
+	int pgLastPage;
+	int pgUsePostScriptFilters;
+	int pgUsePostScriptIndexedImages;
+	int pg7Bits;
+	int pgSkipEmptyPages;
+	int pgSkipBlankPages;
+	int pgOmitHeadersOnEmptyPages;
+	int pgEmbedFonts;
 
-			/**
+	/**
 			 *  Filename of a file to initialize PS 
 			 *  printing: Owned by the caller.
 			 */
-    const char *	pgCustomPsSetupFilename;
-    } PrintGeometry;
+	const char *pgCustomPsSetupFilename;
+} PrintGeometry;
 
 /************************************************************************/
 /*									*/
@@ -65,43 +63,31 @@ typedef struct PrintGeometry
 /*									*/
 /************************************************************************/
 
-extern void psInitPrintGeometry(	PrintGeometry *	pg );
-extern void psCleanPrintGeometry(	PrintGeometry *	pg );
+extern void psInitPrintGeometry(PrintGeometry *pg);
+extern void psCleanPrintGeometry(PrintGeometry *pg);
 
-extern void psInitNupSchema(	NupSchema *		ns );
-extern void psCleanNupSchema(	NupSchema *		ns );
+extern void psInitNupSchema(NupSchema *ns);
+extern void psCleanNupSchema(NupSchema *ns);
 
-extern int psNupFitPagesToSheet(
-			int *				pFitWithoutRot,
-			int *				pFitWithRot,
-			const PrintGeometry *		pg,
-			const DocumentGeometry *	dgPage );
+extern int psNupFitPagesToSheet(int *pFitWithoutRot, int *pFitWithRot,
+				const PrintGeometry *pg,
+				const DocumentGeometry *dgPage);
 
-extern int utilNupGetBaseTranform(
-			AffineTransform2D *		pAt1Page,
-			int *				pRotatePages,
-			const PrintGeometry *		pg,
-			const DocumentGeometry *	dgPage,
-			double				fac );
+extern int utilNupGetBaseTranform(AffineTransform2D *pAt1Page,
+				  int *pRotatePages, const PrintGeometry *pg,
+				  const DocumentGeometry *dgPage, double fac);
 
-extern void psNupSheetBoundingBox(
-			DocumentRectangle *		sheetBBox,
-			const NupSchema *		ns,
-			const DocumentGeometry *	dgPage,
-			int				hasPageHeader,
-			int				hasPageFooter );
+extern void psNupSheetBoundingBox(DocumentRectangle *sheetBBox,
+				  const NupSchema *ns,
+				  const DocumentGeometry *dgPage,
+				  int hasPageHeader, int hasPageFooter);
 
-extern int utilNupSetSchema(
-			NupSchema *			ns,
-			int				rotateSheetGrid,
-			const AffineTransform2D *	at1Page,
-			const PrintGeometry *		pg,
-			double				fac,
-			const DocumentGeometry *	dgPage );
+extern int utilNupSetSchema(NupSchema *ns, int rotateSheetGrid,
+			    const AffineTransform2D *at1Page,
+			    const PrintGeometry *pg, double fac,
+			    const DocumentGeometry *dgPage);
 
-extern void utilNupGetPageTranform(
-			AffineTransform2D *		at,
-			const NupSchema *		ns,
-			int				page );
+extern void utilNupGetPageTranform(AffineTransform2D *at, const NupSchema *ns,
+				   int page);
 
-#   endif	/*  UTIL_NUP_H  */
+#endif /*  UTIL_NUP_H  */

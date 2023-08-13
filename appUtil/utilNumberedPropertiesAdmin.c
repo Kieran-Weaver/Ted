@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<string.h>
+#include <string.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"utilNumberedPropertiesAdmin.h"
+#include "utilNumberedPropertiesAdmin.h"
 
 /************************************************************************/
 /*									*/
@@ -18,22 +18,22 @@
 /*									*/
 /************************************************************************/
 
-void utilInitNumberedPropertiesList(	NumberedPropertiesList *	npl )
-    {
-    utilInitPagedList( &(npl->nplPagedList) );
-    utilInitIntegerValueNode( &(npl->nplValueNodes) );
+void utilInitNumberedPropertiesList(NumberedPropertiesList *npl)
+{
+	utilInitPagedList(&(npl->nplPagedList));
+	utilInitIntegerValueNode(&(npl->nplValueNodes));
 
-    npl->nplPropCount= 0;
-    npl->nplGetProperty= (NumberedPropertiesGetProperty)0;
-    }
+	npl->nplPropCount = 0;
+	npl->nplGetProperty = (NumberedPropertiesGetProperty)0;
+}
 
-void utilCleanNumberedPropertiesList(	NumberedPropertiesList *	npl )
-    {
-    utilCleanPagedList( &(npl->nplPagedList) );
-    utilCleanIntegerValueNode( &(npl->nplValueNodes) );
+void utilCleanNumberedPropertiesList(NumberedPropertiesList *npl)
+{
+	utilCleanPagedList(&(npl->nplPagedList));
+	utilCleanIntegerValueNode(&(npl->nplValueNodes));
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -41,19 +41,17 @@ void utilCleanNumberedPropertiesList(	NumberedPropertiesList *	npl )
 /*									*/
 /************************************************************************/
 
-void utilStartNumberedPropertyList(
-				NumberedPropertiesList * 	npl,
-				int				propCount,
-				NumberedPropertiesGetProperty	getProp,
-				int				sizeofItem,
-				InitPagedListItem		initItem,
-				CleanPagedListItem	 	cleanItem )
-    {
-    npl->nplPropCount= propCount;
-    npl->nplGetProperty= getProp;
+void utilStartNumberedPropertyList(NumberedPropertiesList *npl, int propCount,
+				   NumberedPropertiesGetProperty getProp,
+				   int sizeofItem, InitPagedListItem initItem,
+				   CleanPagedListItem cleanItem)
+{
+	npl->nplPropCount = propCount;
+	npl->nplGetProperty = getProp;
 
-    utilStartPagedList( &(npl->nplPagedList), sizeofItem, initItem, cleanItem );
-    }
+	utilStartPagedList(&(npl->nplPagedList), sizeofItem, initItem,
+			   cleanItem);
+}
 
 /************************************************************************/
 /*									*/
@@ -61,26 +59,24 @@ void utilStartNumberedPropertyList(
 /*									*/
 /************************************************************************/
 
-void utilForAllNumberedProperties(
-				const NumberedPropertiesList *	npl,
-				NumberedPropertiesFunction	f,
-				void *				through )
-    {
-    int			n;
+void utilForAllNumberedProperties(const NumberedPropertiesList *npl,
+				  NumberedPropertiesFunction f, void *through)
+{
+	int n;
 
-    for ( n= 0; n < npl->nplPagedList.plItemCount; n++ )
-	{
-	void *      vta= utilPagedListGetItemByNumber(
-						&(npl->nplPagedList), n );
+	for (n = 0; n < npl->nplPagedList.plItemCount; n++) {
+		void *vta =
+			utilPagedListGetItemByNumber(&(npl->nplPagedList), n);
 
-	if  ( ! vta )
-	    { continue;	}
+		if (!vta) {
+			continue;
+		}
 
-	(*f)( vta, n, through );
+		(*f)(vta, n, through);
 	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -88,43 +84,47 @@ void utilForAllNumberedProperties(
 /*									*/
 /************************************************************************/
 
-int utilGetPropertyNumber(	NumberedPropertiesList *	npl,
-				int				make,
-				const void *			vob )
-    {
-    int			prop;
-    IntegerValueNode *	ivn= &(npl->nplValueNodes);
-    void *		vta;
+int utilGetPropertyNumber(NumberedPropertiesList *npl, int make,
+			  const void *vob)
+{
+	int prop;
+	IntegerValueNode *ivn = &(npl->nplValueNodes);
+	void *vta;
 
-    if  ( npl->nplPropCount < 1 )
-	{ LDEB(npl->nplPropCount); return -1;	}
-    if  ( ! npl->nplGetProperty )
-	{ XDEB(npl->nplGetProperty); return -1;	}
-
-    for ( prop= 0; prop < npl->nplPropCount; prop++ )
-	{
-	int	propval= (*npl->nplGetProperty)( vob, prop );
-
-	ivn= utilChildIntegerValueNode( ivn, make, propval );
-	if  ( ! ivn )
-	    {
-	    if  ( make )
-		{ LLXDEB(propval,make,ivn);	}
-	    return -1;
-	    }
+	if (npl->nplPropCount < 1) {
+		LDEB(npl->nplPropCount);
+		return -1;
+	}
+	if (!npl->nplGetProperty) {
+		XDEB(npl->nplGetProperty);
+		return -1;
 	}
 
-    if  ( ivn->ivnIsLeaf )
-	{ return ivn->ivnReference;	}
+	for (prop = 0; prop < npl->nplPropCount; prop++) {
+		int propval = (*npl->nplGetProperty)(vob, prop);
 
-    vta= utilPagedListClaimItemAtEnd( &(ivn->ivnReference),
-						    &(npl->nplPagedList) );
-    if  ( ! vta )
-	{ XDEB(vta); return -1;	}
+		ivn = utilChildIntegerValueNode(ivn, make, propval);
+		if (!ivn) {
+			if (make) {
+				LLXDEB(propval, make, ivn);
+			}
+			return -1;
+		}
+	}
 
-    memcpy( vta, vob, npl->nplPagedList.plSizeofItem );
-    ivn->ivnIsLeaf= 1;
+	if (ivn->ivnIsLeaf) {
+		return ivn->ivnReference;
+	}
 
-    return ivn->ivnReference;
-    }
+	vta = utilPagedListClaimItemAtEnd(&(ivn->ivnReference),
+					  &(npl->nplPagedList));
+	if (!vta) {
+		XDEB(vta);
+		return -1;
+	}
 
+	memcpy(vta, vob, npl->nplPagedList.plSizeofItem);
+	ivn->ivnIsLeaf = 1;
+
+	return ivn->ivnReference;
+}

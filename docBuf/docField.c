@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	"docField.h"
-#   include	"docEvalField.h"
+#include "docBuf.h"
+#include "docField.h"
+#include "docEvalField.h"
 
 /************************************************************************/
 /*									*/
@@ -18,22 +18,21 @@
 /*									*/
 /************************************************************************/
 
-#   define	NOT_IN_RTF		0
-#   define	FIELD_IN_RTF		1
+#define NOT_IN_RTF 0
+#define FIELD_IN_RTF 1
 
-#   define	NO_DEST			0
-#   define	DEST_IN_RTF		1
+#define NO_DEST 0
+#define DEST_IN_RTF 1
 
-#   define	RESULT_READONLY		0
-#   define	RESULT_EDITABLE		1
+#define RESULT_READONLY 0
+#define RESULT_EDITABLE 1
 
-#   define	MULTI_PARAGRAPH		0
-#   define	SINGLE_PARAGRAPH	1
+#define MULTI_PARAGRAPH 0
+#define SINGLE_PARAGRAPH 1
 
-const FieldKindInformation DOC_FieldKinds[]=
-{
-    {
-	"-UNKNOWN",
+const FieldKindInformation DOC_FieldKinds[] = {
+	{
+		"-UNKNOWN",
 		DOClevANY,
 		NOT_IN_RTF,
 		NO_DEST,
@@ -42,9 +41,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoNEVER,
 		RESULT_READONLY,
 		MULTI_PARAGRAPH,
-    },
-    {
-	"HYPERLINK",
+	},
+	{
+		"HYPERLINK",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -53,9 +52,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_COMPLETE, /* Must Be: FIELDdoNEVER, */
 		RESULT_EDITABLE,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"-XE",
+	},
+	{
+		"-XE",
 		DOClevSPAN,
 		NOT_IN_RTF,
 		DEST_IN_RTF,
@@ -65,9 +64,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
 		"xe",
-    },
-    {
-	"-TC",
+	},
+	{
+		"-TC",
 		DOClevSPAN,
 		NOT_IN_RTF,
 		NO_DEST,
@@ -77,9 +76,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
 		"tc",
-    },
-    {
-	"-TCN",
+	},
+	{
+		"-TCN",
 		DOClevSPAN,
 		NOT_IN_RTF,
 		NO_DEST,
@@ -89,9 +88,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
 		"tcn",
-    },
-    {
-	"-BOOKMARK",
+	},
+	{
+		"-BOOKMARK",
 		DOClevCELL,
 		NOT_IN_RTF,
 		NO_DEST,
@@ -100,20 +99,20 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoNEVER,
 		RESULT_EDITABLE,
 		MULTI_PARAGRAPH,
-    },
-    {
-	"SEQ",
+	},
+	{
+		"SEQ",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
 		docRecalculateParaStringTextParticules,
 		docCalculateSeqFieldString,
-		FIELDdoDOC_COMPLETE|FIELDdoSEQ,
+		FIELDdoDOC_COMPLETE | FIELDdoSEQ,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"SECTION",
+	},
+	{
+		"SECTION",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -122,9 +121,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_FORMATTED,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"SECTIONPAGES",
+	},
+	{
+		"SECTIONPAGES",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -133,20 +132,20 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_FORMATTED,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"PAGE",
+	},
+	{
+		"PAGE",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
 		docRecalculateParaStringTextParticules,
 		docCalculatePageFieldString,
-		FIELDdoPAGE_NUMBER|FIELDdoDOC_FORMATTED,
+		FIELDdoPAGE_NUMBER | FIELDdoDOC_FORMATTED,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"PAGEREF",
+	},
+	{
+		"PAGEREF",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -155,9 +154,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_FORMATTED,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"NUMPAGES",
+	},
+	{
+		"NUMPAGES",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -166,9 +165,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_FORMATTED,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"REF",
+	},
+	{
+		"REF",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -177,9 +176,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_COMPLETE,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"CREATEDATE",
+	},
+	{
+		"CREATEDATE",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -188,9 +187,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"SAVEDATE",
+	},
+	{
+		"SAVEDATE",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -199,9 +198,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"PRINTDATE",
+	},
+	{
+		"PRINTDATE",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -210,20 +209,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"DATE",
-		DOClevSPAN,
-		FIELD_IN_RTF,
-		NO_DEST,
-		docRecalculateParaStringTextParticules,
-		docCalculateDocDateFieldString,
-		FIELDdoDOC_COMPLETE,
-		RESULT_READONLY,
-		SINGLE_PARAGRAPH,
-    },
-    {
-	"TIME",
+	},
+	{
+		"DATE",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -232,9 +220,20 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_COMPLETE,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"AUTHOR",
+	},
+	{
+		"TIME",
+		DOClevSPAN,
+		FIELD_IN_RTF,
+		NO_DEST,
+		docRecalculateParaStringTextParticules,
+		docCalculateDocDateFieldString,
+		FIELDdoDOC_COMPLETE,
+		RESULT_READONLY,
+		SINGLE_PARAGRAPH,
+	},
+	{
+		"AUTHOR",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -243,9 +242,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"COMMENTS",
+	},
+	{
+		"COMMENTS",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -254,9 +253,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"DOCCOMM",
+	},
+	{
+		"DOCCOMM",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -265,9 +264,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"KEYWORDS",
+	},
+	{
+		"KEYWORDS",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -276,9 +275,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"SUBJECT",
+	},
+	{
+		"SUBJECT",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -287,9 +286,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"TITLE",
+	},
+	{
+		"TITLE",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -298,9 +297,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"FILENAME",
+	},
+	{
+		"FILENAME",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -309,9 +308,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"MERGEFIELD",
+	},
+	{
+		"MERGEFIELD",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -320,9 +319,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_INFO,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"FORMTEXT",
+	},
+	{
+		"FORMTEXT",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -331,9 +330,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoNEVER,
 		RESULT_EDITABLE,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"FORMCHECKBOX",
+	},
+	{
+		"FORMCHECKBOX",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -342,9 +341,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoNEVER,
 		RESULT_EDITABLE,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"SYMBOL",
+	},
+	{
+		"SYMBOL",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -353,42 +352,42 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_COMPLETE,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"-CHFTN",
+	},
+	{
+		"-CHFTN",
 		DOClevSPAN,
 		NOT_IN_RTF,
 		NO_DEST,
 		docRecalculateParaChftnTextParticules,
 		docCalculateChftnFieldString,
-		FIELDdoDOC_COMPLETE|FIELDdoCHFTN,
+		FIELDdoDOC_COMPLETE | FIELDdoCHFTN,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"-CHATN",
+	},
+	{
+		"-CHATN",
 		DOClevSPAN,
 		NOT_IN_RTF,
 		NO_DEST,
 		docRecalculateParaChftnTextParticules,
 		docCalculateChftnFieldString,
-		FIELDdoDOC_COMPLETE|FIELDdoCHFTN,
+		FIELDdoDOC_COMPLETE | FIELDdoCHFTN,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"-LISTTEXT",
+	},
+	{
+		"-LISTTEXT",
 		DOClevSPAN,
 		NOT_IN_RTF,
 		NO_DEST,
 		docRecalculateParaListtextTextParticules,
 		docCalculateDocStringFieldString, /* as dummy */
-		FIELDdoDOC_COMPLETE|FIELDdoLISTTEXT,
+		FIELDdoDOC_COMPLETE | FIELDdoLISTTEXT,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"INCLUDEPICTURE",
+	},
+	{
+		"INCLUDEPICTURE",
 		DOClevSPAN,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -397,9 +396,9 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoDOC_COMPLETE,
 		RESULT_READONLY,
 		SINGLE_PARAGRAPH,
-    },
-    {
-	"TOC",
+	},
+	{
+		"TOC",
 		DOClevCELL,
 		FIELD_IN_RTF,
 		NO_DEST,
@@ -408,9 +407,8 @@ const FieldKindInformation DOC_FieldKinds[]=
 		FIELDdoTOC, /* Have their own call */
 		RESULT_READONLY,
 		MULTI_PARAGRAPH,
-    },
+	},
 };
 
-const int DOC_FieldKindCount=
-			sizeof(DOC_FieldKinds)/sizeof(FieldKindInformation);
-
+const int DOC_FieldKindCount =
+	sizeof(DOC_FieldKinds) / sizeof(FieldKindInformation);

@@ -5,8 +5,7 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
-#   include	"appCgiIn.h"
+#include "sioGeneral.h"
+#include "appCgiIn.h"
 
-extern SimpleInputStream * sioInCgiOpen(	CGIRequest *	cgir );
-
+extern SimpleInputStream *sioInCgiOpen(CGIRequest *cgir);

@@ -7,14 +7,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		BIDI_EMBEDDING_H
-#   define		BIDI_EMBEDDING_H
+#ifndef BIDI_EMBEDDING_H
+#define BIDI_EMBEDDING_H
 
-typedef int (*BidiGotLevel)(		void *		through,
-					int		embedding,
-					int		level,
-					int		from,
-					int		upto );
+typedef int (*BidiGotLevel)(void *through, int embedding, int level, int from,
+			    int upto);
 
 /************************************************************************/
 /*									*/
@@ -27,17 +24,17 @@ typedef int (*BidiGotLevel)(		void *		through,
 /*									*/
 /************************************************************************/
 
-#   define	BIDIembedLRE		'['
-#   define	BIDIembedRLE		']'
-#   define	BIDIembedLRO		'{'
-#   define	BIDIembedRLO		'}'
-#   define	BIDIembedPDF		'^'
+#define BIDIembedLRE '['
+#define BIDIembedRLE ']'
+#define BIDIembedLRO '{'
+#define BIDIembedRLO '}'
+#define BIDIembedPDF '^'
 
-#   define	BIDIembedEMBEDDING	'e'
-#   define	BIDIembedIMPLICIT	'i'
+#define BIDIembedEMBEDDING 'e'
+#define BIDIembedIMPLICIT 'i'
 
-#   define	BIDIembedREMOVED	'x'
-#   define	BIDIembedREJECTED	'!'
+#define BIDIembedREMOVED 'x'
+#define BIDIembedREJECTED '!'
 
 /************************************************************************/
 /*									*/
@@ -45,6 +42,6 @@ typedef int (*BidiGotLevel)(		void *		through,
 /*									*/
 /************************************************************************/
 
-extern const char * bidiEmbeddingStr(	int	embedding );
+extern const char *bidiEmbeddingStr(int embedding);
 
-#   endif	/*	BIDI_EMBEDDING_H	*/
+#endif /*	BIDI_EMBEDDING_H	*/

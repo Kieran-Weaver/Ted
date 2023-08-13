@@ -1,6 +1,6 @@
 
-#   ifndef	APP_CGI_IN_H
-#   define	APP_CGI_IN_H	1
+#ifndef APP_CGI_IN_H
+#define APP_CGI_IN_H 1
 
 /************************************************************************/
 /*									*/
@@ -8,15 +8,14 @@
 /*									*/
 /************************************************************************/
 
-typedef struct CGIRequest
-    {
-    void *		cgirHeaderValues;
-    void *		cgirEnvironmentValues;
-    void *		cgirQueryValues;
-    void *		cgirCookies;
-    const char *	cgirRequestMethod;
-    int			cgirStdinUsed;
-    } CGIRequest;
+typedef struct CGIRequest {
+	void *cgirHeaderValues;
+	void *cgirEnvironmentValues;
+	void *cgirQueryValues;
+	void *cgirCookies;
+	const char *cgirRequestMethod;
+	int cgirStdinUsed;
+} CGIRequest;
 
 /************************************************************************/
 /*									*/
@@ -24,8 +23,8 @@ typedef struct CGIRequest
 /*									*/
 /************************************************************************/
 
-extern CGIRequest *	appCgiInGetRequest( void );
+extern CGIRequest *appCgiInGetRequest(void);
 
-extern void appCgiInFreeRequest( CGIRequest * cgir );
+extern void appCgiInFreeRequest(CGIRequest *cgir);
 
-#   endif	/*  APP_CGI_IN_H  */
+#endif /*  APP_CGI_IN_H  */

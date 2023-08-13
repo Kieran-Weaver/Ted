@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBaseConfig.h"
+#include "docBaseConfig.h"
 
-#   include	<stdlib.h>
+#include <stdlib.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docFramePropertiesAdmin.h"
+#include "docFramePropertiesAdmin.h"
 
 /************************************************************************/
 /*									*/
@@ -18,30 +18,32 @@
 /*									*/
 /************************************************************************/
 
-void docInitFramePropertyList(	NumberedPropertiesList *	fpl )
-    {
-    int			num;
-    FrameProperties	fp;
+void docInitFramePropertyList(NumberedPropertiesList *fpl)
+{
+	int num;
+	FrameProperties fp;
 
-    utilInitNumberedPropertiesList( fpl );
+	utilInitNumberedPropertiesList(fpl);
 
-    utilStartNumberedPropertyList( fpl,
+	utilStartNumberedPropertyList(
+		fpl,
 
-		    TFPprop_COUNT,
-		    (NumberedPropertiesGetProperty)docGetFrameProperty,
+		TFPprop_COUNT,
+		(NumberedPropertiesGetProperty)docGetFrameProperty,
 
-		    sizeof(FrameProperties),
-		    (InitPagedListItem)docInitFrameProperties,
-		    (CleanPagedListItem)0 );
+		sizeof(FrameProperties),
+		(InitPagedListItem)docInitFrameProperties,
+		(CleanPagedListItem)0);
 
-    docInitFrameProperties( &fp );
+	docInitFrameProperties(&fp);
 
-    num= docFramePropertiesNumberImpl( fpl, &fp );
-    if  ( num != 0 )
-	{ LDEB(num);	}
+	num = docFramePropertiesNumberImpl(fpl, &fp);
+	if (num != 0) {
+		LDEB(num);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -49,18 +51,20 @@ void docInitFramePropertyList(	NumberedPropertiesList *	fpl )
 /*									*/
 /************************************************************************/
 
-void docGetFramePropertiesByNumberImpl(	FrameProperties *		fp,
-					const NumberedPropertiesList *	fpl,
-					int				n )
-    {
-    void *	vfp= utilPagedListGetItemByNumber( &(fpl->nplPagedList), n );
+void docGetFramePropertiesByNumberImpl(FrameProperties *fp,
+				       const NumberedPropertiesList *fpl, int n)
+{
+	void *vfp = utilPagedListGetItemByNumber(&(fpl->nplPagedList), n);
 
-    if  ( ! vfp )
-	{ LXDEB(n,vfp); docInitFrameProperties( fp ); return; }
+	if (!vfp) {
+		LXDEB(n, vfp);
+		docInitFrameProperties(fp);
+		return;
+	}
 
-    *fp= *((FrameProperties *)vfp);
-    return;
-    }
+	*fp = *((FrameProperties *)vfp);
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -68,18 +72,18 @@ void docGetFramePropertiesByNumberImpl(	FrameProperties *		fp,
 /*									*/
 /************************************************************************/
 
-int docFrameNumberIsFrameImpl(		const NumberedPropertiesList *	fpl,
-					int				n )
-    {
-    FrameProperties	fp;
+int docFrameNumberIsFrameImpl(const NumberedPropertiesList *fpl, int n)
+{
+	FrameProperties fp;
 
-    if  ( n < 0 )
-	{ return 0;	}
+	if (n < 0) {
+		return 0;
+	}
 
-    docGetFramePropertiesByNumberImpl( &fp, fpl, n );
+	docGetFramePropertiesByNumberImpl(&fp, fpl, n);
 
-    return DOCisFRAME( &fp );
-    }
+	return DOCisFRAME(&fp);
+}
 
 /************************************************************************/
 /*									*/
@@ -87,22 +91,20 @@ int docFrameNumberIsFrameImpl(		const NumberedPropertiesList *	fpl,
 /*									*/
 /************************************************************************/
 
-void docForAllFrameProperties(	const NumberedPropertiesList *	fpl,
-				FramePropertiesFunction		f,
-				void *				through )
-    {
-    int			n;
+void docForAllFrameProperties(const NumberedPropertiesList *fpl,
+			      FramePropertiesFunction f, void *through)
+{
+	int n;
 
-    for ( n= 0; n < fpl->nplPagedList.plItemCount; n++ )
-	{
-	void *      vbp= utilPagedListGetItemByNumber(
-						&(fpl->nplPagedList), n );
+	for (n = 0; n < fpl->nplPagedList.plItemCount; n++) {
+		void *vbp =
+			utilPagedListGetItemByNumber(&(fpl->nplPagedList), n);
 
-	(*f)( (FrameProperties *)vbp, n, through );
+		(*f)((FrameProperties *)vbp, n, through);
 	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -110,52 +112,56 @@ void docForAllFrameProperties(	const NumberedPropertiesList *	fpl,
 /*									*/
 /************************************************************************/
 
-int docFramePropertiesNumberImpl(	NumberedPropertiesList *	fpl,
-					const FrameProperties *		fp )
-    {
-    const int	make= 1;
+int docFramePropertiesNumberImpl(NumberedPropertiesList *fpl,
+				 const FrameProperties *fp)
+{
+	const int make = 1;
 
-    return utilGetPropertyNumber( fpl, make, (void *)fp );
-    }
+	return utilGetPropertyNumber(fpl, make, (void *)fp);
+}
 
-int docMergeFramePropertyLists(	int **				pFrameMap,
-				NumberedPropertiesList *	fplTo,
-				const NumberedPropertiesList *	fplFrom )
-    {
-    int		fromCount= fplFrom->nplPagedList.plItemCount;
+int docMergeFramePropertyLists(int **pFrameMap, NumberedPropertiesList *fplTo,
+			       const NumberedPropertiesList *fplFrom)
+{
+	int fromCount = fplFrom->nplPagedList.plItemCount;
 
-    if  ( fromCount > 0 )
-	{
-	int		n;
-	int *		frameMmap= (int *)malloc( fromCount* sizeof(int) );
+	if (fromCount > 0) {
+		int n;
+		int *frameMmap = (int *)malloc(fromCount * sizeof(int));
 
-	if  ( ! frameMmap )
-	    { LXDEB(fromCount,frameMmap); return -1; }
+		if (!frameMmap) {
+			LXDEB(fromCount, frameMmap);
+			return -1;
+		}
 
-	for ( n= 0; n < fromCount; n++ )
-	    { frameMmap[n]= -1;	}
+		for (n = 0; n < fromCount; n++) {
+			frameMmap[n] = -1;
+		}
 
-	for ( n= 0; n < fromCount; n++ )
-	    {
-	    int				to;
-	    void *			vfp;
-	    FrameProperties		fp;
+		for (n = 0; n < fromCount; n++) {
+			int to;
+			void *vfp;
+			FrameProperties fp;
 
-	    vfp= utilPagedListGetItemByNumber( &(fplFrom->nplPagedList), n );
-	    if  ( ! vfp )
-		{ continue;	}
+			vfp = utilPagedListGetItemByNumber(
+				&(fplFrom->nplPagedList), n);
+			if (!vfp) {
+				continue;
+			}
 
-	    fp= *((FrameProperties *)vfp);
+			fp = *((FrameProperties *)vfp);
 
-	    to= docFramePropertiesNumberImpl( fplTo, &fp );
-	    if  ( to < 0 )
-		{ LDEB(to); free( frameMmap ); return -1;	}
-	    frameMmap[n]= to;
-	    }
+			to = docFramePropertiesNumberImpl(fplTo, &fp);
+			if (to < 0) {
+				LDEB(to);
+				free(frameMmap);
+				return -1;
+			}
+			frameMmap[n] = to;
+		}
 
-	*pFrameMap= frameMmap;
+		*pFrameMap = frameMmap;
 	}
 
-    return 0;
-    }
-
+	return 0;
+}

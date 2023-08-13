@@ -4,17 +4,17 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docRtfConfig.h"
+#include "docRtfConfig.h"
 
-#   include	<string.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <string.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docRtfWriterImpl.h"
-#   include	<docListLevel.h>
-#   include	<docDocumentList.h>
+#include "docRtfWriterImpl.h"
+#include <docListLevel.h>
+#include <docDocumentList.h>
 
 /************************************************************************/
 /*									*/
@@ -22,102 +22,106 @@
 /*									*/
 /************************************************************************/
 
-void docRtfWriteListLevel(	RtfWriter *		rwc,
-				const ListLevel *	ll )
-    {
-    MemoryBuffer		mbtext;
-    MemoryBuffer		mbnumbers;
+void docRtfWriteListLevel(RtfWriter *rwc, const ListLevel *ll)
+{
+	MemoryBuffer mbtext;
+	MemoryBuffer mbnumbers;
 
-    utilInitMemoryBuffer( &mbtext );
-    utilInitMemoryBuffer( &mbnumbers );
+	utilInitMemoryBuffer(&mbtext);
+	utilInitMemoryBuffer(&mbnumbers);
 
-    docRtfWriteDestinationBegin( rwc, "listlevel" );
+	docRtfWriteDestinationBegin(rwc, "listlevel");
 
-    docRtfWriteArgTag( rwc, "levelnfc", ll->llNumberStyle );
-    docRtfWriteArgTag( rwc, "levelnfcn", ll->llNumberStyle );
-    docRtfWriteArgTag( rwc, "leveljc", ll->llJustification );
-    docRtfWriteArgTag( rwc, "leveljcn", ll->llJustification );
+	docRtfWriteArgTag(rwc, "levelnfc", ll->llNumberStyle);
+	docRtfWriteArgTag(rwc, "levelnfcn", ll->llNumberStyle);
+	docRtfWriteArgTag(rwc, "leveljc", ll->llJustification);
+	docRtfWriteArgTag(rwc, "leveljcn", ll->llJustification);
 
-    docRtfWriteArgTag( rwc, "levelfollow", ll->llFollow );
-    docRtfWriteArgTag( rwc, "levelstartat", ll->llStartAt );
+	docRtfWriteArgTag(rwc, "levelfollow", ll->llFollow);
+	docRtfWriteArgTag(rwc, "levelstartat", ll->llStartAt);
 
-    if  ( ll->llPrevToDigits )
-	{ docRtfWriteTag( rwc, "levellegal" );	}
-    if  ( ll->llNoRestart )
-	{ docRtfWriteTag( rwc, "levelnorestart" );	}
+	if (ll->llPrevToDigits) {
+		docRtfWriteTag(rwc, "levellegal");
+	}
+	if (ll->llNoRestart) {
+		docRtfWriteTag(rwc, "levelnorestart");
+	}
 
-    if  ( ll->llFromOld )
-	{ docRtfWriteTag( rwc, "levelold" );	}
-    if  ( ll->llUsePrevText )
-	{ docRtfWriteTag( rwc, "levelprev" );	}
-    if  ( ll->llUsePrevSpace )
-	{ docRtfWriteTag( rwc, "levelprevspace" );	}
+	if (ll->llFromOld) {
+		docRtfWriteTag(rwc, "levelold");
+	}
+	if (ll->llUsePrevText) {
+		docRtfWriteTag(rwc, "levelprev");
+	}
+	if (ll->llUsePrevSpace) {
+		docRtfWriteTag(rwc, "levelprevspace");
+	}
 
-    if  ( ll->llIndent != 0 )
-	{ docRtfWriteArgTag( rwc, "levelindent", ll->llIndent ); }
-    if  ( ll->llSpace != 0 )
-	{ docRtfWriteArgTag( rwc, "levelspace", ll->llSpace ); }
+	if (ll->llIndent != 0) {
+		docRtfWriteArgTag(rwc, "levelindent", ll->llIndent);
+	}
+	if (ll->llSpace != 0) {
+		docRtfWriteArgTag(rwc, "levelspace", ll->llSpace);
+	}
 
-    if  ( docListLevelToRtfStrings( &mbtext, &mbnumbers, ll ) )
-	{ LDEB(1);	}
-    else{
-	int			size= 0;
-	const unsigned char *	bytes;
+	if (docListLevelToRtfStrings(&mbtext, &mbnumbers, ll)) {
+		LDEB(1);
+	} else {
+		int size = 0;
+		const unsigned char *bytes;
 
-	bytes= utilMemoryBufferGetBytes( &size, &mbtext );
-	if  ( size > 0 )
-	    {
-	    const int	addSemicolon= 1;
-	    char	tag[50];
+		bytes = utilMemoryBufferGetBytes(&size, &mbtext);
+		if (size > 0) {
+			const int addSemicolon = 1;
+			char tag[50];
 
-	    strcpy( tag, "leveltext" );
+			strcpy(tag, "leveltext");
 
-	    if  ( ll->llTemplateID < -5 || ll->llTemplateID > -1 )
-		{
-		sprintf( tag, "leveltext\\leveltemplateid%ld",
-						    ll->llTemplateID );
+			if (ll->llTemplateID < -5 || ll->llTemplateID > -1) {
+				sprintf(tag, "leveltext\\leveltemplateid%ld",
+					ll->llTemplateID);
+			}
+
+			docRtfWriteDocEncodedStringDestination(
+				rwc, tag, (char *)bytes, size, addSemicolon);
 		}
 
-	    docRtfWriteDocEncodedStringDestination( rwc, tag,
-					(char *)bytes, size, addSemicolon );
-	    }
-
-	bytes= utilMemoryBufferGetBytes( &size, &mbnumbers );
-	if  ( size > 0 )
-	    {
-	    docRtfWriteRawBytesDestination( rwc, "levelnumbers",
-							(char *)bytes, size );
-	    }
+		bytes = utilMemoryBufferGetBytes(&size, &mbnumbers);
+		if (size > 0) {
+			docRtfWriteRawBytesDestination(rwc, "levelnumbers",
+						       (char *)bytes, size);
+		}
 	}
 
-    if  ( ll->llPictureNumber >= 0 )
-	{ docRtfWriteArgTag( rwc, "levelpicture", ll->llPictureNumber ); }
-
-    docRtfSaveTextAttribute( rwc, &(ll->llTextAttributeMask),
-						    &(ll->llTextAttribute) );
-
-    if  ( ! utilPropMaskIsEmpty( &(ll->llParaPropertyMask) ) )
-	{
-	ParagraphProperties	pp;
-
-	docInitParagraphProperties( &pp );
-
-	/* HACK */
-	pp.ppTabStopListNumber= ll->llTabStopListNumber;
-	pp.ppLeftIndentTwips= ll->llLeftIndentTwips;
-	pp.ppFirstIndentTwips= ll->llFirstIndentTwips;
-	pp.ppTabStopListNumber= ll->llTabStopListNumber;
-
-	docRtfSaveParagraphProperties( rwc, &(ll->llParaPropertyMask), &pp );
+	if (ll->llPictureNumber >= 0) {
+		docRtfWriteArgTag(rwc, "levelpicture", ll->llPictureNumber);
 	}
 
-    docRtfWriteDestinationEnd( rwc );
+	docRtfSaveTextAttribute(rwc, &(ll->llTextAttributeMask),
+				&(ll->llTextAttribute));
 
-    utilCleanMemoryBuffer( &mbtext );
-    utilCleanMemoryBuffer( &mbnumbers );
+	if (!utilPropMaskIsEmpty(&(ll->llParaPropertyMask))) {
+		ParagraphProperties pp;
 
-    return;
-    }
+		docInitParagraphProperties(&pp);
+
+		/* HACK */
+		pp.ppTabStopListNumber = ll->llTabStopListNumber;
+		pp.ppLeftIndentTwips = ll->llLeftIndentTwips;
+		pp.ppFirstIndentTwips = ll->llFirstIndentTwips;
+		pp.ppTabStopListNumber = ll->llTabStopListNumber;
+
+		docRtfSaveParagraphProperties(rwc, &(ll->llParaPropertyMask),
+					      &pp);
+	}
+
+	docRtfWriteDestinationEnd(rwc);
+
+	utilCleanMemoryBuffer(&mbtext);
+	utilCleanMemoryBuffer(&mbnumbers);
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -125,43 +129,45 @@ void docRtfWriteListLevel(	RtfWriter *		rwc,
 /*									*/
 /************************************************************************/
 
-int docRtfWriteListProps(	RtfWriter *		rw,
-				const DocumentList *	dl )
-    {
-    const ListLevel *	ll;
-    int			lev;
+int docRtfWriteListProps(RtfWriter *rw, const DocumentList *dl)
+{
+	const ListLevel *ll;
+	int lev;
 
-    if  ( dl->dlListTemplateID != -1 )
-	{ docRtfWriteArgTag( rw, "listtemplateid", dl->dlListTemplateID ); }
-
-    docRtfWriteAltTag( rw, "listhybrid", "listsimple", dl->dlListHybrid );
-
-    if  ( dl->dlLevelCount > 0 )
-	{ docRtfWriteNextLine( rw );	}
-
-    ll= dl->dlLevels;
-    for ( lev= 0; lev < dl->dlLevelCount; ll++, lev++ )
-	{
-	docRtfWriteListLevel( rw, ll );
-	docRtfWriteNextLine( rw );
+	if (dl->dlListTemplateID != -1) {
+		docRtfWriteArgTag(rw, "listtemplateid", dl->dlListTemplateID);
 	}
 
-    if  ( dl->dlListID != -1 )
-	{ docRtfWriteArgTag( rw, "listid", dl->dlListID );	}
+	docRtfWriteAltTag(rw, "listhybrid", "listsimple", dl->dlListHybrid);
 
-    {
-    const int		addSemicolon= 1;
+	if (dl->dlLevelCount > 0) {
+		docRtfWriteNextLine(rw);
+	}
 
-    docRtfWriteDocEncodedStringDestination( rw, "listname",
-			    (const char *)dl->dlListName.mbBytes,
-			    dl->dlListName.mbSize, addSemicolon );
-    }
+	ll = dl->dlLevels;
+	for (lev = 0; lev < dl->dlLevelCount; ll++, lev++) {
+		docRtfWriteListLevel(rw, ll);
+		docRtfWriteNextLine(rw);
+	}
 
-    if  ( dl->dlListStyleID != -1 )
-	{ docRtfWriteArgTag( rw, "liststyleid", dl->dlListStyleID ); }
+	if (dl->dlListID != -1) {
+		docRtfWriteArgTag(rw, "listid", dl->dlListID);
+	}
 
-    return 0;
-    }
+	{
+		const int addSemicolon = 1;
+
+		docRtfWriteDocEncodedStringDestination(
+			rw, "listname", (const char *)dl->dlListName.mbBytes,
+			dl->dlListName.mbSize, addSemicolon);
+	}
+
+	if (dl->dlListStyleID != -1) {
+		docRtfWriteArgTag(rw, "liststyleid", dl->dlListStyleID);
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -169,29 +175,27 @@ int docRtfWriteListProps(	RtfWriter *		rw,
 /*									*/
 /************************************************************************/
 
-void docRtfWriteListTable(	RtfWriter *			rw,
-				const DocumentListTable *	dlt )
-    {
-    int				i;
-    const DocumentList *	dl= dlt->dltLists;
+void docRtfWriteListTable(RtfWriter *rw, const DocumentListTable *dlt)
+{
+	int i;
+	const DocumentList *dl = dlt->dltLists;
 
-    docRtfWriteDestinationBegin( rw, "*\\listtable" );
-    docRtfWriteNextLine( rw );
+	docRtfWriteDestinationBegin(rw, "*\\listtable");
+	docRtfWriteNextLine(rw);
 
-    for ( i= 0; i < dlt->dltListCount; dl++, i++ )
-	{
-	docRtfWriteDestinationBegin( rw, "list" );
+	for (i = 0; i < dlt->dltListCount; dl++, i++) {
+		docRtfWriteDestinationBegin(rw, "list");
 
-	docRtfWriteListProps( rw, dl );
+		docRtfWriteListProps(rw, dl);
 
-	docRtfWriteDestinationEnd( rw );
-	if  ( i+ 1 < dlt->dltListCount )
-	    { docRtfWriteNextLine( rw );	}
+		docRtfWriteDestinationEnd(rw);
+		if (i + 1 < dlt->dltListCount) {
+			docRtfWriteNextLine(rw);
+		}
 	}
 
-    docRtfWriteDestinationEnd( rw );
-    docRtfWriteNextLine( rw );
+	docRtfWriteDestinationEnd(rw);
+	docRtfWriteNextLine(rw);
 
-    return;
-    }
-
+	return;
+}

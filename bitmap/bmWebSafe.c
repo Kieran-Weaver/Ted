@@ -1,10 +1,10 @@
-#   include	"bitmapConfig.h"
+#include "bitmapConfig.h"
 
-#   include	"bmRender.h"
-#   include	<stdlib.h>
-#   include	<appDebugon.h>
+#include "bmRender.h"
+#include <stdlib.h>
+#include <appDebugon.h>
 
-# define N(r,g,b) ( 6* 6* ( (r)/ 43 )+ 6* ( (g)/ 43 )+ ( (b) / 43 ) )
+#define N(r, g, b) (6 * 6 * ((r) / 43) + 6 * ((g) / 43) + ((b) / 43))
 
 /************************************************************************/
 /*									*/
@@ -12,10 +12,10 @@
 /*									*/
 /************************************************************************/
 
-static void bmWebSafeCleanupAllocator(	ColorAllocator *	ca )
-    {
-    return;
-    }
+static void bmWebSafeCleanupAllocator(ColorAllocator *ca)
+{
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -24,19 +24,20 @@ static void bmWebSafeCleanupAllocator(	ColorAllocator *	ca )
 /*									*/
 /************************************************************************/
 
-static int bmWebSafeSetAllocator(	ColorAllocator *	ca,
-					int			bitsPerPixel,
-					SystemAllocator		sysAllocator )
-    {
-    if  ( bitsPerPixel != 8 )
-	{ LDEB(bitsPerPixel); return -1;	}
+static int bmWebSafeSetAllocator(ColorAllocator *ca, int bitsPerPixel,
+				 SystemAllocator sysAllocator)
+{
+	if (bitsPerPixel != 8) {
+		LDEB(bitsPerPixel);
+		return -1;
+	}
 
-    ca->caSystemAllocator= sysAllocator;
-    ca->caSystemCleanup= bmWebSafeCleanupAllocator;
-    ca->caAllocationType= CA_ALLOCATOR;
+	ca->caSystemAllocator = sysAllocator;
+	ca->caSystemCleanup = bmWebSafeCleanupAllocator;
+	ca->caAllocationType = CA_ALLOCATOR;
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -44,19 +45,17 @@ static int bmWebSafeSetAllocator(	ColorAllocator *	ca,
 /*									*/
 /************************************************************************/
 
-static int bmToWebSafeAllocateColor(	AllocatorColor *	ac,
-					ColorAllocator *	ca,
-					unsigned int		r,
-					unsigned int		g,
-					unsigned int		b )
-    {
-    ac->acRed= 257* r;
-    ac->acGreen= 257* g;
-    ac->acBlue= 257* b;
-    ac->acColorNumber= N( r, g, b );
+static int bmToWebSafeAllocateColor(AllocatorColor *ac, ColorAllocator *ca,
+				    unsigned int r, unsigned int g,
+				    unsigned int b)
+{
+	ac->acRed = 257 * r;
+	ac->acGreen = 257 * g;
+	ac->acBlue = 257 * b;
+	ac->acColorNumber = N(r, g, b);
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -71,105 +70,120 @@ static int bmToWebSafeAllocateColor(	AllocatorColor *	ac,
 /*									*/
 /************************************************************************/
 
-int bmToWebSafe(	RasterImage *			riOut,
-			const RasterImage *		riIn,
-			int				ignoredInt )
-    {
-    const BitmapDescription *	bdIn= &(riIn->riDescription);
-    int				rval= 0;
+int bmToWebSafe(RasterImage *riOut, const RasterImage *riIn, int ignoredInt)
+{
+	const BitmapDescription *bdIn = &(riIn->riDescription);
+	int rval = 0;
 
-    RasterImage			ri;
+	RasterImage ri;
 
-    ColorAllocator		ca;
+	ColorAllocator ca;
 
-    int				bitmapUnit= 0;
-    int				swapBitmapBytes= 0;
-    int				swapBitmapBits= 0;
-    const int			dither= 0;
+	int bitmapUnit = 0;
+	int swapBitmapBytes = 0;
+	int swapBitmapBits = 0;
+	const int dither = 0;
 
-    bmInitRasterImage( &ri );
-    bmInitColorAllocator( &ca );
+	bmInitRasterImage(&ri);
+	bmInitColorAllocator(&ca);
 
-    /*  1  */
-    switch( bdIn->bdColorEncoding )
-	{
+	/*  1  */
+	switch (bdIn->bdColorEncoding) {
 	case BMcoRGB:
 	case BMcoRGB8PALETTE:
-	    break;
+		break;
 
 	case BMcoBLACKWHITE:
 	case BMcoWHITEBLACK:
 	default:
-	    LDEB(bdIn->bdColorEncoding);
-	    rval= -1; goto ready;
+		LDEB(bdIn->bdColorEncoding);
+		rval = -1;
+		goto ready;
 	}
 
-    switch( bdIn->bdBitsPerSample )
-	{
+	switch (bdIn->bdBitsPerSample) {
 	case 8:
-	    break;
+		break;
 	default:
-	    LDEB(bdIn->bdBitsPerSample);
-	    rval= -1; goto ready;
+		LDEB(bdIn->bdBitsPerSample);
+		rval = -1;
+		goto ready;
 	}
 
-    /*  2  */
-    if  ( bmCopyDescription( &(ri.riDescription), bdIn ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    ri.riDescription.bdColorEncoding= BMcoRGB8PALETTE;
-    ri.riDescription.bdBitsPerSample= 8;
-    ri.riDescription.bdBitsPerPixel= 8;
-
-    if  ( utilPaletteSetCount( &(ri.riDescription.bdPalette), 216 ) )
-	{ LDEB(216); rval= -1; goto ready;	}
-
-    {
-    int		r, g, b;
-
-    for ( r= 0; r < 256; r += 51 )
-    for ( g= 0; g < 256; g += 51 )
-    for ( b= 0; b < 256; b += 51 )
-    	{
-	int		n= N( r, g, b );
-	RGB8Color *	rgb8= &(ri.riDescription.bdPalette.cpColors[n]);
-
-	rgb8->rgb8Red= r;
-	rgb8->rgb8Green= g;
-	rgb8->rgb8Blue= b;
-	rgb8->rgb8Alpha= 255;
+	/*  2  */
+	if (bmCopyDescription(&(ri.riDescription), bdIn)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
-    }
 
-    if  ( bmCalculateSizes( &(ri.riDescription) ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	ri.riDescription.bdColorEncoding = BMcoRGB8PALETTE;
+	ri.riDescription.bdBitsPerSample = 8;
+	ri.riDescription.bdBitsPerPixel = 8;
 
-    /*  3  */
-    if  ( bmWebSafeSetAllocator( &ca, ri.riDescription.bdBitsPerPixel,
-						    bmToWebSafeAllocateColor ) )
-	{ LDEB(ri.riDescription.bdBitsPerPixel); rval= -1; goto ready; }
+	if (utilPaletteSetCount(&(ri.riDescription.bdPalette), 216)) {
+		LDEB(216);
+		rval = -1;
+		goto ready;
+	}
 
-    /*  4  */
-    if  ( bmAllocateBuffer( &ri ) )
 	{
-	LLDEB(ri.riDescription.bdBufferLength,ri.riBytes);
-	rval= -1; goto ready;
+		int r, g, b;
+
+		for (r = 0; r < 256; r += 51)
+			for (g = 0; g < 256; g += 51)
+				for (b = 0; b < 256; b += 51) {
+					int n = N(r, g, b);
+					RGB8Color *rgb8 =
+						&(ri.riDescription.bdPalette
+							  .cpColors[n]);
+
+					rgb8->rgb8Red = r;
+					rgb8->rgb8Green = g;
+					rgb8->rgb8Blue = b;
+					rgb8->rgb8Alpha = 255;
+				}
 	}
 
-    /*  5  */
-    if  ( bmFillImage( &ca, bitmapUnit, swapBitmapBytes, swapBitmapBits,
-			dither, ri.riBytes, &(ri.riDescription),
-			riIn, (const DocumentRectangle *)0 ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (bmCalculateSizes(&(ri.riDescription))) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    /* steal */
-    *riOut= ri; bmInitRasterImage( &ri );
+	/*  3  */
+	if (bmWebSafeSetAllocator(&ca, ri.riDescription.bdBitsPerPixel,
+				  bmToWebSafeAllocateColor)) {
+		LDEB(ri.riDescription.bdBitsPerPixel);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	/*  4  */
+	if (bmAllocateBuffer(&ri)) {
+		LLDEB(ri.riDescription.bdBufferLength, ri.riBytes);
+		rval = -1;
+		goto ready;
+	}
 
-    /*  7  */
-    bmCleanRasterImage( &ri );
-    bmCleanColorAllocator( &ca );
+	/*  5  */
+	if (bmFillImage(&ca, bitmapUnit, swapBitmapBytes, swapBitmapBits,
+			dither, ri.riBytes, &(ri.riDescription), riIn,
+			(const DocumentRectangle *)0)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    return rval;
-    }
+	/* steal */
+	*riOut = ri;
+	bmInitRasterImage(&ri);
+
+ready:
+
+	/*  7  */
+	bmCleanRasterImage(&ri);
+	bmCleanColorAllocator(&ca);
+
+	return rval;
+}

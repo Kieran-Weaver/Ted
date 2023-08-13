@@ -1,5 +1,5 @@
-#   ifndef	UTIL_BASE26_H
-#   define	UTIL_BASE26_H
+#ifndef UTIL_BASE26_H
+#define UTIL_BASE26_H
 
 /************************************************************************/
 /*									*/
@@ -9,11 +9,8 @@
 /*									*/
 /************************************************************************/
 
-extern int utilBase26String(	char *		to,
-				int		maxlen,
-				int		n,
-				int		upper );
+extern int utilBase26String(char *to, int maxlen, int n, int upper);
 
-extern int utilBase26Int(	const char *	from );
+extern int utilBase26Int(const char *from);
 
-#   endif	/*  UTIL_BASE26_H  */
+#endif /*  UTIL_BASE26_H  */

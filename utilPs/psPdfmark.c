@@ -4,17 +4,17 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilPsConfig.h"
+#include "utilPsConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<string.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 
-#   include	"psPrint.h"
-#   include	<geo2DInteger.h>
-#   include	<sioGeneral.h>
+#include "psPrint.h"
+#include <geo2DInteger.h>
+#include <sioGeneral.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -23,54 +23,53 @@
 /*									*/
 /************************************************************************/
 
-static const char * appPsPdfmarkEmulation[]=
-    {
-    "%%pdfmark emulation",
-    "/pdfmark where",
-    "    { pop }",
-    "    { userdict /pdfmark /cleartomark load put }",
-    "ifelse",
-    };
+static const char *appPsPdfmarkEmulation[] = {
+	"%%pdfmark emulation",
+	"/pdfmark where",
+	"    { pop }",
+	"    { userdict /pdfmark /cleartomark load put }",
+	"ifelse",
+};
 
-static const char * appPssetdistillerparamsEmulation[]=
-    {
-    "%%setdistillerparams emulation",
-    "/setdistillerparams where",
-    "    { pop }",
-    "    { /setdistillerparams { pop } bind def }",
-    "ifelse",
-    };
+static const char *appPssetdistillerparamsEmulation[] = {
+	"%%setdistillerparams emulation",
+	"/setdistillerparams where",
+	"    { pop }",
+	"    { /setdistillerparams { pop } bind def }",
+	"ifelse",
+};
 
-void psSetPdfmarkEmulation(	SimpleOutputStream *	sos )
-    {
-    psDefineProcedure( sos, appPsPdfmarkEmulation,
-		sizeof(appPsPdfmarkEmulation)/sizeof(const char *) );
+void psSetPdfmarkEmulation(SimpleOutputStream *sos)
+{
+	psDefineProcedure(sos, appPsPdfmarkEmulation,
+			  sizeof(appPsPdfmarkEmulation) / sizeof(const char *));
 
-    psDefineProcedure( sos, appPssetdistillerparamsEmulation,
-		sizeof(appPssetdistillerparamsEmulation)/sizeof(const char *) );
+	psDefineProcedure(sos, appPssetdistillerparamsEmulation,
+			  sizeof(appPssetdistillerparamsEmulation) /
+				  sizeof(const char *));
 
-    return;
-    }
+	return;
+}
 
-static const char * appPspsImageQualityDistillerparams[]=
-    {
-    "<<",
-    "  /AutoFilterColorImages false",
-    "  /ColorImageFilter /FlateEncode",
-    "  /ColorACSImageDict <<",
-    "    /QFactor 0.5",
-    "    /Blend 1",
-    "    /ColorTransform 1",
-    "    /HSamples [1 1 1 1]",
-    "    /VSamples [1 1 1 1] >>",
-    ">> setdistillerparams",
-    };
+static const char *appPspsImageQualityDistillerparams[] = {
+	"<<",
+	"  /AutoFilterColorImages false",
+	"  /ColorImageFilter /FlateEncode",
+	"  /ColorACSImageDict <<",
+	"    /QFactor 0.5",
+	"    /Blend 1",
+	"    /ColorTransform 1",
+	"    /HSamples [1 1 1 1]",
+	"    /VSamples [1 1 1 1] >>",
+	">> setdistillerparams",
+};
 
-void psImageQualityDistillerparams(	SimpleOutputStream *	sos )
-    {
-    psDefineProcedure( sos, appPspsImageQualityDistillerparams,
-	    sizeof(appPspsImageQualityDistillerparams)/sizeof(const char *) );
-    }
+void psImageQualityDistillerparams(SimpleOutputStream *sos)
+{
+	psDefineProcedure(sos, appPspsImageQualityDistillerparams,
+			  sizeof(appPspsImageQualityDistillerparams) /
+				  sizeof(const char *));
+}
 
 /************************************************************************/
 /*									*/
@@ -83,32 +82,29 @@ void psImageQualityDistillerparams(	SimpleOutputStream *	sos )
 /*									*/
 /************************************************************************/
 
-static int psEmitDestination(	SimpleOutputStream *	sos,
-				const MemoryBuffer *	destName )
-    {
-    int			i;
-    const char *	s= utilMemoryBufferGetString( destName );
+static int psEmitDestination(SimpleOutputStream *sos,
+			     const MemoryBuffer *destName)
+{
+	int i;
+	const char *s = utilMemoryBufferGetString(destName);
 
-    for ( i= 0; i < destName->mbSize; s++, i++ )
-	{
-	if  ( *s == '('	|| *s == ')'		||
-	      *s == '<'	|| *s == '>'		||
-	      *s == '['	|| *s == ']'		||
-	      *s == '{'	|| *s == '}'		||
-	      *s == '/'	|| *s == '%'		||
-	      isspace( *s ) || ! isascii( *s )	)
-	    {
-	    if  ( sioOutPutByte( '_', sos ) < 0 )
-		{ return -1;	}
-	    continue;
-	    }
+	for (i = 0; i < destName->mbSize; s++, i++) {
+		if (*s == '(' || *s == ')' || *s == '<' || *s == '>' ||
+		    *s == '[' || *s == ']' || *s == '{' || *s == '}' ||
+		    *s == '/' || *s == '%' || isspace(*s) || !isascii(*s)) {
+			if (sioOutPutByte('_', sos) < 0) {
+				return -1;
+			}
+			continue;
+		}
 
-	if  ( sioOutPutByte( *s, sos ) < 0 )
-	    { return -1;	}
+		if (sioOutPutByte(*s, sos) < 0) {
+			return -1;
+		}
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -116,28 +112,26 @@ static int psEmitDestination(	SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-int psEmitDestPdfmark(		SimpleOutputStream *		sos,
-				const AffineTransform2D *	at,
-				int				lineTop,
-				const MemoryBuffer *		mbRef )
-    {
-    int			top;
-    int			x= 0;
-    int			y= lineTop;
+int psEmitDestPdfmark(SimpleOutputStream *sos, const AffineTransform2D *at,
+		      int lineTop, const MemoryBuffer *mbRef)
+{
+	int top;
+	int x = 0;
+	int y = lineTop;
 
-    top= AT2_Y( x, y, at );
+	top = AT2_Y(x, y, at);
 
-    sioOutPrintf( sos, "[ /Dest /" );
+	sioOutPrintf(sos, "[ /Dest /");
 
-    psEmitDestination( sos, mbRef );
-    sioOutPrintf( sos, "\n" );
+	psEmitDestination(sos, mbRef);
+	sioOutPrintf(sos, "\n");
 
-    sioOutPrintf( sos, "  /View [ /XYZ null %d null ]\n", top );
+	sioOutPrintf(sos, "  /View [ /XYZ null %d null ]\n", top);
 
-    sioOutPrintf( sos, "/DEST pdfmark\n" );
+	sioOutPrintf(sos, "/DEST pdfmark\n");
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -155,80 +149,79 @@ int psEmitDestPdfmark(		SimpleOutputStream *		sos,
 /*									*/
 /************************************************************************/
 
-static int psUriLinkDestination(	SimpleOutputStream *	sos,
-					const unsigned char *	fileName,
-					int			fileSize,
-					const MemoryBuffer *	markName )
-    {
-    const int	sevenBits= 1;
+static int psUriLinkDestination(SimpleOutputStream *sos,
+				const unsigned char *fileName, int fileSize,
+				const MemoryBuffer *markName)
+{
+	const int sevenBits = 1;
 
-    psPrintString( sos, fileName, fileSize, sevenBits );
+	psPrintString(sos, fileName, fileSize, sevenBits);
 
-    if  ( markName && ! utilMemoryBufferIsEmpty( markName ) )
-	{
-	if  ( sioOutPutByte( '#', sos ) < 0 )
-	    { return -1;	}
+	if (markName && !utilMemoryBufferIsEmpty(markName)) {
+		if (sioOutPutByte('#', sos) < 0) {
+			return -1;
+		}
 
-	psPrintString( sos, markName->mbBytes, markName->mbSize, sevenBits );
+		psPrintString(sos, markName->mbBytes, markName->mbSize,
+			      sevenBits);
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
-static void psWebLinkDestination(	SimpleOutputStream *	sos,
-					const unsigned char *	fileName,
-					int			fileSize,
-					const MemoryBuffer *	markName )
-    {
-    sioOutPrintf( sos, "  /Action << /Subtype /URI /URI (" );
+static void psWebLinkDestination(SimpleOutputStream *sos,
+				 const unsigned char *fileName, int fileSize,
+				 const MemoryBuffer *markName)
+{
+	sioOutPrintf(sos, "  /Action << /Subtype /URI /URI (");
 
-    psUriLinkDestination( sos, fileName, fileSize, markName );
+	psUriLinkDestination(sos, fileName, fileSize, markName);
 
-    sioOutPrintf( sos, ") >>\n" );
+	sioOutPrintf(sos, ") >>\n");
 
-    return;
-    }
+	return;
+}
 
-static void psFileLinkDestMark(	SimpleOutputStream *	sos,
-					const MemoryBuffer *	fileName,
-					const MemoryBuffer *	markName )
-    {
-    const int			sevenBits= 1;
-    const unsigned char *	file= fileName->mbBytes;
-    int				size= fileName->mbSize;
+static void psFileLinkDestMark(SimpleOutputStream *sos,
+			       const MemoryBuffer *fileName,
+			       const MemoryBuffer *markName)
+{
+	const int sevenBits = 1;
+	const unsigned char *file = fileName->mbBytes;
+	int size = fileName->mbSize;
 
-    if  ( size > 5 && ! strncmp( (const char *)file, "file://", 7 ) )
-	{ file += 7; size -= 7; }
-    else{
-	int	offset= 0;
+	if (size > 5 && !strncmp((const char *)file, "file://", 7)) {
+		file += 7;
+		size -= 7;
+	} else {
+		int offset = 0;
 
-	while( offset < size && isalpha( file[offset] ) )
-	    { offset++;	}
+		while (offset < size && isalpha(file[offset])) {
+			offset++;
+		}
 
-	if  ( offset+ 3 < size					&&
-	      ! strncmp( (const char *)file+ offset, "://", 3 )	)
-	    {
-	    psWebLinkDestination( sos, fileName->mbBytes,
-					fileName->mbSize, markName );
-	    return;
-	    }
+		if (offset + 3 < size &&
+		    !strncmp((const char *)file + offset, "://", 3)) {
+			psWebLinkDestination(sos, fileName->mbBytes,
+					     fileName->mbSize, markName);
+			return;
+		}
 	}
 
-    sioOutPrintf( sos, "  /Action /Launch /File (" );
+	sioOutPrintf(sos, "  /Action /Launch /File (");
 
-    psPrintString( sos, file, size, sevenBits );
+	psPrintString(sos, file, size, sevenBits);
 
-    sioOutPrintf( sos, ")\n" );
+	sioOutPrintf(sos, ")\n");
 
-    if  ( markName && ! utilMemoryBufferIsEmpty( markName ) )
-	{
-	sioOutPrintf( sos, "  /URI (" );
-	psUriLinkDestination( sos, file, size, markName );
-	sioOutPrintf( sos, ")\n" );
+	if (markName && !utilMemoryBufferIsEmpty(markName)) {
+		sioOutPrintf(sos, "  /URI (");
+		psUriLinkDestination(sos, file, size, markName);
+		sioOutPrintf(sos, ")\n");
 	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -237,36 +230,31 @@ static void psFileLinkDestMark(	SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-void psSourcePdfmark(		SimpleOutputStream *		sos,
-				const DocumentRectangle *	drLink,
-				const MemoryBuffer *		fileName,
-				const MemoryBuffer *		markName )
-    {
-    sioOutPrintf( sos, "[ /Rect [ %d %d %d %d ]\n",
-				drLink->drX0, drLink->drY0,
-				drLink->drX1, drLink->drY1 );
-    sioOutPrintf( sos, "  /Border [ 0 0 0 ]\n" );
+void psSourcePdfmark(SimpleOutputStream *sos, const DocumentRectangle *drLink,
+		     const MemoryBuffer *fileName, const MemoryBuffer *markName)
+{
+	sioOutPrintf(sos, "[ /Rect [ %d %d %d %d ]\n", drLink->drX0,
+		     drLink->drY0, drLink->drX1, drLink->drY1);
+	sioOutPrintf(sos, "  /Border [ 0 0 0 ]\n");
 
-    if  ( ! fileName || utilMemoryBufferIsEmpty( fileName ) )
-	{
-	if  ( ! markName || utilMemoryBufferIsEmpty( markName ) )
-	    { XDEB(markName);	}
-	else{
-	    sioOutPrintf( sos, "  /Dest /" );
+	if (!fileName || utilMemoryBufferIsEmpty(fileName)) {
+		if (!markName || utilMemoryBufferIsEmpty(markName)) {
+			XDEB(markName);
+		} else {
+			sioOutPrintf(sos, "  /Dest /");
 
-	    psEmitDestination( sos, markName );
-	    sioOutPrintf( sos, "\n" );
-	    }
-	}
-    else{
-	psFileLinkDestMark( sos, fileName, markName );
+			psEmitDestination(sos, markName);
+			sioOutPrintf(sos, "\n");
+		}
+	} else {
+		psFileLinkDestMark(sos, fileName, markName);
 	}
 
-    sioOutPrintf( sos, "  /Subtype /Link\n" );
-    sioOutPrintf( sos, "/ANN pdfmark\n" );
+	sioOutPrintf(sos, "  /Subtype /Link\n");
+	sioOutPrintf(sos, "/ANN pdfmark\n");
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -274,13 +262,12 @@ void psSourcePdfmark(		SimpleOutputStream *		sos,
 /*									*/
 /************************************************************************/
 
-int psPageModePdfmark(		SimpleOutputStream *	sos,
-				const char *		pageMode )
-    {
-    sioOutPrintf( sos, "[ /PageMode /%s /DOCVIEW pdfmark\n", pageMode );
+int psPageModePdfmark(SimpleOutputStream *sos, const char *pageMode)
+{
+	sioOutPrintf(sos, "[ /PageMode /%s /DOCVIEW pdfmark\n", pageMode);
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -288,30 +275,30 @@ int psPageModePdfmark(		SimpleOutputStream *	sos,
 /*									*/
 /************************************************************************/
 
-int psOutlinePdfmark(		PrintingState *		ps,
-				int			childCount,
-				int			closed,
-				const MemoryBuffer *	title,
-				const MemoryBuffer *	markName )
-    {
-    if  ( childCount < 0 )
-	{ LDEB(childCount); childCount= -childCount;	}
-    if  ( closed )
-	{ childCount= -childCount;			}
+int psOutlinePdfmark(PrintingState *ps, int childCount, int closed,
+		     const MemoryBuffer *title, const MemoryBuffer *markName)
+{
+	if (childCount < 0) {
+		LDEB(childCount);
+		childCount = -childCount;
+	}
+	if (closed) {
+		childCount = -childCount;
+	}
 
-    sioOutPrintf( ps->psSos, "[" );
+	sioOutPrintf(ps->psSos, "[");
 
-    if  ( childCount != 0 )
-	{ sioOutPrintf( ps->psSos, " /Count %d", childCount );	}
+	if (childCount != 0) {
+		sioOutPrintf(ps->psSos, " /Count %d", childCount);
+	}
 
-    sioOutPrintf( ps->psSos, " /Dest /" );
-    psEmitDestination( ps->psSos, markName );
+	sioOutPrintf(ps->psSos, " /Dest /");
+	psEmitDestination(ps->psSos, markName);
 
-    sioOutPrintf( ps->psSos, " /Title " );
-    psPrintPdfMarkStringValue( ps, title->mbBytes, title->mbSize );
+	sioOutPrintf(ps->psSos, " /Title ");
+	psPrintPdfMarkStringValue(ps, title->mbBytes, title->mbSize);
 
-    sioOutPrintf( ps->psSos, " /OUT pdfmark\n" );
+	sioOutPrintf(ps->psSos, " /OUT pdfmark\n");
 
-    return 0;
-    }
-
+	return 0;
+}

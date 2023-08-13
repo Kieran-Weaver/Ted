@@ -4,24 +4,24 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<string.h>
+#include <string.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	"docNotes.h"
-#   include	"docField.h"
-#   include	"docParaString.h"
-#   include	"docEvalField.h"
-#   include	"docParaParticules.h"
-#   include	"docDebug.h"
-#   include	<docTreeType.h>
-#   include	<docDocumentNote.h>
-#   include	"docTreeScanner.h"
-#   include	"docDebug.h"
-#   include	"docRecalculateFields.h"
+#include "docBuf.h"
+#include "docNotes.h"
+#include "docField.h"
+#include "docParaString.h"
+#include "docEvalField.h"
+#include "docParaParticules.h"
+#include "docDebug.h"
+#include <docTreeType.h>
+#include <docDocumentNote.h>
+#include "docTreeScanner.h"
+#include "docDebug.h"
+#include "docRecalculateFields.h"
 
 /************************************************************************/
 /*									*/
@@ -29,28 +29,28 @@
 /*									*/
 /************************************************************************/
 
-void docInitRecalculateFields(   RecalculateFields *     rf )
-    {
-    rf->rfDocument= (BufferDocument *)0;
-    rf->rfTree= (DocumentTree *)0;
-    rf->rfSelectedTree= (DocumentTree *)0;
-    rf->rfMergeValueTree= (void *)0;
-    rf->rfCloseObject= (DOC_CLOSE_OBJECT)0;
-    rf->rfFieldsUpdated= 0;
-    rf->rfUpdateFlags= 0;
+void docInitRecalculateFields(RecalculateFields *rf)
+{
+	rf->rfDocument = (BufferDocument *)0;
+	rf->rfTree = (DocumentTree *)0;
+	rf->rfSelectedTree = (DocumentTree *)0;
+	rf->rfMergeValueTree = (void *)0;
+	rf->rfCloseObject = (DOC_CLOSE_OBJECT)0;
+	rf->rfFieldsUpdated = 0;
+	rf->rfUpdateFlags = 0;
 
-    rf->rfBodySectNode= (const BufferItem *)0;
-    rf->rfBodySectPage= -1;
+	rf->rfBodySectNode = (const BufferItem *)0;
+	rf->rfBodySectPage = -1;
 
-    docInitEditPosition( &(rf->rfSelHead) );
-    docInitEditPosition( &(rf->rfSelTail) );
+	docInitEditPosition(&(rf->rfSelHead));
+	docInitEditPosition(&(rf->rfSelTail));
 
-    rf->rfFieldDataProvider= (FieldDataProvider)0;
-    rf->rfInstanceStreamProvider= (InstanceStreamProvider)0;
-    rf->rfMergeThrough= (void *)0;
+	rf->rfFieldDataProvider = (FieldDataProvider)0;
+	rf->rfInstanceStreamProvider = (InstanceStreamProvider)0;
+	rf->rfMergeThrough = (void *)0;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -58,115 +58,107 @@ void docInitRecalculateFields(   RecalculateFields *     rf )
 /*									*/
 /************************************************************************/
 
-int docFieldReplaceContents(
-			int *				pStroff,
-			int *				pStroffShift,
-			int *				pTextAttrNr,
-			BufferItem *			paraNode,
-			int				part,
-			int				partCount,
-			int				stroffShift,
-			const char *			addedString,
-			int				addedStrlen,
-			const RecalculateFields *	rf )
-    {
-    int			i;
-    TextParticule *	tp= paraNode->biParaParticules+ part;
+int docFieldReplaceContents(int *pStroff, int *pStroffShift, int *pTextAttrNr,
+			    BufferItem *paraNode, int part, int partCount,
+			    int stroffShift, const char *addedString,
+			    int addedStrlen, const RecalculateFields *rf)
+{
+	int i;
+	TextParticule *tp = paraNode->biParaParticules + part;
 
-    int			textAttributeNumber= tp[1].tpTextAttrNr;
-    int			past= tp[1+partCount].tpStroff+ stroffShift;
-    int			stroff= tp[1].tpStroff+ stroffShift;
+	int textAttributeNumber = tp[1].tpTextAttrNr;
+	int past = tp[1 + partCount].tpStroff + stroffShift;
+	int stroff = tp[1].tpStroff + stroffShift;
 
-    int			d= 0;
+	int d = 0;
 
-    if  ( docParaStringReplace( &d, paraNode, stroff, past,
-					    addedString, addedStrlen ) )
-	{ LDEB(addedStrlen); return -1;	}
-
-    if  ( partCount > 0 )
-	{
-	tp= paraNode->biParaParticules+ part+ 1;
-	for ( i= 0; i < partCount; tp++, i++ )
-	    {
-	    if  ( rf->rfCloseObject )
-		{ (*rf->rfCloseObject)( rf->rfDocument, tp );	}
-	    docCleanParticuleObject( rf->rfDocument, tp );
-	    }
-
-	docDeleteParticules( paraNode, part+ 1, partCount );
+	if (docParaStringReplace(&d, paraNode, stroff, past, addedString,
+				 addedStrlen)) {
+		LDEB(addedStrlen);
+		return -1;
 	}
 
-    *pStroff= stroff;
-    *pStroffShift= d;
-    *pTextAttrNr= textAttributeNumber;
-    return 0;
-    }
+	if (partCount > 0) {
+		tp = paraNode->biParaParticules + part + 1;
+		for (i = 0; i < partCount; tp++, i++) {
+			if (rf->rfCloseObject) {
+				(*rf->rfCloseObject)(rf->rfDocument, tp);
+			}
+			docCleanParticuleObject(rf->rfDocument, tp);
+		}
+
+		docDeleteParticules(paraNode, part + 1, partCount);
+	}
+
+	*pStroff = stroff;
+	*pStroffShift = d;
+	*pTextAttrNr = textAttributeNumber;
+	return 0;
+}
 
 /************************************************************************/
 
-int docRecalculateFieldParticulesFromString(
-				int *				pCalculated,
-				int *				pPartShift,
-				int *				pStroffShift,
-				BufferItem *			paraNode,
-				int				part,
-				int				partCount,
-				const MemoryBuffer *		mbResult,
-				const RecalculateFields *	rf )
-    {
-    int					d;
+int docRecalculateFieldParticulesFromString(int *pCalculated, int *pPartShift,
+					    int *pStroffShift,
+					    BufferItem *paraNode, int part,
+					    int partCount,
+					    const MemoryBuffer *mbResult,
+					    const RecalculateFields *rf)
+{
+	int d;
 
-    TextParticule *			tp= paraNode->biParaParticules+ part;
-    int					textAttributeNumber;
+	TextParticule *tp = paraNode->biParaParticules + part;
+	int textAttributeNumber;
 
-    int					past;
-    int					stroff;
-    int					partsMade;
+	int past;
+	int stroff;
+	int partsMade;
 
-    int					i;
+	int i;
 
-    if  ( tp[1].tpStrlen == mbResult->mbSize				&&
-	  ! memcmp( docParaString( paraNode, tp[1].tpStroff+ *pStroffShift ),
-				    mbResult->mbBytes, mbResult->mbSize ) )
-	{
-	*pCalculated= 0;
-	*pPartShift= 0;
-	/* NO! *pStroffShift= 0; */
+	if (tp[1].tpStrlen == mbResult->mbSize &&
+	    !memcmp(docParaString(paraNode, tp[1].tpStroff + *pStroffShift),
+		    mbResult->mbBytes, mbResult->mbSize)) {
+		*pCalculated = 0;
+		*pPartShift = 0;
+		/* NO! *pStroffShift= 0; */
+		return 0;
+	}
+
+	textAttributeNumber = tp[1].tpTextAttrNr;
+	past = tp[1 + partCount].tpStroff + *pStroffShift;
+	stroff = tp[1].tpStroff + *pStroffShift;
+
+	if (docParaStringReplace(&d, paraNode, stroff, past,
+				 (char *)mbResult->mbBytes, mbResult->mbSize)) {
+		LDEB(mbResult->mbSize);
+		return -1;
+	}
+
+	tp = paraNode->biParaParticules + part + 1;
+	for (i = 0; i < partCount; tp++, i++) {
+		if (rf->rfCloseObject) {
+			(*rf->rfCloseObject)(rf->rfDocument, tp);
+		}
+
+		docCleanParticuleObject(rf->rfDocument, tp);
+	}
+
+	partsMade = docRedivideStringInParticules(paraNode, stroff,
+						  mbResult->mbSize, part + 1,
+						  partCount,
+						  textAttributeNumber);
+	if (partsMade < partCount) {
+		docDeleteParticules(paraNode, part + 1 + partsMade,
+				    partCount - partsMade);
+	}
+
+	*pCalculated = 1;
+	*pPartShift = partsMade - partCount;
+	*pStroffShift += d;
+
 	return 0;
-	}
-
-    textAttributeNumber= tp[1].tpTextAttrNr;
-    past= tp[1+partCount].tpStroff+ *pStroffShift;
-    stroff= tp[1].tpStroff+ *pStroffShift;
-
-    if  ( docParaStringReplace( &d, paraNode, stroff, past,
-				(char *)mbResult->mbBytes, mbResult->mbSize ) )
-	{ LDEB(mbResult->mbSize); return -1;	}
-
-    tp= paraNode->biParaParticules+ part+ 1;
-    for ( i= 0; i < partCount; tp++, i++ )
-	{
-	if  ( rf->rfCloseObject )
-	    { (*rf->rfCloseObject)( rf->rfDocument, tp ); }
-
-	docCleanParticuleObject( rf->rfDocument, tp );
-	}
-
-    partsMade= docRedivideStringInParticules( paraNode, stroff,
-				    mbResult->mbSize,
-				    part+ 1, partCount, textAttributeNumber );
-    if  ( partsMade < partCount )
-	{
-	docDeleteParticules( paraNode,
-				part+ 1+ partsMade, partCount- partsMade );
-	}
-
-    *pCalculated= 1;
-    *pPartShift= partsMade- partCount;
-    *pStroffShift += d;
-
-    return 0;
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -177,46 +169,47 @@ int docRecalculateFieldParticulesFromString(
 /*									*/
 /************************************************************************/
 
-int docRecalculateParaStringTextParticules(
-				int *				pCalculated,
-				int *				pPartShift,
-				int *				pStroffShift,
-				BufferItem *			paraNode,
-				int				part,
-				int				partCount,
-				DocumentField *			df,
-				const RecalculateFields *	rf )
-    {
-    int					rval= 0;
-    MemoryBuffer			mbResult;
-    int					calculated= 0;
+int docRecalculateParaStringTextParticules(int *pCalculated, int *pPartShift,
+					   int *pStroffShift,
+					   BufferItem *paraNode, int part,
+					   int partCount, DocumentField *df,
+					   const RecalculateFields *rf)
+{
+	int rval = 0;
+	MemoryBuffer mbResult;
+	int calculated = 0;
 
-    const FieldKindInformation *	fki= DOC_FieldKinds+ df->dfKind;
+	const FieldKindInformation *fki = DOC_FieldKinds + df->dfKind;
 
-    utilInitMemoryBuffer( &mbResult );
+	utilInitMemoryBuffer(&mbResult);
 
-    if  ( (*fki->fkiCalculateTextString)( &calculated, &mbResult, df, rf ) )
-	{ SDEB(fki->fkiLabel); rval= -1; goto ready;	}
-
-    if  ( ! calculated )
-	{
-	*pCalculated= 0;
-	*pPartShift= 0;
-	/* NO! *pStroffShift= 0; */
-	goto ready;
+	if ((*fki->fkiCalculateTextString)(&calculated, &mbResult, df, rf)) {
+		SDEB(fki->fkiLabel);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( docRecalculateFieldParticulesFromString(
-				    pCalculated, pPartShift, pStroffShift,
-				    paraNode, part, partCount, &mbResult, rf ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (!calculated) {
+		*pCalculated = 0;
+		*pPartShift = 0;
+		/* NO! *pStroffShift= 0; */
+		goto ready;
+	}
 
-  ready:
+	if (docRecalculateFieldParticulesFromString(
+		    pCalculated, pPartShift, pStroffShift, paraNode, part,
+		    partCount, &mbResult, rf)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    utilCleanMemoryBuffer( &mbResult );
+ready:
 
-    return rval;
-    }
+	utilCleanMemoryBuffer(&mbResult);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -246,148 +239,158 @@ int docRecalculateParaStringTextParticules(
 /*									*/
 /************************************************************************/
 
-static int docRecalculateParaTextFields(
-				RecalculateFields *	rf,
-				int *			pPartShift,
-				int *			pStroffShift,
-				BufferItem *		paraNode,
-				int			part,
-				int			partUpto )
-    {
-    BufferDocument *	bd= rf->rfDocument;
-    int			fieldsUpdated= 0;
-    int			paraNr= -1;
+static int docRecalculateParaTextFields(RecalculateFields *rf, int *pPartShift,
+					int *pStroffShift, BufferItem *paraNode,
+					int part, int partUpto)
+{
+	BufferDocument *bd = rf->rfDocument;
+	int fieldsUpdated = 0;
+	int paraNr = -1;
 
-    /*  1  */
-    for ( part= part; part < partUpto+ *pPartShift; part++ )
-	{
-	TextParticule *			tp= paraNode->biParaParticules+ part;
+	/*  1  */
+	for (part = part; part < partUpto + *pPartShift; part++) {
+		TextParticule *tp = paraNode->biParaParticules + part;
 
-	DocumentField *			df;
-	const FieldKindInformation *	fki;
+		DocumentField *df;
+		const FieldKindInformation *fki;
 
-	int				tailPart;
-	int				partCount;
-	int				closed;
-	int				stroffTail;
+		int tailPart;
+		int partCount;
+		int closed;
+		int stroffTail;
 
-	/*  2  */
-	if  ( docShiftParticuleOffsets( rf->rfDocument, paraNode, part, part+ 1,
-							    *pStroffShift ) )
-	    { LDEB(*pStroffShift);	}
-
-	/*  3  */
-	if  ( tp->tpKind != DOCkindFIELDHEAD )
-	    { continue;	}
-
-	if  ( paraNr <= 0					&&
-	      ( rf->rfSelHead.epParaNr > 0	||
-	        rf->rfSelTail.epParaNr > 0	)	)
-	    { paraNr= docNumberOfParagraph( paraNode );	}
-
-	/*  4  */
-	df= docGetFieldByNumber( &(bd->bdFieldList), tp->tpObjectNumber );
-	if  ( ! df )
-	    {
-	    LXDEB(tp->tpObjectNumber,df);
-	    docListNode(0,paraNode,0);
-	    docListFieldTree(rf->rfDocument,rf->rfTree);
-	    continue;
-	    }
-	if  ( df->dfKind >= DOC_FieldKindCount )
-	    { LLDEB(df->dfKind,DOC_FieldKindCount); continue;	}
-
-	fki= DOC_FieldKinds+ df->dfKind;
-
-	/*  5  */
-	partCount= docCountParticulesInField( paraNode, &closed, part,
-						    partUpto+ *pPartShift );
-	if  ( partCount < 0 )
-	    { SLDEB(docFieldKindStr(df->dfKind),partCount); continue;	}
-	tailPart= part+ 1+ partCount;
-	if  ( tailPart < paraNode->biParaParticuleCount )
-	    { stroffTail= tp[1+partCount].tpStroff;	}
-	else{ stroffTail= docParaStrlen( paraNode );	}
-
-	/*  6  */
-	if  ( closed						&&
-	      fki->fkiLevel == DOClevSPAN			&&
-	      ( fki->fkiCalculateWhen & rf->rfUpdateFlags )	&&
-	      fki->fkiCalculateTextParticules			)
-	    {
-	    int			partShift= 0;
-	    int			calculated= 0;
-	    int			oldStroffShift= *pStroffShift;
-
-	    if  ( (*fki->fkiCalculateTextParticules)( &calculated,
-					&partShift, pStroffShift,
-					paraNode, part, partCount, df, rf ) )
-		{ LDEB(1); return -1;	}
-
-	    if  ( calculated )
-		{
-		int	stroffShift= *pStroffShift- oldStroffShift;
-
-		if  ( rf->rfTree == rf->rfSelectedTree )
-		    {
-		    docAdjustEditPositionOffsetB( &(rf->rfSelHead),
-					paraNr, stroffTail, stroffShift );
-		    docAdjustEditPositionOffsetE( &(rf->rfSelTail),
-					paraNr, stroffTail, stroffShift );
-		    }
-
-		fieldsUpdated++; rf->rfFieldsUpdated++;
-		}
-	    else{
-		if  ( docShiftParticuleOffsets( rf->rfDocument, paraNode,
-					part+ 1, tailPart, *pStroffShift ) )
-		    { LDEB(*pStroffShift);	}
+		/*  2  */
+		if (docShiftParticuleOffsets(rf->rfDocument, paraNode, part,
+					     part + 1, *pStroffShift)) {
+			LDEB(*pStroffShift);
 		}
 
-	    tailPart += partShift;
-	    *pPartShift += partShift;
-	    }
-	else{
-	    if  ( docShiftParticuleOffsets( rf->rfDocument, paraNode,
-					part+ 1, tailPart, *pStroffShift ) )
-		{ LDEB(*pStroffShift);	}
-	    }
+		/*  3  */
+		if (tp->tpKind != DOCkindFIELDHEAD) {
+			continue;
+		}
 
-	/*  7  */
-	if  ( tailPart- part >= 2 )
-	    {
-	    int			partShift= 0;
-	    int			stroffShift= 0;
+		if (paraNr <= 0 && (rf->rfSelHead.epParaNr > 0 ||
+				    rf->rfSelTail.epParaNr > 0)) {
+			paraNr = docNumberOfParagraph(paraNode);
+		}
 
-	    if  ( docRecalculateParaTextFields( rf,
-		    &partShift, &stroffShift, paraNode, part+ 1, tailPart ) )
-		{ LDEB(1); return -1;	}
+		/*  4  */
+		df = docGetFieldByNumber(&(bd->bdFieldList),
+					 tp->tpObjectNumber);
+		if (!df) {
+			LXDEB(tp->tpObjectNumber, df);
+			docListNode(0, paraNode, 0);
+			docListFieldTree(rf->rfDocument, rf->rfTree);
+			continue;
+		}
+		if (df->dfKind >= DOC_FieldKindCount) {
+			LLDEB(df->dfKind, DOC_FieldKindCount);
+			continue;
+		}
 
-	    tailPart += partShift;
-	    *pPartShift += partShift;
-	    *pStroffShift += stroffShift;
-	    }
+		fki = DOC_FieldKinds + df->dfKind;
 
-	/*  8   */
-	if  ( closed )
-	    {
-	    tp= paraNode->biParaParticules+ tailPart;
-	    if  ( tp->tpKind != DOCkindFIELDTAIL )
-		{ LDEB(tp->tpKind);	}
+		/*  5  */
+		partCount = docCountParticulesInField(paraNode, &closed, part,
+						      partUpto + *pPartShift);
+		if (partCount < 0) {
+			SLDEB(docFieldKindStr(df->dfKind), partCount);
+			continue;
+		}
+		tailPart = part + 1 + partCount;
+		if (tailPart < paraNode->biParaParticuleCount) {
+			stroffTail = tp[1 + partCount].tpStroff;
+		} else {
+			stroffTail = docParaStrlen(paraNode);
+		}
 
-	    tp->tpStroff += *pStroffShift;
-	    df->dfTailPosition.epStroff= tp->tpStroff;
-	    }
+		/*  6  */
+		if (closed && fki->fkiLevel == DOClevSPAN &&
+		    (fki->fkiCalculateWhen & rf->rfUpdateFlags) &&
+		    fki->fkiCalculateTextParticules) {
+			int partShift = 0;
+			int calculated = 0;
+			int oldStroffShift = *pStroffShift;
 
-	/*  9  */
-	part= tailPart;
+			if ((*fki->fkiCalculateTextParticules)(
+				    &calculated, &partShift, pStroffShift,
+				    paraNode, part, partCount, df, rf)) {
+				LDEB(1);
+				return -1;
+			}
+
+			if (calculated) {
+				int stroffShift =
+					*pStroffShift - oldStroffShift;
+
+				if (rf->rfTree == rf->rfSelectedTree) {
+					docAdjustEditPositionOffsetB(
+						&(rf->rfSelHead), paraNr,
+						stroffTail, stroffShift);
+					docAdjustEditPositionOffsetE(
+						&(rf->rfSelTail), paraNr,
+						stroffTail, stroffShift);
+				}
+
+				fieldsUpdated++;
+				rf->rfFieldsUpdated++;
+			} else {
+				if (docShiftParticuleOffsets(
+					    rf->rfDocument, paraNode, part + 1,
+					    tailPart, *pStroffShift)) {
+					LDEB(*pStroffShift);
+				}
+			}
+
+			tailPart += partShift;
+			*pPartShift += partShift;
+		} else {
+			if (docShiftParticuleOffsets(rf->rfDocument, paraNode,
+						     part + 1, tailPart,
+						     *pStroffShift)) {
+				LDEB(*pStroffShift);
+			}
+		}
+
+		/*  7  */
+		if (tailPart - part >= 2) {
+			int partShift = 0;
+			int stroffShift = 0;
+
+			if (docRecalculateParaTextFields(rf, &partShift,
+							 &stroffShift, paraNode,
+							 part + 1, tailPart)) {
+				LDEB(1);
+				return -1;
+			}
+
+			tailPart += partShift;
+			*pPartShift += partShift;
+			*pStroffShift += stroffShift;
+		}
+
+		/*  8   */
+		if (closed) {
+			tp = paraNode->biParaParticules + tailPart;
+			if (tp->tpKind != DOCkindFIELDTAIL) {
+				LDEB(tp->tpKind);
+			}
+
+			tp->tpStroff += *pStroffShift;
+			df->dfTailPosition.epStroff = tp->tpStroff;
+		}
+
+		/*  9  */
+		part = tailPart;
 	}
 
-    if  ( fieldsUpdated )
-	{ docInvalidateParagraphLayout( paraNode );	}
+	if (fieldsUpdated) {
+		docInvalidateParagraphLayout(paraNode);
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -397,221 +400,265 @@ static int docRecalculateParaTextFields(
 /*									*/
 /************************************************************************/
 
-int docRecalculateTextLevelFieldsInDocumentTree(
-					RecalculateFields *	rf,
-					DocumentTree *		dt,
-					const BufferItem *	bodySectNode,
-					int			page )
-    {
-    int			rval= 0;
-    int			ret;
-    int			saveFieldsUpdated= rf->rfFieldsUpdated;
-    DocumentTree *	saveTree= rf->rfTree;
-    const BufferItem *	saveBodySectNode= rf->rfBodySectNode;
-    int			saveBodySectPage= rf->rfBodySectPage;
+int docRecalculateTextLevelFieldsInDocumentTree(RecalculateFields *rf,
+						DocumentTree *dt,
+						const BufferItem *bodySectNode,
+						int page)
+{
+	int rval = 0;
+	int ret;
+	int saveFieldsUpdated = rf->rfFieldsUpdated;
+	DocumentTree *saveTree = rf->rfTree;
+	const BufferItem *saveBodySectNode = rf->rfBodySectNode;
+	int saveBodySectPage = rf->rfBodySectPage;
 
-    if  ( ! dt->dtRoot )
-	{ return 0;	}
-
-    if  ( dt->dtRoot->biTreeType != DOCinBODY			&&
-          ( ! bodySectNode				||
-            bodySectNode->biTreeType != DOCinBODY	)	)
-	{ XDEB(rf->rfBodySectNode); return -1;	}
-
-    rf->rfBodySectNode= bodySectNode;
-    rf->rfBodySectPage= page;
-
-    rf->rfFieldsUpdated= 0;
-    rf->rfTree= dt;
-
-    ret= docRecalculateTextLevelFields( rf, dt->dtRoot );
-    if  ( ret )
-	{ LDEB(ret); rval= -1;	}
-
-    if  ( rf->rfFieldsUpdated > 0 )
-	{ docInvalidateTreeLayout( dt );	}
-
-    rf->rfFieldsUpdated += saveFieldsUpdated;
-
-    rf->rfTree= saveTree;
-    rf->rfBodySectNode= saveBodySectNode;
-    rf->rfBodySectPage= saveBodySectPage;
-
-    return rval;
-    }
-
-static int docRecalculateTextLevelFieldsInSeparators(
-					RecalculateFields *	rf,
-					const BufferItem *	bodySectNode )
-    {
-    const int		page= -1;
-    BufferDocument *	bd= rf->rfDocument;
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			    &(bd->bdEiFtnsep), bodySectNode, page )	)
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			    &(bd->bdEiFtnsepc), bodySectNode, page )	)
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			    &(bd->bdEiFtncn), bodySectNode, page )	)
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			    &(bd->bdEiAftnsep), bodySectNode, page )	)
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			    &(bd->bdEiAftnsepc), bodySectNode, page )	)
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			    &(bd->bdEiAftncn), bodySectNode, page )	)
-	{ LDEB(1); return -1;	}
-
-    return 0;
-    }
-
-static int docRecalculateTextLevelFieldsInSectHdFt(
-					RecalculateFields *	rf,
-					const BufferItem *	bodySectNode )
-    {
-    const int			page= -1;
-    SectHeadersFooters *	shf= bodySectNode->biSectHeadersFooters;
-
-    rf->rfBodySectNode= bodySectNode;
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			&(shf->shfFirstPageHeader), bodySectNode, page ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			&(shf->shfLeftPageHeader), bodySectNode, page ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			&(shf->shfRightPageHeader), bodySectNode, page ) )
-	{ LDEB(1); return -1;	}
-
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			&(shf->shfFirstPageFooter), bodySectNode, page ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			&(shf->shfLeftPageFooter), bodySectNode, page ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-			&(shf->shfRightPageFooter), bodySectNode, page ) )
-	{ LDEB(1); return -1;	}
-
-    return 0;
-    }
-
-static int docRecalculateTextLevelFieldsInSectNotes(
-					RecalculateFields *	rf,
-					const BufferItem *	bodySectNode )
-    {
-    BufferDocument *	bd= rf->rfDocument;
-
-    DocumentField *	dfNote;
-    DocumentNote *	dn;
-    const int		page= -1;
-    const int		treeType= -1;
-
-    dfNote= docGetFirstNoteOfSection( &dn, bd,
-				bodySectNode->biNumberInParent, treeType );
-    while( dfNote )
-	{
-	DocumentTree *	dt= &(dn->dnDocumentTree);
-
-	if  ( ! dt->dtRoot )
-	    { continue;	}
-
-	if  ( docRecalculateTextLevelFieldsInDocumentTree( rf,
-						dt, bodySectNode, page ) )
-	    { LDEB(1); return -1;	}
-
-	dfNote= docGetNextNoteInSection( &dn, bd,
-			bodySectNode->biNumberInParent, dfNote, treeType );
+	if (!dt->dtRoot) {
+		return 0;
 	}
 
-    return 0;
-    }
+	if (dt->dtRoot->biTreeType != DOCinBODY &&
+	    (!bodySectNode || bodySectNode->biTreeType != DOCinBODY)) {
+		XDEB(rf->rfBodySectNode);
+		return -1;
+	}
 
-static int docRecalculateTextLevelFieldsLeaveNode(
-				    struct BufferItem *		node,
-				    const DocumentSelection *	ds,
-				    const struct BufferItem *	bodySectNode,
-				    void *			voidrf )
-    {
-    RecalculateFields *	rf= (RecalculateFields *)voidrf;
-    int			rval= 0;
+	rf->rfBodySectNode = bodySectNode;
+	rf->rfBodySectPage = page;
 
-    const BufferItem *	saveBodySectNode= rf->rfBodySectNode;
+	rf->rfFieldsUpdated = 0;
+	rf->rfTree = dt;
 
-    switch( node->biLevel )
-	{
-	case DOClevBODY:
-	    if  ( docRecalculateTextLevelFieldsInSeparators( rf,
-						    node->biChildren[0] ) )
-		{ LDEB(1); rval= -1; goto ready;	}
+	ret = docRecalculateTextLevelFields(rf, dt->dtRoot);
+	if (ret) {
+		LDEB(ret);
+		rval = -1;
+	}
 
-	    break;
+	if (rf->rfFieldsUpdated > 0) {
+		docInvalidateTreeLayout(dt);
+	}
 
-	case DOClevSECT:
-	    if  ( node->biTreeType == DOCinBODY )
-		{
-		SectHeadersFooters *	shf= node->biSectHeadersFooters;
+	rf->rfFieldsUpdated += saveFieldsUpdated;
 
-		if  ( ! shf )
-		    { XDEB(shf); rval= -1; goto ready;	}
+	rf->rfTree = saveTree;
+	rf->rfBodySectNode = saveBodySectNode;
+	rf->rfBodySectPage = saveBodySectPage;
 
-		if  ( docRecalculateTextLevelFieldsInSectHdFt( rf, node ) )
-		    { LDEB(1); rval= -1; goto ready;	}
+	return rval;
+}
 
-		if  ( docRecalculateTextLevelFieldsInSectNotes( rf, node ) )
-		    { LDEB(1); rval= -1; goto ready;	}
+static int
+docRecalculateTextLevelFieldsInSeparators(RecalculateFields *rf,
+					  const BufferItem *bodySectNode)
+{
+	const int page = -1;
+	BufferDocument *bd = rf->rfDocument;
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(rf, &(bd->bdEiFtnsep),
+							bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(rf, &(bd->bdEiFtnsepc),
+							bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(rf, &(bd->bdEiFtncn),
+							bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(rf, &(bd->bdEiAftnsep),
+							bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(rf, &(bd->bdEiAftnsepc),
+							bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(rf, &(bd->bdEiAftncn),
+							bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	return 0;
+}
+
+static int
+docRecalculateTextLevelFieldsInSectHdFt(RecalculateFields *rf,
+					const BufferItem *bodySectNode)
+{
+	const int page = -1;
+	SectHeadersFooters *shf = bodySectNode->biSectHeadersFooters;
+
+	rf->rfBodySectNode = bodySectNode;
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(
+		    rf, &(shf->shfFirstPageHeader), bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(
+		    rf, &(shf->shfLeftPageHeader), bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(
+		    rf, &(shf->shfRightPageHeader), bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(
+		    rf, &(shf->shfFirstPageFooter), bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(
+		    rf, &(shf->shfLeftPageFooter), bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (docRecalculateTextLevelFieldsInDocumentTree(
+		    rf, &(shf->shfRightPageFooter), bodySectNode, page)) {
+		LDEB(1);
+		return -1;
+	}
+
+	return 0;
+}
+
+static int
+docRecalculateTextLevelFieldsInSectNotes(RecalculateFields *rf,
+					 const BufferItem *bodySectNode)
+{
+	BufferDocument *bd = rf->rfDocument;
+
+	DocumentField *dfNote;
+	DocumentNote *dn;
+	const int page = -1;
+	const int treeType = -1;
+
+	dfNote = docGetFirstNoteOfSection(
+		&dn, bd, bodySectNode->biNumberInParent, treeType);
+	while (dfNote) {
+		DocumentTree *dt = &(dn->dnDocumentTree);
+
+		if (!dt->dtRoot) {
+			continue;
 		}
 
-	    break;
+		if (docRecalculateTextLevelFieldsInDocumentTree(
+			    rf, dt, bodySectNode, page)) {
+			LDEB(1);
+			return -1;
+		}
+
+		dfNote = docGetNextNoteInSection(&dn, bd,
+						 bodySectNode->biNumberInParent,
+						 dfNote, treeType);
+	}
+
+	return 0;
+}
+
+static int docRecalculateTextLevelFieldsLeaveNode(
+	struct BufferItem *node, const DocumentSelection *ds,
+	const struct BufferItem *bodySectNode, void *voidrf)
+{
+	RecalculateFields *rf = (RecalculateFields *)voidrf;
+	int rval = 0;
+
+	const BufferItem *saveBodySectNode = rf->rfBodySectNode;
+
+	switch (node->biLevel) {
+	case DOClevBODY:
+		if (docRecalculateTextLevelFieldsInSeparators(
+			    rf, node->biChildren[0])) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+
+		break;
+
+	case DOClevSECT:
+		if (node->biTreeType == DOCinBODY) {
+			SectHeadersFooters *shf = node->biSectHeadersFooters;
+
+			if (!shf) {
+				XDEB(shf);
+				rval = -1;
+				goto ready;
+			}
+
+			if (docRecalculateTextLevelFieldsInSectHdFt(rf, node)) {
+				LDEB(1);
+				rval = -1;
+				goto ready;
+			}
+
+			if (docRecalculateTextLevelFieldsInSectNotes(rf,
+								     node)) {
+				LDEB(1);
+				rval = -1;
+				goto ready;
+			}
+		}
+
+		break;
 
 	case DOClevPARA:
 
-	    {
-	    int		partShift= 0;
-	    int		stroffShift= 0;
+	{
+		int partShift = 0;
+		int stroffShift = 0;
 
-	    if  ( docRecalculateParaTextFields( rf, &partShift, &stroffShift,
-					node, 0, node->biParaParticuleCount ) )
-		{ LDEB(1); rval= -1; goto ready;	}
-	    }
-
-	    break;
-
-	default:
-	    break;
+		if (docRecalculateParaTextFields(rf, &partShift, &stroffShift,
+						 node, 0,
+						 node->biParaParticuleCount)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
 	}
 
-  ready:
+	break;
 
-    rf->rfBodySectNode= saveBodySectNode;
+	default:
+		break;
+	}
 
-    return rval;
-    }
+ready:
 
-int docRecalculateTextLevelFields(	RecalculateFields *	rf,
-					BufferItem *		node )
-    {
-    const int		flags= 0;
+	rf->rfBodySectNode = saveBodySectNode;
 
-    if  ( docScanTreeNode( rf->rfDocument, node,
-		    (NodeVisitor)0, docRecalculateTextLevelFieldsLeaveNode,
-		    flags, (void *)rf ) )
-	{ LDEB(1); return -1;	}
+	return rval;
+}
 
-    return 0;
-    }
+int docRecalculateTextLevelFields(RecalculateFields *rf, BufferItem *node)
+{
+	const int flags = 0;
+
+	if (docScanTreeNode(rf->rfDocument, node, (NodeVisitor)0,
+			    docRecalculateTextLevelFieldsLeaveNode, flags,
+			    (void *)rf)) {
+		LDEB(1);
+		return -1;
+	}
+
+	return 0;
+}

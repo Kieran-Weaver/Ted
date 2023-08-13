@@ -1,19 +1,19 @@
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stdio.h>
+#include <stdio.h>
 
-#   include	"guiWidgetsImpl.h"
-#   include	"guiWidgets.h"
-#   include	"guiOptionmenu.h"
+#include "guiWidgetsImpl.h"
+#include "guiWidgets.h"
+#include "guiOptionmenu.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   ifdef USE_MOTIF
+#ifdef USE_MOTIF
 
-#   include	<Xm/RowColumn.h>
-#   include	<Xm/PushBG.h>
+#include <Xm/RowColumn.h>
+#include <Xm/PushBG.h>
 
-#   define	RECLAIM_FOCUS	0
+#define RECLAIM_FOCUS 0
 
 /************************************************************************/
 /*									*/
@@ -21,60 +21,56 @@
 /*									*/
 /************************************************************************/
 
-static void appOptionmenuSetWidthMotif(	Widget		menu,
-					int		newWidth )
-    {
-    Dimension		parentMarginWidth= 0;
+static void appOptionmenuSetWidthMotif(Widget menu, int newWidth)
+{
+	Dimension parentMarginWidth = 0;
 
-    Widget		pulldown;
-    Widget		buttonGadget;
+	Widget pulldown;
+	Widget buttonGadget;
 
-    XtWidgetGeometry	xwg;
+	XtWidgetGeometry xwg;
 
-    /*
+	/*
     SDEB(XtClass(menu)->core_class.class_name);
     */
 
-    XtVaGetValues( menu,
-			XmNsubMenuId,		&pulldown,
-			NULL );
+	XtVaGetValues(menu, XmNsubMenuId, &pulldown, NULL);
 
-    XtVaGetValues( XtParent( pulldown ),
-			XmNmarginWidth,		&parentMarginWidth,
-			NULL );
+	XtVaGetValues(XtParent(pulldown), XmNmarginWidth, &parentMarginWidth,
+		      NULL);
 
-    if  ( newWidth < 2* parentMarginWidth )
-	{ LLDEB(newWidth,parentMarginWidth); return;	}
+	if (newWidth < 2 * parentMarginWidth) {
+		LLDEB(newWidth, parentMarginWidth);
+		return;
+	}
 
-    XtVaSetValues( pulldown,
-			XmNwidth,		newWidth-
-						2* parentMarginWidth,
-			NULL );
+	XtVaSetValues(pulldown, XmNwidth, newWidth - 2 * parentMarginWidth,
+		      NULL);
 
-    buttonGadget= XmOptionButtonGadget( menu );
+	buttonGadget = XmOptionButtonGadget(menu);
 
-    XtQueryGeometry( buttonGadget, NULL, &xwg );
+	XtQueryGeometry(buttonGadget, NULL, &xwg);
 
-    XtResizeWidget( buttonGadget, newWidth, xwg.height, xwg.border_width );
+	XtResizeWidget(buttonGadget, newWidth, xwg.height, xwg.border_width);
 
-    return;
-    }
+	return;
+}
 
-void appOptionmenuRefreshWidth(	AppOptionmenu *		aom )
-    {
-    Dimension		width;
+void appOptionmenuRefreshWidth(AppOptionmenu *aom)
+{
+	Dimension width;
 
-    if  ( ! aom->aomInplace )
-	{ XDEB(aom->aomInplace); return;	}
+	if (!aom->aomInplace) {
+		XDEB(aom->aomInplace);
+		return;
+	}
 
-    XtVaGetValues( aom->aomInplace,
-			    XmNwidth,		&width,
-			    NULL );
+	XtVaGetValues(aom->aomInplace, XmNwidth, &width, NULL);
 
-    appOptionmenuSetWidthMotif( aom->aomInplace, width );
+	appOptionmenuSetWidthMotif(aom->aomInplace, width);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -85,27 +81,27 @@ void appOptionmenuRefreshWidth(	AppOptionmenu *		aom )
 /*									*/
 /************************************************************************/
 
-static void appOptionMenuMotifCallback(	Widget			w,
-					void *			voidaom,
-					void *			pbcs )
-    {
-    AppOptionmenu *	aom= (AppOptionmenu *)voidaom;
-    short		idx= -1;
+static void appOptionMenuMotifCallback(Widget w, void *voidaom, void *pbcs)
+{
+	AppOptionmenu *aom = (AppOptionmenu *)voidaom;
+	short idx = -1;
 
-    XtVaGetValues( w,	XmNpositionIndex,	&idx,
-			NULL );
-    if  ( idx < 0 )
-	{ LDEB(idx); return;	}
+	XtVaGetValues(w, XmNpositionIndex, &idx, NULL);
+	if (idx < 0) {
+		LDEB(idx);
+		return;
+	}
 
-    if  ( aom->aomCallback )
-	{ (*aom->aomCallback)( idx, aom->aomTarget ); }
+	if (aom->aomCallback) {
+		(*aom->aomCallback)(idx, aom->aomTarget);
+	}
 
-#   if RECLAIM_FOCUS
-    appGuiMotifSetFocusToWindow( aom->aomInplace );
-#   endif
+#if RECLAIM_FOCUS
+	appGuiMotifSetFocusToWindow(aom->aomInplace);
+#endif
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -113,159 +109,176 @@ static void appOptionMenuMotifCallback(	Widget			w,
 /*									*/
 /************************************************************************/
 
-static void appOptionMenuConfigureMotif(	Widget		w,
-						void *		through,
-						XEvent *	event,
-						Boolean *	pRefused )
-    {
-    XConfigureEvent *		cevent= &(event->xconfigure);
+static void appOptionMenuConfigureMotif(Widget w, void *through, XEvent *event,
+					Boolean *pRefused)
+{
+	XConfigureEvent *cevent = &(event->xconfigure);
 
-    if  ( cevent->type != ConfigureNotify )
-	{ return;	}
+	if (cevent->type != ConfigureNotify) {
+		return;
+	}
 
-    appOptionmenuSetWidthMotif( w, cevent->width );
+	appOptionmenuSetWidthMotif(w, cevent->width);
 
-    *pRefused= 1;
+	*pRefused = 1;
 
-    return;
-    }
+	return;
+}
 
-void appFinishOptionmenuMotif(	Widget		menu,
-				Widget		pulldown )
-    {
-    Widget			labelGadget;
-    Widget			buttonGadget;
+void appFinishOptionmenuMotif(Widget menu, Widget pulldown)
+{
+	Widget labelGadget;
+	Widget buttonGadget;
 
-    XtAddEventHandler( menu, StructureNotifyMask, False,
-				    appOptionMenuConfigureMotif, (void *)0 );
+	XtAddEventHandler(menu, StructureNotifyMask, False,
+			  appOptionMenuConfigureMotif, (void *)0);
 
-    labelGadget= XmOptionLabelGadget( menu );
-    buttonGadget= XmOptionButtonGadget( menu );
+	labelGadget = XmOptionLabelGadget(menu);
+	buttonGadget = XmOptionButtonGadget(menu);
 
-    XtUnmanageChild( labelGadget );
-    XtManageChild( buttonGadget );
+	XtUnmanageChild(labelGadget);
+	XtManageChild(buttonGadget);
 
-    XtVaSetValues( buttonGadget,
-			XmNalignment,		XmALIGNMENT_BEGINNING,
-			XmNmarginHeight,	1,
-			NULL );
+	XtVaSetValues(buttonGadget, XmNalignment, XmALIGNMENT_BEGINNING,
+		      XmNmarginHeight, 1, NULL);
 
-    return;
-    }
+	return;
+}
 
-void appMakeOptionmenuInColumn(	AppOptionmenu *		aom,
-				APP_WIDGET		column,
-				OptionmenuCallback	callBack,
-				void *			target )
-    {
-    Widget			pulldown;
-    Widget			inplace;
+void appMakeOptionmenuInColumn(AppOptionmenu *aom, APP_WIDGET column,
+			       OptionmenuCallback callBack, void *target)
+{
+	Widget pulldown;
+	Widget inplace;
 
-    Arg				al[20];
-    int				ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    appInitOptionmenu( aom );
+	appInitOptionmenu(aom);
 
-    ac= 0;
-    /*
+	ac = 0;
+	/*
     No! is counter productive..
     XtSetArg( al[ac], XmNresizeWidth,		False ); ac++;
     */
-    XtSetArg( al[ac], XmNskipAdjust,		True ); ac++;
-    /*
+	XtSetArg(al[ac], XmNskipAdjust, True);
+	ac++;
+	/*
     Does not make any difference..
     XtSetArg( al[ac], XmNallowShellResize,	False ); ac++;
     */
 
-    pulldown= XmCreatePulldownMenu( column, WIDGET_NAME, al, ac );
+	pulldown = XmCreatePulldownMenu(column, WIDGET_NAME, al, ac);
 
-    ac= 0;
-    XtSetArg( al[ac], XmNsubMenuId,		pulldown ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNsubMenuId, pulldown);
+	ac++;
 
-    XtSetArg( al[ac], XmNmarginHeight,		0 ); ac++;
-    XtSetArg( al[ac], XmNmarginWidth,		0 ); ac++;
-    XtSetArg( al[ac], XmNspacing,		0 ); ac++;
-    XtSetArg( al[ac], XmNentryBorder,		0 ); ac++;
-    XtSetArg( al[ac], XmNskipAdjust,		True ); ac++;
-    XtSetArg( al[ac], XmNallowResize,		True ); ac++;
-    XtSetArg( al[ac], XmNresizeHeight,		True ); ac++;
+	XtSetArg(al[ac], XmNmarginHeight, 0);
+	ac++;
+	XtSetArg(al[ac], XmNmarginWidth, 0);
+	ac++;
+	XtSetArg(al[ac], XmNspacing, 0);
+	ac++;
+	XtSetArg(al[ac], XmNentryBorder, 0);
+	ac++;
+	XtSetArg(al[ac], XmNskipAdjust, True);
+	ac++;
+	XtSetArg(al[ac], XmNallowResize, True);
+	ac++;
+	XtSetArg(al[ac], XmNresizeHeight, True);
+	ac++;
 
-    inplace= XmCreateOptionMenu( column, WIDGET_NAME, al, ac );
+	inplace = XmCreateOptionMenu(column, WIDGET_NAME, al, ac);
 
-    appFinishOptionmenuMotif( inplace, pulldown );
+	appFinishOptionmenuMotif(inplace, pulldown);
 
-    XtManageChild( inplace );
+	XtManageChild(inplace);
 
-    appMotifTurnOfSashTraversal( column );
+	appMotifTurnOfSashTraversal(column);
 
-    aom->aomPulldown= pulldown;
-    aom->aomInplace= inplace;
-    aom->aomCallback= callBack;
-    aom->aomTarget= target;
-    }
+	aom->aomPulldown = pulldown;
+	aom->aomInplace = inplace;
+	aom->aomCallback = callBack;
+	aom->aomTarget = target;
+}
 
-void appMakeOptionmenuInRow(		AppOptionmenu *		aom,
-					APP_WIDGET		row,
-					int			column,
-					int			colspan,
-					OptionmenuCallback	callBack,
-					void *			target )
-    {
-    Widget			pulldown;
-    Widget			inplace;
+void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row, int column,
+			    int colspan, OptionmenuCallback callBack,
+			    void *target)
+{
+	Widget pulldown;
+	Widget inplace;
 
-    Arg				al[20];
-    int				ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    appInitOptionmenu( aom );
+	appInitOptionmenu(aom);
 
-    ac= 0;
-    XtSetArg( al[ac], XmNtopAttachment,		XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNtopOffset,		0 ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNtopAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNtopOffset, 0);
+	ac++;
 
-    XtSetArg( al[ac], XmNleftAttachment,	XmATTACH_POSITION ); ac++;
-    XtSetArg( al[ac], XmNleftPosition,		column ); ac++;
+	XtSetArg(al[ac], XmNleftAttachment, XmATTACH_POSITION);
+	ac++;
+	XtSetArg(al[ac], XmNleftPosition, column);
+	ac++;
 
-    XtSetArg( al[ac], XmNrightAttachment,	XmATTACH_POSITION ); ac++;
-    XtSetArg( al[ac], XmNrightPosition,		column+ colspan ); ac++;
+	XtSetArg(al[ac], XmNrightAttachment, XmATTACH_POSITION);
+	ac++;
+	XtSetArg(al[ac], XmNrightPosition, column + colspan);
+	ac++;
 
-    /*
+	/*
     No! is counter productive..
     XtSetArg( al[ac], XmNresizeWidth,		False ); ac++;
     */
 
-    pulldown= XmCreatePulldownMenu( row, WIDGET_NAME, al, ac );
+	pulldown = XmCreatePulldownMenu(row, WIDGET_NAME, al, ac);
 
-    ac= 0;
-    XtSetArg( al[ac], XmNtopAttachment,		XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNtopOffset,		0 ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNtopAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNtopOffset, 0);
+	ac++;
 
-    XtSetArg( al[ac], XmNleftAttachment,	XmATTACH_POSITION ); ac++;
-    XtSetArg( al[ac], XmNleftPosition,		column ); ac++;
+	XtSetArg(al[ac], XmNleftAttachment, XmATTACH_POSITION);
+	ac++;
+	XtSetArg(al[ac], XmNleftPosition, column);
+	ac++;
 
-    XtSetArg( al[ac], XmNrightAttachment,	XmATTACH_POSITION ); ac++;
-    XtSetArg( al[ac], XmNrightPosition,		column+ colspan ); ac++;
+	XtSetArg(al[ac], XmNrightAttachment, XmATTACH_POSITION);
+	ac++;
+	XtSetArg(al[ac], XmNrightPosition, column + colspan);
+	ac++;
 
-    XtSetArg( al[ac], XmNsubMenuId,		pulldown ); ac++;
+	XtSetArg(al[ac], XmNsubMenuId, pulldown);
+	ac++;
 
-    XtSetArg( al[ac], XmNmarginHeight,		0 ); ac++;
-    XtSetArg( al[ac], XmNmarginWidth,		0 ); ac++;
-    XtSetArg( al[ac], XmNspacing,		0 ); ac++;
-    XtSetArg( al[ac], XmNentryBorder,		0 ); ac++;
+	XtSetArg(al[ac], XmNmarginHeight, 0);
+	ac++;
+	XtSetArg(al[ac], XmNmarginWidth, 0);
+	ac++;
+	XtSetArg(al[ac], XmNspacing, 0);
+	ac++;
+	XtSetArg(al[ac], XmNentryBorder, 0);
+	ac++;
 
-    inplace= XmCreateOptionMenu( row, WIDGET_NAME, al, ac );
+	inplace = XmCreateOptionMenu(row, WIDGET_NAME, al, ac);
 
-    appFinishOptionmenuMotif( inplace, pulldown );
+	appFinishOptionmenuMotif(inplace, pulldown);
 
-    XtManageChild( inplace );
+	XtManageChild(inplace);
 
-    aom->aomPulldown= pulldown;
-    aom->aomInplace= inplace;
-    aom->aomCallback= callBack;
-    aom->aomTarget= target;
+	aom->aomPulldown = pulldown;
+	aom->aomInplace = inplace;
+	aom->aomCallback = callBack;
+	aom->aomTarget = target;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -273,67 +286,59 @@ void appMakeOptionmenuInRow(		AppOptionmenu *		aom,
 /*									*/
 /************************************************************************/
 
-APP_WIDGET appAddItemToOptionmenu(	AppOptionmenu *		aom,
-					const char *		label )
-    {
-    Widget		fresh;
+APP_WIDGET appAddItemToOptionmenu(AppOptionmenu *aom, const char *label)
+{
+	Widget fresh;
 
-    WidgetList		children;
-    Cardinal		childCount= 0;
+	WidgetList children;
+	Cardinal childCount = 0;
 
-    Arg			al[20];
-    int			ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    XtVaGetValues( aom->aomPulldown,
-		    XmNchildren,	&children,
-		    XmNnumChildren,	&childCount,
-		    NULL );
+	XtVaGetValues(aom->aomPulldown, XmNchildren, &children, XmNnumChildren,
+		      &childCount, NULL);
 
-    XtSetArg( al[ac], XmNmarginHeight,		1 ); ac++;
+	XtSetArg(al[ac], XmNmarginHeight, 1);
+	ac++;
 
-    if  ( aom->aomOptionsVisible >= childCount )
-	{
-	fresh= XmCreatePushButtonGadget( aom->aomPulldown, (char *)label,
-						    al,	ac );
-	}
-    else{
-	XmString	labelString;
+	if (aom->aomOptionsVisible >= childCount) {
+		fresh = XmCreatePushButtonGadget(aom->aomPulldown,
+						 (char *)label, al, ac);
+	} else {
+		XmString labelString;
 
-	fresh= children[aom->aomOptionsVisible];
+		fresh = children[aom->aomOptionsVisible];
 
-	labelString= XmStringCreateLocalized( (char *)label );
+		labelString = XmStringCreateLocalized((char *)label);
 
-	XtVaSetValues( fresh,
-			XmNlabelString,	labelString,
-			NULL );
+		XtVaSetValues(fresh, XmNlabelString, labelString, NULL);
 
-	XmStringFree( labelString );
+		XmStringFree(labelString);
 	}
 
-    if  ( aom->aomCallback )
-	{
-	XtAddCallback( fresh, XmNactivateCallback,
-				    appOptionMenuMotifCallback, (void *)aom );
+	if (aom->aomCallback) {
+		XtAddCallback(fresh, XmNactivateCallback,
+			      appOptionMenuMotifCallback, (void *)aom);
 	}
 
-#   if RECLAIM_FOCUS
-    XtAddCallback( fresh, XmNactivateCallback,
-				    appRefocusOptionmenuMotif, (void *)aom );
-#   endif
+#if RECLAIM_FOCUS
+	XtAddCallback(fresh, XmNactivateCallback, appRefocusOptionmenuMotif,
+		      (void *)aom);
+#endif
 
-    XtManageChild( fresh );
+	XtManageChild(fresh);
 
-    aom->aomOptionsVisible++;
+	aom->aomOptionsVisible++;
 
-    return fresh;
-    }
+	return fresh;
+}
 
-void appDeleteItemFromOptionmenu(	AppOptionmenu *		aom,
-					APP_WIDGET		option )
-    {
-    XtDestroyWidget( option );
-    aom->aomOptionsVisible--;
-    }
+void appDeleteItemFromOptionmenu(AppOptionmenu *aom, APP_WIDGET option)
+{
+	XtDestroyWidget(option);
+	aom->aomOptionsVisible--;
+}
 
 /************************************************************************/
 /*									*/
@@ -341,65 +346,52 @@ void appDeleteItemFromOptionmenu(	AppOptionmenu *		aom,
 /*									*/
 /************************************************************************/
 
-void appSetOptionmenu(	AppOptionmenu *	aom,
-			int		num )
-    {
-    WidgetList		children;
-    Cardinal		childCount= 0;
+void appSetOptionmenu(AppOptionmenu *aom, int num)
+{
+	WidgetList children;
+	Cardinal childCount = 0;
 
-    XtVaGetValues( aom->aomPulldown,
-		    XmNchildren,	&children,
-		    XmNnumChildren,	&childCount,
-		    NULL );
+	XtVaGetValues(aom->aomPulldown, XmNchildren, &children, XmNnumChildren,
+		      &childCount, NULL);
 
-    if  ( num >= 0 && num < (int)childCount )
-	{
-	XtVaSetValues( aom->aomInplace,
-			XmNmenuHistory,	children[num],
-			NULL );
-	}
-    else{
-	XtVaSetValues( aom->aomInplace,
-			XmNmenuHistory,	(Widget)0,
-			NULL );
+	if (num >= 0 && num < (int)childCount) {
+		XtVaSetValues(aom->aomInplace, XmNmenuHistory, children[num],
+			      NULL);
+	} else {
+		XtVaSetValues(aom->aomInplace, XmNmenuHistory, (Widget)0, NULL);
 	}
 
-    return;
-    }
+	return;
+}
 
-void appEmptyOptionmenu(	AppOptionmenu *		aom )
-    {
-    WidgetList		children;
-    Cardinal		childCount;
-    int			child;
+void appEmptyOptionmenu(AppOptionmenu *aom)
+{
+	WidgetList children;
+	Cardinal childCount;
+	int child;
 
-    XtVaSetValues( aom->aomInplace,
-		    XmNmenuHistory,	(Widget)0,
-		    NULL );
+	XtVaSetValues(aom->aomInplace, XmNmenuHistory, (Widget)0, NULL);
 
-    /*  Does not work!
+	/*  Does not work!
     appEmptyParentWidget( aom->aomPulldown );
     */
 
-    XtVaGetValues( aom->aomPulldown,
-			XmNchildren,		&children,
-			XmNnumChildren,		&childCount,
-			NULL );
+	XtVaGetValues(aom->aomPulldown, XmNchildren, &children, XmNnumChildren,
+		      &childCount, NULL);
 
-    if  ( childCount == 0 )
-	{ return;	}
-
-    if  ( aom->aomOptionsVisible > childCount )
-	{
-	LLDEB(aom->aomOptionsVisible,childCount);
-	aom->aomOptionsVisible= childCount;
+	if (childCount == 0) {
+		return;
 	}
 
-    for ( child= 0; child < aom->aomOptionsVisible; child++ )
-	{
-	XtRemoveAllCallbacks( children[child], XmNactivateCallback );
+	if (aom->aomOptionsVisible > childCount) {
+		LLDEB(aom->aomOptionsVisible, childCount);
+		aom->aomOptionsVisible = childCount;
+	}
 
-#	if 0
+	for (child = 0; child < aom->aomOptionsVisible; child++) {
+		XtRemoveAllCallbacks(children[child], XmNactivateCallback);
+
+#if 0
 	Count callbacks to make sure that only one exists:
 
 	XtCallbackList	callBacks= (XtCallbackList)0;
@@ -415,44 +407,45 @@ void appEmptyOptionmenu(	AppOptionmenu *		aom )
 		{ n++;	}
 	    LLDEB(child,n);
 	    }
-#	endif
+#endif
 	}
 
-    /*  1  */
-    XtUnmanageChildren( children, childCount );
-    aom->aomOptionsVisible= 0;
-    }
+	/*  1  */
+	XtUnmanageChildren(children, childCount);
+	aom->aomOptionsVisible = 0;
+}
 
-void appGuiEnableOptionmenu(	AppOptionmenu *		aom,
-				int			sensitive )
-    {
-    XtSetSensitive( aom->aomInplace, sensitive != 0 );
-    }
+void appGuiEnableOptionmenu(AppOptionmenu *aom, int sensitive)
+{
+	XtSetSensitive(aom->aomInplace, sensitive != 0);
+}
 
-void appInitOptionmenu(		AppOptionmenu *		aom )
-    {
-    aom->aomPulldown= (APP_WIDGET)0;
-    aom->aomInplace= (APP_WIDGET)0;
+void appInitOptionmenu(AppOptionmenu *aom)
+{
+	aom->aomPulldown = (APP_WIDGET)0;
+	aom->aomInplace = (APP_WIDGET)0;
 
-    aom->aomCallback= (OptionmenuCallback)0;
-    aom->aomTarget= (void *)0;
+	aom->aomCallback = (OptionmenuCallback)0;
+	aom->aomTarget = (void *)0;
 
-    aom->aomOptionsVisible= 0;
-    }
+	aom->aomOptionsVisible = 0;
+}
 
-void appOptionmenuItemSetVisibility(	APP_WIDGET	w,
-					int		visible )
-    {
-    visible= ( visible != 0 );
+void appOptionmenuItemSetVisibility(APP_WIDGET w, int visible)
+{
+	visible = (visible != 0);
 
-    if  ( XtIsManaged( w ) == visible )
-	{ return;	}
+	if (XtIsManaged(w) == visible) {
+		return;
+	}
 
-    if  ( visible )
-	{ XtManageChild( w );	}
-    else{ XtUnmanageChild( w );	}
+	if (visible) {
+		XtManageChild(w);
+	} else {
+		XtUnmanageChild(w);
+	}
 
-    return;
-    }
+	return;
+}
 
-#   endif
+#endif

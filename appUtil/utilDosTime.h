@@ -4,7 +4,4 @@
 /*									*/
 /************************************************************************/
 
-extern void utilDosTimeDate(		int *		pTime,
-					int *		pDate,
-					long		unixTime );
-
+extern void utilDosTimeDate(int *pTime, int *pDate, long unixTime);

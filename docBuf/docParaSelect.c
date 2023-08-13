@@ -4,18 +4,18 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	"docDebug.h"
-#   include	"docParaParticules.h"
-#   include	"docParaString.h"
-#   include	"docNodeTree.h"
+#include "docBuf.h"
+#include "docDebug.h"
+#include "docParaParticules.h"
+#include "docParaString.h"
+#include "docNodeTree.h"
 
-#   define DOCisADMINISTRATIVE(k) \
-	    ( (k) == DOCkindFIELDHEAD || (k) == DOCkindFIELDTAIL )
+#define DOCisADMINISTRATIVE(k) \
+	((k) == DOCkindFIELDHEAD || (k) == DOCkindFIELDTAIL)
 
 /*  Navigate to the next valid document position.			*/
 
@@ -30,94 +30,97 @@
 /*									*/
 /************************************************************************/
 
-int docGotoNextPosition(	DocumentPosition *	dp )
-    {
-    BufferItem *	paraNode= dp->dpNode;
-    int			stroff= dp->dpStroff;
-    int			tail= docParaLastStroff( paraNode );
+int docGotoNextPosition(DocumentPosition *dp)
+{
+	BufferItem *paraNode = dp->dpNode;
+	int stroff = dp->dpStroff;
+	int tail = docParaLastStroff(paraNode);
 
-    if  ( stroff >= tail )
-	{ stroff= -1;	}
-
-    while( stroff >= 0 && stroff < tail )
-	{
-	DocumentPosition	dpNext;
-	int			part;
-
-	stroff= docParaNextStroff( paraNode, stroff );
-	if  ( stroff < 0 )
-	    { break;	}
-
-	docSetDocumentPosition( &dpNext, (BufferItem *)paraNode, stroff );
-	if  ( docFindParticuleOfPosition( &part, (int *)0,
-						    &dpNext, PARAfindFIRST ) )
-	    { LDEB(1); return -1;	}
-
-	if  ( ! DOCisADMINISTRATIVE( paraNode->biParaParticules[part].tpKind ) )
-	    { break;	}
+	if (stroff >= tail) {
+		stroff = -1;
 	}
 
-    while( paraNode )
-	{
-	if  ( stroff >= 0 && stroff <= tail )
-	    {
-	    docSetDocumentPosition( dp, paraNode, stroff );
-	    return 0;
-	    }
+	while (stroff >= 0 && stroff < tail) {
+		DocumentPosition dpNext;
+		int part;
 
-	paraNode= docNextParagraph( paraNode );
-	if  ( ! paraNode )
-	    { break;	}
+		stroff = docParaNextStroff(paraNode, stroff);
+		if (stroff < 0) {
+			break;
+		}
 
-	stroff= docParaFirstStroff( paraNode );
-	tail= docParaLastStroff( paraNode );
+		docSetDocumentPosition(&dpNext, (BufferItem *)paraNode, stroff);
+		if (docFindParticuleOfPosition(&part, (int *)0, &dpNext,
+					       PARAfindFIRST)) {
+			LDEB(1);
+			return -1;
+		}
 
-	if  ( docParaStrlen( paraNode ) == 0 )
-	    {
-	    docSetDocumentPosition( dp, paraNode, stroff );
-	    return 0;
-	    }
+		if (!DOCisADMINISTRATIVE(
+			    paraNode->biParaParticules[part].tpKind)) {
+			break;
+		}
 	}
 
-    return -1;
-    }
+	while (paraNode) {
+		if (stroff >= 0 && stroff <= tail) {
+			docSetDocumentPosition(dp, paraNode, stroff);
+			return 0;
+		}
 
-int docNextPosition(	DocumentPosition *	dp )
-    {
-    BufferItem *	paraNode= dp->dpNode;
-    int			stroff= dp->dpStroff;
-    int			tail= docParaLastStroff( paraNode );
+		paraNode = docNextParagraph(paraNode);
+		if (!paraNode) {
+			break;
+		}
 
-    if  ( stroff >= tail )
-	{ stroff= -1;	}
+		stroff = docParaFirstStroff(paraNode);
+		tail = docParaLastStroff(paraNode);
 
-    if  ( stroff >= 0 && stroff < tail )
-	{ stroff= docParaNextStroff( paraNode, stroff );	}
-
-    while( paraNode )
-	{
-	if  ( stroff >= 0 && stroff <= tail )
-	    {
-	    docSetDocumentPosition( dp, paraNode, stroff );
-	    return 0;
-	    }
-
-	paraNode= docNextParagraph( paraNode );
-	if  ( ! paraNode )
-	    { break;	}
-
-	stroff= 0;
-	tail= docParaStrlen( paraNode );
-
-	if  ( docParaStrlen( paraNode ) == 0 )
-	    {
-	    docSetDocumentPosition( dp, paraNode, stroff );
-	    return 0;
-	    }
+		if (docParaStrlen(paraNode) == 0) {
+			docSetDocumentPosition(dp, paraNode, stroff);
+			return 0;
+		}
 	}
 
-    return -1;
-    }
+	return -1;
+}
+
+int docNextPosition(DocumentPosition *dp)
+{
+	BufferItem *paraNode = dp->dpNode;
+	int stroff = dp->dpStroff;
+	int tail = docParaLastStroff(paraNode);
+
+	if (stroff >= tail) {
+		stroff = -1;
+	}
+
+	if (stroff >= 0 && stroff < tail) {
+		stroff = docParaNextStroff(paraNode, stroff);
+	}
+
+	while (paraNode) {
+		if (stroff >= 0 && stroff <= tail) {
+			docSetDocumentPosition(dp, paraNode, stroff);
+			return 0;
+		}
+
+		paraNode = docNextParagraph(paraNode);
+		if (!paraNode) {
+			break;
+		}
+
+		stroff = 0;
+		tail = docParaStrlen(paraNode);
+
+		if (docParaStrlen(paraNode) == 0) {
+			docSetDocumentPosition(dp, paraNode, stroff);
+			return 0;
+		}
+	}
+
+	return -1;
+}
 
 /************************************************************************/
 /*									*/
@@ -130,83 +133,84 @@ int docNextPosition(	DocumentPosition *	dp )
 /*									*/
 /************************************************************************/
 
-int docGotoPrevPosition(	DocumentPosition *	dp )
-    {
-    BufferItem *	paraNode= dp->dpNode;
-    int			stroff= dp->dpStroff;
+int docGotoPrevPosition(DocumentPosition *dp)
+{
+	BufferItem *paraNode = dp->dpNode;
+	int stroff = dp->dpStroff;
 
-    int			head= docParaFirstStroff( paraNode );
+	int head = docParaFirstStroff(paraNode);
 
-    if  ( stroff <= head )
-	{ stroff= -1;	}
-
-    while( stroff > head )
-	{
-	DocumentPosition	dpPrev;
-	int			part;
-
-	stroff= docParaPrevStroff( paraNode, stroff );
-	if  ( stroff < 0 )
-	    { break;	}
-
-	docSetDocumentPosition( &dpPrev, (BufferItem *)paraNode, stroff );
-	if  ( docFindParticuleOfPosition( &part, (int *)0,
-						    &dpPrev, PARAfindLAST ) )
-	    { LDEB(1); return -1;	}
-
-	if  ( ! DOCisADMINISTRATIVE( paraNode->biParaParticules[part].tpKind ) )
-	    { break;	}
+	if (stroff <= head) {
+		stroff = -1;
 	}
 
-    while( paraNode )
-	{
-	if  ( stroff >= head )
-	    {
-	    docSetDocumentPosition( dp, paraNode, stroff );
-	    return 0;
-	    }
+	while (stroff > head) {
+		DocumentPosition dpPrev;
+		int part;
 
-	paraNode= docPrevParagraph( paraNode );
-	if  ( paraNode )
-	    {
-	    stroff= docParaLastStroff( paraNode );
-	    head= docParaFirstStroff( paraNode );
-	    }
+		stroff = docParaPrevStroff(paraNode, stroff);
+		if (stroff < 0) {
+			break;
+		}
+
+		docSetDocumentPosition(&dpPrev, (BufferItem *)paraNode, stroff);
+		if (docFindParticuleOfPosition(&part, (int *)0, &dpPrev,
+					       PARAfindLAST)) {
+			LDEB(1);
+			return -1;
+		}
+
+		if (!DOCisADMINISTRATIVE(
+			    paraNode->biParaParticules[part].tpKind)) {
+			break;
+		}
 	}
 
-    return -1;
-    }
+	while (paraNode) {
+		if (stroff >= head) {
+			docSetDocumentPosition(dp, paraNode, stroff);
+			return 0;
+		}
 
-int docPrevPosition(	DocumentPosition *	dp )
-    {
-    BufferItem *	paraNode= dp->dpNode;
-    int			stroff= dp->dpStroff;
-
-    const int		head= 0;
-
-    if  ( stroff <= head )
-	{ stroff= -1;	}
-
-    if  ( stroff >= head )
-	{
-	stroff= docParaPrevStroff( paraNode, stroff );
+		paraNode = docPrevParagraph(paraNode);
+		if (paraNode) {
+			stroff = docParaLastStroff(paraNode);
+			head = docParaFirstStroff(paraNode);
+		}
 	}
 
-    while( paraNode )
-	{
-	if  ( stroff >= head )
-	    {
-	    docSetDocumentPosition( dp, paraNode, stroff );
-	    return 0;
-	    }
+	return -1;
+}
 
-	paraNode= docPrevParagraph( paraNode );
-	if  ( paraNode )
-	    { stroff= docParaStrlen( paraNode ); }
+int docPrevPosition(DocumentPosition *dp)
+{
+	BufferItem *paraNode = dp->dpNode;
+	int stroff = dp->dpStroff;
+
+	const int head = 0;
+
+	if (stroff <= head) {
+		stroff = -1;
 	}
 
-    return -1;
-    }
+	if (stroff >= head) {
+		stroff = docParaPrevStroff(paraNode, stroff);
+	}
+
+	while (paraNode) {
+		if (stroff >= head) {
+			docSetDocumentPosition(dp, paraNode, stroff);
+			return 0;
+		}
+
+		paraNode = docPrevParagraph(paraNode);
+		if (paraNode) {
+			stroff = docParaStrlen(paraNode);
+		}
+	}
+
+	return -1;
+}
 
 /************************************************************************/
 /*									*/
@@ -217,21 +221,20 @@ int docPrevPosition(	DocumentPosition *	dp )
 /*									*/
 /************************************************************************/
 
-int docParaFirstStroff(	const BufferItem *	paraNode )
-    {
-    int		stroff= 0;
-    int		part= 0;
+int docParaFirstStroff(const BufferItem *paraNode)
+{
+	int stroff = 0;
+	int part = 0;
 
-    while( part < paraNode->biParaParticuleCount				&&
-	   DOCisADMINISTRATIVE(paraNode->biParaParticules[part].tpKind)	)
-	{
-	stroff= paraNode->biParaParticules[part].tpStroff+
-				    paraNode->biParaParticules[part].tpStrlen;
-	part++;
+	while (part < paraNode->biParaParticuleCount &&
+	       DOCisADMINISTRATIVE(paraNode->biParaParticules[part].tpKind)) {
+		stroff = paraNode->biParaParticules[part].tpStroff +
+			 paraNode->biParaParticules[part].tpStrlen;
+		part++;
 	}
 
-    return stroff;
-    }
+	return stroff;
+}
 
 /************************************************************************/
 /*									*/
@@ -242,21 +245,22 @@ int docParaFirstStroff(	const BufferItem *	paraNode )
 /*									*/
 /************************************************************************/
 
-int docParaLastStroff(	const BufferItem *	paraNode )
-    {
-    int		stroff= docParaStrlen( paraNode );
-    int		part= paraNode->biParaParticuleCount- 1;
+int docParaLastStroff(const BufferItem *paraNode)
+{
+	int stroff = docParaStrlen(paraNode);
+	int part = paraNode->biParaParticuleCount - 1;
 
-    if  ( part < 0 )
-	{ LDEB(part); docListNode(0,paraNode,0); return -1;	}
-
-    while( part >= 0							&&
-	   DOCisADMINISTRATIVE(paraNode->biParaParticules[part].tpKind)	)
-	{
-	stroff= paraNode->biParaParticules[part].tpStroff;
-	part--;
+	if (part < 0) {
+		LDEB(part);
+		docListNode(0, paraNode, 0);
+		return -1;
 	}
 
-    return stroff;
-    }
+	while (part >= 0 &&
+	       DOCisADMINISTRATIVE(paraNode->biParaParticules[part].tpKind)) {
+		stroff = paraNode->biParaParticules[part].tpStroff;
+		part--;
+	}
 
+	return stroff;
+}

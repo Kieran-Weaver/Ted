@@ -1,31 +1,28 @@
-#   ifndef		BM_SEGMENTS_H
-#   define		BM_SEGMENTS_H
+#ifndef BM_SEGMENTS_H
+#define BM_SEGMENTS_H
 
-#   include	"bitmap.h"
+#include "bitmap.h"
 
-typedef struct DataRun
-    {
-    short int	drX0;
-    short int	drXp;
-    short int	drRepeatCount;
-    } DataRun;
+typedef struct DataRun {
+	short int drX0;
+	short int drXp;
+	short int drRepeatCount;
+} DataRun;
 
-typedef struct SegmentEdge
-    {
-    struct SegmentNode *	seFrom;
-    struct SegmentNode *	seTo;
-    DataRun *			seRuns;
-    short int			seRunCount;
-    } SegmentEdge;
+typedef struct SegmentEdge {
+	struct SegmentNode *seFrom;
+	struct SegmentNode *seTo;
+	DataRun *seRuns;
+	short int seRunCount;
+} SegmentEdge;
 
-typedef struct SegmentNode
-    {
-    SegmentEdge **	snUpEdges;
-    SegmentEdge **	snDownEdges;
-    short int		snUpEdgeCount;
-    short int		snDownEdgeCount;
-    short int		snY0;
-    } SegmentNode;
+typedef struct SegmentNode {
+	SegmentEdge **snUpEdges;
+	SegmentEdge **snDownEdges;
+	short int snUpEdgeCount;
+	short int snDownEdgeCount;
+	short int snY0;
+} SegmentNode;
 
 /************************************************************************/
 /*									*/
@@ -37,14 +34,13 @@ typedef struct SegmentNode
 /*									*/
 /************************************************************************/
 
-typedef struct BitmapSegment
-    {
-    DocumentRectangle		bsRect;
-    short int			bsNodeCount;
-    short int			bsEdgeCount;
-    SegmentNode **		bsNodes;
-    SegmentEdge **		bsEdges;
-    } BitmapSegment;
+typedef struct BitmapSegment {
+	DocumentRectangle bsRect;
+	short int bsNodeCount;
+	short int bsEdgeCount;
+	SegmentNode **bsNodes;
+	SegmentEdge **bsEdges;
+} BitmapSegment;
 
 /************************************************************************/
 /*									*/
@@ -52,26 +48,17 @@ typedef struct BitmapSegment
 /*									*/
 /************************************************************************/
 
-extern int bcComponents(	BitmapSegment ***		pSegments,
-				int *				pCount,
-				const unsigned char *		buffer,
-				const BitmapDescription *	bd );
+extern int bcComponents(BitmapSegment ***pSegments, int *pCount,
+			const unsigned char *buffer,
+			const BitmapDescription *bd);
 
-extern void bmFreeSegment(	BitmapSegment * bs );
+extern void bmFreeSegment(BitmapSegment *bs);
 
-extern int bmcDrawComponent(	const BitmapSegment *	bs,
-				unsigned char *		buffer,
-				int			col0,
-				int			row0,
-				int			bytesPerRow,
-				int			colorEncoding );
+extern int bmcDrawComponent(const BitmapSegment *bs, unsigned char *buffer,
+			    int col0, int row0, int bytesPerRow,
+			    int colorEncoding);
 
-extern void bmcStatistics(	const BitmapSegment *		bs,
-				int *				pN,
-				float *				pSx,
-				float *				pSy,
-				float *				pSxx,
-				float *				pSyy,
-				float *				pSxy );
+extern void bmcStatistics(const BitmapSegment *bs, int *pN, float *pSx,
+			  float *pSy, float *pSxx, float *pSyy, float *pSxy);
 
-#   endif	/*	BM_SEGMENTS_H	*/
+#endif /*	BM_SEGMENTS_H	*/

@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_ITERMEDIATE_DOC_H
-#   define		DOC_ITERMEDIATE_DOC_H
+#ifndef DOC_ITERMEDIATE_DOC_H
+#define DOC_ITERMEDIATE_DOC_H
 
-#   include		<docBuf.h>
-#   include		<docDebug.h>
+#include <docBuf.h>
+#include <docDebug.h>
 
 /************************************************************************/
 /*									*/
@@ -16,11 +16,9 @@
 /*									*/
 /************************************************************************/
 
-extern BufferDocument * docIntermediaryDocument(
-				struct BufferItem **		pSectBi,
-				const BufferDocument *		bdFrom );
+extern BufferDocument *docIntermediaryDocument(struct BufferItem **pSectBi,
+					       const BufferDocument *bdFrom);
 
-extern void docFreeIntermediaryDocument(
-				BufferDocument *		bd );
+extern void docFreeIntermediaryDocument(BufferDocument *bd);
 
-#   endif	/*	DOC_ITERMEDIATE_DOC_H	*/
+#endif /*	DOC_ITERMEDIATE_DOC_H	*/

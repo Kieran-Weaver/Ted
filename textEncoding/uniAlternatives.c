@@ -7,29 +7,27 @@
 /*									*/
 /************************************************************************/
 
-#   include	"textEncodingConfig.h"
+#include "textEncodingConfig.h"
 
-#   include	"uniAlternatives.h"
-#   include	<appDebugon.h>
+#include "uniAlternatives.h"
+#include <appDebugon.h>
 
-typedef struct AlternativeChar
-    {
-    int		acFrom;
-    int		acWith;
-    } AlternativeChar;
+typedef struct AlternativeChar {
+	int acFrom;
+	int acWith;
+} AlternativeChar;
 
-static const AlternativeChar alternatives[] =
-{
-    { 0x00a6,	0x007c }, /*  broken bar -> bar.	*/
-    { 0x00ac,	0x007e }, /*  logical not -> tilde.	*/
-    { 0x00ad,	0x002d }, /*  soft hyphen -> minus	*/
-    { 0x00b7,	0x2022 }, /*  .centered -> bullet.	*/
-    { 0x00ff,	0x0079 }, /*  ydieresis -> y		*/
-    { 0x0394,	0x2206 }, /*  Delta -> Increment.	*/
-    { 0x03a9,	0x2126 }, /*  Omega -> Ohm sign.	*/
-    { 0x03bc,	0x00b5 }, /*  mu -> micro sign.		*/
-    { 0x20ac,	0x0045 }, /*  Euro -> E			*/
-    { 0x2215,	0x002f }, /*  fraction -> slash.	*/
+static const AlternativeChar alternatives[] = {
+	{ 0x00a6, 0x007c }, /*  broken bar -> bar.	*/
+	{ 0x00ac, 0x007e }, /*  logical not -> tilde.	*/
+	{ 0x00ad, 0x002d }, /*  soft hyphen -> minus	*/
+	{ 0x00b7, 0x2022 }, /*  .centered -> bullet.	*/
+	{ 0x00ff, 0x0079 }, /*  ydieresis -> y		*/
+	{ 0x0394, 0x2206 }, /*  Delta -> Increment.	*/
+	{ 0x03a9, 0x2126 }, /*  Omega -> Ohm sign.	*/
+	{ 0x03bc, 0x00b5 }, /*  mu -> micro sign.		*/
+	{ 0x20ac, 0x0045 }, /*  Euro -> E			*/
+	{ 0x2215, 0x002f }, /*  fraction -> slash.	*/
 };
 
 /************************************************************************/
@@ -38,26 +36,28 @@ static const AlternativeChar alternatives[] =
 /*									*/
 /************************************************************************/
 
-int uniGetAlternative(	int unicode )
-    {
-    int		l= 0;
-    int		r= sizeof(alternatives)/sizeof(AlternativeChar);
-    int		m= ( l+ r )/ 2;
+int uniGetAlternative(int unicode)
+{
+	int l = 0;
+	int r = sizeof(alternatives) / sizeof(AlternativeChar);
+	int m = (l + r) / 2;
 
-    while( m != l )
-	{
-	if  ( alternatives[m].acFrom > unicode )
-	    { r= m;	}
-	else{ l= m;	}
+	while (m != l) {
+		if (alternatives[m].acFrom > unicode) {
+			r = m;
+		} else {
+			l = m;
+		}
 
-	m= ( l+ r )/ 2;
+		m = (l + r) / 2;
 	}
 
-    if  ( alternatives[m].acFrom == unicode )
-	{ return alternatives[m].acWith;	}
+	if (alternatives[m].acFrom == unicode) {
+		return alternatives[m].acWith;
+	}
 
-    return -1;
-    }
+	return -1;
+}
 
 /************************************************************************/
 /*									*/
@@ -65,20 +65,21 @@ int uniGetAlternative(	int unicode )
 /*									*/
 /************************************************************************/
 
-int uniIncludeWithAlternatives(	IndexSet *		is )
-    {
-    int		i;
+int uniIncludeWithAlternatives(IndexSet *is)
+{
+	int i;
 
-    for ( i= 0; i < sizeof(alternatives)/sizeof(AlternativeChar); i++ )
-	{
-	if  (   utilIndexSetContains( is, alternatives[i].acWith )	&&
-	      ! utilIndexSetContains( is, alternatives[i].acFrom )	&&
-	      utilIndexSetAdd( is, alternatives[i].acFrom )		)
-	    { LDEB(alternatives[i].acFrom); return -1;	}
+	for (i = 0; i < sizeof(alternatives) / sizeof(AlternativeChar); i++) {
+		if (utilIndexSetContains(is, alternatives[i].acWith) &&
+		    !utilIndexSetContains(is, alternatives[i].acFrom) &&
+		    utilIndexSetAdd(is, alternatives[i].acFrom)) {
+			LDEB(alternatives[i].acFrom);
+			return -1;
+		}
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -87,26 +88,28 @@ int uniIncludeWithAlternatives(	IndexSet *		is )
 /*									*/
 /************************************************************************/
 
-int uniMapToAlternatives(	IndexMapping *		im )
-    {
-    int		i;
+int uniMapToAlternatives(IndexMapping *im)
+{
+	int i;
 
-    for ( i= 0; i < sizeof(alternatives)/sizeof(AlternativeChar); i++ )
-	{
-	int	f= utilIndexMappingGet( im, alternatives[i].acFrom );
-	int	w;
+	for (i = 0; i < sizeof(alternatives) / sizeof(AlternativeChar); i++) {
+		int f = utilIndexMappingGet(im, alternatives[i].acFrom);
+		int w;
 
-	if  ( f >= 0 )
-	    { continue;	}
+		if (f >= 0) {
+			continue;
+		}
 
-	w= utilIndexMappingGet( im, alternatives[i].acWith );
-	if  ( w < 0 )
-	    { continue;	}
+		w = utilIndexMappingGet(im, alternatives[i].acWith);
+		if (w < 0) {
+			continue;
+		}
 
-	if  ( utilIndexMappingPut( im, alternatives[i].acFrom, w ) )
-	    { LLDEB(alternatives[i].acFrom,w); return -1;	}
+		if (utilIndexMappingPut(im, alternatives[i].acFrom, w)) {
+			LLDEB(alternatives[i].acFrom, w);
+			return -1;
+		}
 	}
 
-    return 0;
-    }
-
+	return 0;
+}

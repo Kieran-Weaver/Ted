@@ -4,12 +4,12 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_TEXT_RUN_H
-#   define	DOC_TEXT_RUN_H
+#ifndef DOC_TEXT_RUN_H
+#define DOC_TEXT_RUN_H
 
-#   include	<docBuf.h>
-#   include	<docEditRange.h>
-#   include	<utilIndexMapping.h>
+#include <docBuf.h>
+#include <docEditRange.h>
+#include <utilIndexMapping.h>
 
 /************************************************************************/
 /*									*/
@@ -26,19 +26,18 @@
 /*									*/
 /************************************************************************/
 
-typedef struct TextRun
-    {
-    int			trX0Twips;
-    int			trX1Twips;
-    int			trStroff;
-    int			trStrlenNb;
-    int			trPartFrom;
-    int			trPartUpto;
-    TextAttribute	trTextAttribute;
-    int			trTextAttributeNr;
-    unsigned char	trHasUnderline;
-    unsigned char	trHasStrikethrough;
-    } TextRun;
+typedef struct TextRun {
+	int trX0Twips;
+	int trX1Twips;
+	int trStroff;
+	int trStrlenNb;
+	int trPartFrom;
+	int trPartUpto;
+	TextAttribute trTextAttribute;
+	int trTextAttributeNr;
+	unsigned char trHasUnderline;
+	unsigned char trHasStrikethrough;
+} TextRun;
 
 /************************************************************************/
 /*									*/
@@ -46,31 +45,18 @@ typedef struct TextRun
 /*									*/
 /************************************************************************/
 
-extern int docLayoutDelimitRun( TextRun *			tr,
-				int				x0Twips,
-				BufferDocument *		bd,
-				const struct BufferItem *	paraNode,
-				int				part,
-				int				upto,
-				int				separate );
+extern int docLayoutDelimitRun(TextRun *tr, int x0Twips, BufferDocument *bd,
+			       const struct BufferItem *paraNode, int part,
+			       int upto, int separate);
 
-extern int docNextUnderlinedRun( int *				pHead,
-				int *				pPast,
-				int *				pTextAttrNr,
-				TextAttribute *			taLine,
-				BufferDocument *		bd,
-				const struct BufferItem *	paraNode,
-				int				part,
-				int				upto );
+extern int docNextUnderlinedRun(int *pHead, int *pPast, int *pTextAttrNr,
+				TextAttribute *taLine, BufferDocument *bd,
+				const struct BufferItem *paraNode, int part,
+				int upto);
 
-extern int docNextStrikethroughRun(
-				int *				pHead,
-				int *				pPast,
-				int *				pTextAttrNr,
-				TextAttribute *			taLine,
-				BufferDocument *		bd,
-				const struct BufferItem *	paraNode,
-				int				part,
-				int				upto );
+extern int docNextStrikethroughRun(int *pHead, int *pPast, int *pTextAttrNr,
+				   TextAttribute *taLine, BufferDocument *bd,
+				   const struct BufferItem *paraNode, int part,
+				   int upto);
 
-#   endif	/*  DOC_TEXT_RUN_H  */
+#endif /*  DOC_TEXT_RUN_H  */

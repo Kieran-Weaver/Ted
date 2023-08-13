@@ -5,6 +5,6 @@
 /*									*/
 /************************************************************************/
 
-extern int utilFontmapReadMap(		const char *	filename );
+extern int utilFontmapReadMap(const char *filename);
 
-extern const char * utilFontmapGetEntry(	const char * from );
+extern const char *utilFontmapGetEntry(const char *from);

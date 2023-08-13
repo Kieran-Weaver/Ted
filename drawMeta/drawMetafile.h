@@ -4,27 +4,26 @@
 /*									*/
 /************************************************************************/
 
-#   include	<bitmap.h>
-#   include	<sioGeneral.h>
-#   include	<utilMatchFont.h>
+#include <bitmap.h>
+#include <sioGeneral.h>
+#include <utilMatchFont.h>
 
-#   ifndef		DRAW_METAFILE_H
-#   define		DRAW_METAFILE_H
+#ifndef DRAW_METAFILE_H
+#define DRAW_METAFILE_H
 
-typedef struct MetafilePlayer
-    {
-    SimpleInputStream *		mpInputStream;
-    const PostScriptFontList *	mpPostScriptFontList;
-    GetFontForAttribute		mpGetFontForAttribute;
+typedef struct MetafilePlayer {
+	SimpleInputStream *mpInputStream;
+	const PostScriptFontList *mpPostScriptFontList;
+	GetFontForAttribute mpGetFontForAttribute;
 
-    int				mpMapMode;
-    int				mpXWinExt;
-    int				mpYWinExt;
-    int				mpPixelsWide;
-    int				mpPixelsHigh;
-    int				mpTwipsWide;
-    int				mpTwipsHigh;
-    } MetafilePlayer;
+	int mpMapMode;
+	int mpXWinExt;
+	int mpYWinExt;
+	int mpPixelsWide;
+	int mpPixelsHigh;
+	int mpTwipsWide;
+	int mpTwipsHigh;
+} MetafilePlayer;
 
 /************************************************************************/
 /*									*/
@@ -32,8 +31,7 @@ typedef struct MetafilePlayer
 /*									*/
 /************************************************************************/
 
-extern int appMetaPlayWmfImg(	BitmapDescription *		pBd,
-				unsigned char **		pBuffer,
-				SimpleInputStream *		sis );
+extern int appMetaPlayWmfImg(BitmapDescription *pBd, unsigned char **pBuffer,
+			     SimpleInputStream *sis);
 
-#   endif	/*	DRAW_METAFILE_H	*/
+#endif /*	DRAW_METAFILE_H	*/

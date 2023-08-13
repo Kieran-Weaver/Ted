@@ -4,25 +4,25 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
+#include <stddef.h>
+#include <stdio.h>
 
-#   include	"tedEdit.h"
-#   include	"tedSelect.h"
-#   include	"tedDocFront.h"
-#   include	"tedDocument.h"
-#   include	<docRtfTrace.h>
-#   include	<docEditImpl.h>
-#   include	<docField.h>
-#   include	<docTreeType.h>
-#   include	<docNodeTree.h>
-#   include	<docNotes.h>
-#   include	<docDocumentNote.h>
-#   include	<docEditCommand.h>
+#include "tedEdit.h"
+#include "tedSelect.h"
+#include "tedDocFront.h"
+#include "tedDocument.h"
+#include <docRtfTrace.h>
+#include <docEditImpl.h>
+#include <docField.h>
+#include <docTreeType.h>
+#include <docNodeTree.h>
+#include <docNotes.h>
+#include <docDocumentNote.h>
+#include <docEditCommand.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -41,110 +41,133 @@
 /*									*/
 /************************************************************************/
 
-int tedDocInsertNote(	EditDocument *		ed,
-			int			noteTreeType,
-			int			traced )
-    {
-    int				rval= 0;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
+int tedDocInsertNote(EditDocument *ed, int noteTreeType, int traced)
+{
+	int rval = 0;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
 
-    DocumentSelection		dsInside;
-    DocumentSelection		dsAround;
+	DocumentSelection dsInside;
+	DocumentSelection dsAround;
 
-    const unsigned int		fieldUpdMask= FIELDdoCHFTN;
+	const unsigned int fieldUpdMask = FIELDdoCHFTN;
 
-    DocumentNote *		dn;
-    DocumentField *		dfNote;
-    struct BufferItem *		bodySectNode;
+	DocumentNote *dn;
+	DocumentField *dfNote;
+	struct BufferItem *bodySectNode;
 
-    TedEditOperation		teo;
-    EditOperation *		eo= &(teo.teoEo);
+	TedEditOperation teo;
+	EditOperation *eo = &(teo.teoEo);
 
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    DocumentPosition		dpEnd;
+	DocumentPosition dpEnd;
 
-    TextAttribute		taSet;
-    PropertyMask		taSetMask;
+	TextAttribute taSet;
+	PropertyMask taSetMask;
 
-    int				headPart;
-    int				tailPart;
+	int headPart;
+	int tailPart;
 
-    int				fieldKind= DOCfkCHFTN;
+	int fieldKind = DOCfkCHFTN;
 
-    DocumentSelection		dsTraced;
+	DocumentSelection dsTraced;
 
-    FieldInstructions		fi;
+	FieldInstructions fi;
 
-    const int			fullWidth= 0;
+	const int fullWidth = 0;
 
-    docInitFieldInstructions( &fi );
+	docInitFieldInstructions(&fi);
 
-    if  ( docStartFieldInstructions( &fi, "-CHFTN", 6 ) )
-	{ LDEB(6); rval= -1; goto ready;	}
-
-    utilInitTextAttribute( &taSet );
-    utilPropMaskClear( &taSetMask );
-
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
-
-    if  ( sd.sdInTreeType != DOCinBODY )
-	{ LDEB(sd.sdInTreeType); rval= -1; goto ready;	}
-
-    if  ( tedEditStartReplace( &dsTraced, &teo, EDITcmdINS_NOTE, DOClevSPAN, 0 ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    bodySectNode= docGetSectNode( eo->eoHeadDp.dpNode );
-    if  ( ! bodySectNode )
-	{ XDEB(bodySectNode); rval= -1; goto ready;	}
-
-    /*  1  */
-    if  ( tedDocReplaceSelectionWithField( &teo, &dfNote,
-					    &headPart, &tailPart,
-					    &dsInside, &dsAround,
-					    &fi, fieldKind,
-					    &taSetMask, &taSet ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    /*  2  */
-    if  ( docEditMakeNote( &dn, bd, dfNote,
-				    bodySectNode, noteTreeType, fieldKind ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-    utilIndexSetAdd( &(eo->eoNoteFieldsAdded), dfNote->dfFieldNumber );
-
-    /*  4  */
-    if  ( tedLayoutNodeOfField( &teo, &dsAround, fieldUpdMask ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    /*  5  */
-    if  ( docTailPosition( &dpEnd, dn->dnDocumentTree.dtRoot ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( teo.teoEditTrace )
-	{
-	if  ( docRtfTraceNewContents( eo, SELposTAIL ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	if (docStartFieldInstructions(&fi, "-CHFTN", 6)) {
+		LDEB(6);
+		rval = -1;
+		goto ready;
 	}
 
-    /*  6  */
-    eo->eoTree= &(dn->dnDocumentTree);
-    docGetSelectionScope( &(eo->eoSelectionScope), dpEnd.dpNode );
+	utilInitTextAttribute(&taSet);
+	utilPropMaskClear(&taSetMask);
 
-    docSetIBarRange( &(eo->eoAffectedRange), &dpEnd );
-    docSetIBarRange( &(eo->eoSelectedRange), &dpEnd );
-    tedEditFinishSelectionTail( &teo );
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    tedFinishEditOperation( &teo );
+	if (sd.sdInTreeType != DOCinBODY) {
+		LDEB(sd.sdInTreeType);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	if (tedEditStartReplace(&dsTraced, &teo, EDITcmdINS_NOTE, DOClevSPAN,
+				0)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    docCleanFieldInstructions( &fi );
-    tedCleanEditOperation( &teo );
+	bodySectNode = docGetSectNode(eo->eoHeadDp.dpNode);
+	if (!bodySectNode) {
+		XDEB(bodySectNode);
+		rval = -1;
+		goto ready;
+	}
 
-    return rval;
-    }
+	/*  1  */
+	if (tedDocReplaceSelectionWithField(&teo, &dfNote, &headPart, &tailPart,
+					    &dsInside, &dsAround, &fi,
+					    fieldKind, &taSetMask, &taSet)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	/*  2  */
+	if (docEditMakeNote(&dn, bd, dfNote, bodySectNode, noteTreeType,
+			    fieldKind)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+	utilIndexSetAdd(&(eo->eoNoteFieldsAdded), dfNote->dfFieldNumber);
+
+	/*  4  */
+	if (tedLayoutNodeOfField(&teo, &dsAround, fieldUpdMask)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	/*  5  */
+	if (docTailPosition(&dpEnd, dn->dnDocumentTree.dtRoot)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	if (teo.teoEditTrace) {
+		if (docRtfTraceNewContents(eo, SELposTAIL)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
+
+	/*  6  */
+	eo->eoTree = &(dn->dnDocumentTree);
+	docGetSelectionScope(&(eo->eoSelectionScope), dpEnd.dpNode);
+
+	docSetIBarRange(&(eo->eoAffectedRange), &dpEnd);
+	docSetIBarRange(&(eo->eoSelectedRange), &dpEnd);
+	tedEditFinishSelectionTail(&teo);
+
+	tedFinishEditOperation(&teo);
+
+ready:
+
+	docCleanFieldInstructions(&fi);
+	tedCleanEditOperation(&teo);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -152,47 +175,50 @@ int tedDocInsertNote(	EditDocument *		ed,
 /*									*/
 /************************************************************************/
 
-int tedChangeNoteImpl(		EditOperation *		eo,
-				DocumentField *		dfNote,
-				DocumentNote *		dn,
-				int			selInNote,
-				const PropertyMask *	npSetMask,
-				const NoteProperties *	npSet )
-    {
-    PropertyMask		npDoneMask;
+int tedChangeNoteImpl(EditOperation *eo, DocumentField *dfNote,
+		      DocumentNote *dn, int selInNote,
+		      const PropertyMask *npSetMask,
+		      const NoteProperties *npSet)
+{
+	PropertyMask npDoneMask;
 
-    utilPropMaskClear( &npDoneMask );
+	utilPropMaskClear(&npDoneMask);
 
-    if  ( docUpdNoteProperties( &npDoneMask, &(dn->dnNoteProperties),
-							npSetMask, npSet ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( PROPmaskISSET( &npDoneMask, NOTEpropTREE_TYPE ) )
-	{
-	if  ( docCheckSeparatorItemForNoteType( eo->eoDocument,
-					    dn->dnNoteProperties.npTreeType ) )
-	    { LDEB(DOCinFTNSEP); return -1;	}
-
-	dn->dnNoteNumber= 0;
-	docInvalidateTreeLayout( &(dn->dnDocumentTree) );
-
-	if  ( ! dn->dnDocumentTree.dtRoot )
-	    { XDEB(dn->dnDocumentTree.dtRoot); return -1;	}
-
-	docSetTreeTypeOfNode( dn->dnDocumentTree.dtRoot,
-					    dn->dnNoteProperties.npTreeType );
-
-	if  ( selInNote )
-	    {
-	    eo->eoSelectionScope.ssTreeType= dn->dnNoteProperties.npTreeType;
-	    }
+	if (docUpdNoteProperties(&npDoneMask, &(dn->dnNoteProperties),
+				 npSetMask, npSet)) {
+		LDEB(1);
+		return -1;
 	}
 
-    eo->eoFieldUpdate |= FIELDdoCHFTN;
-    utilIndexSetAdd( &(eo->eoNoteFieldsAdded), dfNote->dfFieldNumber );
+	if (PROPmaskISSET(&npDoneMask, NOTEpropTREE_TYPE)) {
+		if (docCheckSeparatorItemForNoteType(
+			    eo->eoDocument, dn->dnNoteProperties.npTreeType)) {
+			LDEB(DOCinFTNSEP);
+			return -1;
+		}
 
-    return 0;
-    }
+		dn->dnNoteNumber = 0;
+		docInvalidateTreeLayout(&(dn->dnDocumentTree));
+
+		if (!dn->dnDocumentTree.dtRoot) {
+			XDEB(dn->dnDocumentTree.dtRoot);
+			return -1;
+		}
+
+		docSetTreeTypeOfNode(dn->dnDocumentTree.dtRoot,
+				     dn->dnNoteProperties.npTreeType);
+
+		if (selInNote) {
+			eo->eoSelectionScope.ssTreeType =
+				dn->dnNoteProperties.npTreeType;
+		}
+	}
+
+	eo->eoFieldUpdate |= FIELDdoCHFTN;
+	utilIndexSetAdd(&(eo->eoNoteFieldsAdded), dfNote->dfFieldNumber);
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -200,128 +226,145 @@ int tedChangeNoteImpl(		EditOperation *		eo,
 /*									*/
 /************************************************************************/
 
-int tedDocChangeCurrentNote(	EditDocument *		ed,
-				const PropertyMask *	npSetMask,
-				const NoteProperties *	npSet,
-				int			traced )
-    {
-    int				rval= 0;
+int tedDocChangeCurrentNote(EditDocument *ed, const PropertyMask *npSetMask,
+			    const NoteProperties *npSet, int traced)
+{
+	int rval = 0;
 
-    TedEditOperation		teo;
-    EditOperation *		eo= &(teo.teoEo);
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	TedEditOperation teo;
+	EditOperation *eo = &(teo.teoEo);
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    DocumentField *		dfNote= (DocumentField *)0;
-    DocumentNote *		dn= (DocumentNote *)0;
-    int				selInNote= 0;
+	DocumentField *dfNote = (DocumentField *)0;
+	DocumentNote *dn = (DocumentNote *)0;
+	int selInNote = 0;
 
-    const int			fullWidth= 0;
+	const int fullWidth = 0;
 
-    PropertyMask		npDoneMask;
+	PropertyMask npDoneMask;
 
-    utilPropMaskClear( &npDoneMask );
+	utilPropMaskClear(&npDoneMask);
 
-    tedStartEditOperation( &teo, &sg, &sd, ed, fullWidth, traced );
+	tedStartEditOperation(&teo, &sg, &sd, ed, fullWidth, traced);
 
-    dfNote= docEditOperationGetSelectedNote( &dn, &selInNote, eo );
-    if  ( ! dfNote )
-	{ XDEB(dfNote); rval= -1; goto ready;	}
-
-    if  ( tedEditStartStep( &teo, EDITcmdUPD_NOTE ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( teo.teoEditTrace )
-	{
-	if  ( docRtfTraceOldNoteProperties( eo,
-				    npSetMask, &(dn->dnNoteProperties) ) )
-	    { LDEB(1); rval= -1; goto ready;	}
-	if  ( docRtfTraceNewNoteProperties( eo, npSetMask, npSet ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+	dfNote = docEditOperationGetSelectedNote(&dn, &selInNote, eo);
+	if (!dfNote) {
+		XDEB(dfNote);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( tedChangeNoteImpl( eo, dfNote, dn, selInNote, npSetMask, npSet ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    if  ( tedEditFinishOldSelection( &teo ) )
-	{ LDEB(1);	}
-
-    if  ( teo.teoEditTrace )
-	{
-	docRtfTraceNewPosition( eo, (const SelectionScope *)0, SELposALL );
+	if (tedEditStartStep(&teo, EDITcmdUPD_NOTE)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    tedFinishEditOperation( &teo );
+	if (teo.teoEditTrace) {
+		if (docRtfTraceOldNoteProperties(eo, npSetMask,
+						 &(dn->dnNoteProperties))) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+		if (docRtfTraceNewNoteProperties(eo, npSetMask, npSet)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-  ready:
+	if (tedChangeNoteImpl(eo, dfNote, dn, selInNote, npSetMask, npSet)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    tedCleanEditOperation( &teo );
+	if (tedEditFinishOldSelection(&teo)) {
+		LDEB(1);
+	}
 
-    return rval;
-    }
+	if (teo.teoEditTrace) {
+		docRtfTraceNewPosition(eo, (const SelectionScope *)0,
+				       SELposALL);
+	}
+
+	tedFinishEditOperation(&teo);
+
+ready:
+
+	tedCleanEditOperation(&teo);
+
+	return rval;
+}
 
 /************************************************************************/
 
-static DocumentField * tedGetSelectedNote(	DocumentNote **	pDn,
-						int *		pSelInNote,
-						EditDocument *	ed )
-    {
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
+static DocumentField *tedGetSelectedNote(DocumentNote **pDn, int *pSelInNote,
+					 EditDocument *ed)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
 
-    DocumentSelection		ds;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
+	DocumentSelection ds;
+	SelectionGeometry sg;
+	SelectionDescription sd;
 
-    if  ( tedGetSelection( &ds, &sg, &sd,
-			    (DocumentTree **)0, (struct BufferItem **)0, ed ) )
-	{ LDEB(1); return (DocumentField *)0;	}
+	if (tedGetSelection(&ds, &sg, &sd, (DocumentTree **)0,
+			    (struct BufferItem **)0, ed)) {
+		LDEB(1);
+		return (DocumentField *)0;
+	}
 
-    return docGetSelectedNote( pDn, pSelInNote, bd, &ds );
-    }
+	return docGetSelectedNote(pDn, pSelInNote, bd, &ds);
+}
 
 /************************************************************************/
 
-static int tedGotoNoteRef(	EditDocument *		ed,
-				const DocumentField *	dfNote )
-    {
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
+static int tedGotoNoteRef(EditDocument *ed, const DocumentField *dfNote)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
 
-    DocumentSelection		dsRef;
-    const int			lastLine= 0;
+	DocumentSelection dsRef;
+	const int lastLine = 0;
 
-    if  ( docSelectionForEditPositionsInTree( &dsRef, &(bd->bdBody),
-		    &(dfNote->dfHeadPosition), &(dfNote->dfTailPosition) ) )
-	{ LDEB(1); return -1;	}
+	if (docSelectionForEditPositionsInTree(&dsRef, &(bd->bdBody),
+					       &(dfNote->dfHeadPosition),
+					       &(dfNote->dfTailPosition))) {
+		LDEB(1);
+		return -1;
+	}
 
-    tedSetSelection( ed, &dsRef, lastLine, (int *)0, (int *)0 );
+	tedSetSelection(ed, &dsRef, lastLine, (int *)0, (int *)0);
 
-    return 0;
-    }
+	return 0;
+}
 
-static int tedGotoNoteDef(	EditDocument *		ed,
-				const DocumentNote *	dn )
-    {
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
+static int tedGotoNoteDef(EditDocument *ed, const DocumentNote *dn)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
 
-    int				scrolledX= 0;
-    int				scrolledY= 0;
+	int scrolledX = 0;
+	int scrolledY = 0;
 
-    DocumentPosition		dpNote;
-    const int			lastLine= 0;
+	DocumentPosition dpNote;
+	const int lastLine = 0;
 
-    if  ( ! dn->dnDocumentTree.dtRoot					||
-	  docHeadPosition( &dpNote, dn->dnDocumentTree.dtRoot )	)
-	{ XDEB(dn->dnDocumentTree.dtRoot); return -1;	}
+	if (!dn->dnDocumentTree.dtRoot ||
+	    docHeadPosition(&dpNote, dn->dnDocumentTree.dtRoot)) {
+		XDEB(dn->dnDocumentTree.dtRoot);
+		return -1;
+	}
 
-    docAvoidParaHeadField( &dpNote, (int *)0, bd );
+	docAvoidParaHeadField(&dpNote, (int *)0, bd);
 
-    tedSetSelectedPosition( ed, &dpNote, lastLine, &scrolledX, &scrolledY );
+	tedSetSelectedPosition(ed, &dpNote, lastLine, &scrolledX, &scrolledY);
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -330,21 +373,24 @@ static int tedGotoNoteDef(	EditDocument *		ed,
 /*									*/
 /************************************************************************/
 
-void tedDocGotoNoteDef(		EditDocument *	ed )
-    {
-    DocumentNote *		dn= (DocumentNote *)0;
-    DocumentField *		dfNote= (DocumentField *)0;
-    int				selInNote= 0;
+void tedDocGotoNoteDef(EditDocument *ed)
+{
+	DocumentNote *dn = (DocumentNote *)0;
+	DocumentField *dfNote = (DocumentField *)0;
+	int selInNote = 0;
 
-    dfNote= tedGetSelectedNote( &dn, &selInNote, ed );
-    if  ( ! dfNote || selInNote )
-	{ XDEB(dfNote); return;	}
+	dfNote = tedGetSelectedNote(&dn, &selInNote, ed);
+	if (!dfNote || selInNote) {
+		XDEB(dfNote);
+		return;
+	}
 
-    if  ( tedGotoNoteDef( ed, dn ) )
-	{ LDEB(1);	}
+	if (tedGotoNoteDef(ed, dn)) {
+		LDEB(1);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -353,21 +399,24 @@ void tedDocGotoNoteDef(		EditDocument *	ed )
 /*									*/
 /************************************************************************/
 
-void tedDocGotoNoteRef(		EditDocument *	ed )
-    {
-    DocumentField *		dfNote= (DocumentField *)0;
-    DocumentNote *		dn= (DocumentNote *)0;
-    int				selInNote= 0;
+void tedDocGotoNoteRef(EditDocument *ed)
+{
+	DocumentField *dfNote = (DocumentField *)0;
+	DocumentNote *dn = (DocumentNote *)0;
+	int selInNote = 0;
 
-    dfNote= tedGetSelectedNote( &dn, &selInNote, ed );
-    if  ( ! dfNote || ! selInNote )
-	{ XLDEB(dfNote,selInNote); return;	}
+	dfNote = tedGetSelectedNote(&dn, &selInNote, ed);
+	if (!dfNote || !selInNote) {
+		XLDEB(dfNote, selInNote);
+		return;
+	}
 
-    if  ( tedGotoNoteRef( ed, dfNote ) )
-	{ LDEB(1);	}
+	if (tedGotoNoteRef(ed, dfNote)) {
+		LDEB(1);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -375,55 +424,58 @@ void tedDocGotoNoteRef(		EditDocument *	ed )
 /*									*/
 /************************************************************************/
 
-static void tedStepNote(		EditDocument *	ed,
-					int		direction )
-    {
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *		bd= td->tdDocument;
+static void tedStepNote(EditDocument *ed, int direction)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
 
-    DocumentField *		dfNote= (DocumentField *)0;
-    DocumentNote *		dn= (DocumentNote *)0;
-    int				selInNote= 0;
+	DocumentField *dfNote = (DocumentField *)0;
+	DocumentNote *dn = (DocumentNote *)0;
+	int selInNote = 0;
 
-    dfNote= tedGetSelectedNote( &dn, &selInNote, ed );
-    if  ( ! dfNote )
-	{ XDEB(dfNote); return;	}
-
-    if  ( direction > 0 )
-	{
-	dfNote= docGetNextNoteInDocument( &dn, bd, dfNote, -1 );
-	if  ( ! dfNote )
-	    { XDEB(dfNote); return;	}
-	}
-    else{
-	dfNote= docGetPrevNoteInDocument( &dn, bd, dfNote, -1 );
-	if  ( ! dfNote )
-	    { XDEB(dfNote); return;	}
+	dfNote = tedGetSelectedNote(&dn, &selInNote, ed);
+	if (!dfNote) {
+		XDEB(dfNote);
+		return;
 	}
 
-    if  ( selInNote )
-	{
-	if  ( tedGotoNoteDef( ed, dn ) )
-	    { LDEB(1);	}
+	if (direction > 0) {
+		dfNote = docGetNextNoteInDocument(&dn, bd, dfNote, -1);
+		if (!dfNote) {
+			XDEB(dfNote);
+			return;
+		}
+	} else {
+		dfNote = docGetPrevNoteInDocument(&dn, bd, dfNote, -1);
+		if (!dfNote) {
+			XDEB(dfNote);
+			return;
+		}
 	}
-    else{
-	if  ( tedGotoNoteRef( ed, dfNote ) )
-	    { LDEB(1);	}
+
+	if (selInNote) {
+		if (tedGotoNoteDef(ed, dn)) {
+			LDEB(1);
+		}
+	} else {
+		if (tedGotoNoteRef(ed, dfNote)) {
+			LDEB(1);
+		}
 	}
 
-    return;
-    }
+	return;
+}
 
-void tedDocNextNote(		EditDocument *	ed )
-    {
-    const int	direction=  1;
+void tedDocNextNote(EditDocument *ed)
+{
+	const int direction = 1;
 
-    tedStepNote( ed, direction );
-    }
+	tedStepNote(ed, direction);
+}
 
-void tedDocPrevNote(		EditDocument *	ed )
-    {
-    const int	direction= -1;
+void tedDocPrevNote(EditDocument *ed)
+{
+	const int direction = -1;
 
-    tedStepNote( ed, direction );
-    }
+	tedStepNote(ed, direction);
+}

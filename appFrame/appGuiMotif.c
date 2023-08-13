@@ -1,28 +1,28 @@
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stdlib.h>
-#   include	<stdio.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-#   include	"appFrame.h"
-#   include	"appGuiBase.h"
-#   include	"guiWidgets.h"
-#   include	"guiWidgetsImpl.h"
+#include "appFrame.h"
+#include "appGuiBase.h"
+#include "guiWidgets.h"
+#include "guiWidgetsImpl.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   ifdef USE_MOTIF
+#ifdef USE_MOTIF
 
-#   include	<X11/Xatom.h>
-#   include	<Xm/RowColumn.h>
-#   include	<Xm/Label.h>
-#   include	<Xm/ToggleB.h>
-#   include	<Xm/PanedW.h>
-#   include	<Xm/MwmUtil.h>
-#   include	<Xm/Protocols.h>
-#   include	<Xm/DrawnB.h>
-#   include	<Xm/Separator.h>
-#   include	<Xm/ScrollBar.h>
-#   include	<Xm/DrawingA.h>
+#include <X11/Xatom.h>
+#include <Xm/RowColumn.h>
+#include <Xm/Label.h>
+#include <Xm/ToggleB.h>
+#include <Xm/PanedW.h>
+#include <Xm/MwmUtil.h>
+#include <Xm/Protocols.h>
+#include <Xm/DrawnB.h>
+#include <Xm/Separator.h>
+#include <Xm/ScrollBar.h>
+#include <Xm/DrawingA.h>
 
 /************************************************************************/
 /*									*/
@@ -33,39 +33,39 @@
 /*									*/
 /************************************************************************/
 
-void appEmptyParentWidget(	Widget		parent )
-    {
-    WidgetList		children;
-    WidgetList		save;
-    Cardinal		childCount;
+void appEmptyParentWidget(Widget parent)
+{
+	WidgetList children;
+	WidgetList save;
+	Cardinal childCount;
 
-    XtVaGetValues( parent,
-			XmNchildren,		&children,
-			XmNnumChildren,		&childCount,
-			NULL );
+	XtVaGetValues(parent, XmNchildren, &children, XmNnumChildren,
+		      &childCount, NULL);
 
-    if  ( childCount == 0 )
-	{ return;	}
-
-    /*  1  */
-    XtUnmanageChildren( children, childCount );
-
-    save= (WidgetList)malloc( childCount* sizeof(Widget) );
-    if  ( save )
-	{
-	int	i;
-
-	for ( i= childCount- 1; i >= 0; i-- )
-	    { save[i]= children[i];	}
-
-	for ( i= childCount- 1; i >= 0; i-- )
-	    { XtDestroyWidget( save[i] );	}
-
-	free( save );
+	if (childCount == 0) {
+		return;
 	}
 
-    return;
-    }
+	/*  1  */
+	XtUnmanageChildren(children, childCount);
+
+	save = (WidgetList)malloc(childCount * sizeof(Widget));
+	if (save) {
+		int i;
+
+		for (i = childCount - 1; i >= 0; i--) {
+			save[i] = children[i];
+		}
+
+		for (i = childCount - 1; i >= 0; i--) {
+			XtDestroyWidget(save[i]);
+		}
+
+		free(save);
+	}
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -74,31 +74,29 @@ void appEmptyParentWidget(	Widget		parent )
 /*									*/
 /************************************************************************/
 
-void appSetShellTitle(	APP_WIDGET		shell,
-			Widget			option,
-			const char *		applicationName )
-    {
-    char *	title;
+void appSetShellTitle(APP_WIDGET shell, Widget option,
+		      const char *applicationName)
+{
+	char *title;
 
-    if  ( option )
-	{
-	char *		s;
+	if (option) {
+		char *s;
 
-	s= appGetTextFromMenuOption( option );
+		s = appGetTextFromMenuOption(option);
 
-	title= (char *)malloc( strlen( applicationName )+ 1+ strlen( s )+ 1 );
-	sprintf( title, "%s %s", applicationName, s );
+		title = (char *)malloc(strlen(applicationName) + 1 + strlen(s) +
+				       1);
+		sprintf(title, "%s %s", applicationName, s);
 
-	appFreeTextFromMenuOption( s );
+		appFreeTextFromMenuOption(s);
+	} else {
+		title = strdup(applicationName);
 	}
-    else{ title= strdup( applicationName );	}
 
-    XtVaSetValues( shell,
-		    XmNtitle, title,
-		    NULL );
+	XtVaSetValues(shell, XmNtitle, title, NULL);
 
-    free( title );
-    }
+	free(title);
+}
 
 /************************************************************************/
 /*									*/
@@ -115,55 +113,50 @@ void appSetShellTitle(	APP_WIDGET		shell,
 /************************************************************************/
 
 /*  1  */
-void appSetSizeAsMinimum(	Widget			w,
-				void *			through,
-				XEvent *		event,
-				Boolean *		pRefused )
-    {
-    XConfigureEvent *		cevent= &(event->xconfigure);
+void appSetSizeAsMinimum(Widget w, void *through, XEvent *event,
+			 Boolean *pRefused)
+{
+	XConfigureEvent *cevent = &(event->xconfigure);
 
-    if  ( cevent->type != ConfigureNotify )
-	{ return;	}
+	if (cevent->type != ConfigureNotify) {
+		return;
+	}
 
-    XtVaSetValues( w,	XmNminWidth,	cevent->width,
-			XmNminHeight,	cevent->height,
-			NULL );
+	XtVaSetValues(w, XmNminWidth, cevent->width, XmNminHeight,
+		      cevent->height, NULL);
 
-    XtRemoveEventHandler( w, StructureNotifyMask, False,
-					    appSetSizeAsMinimum, through );
+	XtRemoveEventHandler(w, StructureNotifyMask, False, appSetSizeAsMinimum,
+			     through);
 
-    *pRefused= 1;
+	*pRefused = 1;
 
-    return;
-    }
+	return;
+}
 
 /*  2  */
-# define FIX_SIZE 0
-# if FIX_SIZE
-static void appFixSize(	Widget			w,
-			void *			through,
-			XEvent *		event,
-			Boolean *		pRefused )
-    {
-    XConfigureEvent *		cevent= &(event->xconfigure);
+#define FIX_SIZE 0
+#if FIX_SIZE
+static void appFixSize(Widget w, void *through, XEvent *event,
+		       Boolean *pRefused)
+{
+	XConfigureEvent *cevent = &(event->xconfigure);
 
-    if  ( cevent->type != ConfigureNotify )
-	{ return;	}
+	if (cevent->type != ConfigureNotify) {
+		return;
+	}
 
-    XtVaSetValues( w,	XmNminWidth,	cevent->width,
-			XmNmaxWidth,	cevent->width,
-			XmNminHeight,	cevent->height,
-			XmNmaxHeight,	cevent->height,
-			NULL );
+	XtVaSetValues(w, XmNminWidth, cevent->width, XmNmaxWidth, cevent->width,
+		      XmNminHeight, cevent->height, XmNmaxHeight,
+		      cevent->height, NULL);
 
-    XtRemoveEventHandler( w, StructureNotifyMask, False,
-					    appFixSize, through );
+	XtRemoveEventHandler(w, StructureNotifyMask, False, appFixSize,
+			     through);
 
-    *pRefused= 1;
+	*pRefused = 1;
 
-    return;
-    }
-# endif
+	return;
+}
+#endif
 
 /************************************************************************/
 /*									*/
@@ -171,181 +164,236 @@ static void appFixSize(	Widget			w,
 /*									*/
 /************************************************************************/
 
-const char * const APP_X11EventNames[]=
-    {
-    "0", "1", "KeyPress", "KeyRelease", "ButtonPress", "ButtonRelease",
-    "MotionNotify", "EnterNotify", "LeaveNotify", "FocusIn", "FocusOut",
-    "KeymapNotify", "Expose", "GraphicsExpose", "NoExpose", "VisibilityNotify",
-    "CreateNotify", "DestroyNotify", "UnmapNotify", "MapNotify", "MapRequest",
-    "ReparentNotify", "ConfigureNotify", "ConfigureRequest", "GravityNotify",
-    "ResizeRequest", "CirculateNotify", "CirculateRequest", "PropertyNotify",
-    "SelectionClear", "SelectionRequest", "SelectionNotify", "ColormapNotify",
-    "ClientMessage", "MappingNotify"
-    };
+const char *const APP_X11EventNames[] = { "0",
+					  "1",
+					  "KeyPress",
+					  "KeyRelease",
+					  "ButtonPress",
+					  "ButtonRelease",
+					  "MotionNotify",
+					  "EnterNotify",
+					  "LeaveNotify",
+					  "FocusIn",
+					  "FocusOut",
+					  "KeymapNotify",
+					  "Expose",
+					  "GraphicsExpose",
+					  "NoExpose",
+					  "VisibilityNotify",
+					  "CreateNotify",
+					  "DestroyNotify",
+					  "UnmapNotify",
+					  "MapNotify",
+					  "MapRequest",
+					  "ReparentNotify",
+					  "ConfigureNotify",
+					  "ConfigureRequest",
+					  "GravityNotify",
+					  "ResizeRequest",
+					  "CirculateNotify",
+					  "CirculateRequest",
+					  "PropertyNotify",
+					  "SelectionClear",
+					  "SelectionRequest",
+					  "SelectionNotify",
+					  "ColormapNotify",
+					  "ClientMessage",
+					  "MappingNotify" };
 
+APP_WIDGET appMakeToggleInRow(APP_WIDGET row, const char *text,
+			      APP_TOGGLE_CALLBACK_T callback, void *through,
+			      int col, int colspan)
+{
+	Arg al[20];
+	int ac = 0;
 
-APP_WIDGET appMakeToggleInRow(	APP_WIDGET		row,
-				const char *		text,
-				APP_TOGGLE_CALLBACK_T	callback,
-				void *			through,
-				int			col,
-				int			colspan )
-    {
-    Arg		al[20];
-    int		ac= 0;
+	XmString labelString;
+	Widget toggle;
 
-    XmString	labelString;
-    Widget	toggle;
-
-    if  ( ! text )
-	{ text= "";	}
-
-    labelString= XmStringCreateLocalized( (char *)text );
-
-    ac= 0;
-    XtSetArg( al[ac], XmNlabelString,		labelString ); ac++;
-    XtSetArg( al[ac], XmNtopAttachment,		XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNbottomAttachment,	XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNleftAttachment,	XmATTACH_POSITION ); ac++;
-    XtSetArg( al[ac], XmNleftPosition,		col ); ac++;
-    XtSetArg( al[ac], XmNrightAttachment,	XmATTACH_POSITION ); ac++;
-    XtSetArg( al[ac], XmNrightPosition,		col+ colspan ); ac++;
- 
-    XtSetArg( al[ac], XmNtopOffset,		0 ); ac++;
-    XtSetArg( al[ac], XmNbottomOffset,		0 ); ac++;
-    XtSetArg( al[ac], XmNleftOffset,		0 ); ac++;
-    XtSetArg( al[ac], XmNrightOffset,		0 ); ac++;
-
-    XtSetArg( al[ac], XmNrecomputeSize,		True ); ac++;
-
-    XtSetArg( al[ac], XmNmarginTop,		TBrmargT ); ac++;
-
-    XtSetArg( al[ac], XmNalignment,		XmALIGNMENT_BEGINNING ); ac++;
-
-    toggle= XmCreateToggleButton( row, WIDGET_NAME, al, ac );
-
-    if  ( callback )
-	{ XtAddCallback( toggle, XmNvalueChangedCallback, callback, through ); }
-
-    XmStringFree( labelString );
-
-    XtManageChild( toggle );
-
-    return toggle;
-    }
-
-void appMakeImageInColumn(	APP_WIDGET *		pLabel,
-				APP_WIDGET		column,
-				APP_BITMAP_IMAGE	pixmap,
-				APP_BITMAP_MASK		mask )
-    {
-    Widget		label;
-
-    Arg			al[20];
-    int			ac= 0;
-
-    ac= 0;
-    XtSetArg( al[ac], XmNlabelType,		XmPIXMAP ); ac++;
-    XtSetArg( al[ac], XmNskipAdjust,		True ); ac++;
-    XtSetArg( al[ac], XmNrecomputeSize,		True ); ac++;
-    XtSetArg( al[ac], XmNallowResize,		True ); ac++;
-    XtSetArg( al[ac], XmNalignment,		XmALIGNMENT_BEGINNING ); ac++;
-
-    XtSetArg( al[ac], XmNlabelPixmap,		pixmap ); ac++;
-
-    label= XmCreateLabel( column, WIDGET_NAME, al, ac );
-
-    XtManageChild( label );
-
-    appMotifTurnOfSashTraversal( column );
-
-    *pLabel= label; return;
-    }
-
-void appMakeColumnToggle(	Widget *		pToggle,
-				Widget			column,
-				XtCallbackProc		callback,
-				void *			through,
-				const char *		labelText,
-				int			set )
-    {
-    Widget		toggle;
-
-    XmString		labelString= (XmString)0;
-
-    Arg			al[20];
-    int			ac= 0;
-
-    if  ( labelText )
-	{ labelString= XmStringCreateLocalized( (char *)labelText ); }
-
-    ac= 0;
-    XtSetArg( al[ac], XmNskipAdjust,		True ); ac++;
-    XtSetArg( al[ac], XmNrecomputeSize,		True ); ac++;
-    XtSetArg( al[ac], XmNalignment,		XmALIGNMENT_BEGINNING ); ac++;
-    XtSetArg( al[ac], XmNset,			set ); ac++;
-
-    XtSetArg( al[ac], XmNmarginTop,		TBcmargT ); ac++;
-    XtSetArg( al[ac], XmNmarginHeight,		TBcmargH ); ac++;
-
-    if  ( labelString )
-	{ XtSetArg( al[ac], XmNlabelString,	labelString ); ac++; }
-
-    toggle= XmCreateToggleButton( column, WIDGET_NAME, al, ac );
-
-    if  ( callback )
-	{ XtAddCallback( toggle, XmNvalueChangedCallback, callback, through ); }
-
-    if  ( labelString )
-	{ XmStringFree( labelString );	}
-
-    XtManageChild( toggle );
-
-    *pToggle= toggle;
-    }
-
-void appMakeColumnDrawing(	Widget *		pButton,
-				Widget			column,
-				XtCallbackProc		exposeCallback,
-				XtCallbackProc		pushedCallback,
-				void *			through,
-				int			width )
-    {
-    Widget		button;
-
-    Arg			al[20];
-    int			ac= 0;
-
-    XmString		labelString= XmStringCreateLocalized( (char *)" " );
-
-    ac= 0;
-    XtSetArg( al[ac], XmNskipAdjust,		True ); ac++;
-    XtSetArg( al[ac], XmNrecomputeSize,		True ); ac++;
-    XtSetArg( al[ac], XmNwidth,			width ); ac++;
-
-    XtSetArg( al[ac], XmNmarginTop,		1 ); ac++;
-    XtSetArg( al[ac], XmNmarginHeight,		4 ); ac++;
-
-    XtSetArg( al[ac], XmNlabelString,		labelString ); ac++;
-
-    button= XmCreateDrawnButton( column, WIDGET_NAME, al, ac );
-
-    if  ( exposeCallback )
-	{
-	XtAddCallback( button, XmNexposeCallback, exposeCallback, through );
+	if (!text) {
+		text = "";
 	}
 
-    if  ( pushedCallback )
-	{
-	XtAddCallback( button, XmNactivateCallback, pushedCallback, through );
+	labelString = XmStringCreateLocalized((char *)text);
+
+	ac = 0;
+	XtSetArg(al[ac], XmNlabelString, labelString);
+	ac++;
+	XtSetArg(al[ac], XmNtopAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNbottomAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNleftAttachment, XmATTACH_POSITION);
+	ac++;
+	XtSetArg(al[ac], XmNleftPosition, col);
+	ac++;
+	XtSetArg(al[ac], XmNrightAttachment, XmATTACH_POSITION);
+	ac++;
+	XtSetArg(al[ac], XmNrightPosition, col + colspan);
+	ac++;
+
+	XtSetArg(al[ac], XmNtopOffset, 0);
+	ac++;
+	XtSetArg(al[ac], XmNbottomOffset, 0);
+	ac++;
+	XtSetArg(al[ac], XmNleftOffset, 0);
+	ac++;
+	XtSetArg(al[ac], XmNrightOffset, 0);
+	ac++;
+
+	XtSetArg(al[ac], XmNrecomputeSize, True);
+	ac++;
+
+	XtSetArg(al[ac], XmNmarginTop, TBrmargT);
+	ac++;
+
+	XtSetArg(al[ac], XmNalignment, XmALIGNMENT_BEGINNING);
+	ac++;
+
+	toggle = XmCreateToggleButton(row, WIDGET_NAME, al, ac);
+
+	if (callback) {
+		XtAddCallback(toggle, XmNvalueChangedCallback, callback,
+			      through);
 	}
 
-    XtManageChild( button );
+	XmStringFree(labelString);
 
-    XmStringFree( labelString );
+	XtManageChild(toggle);
 
-    *pButton= button;
-    }
+	return toggle;
+}
+
+void appMakeImageInColumn(APP_WIDGET *pLabel, APP_WIDGET column,
+			  APP_BITMAP_IMAGE pixmap, APP_BITMAP_MASK mask)
+{
+	Widget label;
+
+	Arg al[20];
+	int ac = 0;
+
+	ac = 0;
+	XtSetArg(al[ac], XmNlabelType, XmPIXMAP);
+	ac++;
+	XtSetArg(al[ac], XmNskipAdjust, True);
+	ac++;
+	XtSetArg(al[ac], XmNrecomputeSize, True);
+	ac++;
+	XtSetArg(al[ac], XmNallowResize, True);
+	ac++;
+	XtSetArg(al[ac], XmNalignment, XmALIGNMENT_BEGINNING);
+	ac++;
+
+	XtSetArg(al[ac], XmNlabelPixmap, pixmap);
+	ac++;
+
+	label = XmCreateLabel(column, WIDGET_NAME, al, ac);
+
+	XtManageChild(label);
+
+	appMotifTurnOfSashTraversal(column);
+
+	*pLabel = label;
+	return;
+}
+
+void appMakeColumnToggle(Widget *pToggle, Widget column,
+			 XtCallbackProc callback, void *through,
+			 const char *labelText, int set)
+{
+	Widget toggle;
+
+	XmString labelString = (XmString)0;
+
+	Arg al[20];
+	int ac = 0;
+
+	if (labelText) {
+		labelString = XmStringCreateLocalized((char *)labelText);
+	}
+
+	ac = 0;
+	XtSetArg(al[ac], XmNskipAdjust, True);
+	ac++;
+	XtSetArg(al[ac], XmNrecomputeSize, True);
+	ac++;
+	XtSetArg(al[ac], XmNalignment, XmALIGNMENT_BEGINNING);
+	ac++;
+	XtSetArg(al[ac], XmNset, set);
+	ac++;
+
+	XtSetArg(al[ac], XmNmarginTop, TBcmargT);
+	ac++;
+	XtSetArg(al[ac], XmNmarginHeight, TBcmargH);
+	ac++;
+
+	if (labelString) {
+		XtSetArg(al[ac], XmNlabelString, labelString);
+		ac++;
+	}
+
+	toggle = XmCreateToggleButton(column, WIDGET_NAME, al, ac);
+
+	if (callback) {
+		XtAddCallback(toggle, XmNvalueChangedCallback, callback,
+			      through);
+	}
+
+	if (labelString) {
+		XmStringFree(labelString);
+	}
+
+	XtManageChild(toggle);
+
+	*pToggle = toggle;
+}
+
+void appMakeColumnDrawing(Widget *pButton, Widget column,
+			  XtCallbackProc exposeCallback,
+			  XtCallbackProc pushedCallback, void *through,
+			  int width)
+{
+	Widget button;
+
+	Arg al[20];
+	int ac = 0;
+
+	XmString labelString = XmStringCreateLocalized((char *)" ");
+
+	ac = 0;
+	XtSetArg(al[ac], XmNskipAdjust, True);
+	ac++;
+	XtSetArg(al[ac], XmNrecomputeSize, True);
+	ac++;
+	XtSetArg(al[ac], XmNwidth, width);
+	ac++;
+
+	XtSetArg(al[ac], XmNmarginTop, 1);
+	ac++;
+	XtSetArg(al[ac], XmNmarginHeight, 4);
+	ac++;
+
+	XtSetArg(al[ac], XmNlabelString, labelString);
+	ac++;
+
+	button = XmCreateDrawnButton(column, WIDGET_NAME, al, ac);
+
+	if (exposeCallback) {
+		XtAddCallback(button, XmNexposeCallback, exposeCallback,
+			      through);
+	}
+
+	if (pushedCallback) {
+		XtAddCallback(button, XmNactivateCallback, pushedCallback,
+			      through);
+	}
+
+	XtManageChild(button);
+
+	XmStringFree(labelString);
+
+	*pButton = button;
+}
 
 /************************************************************************/
 /*									*/
@@ -353,92 +401,99 @@ void appMakeColumnDrawing(	Widget *		pButton,
 /*									*/
 /************************************************************************/
 
-void appMakeVerticalTool(	APP_WIDGET *		pShell,
-				APP_WIDGET *		pPaned,
-				EditApplication *	ea,
-				APP_BITMAP_IMAGE	iconPixmap,
-				APP_BITMAP_MASK		iconMask,
-				int			userResizable,
-				APP_WIDGET		option,
-				APP_CLOSE_CALLBACK_T	closeCallback,
-				void *			through )
-    {
-    Widget		shell;
-    Widget		paned;
+void appMakeVerticalTool(APP_WIDGET *pShell, APP_WIDGET *pPaned,
+			 EditApplication *ea, APP_BITMAP_IMAGE iconPixmap,
+			 APP_BITMAP_MASK iconMask, int userResizable,
+			 APP_WIDGET option, APP_CLOSE_CALLBACK_T closeCallback,
+			 void *through)
+{
+	Widget shell;
+	Widget paned;
 
-    Arg			al[20];
-    int			ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    MwmHints		hints;
+	MwmHints hints;
 
-    hints.flags= MWM_HINTS_FUNCTIONS|MWM_HINTS_DECORATIONS;
+	hints.flags = MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS;
 
-    hints.functions=	MWM_FUNC_MOVE		|
-			MWM_FUNC_MINIMIZE	|
-			MWM_FUNC_CLOSE		;
-    hints.decorations=	MWM_DECOR_BORDER	|
-			MWM_DECOR_TITLE		|
-			MWM_DECOR_MENU		|
-			MWM_DECOR_MINIMIZE	;
+	hints.functions = MWM_FUNC_MOVE | MWM_FUNC_MINIMIZE | MWM_FUNC_CLOSE;
+	hints.decorations = MWM_DECOR_BORDER | MWM_DECOR_TITLE |
+			    MWM_DECOR_MENU | MWM_DECOR_MINIMIZE;
 
-    if  ( userResizable )
-	{
-	hints.functions |=	MWM_FUNC_RESIZE;
-	hints.decorations |=	MWM_DECOR_RESIZEH;
+	if (userResizable) {
+		hints.functions |= MWM_FUNC_RESIZE;
+		hints.decorations |= MWM_DECOR_RESIZEH;
 	}
 
-    ac=0;
-    XtSetArg( al[ac], XmNdeleteResponse,	XmDO_NOTHING ); ac++;
-    XtSetArg( al[ac], XmNinput,			True ); ac++;
-    XtSetArg( al[ac], XmNallowShellResize,	True ); ac++;
-    XtSetArg( al[ac], XmNuseAsyncGeometry,	True ); ac++;
-    XtSetArg( al[ac], XmNwaitForWm,		False ); ac++; /* LessTif BUG */
-    XtSetArg( al[ac], XmNwmTimeout,		0 ); ac++; /* LessTif BUG */
-    XtSetArg( al[ac], XmNmwmDecorations,	hints.decorations ); ac++;
-    XtSetArg( al[ac], XmNmwmFunctions,		hints.functions ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNdeleteResponse, XmDO_NOTHING);
+	ac++;
+	XtSetArg(al[ac], XmNinput, True);
+	ac++;
+	XtSetArg(al[ac], XmNallowShellResize, True);
+	ac++;
+	XtSetArg(al[ac], XmNuseAsyncGeometry, True);
+	ac++;
+	XtSetArg(al[ac], XmNwaitForWm, False);
+	ac++; /* LessTif BUG */
+	XtSetArg(al[ac], XmNwmTimeout, 0);
+	ac++; /* LessTif BUG */
+	XtSetArg(al[ac], XmNmwmDecorations, hints.decorations);
+	ac++;
+	XtSetArg(al[ac], XmNmwmFunctions, hints.functions);
+	ac++;
 
-    if  ( iconPixmap )
-	{ XtSetArg( al[ac], XmNiconPixmap,	iconPixmap ); ac++; }
-
-#   ifdef USE_X11_R5
-    shell= XtAppCreateShell( ea->eaApplicationName, WIDGET_NAME,
-			    applicationShellWidgetClass,
-			    XtDisplay( ea->eaToplevel.atTopWidget ), al, ac );
-#   else
-    shell= XtAppCreateShell( ea->eaApplicationName, WIDGET_NAME,
-			    topLevelShellWidgetClass,
-			    XtDisplay( ea->eaToplevel.atTopWidget ), al, ac );
-#   endif
-
-    XtAddEventHandler( shell, StructureNotifyMask, False,
-					    appSetSizeAsMinimum, through );
-
-    appSetShellTitle( shell, option, ea->eaApplicationName );
-
-#   if FIX_SIZE
-    See above.
-    if  ( ! userResizable )
-	{
-	XtAddEventHandler( shell, StructureNotifyMask, False,
-						    appFixSize, through );
+	if (iconPixmap) {
+		XtSetArg(al[ac], XmNiconPixmap, iconPixmap);
+		ac++;
 	}
-#   endif
 
-    appSetCloseCallback( shell, ea, closeCallback, through );
+#ifdef USE_X11_R5
+	shell = XtAppCreateShell(ea->eaApplicationName, WIDGET_NAME,
+				 applicationShellWidgetClass,
+				 XtDisplay(ea->eaToplevel.atTopWidget), al, ac);
+#else
+	shell = XtAppCreateShell(ea->eaApplicationName, WIDGET_NAME,
+				 topLevelShellWidgetClass,
+				 XtDisplay(ea->eaToplevel.atTopWidget), al, ac);
+#endif
 
-    ac= 0;
-    XtSetArg( al[ac], XmNsashWidth,		1 ); ac++;
-    XtSetArg( al[ac], XmNsashHeight,		1 ); ac++;
-    XtSetArg( al[ac], XmNseparatorOn,		False ); ac++;
-    XtSetArg( al[ac], XmNmarginWidth,		PWmargW ); ac++;
-    XtSetArg( al[ac], XmNmarginHeight,		PWmargH ); ac++;
-    XtSetArg( al[ac], XmNspacing,		PWspacing ); ac++;
-    paned= XmCreatePanedWindow( shell, WIDGET_NAME, al, ac );
+	XtAddEventHandler(shell, StructureNotifyMask, False,
+			  appSetSizeAsMinimum, through);
 
-    XtManageChild( paned );
+	appSetShellTitle(shell, option, ea->eaApplicationName);
 
-    *pShell= shell, *pPaned= paned; return;
-    }
+#if FIX_SIZE
+	See above.if (!userResizable)
+	{
+		XtAddEventHandler(shell, StructureNotifyMask, False, appFixSize,
+				  through);
+	}
+#endif
+
+	appSetCloseCallback(shell, ea, closeCallback, through);
+
+	ac = 0;
+	XtSetArg(al[ac], XmNsashWidth, 1);
+	ac++;
+	XtSetArg(al[ac], XmNsashHeight, 1);
+	ac++;
+	XtSetArg(al[ac], XmNseparatorOn, False);
+	ac++;
+	XtSetArg(al[ac], XmNmarginWidth, PWmargW);
+	ac++;
+	XtSetArg(al[ac], XmNmarginHeight, PWmargH);
+	ac++;
+	XtSetArg(al[ac], XmNspacing, PWspacing);
+	ac++;
+	paned = XmCreatePanedWindow(shell, WIDGET_NAME, al, ac);
+
+	XtManageChild(paned);
+
+	*pShell = shell, *pPaned = paned;
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -447,38 +502,42 @@ void appMakeVerticalTool(	APP_WIDGET *		pShell,
 /*									*/
 /************************************************************************/
 
-char * appWidgetName(	char *	file,
-			int	line )
-    {
-    static char **	names;
-    static int		nameCount;
+char *appWidgetName(char *file, int line)
+{
+	static char **names;
+	static int nameCount;
 
-    char **		freshNames;
-    char *		freshName;
+	char **freshNames;
+	char *freshName;
 
-    int			i;
+	int i;
 
-    freshNames= (char **)realloc( names, ( nameCount+ 1 )* sizeof(char *) );
-    if  ( ! freshNames )
-	{ XDEB(freshNames); return file;	}
-    names= freshNames;
+	freshNames = (char **)realloc(names, (nameCount + 1) * sizeof(char *));
+	if (!freshNames) {
+		XDEB(freshNames);
+		return file;
+	}
+	names = freshNames;
 
-    freshName= (char *)malloc( strlen( file )+ 11 );
-    if  ( ! freshName )
-	{ XDEB(freshName); return file;	}
-
-    sprintf( freshName, "%s(%d)", file, line );
-
-    for ( i= 0; i < nameCount; freshNames++, i++ )
-	{
-	if  ( ! strcmp( freshNames[0], freshName ) )
-	    { free( freshName ); return freshNames[0];	}
+	freshName = (char *)malloc(strlen(file) + 11);
+	if (!freshName) {
+		XDEB(freshName);
+		return file;
 	}
 
-    names[nameCount++]= freshName;
+	sprintf(freshName, "%s(%d)", file, line);
 
-    return freshName;
-    }
+	for (i = 0; i < nameCount; freshNames++, i++) {
+		if (!strcmp(freshNames[0], freshName)) {
+			free(freshName);
+			return freshNames[0];
+		}
+	}
+
+	names[nameCount++] = freshName;
+
+	return freshName;
+}
 
 /************************************************************************/
 /*									*/
@@ -486,28 +545,34 @@ char * appWidgetName(	char *	file,
 /*									*/
 /************************************************************************/
 
-void appGuiInsertColumnInWindow(	APP_WIDGET *	pColumn,
-					APP_WIDGET	parent )
-    {
-    APP_WIDGET		column;
+void appGuiInsertColumnInWindow(APP_WIDGET *pColumn, APP_WIDGET parent)
+{
+	APP_WIDGET column;
 
-    Arg			al[20];
-    int			ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    ac= 0;
-    XtSetArg( al[ac],	XmNsashWidth,		1 ); ac++;
-    XtSetArg( al[ac],	XmNsashHeight,		1 ); ac++;
-    XtSetArg( al[ac],	XmNseparatorOn,		False ); ac++;
-    XtSetArg( al[ac],	XmNmarginWidth,		0 ); ac++;
-    XtSetArg( al[ac],	XmNmarginHeight,	0 ); ac++;
-    XtSetArg( al[ac],	XmNspacing,		0 ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNsashWidth, 1);
+	ac++;
+	XtSetArg(al[ac], XmNsashHeight, 1);
+	ac++;
+	XtSetArg(al[ac], XmNseparatorOn, False);
+	ac++;
+	XtSetArg(al[ac], XmNmarginWidth, 0);
+	ac++;
+	XtSetArg(al[ac], XmNmarginHeight, 0);
+	ac++;
+	XtSetArg(al[ac], XmNspacing, 0);
+	ac++;
 
-    column= XmCreatePanedWindow( parent, WIDGET_NAME, al, ac );
+	column = XmCreatePanedWindow(parent, WIDGET_NAME, al, ac);
 
-    XtManageChild( column );
+	XtManageChild(column);
 
-    *pColumn= column; return;
-    }
+	*pColumn = column;
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -515,26 +580,30 @@ void appGuiInsertColumnInWindow(	APP_WIDGET *	pColumn,
 /*									*/
 /************************************************************************/
 
-void appGuiInsertMenubarInColumn(	APP_WIDGET *	pMenubar,
-					APP_WIDGET	parent )
-    {
-    Widget		menuBar;
+void appGuiInsertMenubarInColumn(APP_WIDGET *pMenubar, APP_WIDGET parent)
+{
+	Widget menuBar;
 
-    Arg			al[20];
-    int			ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    ac= 0;
-    XtSetArg( al[ac], XmNskipAdjust,		True ); ac++;
-    XtSetArg( al[ac], XmNallowResize,		True ); ac++;
-    XtSetArg( al[ac], XmNtraversalOn,		False ); ac++;
-    XtSetArg( al[ac], XmNresizeHeight,		True ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNskipAdjust, True);
+	ac++;
+	XtSetArg(al[ac], XmNallowResize, True);
+	ac++;
+	XtSetArg(al[ac], XmNtraversalOn, False);
+	ac++;
+	XtSetArg(al[ac], XmNresizeHeight, True);
+	ac++;
 
-    menuBar= XmCreateMenuBar( parent, WIDGET_NAME, al, ac );
+	menuBar = XmCreateMenuBar(parent, WIDGET_NAME, al, ac);
 
-    XtManageChild( menuBar );
+	XtManageChild(menuBar);
 
-    *pMenubar= menuBar; return;
-    }
+	*pMenubar = menuBar;
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -542,18 +611,17 @@ void appGuiInsertMenubarInColumn(	APP_WIDGET *	pMenubar,
 /*									*/
 /************************************************************************/
 
-void appGuiInsertSeparatorInColumn(	APP_WIDGET *	pSeparator,
-					APP_WIDGET	column )
-    {
-    Arg			al[20];
-    int			ac= 0;
+void appGuiInsertSeparatorInColumn(APP_WIDGET *pSeparator, APP_WIDGET column)
+{
+	Arg al[20];
+	int ac = 0;
 
-    *pSeparator= XmCreateSeparator( column, WIDGET_NAME, al, ac );
+	*pSeparator = XmCreateSeparator(column, WIDGET_NAME, al, ac);
 
-    XtManageChild( *pSeparator );
+	XtManageChild(*pSeparator);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -561,38 +629,34 @@ void appGuiInsertSeparatorInColumn(	APP_WIDGET *	pSeparator,
 /*									*/
 /************************************************************************/
 
-void appGuiSetToggleLabel(	APP_WIDGET		toggle,
-				const char *		text )
-    {
-    XmString	labelString;
+void appGuiSetToggleLabel(APP_WIDGET toggle, const char *text)
+{
+	XmString labelString;
 
-    labelString= XmStringCreateLocalized( (char *)text );
-    XtVaSetValues( toggle,
-			XmNlabelString,	labelString,
-			NULL );
+	labelString = XmStringCreateLocalized((char *)text);
+	XtVaSetValues(toggle, XmNlabelString, labelString, NULL);
 
-    XmStringFree( labelString );
-    }
+	XmStringFree(labelString);
+}
 
-void appGuiSetToggleState(	APP_WIDGET		toggle,
-				int			set )
-    {
-    XmToggleButtonSetState( toggle, set != 0, False );
-    }
+void appGuiSetToggleState(APP_WIDGET toggle, int set)
+{
+	XmToggleButtonSetState(toggle, set != 0, False);
+}
 
-int appGuiGetToggleState(	APP_WIDGET		toggle )
-    {
-    return XmToggleButtonGetState( toggle ) != 0;
-    }
+int appGuiGetToggleState(APP_WIDGET toggle)
+{
+	return XmToggleButtonGetState(toggle) != 0;
+}
 
-int appGuiGetToggleStateFromCallbackMotif( void *	voidcbs )
-    {
-    XmToggleButtonCallbackStruct *	cbs;
+int appGuiGetToggleStateFromCallbackMotif(void *voidcbs)
+{
+	XmToggleButtonCallbackStruct *cbs;
 
-    cbs= (XmToggleButtonCallbackStruct *)voidcbs;
+	cbs = (XmToggleButtonCallbackStruct *)voidcbs;
 
-    return cbs->set;
-    }
+	return cbs->set;
+}
 
 /************************************************************************/
 /*									*/
@@ -602,27 +666,25 @@ int appGuiGetToggleStateFromCallbackMotif( void *	voidcbs )
 /*									*/
 /************************************************************************/
 
-void guiEnableWidget(	APP_WIDGET		w,
-			int			on_off )
-    {
-    XtSetSensitive( w, on_off != 0 );
-    }
+void guiEnableWidget(APP_WIDGET w, int on_off)
+{
+	XtSetSensitive(w, on_off != 0);
+}
 
-void appGuiSetWidgetVisible(	APP_WIDGET		w,
-				int			on_off )
-    {
-    APP_WIDGET		parent= XtParent( w );
+void appGuiSetWidgetVisible(APP_WIDGET w, int on_off)
+{
+	APP_WIDGET parent = XtParent(w);
 
-    XtVaSetValues( w,	XmNmappedWhenManaged,	on_off != 0,
-			NULL );
+	XtVaSetValues(w, XmNmappedWhenManaged, on_off != 0, NULL);
 
-    if  ( parent && XmIsRowColumn( parent ) )
-	{
-	if  ( on_off )
-	    { XtManageChild( w );	}
-	else{ XtUnmanageChild( w );	}
+	if (parent && XmIsRowColumn(parent)) {
+		if (on_off) {
+			XtManageChild(w);
+		} else {
+			XtUnmanageChild(w);
+		}
 	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -633,19 +695,18 @@ void appGuiSetWidgetVisible(	APP_WIDGET		w,
 /*									*/
 /************************************************************************/
 
-void appShowShellWidget(		EditApplication *	ea,
-					APP_WIDGET		shell )
-    {
-    XtRealizeWidget( shell );
+void appShowShellWidget(EditApplication *ea, APP_WIDGET shell)
+{
+	XtRealizeWidget(shell);
 
-    XtVaSetValues( shell, XmNinitialState, NormalState, NULL );
-    XtMapWidget( shell );
-    XRaiseWindow( XtDisplay( shell ), XtWindow( shell ) );
+	XtVaSetValues(shell, XmNinitialState, NormalState, NULL);
+	XtMapWidget(shell);
+	XRaiseWindow(XtDisplay(shell), XtWindow(shell));
 
-    XSync( XtDisplay( shell ), False );
+	XSync(XtDisplay(shell), False);
 
-    appGuiMotifWaitForWindow( shell, ea->eaContext );
-    }
+	appGuiMotifWaitForWindow(shell, ea->eaContext);
+}
 
 /************************************************************************/
 /*									*/
@@ -653,46 +714,41 @@ void appShowShellWidget(		EditApplication *	ea,
 /*									*/
 /************************************************************************/
 
-void appHideShellWidget(		APP_WIDGET		shell )
-    {
-    if  ( XtIsRealized( shell ) )
-	{ XtUnmapWidget( shell );	}
-    }
+void appHideShellWidget(APP_WIDGET shell)
+{
+	if (XtIsRealized(shell)) {
+		XtUnmapWidget(shell);
+	}
+}
 
-void appDestroyShellWidget(		APP_WIDGET		shell )
-    {
-    XtDestroyWidget( shell );
-    }
+void appDestroyShellWidget(APP_WIDGET shell)
+{
+	XtDestroyWidget(shell);
+}
 
-void appGuiGetScrollbarValues(		int *		pValue,
-					int *		pSliderSize,
-					APP_WIDGET	scrollbar )
-    {
-    XtVaGetValues( scrollbar,
-				    XmNvalue,		pValue,
-				    XmNsliderSize,	pSliderSize,
-				    NULL );
-    return;
-    }
+void appGuiGetScrollbarValues(int *pValue, int *pSliderSize,
+			      APP_WIDGET scrollbar)
+{
+	XtVaGetValues(scrollbar, XmNvalue, pValue, XmNsliderSize, pSliderSize,
+		      NULL);
+	return;
+}
 
-void appGuiSetScrollbarValues(		APP_WIDGET	scrollbar,
-					int		value,
-					int		sliderSize )
-    {
-    const Boolean		notify= False;
+void appGuiSetScrollbarValues(APP_WIDGET scrollbar, int value, int sliderSize)
+{
+	const Boolean notify = False;
 
-    XmScrollBarSetValues( scrollbar, value, sliderSize, 0,0, notify );
+	XmScrollBarSetValues(scrollbar, value, sliderSize, 0, 0, notify);
 
-    return;
-    }
+	return;
+}
 
-int appGuiGetScrollbarValueFromCallback( APP_WIDGET		scrollbar,
-					void *			voidcbs )
-    {
-    XmScrollBarCallbackStruct *	cbs= (XmScrollBarCallbackStruct *)voidcbs;
+int appGuiGetScrollbarValueFromCallback(APP_WIDGET scrollbar, void *voidcbs)
+{
+	XmScrollBarCallbackStruct *cbs = (XmScrollBarCallbackStruct *)voidcbs;
 
-    return cbs->value;
-    }
+	return cbs->value;
+}
 
 /************************************************************************/
 /*									*/
@@ -703,25 +759,21 @@ int appGuiGetScrollbarValueFromCallback( APP_WIDGET		scrollbar,
 /*									*/
 /************************************************************************/
 
-void appGuiSetShellTitle(		APP_WIDGET		shell,
-					const MemoryBuffer *	fullTitle )
-    {
-    XtVaSetValues( shell,
-			XmNtitle,	utilMemoryBufferGetString( fullTitle ),
-			NULL );
+void appGuiSetShellTitle(APP_WIDGET shell, const MemoryBuffer *fullTitle)
+{
+	XtVaSetValues(shell, XmNtitle, utilMemoryBufferGetString(fullTitle),
+		      NULL);
 
-    return;
-    }
+	return;
+}
 
-void appGuiSetIconTitle(		APP_WIDGET		shell,
-					const MemoryBuffer *	iconName )
-    {
-    XtVaSetValues( shell,
-			XmNiconName,	utilMemoryBufferGetString( iconName ),
-			NULL );
+void appGuiSetIconTitle(APP_WIDGET shell, const MemoryBuffer *iconName)
+{
+	XtVaSetValues(shell, XmNiconName, utilMemoryBufferGetString(iconName),
+		      NULL);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -730,64 +782,64 @@ void appGuiSetIconTitle(		APP_WIDGET		shell,
 /*									*/
 /************************************************************************/
 
-static void appGuiSendExposeForResize(	APP_WIDGET		w,
-					void *			through,
-					void *			voidcbs )
-    {
-    if  ( XtIsRealized( w ) )
-	{
-	XClearArea( XtDisplay( w ), XtWindow( w ), 0, 0, 0, 0, True );
+static void appGuiSendExposeForResize(APP_WIDGET w, void *through,
+				      void *voidcbs)
+{
+	if (XtIsRealized(w)) {
+		XClearArea(XtDisplay(w), XtWindow(w), 0, 0, 0, 0, True);
 	}
-    }
+}
 
-void appGuiMakeDrawingAreaInColumn( APP_WIDGET *		pDrawing,
-				    APP_WIDGET			column,
-				    int				wide,
-				    int				high,
-				    int				heightResizable,
-				    APP_EVENT_HANDLER_T		redraw,
-				    void *			through )
-    {
-    APP_WIDGET	drawing;
+void appGuiMakeDrawingAreaInColumn(APP_WIDGET *pDrawing, APP_WIDGET column,
+				   int wide, int high, int heightResizable,
+				   APP_EVENT_HANDLER_T redraw, void *through)
+{
+	APP_WIDGET drawing;
 
-    Arg		al[20];
-    int		ac;
+	Arg al[20];
+	int ac;
 
-    /*
+	/*
     XtSetArg( al[ac],	XmNsensitive,		False ); ac++;
     */
 
-    ac= 0;
-    if  ( high > 0 )
-	{
-	XtSetArg( al[ac], XmNheight,		high ); ac++;
+	ac = 0;
+	if (high > 0) {
+		XtSetArg(al[ac], XmNheight, high);
+		ac++;
 	}
 
-    if  ( high <= 0 || heightResizable )
-	{ XtSetArg( al[ac], XmNskipAdjust,	False ); ac++;	}
-    else{ XtSetArg( al[ac], XmNskipAdjust,	True ); ac++;	}
-
-    if  ( wide > 0 )
-	{
-	XtSetArg( al[ac], XmNwidth,		wide ); ac++;
-	}
-    XtSetArg( al[ac],	XmNtraversalOn,		False ); ac++;
-    XtSetArg( al[ac],	XmNnavigationType,	XmNONE ); ac++;
-
-    drawing= XmCreateDrawingArea( column, WIDGET_NAME, al, ac );
-
-    if  ( redraw )
-	{
-	XtAddEventHandler( drawing, ExposureMask, False, redraw, through );
+	if (high <= 0 || heightResizable) {
+		XtSetArg(al[ac], XmNskipAdjust, False);
+		ac++;
+	} else {
+		XtSetArg(al[ac], XmNskipAdjust, True);
+		ac++;
 	}
 
-    XtAddCallback( drawing, XmNresizeCallback, appGuiSendExposeForResize,
-								(void *)0 );
+	if (wide > 0) {
+		XtSetArg(al[ac], XmNwidth, wide);
+		ac++;
+	}
+	XtSetArg(al[ac], XmNtraversalOn, False);
+	ac++;
+	XtSetArg(al[ac], XmNnavigationType, XmNONE);
+	ac++;
 
-    XtManageChild( drawing );
+	drawing = XmCreateDrawingArea(column, WIDGET_NAME, al, ac);
 
-    *pDrawing= drawing;
-    }
+	if (redraw) {
+		XtAddEventHandler(drawing, ExposureMask, False, redraw,
+				  through);
+	}
+
+	XtAddCallback(drawing, XmNresizeCallback, appGuiSendExposeForResize,
+		      (void *)0);
+
+	XtManageChild(drawing);
+
+	*pDrawing = drawing;
+}
 
 /************************************************************************/
 /*									*/
@@ -795,9 +847,9 @@ void appGuiMakeDrawingAreaInColumn( APP_WIDGET *		pDrawing,
 /*									*/
 /************************************************************************/
 
-void appGetPixelsPerTwip(	EditApplication *	ea )
-    {
-#   if 0
+void appGetPixelsPerTwip(EditApplication *ea)
+{
+#if 0
     Display *		display= XtDisplay( ea->eaToplevel.atTopWidget );
     int			screen= DefaultScreen( display );
 
@@ -815,12 +867,12 @@ void appGetPixelsPerTwip(	EditApplication *	ea )
     yfac=  ( 25.4/ ( 20.0* 72.0 ) )* verPixPerMM;
 
     ea->eaPixelsPerTwip= xfac;
-#   else
-    ea->eaPixelsPerTwip= 96.0/ ( 20* 72 );
-#   endif
+#else
+	ea->eaPixelsPerTwip = 96.0 / (20 * 72);
+#endif
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -828,47 +880,44 @@ void appGetPixelsPerTwip(	EditApplication *	ea )
 /*									*/
 /************************************************************************/
 
-typedef struct DragLoop
-    {
-    XtAppContext		dlContext;
+typedef struct DragLoop {
+	XtAppContext dlContext;
 
-    XtEventHandler		dlUpHandler;
-    XtEventHandler		dlMoveHandler;
-    int				dlTimerInterval;
-    XtTimerCallbackProc		dlTimerHandler;
-    void *			dlThrough;
+	XtEventHandler dlUpHandler;
+	XtEventHandler dlMoveHandler;
+	int dlTimerInterval;
+	XtTimerCallbackProc dlTimerHandler;
+	void *dlThrough;
 
-    int				dlHalted;
-    XtIntervalId		dlIntervalId;
-    } DragLoop;
+	int dlHalted;
+	XtIntervalId dlIntervalId;
+} DragLoop;
 
-static void appDragTick(	void *		vdl,
-				XtIntervalId *	xii )
-    {
-    DragLoop *		dl= (DragLoop *)vdl;
+static void appDragTick(void *vdl, XtIntervalId *xii)
+{
+	DragLoop *dl = (DragLoop *)vdl;
 
-    (*dl->dlTimerHandler)( dl->dlThrough, xii );
+	(*dl->dlTimerHandler)(dl->dlThrough, xii);
 
-    if  ( dl->dlTimerHandler && dl->dlTimerInterval > 0 )
-	{
-	dl->dlIntervalId= XtAppAddTimeOut( dl->dlContext,
-			    dl->dlTimerInterval, appDragTick, (void *)dl );
+	if (dl->dlTimerHandler && dl->dlTimerInterval > 0) {
+		dl->dlIntervalId = XtAppAddTimeOut(dl->dlContext,
+						   dl->dlTimerInterval,
+						   appDragTick, (void *)dl);
 	}
-    return;
-    }
+	return;
+}
 
-static void appDragMouseUp(		APP_WIDGET		w,
-					void *			vdl,
-					APP_EVENT *		event,
-					Boolean *		pRefused )
-    {
-    DragLoop *		dl= (DragLoop *)vdl;
+static void appDragMouseUp(APP_WIDGET w, void *vdl, APP_EVENT *event,
+			   Boolean *pRefused)
+{
+	DragLoop *dl = (DragLoop *)vdl;
 
-    if  ( dl->dlUpHandler )
-	{ (*dl->dlUpHandler)( w, dl->dlThrough, event, pRefused );	}
+	if (dl->dlUpHandler) {
+		(*dl->dlUpHandler)(w, dl->dlThrough, event, pRefused);
+	}
 
-    dl->dlHalted= 1;
-    }
+	dl->dlHalted = 1;
+}
 
 /************************************************************************/
 /*									*/
@@ -878,113 +927,103 @@ static void appDragMouseUp(		APP_WIDGET		w,
 /*									*/
 /************************************************************************/
 
-static void appDragMouseMove(		APP_WIDGET		w,
-					void *			vdl,
-					APP_EVENT *		event,
-					Boolean *		pRefused )
-    {
-    DragLoop *		dl= (DragLoop *)vdl;
-    Display *		display= XtDisplay( w );
+static void appDragMouseMove(APP_WIDGET w, void *vdl, APP_EVENT *event,
+			     Boolean *pRefused)
+{
+	DragLoop *dl = (DragLoop *)vdl;
+	Display *display = XtDisplay(w);
 
-    if  ( QLength( display ) > 0 )
-	{
-	XEvent			nextEvent;
+	if (QLength(display) > 0) {
+		XEvent nextEvent;
 
-	XPeekEvent( display, &nextEvent );
+		XPeekEvent(display, &nextEvent);
 
-	if  ( nextEvent.type == event->type			&&
-	      nextEvent.xmotion.window == event->xmotion.window	)
-	    { return;	}
+		if (nextEvent.type == event->type &&
+		    nextEvent.xmotion.window == event->xmotion.window) {
+			return;
+		}
 	}
 
-    if  ( dl->dlMoveHandler )
-	{ (*dl->dlMoveHandler)( w, dl->dlThrough, event, pRefused );	}
-    }
+	if (dl->dlMoveHandler) {
+		(*dl->dlMoveHandler)(w, dl->dlThrough, event, pRefused);
+	}
+}
 
-void appRunDragLoop(	APP_WIDGET		w,
-			EditApplication *	ea,
-			APP_EVENT *		downEvent,
-			APP_EVENT_HANDLER_T	upHandler,
-			APP_EVENT_HANDLER_T	moveHandler,
-			int			timerInterval,
-			APP_TIMER_CALLBACK	timerHandler,
-			void *			through )
-    {
-    DragLoop		dl;
+void appRunDragLoop(APP_WIDGET w, EditApplication *ea, APP_EVENT *downEvent,
+		    APP_EVENT_HANDLER_T upHandler,
+		    APP_EVENT_HANDLER_T moveHandler, int timerInterval,
+		    APP_TIMER_CALLBACK timerHandler, void *through)
+{
+	DragLoop dl;
 
-    dl.dlContext= ea->eaContext;
+	dl.dlContext = ea->eaContext;
 
-    dl.dlUpHandler= upHandler;
-    dl.dlMoveHandler= moveHandler;
-    dl.dlTimerInterval= timerInterval;
-    dl.dlTimerHandler= timerHandler;
-    dl.dlThrough= through;
+	dl.dlUpHandler = upHandler;
+	dl.dlMoveHandler = moveHandler;
+	dl.dlTimerInterval = timerInterval;
+	dl.dlTimerHandler = timerHandler;
+	dl.dlThrough = through;
 
-    dl.dlHalted= 0;
-    dl.dlIntervalId= (XtIntervalId)0;
+	dl.dlHalted = 0;
+	dl.dlIntervalId = (XtIntervalId)0;
 
-    if  ( dl.dlTimerHandler && dl.dlTimerInterval > 0 )
-	{
-	dl.dlIntervalId= XtAppAddTimeOut( dl.dlContext,
-				dl.dlTimerInterval, appDragTick, (void *)&dl );
+	if (dl.dlTimerHandler && dl.dlTimerInterval > 0) {
+		dl.dlIntervalId = XtAppAddTimeOut(dl.dlContext,
+						  dl.dlTimerInterval,
+						  appDragTick, (void *)&dl);
 	}
 
-    XtInsertEventHandler( w, ButtonReleaseMask, False,
-				    appDragMouseUp, (void *)&dl, XtListHead );
-    XtInsertEventHandler( w, Button1MotionMask, False,
-				    appDragMouseMove, (void *)&dl, XtListHead );
+	XtInsertEventHandler(w, ButtonReleaseMask, False, appDragMouseUp,
+			     (void *)&dl, XtListHead);
+	XtInsertEventHandler(w, Button1MotionMask, False, appDragMouseMove,
+			     (void *)&dl, XtListHead);
 
-    while( ! dl.dlHalted )
-	{ XtAppProcessEvent( dl.dlContext, XtIMAll );	}
-
-    if  ( dl.dlIntervalId )
-	{ XtRemoveTimeOut( dl.dlIntervalId );	}
-
-    XtRemoveEventHandler( w, ButtonReleaseMask, False,
-					    appDragMouseUp, (void *)&dl );
-    XtRemoveEventHandler( w, Button1MotionMask, False,
-					    appDragMouseMove, (void *)&dl );
-    return;
-    }
-
-void appGuiSetFocusChangeHandler(	APP_WIDGET		w,
-					APP_EVENT_HANDLER_T	handler,
-					void *			through )
-    {
-    XtAddEventHandler( w, FocusChangeMask, False, handler, through );
-    }
-
-void appSetDestroyCallback(	APP_WIDGET		shell,
-				APP_DESTROY_CALLBACK_T	destroyCallback,
-				void *			through )
-    {
-    if  ( destroyCallback )
-	{
-	XtAddCallback( shell, XmNdestroyCallback,
-						destroyCallback, through );
+	while (!dl.dlHalted) {
+		XtAppProcessEvent(dl.dlContext, XtIMAll);
 	}
-    }
 
-void appSetCloseCallback(	APP_WIDGET		shell,
-				EditApplication *	ea,
-				APP_CLOSE_CALLBACK_T	closeCallback,
-				void *			through )
-    {
-    if  ( closeCallback && ea->eaCloseAtom > 0 )
-	{
-	XtVaSetValues( shell,
-			    XmNdeleteResponse,		XmDO_NOTHING,
-			    NULL );
-
-	XmAddWMProtocolCallback( shell, ea->eaCloseAtom,
-						    closeCallback, through );
+	if (dl.dlIntervalId) {
+		XtRemoveTimeOut(dl.dlIntervalId);
 	}
-    }
 
-void appGuiFocusToWidget(	APP_WIDGET		w )
-    {
-    XmProcessTraversal( w, XmTRAVERSE_CURRENT );
-    }
+	XtRemoveEventHandler(w, ButtonReleaseMask, False, appDragMouseUp,
+			     (void *)&dl);
+	XtRemoveEventHandler(w, Button1MotionMask, False, appDragMouseMove,
+			     (void *)&dl);
+	return;
+}
+
+void appGuiSetFocusChangeHandler(APP_WIDGET w, APP_EVENT_HANDLER_T handler,
+				 void *through)
+{
+	XtAddEventHandler(w, FocusChangeMask, False, handler, through);
+}
+
+void appSetDestroyCallback(APP_WIDGET shell,
+			   APP_DESTROY_CALLBACK_T destroyCallback,
+			   void *through)
+{
+	if (destroyCallback) {
+		XtAddCallback(shell, XmNdestroyCallback, destroyCallback,
+			      through);
+	}
+}
+
+void appSetCloseCallback(APP_WIDGET shell, EditApplication *ea,
+			 APP_CLOSE_CALLBACK_T closeCallback, void *through)
+{
+	if (closeCallback && ea->eaCloseAtom > 0) {
+		XtVaSetValues(shell, XmNdeleteResponse, XmDO_NOTHING, NULL);
+
+		XmAddWMProtocolCallback(shell, ea->eaCloseAtom, closeCallback,
+					through);
+	}
+}
+
+void appGuiFocusToWidget(APP_WIDGET w)
+{
+	XmProcessTraversal(w, XmTRAVERSE_CURRENT);
+}
 
 /************************************************************************/
 /*									*/
@@ -992,117 +1031,128 @@ void appGuiFocusToWidget(	APP_WIDGET		w )
 /*									*/
 /************************************************************************/
 
-void appGuiMotifSetFocusToWindow(	APP_WIDGET		w )
-    {
-    XWindowAttributes	xwa;
+void appGuiMotifSetFocusToWindow(APP_WIDGET w)
+{
+	XWindowAttributes xwa;
 
-    if  ( ! XtIsRealized( w ) )
-	{ return;	}
-
-    XGetWindowAttributes( XtDisplay( w ), XtWindow( w ), &xwa );
-
-    if  ( xwa.map_state != IsViewable )
-	{ return;	}
-
-    XSetInputFocus( XtDisplay( w ), XtWindow( w ), RevertToNone, CurrentTime );
-    }
-
-void appGuiMotifWaitForWindow(	APP_WIDGET		shell,
-				XtAppContext		context )
-    {
-    const int		eventCount= 350;
-    int			i;
-
-    for ( i= 0; i < eventCount; i++ )
-	{
-	if  ( XtIsRealized( shell ) )
-	    {
-	    XWindowAttributes	xwa;
-
-	    XGetWindowAttributes( XtDisplay( shell ), XtWindow( shell ), &xwa );
-	    if  ( xwa.map_state != IsUnmapped )
-		{ break;	}
-	    }
-
-	XtAppProcessEvent( context, XtIMAll );
+	if (!XtIsRealized(w)) {
+		return;
 	}
 
-    if  ( i >= eventCount )
-	{ LDEB(i);	}
+	XGetWindowAttributes(XtDisplay(w), XtWindow(w), &xwa);
 
-    return;
-    }
+	if (xwa.map_state != IsViewable) {
+		return;
+	}
 
-# ifdef XP_PRINTNAME
-# ifdef FAKE_XP
+	XSetInputFocus(XtDisplay(w), XtWindow(w), RevertToNone, CurrentTime);
+}
 
-XPContext XpGetContext( Display * display )
-    { return (XPContext)0; }
+void appGuiMotifWaitForWindow(APP_WIDGET shell, XtAppContext context)
+{
+	const int eventCount = 350;
+	int i;
 
-char *XpGetOneAttribute(	Display *	display,
-				XPContext	context,
-				XPAttributes	type,
-				char * attribute_name )
-    { return "XpGetOneAttribute"; }
+	for (i = 0; i < eventCount; i++) {
+		if (XtIsRealized(shell)) {
+			XWindowAttributes xwa;
 
-Bool XpSetImageResolution(	Display * display,
-				XPContext  print_context,
-				int  image_res,
-				int * prev_res_return )
-    { *prev_res_return= 100; return False; }
+			XGetWindowAttributes(XtDisplay(shell), XtWindow(shell),
+					     &xwa);
+			if (xwa.map_state != IsUnmapped) {
+				break;
+			}
+		}
 
-Bool XpQueryExtension(	Display *display,
-			int *event_base_return,
-			int *error_base_return )
-    { return False;	}
+		XtAppProcessEvent(context, XtIMAll);
+	}
 
-void XpStartPage(	Display *display,
-			Window window )
-    { return;	}
+	if (i >= eventCount) {
+		LDEB(i);
+	}
 
-void XpEndPage(	Display *display )
-    { return;	}
+	return;
+}
 
-void XpEndJob(	Display *display )
-    { return;	}
+#ifdef XP_PRINTNAME
+#ifdef FAKE_XP
 
-Status XpGetPageDimensions(	Display *display,
-				XPContext print_context,
-				unsigned short *width,
-				unsigned short *height,
-				XRectangle *reproducible_area )
-    { return 0; }
+XPContext XpGetContext(Display *display)
+{
+	return (XPContext)0;
+}
 
-Screen *XpGetScreenOfContext (	Display *display,
-				XPContext print_context )
-    { return (Screen *)0; }
+char *XpGetOneAttribute(Display *display, XPContext context, XPAttributes type,
+			char *attribute_name)
+{
+	return "XpGetOneAttribute";
+}
 
-Status XpGetDocumentData (	Display *data_display,
-				XPContext context,
-				XPSaveProc save_proc,
-				XPFinishProc finish_proc,
-				XPointer client_data )
-    { return 0;	}
+Bool XpSetImageResolution(Display *display, XPContext print_context,
+			  int image_res, int *prev_res_return)
+{
+	*prev_res_return = 100;
+	return False;
+}
 
-Status XpGetPdmStartParams (	Display *print_display,
-				Window print_window,
-				XPContext print_context,
-				Display *video_display,
-				Window video_window,
-				Display **selection_display_return,
-				Atom *selection_return,
-				Atom *type_return,
-				int *format_return,
-				unsigned char **data_return,
-				int *nelements_return )
-    { return 0;	}
+Bool XpQueryExtension(Display *display, int *event_base_return,
+		      int *error_base_return)
+{
+	return False;
+}
 
-void XpSelectInput (	Display *display,
-			XPContext context,
-			unsigned long event_mask )
-    { return;	}
+void XpStartPage(Display *display, Window window)
+{
+	return;
+}
 
-# endif /* FAKE_XP */
-# endif /* XP_PRINTNAME */
+void XpEndPage(Display *display)
+{
+	return;
+}
 
-#   endif
+void XpEndJob(Display *display)
+{
+	return;
+}
+
+Status XpGetPageDimensions(Display *display, XPContext print_context,
+			   unsigned short *width, unsigned short *height,
+			   XRectangle *reproducible_area)
+{
+	return 0;
+}
+
+Screen *XpGetScreenOfContext(Display *display, XPContext print_context)
+{
+	return (Screen *)0;
+}
+
+Status XpGetDocumentData(Display *data_display, XPContext context,
+			 XPSaveProc save_proc, XPFinishProc finish_proc,
+			 XPointer client_data)
+{
+	return 0;
+}
+
+Status XpGetPdmStartParams(Display *print_display, Window print_window,
+			   XPContext print_context, Display *video_display,
+			   Window video_window,
+			   Display **selection_display_return,
+			   Atom *selection_return, Atom *type_return,
+			   int *format_return, unsigned char **data_return,
+			   int *nelements_return)
+{
+	return 0;
+}
+
+void XpSelectInput(Display *display, XPContext context,
+		   unsigned long event_mask)
+{
+	return;
+}
+
+#endif /* FAKE_XP */
+#endif /* XP_PRINTNAME */
+
+#endif

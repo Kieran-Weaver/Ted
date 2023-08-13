@@ -4,26 +4,26 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdlib.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
-#   include	<sioGeneral.h>
-#   include	<utilArgToX.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <sioGeneral.h>
+#include <utilArgToX.h>
 
-#   include	"tedApp.h"
-#   include	"tedEdit.h"
-#   include	"tedSelect.h"
-#   include	"tedAppFront.h"
-#   include	"tedDocFront.h"
-#   include	"tedAppResources.h"
-#   include	"tedDocument.h"
-#   include	<appFileChooser.h>
-#   include	<docTreeNode.h>
+#include "tedApp.h"
+#include "tedEdit.h"
+#include "tedSelect.h"
+#include "tedAppFront.h"
+#include "tedDocFront.h"
+#include "tedAppResources.h"
+#include "tedDocument.h"
+#include <appFileChooser.h>
+#include <docTreeNode.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -33,87 +33,100 @@
 /*									*/
 /************************************************************************/
 
-void tedDetermineDefaultSettings(	TedAppResources *	tar )
-    {
-    char *	past;
+void tedDetermineDefaultSettings(TedAppResources *tar)
+{
+	char *past;
 
-    /*  2  */
-    if  ( appDetermineBoolean( &(tar->tarShowTableGridInt),
-					    tar->tarShowTableGridString ) )
-	{ SDEB(tar->tarShowTableGridString);	}
-
-    /*  3  */
-    if  ( appDetermineBoolean( &(tar->tarAutoHyphenateInt),
-					    tar->tarAutoHyphenateString ) )
-	{ SDEB(tar->tarAutoHyphenateString);	}
-
-    /*  3  */
-    if  ( tar->tarShadingMeshTwipsString	&&
-	  tar->tarShadingMeshPointsDouble <= 0	)
-	{
-	long meshTwips= strtol( tar->tarShadingMeshTwipsString, &past, 10 );
-
-	if  ( meshTwips <= 0 || meshTwips > 400 )
-	    { SFDEB(tar->tarShadingMeshTwipsString,meshTwips); }
-
-	tar->tarShadingMeshPointsDouble= meshTwips/ 20.0;
+	/*  2  */
+	if (appDetermineBoolean(&(tar->tarShowTableGridInt),
+				tar->tarShowTableGridString)) {
+		SDEB(tar->tarShowTableGridString);
 	}
 
-    tar->tarPageGapMM= 4;
-    if  ( tar->tarPageGapMMString )
-	{ utilArgToInt( &(tar->tarPageGapMM), tar->tarPageGapMMString ); }
+	/*  3  */
+	if (appDetermineBoolean(&(tar->tarAutoHyphenateInt),
+				tar->tarAutoHyphenateString)) {
+		SDEB(tar->tarAutoHyphenateString);
+	}
 
-    if  ( appDetermineBoolean( &(tar->tarLenientRtfInt),
-					    tar->tarLenientRtfString ) )
-	{ SDEB(tar->tarLenientRtfString);	}
+	/*  3  */
+	if (tar->tarShadingMeshTwipsString &&
+	    tar->tarShadingMeshPointsDouble <= 0) {
+		long meshTwips =
+			strtol(tar->tarShadingMeshTwipsString, &past, 10);
 
-    if  ( appDetermineBoolean( &(tar->tarTraceEditsInt),
-					    tar->tarTraceEditsString ) )
-	{ SDEB(tar->tarTraceEditsString);	}
+		if (meshTwips <= 0 || meshTwips > 400) {
+			SFDEB(tar->tarShadingMeshTwipsString, meshTwips);
+		}
 
-    if  ( appDetermineBoolean( &(tar->tarPdfOutlineInt),
-					    tar->tarPdfOutlineString ) )
-	{ SDEB(tar->tarPdfOutlineString);	}
+		tar->tarShadingMeshPointsDouble = meshTwips / 20.0;
+	}
 
-    if  ( appDetermineBoolean( &(tar->tarOverridePaperSizeInt),
-					    tar->tarOverridePaperSizeString ) )
-	{ SDEB(tar->tarOverridePaperSizeString);	}
+	tar->tarPageGapMM = 4;
+	if (tar->tarPageGapMMString) {
+		utilArgToInt(&(tar->tarPageGapMM), tar->tarPageGapMMString);
+	}
 
-    return;
-    }
+	if (appDetermineBoolean(&(tar->tarLenientRtfInt),
+				tar->tarLenientRtfString)) {
+		SDEB(tar->tarLenientRtfString);
+	}
+
+	if (appDetermineBoolean(&(tar->tarTraceEditsInt),
+				tar->tarTraceEditsString)) {
+		SDEB(tar->tarTraceEditsString);
+	}
+
+	if (appDetermineBoolean(&(tar->tarPdfOutlineInt),
+				tar->tarPdfOutlineString)) {
+		SDEB(tar->tarPdfOutlineString);
+	}
+
+	if (appDetermineBoolean(&(tar->tarOverridePaperSizeInt),
+				tar->tarOverridePaperSizeString)) {
+		SDEB(tar->tarOverridePaperSizeString);
+	}
+
+	return;
+}
 
 /************************************************************************/
 
-static int	tedBuildOpenImageExtensions(	TedAppResources *	tar )
-    {
-    if  ( tar->tarOpenImageExtensionCount == 0 )
-	{
-	AppFileExtension *	afe;
+static int tedBuildOpenImageExtensions(TedAppResources *tar)
+{
+	if (tar->tarOpenImageExtensionCount == 0) {
+		AppFileExtension *afe;
 
-	if  ( appImgMakeFileExtensions( &(tar->tarOpenImageExtensions),
-					&(tar->tarOpenImageExtensionCount) ) )
-	    { LDEB(1); return -1;	}
+		if (appImgMakeFileExtensions(
+			    &(tar->tarOpenImageExtensions),
+			    &(tar->tarOpenImageExtensionCount))) {
+			LDEB(1);
+			return -1;
+		}
 
-	afe= (AppFileExtension *) realloc( tar->tarOpenImageExtensions,
-				    (tar->tarOpenImageExtensionCount+ 1)*
-				    sizeof(AppFileExtension) );
-	if  ( ! afe )
-	    { LXDEB(tar->tarOpenImageExtensionCount,afe); return -1; }
-	tar->tarOpenImageExtensions= afe;
+		afe = (AppFileExtension *)realloc(
+			tar->tarOpenImageExtensions,
+			(tar->tarOpenImageExtensionCount + 1) *
+				sizeof(AppFileExtension));
+		if (!afe) {
+			LXDEB(tar->tarOpenImageExtensionCount, afe);
+			return -1;
+		}
+		tar->tarOpenImageExtensions = afe;
 
-	afe += tar->tarOpenImageExtensionCount;
+		afe += tar->tarOpenImageExtensionCount;
 
-	afe->afeId= "wmfFile";
-	afe->afeFilter= "*.wmf";
-	afe->afeDescription= "Windows Metafile ( *.wmf )";
-	afe->afeExtension= "wmf";
-	afe->afeUseFlags= APPFILE_CAN_OPEN;
+		afe->afeId = "wmfFile";
+		afe->afeFilter = "*.wmf";
+		afe->afeDescription = "Windows Metafile ( *.wmf )";
+		afe->afeExtension = "wmf";
+		afe->afeUseFlags = APPFILE_CAN_OPEN;
 
-	tar->tarOpenImageExtensionCount++;
+		tar->tarOpenImageExtensionCount++;
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -123,72 +136,81 @@ static int	tedBuildOpenImageExtensions(	TedAppResources *	tar )
 /*									*/
 /************************************************************************/
 
-static int tedInsertFile(	EditApplication *	ea,
-				void *			voided,
-				APP_WIDGET		relative,
-				APP_WIDGET		option,
-				const MemoryBuffer *	filename )
-    {
-    int				rval= 0;
-    EditDocument *		ed= (EditDocument *)voided;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
+static int tedInsertFile(EditApplication *ea, void *voided, APP_WIDGET relative,
+			 APP_WIDGET option, const MemoryBuffer *filename)
+{
+	int rval = 0;
+	EditDocument *ed = (EditDocument *)voided;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
-    int				format;
-    BufferDocument *		bd= (BufferDocument *)0;
+	int format;
+	BufferDocument *bd = (BufferDocument *)0;
 
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    /*  1  */
-    format= appDocumentGetOpenFormat( (int *)0,
-			tar->tarOpenImageExtensions,
-			tar->tarOpenImageExtensionCount, filename, -1 );
-
-    if  ( format >= 0 )
-	{
 	/*  1  */
-	rval= tedObjectOpenImage( ea, voided, relative, option, filename );
-	if  ( rval )
-	    { LDEB(rval);	}
-	}
-    else{
-	const int	complain= 1;
-	const int	suggestStdin= 0;
-	int		formatHint= -1;
+	format = appDocumentGetOpenFormat((int *)0, tar->tarOpenImageExtensions,
+					  tar->tarOpenImageExtensionCount,
+					  filename, -1);
 
-	formatHint= appDocumentGetOpenFormat( (int *)0,
-			ea->eaFileExtensions, ea->eaFileExtensionCount,
-			filename, formatHint );
+	if (format >= 0) {
+		/*  1  */
+		rval = tedObjectOpenImage(ea, voided, relative, option,
+					  filename);
+		if (rval) {
+			LDEB(rval);
+		}
+	} else {
+		const int complain = 1;
+		const int suggestStdin = 0;
+		int formatHint = -1;
 
-	if  ( tedOpenDocumentFile( (unsigned char *)0, &format, &bd, ea,
+		formatHint = appDocumentGetOpenFormat((int *)0,
+						      ea->eaFileExtensions,
+						      ea->eaFileExtensionCount,
+						      filename, formatHint);
+
+		if (tedOpenDocumentFile((unsigned char *)0, &format, &bd, ea,
 					suggestStdin, formatHint, filename,
-					complain, relative, option ) )
-	    { LDEB(1); rval= -1; goto ready;	}
+					complain, relative, option)) {
+			LDEB(1);
+			rval = -1;
+			goto ready;
+		}
 
-	switch( format )
-	    {
-	    case TEDdockindRTF:
-		if  ( tedIncludeRtfDocument( ed, bd, td->tdTraced ) )
-		    { LDEB(1); rval= -1; goto ready;	}
-		break;
+		switch (format) {
+		case TEDdockindRTF:
+			if (tedIncludeRtfDocument(ed, bd, td->tdTraced)) {
+				LDEB(1);
+				rval = -1;
+				goto ready;
+			}
+			break;
 
-	    case TEDdockindTEXT_SAVE_WIDE:
-	    case TEDdockindTEXT_SAVE_FOLDED:
-		if  ( tedIncludePlainDocument( ed, bd, td->tdTraced ) )
-		    { LDEB(1); rval= -1; goto ready;	}
-		break;
+		case TEDdockindTEXT_SAVE_WIDE:
+		case TEDdockindTEXT_SAVE_FOLDED:
+			if (tedIncludePlainDocument(ed, bd, td->tdTraced)) {
+				LDEB(1);
+				rval = -1;
+				goto ready;
+			}
+			break;
 
-	    default:
-		LDEB(format); rval= -1; goto ready;
-	    }
+		default:
+			LDEB(format);
+			rval = -1;
+			goto ready;
+		}
 	}
-	    
-  ready:
 
-    if  ( bd )
-	{ docFreeDocument( bd );	}
+ready:
 
-    return rval;
-    }
+	if (bd) {
+		docFreeDocument(bd);
+	}
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -196,56 +218,58 @@ static int tedInsertFile(	EditApplication *	ea,
 /*									*/
 /************************************************************************/
 
-APP_MENU_CALLBACK_H( tedDocInsertFile, option, voided, e )
-    {
-    EditDocument *		ed= (EditDocument *)voided;
-    EditApplication *		ea= ed->edApplication;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
+APP_MENU_CALLBACK_H(tedDocInsertFile, option, voided, e)
+{
+	EditDocument *ed = (EditDocument *)voided;
+	EditApplication *ea = ed->edApplication;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! td->tdSelectionDescription.sdCanReplace )
-	{ LDEB(td->tdSelectionDescription.sdCanReplace); return;	}
-
-    if  ( tedBuildOpenImageExtensions( tar ) )
-	{ LDEB(1);	}
-
-    appRunOpenChooser( option, ed->edToplevel.atTopWidget,
-			    ea->eaFileExtensionCount, ea->eaFileExtensions,
-			    ea->eaDefaultFileFilter, (MemoryBuffer *)0,
-			    tedInsertFile, ea, voided );
-
-    return;
-    }
-
-APP_MENU_CALLBACK_H( tedDocFilePrint, printOption, voided, e )
-    {
-    EditDocument *	ed= (EditDocument *)voided;
-    TedDocument *	td= (TedDocument *)ed->edPrivateData;
-    BufferDocument *	bd= td->tdDocument;
-
-    int			pageCount= bd->bdBody.dtRoot->biBelowPosition.lpPage+ 1;
-    int			firstPage= -1;
-    int			lastPage= -1;
-
-    DocumentSelection		ds;
-    SelectionGeometry		sg;
-    SelectionDescription	sd;
-
-    const DocumentGeometry *	dgDoc= &(bd->bdProperties.dpGeometry);
-
-    if  ( ! tedGetSelection( &ds, &sg, &sd,
-				(DocumentTree **)0, (BufferItem **)0, ed ) )
-	{
-	firstPage= sg.sgHead.pgTopPosition.lpPage;
-	lastPage= sg.sgTail.pgTopPosition.lpPage;
+	if (!td->tdSelectionDescription.sdCanReplace) {
+		LDEB(td->tdSelectionDescription.sdCanReplace);
+		return;
 	}
 
-    appRunPrintDialog( ed, dgDoc, pageCount, firstPage, lastPage,
-					printOption, "print" );
+	if (tedBuildOpenImageExtensions(tar)) {
+		LDEB(1);
+	}
 
-    tedRedoDocumentLayout( ed );
-    }
+	appRunOpenChooser(option, ed->edToplevel.atTopWidget,
+			  ea->eaFileExtensionCount, ea->eaFileExtensions,
+			  ea->eaDefaultFileFilter, (MemoryBuffer *)0,
+			  tedInsertFile, ea, voided);
+
+	return;
+}
+
+APP_MENU_CALLBACK_H(tedDocFilePrint, printOption, voided, e)
+{
+	EditDocument *ed = (EditDocument *)voided;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	BufferDocument *bd = td->tdDocument;
+
+	int pageCount = bd->bdBody.dtRoot->biBelowPosition.lpPage + 1;
+	int firstPage = -1;
+	int lastPage = -1;
+
+	DocumentSelection ds;
+	SelectionGeometry sg;
+	SelectionDescription sd;
+
+	const DocumentGeometry *dgDoc = &(bd->bdProperties.dpGeometry);
+
+	if (!tedGetSelection(&ds, &sg, &sd, (DocumentTree **)0,
+			     (BufferItem **)0, ed)) {
+		firstPage = sg.sgHead.pgTopPosition.lpPage;
+		lastPage = sg.sgTail.pgTopPosition.lpPage;
+	}
+
+	appRunPrintDialog(ed, dgDoc, pageCount, firstPage, lastPage,
+			  printOption, "print");
+
+	tedRedoDocumentLayout(ed);
+}
 
 /************************************************************************/
 /*									*/
@@ -253,28 +277,32 @@ APP_MENU_CALLBACK_H( tedDocFilePrint, printOption, voided, e )
 /*									*/
 /************************************************************************/
 
-APP_MENU_CALLBACK_H( tedDocInsertImage, option, voided, e )
-    {
-    EditDocument *		ed= (EditDocument *)voided;
-    EditApplication *		ea= ed->edApplication;
-    TedDocument *		td= (TedDocument *)ed->edPrivateData;
+APP_MENU_CALLBACK_H(tedDocInsertImage, option, voided, e)
+{
+	EditDocument *ed = (EditDocument *)voided;
+	EditApplication *ea = ed->edApplication;
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( ! td->tdSelectionDescription.sdCanReplace )
-	{ LDEB(td->tdSelectionDescription.sdCanReplace); return;	}
+	if (!td->tdSelectionDescription.sdCanReplace) {
+		LDEB(td->tdSelectionDescription.sdCanReplace);
+		return;
+	}
 
-    if  ( tedBuildOpenImageExtensions( tar ) )
-	{ LDEB(1); return;	}
+	if (tedBuildOpenImageExtensions(tar)) {
+		LDEB(1);
+		return;
+	}
 
-    appRunOpenChooser( option, ed->edToplevel.atTopWidget,
-			tar->tarOpenImageExtensionCount,
-			tar->tarOpenImageExtensions,
-			(char *)0, (MemoryBuffer *)0,
-			tedObjectOpenImage, ea, (void *)ed );
+	appRunOpenChooser(option, ed->edToplevel.atTopWidget,
+			  tar->tarOpenImageExtensionCount,
+			  tar->tarOpenImageExtensions, (char *)0,
+			  (MemoryBuffer *)0, tedObjectOpenImage, ea,
+			  (void *)ed);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -282,34 +310,35 @@ APP_MENU_CALLBACK_H( tedDocInsertImage, option, voided, e )
 /*									*/
 /************************************************************************/
 
-static void tedMakeDocumentToHelp(	EditDocument *	ed )
-    {
-    TedDocument *	td= (TedDocument *)ed->edPrivateData;
-    const int		visible= 0;
+static void tedMakeDocumentToHelp(EditDocument *ed)
+{
+	TedDocument *td = (TedDocument *)ed->edPrivateData;
+	const int visible = 0;
 
-    guiShowMenuOption( td->tdFileOpenOption, visible );
-    guiShowMenuOption( td->tdFileSaveAsOption, visible );
-    guiShowMenuOption( td->tdFileUnlockOption, visible ); /* Already hidden */
-    guiShowMenuOption( td->tdFileRecoverOption, visible ); /* Already hidden */
-    guiShowMenuOption( td->tdFilePropertiesOption, visible );
-    guiShowMenuOption( td->tdFileQuitSeparator, visible );
-    guiShowMenuOption( td->tdFileQuitOption, visible );
+	guiShowMenuOption(td->tdFileOpenOption, visible);
+	guiShowMenuOption(td->tdFileSaveAsOption, visible);
+	guiShowMenuOption(td->tdFileUnlockOption, visible); /* Already hidden */
+	guiShowMenuOption(td->tdFileRecoverOption,
+			  visible); /* Already hidden */
+	guiShowMenuOption(td->tdFilePropertiesOption, visible);
+	guiShowMenuOption(td->tdFileQuitSeparator, visible);
+	guiShowMenuOption(td->tdFileQuitOption, visible);
 
-    /* Oops wrong calls */
-    guiShowMenuOption( td->tdFontMenuButton, visible );
-    guiShowMenuOption( td->tdTableMenuButton, visible );
-    guiShowMenuOption( td->tdFormatMenuButton, visible );
-    guiShowMenuOption( td->tdToolsMenuButton, visible );
+	/* Oops wrong calls */
+	guiShowMenuOption(td->tdFontMenuButton, visible);
+	guiShowMenuOption(td->tdTableMenuButton, visible);
+	guiShowMenuOption(td->tdFormatMenuButton, visible);
+	guiShowMenuOption(td->tdToolsMenuButton, visible);
 
-    guiShowMenuOption( td->tdToolsFormatToolOption, visible );
+	guiShowMenuOption(td->tdToolsFormatToolOption, visible);
 
-    /* Oops wrong call */
-    guiShowMenuOption( ed->edHelpMenuButton, visible );
+	/* Oops wrong call */
+	guiShowMenuOption(ed->edHelpMenuButton, visible);
 
-    td->tdDrawTableGrid= visible;
+	td->tdDrawTableGrid = visible;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -317,52 +346,52 @@ static void tedMakeDocumentToHelp(	EditDocument *	ed )
 /*									*/
 /************************************************************************/
 
-static APP_DESTROY_CALLBACK_H( tedManualDestroyed, w, voidtar )
-    {
-    TedAppResources *	tar= (TedAppResources *)voidtar;
+static APP_DESTROY_CALLBACK_H(tedManualDestroyed, w, voidtar)
+{
+	TedAppResources *tar = (TedAppResources *)voidtar;
 
-    tar->tarManualDocument= (EditDocument *)0;
-    }
+	tar->tarManualDocument = (EditDocument *)0;
+}
 
-void tedManual(		APP_WIDGET		option,
-			EditApplication *	ea,
-			APP_WIDGET		relative )
-    {
-    TedAppResources *	tar= (TedAppResources *)ea->eaResourceData;
+void tedManual(APP_WIDGET option, EditApplication *ea, APP_WIDGET relative)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    const int		readOnly= 1;
+	const int readOnly = 1;
 
-    MemoryBuffer	file;
+	MemoryBuffer file;
 
-    utilInitMemoryBuffer( &file );
+	utilInitMemoryBuffer(&file);
 
-    if  ( tar->tarManualDocument )
-	{ appMakeDocVisible( ea, tar->tarManualDocument );	}
-    else{
-	if  ( utilMemoryBufferSetString( &file, tar->tarAppHelpFileName ) )
-	    { LDEB(1); goto ready;	}
+	if (tar->tarManualDocument) {
+		appMakeDocVisible(ea, tar->tarManualDocument);
+	} else {
+		if (utilMemoryBufferSetString(&file, tar->tarAppHelpFileName)) {
+			LDEB(1);
+			goto ready;
+		}
 
-	tar->tarManualDocument= appOpenDocument( ea, relative,
-						    option, readOnly, &file );
+		tar->tarManualDocument =
+			appOpenDocument(ea, relative, option, readOnly, &file);
 
-	if  ( ! tar->tarManualDocument )
-	    {
-	    SXDEB(tar->tarAppHelpFileName,tar->tarManualDocument);
-	    goto ready;
-	    }
+		if (!tar->tarManualDocument) {
+			SXDEB(tar->tarAppHelpFileName, tar->tarManualDocument);
+			goto ready;
+		}
 
-	tedMakeDocumentToHelp( tar->tarManualDocument );
+		tedMakeDocumentToHelp(tar->tarManualDocument);
 
-	appSetDestroyCallback( tar->tarManualDocument->edToplevel.atTopWidget,
-					tedManualDestroyed, (void *)tar );
+		appSetDestroyCallback(
+			tar->tarManualDocument->edToplevel.atTopWidget,
+			tedManualDestroyed, (void *)tar);
 	}
 
-  ready:
+ready:
 
-    utilCleanMemoryBuffer( &file );
+	utilCleanMemoryBuffer(&file);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -370,24 +399,21 @@ void tedManual(		APP_WIDGET		option,
 /*									*/
 /************************************************************************/
 
-void tedVisibleDocumentCountChanged(	EditApplication *	ea,
-					int			from,
-					int			to )
-    {
-    TedAppResources *	tar= (TedAppResources *)ea->eaResourceData;
+void tedVisibleDocumentCountChanged(EditApplication *ea, int from, int to)
+{
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
 
-    if  ( from == 0 && to > 0 )
-	{
-	if  ( tar->tarInspector )
-	    { appEnableInspector( tar->tarInspector, 1 ); }
+	if (from == 0 && to > 0) {
+		if (tar->tarInspector) {
+			appEnableInspector(tar->tarInspector, 1);
+		}
 	}
 
-    if  ( from > 0 && to == 0 )
-	{
-	if  ( tar->tarInspector )
-	    { appEnableInspector( tar->tarInspector, 0 ); }
+	if (from > 0 && to == 0) {
+		if (tar->tarInspector) {
+			appEnableInspector(tar->tarInspector, 0);
+		}
 	}
 
-    return;
-    }
-
+	return;
+}

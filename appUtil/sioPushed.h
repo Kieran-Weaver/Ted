@@ -8,11 +8,8 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInPushedOpen(
-					SimpleInputStream *	sisIn );
+extern SimpleInputStream *sioInPushedOpen(SimpleInputStream *sisIn);
 
-extern SimpleOutputStream * sioOutPushedOpen(
-					SimpleOutputStream *	sosOut );
-
+extern SimpleOutputStream *sioOutPushedOpen(SimpleOutputStream *sosOut);

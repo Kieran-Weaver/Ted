@@ -4,19 +4,19 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stdlib.h>
-#   include	<stddef.h>
-#   include	<stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <stdio.h>
 
-#   include	"appFrame.h"
-#   include	"appInspector.h"
-#   include	"guiWidgetsImpl.h"
+#include "appFrame.h"
+#include "appInspector.h"
+#include "guiWidgetsImpl.h"
 
-#   include	"appRgbChooserPage.h"
+#include "appRgbChooserPage.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -24,15 +24,14 @@
 /*									*/
 /************************************************************************/
 
-void appInspectorSelectSubject(	AppInspector *		ai,
-				int			subject )
-    {
-    const int	andMenu= 1;
+void appInspectorSelectSubject(AppInspector *ai, int subject)
+{
+	const int andMenu = 1;
 
-    appInspectorChoosePage( ai, andMenu, subject );
+	appInspectorChoosePage(ai, andMenu, subject);
 
-    ai->aiCurrentSubject= subject;
-    }
+	ai->aiCurrentSubject = subject;
+}
 
 /************************************************************************/
 /*									*/
@@ -40,30 +39,33 @@ void appInspectorSelectSubject(	AppInspector *		ai,
 /*									*/
 /************************************************************************/
 
-static void appDestroyInspector(	AppInspector *	ai )
-    {
-    if  ( ai->aiDestroy )
-	{ (*ai->aiDestroy)( ai->aiTarget );	}
+static void appDestroyInspector(AppInspector *ai)
+{
+	if (ai->aiDestroy) {
+		(*ai->aiDestroy)(ai->aiTarget);
+	}
 
-    if  ( ai->aiTopWidget )
-	{ appDestroyShellWidget( ai->aiTopWidget );	}
+	if (ai->aiTopWidget) {
+		appDestroyShellWidget(ai->aiTopWidget);
+	}
 
-    if  ( ai->aiSubjects )
-	{ free( ai->aiSubjects );	}
+	if (ai->aiSubjects) {
+		free(ai->aiSubjects);
+	}
 
-    free( ai );
+	free(ai);
 
-    return;
-    }
+	return;
+}
 
-static APP_CLOSE_CALLBACK_H( appInspectorCloseCall, w, voidai )
-    {
-    AppInspector *	ai= (AppInspector *)voidai;
+static APP_CLOSE_CALLBACK_H(appInspectorCloseCall, w, voidai)
+{
+	AppInspector *ai = (AppInspector *)voidai;
 
-    appDestroyInspector( ai );
+	appDestroyInspector(ai);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -72,45 +74,50 @@ static APP_CLOSE_CALLBACK_H( appInspectorCloseCall, w, voidai )
 /*									*/
 /************************************************************************/
 
-static void appInspectorFillSubjects(
-				const InspectorSubjectResources *	isr,
-				AppInspector *				ai )
-    {
-    int				subject;
-    InspectorSubject *		is;
+static void appInspectorFillSubjects(const InspectorSubjectResources *isr,
+				     AppInspector *ai)
+{
+	int subject;
+	InspectorSubject *is;
 
-    is= ai->aiSubjects;
-    for ( subject= 0; subject < ai->aiSubjectCount; is++, isr++, subject++ )
-	{
-	if  ( appMakeVerticalInspectorPage( &(is->isPage), &(is->isMenuitem),
-						    ai, isr->isrSubjectName ) )
-	    { LDEB(subject);	}
+	is = ai->aiSubjects;
+	for (subject = 0; subject < ai->aiSubjectCount;
+	     is++, isr++, subject++) {
+		if (appMakeVerticalInspectorPage(&(is->isPage),
+						 &(is->isMenuitem), ai,
+						 isr->isrSubjectName)) {
+			LDEB(subject);
+		}
 
-	is->isEnabled= 1;
+		is->isEnabled = 1;
 	}
-    }
+}
 
-int appInspectorAddSubject(	AppInspector *				ai,
-				const InspectorSubjectResources *	isr )
-    {
-    InspectorSubject *	is;
+int appInspectorAddSubject(AppInspector *ai,
+			   const InspectorSubjectResources *isr)
+{
+	InspectorSubject *is;
 
-    is= realloc( ai->aiSubjects,
-			( ai->aiSubjectCount+ 1 )* sizeof(InspectorSubject) );
-    if  ( ! is )
-	{ LXDEB(ai->aiSubjectCount,is); return -1;	}
-    ai->aiSubjects= is;
+	is = realloc(ai->aiSubjects,
+		     (ai->aiSubjectCount + 1) * sizeof(InspectorSubject));
+	if (!is) {
+		LXDEB(ai->aiSubjectCount, is);
+		return -1;
+	}
+	ai->aiSubjects = is;
 
-    is += ai->aiSubjectCount;
-    if  ( appMakeVerticalInspectorPage( &(is->isPage), &(is->isMenuitem),
-						    ai, isr->isrSubjectName ) )
-	{ LDEB(1); return -1;	}
+	is += ai->aiSubjectCount;
+	if (appMakeVerticalInspectorPage(&(is->isPage), &(is->isMenuitem), ai,
+					 isr->isrSubjectName)) {
+		LDEB(1);
+		return -1;
+	}
 
-    is->isEnabled= 1;
-    ai->aiSubjectCount++;
+	is->isEnabled = 1;
+	ai->aiSubjectCount++;
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -118,32 +125,32 @@ int appInspectorAddSubject(	AppInspector *				ai,
 /*									*/
 /************************************************************************/
 
-static void appInitInspectorSubject(	InspectorSubject *	is )
-    {
-    is->isPage= (APP_WIDGET)0;
-    is->isMenuitem= (APP_WIDGET)0;
-    is->isPrivate= (void *)0;
-    is->isEnabled= 1;
+static void appInitInspectorSubject(InspectorSubject *is)
+{
+	is->isPage = (APP_WIDGET)0;
+	is->isMenuitem = (APP_WIDGET)0;
+	is->isPrivate = (void *)0;
+	is->isEnabled = 1;
 
-    is->isNextPrevRow= (APP_WIDGET)0;
-    is->isPrevButton= (APP_WIDGET)0;
-    is->isNextButton= (APP_WIDGET)0;
+	is->isNextPrevRow = (APP_WIDGET)0;
+	is->isPrevButton = (APP_WIDGET)0;
+	is->isNextButton = (APP_WIDGET)0;
 
-    is->isMoveUpButton= (APP_WIDGET)0;
-    is->isMoveDownButton= (APP_WIDGET)0;
+	is->isMoveUpButton = (APP_WIDGET)0;
+	is->isMoveDownButton = (APP_WIDGET)0;
 
-    is->isSelectButton= (APP_WIDGET)0;
-    is->isDeleteButton= (APP_WIDGET)0;
+	is->isSelectButton = (APP_WIDGET)0;
+	is->isDeleteButton = (APP_WIDGET)0;
 
-    is->isInsertButton= (APP_WIDGET)0;
-    is->isAppendButton= (APP_WIDGET)0;
+	is->isInsertButton = (APP_WIDGET)0;
+	is->isAppendButton = (APP_WIDGET)0;
 
-    is->isApplyRow= (APP_WIDGET)0;
-    is->isRevertButton= (APP_WIDGET)0;
-    is->isApplyButton= (APP_WIDGET)0;
+	is->isApplyRow = (APP_WIDGET)0;
+	is->isRevertButton = (APP_WIDGET)0;
+	is->isApplyButton = (APP_WIDGET)0;
 
-    is->isGotColor= (InspectorSubjectGotColor)0;
-    }
+	is->isGotColor = (InspectorSubjectGotColor)0;
+}
 
 /************************************************************************/
 /*									*/
@@ -151,169 +158,169 @@ static void appInitInspectorSubject(	InspectorSubject *	is )
 /*									*/
 /************************************************************************/
 
-static APP_BUTTON_CALLBACK_H( appCloseInspector, w, voidai )
-    {
-    AppInspector *	ai= (AppInspector *)voidai;
-
-    appDestroyInspector( ai );
-
-    return;
-    }
-
-void appEnableInspector(	AppInspector *	ai,
-				int		enabled )
-    {
-    guiEnableWidget( ai->aiPaned, enabled != 0 );
-
-    return;
-    }
-
-void appEnableInspectorSubject(		AppInspector *		ai,
-					int			subject ,
-					int			enabled )
-    {
-    appInspectorEnablePage( ai, subject, enabled );
-
-    ai->aiSubjects[subject].isEnabled= enabled != 0;
-
-    return;
-    }
-
-static AppConfigurableResource APP_InspectorResourceTable[]=
+static APP_BUTTON_CALLBACK_H(appCloseInspector, w, voidai)
 {
-    APP_RESOURCE( "inspectorCloseInspector",
-		offsetof(AppInspectorResources,airCloseText),
-		"Close" ),
+	AppInspector *ai = (AppInspector *)voidai;
+
+	appDestroyInspector(ai);
+
+	return;
+}
+
+void appEnableInspector(AppInspector *ai, int enabled)
+{
+	guiEnableWidget(ai->aiPaned, enabled != 0);
+
+	return;
+}
+
+void appEnableInspectorSubject(AppInspector *ai, int subject, int enabled)
+{
+	appInspectorEnablePage(ai, subject, enabled);
+
+	ai->aiSubjects[subject].isEnabled = enabled != 0;
+
+	return;
+}
+
+static AppConfigurableResource APP_InspectorResourceTable[] = {
+	APP_RESOURCE("inspectorCloseInspector",
+		     offsetof(AppInspectorResources, airCloseText), "Close"),
 };
 
-AppInspector * appMakeInspector(    EditApplication *		ea,
-				    APP_WIDGET			option,
-				    InspectorSubjectResources * isr,
-				    int				subjectCount,
-				    AppToolDestroy		destroy,
-				    void *			through )
-    {
-    AppInspector *		rval= (AppInspector *)0;
-    AppInspector *		ai;
-    int				subject;
+AppInspector *appMakeInspector(EditApplication *ea, APP_WIDGET option,
+			       InspectorSubjectResources *isr, int subjectCount,
+			       AppToolDestroy destroy, void *through)
+{
+	AppInspector *rval = (AppInspector *)0;
+	AppInspector *ai;
+	int subject;
 
-    APP_BITMAP_IMAGE		iconPixmap;
-    APP_BITMAP_MASK		iconMask;
+	APP_BITMAP_IMAGE iconPixmap;
+	APP_BITMAP_MASK iconMask;
 
-    const int			userResizable= 0;
+	const int userResizable = 0;
 
-    APP_WIDGET			row;
+	APP_WIDGET row;
 
-    static AppInspectorResources	air;
-    static int				gotResources;
+	static AppInspectorResources air;
+	static int gotResources;
 
-    if  ( ! gotResources )
-	{
-	appGuiGetResourceValues( &gotResources, ea, (void *)&air,
-					APP_InspectorResourceTable,
-					sizeof(APP_InspectorResourceTable)/
-					sizeof(AppConfigurableResource) );
+	if (!gotResources) {
+		appGuiGetResourceValues(
+			&gotResources, ea, (void *)&air,
+			APP_InspectorResourceTable,
+			sizeof(APP_InspectorResourceTable) /
+				sizeof(AppConfigurableResource));
 
-	gotResources= 1;
+		gotResources = 1;
 	}
 
-    if  ( appGetImagePixmap( ea, ea->eaMainIcon, &iconPixmap, &iconMask )  )
-	{ SDEB(ea->eaMainIcon); return (AppInspector *)0; }
-
-    ai= (AppInspector *)malloc( sizeof(AppInspector) );
-    if  ( ! ai )
-	{ LXDEB(subjectCount,ai); return ai;	}
-
-    ai->aiApplication= (struct EditApplication *)0;
-    ai->aiTopWidget= (APP_WIDGET)0;
-    ai->aiPaned= (APP_WIDGET)0;
-
-    appInitOptionmenu( &(ai->aiSubjectOptionmenu) );
-
-    ai->aiSeparator= (APP_WIDGET)0;
-    ai->aiPageParent= (APP_WIDGET)0;
-    ai->aiSeparator2= (APP_WIDGET)0;
-    ai->aiCloseButton= (APP_WIDGET)0;
-
-    ai->aiNotifySubject= (InspectorNotifySubject)0;
-
-    ai->aiRgbChooser= (void *)0; /* RgbChooserPage */
-    ai->aiRgbSubjectNumber= -1;
-
-    ai->aiSubjects= (InspectorSubject *)0;
-    ai->aiSubjectCount= 0;
-
-    ai->aiDestroy= (AppToolDestroy)0;
-    ai->aiTarget= (void *)0;
-
-    ai->aiSubjectCount= -1;
-    ai->aiCurrentSubject= -1;
-    ai->aiSubjects= (InspectorSubject *)0;
-
-    if  ( subjectCount > 0 )
-	{
-	InspectorSubject *	is;
-
-	ai->aiSubjects= malloc( subjectCount* sizeof(InspectorSubject) );
-	if  ( ! ai->aiSubjects )
-	    { LXDEB(subjectCount,ai->aiSubjects); goto ready;	}
-	ai->aiSubjectCount= subjectCount;
-
-	is= ai->aiSubjects;
-	for ( subject= 0; subject < ai->aiSubjectCount; is++, subject++ )
-	    { appInitInspectorSubject( is );	}
+	if (appGetImagePixmap(ea, ea->eaMainIcon, &iconPixmap, &iconMask)) {
+		SDEB(ea->eaMainIcon);
+		return (AppInspector *)0;
 	}
 
-    ai->aiApplication= ea;
-    ai->aiDestroy= destroy;
-    ai->aiTarget= through;
+	ai = (AppInspector *)malloc(sizeof(AppInspector));
+	if (!ai) {
+		LXDEB(subjectCount, ai);
+		return ai;
+	}
 
+	ai->aiApplication = (struct EditApplication *)0;
+	ai->aiTopWidget = (APP_WIDGET)0;
+	ai->aiPaned = (APP_WIDGET)0;
 
-    appMakeVerticalTool( &(ai->aiTopWidget), &(ai->aiPaned), ea,
-				iconPixmap, iconMask,
-				userResizable,
-				option, appInspectorCloseCall, (void *)ai );
+	appInitOptionmenu(&(ai->aiSubjectOptionmenu));
 
-    appMakeOptionmenuInColumn( &(ai->aiSubjectOptionmenu), ai->aiPaned,
-				    appInspectorPageChosen, (void *)ai );
+	ai->aiSeparator = (APP_WIDGET)0;
+	ai->aiPageParent = (APP_WIDGET)0;
+	ai->aiSeparator2 = (APP_WIDGET)0;
+	ai->aiCloseButton = (APP_WIDGET)0;
 
-    appGuiInsertSeparatorInColumn( &(ai->aiSeparator), ai->aiPaned );
+	ai->aiNotifySubject = (InspectorNotifySubject)0;
 
-    appInspectorMakePageParent( ai );
+	ai->aiRgbChooser = (void *)0; /* RgbChooserPage */
+	ai->aiRgbSubjectNumber = -1;
 
-    appInspectorFillSubjects( isr, ai );
+	ai->aiSubjects = (InspectorSubject *)0;
+	ai->aiSubjectCount = 0;
 
-    appGuiInsertSeparatorInColumn( &(ai->aiSeparator2), ai->aiPaned );
+	ai->aiDestroy = (AppToolDestroy)0;
+	ai->aiTarget = (void *)0;
 
-    {
-	const int	heightResizable= 0;
-	const int	showAsDefault= 0;
-	const int	colspan= 2;
+	ai->aiSubjectCount = -1;
+	ai->aiCurrentSubject = -1;
+	ai->aiSubjects = (InspectorSubject *)0;
 
-	row= appMakeRowInColumn( ai->aiPaned, 4, heightResizable );
+	if (subjectCount > 0) {
+		InspectorSubject *is;
 
-	appMakeButtonInRow( &(ai->aiCloseButton), row,
-			air.airCloseText, appCloseInspector, (void *)ai,
-			1, colspan, showAsDefault );
-    }
+		ai->aiSubjects =
+			malloc(subjectCount * sizeof(InspectorSubject));
+		if (!ai->aiSubjects) {
+			LXDEB(subjectCount, ai->aiSubjects);
+			goto ready;
+		}
+		ai->aiSubjectCount = subjectCount;
 
-    rval= ai; ai= (AppInspector *)0; /* steal */
+		is = ai->aiSubjects;
+		for (subject = 0; subject < ai->aiSubjectCount;
+		     is++, subject++) {
+			appInitInspectorSubject(is);
+		}
+	}
 
-  ready:
-    if  ( ai )
-	{ appDestroyInspector( ai );	}
+	ai->aiApplication = ea;
+	ai->aiDestroy = destroy;
+	ai->aiTarget = through;
 
-    return rval;
-    }
+	appMakeVerticalTool(&(ai->aiTopWidget), &(ai->aiPaned), ea, iconPixmap,
+			    iconMask, userResizable, option,
+			    appInspectorCloseCall, (void *)ai);
 
-void appFinishInspector(	AppInspector *		ai )
-    {
-    appShowShellWidget( ai->aiApplication, ai->aiTopWidget );
+	appMakeOptionmenuInColumn(&(ai->aiSubjectOptionmenu), ai->aiPaned,
+				  appInspectorPageChosen, (void *)ai);
 
-    appOptionmenuRefreshWidth( &(ai->aiSubjectOptionmenu) );
+	appGuiInsertSeparatorInColumn(&(ai->aiSeparator), ai->aiPaned);
 
-    return;
-    }
+	appInspectorMakePageParent(ai);
+
+	appInspectorFillSubjects(isr, ai);
+
+	appGuiInsertSeparatorInColumn(&(ai->aiSeparator2), ai->aiPaned);
+
+	{
+		const int heightResizable = 0;
+		const int showAsDefault = 0;
+		const int colspan = 2;
+
+		row = appMakeRowInColumn(ai->aiPaned, 4, heightResizable);
+
+		appMakeButtonInRow(&(ai->aiCloseButton), row, air.airCloseText,
+				   appCloseInspector, (void *)ai, 1, colspan,
+				   showAsDefault);
+	}
+
+	rval = ai;
+	ai = (AppInspector *)0; /* steal */
+
+ready:
+	if (ai) {
+		appDestroyInspector(ai);
+	}
+
+	return rval;
+}
+
+void appFinishInspector(AppInspector *ai)
+{
+	appShowShellWidget(ai->aiApplication, ai->aiTopWidget);
+
+	appOptionmenuRefreshWidth(&(ai->aiSubjectOptionmenu));
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -321,45 +328,50 @@ void appFinishInspector(	AppInspector *		ai )
 /*									*/
 /************************************************************************/
 
-void appInspectorGotColor(	AppInspector *			ai,
-				int				subjectPage,
-				int				property,
-				const RGB8Color *		rgb8Set )
-    {
-    RgbChooserPage *	rcp;
-    InspectorSubject *	is;
+void appInspectorGotColor(AppInspector *ai, int subjectPage, int property,
+			  const RGB8Color *rgb8Set)
+{
+	RgbChooserPage *rcp;
+	InspectorSubject *is;
 
-    if  ( ! ai->aiRgbChooser )
-	{ XDEB(ai->aiRgbChooser); return;	}
-    rcp= (RgbChooserPage *)ai->aiRgbChooser;
+	if (!ai->aiRgbChooser) {
+		XDEB(ai->aiRgbChooser);
+		return;
+	}
+	rcp = (RgbChooserPage *)ai->aiRgbChooser;
 
-    if  ( ai->aiRgbSubjectNumber < 0			||
-	  ai->aiRgbSubjectNumber >= ai->aiSubjectCount	)
-	{ LLDEB(ai->aiRgbSubjectNumber,ai->aiSubjectCount); return;	}
-
-    is= ai->aiSubjects+ subjectPage;
-
-    if  ( subjectPage < 0 || subjectPage >= ai->aiSubjectCount )
-	{ LLDEB(subjectPage,ai->aiSubjectCount); return;	}
-
-    /**/
-    if  ( rgb8Set )
-	{
-	if  ( ! is->isGotColor )
-	    { XDEB(is->isGotColor);					}
-	else{ (*is->isGotColor)( is->isPrivate, property, rgb8Set );	}
+	if (ai->aiRgbSubjectNumber < 0 ||
+	    ai->aiRgbSubjectNumber >= ai->aiSubjectCount) {
+		LLDEB(ai->aiRgbSubjectNumber, ai->aiSubjectCount);
+		return;
 	}
 
-    /**/
-    appEnableInspectorSubject( ai, subjectPage, 1 );
-    appInspectorSelectSubject( ai, subjectPage );
+	is = ai->aiSubjects + subjectPage;
 
-    /**/
-    appEnableInspectorSubject( ai, ai->aiRgbSubjectNumber, 0 );
-    appRgbChooserSetContext( rcp, -1, -1 );
+	if (subjectPage < 0 || subjectPage >= ai->aiSubjectCount) {
+		LLDEB(subjectPage, ai->aiSubjectCount);
+		return;
+	}
 
-    return;
-    }
+	/**/
+	if (rgb8Set) {
+		if (!is->isGotColor) {
+			XDEB(is->isGotColor);
+		} else {
+			(*is->isGotColor)(is->isPrivate, property, rgb8Set);
+		}
+	}
+
+	/**/
+	appEnableInspectorSubject(ai, subjectPage, 1);
+	appInspectorSelectSubject(ai, subjectPage);
+
+	/**/
+	appEnableInspectorSubject(ai, ai->aiRgbSubjectNumber, 0);
+	appRgbChooserSetContext(rcp, -1, -1);
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -367,46 +379,46 @@ void appInspectorGotColor(	AppInspector *			ai,
 /*									*/
 /************************************************************************/
 
-void appInspectorSetRgbPage(		AppInspector *		ai,
-					void *			vrcp,
-					int			subjectNumber )
-    {
-    ai->aiRgbChooser= vrcp;
-    ai->aiRgbSubjectNumber= subjectNumber;
+void appInspectorSetRgbPage(AppInspector *ai, void *vrcp, int subjectNumber)
+{
+	ai->aiRgbChooser = vrcp;
+	ai->aiRgbSubjectNumber = subjectNumber;
 
-    return;
-    }
+	return;
+}
 
-void appInspectorShowRgbPage(		AppInspector *		ai,
-					int			fromSubject,
-					int			fromProperty,
-					const RGB8Color *	rgb8 )
-    {
-    RgbChooserPage *	rcp;
-    InspectorSubject *	is;
+void appInspectorShowRgbPage(AppInspector *ai, int fromSubject,
+			     int fromProperty, const RGB8Color *rgb8)
+{
+	RgbChooserPage *rcp;
+	InspectorSubject *is;
 
-    int			enabled= 1;
+	int enabled = 1;
 
-    if  ( ! ai->aiRgbChooser )
-	{ XDEB(ai->aiRgbChooser); return;	}
-    rcp= (RgbChooserPage *)ai->aiRgbChooser;
+	if (!ai->aiRgbChooser) {
+		XDEB(ai->aiRgbChooser);
+		return;
+	}
+	rcp = (RgbChooserPage *)ai->aiRgbChooser;
 
-    if  ( ai->aiRgbSubjectNumber < 0			||
-	  ai->aiRgbSubjectNumber >= ai->aiSubjectCount	)
-	{ LLDEB(ai->aiRgbSubjectNumber,ai->aiSubjectCount); return;	}
+	if (ai->aiRgbSubjectNumber < 0 ||
+	    ai->aiRgbSubjectNumber >= ai->aiSubjectCount) {
+		LLDEB(ai->aiRgbSubjectNumber, ai->aiSubjectCount);
+		return;
+	}
 
-    is= ai->aiSubjects+ ai->aiRgbSubjectNumber;
+	is = ai->aiSubjects + ai->aiRgbSubjectNumber;
 
-    appRgbChooserRefresh( rcp, &enabled, is, rgb8 );
+	appRgbChooserRefresh(rcp, &enabled, is, rgb8);
 
-    appRgbChooserSetContext( rcp, fromSubject, fromProperty );
+	appRgbChooserSetContext(rcp, fromSubject, fromProperty);
 
-    appEnableInspectorSubject( ai, ai->aiRgbSubjectNumber, 1 );
+	appEnableInspectorSubject(ai, ai->aiRgbSubjectNumber, 1);
 
-    appInspectorSelectSubject( ai, ai->aiRgbSubjectNumber );
+	appInspectorSelectSubject(ai, ai->aiRgbSubjectNumber);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -414,23 +426,24 @@ void appInspectorShowRgbPage(		AppInspector *		ai,
 /*									*/
 /************************************************************************/
 
-void appInspectorPageChosen(		int		subject,
-					void *		vai )
-    {
-    AppInspector *	ai= (AppInspector *)vai;
+void appInspectorPageChosen(int subject, void *vai)
+{
+	AppInspector *ai = (AppInspector *)vai;
 
-    const int		andMenu= 0;
+	const int andMenu = 0;
 
-    if  ( subject >= ai->aiSubjectCount )
-	{ LDEB(ai->aiSubjectCount); return;	}
+	if (subject >= ai->aiSubjectCount) {
+		LDEB(ai->aiSubjectCount);
+		return;
+	}
 
-    if  ( ai->aiNotifySubject )
-	{ (*ai->aiNotifySubject)( ai, ai->aiCurrentSubject, subject ); }
+	if (ai->aiNotifySubject) {
+		(*ai->aiNotifySubject)(ai, ai->aiCurrentSubject, subject);
+	}
 
-    appInspectorChoosePage( ai, andMenu, subject );
+	appInspectorChoosePage(ai, andMenu, subject);
 
-    ai->aiCurrentSubject= subject;
+	ai->aiCurrentSubject = subject;
 
-    return;
-    }
-
+	return;
+}

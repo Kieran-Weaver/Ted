@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	UNI_LEGACY_MAPPING_H
-#   define	UNI_LEGACY_MAPPING_H
+#ifndef UNI_LEGACY_MAPPING_H
+#define UNI_LEGACY_MAPPING_H
 
-#   include	<utilIndexMapping.h>
-#   include	<utilIndexSet.h>
+#include <utilIndexMapping.h>
+#include <utilIndexSet.h>
 
 /************************************************************************/
 /*									*/
@@ -22,4 +22,4 @@ extern IndexMapping UNI_DingbatsToGlyphMapping;
 extern IndexSet UNI_SymbolCodeSet;
 extern IndexSet UNI_DingbatsCodeSet;
 
-#   endif
+#endif

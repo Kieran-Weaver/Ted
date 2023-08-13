@@ -4,29 +4,28 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docRtfConfig.h"
+#include "docRtfConfig.h"
 
-#   include	<stdlib.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docRtfReaderImpl.h"
-#   include	"docRtfTags.h"
-#   include	"docRtfShpTab.h"
-#   include	<docShape.h>
-#   include	<docShapeProp.h>
-#   include	<docObjectProperties.h>
-#   include	<docTreeType.h>
-#   include	<docNodeTree.h>
-#   include	<docParaParticules.h>
+#include "docRtfReaderImpl.h"
+#include "docRtfTags.h"
+#include "docRtfShpTab.h"
+#include <docShape.h>
+#include <docShapeProp.h>
+#include <docObjectProperties.h>
+#include <docTreeType.h>
+#include <docNodeTree.h>
+#include <docParaParticules.h>
 
 /************************************************************************/
 
-static int docRtfReadChildShape(	const RtfControlWord *	rcw,
-					int			arg,
-					RtfReader *		rr );
+static int docRtfReadChildShape(const RtfControlWord *rcw, int arg,
+				RtfReader *rr);
 
 /************************************************************************/
 /*									*/
@@ -34,27 +33,28 @@ static int docRtfReadChildShape(	const RtfControlWord *	rcw,
 /*									*/
 /************************************************************************/
 
-int docRtfShpProperty(		const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *		rr )
-    {
-    DrawingShape *	ds= rr->rrDrawingShape;
-    ShapeProperties *	sp;
+int docRtfShpProperty(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	DrawingShape *ds = rr->rrDrawingShape;
+	ShapeProperties *sp;
 
-    if  ( ! ds )
-	{ SLLXDEB(rcw->rcwWord,arg,rr->rrCurrentLine,ds); return 0;	}
+	if (!ds) {
+		SLLXDEB(rcw->rcwWord, arg, rr->rrCurrentLine, ds);
+		return 0;
+	}
 
-    sp= &(ds->dsShapeProperties);
+	sp = &(ds->dsShapeProperties);
 
-    if  ( rcw->rcwID != SHPpropLID	&&
-	  ds->dsIsChildShape		)
-	{ SLDEB(rcw->rcwWord,ds->dsIsChildShape);	}
+	if (rcw->rcwID != SHPpropLID && ds->dsIsChildShape) {
+		SLDEB(rcw->rcwWord, ds->dsIsChildShape);
+	}
 
-    if  ( docSetShapeProperty( sp, rcw->rcwID, arg ) )
-	{ SLDEB(rcw->rcwWord,arg);	}
+	if (docSetShapeProperty(sp, rcw->rcwID, arg)) {
+		SLDEB(rcw->rcwWord, arg);
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -62,35 +62,34 @@ int docRtfShpProperty(		const RtfControlWord *	rcw,
 /*									*/
 /************************************************************************/
 
-static int docRtfShpText(	const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *		rr )
-    {
-    DrawingShape *	ds= rr->rrDrawingShape;
+static int docRtfShpText(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	DrawingShape *ds = rr->rrDrawingShape;
 
-    int			treeType= DOCinSHPTXT;
-    const int		ignoreEmpty= 0;
+	int treeType = DOCinSHPTXT;
+	const int ignoreEmpty = 0;
 
-    /* No! to deal with faulty documents.
+	/* No! to deal with faulty documents.
     rr->rrDrawingShape= (DrawingShape *)0;
     */
 
-    if  ( docRtfReadDocumentTree( rcw, &(ds->dsDocumentTree), &treeType,
-				rr, ignoreEmpty, &(ds->dsSelectionScope) ) )
-	{ SDEB(rcw->rcwWord); return -1;	}
-
-    if  ( ds->dsSelectionScope.ssTreeType != treeType )
-	{
-	LLDEB(ds->dsSelectionScope.ssTreeType,treeType);
-	ds->dsSelectionScope.ssTreeType= treeType;
-	docSetTreeTypeOfNode( ds->dsDocumentTree.dtRoot, treeType );
+	if (docRtfReadDocumentTree(rcw, &(ds->dsDocumentTree), &treeType, rr,
+				   ignoreEmpty, &(ds->dsSelectionScope))) {
+		SDEB(rcw->rcwWord);
+		return -1;
 	}
 
-    /* No! to deal with faulty documents.
+	if (ds->dsSelectionScope.ssTreeType != treeType) {
+		LLDEB(ds->dsSelectionScope.ssTreeType, treeType);
+		ds->dsSelectionScope.ssTreeType = treeType;
+		docSetTreeTypeOfNode(ds->dsDocumentTree.dtRoot, treeType);
+	}
+
+	/* No! to deal with faulty documents.
     rr->rrDrawingShape= ds;
     */
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -101,222 +100,282 @@ static int docRtfShpText(	const RtfControlWord *	rcw,
 /*									*/
 /************************************************************************/
 
-static int docRtfShpCollectNumbers(	int *			numbers,
-					int			count,
-					char *			from )
-    {
-    int		rval= 0;
-    int		i;
+static int docRtfShpCollectNumbers(int *numbers, int count, char *from)
+{
+	int rval = 0;
+	int i;
 
-    for ( i= 0; i < count; i++ )
-	{
-	char *		past;
-	long		val;
+	for (i = 0; i < count; i++) {
+		char *past;
+		long val;
 
-	while( isspace( *from ) )
-	    { from++;	}
-	if  ( from[0] != ';' )
-	    { SDEB(from); rval= -1; goto ready;	}
-	from++;
-	while( isspace( *from ) )
-	    { from++;	}
+		while (isspace(*from)) {
+			from++;
+		}
+		if (from[0] != ';') {
+			SDEB(from);
+			rval = -1;
+			goto ready;
+		}
+		from++;
+		while (isspace(*from)) {
+			from++;
+		}
 
-	past= from;
-	val= strtol( from, &past, 10 );
-	if  ( past == from )
-	    { SDEB(from); rval= -1; goto ready;	}
-	from= past;
+		past = from;
+		val = strtol(from, &past, 10);
+		if (past == from) {
+			SDEB(from);
+			rval = -1;
+			goto ready;
+		}
+		from = past;
 
-	numbers[i]= val;
+		numbers[i] = val;
 	}
 
-    if  ( count > 0 )
-	{ numbers[count]= numbers[0]; }
-
-  ready:
-
-    return rval;
-    }
-
-static int docRtfShpCollectVertices(	Point2DI *		vertices,
-					int			count,
-					char *			from )
-    {
-    int			rval= 0;
-    int			i;
-
-    for ( i= 0; i < count; i++ )
-	{
-	char *		past;
-	long		val;
-
-	while( isspace( *from ) )
-	    { from++;	}
-	if  ( from[0] != ';' )
-	    { SDEB(from); rval= -1; goto ready;	}
-	from++;
-	while( isspace( *from ) )
-	    { from++;	}
-	if  ( from[0] != '(' )
-	    { SDEB(from); rval= -1; goto ready;	}
-	from++;
-	while( isspace( *from ) )
-	    { from++;	}
-
-	past= from;
-	val= strtol( from, &past, 10 );
-	if  ( past == from )
-	    { SDEB(from); rval= -1; goto ready;	}
-	from= past;
-	vertices[i].x= val;
-
-	while( isspace( *from ) )
-	    { from++;	}
-	if  ( from[0] != ',' )
-	    { SDEB(from); rval= -1; goto ready;	}
-	from++;
-	while( isspace( *from ) )
-	    { from++;	}
-
-	past= from;
-	val= strtol( from, &past, 10 );
-	if  ( past == from )
-	    { SDEB(from); rval= -1; goto ready;	}
-	from= past;
-	vertices[i].y= val;
-
-	while( isspace( *from ) )
-	    { from++;	}
-	if  ( from[0] != ')' )
-	    { SDEB(from); rval= -1; goto ready;	}
-	from++;
-	while( isspace( *from ) )
-	    { from++;	}
+	if (count > 0) {
+		numbers[count] = numbers[0];
 	}
-
-    if  ( count > 0 )
-	{ vertices[count]= vertices[0]; }
 
 ready:
 
-    return rval;
-    }
+	return rval;
+}
 
-int docRtfShpArray(	const RtfControlWord *	rcw,
-			int			arg,
-			RtfReader *		rr )
-    {
-    int			rval= 0;
+static int docRtfShpCollectVertices(Point2DI *vertices, int count, char *from)
+{
+	int rval = 0;
+	int i;
 
-    DrawingShape *	ds= rr->rrDrawingShape;
-    ShapeDrawing *	sd;
+	for (i = 0; i < count; i++) {
+		char *past;
+		long val;
 
-    int			unitSize;
-    int			count;
+		while (isspace(*from)) {
+			from++;
+		}
+		if (from[0] != ';') {
+			SDEB(from);
+			rval = -1;
+			goto ready;
+		}
+		from++;
+		while (isspace(*from)) {
+			from++;
+		}
+		if (from[0] != '(') {
+			SDEB(from);
+			rval = -1;
+			goto ready;
+		}
+		from++;
+		while (isspace(*from)) {
+			from++;
+		}
 
-    const int		removeSemicolon= 0;
-    char *		text= (char *)0;
-    char *		from;
-    char *		past;
-    int			size;
+		past = from;
+		val = strtol(from, &past, 10);
+		if (past == from) {
+			SDEB(from);
+			rval = -1;
+			goto ready;
+		}
+		from = past;
+		vertices[i].x = val;
 
-    long		val;
+		while (isspace(*from)) {
+			from++;
+		}
+		if (from[0] != ',') {
+			SDEB(from);
+			rval = -1;
+			goto ready;
+		}
+		from++;
+		while (isspace(*from)) {
+			from++;
+		}
 
-    Point2DI *		vertices= (Point2DI *)0;
-    int *		numbers= (int *)0;
+		past = from;
+		val = strtol(from, &past, 10);
+		if (past == from) {
+			SDEB(from);
+			rval = -1;
+			goto ready;
+		}
+		from = past;
+		vertices[i].y = val;
 
-    if  ( docRtfStoreSavedText( &text, &size, rr, removeSemicolon ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+		while (isspace(*from)) {
+			from++;
+		}
+		if (from[0] != ')') {
+			SDEB(from);
+			rval = -1;
+			goto ready;
+		}
+		from++;
+		while (isspace(*from)) {
+			from++;
+		}
+	}
 
-    from= text;
-    while( isspace( *from ) )
-	{ from++;	}
+	if (count > 0) {
+		vertices[count] = vertices[0];
+	}
 
-    past= from;
-    val= strtol( from, &past, 10 );
-    if  ( past == from )
-	{ SDEB(from); rval= -1; goto ready;	}
-    from= past;
-    unitSize= val;
+ready:
 
-    while( isspace( *from ) )
-	{ from++;	}
-    if  ( *from != ';' )
-	{ SDEB(from); rval= -1; goto ready;	}
-    from++;
-    while( isspace( *from ) )
-	{ from++;	}
+	return rval;
+}
 
-    past= from;
-    val= strtol( from, &past, 10 );
-    if  ( past == from )
-	{ SDEB(from); rval= -1; goto ready;	}
-    from= past;
-    count= val;
+int docRtfShpArray(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	int rval = 0;
 
-    switch( unitSize )
-	{
+	DrawingShape *ds = rr->rrDrawingShape;
+	ShapeDrawing *sd;
+
+	int unitSize;
+	int count;
+
+	const int removeSemicolon = 0;
+	char *text = (char *)0;
+	char *from;
+	char *past;
+	int size;
+
+	long val;
+
+	Point2DI *vertices = (Point2DI *)0;
+	int *numbers = (int *)0;
+
+	if (docRtfStoreSavedText(&text, &size, rr, removeSemicolon)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	from = text;
+	while (isspace(*from)) {
+		from++;
+	}
+
+	past = from;
+	val = strtol(from, &past, 10);
+	if (past == from) {
+		SDEB(from);
+		rval = -1;
+		goto ready;
+	}
+	from = past;
+	unitSize = val;
+
+	while (isspace(*from)) {
+		from++;
+	}
+	if (*from != ';') {
+		SDEB(from);
+		rval = -1;
+		goto ready;
+	}
+	from++;
+	while (isspace(*from)) {
+		from++;
+	}
+
+	past = from;
+	val = strtol(from, &past, 10);
+	if (past == from) {
+		SDEB(from);
+		rval = -1;
+		goto ready;
+	}
+	from = past;
+	count = val;
+
+	switch (unitSize) {
 	case 8:
-	    vertices= (Point2DI *)malloc( (count+ 1)* sizeof( Point2DI ) );
-	    if  ( ! vertices )
-		{ LXDEB(count,vertices); rval= -1; goto ready; }
-	    if  ( docRtfShpCollectVertices( vertices, count, from ) )
-		{ LDEB(count); rval= -1; goto ready;	}
-	    break;
+		vertices = (Point2DI *)malloc((count + 1) * sizeof(Point2DI));
+		if (!vertices) {
+			LXDEB(count, vertices);
+			rval = -1;
+			goto ready;
+		}
+		if (docRtfShpCollectVertices(vertices, count, from)) {
+			LDEB(count);
+			rval = -1;
+			goto ready;
+		}
+		break;
 
 	case 2:
 	case 4:
-	    numbers= (int *)malloc( (count+ 1)* sizeof( int ) );
-	    if  ( ! numbers )
-		{ LXDEB(count,numbers); rval= -1; goto ready; }
-	    if  ( docRtfShpCollectNumbers( numbers, count, from ) )
+		numbers = (int *)malloc((count + 1) * sizeof(int));
+		if (!numbers) {
+			LXDEB(count, numbers);
+			rval = -1;
+			goto ready;
+		}
+		if (docRtfShpCollectNumbers(numbers, count, from))
 
-		{ LDEB(count); rval= -1; goto ready;	}
-	    break;
+		{
+			LDEB(count);
+			rval = -1;
+			goto ready;
+		}
+		break;
 
 	default:
-	    LLDEB(count,unitSize); rval= -1; goto ready;
+		LLDEB(count, unitSize);
+		rval = -1;
+		goto ready;
 	}
 
-    if  ( ! ds )
-	{ SXDEB(rcw->rcwWord,ds); goto ready;	}
-    sd= &(ds->dsDrawing);
+	if (!ds) {
+		SXDEB(rcw->rcwWord, ds);
+		goto ready;
+	}
+	sd = &(ds->dsDrawing);
 
-    switch( rcw->rcwID )
-	{
+	switch (rcw->rcwID) {
 	case DSHPprop_pVerticies:
-	    sd->sdVertices= vertices;
-	    vertices= (Point2DI *)0;	/* steal */
-	    sd->sdVertexCount= count;
-	    break;
+		sd->sdVertices = vertices;
+		vertices = (Point2DI *)0; /* steal */
+		sd->sdVertexCount = count;
+		break;
 
 	case DSHPprop_pWrapPolygonVertices:
-	    sd->sdWrapPolygonVertices= vertices;
-	    vertices= (Point2DI *)0;	/* steal */
-	    sd->sdWrapPolygonVertexCount= count;
-	    break;
+		sd->sdWrapPolygonVertices = vertices;
+		vertices = (Point2DI *)0; /* steal */
+		sd->sdWrapPolygonVertexCount = count;
+		break;
 
 	case DSHPprop_pSegmentInfo:
-	    sd->sdSegmentInfos= numbers;
-	    numbers= (int *)0;	/* steal */
-	    sd->sdSegmentInfoCount= count;
-	    break;
+		sd->sdSegmentInfos = numbers;
+		numbers = (int *)0; /* steal */
+		sd->sdSegmentInfoCount = count;
+		break;
 
 	default:
-	    SDEB(rcw->rcwWord);
-	    break;
+		SDEB(rcw->rcwWord);
+		break;
 	}
 
-  ready:
-    if  ( text )
-	{ free( text );	}
-    if  ( vertices )
-	{ free( vertices );	}
-    if  ( numbers )
-	{ free( numbers );	}
+ready:
+	if (text) {
+		free(text);
+	}
+	if (vertices) {
+		free(vertices);
+	}
+	if (numbers) {
+		free(numbers);
+	}
 
-    return rval;
-    }
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -324,307 +383,328 @@ int docRtfShpArray(	const RtfControlWord *	rcw,
 /*									*/
 /************************************************************************/
 
-static int docRtfSaveShapeData(	RtfReader *	rr,
-				const char *		text,
-				int			len )
-    {
-    DrawingShape *	ds= rr->rrDrawingShape;
+static int docRtfSaveShapeData(RtfReader *rr, const char *text, int len)
+{
+	DrawingShape *ds = rr->rrDrawingShape;
 
-    if  ( ! ds )
-	{ XDEB(ds); return 0;	}
+	if (!ds) {
+		XDEB(ds);
+		return 0;
+	}
 
-    if  ( rr->rrcInIgnoredGroup > 0 )
-	{ return 0;	}
+	if (rr->rrcInIgnoredGroup > 0) {
+		return 0;
+	}
 
-    if  ( utilMemoryBufferSetBytes( &(ds->dsPictureData),
-					(const unsigned char *)text, len ) )
-	{ LDEB(len); return -1;	}
+	if (utilMemoryBufferSetBytes(&(ds->dsPictureData),
+				     (const unsigned char *)text, len)) {
+		LDEB(len);
+		return -1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
+static int docRtfReadShapePicture(const RtfControlWord *rcw, int arg,
+				  RtfReader *rr)
+{
+	RtfReadingState internRrs;
 
-static int docRtfReadShapePicture(	const RtfControlWord *	rcw,
-					int			arg,
-					RtfReader *		rr )
-    {
-    RtfReadingState		internRrs;
+	int rval;
 
-    int				rval;
+	docRtfPushReadingState(rr, &internRrs);
 
-    docRtfPushReadingState( rr, &internRrs );
+	utilPropMaskClear(&(rr->rrcPicturePropMask));
+	docInitPictureProperties(&(rr->rrcPictureProperties));
 
-    utilPropMaskClear( &(rr->rrcPicturePropMask) );
-    docInitPictureProperties( &(rr->rrcPictureProperties) );
+	rval = docRtfConsumeGroup((const RtfControlWord *)0, 0, -1, rr,
+				  (const RtfControlWord *)0,
+				  docRtfSaveShapeData);
 
-    rval= docRtfConsumeGroup( (const RtfControlWord *)0, 0, -1, rr,
-			    (const RtfControlWord *)0, docRtfSaveShapeData );
+	if (rval) {
+		SLDEB(rcw->rcwWord, rval);
+	}
 
-    if  ( rval )
-	{ SLDEB(rcw->rcwWord,rval);	}
+	docRtfPopReadingState(rr);
 
-    docRtfPopReadingState( rr );
+	return rval;
+}
 
-    return rval;
-    }
+int docRtfShpPicture(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	DrawingShape *ds = rr->rrDrawingShape;
 
-int docRtfShpPicture(	const RtfControlWord *	rcw,
-			int			arg,
-			RtfReader *		rr )
-    {
-    DrawingShape *	ds= rr->rrDrawingShape;
+	if (!ds) {
+		XDEB(ds);
+	} else {
+		ds->dsPictureProperties = rr->rrcPictureProperties;
+	}
 
-    if  ( ! ds )
-	{ XDEB(ds);						}
-    else{ ds->dsPictureProperties= rr->rrcPictureProperties;	}
+	return 0;
+}
 
-    return 0;
-    }
+int docRtfShpString(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	const int removeSemicolon = 0;
+	char *text = (char *)0;
+	int size;
 
-int docRtfShpString(	const RtfControlWord *	rcw,
-			int			arg,
-			RtfReader *		rr )
-    {
-    const int	removeSemicolon= 0;
-    char *	text= (char *)0;
-    int		size;
+	if (docRtfStoreSavedText(&text, &size, rr, removeSemicolon)) {
+		LDEB(1);
+		return -1;
+	}
 
-    if  ( docRtfStoreSavedText( &text, &size, rr, removeSemicolon ) )
-	{ LDEB(1); return -1;	}
-
-    /*
+	/*
     SSDEB(rcw->rcwWord,text);
     */
 
-    if  ( text )
-	{ free( text );	}
+	if (text) {
+		free(text);
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
-static int docRtfShpGetNumber(	long *			pVal,
-				RtfReader *		rr )
-    {
-    int			rval= 0;
-    long		val;
+static int docRtfShpGetNumber(long *pVal, RtfReader *rr)
+{
+	int rval = 0;
+	long val;
 
-    const int		removeSemicolon= 0;
-    char *		text= (char *)0;
-    char *		from;
-    char *		past;
-    int			size;
+	const int removeSemicolon = 0;
+	char *text = (char *)0;
+	char *from;
+	char *past;
+	int size;
 
-    if  ( docRtfStoreSavedText( &text, &size, rr, removeSemicolon ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (docRtfStoreSavedText(&text, &size, rr, removeSemicolon)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    from= text;
-    while( isspace( *from ) )
-	{ from++;	}
-    past= from;
-    val= strtol( from, &past, 10 );
-    if  ( past == from )
-	{ SDEB(from); rval= -1; goto ready;	}
-    from= past;
+	from = text;
+	while (isspace(*from)) {
+		from++;
+	}
+	past = from;
+	val = strtol(from, &past, 10);
+	if (past == from) {
+		SDEB(from);
+		rval = -1;
+		goto ready;
+	}
+	from = past;
 
-    *pVal= val;
+	*pVal = val;
 
-  ready:
+ready:
 
-    if  ( text )
-	{ free( text );	}
+	if (text) {
+		free(text);
+	}
 
-    return rval;
-    }
+	return rval;
+}
 
-int docRtfShapeNumber(		const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *		rr )
-    {
-    DrawingShape *	ds= rr->rrDrawingShape;
-    long		val;
+int docRtfShapeNumber(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	DrawingShape *ds = rr->rrDrawingShape;
+	long val;
 
-    if  ( docRtfShpGetNumber( &val, rr ) )
-	{ SDEB(rcw->rcwWord); return -1;	}
+	if (docRtfShpGetNumber(&val, rr)) {
+		SDEB(rcw->rcwWord);
+		return -1;
+	}
 
-    if  ( ! ds )
-	{ SXDEB(rcw->rcwWord,ds); return 0;	}
+	if (!ds) {
+		SXDEB(rcw->rcwWord, ds);
+		return 0;
+	}
 
-    if  ( docSetShapeDrawingProperty( &(ds->dsDrawing), rcw->rcwID, val ) )
-	{ SLDEB(rcw->rcwWord,val);	}
+	if (docSetShapeDrawingProperty(&(ds->dsDrawing), rcw->rcwID, val)) {
+		SLDEB(rcw->rcwWord, val);
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
-int docRtfShpColor(	const RtfControlWord *	rcw,
-			int			arg,
-			RtfReader *		rr )
-    {
-    DrawingShape *	ds= rr->rrDrawingShape;
-    ShapeDrawing *	sd;
-    long		val;
-    RGB8Color		rgb8;
+int docRtfShpColor(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	DrawingShape *ds = rr->rrDrawingShape;
+	ShapeDrawing *sd;
+	long val;
+	RGB8Color rgb8;
 
-    if  ( docRtfShpGetNumber( &val, rr ) )
-	{ SDEB(rcw->rcwWord); return -1;	}
+	if (docRtfShpGetNumber(&val, rr)) {
+		SDEB(rcw->rcwWord);
+		return -1;
+	}
 
-    if  ( ! ds )
-	{ SXDEB(rcw->rcwWord,ds); return 0;	}
-    sd= &(ds->dsDrawing);
+	if (!ds) {
+		SXDEB(rcw->rcwWord, ds);
+		return 0;
+	}
+	sd = &(ds->dsDrawing);
 
-    utilInitRGB8Color( &rgb8 );
-    rgb8.rgb8Red= val & 255; val /= 256;
-    rgb8.rgb8Green= val & 255; val /= 256;
-    rgb8.rgb8Blue= val & 255; val /= 256;
+	utilInitRGB8Color(&rgb8);
+	rgb8.rgb8Red = val & 255;
+	val /= 256;
+	rgb8.rgb8Green = val & 255;
+	val /= 256;
+	rgb8.rgb8Blue = val & 255;
+	val /= 256;
 
-    switch( rcw->rcwID )
-	{
+	switch (rcw->rcwID) {
 	case DSHPprop_fillColor:
-	    sd->sdFillColor= rgb8;
-	    break;
+		sd->sdFillColor = rgb8;
+		break;
 	case DSHPprop_fillBackColor:
-	    sd->sdFillBackColor= rgb8;
-	    break;
+		sd->sdFillBackColor = rgb8;
+		break;
 	case DSHPprop_fillCrMod:
-	    sd->sdFillCrModColor= rgb8;
-	    break;
+		sd->sdFillCrModColor = rgb8;
+		break;
 
 	case DSHPprop_lineColor:
-	    sd->sdLineColor= rgb8;
-	    break;
+		sd->sdLineColor = rgb8;
+		break;
 	case DSHPprop_lineBackColor:
-	    sd->sdLineBackColor= rgb8;
-	    break;
+		sd->sdLineBackColor = rgb8;
+		break;
 	case DSHPprop_lineCrMod:
-	    sd->sdLineCrModColor= rgb8;
-	    break;
+		sd->sdLineCrModColor = rgb8;
+		break;
 
 	case DSHPprop_shadowColor:
-	    sd->sdShadowColor= rgb8;
-	    break;
+		sd->sdShadowColor = rgb8;
+		break;
 	case DSHPprop_shadowHighlight:
-	    sd->sdShadowHighlightColor= rgb8;
-	    break;
+		sd->sdShadowHighlightColor = rgb8;
+		break;
 	case DSHPprop_shadowCrMod:
-	    sd->sdShadowCrModColor= rgb8;
-	    break;
+		sd->sdShadowCrModColor = rgb8;
+		break;
 	case DSHPprop_c3DExtrusionColor:
-	    sd->sdShadowc3DExtrusionColor= rgb8;
-	    break;
+		sd->sdShadowc3DExtrusionColor = rgb8;
+		break;
 	case DSHPprop_c3DCrMod:
-	    sd->sdShadowc3DCrModColor= rgb8;
-	    break;
+		sd->sdShadowc3DCrModColor = rgb8;
+		break;
 
 	case DSHPprop_pictureTransparent:
-	    /* ? */
-	    break;
+		/* ? */
+		break;
 
 	default:
-	    SDEB(rcw->rcwWord);
-	    break;
+		SDEB(rcw->rcwWord);
+		break;
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
-int docRtfShapeProperty(	const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *		rr )
-    {
-    int				rval= 0;
+int docRtfShapeProperty(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	int rval = 0;
 
-    if  ( rr->rrShapeProperty )
-	{ SDEB(rr->rrShapeProperty->rcwWord);	}
-
-    if  ( ! docRtfGetParaNode( rr ) )
-	{ SDEB(rcw->rcwWord); return -1; }
-
-    rr->rrShapeProperty= (struct RtfControlWord *)0;
-    utilEmptyMemoryBuffer( &(rr->rrShapePropertyName) );
-    utilEmptyMemoryBuffer( &(rr->rrShapePropertyValue) );
-
-    if  ( docRtfReadGroup( rcw, 0, 0, rr,
-		(RtfControlWord *)0, docRtfRefuseText, (RtfCommitGroup)0 ) )
-	{ SDEB(rcw->rcwWord); rval= -1;	}
-
-    rr->rrShapeProperty= (struct RtfControlWord *)0;
-    utilEmptyMemoryBuffer( &(rr->rrShapePropertyName) );
-    utilEmptyMemoryBuffer( &(rr->rrShapePropertyValue) );
-
-    return rval;
-    }
-
-static int docRtfCommitShapePropertyName(
-					const RtfControlWord *	rcw,
-					RtfReader *		rr )
-    {
-    const int	removeSemicolon= 0;
-    char *	text= (char *)0;
-    int		size;
-
-    if  ( docRtfStoreSavedText( &text, &size, rr, removeSemicolon ) )
-	{ LDEB(1); return -1;	}
-
-    if  ( text )
-	{
-	rr->rrShapeProperty= docRtfFindShapePropertyWord( text );
-	if  ( ! rr->rrShapeProperty )
-	    { SXDEB(text,rr->rrShapeProperty);	}
-
-	free( text );
-	}
-    else{ XDEB(text);		}
-
-    return 0;
-    }
-
-static int docRtfCommitShapePropertyValue(
-					const RtfControlWord *	rcw,
-					RtfReader *		rr )
-    {
-    if  ( rr->rrShapeProperty )
-	{
-	if  ( (*rr->rrShapeProperty->rcwApply)( rr->rrShapeProperty, 0, rr ) )
-	    {  SDEB(rr->rrShapeProperty->rcwWord); return -1;	}
-	}
-    else{
-	const int	removeSemicolon= 0;
-	char *		text= (char *)0;
-	int		size;
-
-	if  ( docRtfStoreSavedText( &text, &size, rr, removeSemicolon ) )
-	    { LDEB(1); return -1;	}
-
-	if  ( text )
-	    { free( text );	}
+	if (rr->rrShapeProperty) {
+		SDEB(rr->rrShapeProperty->rcwWord);
 	}
 
-    return 0;
-    }
+	if (!docRtfGetParaNode(rr)) {
+		SDEB(rcw->rcwWord);
+		return -1;
+	}
 
-int docRtfShapePropertyName(	const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *		rr )
-    {
-    return docRtfReadGroup( rcw, 0, 0, rr, (RtfControlWord *)0,
-					    docRtfSaveDocEncodedText,
-					    docRtfCommitShapePropertyName );
-    }
+	rr->rrShapeProperty = (struct RtfControlWord *)0;
+	utilEmptyMemoryBuffer(&(rr->rrShapePropertyName));
+	utilEmptyMemoryBuffer(&(rr->rrShapePropertyValue));
 
-static RtfControlWord	docRtfReadPictValueGroups[]=
-    {
-	RTF_DEST_XX( RTFtag_pict,	0,	docRtfReadShapePicture ),
+	if (docRtfReadGroup(rcw, 0, 0, rr, (RtfControlWord *)0,
+			    docRtfRefuseText, (RtfCommitGroup)0)) {
+		SDEB(rcw->rcwWord);
+		rval = -1;
+	}
+
+	rr->rrShapeProperty = (struct RtfControlWord *)0;
+	utilEmptyMemoryBuffer(&(rr->rrShapePropertyName));
+	utilEmptyMemoryBuffer(&(rr->rrShapePropertyValue));
+
+	return rval;
+}
+
+static int docRtfCommitShapePropertyName(const RtfControlWord *rcw,
+					 RtfReader *rr)
+{
+	const int removeSemicolon = 0;
+	char *text = (char *)0;
+	int size;
+
+	if (docRtfStoreSavedText(&text, &size, rr, removeSemicolon)) {
+		LDEB(1);
+		return -1;
+	}
+
+	if (text) {
+		rr->rrShapeProperty = docRtfFindShapePropertyWord(text);
+		if (!rr->rrShapeProperty) {
+			SXDEB(text, rr->rrShapeProperty);
+		}
+
+		free(text);
+	} else {
+		XDEB(text);
+	}
+
+	return 0;
+}
+
+static int docRtfCommitShapePropertyValue(const RtfControlWord *rcw,
+					  RtfReader *rr)
+{
+	if (rr->rrShapeProperty) {
+		if ((*rr->rrShapeProperty->rcwApply)(rr->rrShapeProperty, 0,
+						     rr)) {
+			SDEB(rr->rrShapeProperty->rcwWord);
+			return -1;
+		}
+	} else {
+		const int removeSemicolon = 0;
+		char *text = (char *)0;
+		int size;
+
+		if (docRtfStoreSavedText(&text, &size, rr, removeSemicolon)) {
+			LDEB(1);
+			return -1;
+		}
+
+		if (text) {
+			free(text);
+		}
+	}
+
+	return 0;
+}
+
+int docRtfShapePropertyName(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	return docRtfReadGroup(rcw, 0, 0, rr, (RtfControlWord *)0,
+			       docRtfSaveDocEncodedText,
+			       docRtfCommitShapePropertyName);
+}
+
+static RtfControlWord docRtfReadPictValueGroups[] = {
+	RTF_DEST_XX(RTFtag_pict, 0, docRtfReadShapePicture),
 
 	{ (char *)0, 0, 0 }
-    };
+};
 
-int docRtfShapePropertyValue(	const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *		rr )
-    {
-    return docRtfReadGroup( rcw, 0, 0, rr, docRtfReadPictValueGroups,
-					    docRtfSaveDocEncodedText,
-					    docRtfCommitShapePropertyValue );
-    }
+int docRtfShapePropertyValue(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	return docRtfReadGroup(rcw, 0, 0, rr, docRtfReadPictValueGroups,
+			       docRtfSaveDocEncodedText,
+			       docRtfCommitShapePropertyValue);
+}
 
 /************************************************************************/
 /*									*/
@@ -632,29 +712,27 @@ int docRtfShapePropertyValue(	const RtfControlWord *	rcw,
 /*									*/
 /************************************************************************/
 
-static RtfControlWord	docRtfShpinstGroups[]=
-    {
-	RTF_DEST_XX( "shptxt",	DOCinSHPTXT,	docRtfShpText ),
-	RTF_DEST_XX( "sp",	1,		docRtfShapeProperty ),
-	RTF_DEST_XX( "shpgrp",	SHPtyGROUP,	docRtfReadChildShape ),
-	RTF_DEST_XX( "shp",	SHPtyUNKNOWN,	docRtfReadChildShape ),
+static RtfControlWord docRtfShpinstGroups[] = {
+	RTF_DEST_XX("shptxt", DOCinSHPTXT, docRtfShpText),
+	RTF_DEST_XX("sp", 1, docRtfShapeProperty),
+	RTF_DEST_XX("shpgrp", SHPtyGROUP, docRtfReadChildShape),
+	RTF_DEST_XX("shp", SHPtyUNKNOWN, docRtfReadChildShape),
 
 	{ (char *)0, 0, 0 }
-    };
+};
 
-static int docRtfShpinst(	const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *		rr )
-    {
-    int		res;
+static int docRtfShpinst(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	int res;
 
-    res= docRtfReadGroup( rcw, 0, 0, rr,
-		    docRtfShpinstGroups, docRtfIgnoreText, (RtfCommitGroup)0 );
-    if  ( res )
-	{ SLDEB(rcw->rcwWord,res);	}
+	res = docRtfReadGroup(rcw, 0, 0, rr, docRtfShpinstGroups,
+			      docRtfIgnoreText, (RtfCommitGroup)0);
+	if (res) {
+		SLDEB(rcw->rcwWord, res);
+	}
 
-    return res;
-    }
+	return res;
+}
 
 /************************************************************************/
 /*									*/
@@ -662,45 +740,48 @@ static int docRtfShpinst(	const RtfControlWord *	rcw,
 /*									*/
 /************************************************************************/
 
-static int docRtfShprslt(	const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *		rr )
-    {
-    int		res= 0;
+static int docRtfShprslt(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	int res = 0;
 
-    BufferItem *	sectBi;
-    SelectionScope	ss;
-    int			treeType= DOCinSHPTXT;
-    const int		ignoreEmpty= 0;
+	BufferItem *sectBi;
+	SelectionScope ss;
+	int treeType = DOCinSHPTXT;
+	const int ignoreEmpty = 0;
 
-    DocumentTree	dt;
+	DocumentTree dt;
 
-    rr->rrcInIgnoredGroup++;
+	rr->rrcInIgnoredGroup++;
 
-    docInitDocumentTree( &dt );
-    docInitSelectionScope( &ss );
+	docInitDocumentTree(&dt);
+	docInitSelectionScope(&ss);
 
-    sectBi= docGetSectNode( rr->rrcNode );
-    if  ( ! sectBi )
-	{ XDEB(sectBi); res= -1; goto ready;	}
+	sectBi = docGetSectNode(rr->rrcNode);
+	if (!sectBi) {
+		XDEB(sectBi);
+		res = -1;
+		goto ready;
+	}
 
-    ss.ssTreeType= DOCinSHPTXT;
-    ss.ssSectNr= 0;
-    ss.ssOwnerSectNr= sectBi->biNumberInParent;
+	ss.ssTreeType = DOCinSHPTXT;
+	ss.ssSectNr = 0;
+	ss.ssOwnerSectNr = sectBi->biNumberInParent;
 
-    if  ( docRtfReadDocumentTree( rcw, &dt, &treeType,
-						rr, ignoreEmpty, &ss ) )
-	{ SDEB(rcw->rcwWord); res= -1; goto ready;	}
+	if (docRtfReadDocumentTree(rcw, &dt, &treeType, rr, ignoreEmpty, &ss)) {
+		SDEB(rcw->rcwWord);
+		res = -1;
+		goto ready;
+	}
 
-    docSetTreeTypeOfNode( dt.dtRoot, treeType );
+	docSetTreeTypeOfNode(dt.dtRoot, treeType);
 
-  ready:
+ready:
 
-    docCleanDocumentTree( rr->rrDocument, &dt );
-    rr->rrcInIgnoredGroup--;
+	docCleanDocumentTree(rr->rrDocument, &dt);
+	rr->rrcInIgnoredGroup--;
 
-    return res;
-    }
+	return res;
+}
 
 /************************************************************************/
 /*									*/
@@ -708,88 +789,90 @@ static int docRtfShprslt(	const RtfControlWord *	rcw,
 /*									*/
 /************************************************************************/
 
-static int docRtfReadShapeIntern(	DrawingShape **		pDs,
-					const RtfControlWord *	rcw,
-					int			arg,
-					RtfReader *		rr,
-					const RtfControlWord *	shapeGroups )
-    {
-    int			res;
-    DrawingShape *	parent= rr->rrDrawingShape;
-    DrawingShape *	ds= (DrawingShape *)0;
+static int docRtfReadShapeIntern(DrawingShape **pDs, const RtfControlWord *rcw,
+				 int arg, RtfReader *rr,
+				 const RtfControlWord *shapeGroups)
+{
+	int res;
+	DrawingShape *parent = rr->rrDrawingShape;
+	DrawingShape *ds = (DrawingShape *)0;
 
-    if  ( ! docRtfGetParaNode( rr ) )
-	{ SDEB(rcw->rcwWord); return -1; }
-
-    if  ( ! rr->rrcInIgnoredGroup )
-	{
-	const BufferItem *		bodySectBi;
-
-	ds= docClaimDrawingShape( &(rr->rrDocument->bdShapeList) );
-	if  ( ! ds )
-	    { XDEB(ds); return -1;	}
-
-	ds->dsDrawing.sdShapeType= rcw->rcwID;
-
-	bodySectBi= docGetBodySectNode( rr->rrcNode, rr->rrDocument );
-	if  ( ! bodySectBi )
-	    { XDEB(bodySectBi); return -1;	}
-
-	ds->dsSelectionScope.ssTreeType= DOCinSHPTXT;
-	ds->dsSelectionScope.ssSectNr= 0;
-	ds->dsSelectionScope.ssOwnerSectNr= bodySectBi->biNumberInParent;
-	ds->dsSelectionScope.ssOwnerNumber= ds->dsShapeNumber;
-
-	rr->rrDrawingShape= ds;
+	if (!docRtfGetParaNode(rr)) {
+		SDEB(rcw->rcwWord);
+		return -1;
 	}
 
-    res= docRtfReadGroup( rcw, 0, 0, rr,
-			shapeGroups, docRtfIgnoreText, (RtfCommitGroup)0 );
+	if (!rr->rrcInIgnoredGroup) {
+		const BufferItem *bodySectBi;
 
-    if  ( res )
-	{
-	SLDEB(rcw->rcwWord,res);
-	if  ( ds )
-	    { docDeleteDrawingShape( rr->rrDocument, ds );	}
-	}
-    else{
-	if  ( ! rr->rrcInIgnoredGroup )
-	    {
-	    BufferItem *	paraBi= rr->rrcNode;
-	    TextParticule *	tp;
-	    RtfReadingState *	rrs= rr->rrcState;
-
-	    if  ( rrs->rrsTextShadingChanged )
-		{ docRtfRefreshTextShading( rr, rrs );	}
-
-	    tp= docAppendObject( rr->rrDocument, paraBi,
-						    &(rrs->rrsTextAttribute) );
-	    if  ( ! tp )
-		{
-		LDEB(paraBi->biParaParticuleCount);
-		docDeleteDrawingShape( rr->rrDocument, ds );
-		res= -1;
+		ds = docClaimDrawingShape(&(rr->rrDocument->bdShapeList));
+		if (!ds) {
+			XDEB(ds);
+			return -1;
 		}
-	    else{
-		InsertedObject *	io;
 
-		io= docGetObject( rr->rrDocument, tp->tpObjectNumber );
-		if  ( ! io )
-		    { LXDEB(tp->tpObjectNumber,io); res= -1;	}
-		else{
-		    io->ioKind= DOCokDRAWING_SHAPE;
-		    io->ioDrawingShape= ds;
-		    io->ioInline= 0;
-		    }
+		ds->dsDrawing.sdShapeType = rcw->rcwID;
 
+		bodySectBi = docGetBodySectNode(rr->rrcNode, rr->rrDocument);
+		if (!bodySectBi) {
+			XDEB(bodySectBi);
+			return -1;
 		}
-	    *pDs= ds;
-	    }
+
+		ds->dsSelectionScope.ssTreeType = DOCinSHPTXT;
+		ds->dsSelectionScope.ssSectNr = 0;
+		ds->dsSelectionScope.ssOwnerSectNr =
+			bodySectBi->biNumberInParent;
+		ds->dsSelectionScope.ssOwnerNumber = ds->dsShapeNumber;
+
+		rr->rrDrawingShape = ds;
 	}
 
-    rr->rrDrawingShape= parent;
-    return res;
-    }
+	res = docRtfReadGroup(rcw, 0, 0, rr, shapeGroups, docRtfIgnoreText,
+			      (RtfCommitGroup)0);
+
+	if (res) {
+		SLDEB(rcw->rcwWord, res);
+		if (ds) {
+			docDeleteDrawingShape(rr->rrDocument, ds);
+		}
+	} else {
+		if (!rr->rrcInIgnoredGroup) {
+			BufferItem *paraBi = rr->rrcNode;
+			TextParticule *tp;
+			RtfReadingState *rrs = rr->rrcState;
+
+			if (rrs->rrsTextShadingChanged) {
+				docRtfRefreshTextShading(rr, rrs);
+			}
+
+			tp = docAppendObject(rr->rrDocument, paraBi,
+					     &(rrs->rrsTextAttribute));
+			if (!tp) {
+				LDEB(paraBi->biParaParticuleCount);
+				docDeleteDrawingShape(rr->rrDocument, ds);
+				res = -1;
+			} else {
+				InsertedObject *io;
+
+				io = docGetObject(rr->rrDocument,
+						  tp->tpObjectNumber);
+				if (!io) {
+					LXDEB(tp->tpObjectNumber, io);
+					res = -1;
+				} else {
+					io->ioKind = DOCokDRAWING_SHAPE;
+					io->ioDrawingShape = ds;
+					io->ioInline = 0;
+				}
+			}
+			*pDs = ds;
+		}
+	}
+
+	rr->rrDrawingShape = parent;
+	return res;
+}
 
 /************************************************************************/
 /*									*/
@@ -797,61 +880,65 @@ static int docRtfReadShapeIntern(	DrawingShape **		pDs,
 /*									*/
 /************************************************************************/
 
-static RtfControlWord	docRtfShapeGroups[]=
-    {
-	RTF_DEST_XX( "shptxt",	DOCinSHPTXT,	docRtfShpText ),
-	RTF_DEST_XX( "shprslt",	DOCinSHPTXT,	docRtfShprslt ),
-	RTF_DEST_XX( "shpgrp",	SHPtyGROUP,	docRtfReadChildShape ),
-	RTF_DEST_XX( "shp",	SHPtyUNKNOWN,	docRtfReadChildShape ),
-	RTF_DEST_XX( "shpinst",	SHPtyUNKNOWN,	docRtfShpinst ),
+static RtfControlWord docRtfShapeGroups[] = {
+	RTF_DEST_XX("shptxt", DOCinSHPTXT, docRtfShpText),
+	RTF_DEST_XX("shprslt", DOCinSHPTXT, docRtfShprslt),
+	RTF_DEST_XX("shpgrp", SHPtyGROUP, docRtfReadChildShape),
+	RTF_DEST_XX("shp", SHPtyUNKNOWN, docRtfReadChildShape),
+	RTF_DEST_XX("shpinst", SHPtyUNKNOWN, docRtfShpinst),
 
-	{ (char *)0, 0, 0, }
-    };
-
-static int docRtfReadChildShape(	const RtfControlWord *	rcw,
-					int			arg,
-					RtfReader *		rr )
-    {
-    int			res;
-    DrawingShape *	parent= rr->rrDrawingShape;
-    DrawingShape *	ds;
-
-    if  ( ! rr->rrcInIgnoredGroup )
 	{
-	ds= docClaimShapeInParent( &(rr->rrDocument->bdShapeList),
-						    parent, -1, rcw->rcwID );
-	if  ( ! ds )
-	    { XDEB(ds); return -1;	}
+		(char *)0,
+		0,
+		0,
+	}
+};
 
-	ds->dsDrawing.sdShapeType= rcw->rcwID;
+static int docRtfReadChildShape(const RtfControlWord *rcw, int arg,
+				RtfReader *rr)
+{
+	int res;
+	DrawingShape *parent = rr->rrDrawingShape;
+	DrawingShape *ds;
 
-	ds->dsSelectionScope= parent->dsSelectionScope;
-	ds->dsSelectionScope.ssOwnerNumber= ds->dsShapeNumber;
+	if (!rr->rrcInIgnoredGroup) {
+		ds = docClaimShapeInParent(&(rr->rrDocument->bdShapeList),
+					   parent, -1, rcw->rcwID);
+		if (!ds) {
+			XDEB(ds);
+			return -1;
+		}
 
-	rr->rrDrawingShape= ds;
+		ds->dsDrawing.sdShapeType = rcw->rcwID;
+
+		ds->dsSelectionScope = parent->dsSelectionScope;
+		ds->dsSelectionScope.ssOwnerNumber = ds->dsShapeNumber;
+
+		rr->rrDrawingShape = ds;
 	}
 
-    res= docRtfReadGroup( rcw, 0, 0, rr,
-		    docRtfShapeGroups, docRtfIgnoreText, (RtfCommitGroup)0 );
+	res = docRtfReadGroup(rcw, 0, 0, rr, docRtfShapeGroups,
+			      docRtfIgnoreText, (RtfCommitGroup)0);
 
-    if  ( res )
-	{ SLDEB(rcw->rcwWord,res);	}
+	if (res) {
+		SLDEB(rcw->rcwWord, res);
+	}
 
-    rr->rrDrawingShape= parent;
-    return res;
-    }
+	rr->rrDrawingShape = parent;
+	return res;
+}
 
-int docRtfReadShape(			const RtfControlWord *	rcw,
-					int			arg,
-					RtfReader *		rr )
-    {
-    DrawingShape *	ds= (DrawingShape *)0;
+int docRtfReadShape(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	DrawingShape *ds = (DrawingShape *)0;
 
-    if  ( ! docRtfGetParaNode( rr ) )
-	{ SDEB(rcw->rcwWord); return -1; }
+	if (!docRtfGetParaNode(rr)) {
+		SDEB(rcw->rcwWord);
+		return -1;
+	}
 
-    return docRtfReadShapeIntern( &ds, rcw, arg, rr, docRtfShapeGroups );
-    }
+	return docRtfReadShapeIntern(&ds, rcw, arg, rr, docRtfShapeGroups);
+}
 
 /************************************************************************/
 /*									*/
@@ -864,55 +951,54 @@ int docRtfReadShape(			const RtfControlWord *	rcw,
 /*									*/
 /************************************************************************/
 
-static int docRtfDrawingObjectToShape(	DrawingShape *	ds )
-    {
-    ShapeDrawing *		sd= &(ds->dsDrawing);
+static int docRtfDrawingObjectToShape(DrawingShape *ds)
+{
+	ShapeDrawing *sd = &(ds->dsDrawing);
 
-    if  ( ds->dsDrawing.sdShapeType == SHPtyLINE	&&
-	  ! ds->dsIsChildShape				&&
-	  sd->sdVertexCount == 2			)
-	{
-	ShapeArrow		sa;
+	if (ds->dsDrawing.sdShapeType == SHPtyLINE && !ds->dsIsChildShape &&
+	    sd->sdVertexCount == 2) {
+		ShapeArrow sa;
 
-	/*  1  */
-	if  ( sd->sdVertices[0].x <= sd->sdVertices[1].x )
-	    { sd->sd_fFlipH= 0;	}
-	else{ sd->sd_fFlipH= 1;	}
-	if  ( sd->sdVertices[0].y <= sd->sdVertices[1].y )
-	    { sd->sd_fFlipV= 0;	}
-	else{ sd->sd_fFlipV= 1;	}
+		/*  1  */
+		if (sd->sdVertices[0].x <= sd->sdVertices[1].x) {
+			sd->sd_fFlipH = 0;
+		} else {
+			sd->sd_fFlipH = 1;
+		}
+		if (sd->sdVertices[0].y <= sd->sdVertices[1].y) {
+			sd->sd_fFlipV = 0;
+		} else {
+			sd->sd_fFlipV = 1;
+		}
 
-	/*  2  */
-	sa= sd->sdLineHeadArrow;
-	sd->sdLineHeadArrow= sd->sdLineTailArrow;
-	sd->sdLineTailArrow= sa;
+		/*  2  */
+		sa = sd->sdLineHeadArrow;
+		sd->sdLineHeadArrow = sd->sdLineTailArrow;
+		sd->sdLineTailArrow = sa;
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
-static RtfControlWord	docRtfDoGroups[]=
-    {
-	RTF_DEST_XX( "dptxbxtext",	DOCinSHPTXT,	docRtfShpText ),
+static RtfControlWord docRtfDoGroups[] = {
+	RTF_DEST_XX("dptxbxtext", DOCinSHPTXT, docRtfShpText),
 
 	{ (char *)0, 0, 0 }
-    };
+};
 
-int docRtfReadDrawingObject(	const RtfControlWord *	rcw,
-				int			arg,
-				RtfReader *	rr )
-    {
-    DrawingShape *	ds= (DrawingShape *)0;
+int docRtfReadDrawingObject(const RtfControlWord *rcw, int arg, RtfReader *rr)
+{
+	DrawingShape *ds = (DrawingShape *)0;
 
-    if  ( docRtfReadShapeIntern( &ds, rcw, arg, rr, docRtfDoGroups ) )
-	{ SDEB(rcw->rcwWord);	}
-
-    if  ( ! rr->rrcInIgnoredGroup )
-	{
-	if  ( docRtfDrawingObjectToShape( ds ) )
-	    { LDEB(1);	}
+	if (docRtfReadShapeIntern(&ds, rcw, arg, rr, docRtfDoGroups)) {
+		SDEB(rcw->rcwWord);
 	}
 
-    return 0;
-    }
+	if (!rr->rrcInIgnoredGroup) {
+		if (docRtfDrawingObjectToShape(ds)) {
+			LDEB(1);
+		}
+	}
 
+	return 0;
+}

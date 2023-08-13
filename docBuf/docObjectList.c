@@ -4,15 +4,15 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<string.h>
+#include <string.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	"docShape.h"
-#   include	"docParaParticules.h"
+#include "docBuf.h"
+#include "docShape.h"
+#include "docParaParticules.h"
 
 /************************************************************************/
 /*									*/
@@ -20,16 +20,16 @@
 /*									*/
 /************************************************************************/
 
-static void docCleanObject(	BufferDocument *	bd,
-				InsertedObject *	io )
-    {
-    if  ( io->ioDrawingShape )
-	{ docDeleteDrawingShape( bd, io->ioDrawingShape );	}
+static void docCleanObject(BufferDocument *bd, InsertedObject *io)
+{
+	if (io->ioDrawingShape) {
+		docDeleteDrawingShape(bd, io->ioDrawingShape);
+	}
 
-    docCleanInsertedObject( io );
+	docCleanInsertedObject(io);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -37,94 +37,91 @@ static void docCleanObject(	BufferDocument *	bd,
 /*									*/
 /************************************************************************/
 
-void docDeleteObject(		BufferDocument *	bd,
-				int			n )
-    {
-    InsertedObject *	io;
+void docDeleteObject(BufferDocument *bd, int n)
+{
+	InsertedObject *io;
 
-    io= docGetObject( bd, n );
-    if  ( ! io )
-	{ LPDEB(n,io);	}
-    else{
-	/* Needed because of the bd dependent clean: */
-	docCleanObject( bd, io );
-	docInitInsertedObject( io );
+	io = docGetObject(bd, n);
+	if (!io) {
+		LPDEB(n, io);
+	} else {
+		/* Needed because of the bd dependent clean: */
+		docCleanObject(bd, io);
+		docInitInsertedObject(io);
 
-	utilPagedListDeleteItemByNumber( &(bd->bdObjectList.iolPagedList), n );
+		utilPagedListDeleteItemByNumber(
+			&(bd->bdObjectList.iolPagedList), n);
 	}
 
-    return;
-    }
+	return;
+}
 
-void docCleanParticuleObject(	BufferDocument *	bd,
-				TextParticule *		tp )
-    {
-    if  ( tp->tpKind != DOCkindOBJECT )
-	{ return;	}
-
-    docDeleteObject( bd, tp->tpObjectNumber );
-
-    return;
-    }
-
-InsertedObject * docClaimObjectCopy(	BufferDocument *	bd,
-					int *			pNr,
-					const InsertedObject *	ioFrom )
-    {
-    InsertedObject *	ioTo;
-    int			objectNumber;
-
-    ioTo= docClaimObject( &objectNumber, bd );
-    if  ( ! ioTo )
-	{ XDEB(ioTo); return (InsertedObject *)0;	}
-
-    if  ( ioFrom->ioObjectName						&&
-	  docSetObjectName( ioTo, ioFrom->ioObjectName,
-			    strlen( (char *)ioFrom->ioObjectName ) )	)
-	{
-	LDEB(1);
-	docDeleteObject( bd, objectNumber );
-	return (InsertedObject *)0;
+void docCleanParticuleObject(BufferDocument *bd, TextParticule *tp)
+{
+	if (tp->tpKind != DOCkindOBJECT) {
+		return;
 	}
 
-    if  ( ioFrom->ioObjectClass						&&
-	  docSetObjectClass( ioTo, ioFrom->ioObjectClass,
-			    strlen( (char *)ioFrom->ioObjectClass ) )	)
-	{
-	LDEB(1);
-	docDeleteObject( bd, objectNumber );
-	return (InsertedObject *)0;
+	docDeleteObject(bd, tp->tpObjectNumber);
+
+	return;
+}
+
+InsertedObject *docClaimObjectCopy(BufferDocument *bd, int *pNr,
+				   const InsertedObject *ioFrom)
+{
+	InsertedObject *ioTo;
+	int objectNumber;
+
+	ioTo = docClaimObject(&objectNumber, bd);
+	if (!ioTo) {
+		XDEB(ioTo);
+		return (InsertedObject *)0;
 	}
 
-    if  ( utilCopyMemoryBuffer( &ioTo->ioObjectData, &ioFrom->ioObjectData ) ||
-	  utilCopyMemoryBuffer( &ioTo->ioResultData, &ioFrom->ioResultData ) )
-	{
-	LDEB(1);
-	docDeleteObject( bd, objectNumber );
-	return (InsertedObject *)0;
+	if (ioFrom->ioObjectName &&
+	    docSetObjectName(ioTo, ioFrom->ioObjectName,
+			     strlen((char *)ioFrom->ioObjectName))) {
+		LDEB(1);
+		docDeleteObject(bd, objectNumber);
+		return (InsertedObject *)0;
 	}
 
-    ioTo->ioKind= ioFrom->ioKind;
-    ioTo->ioResultKind= ioFrom->ioResultKind;
-    ioTo->ioRtfResultKind= ioFrom->ioRtfResultKind;
-    ioTo->ioRtfEmbedKind= ioFrom->ioRtfEmbedKind;
-    ioTo->ioTwipsWide= ioFrom->ioTwipsWide;
-    ioTo->ioTwipsHigh= ioFrom->ioTwipsHigh;
-    ioTo->ioScaleXSet= ioFrom->ioScaleXSet;
-    ioTo->ioScaleYSet= ioFrom->ioScaleYSet;
-    ioTo->ioScaleXUsed= ioFrom->ioScaleXUsed;
-    ioTo->ioScaleYUsed= ioFrom->ioScaleYUsed;
-    ioTo->ioPixelsWide= ioFrom->ioPixelsWide;
-    ioTo->ioPixelsHigh= ioFrom->ioPixelsHigh;
+	if (ioFrom->ioObjectClass &&
+	    docSetObjectClass(ioTo, ioFrom->ioObjectClass,
+			      strlen((char *)ioFrom->ioObjectClass))) {
+		LDEB(1);
+		docDeleteObject(bd, objectNumber);
+		return (InsertedObject *)0;
+	}
 
-    ioTo->ioPictureProperties= ioFrom->ioPictureProperties;
+	if (utilCopyMemoryBuffer(&ioTo->ioObjectData, &ioFrom->ioObjectData) ||
+	    utilCopyMemoryBuffer(&ioTo->ioResultData, &ioFrom->ioResultData)) {
+		LDEB(1);
+		docDeleteObject(bd, objectNumber);
+		return (InsertedObject *)0;
+	}
 
-    ioTo->ioTopCropTwips= ioFrom->ioTopCropTwips;
-    ioTo->ioBottomCropTwips= ioFrom->ioBottomCropTwips;
-    ioTo->ioLeftCropTwips= ioFrom->ioLeftCropTwips;
-    ioTo->ioRightCropTwips= ioFrom->ioRightCropTwips;
+	ioTo->ioKind = ioFrom->ioKind;
+	ioTo->ioResultKind = ioFrom->ioResultKind;
+	ioTo->ioRtfResultKind = ioFrom->ioRtfResultKind;
+	ioTo->ioRtfEmbedKind = ioFrom->ioRtfEmbedKind;
+	ioTo->ioTwipsWide = ioFrom->ioTwipsWide;
+	ioTo->ioTwipsHigh = ioFrom->ioTwipsHigh;
+	ioTo->ioScaleXSet = ioFrom->ioScaleXSet;
+	ioTo->ioScaleYSet = ioFrom->ioScaleYSet;
+	ioTo->ioScaleXUsed = ioFrom->ioScaleXUsed;
+	ioTo->ioScaleYUsed = ioFrom->ioScaleYUsed;
+	ioTo->ioPixelsWide = ioFrom->ioPixelsWide;
+	ioTo->ioPixelsHigh = ioFrom->ioPixelsHigh;
 
-    *pNr= objectNumber;
-    return ioTo;
-    }
+	ioTo->ioPictureProperties = ioFrom->ioPictureProperties;
 
+	ioTo->ioTopCropTwips = ioFrom->ioTopCropTwips;
+	ioTo->ioBottomCropTwips = ioFrom->ioBottomCropTwips;
+	ioTo->ioLeftCropTwips = ioFrom->ioLeftCropTwips;
+	ioTo->ioRightCropTwips = ioFrom->ioRightCropTwips;
+
+	*pNr = objectNumber;
+	return ioTo;
+}

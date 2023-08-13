@@ -4,15 +4,15 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
+#include <stddef.h>
 
-#   include	"docLayout.h"
-#   include	<docTreeType.h>
-#   include	<docTreeNode.h>
+#include "docLayout.h"
+#include <docTreeType.h>
+#include <docTreeNode.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -29,45 +29,44 @@
 /*									*/
 /************************************************************************/
 
-static int docReLayoutStackedChildren(
-				LayoutPosition *		lpBelow,
-				const LayoutPosition *		lpTop,
-				BufferItem *			parentNode,
-				int				from,
-				BlockFrame *			bf,
-				LayoutJob *			lj )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    int				i;
-    int				changed;
-    DocumentRectangle *		drChanged= lj->ljChangedRectanglePixels;
+static int docReLayoutStackedChildren(LayoutPosition *lpBelow,
+				      const LayoutPosition *lpTop,
+				      BufferItem *parentNode, int from,
+				      BlockFrame *bf, LayoutJob *lj)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	int i;
+	int changed;
+	DocumentRectangle *drChanged = lj->ljChangedRectanglePixels;
 
-    LayoutPosition		lpHere= *lpTop;
+	LayoutPosition lpHere = *lpTop;
 
-    for ( i= from; i < parentNode->biChildCount; i++ )
-	{
-	BufferItem *	child= parentNode->biChildren[i];
+	for (i = from; i < parentNode->biChildCount; i++) {
+		BufferItem *child = parentNode->biChildren[i];
 
-	if  ( DOC_SAME_POSITION( &(child->biTopPosition), &lpHere ) )
-	    {
-	    const BufferItem *	last;
+		if (DOC_SAME_POSITION(&(child->biTopPosition), &lpHere)) {
+			const BufferItem *last;
 
-	    last= parentNode->biChildren[parentNode->biChildCount- 1];
-	    lpHere= last->biBelowPosition;
-	    break;
-	    }
+			last = parentNode->biChildren[parentNode->biChildCount -
+						      1];
+			lpHere = last->biBelowPosition;
+			break;
+		}
 
-	child->biTopPosition= lpHere;
+		child->biTopPosition = lpHere;
 
-	if  ( docLayoutNodeImplementation( &lpHere, &lpHere, child, bf, lj ) )
-	    { LDEB(i); return -1;	}
+		if (docLayoutNodeImplementation(&lpHere, &lpHere, child, bf,
+						lj)) {
+			LDEB(i);
+			return -1;
+		}
 
-	docLayoutSetNodeBottom( &changed, child, &lpHere, lc, drChanged );
+		docLayoutSetNodeBottom(&changed, child, &lpHere, lc, drChanged);
 	}
 
-    *lpBelow= lpHere;
-    return 0;
-    }
+	*lpBelow = lpHere;
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -76,100 +75,104 @@ static int docReLayoutStackedChildren(
 /*									*/
 /************************************************************************/
 
-static int docRedoBodyLayout(		BufferItem *		bodyNode,
-					const LayoutJob *	ljRef )
-    {
-    LayoutJob			bodyLj;
+static int docRedoBodyLayout(BufferItem *bodyNode, const LayoutJob *ljRef)
+{
+	LayoutJob bodyLj;
 
-    if  ( bodyNode->biTreeType != DOCinBODY )
-	{ LDEB(bodyNode->biTreeType);	}
-
-    bodyLj= *ljRef;
-    /* bodyLj.ljContext= ljRef->ljContext; */
-
-    bodyLj.ljChangedNode= bodyNode;
-
-    if  ( docLayoutNodeAndParents( bodyNode, &bodyLj ) )
-	{ LDEB(1); return -1;	}
-
-    return 0;
-    }
-
-static int docRedoBodyNodeLayout(	BufferItem *		node,
-					const LayoutPosition *	lpHere,
-					const LayoutJob *	lj )
-
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    BufferDocument *		bd= lc->lcDocument;
-
-    DocumentTree *		tree;
-    BufferItem *		bodyNode;
-
-    if  ( lj->ljChangedNode->biTreeType != node->biTreeType )
-	{
-	LDEB(lj->ljChangedNode->biTreeType);
-	LDEB(node->biTreeType);
-	return 0;
+	if (bodyNode->biTreeType != DOCinBODY) {
+		LDEB(bodyNode->biTreeType);
 	}
 
-    if  ( docGetTreeOfNode( &tree, &bodyNode, bd, node ) )
-	{ LDEB(node->biTreeType); return -1; }
-    if  ( ! bodyNode )
-	{ bodyNode= bd->bdBody.dtRoot;	}
+	bodyLj = *ljRef;
+	/* bodyLj.ljContext= ljRef->ljContext; */
 
-    if  ( lpHere->lpPageYTwips == tree->dtY1UsedTwips )
-	{ return 0;	}
+	bodyLj.ljChangedNode = bodyNode;
 
-    if  ( docRedoBodyLayout( bodyNode, lj ) )
-	{ LDEB(node->biTreeType); return -1;	}
+	if (docLayoutNodeAndParents(bodyNode, &bodyLj)) {
+		LDEB(1);
+		return -1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
+
+static int docRedoBodyNodeLayout(BufferItem *node, const LayoutPosition *lpHere,
+				 const LayoutJob *lj)
+
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	BufferDocument *bd = lc->lcDocument;
+
+	DocumentTree *tree;
+	BufferItem *bodyNode;
+
+	if (lj->ljChangedNode->biTreeType != node->biTreeType) {
+		LDEB(lj->ljChangedNode->biTreeType);
+		LDEB(node->biTreeType);
+		return 0;
+	}
+
+	if (docGetTreeOfNode(&tree, &bodyNode, bd, node)) {
+		LDEB(node->biTreeType);
+		return -1;
+	}
+	if (!bodyNode) {
+		bodyNode = bd->bdBody.dtRoot;
+	}
+
+	if (lpHere->lpPageYTwips == tree->dtY1UsedTwips) {
+		return 0;
+	}
+
+	if (docRedoBodyLayout(bodyNode, lj)) {
+		LDEB(node->biTreeType);
+		return -1;
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 
-static int docRedoRowLayout(	LayoutPosition *	lpHere,
-				BufferItem *		cellNode,
-				BufferItem *		rowNode,
-				BlockFrame *		bf,
-				LayoutJob *		lj )
-    {
-    int		keepRowOnPage= BI_ROW_IS_ONE_PAGE( rowNode );
-    int		rowspan= 1;
+static int docRedoRowLayout(LayoutPosition *lpHere, BufferItem *cellNode,
+			    BufferItem *rowNode, BlockFrame *bf, LayoutJob *lj)
+{
+	int keepRowOnPage = BI_ROW_IS_ONE_PAGE(rowNode);
+	int rowspan = 1;
 
-    if  ( rowNode->biNumberInParent > 0	&&
-	  rowNode->biParent		&&
-	  keepRowOnPage			)
-	{
-	BufferItem *	pp= rowNode->biParent;
-	BufferItem *	ch;
+	if (rowNode->biNumberInParent > 0 && rowNode->biParent &&
+	    keepRowOnPage) {
+		BufferItem *pp = rowNode->biParent;
+		BufferItem *ch;
 
-	ch= pp->biChildren[rowNode->biNumberInParent- 1];
+		ch = pp->biChildren[rowNode->biNumberInParent - 1];
 
-	rowNode->biTopPosition= ch->biBelowPosition;
+		rowNode->biTopPosition = ch->biBelowPosition;
 	}
 
-    *lpHere= rowNode->biTopPosition;
+	*lpHere = rowNode->biTopPosition;
 
-    if  ( bf->bfPage != lpHere->lpPage		||
-	  bf->bfColumn != lpHere->lpColumn	)
-	{
-	if  ( docLayoutGetInitialFrame( bf, lj, lpHere, rowNode ) )
-	    { LDEB(1); return -1;	}
+	if (bf->bfPage != lpHere->lpPage || bf->bfColumn != lpHere->lpColumn) {
+		if (docLayoutGetInitialFrame(bf, lj, lpHere, rowNode)) {
+			LDEB(1);
+			return -1;
+		}
 	}
 
-    /*  Continue with subsequent rows after a row with a rowspan.	*/
-    if  ( cellNode->biCellRowspan > 1 )
-	{ rowspan= cellNode->biCellRowspan;	}
+	/*  Continue with subsequent rows after a row with a rowspan.	*/
+	if (cellNode->biCellRowspan > 1) {
+		rowspan = cellNode->biCellRowspan;
+	}
 
-    if  ( docLayoutTableSlice( lpHere, lpHere, rowNode->biParent,
+	if (docLayoutTableSlice(lpHere, lpHere, rowNode->biParent,
 				rowNode->biNumberInParent,
-				rowNode->biNumberInParent+ rowspan, bf, lj ) )
-	{ LDEB(rowspan); return -1;	}
+				rowNode->biNumberInParent + rowspan, bf, lj)) {
+		LDEB(rowspan);
+		return -1;
+	}
 
-    return rowspan- 1;
-    }
+	return rowspan - 1;
+}
 
 /************************************************************************/
 /*									*/
@@ -182,27 +185,25 @@ static int docRedoRowLayout(	LayoutPosition *	lpHere,
 /*									*/
 /************************************************************************/
 
-static int docPsFixupParentGeometry(	BufferItem *		node,
-					BufferItem *		biParent )
-    {
-    LayoutPosition	lpBi= node->biTopPosition;
-    LayoutPosition	lpPa= biParent->biTopPosition;
+static int docPsFixupParentGeometry(BufferItem *node, BufferItem *biParent)
+{
+	LayoutPosition lpBi = node->biTopPosition;
+	LayoutPosition lpPa = biParent->biTopPosition;
 
-    if  ( ! DOC_SAME_POSITION( &lpPa, &lpBi ) )
-	{
-#	if 0
+	if (!DOC_SAME_POSITION(&lpPa, &lpBi)) {
+#if 0
 	SSDEB(docLevelStr(biParent->biLevel),docLevelStr(node->biLevel));
 	LLDEB(lpPa.lpPage,lpBi.lpPage);
 	LLDEB(lpPa.lpPageYTwips,lpBi.lpPageYTwips);
-#	endif
+#endif
 
-	biParent->biTopPosition= lpBi;
+		biParent->biTopPosition = lpBi;
 
-	return 1;
+		return 1;
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -211,58 +212,58 @@ static int docPsFixupParentGeometry(	BufferItem *		node,
 /*									*/
 /************************************************************************/
 
-static int docAdjustParaParentLayout(	LayoutPosition *	lpHere,
-					const BufferItem *	node,
-					const BufferItem *	parentNode )
-    {
-    int			from;
-    ParagraphLayoutJob	plj;
-    const int		line= 0;
-    const int		part= 0;
+static int docAdjustParaParentLayout(LayoutPosition *lpHere,
+				     const BufferItem *node,
+				     const BufferItem *parentNode)
+{
+	int from;
+	ParagraphLayoutJob plj;
+	const int line = 0;
+	const int part = 0;
 
-    docInitParagraphLayoutJob( &plj );
+	docInitParagraphLayoutJob(&plj);
 
-    docBeginParagraphLayoutProgress( &plj,
-				node->biNumberInParent+ 1, line, part,
-				parentNode->biChildCount, lpHere );
+	docBeginParagraphLayoutProgress(&plj, node->biNumberInParent + 1, line,
+					part, parentNode->biChildCount, lpHere);
 
-    docFindStripLayoutOrigin( &plj,
-				lpHere->lpPage, lpHere->lpColumn, parentNode );
+	docFindStripLayoutOrigin(&plj, lpHere->lpPage, lpHere->lpColumn,
+				 parentNode);
 
-    if  ( node->biParaBreakKind != DOCibkNONE	&&
-	  node->biParaTableNesting == 0		)
-	{
-	const BufferItem *	bbi= node;
+	if (node->biParaBreakKind != DOCibkNONE &&
+	    node->biParaTableNesting == 0) {
+		const BufferItem *bbi = node;
 
-	while( bbi->biNumberInParent == 0 )
-	    {
-	    if  ( ! bbi->biParent )
-		{ break;	}
+		while (bbi->biNumberInParent == 0) {
+			if (!bbi->biParent) {
+				break;
+			}
 
-	    bbi->biParent->biTopPosition= node->biTopPosition;
-	    bbi= bbi->biParent;
-	    }
+			bbi->biParent->biTopPosition = node->biTopPosition;
+			bbi = bbi->biParent;
+		}
 	}
 
-    if  ( plj.pljPos0.pspChild >= node->biNumberInParent+ 1 )
-	{
-	if  ( plj.pljPos0.pspChild > node->biNumberInParent+ 1 )
-	    { LLDEB(plj.pljPos0.pspChild,node->biNumberInParent);	}
+	if (plj.pljPos0.pspChild >= node->biNumberInParent + 1) {
+		if (plj.pljPos0.pspChild > node->biNumberInParent + 1) {
+			LLDEB(plj.pljPos0.pspChild, node->biNumberInParent);
+		}
 
-	from= node->biNumberInParent+ 1;
+		from = node->biNumberInParent + 1;
+	} else {
+		from = plj.pljPos0.pspChild;
+
+		if (from == 0) {
+			*lpHere = parentNode->biChildren[from]->biTopPosition;
+		} else {
+			*lpHere = parentNode->biChildren[from - 1]
+					  ->biBelowPosition;
+		}
 	}
-    else{
-	from= plj.pljPos0.pspChild;
 
-	if  ( from == 0 )
-	    { *lpHere= parentNode->biChildren[from]->biTopPosition;	}
-	else{ *lpHere= parentNode->biChildren[from- 1]->biBelowPosition; }
-	}
+	docCleanParagraphLayoutJob(&plj);
 
-    docCleanParagraphLayoutJob( &plj );
-
-    return from;
-    }
+	return from;
+}
 
 /************************************************************************/
 /*									*/
@@ -273,15 +274,13 @@ static int docAdjustParaParentLayout(	LayoutPosition *	lpHere,
 /*									*/
 /************************************************************************/
 
-int docAdjustLayoutToChangedTree(	LayoutPosition *	lpHere,
-					BufferItem *		node,
-					LayoutJob *		lj )
-    {
-    switch( node->biTreeType )
-	{
+int docAdjustLayoutToChangedTree(LayoutPosition *lpHere, BufferItem *node,
+				 LayoutJob *lj)
+{
+	switch (node->biTreeType) {
 	case DOCinBODY:
-	    lj->ljReachedDocumentBottom= 1;
-	    break;
+		lj->ljReachedDocumentBottom = 1;
+		break;
 
 	case DOCinFIRST_HEADER:
 	case DOCinLEFT_HEADER:
@@ -290,28 +289,38 @@ int docAdjustLayoutToChangedTree(	LayoutPosition *	lpHere,
 	case DOCinLEFT_FOOTER:
 	case DOCinRIGHT_FOOTER:
 
-	    if  ( node->biLevel != DOClevSECT )
-		{ LLDEB(node->biLevel,DOClevSECT); return -1;	}
-	    if  ( lj->ljChangedNode->biTreeType == DOCinBODY )
-		{ break; }
+		if (node->biLevel != DOClevSECT) {
+			LLDEB(node->biLevel, DOClevSECT);
+			return -1;
+		}
+		if (lj->ljChangedNode->biTreeType == DOCinBODY) {
+			break;
+		}
 
-	    if  ( docRedoBodyNodeLayout( node, lpHere, lj ) )
-		{ LDEB(1); return -1;	}
+		if (docRedoBodyNodeLayout(node, lpHere, lj)) {
+			LDEB(1);
+			return -1;
+		}
 
-	    break;
+		break;
 
 	case DOCinFOOTNOTE:
 	case DOCinENDNOTE:
 
-	    if  ( node->biLevel != DOClevSECT )
-		{ LLDEB(node->biLevel,DOClevSECT); return -1;	}
-	    if  ( lj->ljChangedNode->biTreeType == DOCinBODY )
-		{ break; }
+		if (node->biLevel != DOClevSECT) {
+			LLDEB(node->biLevel, DOClevSECT);
+			return -1;
+		}
+		if (lj->ljChangedNode->biTreeType == DOCinBODY) {
+			break;
+		}
 
-	    if  ( docRedoBodyNodeLayout( node, lpHere, lj ) )
-		{ LDEB(1); return -1;	}
+		if (docRedoBodyNodeLayout(node, lpHere, lj)) {
+			LDEB(1);
+			return -1;
+		}
 
-	    break;
+		break;
 
 	case DOCinFTNSEP:
 	case DOCinFTNSEPC:
@@ -320,27 +329,32 @@ int docAdjustLayoutToChangedTree(	LayoutPosition *	lpHere,
 	case DOCinAFTNSEPC:
 	case DOCinAFTNCN:
 
-	    if  ( node->biLevel != DOClevSECT )
-		{ LLDEB(node->biLevel,DOClevSECT); return -1;	}
-	    if  ( lj->ljChangedNode->biTreeType == DOCinBODY )
-		{ break; }
+		if (node->biLevel != DOClevSECT) {
+			LLDEB(node->biLevel, DOClevSECT);
+			return -1;
+		}
+		if (lj->ljChangedNode->biTreeType == DOCinBODY) {
+			break;
+		}
 
-	    if  ( docRedoBodyNodeLayout( node, lpHere, lj ) )
-		{ LDEB(1); return -1;	}
+		if (docRedoBodyNodeLayout(node, lpHere, lj)) {
+			LDEB(1);
+			return -1;
+		}
 
-	    break;
+		break;
 
 	case DOCinSHPTXT:
-	    /*nothing*/
-	    break;
+		/*nothing*/
+		break;
 
 	default:
-	    LDEB(node->biTreeType);
-	    break;
+		LDEB(node->biTreeType);
+		break;
 	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -356,166 +370,184 @@ int docAdjustLayoutToChangedTree(	LayoutPosition *	lpHere,
 /*									*/
 /************************************************************************/
 
-int docAdjustParentLayout(	const LayoutPosition *	lpTop,
-				BufferItem *		node,
-				BlockFrame *		bf,
-				LayoutJob *		lj )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    BufferDocument *		bd= lc->lcDocument;
-    const DocumentProperties *	dp= &(bd->bdProperties);
-    const NotesProperties *	npEndnotes= &(dp->dpNotesProps.fepEndnotesProps);
+int docAdjustParentLayout(const LayoutPosition *lpTop, BufferItem *node,
+			  BlockFrame *bf, LayoutJob *lj)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	BufferDocument *bd = lc->lcDocument;
+	const DocumentProperties *dp = &(bd->bdProperties);
+	const NotesProperties *npEndnotes =
+		&(dp->dpNotesProps.fepEndnotesProps);
 
-    DocumentRectangle *		drChanged= lj->ljChangedRectanglePixels;
-    BufferItem *		parentNode= node->biParent;
-    int				from;
+	DocumentRectangle *drChanged = lj->ljChangedRectanglePixels;
+	BufferItem *parentNode = node->biParent;
+	int from;
 
-    LayoutPosition		lpHere= *lpTop;
+	LayoutPosition lpHere = *lpTop;
 
-
-if(bf->bfPage!=lpHere.lpPage||
-   bf->bfColumn!=lpHere.lpColumn)
-  {
-  SDEB("!!!!!!!!!!!!!!");
-  LLDEB(bf->bfPage,lpHere.lpPage);
-  LLDEB(bf->bfColumn,lpHere.lpColumn);
-  }
-
-    if  ( parentNode && parentNode->biLevel == DOClevCELL )
-	{ from= docAdjustParaParentLayout( &lpHere, node, parentNode );	}
-    else{ from= node->biNumberInParent+ 1;				}
-
-    while( parentNode )
-	{
-	int		changed= 0;
-
-	switch( parentNode->biLevel )
-	    {
-	    case DOClevBODY:
-		if  ( node->biNumberInParent == 0		&&
-		      docPsFixupParentGeometry( node, parentNode )	)
-		    { from= 0; lpHere= node->biTopPosition; }
-
-		if  ( from <= parentNode->biChildCount- 1 )
-		    {
-		    docReLayoutStackedChildren( &lpHere, &lpHere,
-						    parentNode, from, bf, lj );
-		    }
-		else{ lpHere= node->biBelowPosition;		}
-
-		if  ( parentNode->biTreeType == DOCinBODY		&&
-		      npEndnotes->npPlacement == FTNplaceDOC_END	)
-		    {
-		    if  ( docLayoutEndnotesForDocument( &lpHere, &lpHere,
-								    bf, lj ) )
-			{ LDEB(1); return -1;	}
-		    }
-
-		break;
-
-	    case DOClevSECT:
-		if  ( node->biNumberInParent == 0			&&
-		      docPsFixupParentGeometry( node, parentNode )	)
-		    { from= 0; lpHere= node->biTopPosition; }
-
-		if  ( from <= parentNode->biChildCount- 1 )
-		    {
-		    docLayoutSectChildren( &lpHere, &lpHere,
-						    parentNode, from, bf, lj );
-		    }
-		else{ lpHere= node->biBelowPosition;		}
-
-		if  ( docLayoutFinishSectNode( &lpHere, &lpHere,
-							parentNode, bf, lj ) )
-		    { LDEB(1); return -1;	}
-
-		break;
-
-	    parentAsGroup:
-		if  ( node->biNumberInParent == 0			&&
-		      docPsFixupParentGeometry( node, parentNode )	)
-		    { from= 0; lpHere= node->biTopPosition; }
-
-		if  ( from <= parentNode->biChildCount- 1 )
-		    {
-		    docReLayoutStackedChildren( &lpHere, &lpHere,
-						    parentNode, from, bf, lj );
-		    }
-		else{ lpHere= node->biBelowPosition;		}
-
-		break;
-
-	    case DOClevCELL:
-		if  ( node->biNumberInParent == 0			&&
-		      docPsFixupParentGeometry( node, parentNode )	)
-		    { from= 0; lpHere= node->biTopPosition; }
-
-		if  ( from <= parentNode->biChildCount- 1 )
-		    {
-		    if  ( docLayoutCellNode( &lpHere, &lpHere,
-						    parentNode, from, bf, lj ) )
-			{ LDEB(1); return -1;	}
-		    }
-		else{ lpHere= node->biBelowPosition;		}
-
-		break;
-
-	    case DOClevROW:
-
-		if  ( ! docIsRowNode( parentNode ) )
-		    {
-		    if  ( parentNode->biNumberInParent > 0 )
-			{
-			docLayoutCalculateAfterRowTopInset( parentNode, bd );
-			}
-
-		    goto parentAsGroup;
-		    }
-		else{
-		    int		extra;
-
-		    extra= docRedoRowLayout( &lpHere,
-					    node, parentNode, bf, lj );
-		    if  ( extra < 0 )
-			{ LDEB(extra); return -1;	}
-		    if  ( extra > 0 )
-			{
-			parentNode= parentNode->biParent->biChildren[
-					parentNode->biNumberInParent+ extra];
-			}
-		    }
-
-		break;
-
-	    default:
-		LDEB(parentNode->biLevel); return -1;
-	    }
-
-	docLayoutSetNodeBottom( &changed, parentNode, &lpHere, lc, drChanged );
-
-	if  ( ! changed )
-	    { break;	}
-
-	node= parentNode; parentNode= node->biParent;
-	from= node->biNumberInParent+ 1;
+	if (bf->bfPage != lpHere.lpPage || bf->bfColumn != lpHere.lpColumn) {
+		SDEB("!!!!!!!!!!!!!!");
+		LLDEB(bf->bfPage, lpHere.lpPage);
+		LLDEB(bf->bfColumn, lpHere.lpColumn);
 	}
 
-    if  ( node->biTreeType == DOCinBODY		&&
-	  BF_HAS_FOOTNOTES( bf )		&&
-	  ! bf->bfFootnotesPlaced		)
-	{
-	const int		belowText= 0;
-	LayoutPosition		lpBelowNotes;
-
-	if  ( docLayoutFootnotesForColumn( &lpBelowNotes, &lpHere, bf,
-							    belowText, lj ) )
-	    { LDEB(1); return -1;	}
+	if (parentNode && parentNode->biLevel == DOClevCELL) {
+		from = docAdjustParaParentLayout(&lpHere, node, parentNode);
+	} else {
+		from = node->biNumberInParent + 1;
 	}
 
-    if  ( ! parentNode						&&
-	  docAdjustLayoutToChangedTree( &lpHere, node, lj )	)
-	{ LDEB(1); return -1;	}
+	while (parentNode) {
+		int changed = 0;
 
-    return 0;
-    }
+		switch (parentNode->biLevel) {
+		case DOClevBODY:
+			if (node->biNumberInParent == 0 &&
+			    docPsFixupParentGeometry(node, parentNode)) {
+				from = 0;
+				lpHere = node->biTopPosition;
+			}
 
+			if (from <= parentNode->biChildCount - 1) {
+				docReLayoutStackedChildren(&lpHere, &lpHere,
+							   parentNode, from, bf,
+							   lj);
+			} else {
+				lpHere = node->biBelowPosition;
+			}
+
+			if (parentNode->biTreeType == DOCinBODY &&
+			    npEndnotes->npPlacement == FTNplaceDOC_END) {
+				if (docLayoutEndnotesForDocument(
+					    &lpHere, &lpHere, bf, lj)) {
+					LDEB(1);
+					return -1;
+				}
+			}
+
+			break;
+
+		case DOClevSECT:
+			if (node->biNumberInParent == 0 &&
+			    docPsFixupParentGeometry(node, parentNode)) {
+				from = 0;
+				lpHere = node->biTopPosition;
+			}
+
+			if (from <= parentNode->biChildCount - 1) {
+				docLayoutSectChildren(&lpHere, &lpHere,
+						      parentNode, from, bf, lj);
+			} else {
+				lpHere = node->biBelowPosition;
+			}
+
+			if (docLayoutFinishSectNode(&lpHere, &lpHere,
+						    parentNode, bf, lj)) {
+				LDEB(1);
+				return -1;
+			}
+
+			break;
+
+parentAsGroup:
+			if (node->biNumberInParent == 0 &&
+			    docPsFixupParentGeometry(node, parentNode)) {
+				from = 0;
+				lpHere = node->biTopPosition;
+			}
+
+			if (from <= parentNode->biChildCount - 1) {
+				docReLayoutStackedChildren(&lpHere, &lpHere,
+							   parentNode, from, bf,
+							   lj);
+			} else {
+				lpHere = node->biBelowPosition;
+			}
+
+			break;
+
+		case DOClevCELL:
+			if (node->biNumberInParent == 0 &&
+			    docPsFixupParentGeometry(node, parentNode)) {
+				from = 0;
+				lpHere = node->biTopPosition;
+			}
+
+			if (from <= parentNode->biChildCount - 1) {
+				if (docLayoutCellNode(&lpHere, &lpHere,
+						      parentNode, from, bf,
+						      lj)) {
+					LDEB(1);
+					return -1;
+				}
+			} else {
+				lpHere = node->biBelowPosition;
+			}
+
+			break;
+
+		case DOClevROW:
+
+			if (!docIsRowNode(parentNode)) {
+				if (parentNode->biNumberInParent > 0) {
+					docLayoutCalculateAfterRowTopInset(
+						parentNode, bd);
+				}
+
+				goto parentAsGroup;
+			} else {
+				int extra;
+
+				extra = docRedoRowLayout(&lpHere, node,
+							 parentNode, bf, lj);
+				if (extra < 0) {
+					LDEB(extra);
+					return -1;
+				}
+				if (extra > 0) {
+					parentNode =
+						parentNode->biParent->biChildren
+							[parentNode
+								 ->biNumberInParent +
+							 extra];
+				}
+			}
+
+			break;
+
+		default:
+			LDEB(parentNode->biLevel);
+			return -1;
+		}
+
+		docLayoutSetNodeBottom(&changed, parentNode, &lpHere, lc,
+				       drChanged);
+
+		if (!changed) {
+			break;
+		}
+
+		node = parentNode;
+		parentNode = node->biParent;
+		from = node->biNumberInParent + 1;
+	}
+
+	if (node->biTreeType == DOCinBODY && BF_HAS_FOOTNOTES(bf) &&
+	    !bf->bfFootnotesPlaced) {
+		const int belowText = 0;
+		LayoutPosition lpBelowNotes;
+
+		if (docLayoutFootnotesForColumn(&lpBelowNotes, &lpHere, bf,
+						belowText, lj)) {
+			LDEB(1);
+			return -1;
+		}
+	}
+
+	if (!parentNode && docAdjustLayoutToChangedTree(&lpHere, node, lj)) {
+		LDEB(1);
+		return -1;
+	}
+
+	return 0;
+}

@@ -5,14 +5,14 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docFontConfig.h"
+#include "docFontConfig.h"
 
-#   include	<string.h>
+#include <string.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"utilDocFont.h"
-#   include	<psDocumentFontStyle.h>
+#include "utilDocFont.h"
+#include <psDocumentFontStyle.h>
 
 /************************************************************************/
 /*									*/
@@ -20,85 +20,82 @@
 /*									*/
 /************************************************************************/
 
-int cssFontFamilyIndicator(		char *		target,
-					int		maxSize,
-					int		styleInt,
-					const char *	familyName )
-    {
-    const char *	genericFamily= (const char *)0;
-    const char *	hintFamily= (const char *)0;
+int cssFontFamilyIndicator(char *target, int maxSize, int styleInt,
+			   const char *familyName)
+{
+	const char *genericFamily = (const char *)0;
+	const char *hintFamily = (const char *)0;
 
-    int			genericSize= 0;
-    int			hintSize= 0;
-    int			nameSize= 0;
-    int			size= 0;
+	int genericSize = 0;
+	int hintSize = 0;
+	int nameSize = 0;
+	int size = 0;
 
-    int			commas= 0;
+	int commas = 0;
 
-    switch( styleInt )
-	{
+	switch (styleInt) {
 	case DFstyleFROMAN:
-	    genericFamily= "serif";
-	    hintFamily= "Times\",\"Times New Roman";
-	    break;
+		genericFamily = "serif";
+		hintFamily = "Times\",\"Times New Roman";
+		break;
 
 	case DFstyleFNIL:
 	case DFstyleFSWISS:
-	    genericFamily= "sans-serif";
-	    hintFamily= "Helvetica\",\"Arial";
-	    break;
+		genericFamily = "sans-serif";
+		hintFamily = "Helvetica\",\"Arial";
+		break;
 
 	case DFstyleFMODERN:
-	    genericFamily= "monospace";
-	    hintFamily= "Courier";
-	    break;
+		genericFamily = "monospace";
+		hintFamily = "Courier";
+		break;
 
 	case DFstyleFSCRIPT:
 	case DFstyleFDECOR:
-	    genericFamily= "cursive";
-	    hintFamily= "Zapf-Chancery";
-	    break;
+		genericFamily = "cursive";
+		hintFamily = "Zapf-Chancery";
+		break;
 
 	case DFstyleFTECH:
-	    hintFamily= "Symbol";
-	    break;
+		hintFamily = "Symbol";
+		break;
 	}
 
-    if  ( genericFamily )
-	{
-	commas++;
-	genericSize= strlen( genericFamily ); /* keyword -> no quotes */
+	if (genericFamily) {
+		commas++;
+		genericSize = strlen(genericFamily); /* keyword -> no quotes */
 	}
-    if  ( hintFamily )
-	{
-	commas++;
-	hintSize= 1+ strlen( hintFamily )+ 1;
+	if (hintFamily) {
+		commas++;
+		hintSize = 1 + strlen(hintFamily) + 1;
 	}
-    nameSize= 1+ strlen( familyName )+ 1;
+	nameSize = 1 + strlen(familyName) + 1;
 
-    size= nameSize+ genericSize+ hintSize+ commas;
-    if  ( size > maxSize )
-	{ LLLLDEB(nameSize,genericSize,hintSize,maxSize); return -1; }
-
-    *(target++)= '"';
-    strcpy( target, familyName ); target += nameSize- 2;
-    *(target++)= '"';
-
-    if  ( hintFamily )
-	{
-	*(target++)= ',';
-	*(target++)= '"';
-	strcpy( target, hintFamily ); target += hintSize- 2;
-	*(target++)= '"';
+	size = nameSize + genericSize + hintSize + commas;
+	if (size > maxSize) {
+		LLLLDEB(nameSize, genericSize, hintSize, maxSize);
+		return -1;
 	}
 
-    if  ( genericFamily )
-	{
-	*(target++)= ',';
-	strcpy( target, genericFamily ); target += genericSize;
+	*(target++) = '"';
+	strcpy(target, familyName);
+	target += nameSize - 2;
+	*(target++) = '"';
+
+	if (hintFamily) {
+		*(target++) = ',';
+		*(target++) = '"';
+		strcpy(target, hintFamily);
+		target += hintSize - 2;
+		*(target++) = '"';
 	}
 
-    *(target  )= '\0';
-    return size;
-    }
+	if (genericFamily) {
+		*(target++) = ',';
+		strcpy(target, genericFamily);
+		target += genericSize;
+	}
 
+	*(target) = '\0';
+	return size;
+}

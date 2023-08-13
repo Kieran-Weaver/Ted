@@ -11,23 +11,23 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
+#include <stddef.h>
+#include <stdio.h>
 
-#   include	<sioFileio.h>
-#   include	<drawMetafilePs.h>
+#include <sioFileio.h>
+#include <drawMetafilePs.h>
 
-#   include	"docDraw.h"
-#   include	"docLayout.h"
-#   include	"docPsPrintImpl.h"
-#   include	"docPsPrint.h"
-#   include	<docTreeNode.h>
+#include "docDraw.h"
+#include "docLayout.h"
+#include "docPsPrintImpl.h"
+#include "docPsPrint.h"
+#include <docTreeNode.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   define	SHOW_PAGE_GRID	0
+#define SHOW_PAGE_GRID 0
 
 /************************************************************************/
 /*									*/
@@ -38,114 +38,114 @@
 /*									*/
 /************************************************************************/
 
-static int docPsSetColorRgb(	DrawingContext *	dc,
-				void *			vps,
-				const RGB8Color *	rgb8 )
-    {
-    PrintingState *		ps= (PrintingState *)vps;
+static int docPsSetColorRgb(DrawingContext *dc, void *vps,
+			    const RGB8Color *rgb8)
+{
+	PrintingState *ps = (PrintingState *)vps;
 
-    if  ( psSetRgb8Color( ps, rgb8 ) )
-	{ LDEB(1); return -1;	}
+	if (psSetRgb8Color(ps, rgb8)) {
+		LDEB(1);
+		return -1;
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
-static int docPsSetFont(	DrawingContext *	dc,
-				void *			vps,
-				int			textAttrNumber,
-				const TextAttribute *	ta )
-    {
-    const LayoutContext *	lc= &(dc->dcLayoutContext);
-    BufferDocument *		bd= lc->lcDocument;
-    DocumentFontList *		dfl= bd->bdProperties.dpFontList;
-    PrintingState *		ps= (PrintingState *)vps;
-    const AfmFontInfo *		afi;
-    const IndexSet *		unicodesWanted;
+static int docPsSetFont(DrawingContext *dc, void *vps, int textAttrNumber,
+			const TextAttribute *ta)
+{
+	const LayoutContext *lc = &(dc->dcLayoutContext);
+	BufferDocument *bd = lc->lcDocument;
+	DocumentFontList *dfl = bd->bdProperties.dpFontList;
+	PrintingState *ps = (PrintingState *)vps;
+	const AfmFontInfo *afi;
+	const IndexSet *unicodesWanted;
 
-    const PostScriptFontList *	psfl= lc->lcPostScriptFontList;
+	const PostScriptFontList *psfl = lc->lcPostScriptFontList;
 
-    afi= (*lc->lcGetFontForAttribute)( &unicodesWanted, ta, dfl, psfl );
-    if  ( ! afi )
-	{ LDEB(textAttrNumber); return -1; }
+	afi = (*lc->lcGetFontForAttribute)(&unicodesWanted, ta, dfl, psfl);
+	if (!afi) {
+		LDEB(textAttrNumber);
+		return -1;
+	}
 
-    psSetFont( ps, afi, ta );
+	psSetFont(ps, afi, ta);
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 
-#   if  SHOW_PAGE_GRID
+#if SHOW_PAGE_GRID
 
-static void docPsPageBoxes(	DrawingContext *		dc,
-				void *				vps,
-				const DocumentGeometry *	dg )
-    {
-    PrintingState *		ps= (PrintingState *)vps;
+static void docPsPageBoxes(DrawingContext *dc, void *vps,
+			   const DocumentGeometry *dg)
+{
+	PrintingState *ps = (PrintingState *)vps;
 
-    DocumentRectangle		drBBox;
-    DocumentRectangle		drBody;
-    DocumentRectangle		drHead;
-    DocumentRectangle		drFoot;
+	DocumentRectangle drBBox;
+	DocumentRectangle drBody;
+	DocumentRectangle drHead;
+	DocumentRectangle drFoot;
 
-    RGB8Color			rgb8;
+	RGB8Color rgb8;
 
-    rgb8.rgb8Alpha= 255;
+	rgb8.rgb8Alpha = 255;
 
-    utilDocumentGeometryGetPageBoundingBox( &drBBox, dg, 1, 1 );
-    utilDocumentGeometryGetBodyRect( &drBody, dg );
-    utilDocumentGeometryGetHeaderRect( &drHead, dg );
-    utilDocumentGeometryGetFooterRect( &drFoot, dg );
+	utilDocumentGeometryGetPageBoundingBox(&drBBox, dg, 1, 1);
+	utilDocumentGeometryGetBodyRect(&drBody, dg);
+	utilDocumentGeometryGetHeaderRect(&drHead, dg);
+	utilDocumentGeometryGetFooterRect(&drFoot, dg);
 
-    rgb8.rgb8Red= 255;
-    rgb8.rgb8Green= 199;
-    rgb8.rgb8Blue= 199;
-    docPsSetColorRgb( dc, vps, &rgb8 );
-    sioOutPrintf( ps->psSos, "newpath" );
-    sioOutPrintf( ps->psSos, " %d %d moveto", drHead.drX0, drHead.drY0 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drHead.drX1, drHead.drY0 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drHead.drX1, drHead.drY1 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drHead.drX0, drHead.drY1 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drHead.drX0, drHead.drY0 );
-    sioOutPrintf( ps->psSos, " fill\n" );
+	rgb8.rgb8Red = 255;
+	rgb8.rgb8Green = 199;
+	rgb8.rgb8Blue = 199;
+	docPsSetColorRgb(dc, vps, &rgb8);
+	sioOutPrintf(ps->psSos, "newpath");
+	sioOutPrintf(ps->psSos, " %d %d moveto", drHead.drX0, drHead.drY0);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drHead.drX1, drHead.drY0);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drHead.drX1, drHead.drY1);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drHead.drX0, drHead.drY1);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drHead.drX0, drHead.drY0);
+	sioOutPrintf(ps->psSos, " fill\n");
 
-    rgb8.rgb8Red= 199;
-    rgb8.rgb8Green= 199;
-    rgb8.rgb8Blue= 255;
-    docPsSetColorRgb( dc, vps, &rgb8 );
-    sioOutPrintf( ps->psSos, "newpath" );
-    sioOutPrintf( ps->psSos, " %d %d moveto", drFoot.drX0, drFoot.drY0 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drFoot.drX1, drFoot.drY0 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drFoot.drX1, drFoot.drY1 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drFoot.drX0, drFoot.drY1 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drFoot.drX0, drFoot.drY0 );
-    sioOutPrintf( ps->psSos, " fill\n" );
+	rgb8.rgb8Red = 199;
+	rgb8.rgb8Green = 199;
+	rgb8.rgb8Blue = 255;
+	docPsSetColorRgb(dc, vps, &rgb8);
+	sioOutPrintf(ps->psSos, "newpath");
+	sioOutPrintf(ps->psSos, " %d %d moveto", drFoot.drX0, drFoot.drY0);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drFoot.drX1, drFoot.drY0);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drFoot.drX1, drFoot.drY1);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drFoot.drX0, drFoot.drY1);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drFoot.drX0, drFoot.drY0);
+	sioOutPrintf(ps->psSos, " fill\n");
 
-    rgb8.rgb8Red= 199;
-    rgb8.rgb8Green= 255;
-    rgb8.rgb8Blue= 199;
-    docPsSetColorRgb( dc, vps, &rgb8 );
-    sioOutPrintf( ps->psSos, "newpath" );
-    sioOutPrintf( ps->psSos, " %d %d moveto", drBody.drX0, drBody.drY0 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drBody.drX1, drBody.drY0 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drBody.drX1, drBody.drY1 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drBody.drX0, drBody.drY1 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drBody.drX0, drBody.drY0 );
-    sioOutPrintf( ps->psSos, " fill\n" );
+	rgb8.rgb8Red = 199;
+	rgb8.rgb8Green = 255;
+	rgb8.rgb8Blue = 199;
+	docPsSetColorRgb(dc, vps, &rgb8);
+	sioOutPrintf(ps->psSos, "newpath");
+	sioOutPrintf(ps->psSos, " %d %d moveto", drBody.drX0, drBody.drY0);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drBody.drX1, drBody.drY0);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drBody.drX1, drBody.drY1);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drBody.drX0, drBody.drY1);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drBody.drX0, drBody.drY0);
+	sioOutPrintf(ps->psSos, " fill\n");
 
-    rgb8.rgb8Red= 0;
-    rgb8.rgb8Green= 255;
-    rgb8.rgb8Blue= 0;
-    docPsSetColorRgb( dc, vps, &rgb8 );
-    sioOutPrintf( ps->psSos, "newpath" );
-    sioOutPrintf( ps->psSos, " %d %d moveto", drBBox.drX0, drBBox.drY0 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drBBox.drX1, drBBox.drY1 );
-    sioOutPrintf( ps->psSos, " %d %d moveto", drBBox.drX0, drBBox.drY1 );
-    sioOutPrintf( ps->psSos, " %d %d lineto", drBBox.drX1, drBBox.drY0 );
-    sioOutPrintf( ps->psSos, " stroke\n" );
-    }
+	rgb8.rgb8Red = 0;
+	rgb8.rgb8Green = 255;
+	rgb8.rgb8Blue = 0;
+	docPsSetColorRgb(dc, vps, &rgb8);
+	sioOutPrintf(ps->psSos, "newpath");
+	sioOutPrintf(ps->psSos, " %d %d moveto", drBBox.drX0, drBBox.drY0);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drBBox.drX1, drBBox.drY1);
+	sioOutPrintf(ps->psSos, " %d %d moveto", drBBox.drX0, drBBox.drY1);
+	sioOutPrintf(ps->psSos, " %d %d lineto", drBBox.drX1, drBBox.drY0);
+	sioOutPrintf(ps->psSos, " stroke\n");
+}
 
-#   endif
+#endif
 
 /************************************************************************/
 /*									*/
@@ -170,28 +170,25 @@ static void docPsPageBoxes(	DrawingContext *		dc,
 /*									*/
 /************************************************************************/
 
-static int docPsFinishPage(	void *				vps,
-				DrawingContext *		dc,
-				BufferItem *			bodySectBi,
-				int				page,
-				int				asLast )
-    {
-    PrintingState *	ps= (PrintingState *)vps;
+static int docPsFinishPage(void *vps, DrawingContext *dc,
+			   BufferItem *bodySectBi, int page, int asLast)
+{
+	PrintingState *ps = (PrintingState *)vps;
 
-    int			pageWasMarked;
-    int			pageIsMarked;
-    int			pageHasHeader= dc->dcDocHasPageHeaders;
-    int			pageHasFooter= dc->dcDocHasPageFooters;
-    int			skip= 0;
+	int pageWasMarked;
+	int pageIsMarked;
+	int pageHasHeader = dc->dcDocHasPageHeaders;
+	int pageHasFooter = dc->dcDocHasPageFooters;
+	int skip = 0;
 
-#   if 0
+#if 0
     docPsPageBoxes( dc, vps,
 	&(dc->dcLayoutContext.lcDocument->bdProperties.dpGeometry) );
-#   endif
+#endif
 
-    pageWasMarked= ps->psLastPageMarked >= ps->psPagesPrinted;
+	pageWasMarked = ps->psLastPageMarked >= ps->psPagesPrinted;
 
-    /*
+	/*
     sioOutPrintf( ps->psSos, "%% pageWasMarked= %d\n", pageWasMarked );
     sioOutPrintf( ps->psSos, "%% dcDocHasPageHeaders= %d\n",
 					    dc->dcDocHasPageHeaders );
@@ -199,100 +196,103 @@ static int docPsFinishPage(	void *				vps,
 					    dc->dcDocHasPageFooters );
     */
 
-    /*  1  */
-    if  ( pageWasMarked			&&
-	  dc->dcPostponeHeadersFooters	)
-	{
-	if  ( dc->dcDocHasPageHeaders				&&
-	      docDrawPageHeader( bodySectBi, vps, dc, page )	)
-	    { LLDEB(dc->dcDocHasPageHeaders,page);	}
+	/*  1  */
+	if (pageWasMarked && dc->dcPostponeHeadersFooters) {
+		if (dc->dcDocHasPageHeaders &&
+		    docDrawPageHeader(bodySectBi, vps, dc, page)) {
+			LLDEB(dc->dcDocHasPageHeaders, page);
+		}
 
-	if  ( dc->dcDocHasPageFooters				&&
-	      docDrawPageFooter( bodySectBi, vps, dc, page )	)
-	    { LLDEB(dc->dcDocHasPageFooters,page);	}
+		if (dc->dcDocHasPageFooters &&
+		    docDrawPageFooter(bodySectBi, vps, dc, page)) {
+			LLDEB(dc->dcDocHasPageFooters, page);
+		}
 	}
 
-    /*  2  */
+	/*  2  */
 
-    pageIsMarked= ps->psLastPageMarked >= ps->psPagesPrinted;
-    /*
+	pageIsMarked = ps->psLastPageMarked >= ps->psPagesPrinted;
+	/*
     sioOutPrintf( ps->psSos, "%% pageIsMarked= %d\n", pageIsMarked );
     */
 
-    /*  3  */
-    if  ( ! pageIsMarked && ps->psPrintGeometry.pgSkipBlankPages )
-	{ skip= 1;	}
-
-    /*  4  */
-    if  ( ! pageIsMarked )
-	{
-	const LayoutContext *	lc= &(dc->dcLayoutContext);
-	const BufferDocument *	bd= lc->lcDocument;
-
-	DocumentTree *			tree;
-	int				isEmpty;
-
-	if  ( dc->dcDocHasPageHeaders )
-	    {
-	    tree= (DocumentTree *)0;
-	    docWhatPageHeader( &tree, &isEmpty, bodySectBi, page, bd );
-	    if  ( ! tree || ! tree->dtRoot || isEmpty )
-		{ pageHasHeader= 0;	}
-	    }
-
-	if  ( dc->dcDocHasPageFooters )
-	    {
-	    tree= (DocumentTree *)0;
-	    docWhatPageFooter( &tree, &isEmpty, bodySectBi, page, bd );
-	    if  ( ! tree || ! tree->dtRoot || isEmpty )
-		{ pageHasFooter= 0;	}
-	    }
+	/*  3  */
+	if (!pageIsMarked && ps->psPrintGeometry.pgSkipBlankPages) {
+		skip = 1;
 	}
 
-    /*
+	/*  4  */
+	if (!pageIsMarked) {
+		const LayoutContext *lc = &(dc->dcLayoutContext);
+		const BufferDocument *bd = lc->lcDocument;
+
+		DocumentTree *tree;
+		int isEmpty;
+
+		if (dc->dcDocHasPageHeaders) {
+			tree = (DocumentTree *)0;
+			docWhatPageHeader(&tree, &isEmpty, bodySectBi, page,
+					  bd);
+			if (!tree || !tree->dtRoot || isEmpty) {
+				pageHasHeader = 0;
+			}
+		}
+
+		if (dc->dcDocHasPageFooters) {
+			tree = (DocumentTree *)0;
+			docWhatPageFooter(&tree, &isEmpty, bodySectBi, page,
+					  bd);
+			if (!tree || !tree->dtRoot || isEmpty) {
+				pageHasFooter = 0;
+			}
+		}
+	}
+
+	/*
     sioOutPrintf( ps->psSos, "%% pageHasHeader= %d\n", pageHasHeader );
     sioOutPrintf( ps->psSos, "%% pageHasFooter= %d\n", pageHasFooter );
     */
 
-    if  ( ! pageIsMarked			&&
-	  ps->psPrintGeometry.pgSkipEmptyPages	&&
-	  ! pageHasHeader			&&
-	  ! pageHasFooter			)
-	{ skip= 1;	}
-
-
-    if  ( skip )
-	{ psAbortPage( ps, page, asLast );	}
-    else{
-	if  ( psFinishPage( ps, page, asLast ) )
-	    { LDEB(page); return -1;	}
+	if (!pageIsMarked && ps->psPrintGeometry.pgSkipEmptyPages &&
+	    !pageHasHeader && !pageHasFooter) {
+		skip = 1;
 	}
 
-    return 0;
-    }
+	if (skip) {
+		psAbortPage(ps, page, asLast);
+	} else {
+		if (psFinishPage(ps, page, asLast)) {
+			LDEB(page);
+			return -1;
+		}
+	}
 
-static int docPsPrintStartPage(	void *				vps,
-				const DocumentGeometry *	dgPage,
-				DrawingContext *		dc,
-				int				page )
-    {
-    PrintingState *	ps= (PrintingState *)vps;
+	return 0;
+}
 
-    dc->dcCurrentTextAttributeSet= 0;
-    dc->dcCurrentColorSet= 0;
+static int docPsPrintStartPage(void *vps, const DocumentGeometry *dgPage,
+			       DrawingContext *dc, int page)
+{
+	PrintingState *ps = (PrintingState *)vps;
 
-    psRefreshNupSchema( ps, dgPage );
+	dc->dcCurrentTextAttributeSet = 0;
+	dc->dcCurrentColorSet = 0;
 
-    if  ( psStartPage( ps, page ) )
-	{ LDEB(page); return -1;	}
+	psRefreshNupSchema(ps, dgPage);
 
-#   if SHOW_PAGE_GRID
-    docPsPageBoxes( dc, vps,
-	&(dc->dcLayoutContext.lcDocument->bdProperties.dpGeometry) );
-#   endif
+	if (psStartPage(ps, page)) {
+		LDEB(page);
+		return -1;
+	}
 
-    return 0;
-    }
+#if SHOW_PAGE_GRID
+	docPsPageBoxes(
+		dc, vps,
+		&(dc->dcLayoutContext.lcDocument->bdProperties.dpGeometry));
+#endif
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -300,66 +300,74 @@ static int docPsPrintStartPage(	void *				vps,
 /*									*/
 /************************************************************************/
 
-static int docPsPrintPageRange(	PrintingState *		ps,
-				DrawingContext *	dc,
-				BufferItem *		bodyBi,
-				int			firstPage,
-				int			lastPage,
-				int			asLast )
-    {
-    int				i;
-    LayoutPosition		lpBelow;
+static int docPsPrintPageRange(PrintingState *ps, DrawingContext *dc,
+			       BufferItem *bodyBi, int firstPage, int lastPage,
+			       int asLast)
+{
+	int i;
+	LayoutPosition lpBelow;
 
-    docInitLayoutPosition( &lpBelow );
+	docInitLayoutPosition(&lpBelow);
 
-    for ( i= 0; i < bodyBi->biChildCount; i++ )
-	{
-	if  ( bodyBi->biChildren[i]->biBelowPosition.lpPage >= firstPage )
-	    { break;	}
+	for (i = 0; i < bodyBi->biChildCount; i++) {
+		if (bodyBi->biChildren[i]->biBelowPosition.lpPage >=
+		    firstPage) {
+			break;
+		}
 	}
 
-    if  ( i >= bodyBi->biChildCount )
-	{ LDEB(i); return -1; }
-
-    if  ( docPsPrintStartPage( (void *)ps,
-	    &(bodyBi->biChildren[i]->biSectDocumentGeometry), dc, firstPage ) )
-	{ LDEB(firstPage); return -1;	}
-
-    if  ( ! dc->dcPostponeHeadersFooters )
-	{
-	docDrawPageHeader( bodyBi->biChildren[i], (void *)ps, dc, firstPage );
+	if (i >= bodyBi->biChildCount) {
+		LDEB(i);
+		return -1;
 	}
 
-    if  ( docDrawShapesForPage( (void *)ps, dc, 1, firstPage ) )
-	{ LDEB(firstPage);	}
-
-    docDrawNode( &lpBelow, bodyBi, (void *)ps, dc );
-
-    if  ( lastPage < 0 )
-	{ lastPage= bodyBi->biBelowPosition.lpPage;	}
-
-    for ( i= bodyBi->biChildCount- 1; i >= 0; i-- )
-	{
-	if  ( bodyBi->biChildren[i]->biTopPosition.lpPage <= lastPage )
-	    { break;	}
+	if (docPsPrintStartPage((void *)ps,
+				&(bodyBi->biChildren[i]->biSectDocumentGeometry),
+				dc, firstPage)) {
+		LDEB(firstPage);
+		return -1;
 	}
 
-    if  ( i < 0 )
-	{ LDEB(i); return -1;	}
-
-    if  ( docDrawShapesForPage( (void *)ps, dc, 0, lastPage ) )
-	{ LDEB(lastPage);	}
-
-    if  ( ! dc->dcPostponeHeadersFooters )
-	{
-	docDrawPageFooter( bodyBi->biChildren[i], (void *)ps, dc, lastPage );
+	if (!dc->dcPostponeHeadersFooters) {
+		docDrawPageHeader(bodyBi->biChildren[i], (void *)ps, dc,
+				  firstPage);
 	}
 
-    docPsFinishPage( (void *)ps, dc, bodyBi->biChildren[i],
-						    lastPage, asLast );
+	if (docDrawShapesForPage((void *)ps, dc, 1, firstPage)) {
+		LDEB(firstPage);
+	}
 
-    return 0;
-    }
+	docDrawNode(&lpBelow, bodyBi, (void *)ps, dc);
+
+	if (lastPage < 0) {
+		lastPage = bodyBi->biBelowPosition.lpPage;
+	}
+
+	for (i = bodyBi->biChildCount - 1; i >= 0; i--) {
+		if (bodyBi->biChildren[i]->biTopPosition.lpPage <= lastPage) {
+			break;
+		}
+	}
+
+	if (i < 0) {
+		LDEB(i);
+		return -1;
+	}
+
+	if (docDrawShapesForPage((void *)ps, dc, 0, lastPage)) {
+		LDEB(lastPage);
+	}
+
+	if (!dc->dcPostponeHeadersFooters) {
+		docDrawPageFooter(bodyBi->biChildren[i], (void *)ps, dc,
+				  lastPage);
+	}
+
+	docPsFinishPage((void *)ps, dc, bodyBi->biChildren[i], lastPage,
+			asLast);
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -367,200 +375,215 @@ static int docPsPrintPageRange(	PrintingState *		ps,
 /*									*/
 /************************************************************************/
 
-int docPsPrintDocument(	SimpleOutputStream *		sos,
-			const char *			title,
-			const char *			applicationName,
-			const char *			applicationReference,
-			const MemoryBuffer *		fontDirectory,
-			double				shadingMesh,
-			int				emitOutline,
-			const LayoutContext *		lc,
-			const PrintGeometry *		pg )
-    {
-    int				rval= 0;
+int docPsPrintDocument(SimpleOutputStream *sos, const char *title,
+		       const char *applicationName,
+		       const char *applicationReference,
+		       const MemoryBuffer *fontDirectory, double shadingMesh,
+		       int emitOutline, const LayoutContext *lc,
+		       const PrintGeometry *pg)
+{
+	int rval = 0;
 
-    BufferDocument *		bd= lc->lcDocument;
-    DocumentProperties *	dp= &(bd->bdProperties);
-    DocumentGeometry *		dg= &(dp->dpGeometry);
-    BufferItem *		bodyBi= bd->bdBody.dtRoot;
+	BufferDocument *bd = lc->lcDocument;
+	DocumentProperties *dp = &(bd->bdProperties);
+	DocumentGeometry *dg = &(dp->dpGeometry);
+	BufferItem *bodyBi = bd->bdBody.dtRoot;
 
-    PostScriptTypeList		pstl;
+	PostScriptTypeList pstl;
 
-    DrawingContext		dc;
-    PrintingState		ps;
+	DrawingContext dc;
+	PrintingState ps;
 
-    int				firstPage= pg->pgFirstPage;
-    int				lastPage= pg->pgLastPage;
+	int firstPage = pg->pgFirstPage;
+	int lastPage = pg->pgLastPage;
 
-    INIT_LAYOUT_EXTERNAL	initLayoutExternal= (INIT_LAYOUT_EXTERNAL)0;
+	INIT_LAYOUT_EXTERNAL initLayoutExternal = (INIT_LAYOUT_EXTERNAL)0;
 
-    psInitPostScriptFaceList( &pstl );
-    if  ( utilCopyMemoryBuffer( &(pstl.pstlFontDirectory), fontDirectory ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	psInitPostScriptFaceList(&pstl);
+	if (utilCopyMemoryBuffer(&(pstl.pstlFontDirectory), fontDirectory)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( firstPage >= 0				||
-	  lastPage >= 0					||
-	  bd->bdBody.dtOutlineTree.lntnChildCount == 0	)
-	{ emitOutline= 0;	}
+	if (firstPage >= 0 || lastPage >= 0 ||
+	    bd->bdBody.dtOutlineTree.lntnChildCount == 0) {
+		emitOutline = 0;
+	}
 
-    docInitDrawingContext( &dc );
+	docInitDrawingContext(&dc);
 
-    dc.dcSetColorRgb= docPsSetColorRgb;
-    dc.dcSetFont= docPsSetFont;
-    dc.dcDrawShape= docPsPrintDrawDrawingShape;
-    dc.dcDrawObject= docPsPrintObject;
-    dc.dcStartField= docPsPrintStartField;
-    dc.dcFinishField= docPsPrintFinishField;
-    dc.dcDrawTab= docPsPrintTab;
-    dc.dcDrawFtnsep= docPsPrintFtnsep;
-    dc.dcDrawSpan= docPsPrintSpan;
-    dc.dcDrawUnderline= docPsPrintRunUnderline;
-    dc.dcDrawStrikethrough= docPsPrintRunStrikethrough;
+	dc.dcSetColorRgb = docPsSetColorRgb;
+	dc.dcSetFont = docPsSetFont;
+	dc.dcDrawShape = docPsPrintDrawDrawingShape;
+	dc.dcDrawObject = docPsPrintObject;
+	dc.dcStartField = docPsPrintStartField;
+	dc.dcFinishField = docPsPrintFinishField;
+	dc.dcDrawTab = docPsPrintTab;
+	dc.dcDrawFtnsep = docPsPrintFtnsep;
+	dc.dcDrawSpan = docPsPrintSpan;
+	dc.dcDrawUnderline = docPsPrintRunUnderline;
+	dc.dcDrawStrikethrough = docPsPrintRunStrikethrough;
 
-    dc.dcDrawTextLine= docPsPrintTextLine;
-    dc.dcDrawOrnaments= docPsPrintOrnaments;
-    dc.dcFinishPage= docPsFinishPage;
-    dc.dcStartPage= docPsPrintStartPage;
-    dc.dcInitLayoutExternal= initLayoutExternal;
+	dc.dcDrawTextLine = docPsPrintTextLine;
+	dc.dcDrawOrnaments = docPsPrintOrnaments;
+	dc.dcFinishPage = docPsFinishPage;
+	dc.dcStartPage = docPsPrintStartPage;
+	dc.dcInitLayoutExternal = initLayoutExternal;
 
-    dc.dcLayoutContext= *lc;
+	dc.dcLayoutContext = *lc;
 
-    dc.dcFirstPage= pg->pgFirstPage;
-    dc.dcLastPage= pg->pgLastPage;
-    dc.dcDrawExternalItems= 1;
-    dc.dcPostponeHeadersFooters= 0;
+	dc.dcFirstPage = pg->pgFirstPage;
+	dc.dcLastPage = pg->pgLastPage;
+	dc.dcDrawExternalItems = 1;
+	dc.dcPostponeHeadersFooters = 0;
 
-    if  ( pg->pgOmitHeadersOnEmptyPages )
-	{ dc.dcPostponeHeadersFooters= 1;	}
+	if (pg->pgOmitHeadersOnEmptyPages) {
+		dc.dcPostponeHeadersFooters = 1;
+	}
 
-    psInitPrintingState( &ps );
-    ps.psSos= sos;
-    ps.psUsePostScriptFilters= pg->pgUsePostScriptFilters;
-    ps.psUsePostScriptIndexedImages= pg->pgUsePostScriptIndexedImages;
-    ps.ps7Bits= pg->pg7Bits;
+	psInitPrintingState(&ps);
+	ps.psSos = sos;
+	ps.psUsePostScriptFilters = pg->pgUsePostScriptFilters;
+	ps.psUsePostScriptIndexedImages = pg->pgUsePostScriptIndexedImages;
+	ps.ps7Bits = pg->pg7Bits;
 
-    ps.psPrintGeometry.pgEmbedFonts= pg->pgEmbedFonts;
-    ps.psPrintGeometry.pgSkipEmptyPages= pg->pgSkipEmptyPages;
-    ps.psPrintGeometry.pgSkipBlankPages= pg->pgSkipBlankPages;
-    ps.psPrintGeometry.pgOmitHeadersOnEmptyPages=
-					    pg->pgOmitHeadersOnEmptyPages;
+	ps.psPrintGeometry.pgEmbedFonts = pg->pgEmbedFonts;
+	ps.psPrintGeometry.pgSkipEmptyPages = pg->pgSkipEmptyPages;
+	ps.psPrintGeometry.pgSkipBlankPages = pg->pgSkipBlankPages;
+	ps.psPrintGeometry.pgOmitHeadersOnEmptyPages =
+		pg->pgOmitHeadersOnEmptyPages;
 
-    docInquireHeadersFooters( &(dc.dcDocHasPageHeaders),
-				    &(dc.dcDocHasPageFooters), bd );
+	docInquireHeadersFooters(&(dc.dcDocHasPageHeaders),
+				 &(dc.dcDocHasPageFooters), bd);
 
-    if  ( ! utilMemoryBufferIsEmpty( &(dp->dpTitle) ) )
-	{ title= utilMemoryBufferGetString( &(dp->dpTitle) );	}
+	if (!utilMemoryBufferIsEmpty(&(dp->dpTitle))) {
+		title = utilMemoryBufferGetString(&(dp->dpTitle));
+	}
 
-    if  ( psSetNupSchema( &ps, dg, pg, dc.dcDocHasPageHeaders,
-						    dc.dcDocHasPageFooters ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (psSetNupSchema(&ps, dg, pg, dc.dcDocHasPageHeaders,
+			   dc.dcDocHasPageFooters)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    if  ( docPsPrintGetDocumentFonts( &pstl, lc ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	if (docPsPrintGetDocumentFonts(&pstl, lc)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-    psStartDSCDocument( &ps, &pstl,
-			    title, applicationName, applicationReference );
+	psStartDSCDocument(&ps, &pstl, title, applicationName,
+			   applicationReference);
 
-    sioOutPrintf( sos, "%%%%BeginProlog\n" );
+	sioOutPrintf(sos, "%%%%BeginProlog\n");
 
-    psSetDefinePageFontImplementation( sos );
-    psSetUtf8ShowImplementation( sos );
-    psSetMvsImplementation( sos );
+	psSetDefinePageFontImplementation(sos);
+	psSetUtf8ShowImplementation(sos);
+	psSetMvsImplementation(sos);
 
-    docPsSaveTabLeaderProcedures( sos );
-    psDefineBorderProcs( sos );
+	docPsSaveTabLeaderProcedures(sos);
+	psDefineBorderProcs(sos);
 
-    psSetPdfmarkEmulation( sos );
-    psSetRectfillEmulation( sos );
-    psSetSelectfontEmulation( sos );
+	psSetPdfmarkEmulation(sos);
+	psSetRectfillEmulation(sos);
+	psSetSelectfontEmulation(sos);
 
-    psDefineEpsProcs( sos );
+	psDefineEpsProcs(sos);
 
-    if  ( pg->pgEmbedFonts )
-	{ psIncludeFonts( sos, &pstl );	}
-# if 0
+	if (pg->pgEmbedFonts) {
+		psIncludeFonts(sos, &pstl);
+	}
+#if 0
     /* First fix definition of fonts in images */
     psSelectFontProcedures( sos, &pstl, /*allFonts=*/ 0 );
-# else
-    psSelectFontProcedures( sos, &pstl, /*allFonts=*/ 1 );
-# endif
+#else
+	psSelectFontProcedures(sos, &pstl, /*allFonts=*/1);
+#endif
 
-    appMetaDefineProcsetPs( sos );
-    psSetPatternImplementation( sos, shadingMesh );
+	appMetaDefineProcsetPs(sos);
+	psSetPatternImplementation(sos, shadingMesh);
 
-    sioOutPrintf( sos, "%%%%EndProlog\n" );
-    sioOutPrintf( sos, "%%%%BeginSetup\n" );
+	sioOutPrintf(sos, "%%%%EndProlog\n");
+	sioOutPrintf(sos, "%%%%BeginSetup\n");
 
-#   if 1
-    sioOutPrintf( sos, "<< /PageSize [%d %d] >> setpagedevice\n",
-	    ( ps.psPrintGeometry.pgSheetGeometry.dgPageWideTwips+ 19 )/ 20, 
-	    ( ps.psPrintGeometry.pgSheetGeometry.dgPageHighTwips+ 19 )/ 20 );
-#   endif
+#if 1
+	sioOutPrintf(
+		sos, "<< /PageSize [%d %d] >> setpagedevice\n",
+		(ps.psPrintGeometry.pgSheetGeometry.dgPageWideTwips + 19) / 20,
+		(ps.psPrintGeometry.pgSheetGeometry.dgPageHighTwips + 19) / 20);
+#endif
 
-    if  ( ps.psUsePostScriptFilters )
-	{ psImageQualityDistillerparams( sos );	}
-
-    if  ( pg->pgCustomPsSetupFilename )
-	{
-	SimpleInputStream *	sis;
-
-	sis= sioInFileioOpenS( pg->pgCustomPsSetupFilename );
-	if  ( ! sis )
-	    { SXDEB(pg->pgCustomPsSetupFilename,sis);	}
-	else{
-	    unsigned char		buf[500];
-	    int				got;
-
-	    while( ( got= sioInReadBytes( sis, buf, sizeof(buf) ) ) > 0 )
-		{ sioOutWriteBytes( sos, buf, got );	}
-
-	    sioInClose( sis );
-	    }
+	if (ps.psUsePostScriptFilters) {
+		psImageQualityDistillerparams(sos);
 	}
 
-    if  ( docHasDocumentInfo( dp ) )
-	{
-	docPsDocinfoPdfmark( &ps, applicationName, applicationReference, dp );
+	if (pg->pgCustomPsSetupFilename) {
+		SimpleInputStream *sis;
+
+		sis = sioInFileioOpenS(pg->pgCustomPsSetupFilename);
+		if (!sis) {
+			SXDEB(pg->pgCustomPsSetupFilename, sis);
+		} else {
+			unsigned char buf[500];
+			int got;
+
+			while ((got = sioInReadBytes(sis, buf, sizeof(buf))) >
+			       0) {
+				sioOutWriteBytes(sos, buf, got);
+			}
+
+			sioInClose(sis);
+		}
 	}
 
-    if  ( emitOutline )
-	{
-	docPsOutlinePdfmarks( &ps, bd );
+	if (docHasDocumentInfo(dp)) {
+		docPsDocinfoPdfmark(&ps, applicationName, applicationReference,
+				    dp);
 	}
 
-    sioOutPrintf( sos, "%%%%EndSetup\n" );
-
-    if  ( firstPage < 0 )
-	{ firstPage= 0;	}
-
-    if  ( pg->pgPrintOddSides		&&
-	  pg->pgPrintEvenSides		&&
-	  ! pg->pgPrintSheetsReverse	&&
-	  ! pg->pgPrintBookletOrder	)
-	{
-	if  ( docPsPrintPageRange( &ps, &dc, bodyBi,
-				    firstPage, lastPage, /* asLast */ 1 ) )
-	    { LDEB(firstPage); rval= -1; goto ready;	}
-	}
-    else{
-	if  ( pg->pgPrintBookletOrder )
-	    { LDEB(pg->pgPrintBookletOrder); }
-
-	if  ( docPsPrintPageRange( &ps, &dc, bodyBi,
-				    firstPage, lastPage, /* asLast */ 1 ) )
-	    { LDEB(firstPage); rval= -1; goto ready;	}
+	if (emitOutline) {
+		docPsOutlinePdfmarks(&ps, bd);
 	}
 
-  ready:
+	sioOutPrintf(sos, "%%%%EndSetup\n");
 
-    psCleanPrintingState( &ps );
+	if (firstPage < 0) {
+		firstPage = 0;
+	}
 
-    psCleanPostScriptFaceList( &pstl );
+	if (pg->pgPrintOddSides && pg->pgPrintEvenSides &&
+	    !pg->pgPrintSheetsReverse && !pg->pgPrintBookletOrder) {
+		if (docPsPrintPageRange(&ps, &dc, bodyBi, firstPage, lastPage,
+					/* asLast */ 1)) {
+			LDEB(firstPage);
+			rval = -1;
+			goto ready;
+		}
+	} else {
+		if (pg->pgPrintBookletOrder) {
+			LDEB(pg->pgPrintBookletOrder);
+		}
 
-    docResetExternalTreeLayout( bd );
+		if (docPsPrintPageRange(&ps, &dc, bodyBi, firstPage, lastPage,
+					/* asLast */ 1)) {
+			LDEB(firstPage);
+			rval = -1;
+			goto ready;
+		}
+	}
 
-    return rval;
-    }
+ready:
+
+	psCleanPrintingState(&ps);
+
+	psCleanPostScriptFaceList(&pstl);
+
+	docResetExternalTreeLayout(bd);
+
+	return rval;
+}
 
 /************************************************************************/
 /*									*/
@@ -571,4 +594,3 @@ int docPsPrintDocument(	SimpleOutputStream *		sos,
 /*  On the back (even side) of sheet s left,right: page 2s-1, n-2s-2	*/
 /*									*/
 /************************************************************************/
-

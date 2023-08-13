@@ -4,13 +4,12 @@
 /*									*/
 /************************************************************************/
 
-#   include "docTreeType.h"
+#include "docTreeType.h"
 
-const int DOC_HeaderFooterTypes[]=
-    {
-    DOCinFIRST_HEADER,		DOCinFIRST_FOOTER,
-    DOCinLEFT_HEADER,		DOCinLEFT_FOOTER,
-    DOCinRIGHT_HEADER,		DOCinRIGHT_FOOTER,
-    };
+const int DOC_HeaderFooterTypes[] = {
+	DOCinFIRST_HEADER, DOCinFIRST_FOOTER, DOCinLEFT_HEADER,
+	DOCinLEFT_FOOTER,  DOCinRIGHT_HEADER, DOCinRIGHT_FOOTER,
+};
 
-const int DOC_HeaderFooterTypeCount= sizeof(DOC_HeaderFooterTypes)/sizeof(int);
+const int DOC_HeaderFooterTypeCount =
+	sizeof(DOC_HeaderFooterTypes) / sizeof(int);

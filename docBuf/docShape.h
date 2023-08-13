@@ -13,61 +13,62 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_SHAPE_H
-#   define	DOC_SHAPE_H
+#ifndef DOC_SHAPE_H
+#define DOC_SHAPE_H
 
 struct DrawingSurface;
 
-#   include	<utilColor.h>
-#   include	<geo2DInteger.h>
-#   include	<utilMemoryBuffer.h>
-#   include	<geoAffineTransform.h>
-#   include	<docShapeProperties.h>
-#   include	<docPictureProperties.h>
-#   include	"docDocumentTree.h"
-#   include	<docShapeDrawing.h>
-#   include	<bitmap.h>
+#include <utilColor.h>
+#include <geo2DInteger.h>
+#include <utilMemoryBuffer.h>
+#include <geoAffineTransform.h>
+#include <docShapeProperties.h>
+#include <docPictureProperties.h>
+#include "docDocumentTree.h"
+#include <docShapeDrawing.h>
+#include <bitmap.h>
 
-typedef struct DrawingShape
-    {
-			/************************************************/
-			/*  Properties as found in regular rtf tags.	*/
-			/*  Are only set for the top level shape in a	*/
-			/*  hierarchy.					*/
-			/************************************************/
-    ShapeProperties	dsShapeProperties;
+typedef struct DrawingShape {
+	/************************************************/
+	/*  Properties as found in regular rtf tags.	*/
+	/*  Are only set for the top level shape in a	*/
+	/*  hierarchy.					*/
+	/************************************************/
+	ShapeProperties dsShapeProperties;
 
-			/************************************************/
-			/*  Position.					*/
-			/************************************************/
-    unsigned char	dsIsChildShape;
+	/************************************************/
+	/*  Position.					*/
+	/************************************************/
+	unsigned char dsIsChildShape;
 
-			/************************************************/
-			/*  Drawing.					*/
-			/************************************************/
-    ShapeDrawing	dsDrawing;
+	/************************************************/
+	/*  Drawing.					*/
+	/************************************************/
+	ShapeDrawing dsDrawing;
 
-			/************************************************/
-			/*  Embedding in the document.			*/
-			/************************************************/
-    int				dsShapeNumber;
-    SelectionScope		dsSelectionScope;
-    DocumentTree		dsDocumentTree;
-    struct DrawingShape **	dsChildren;
-    int				dsChildCount;
+	/************************************************/
+	/*  Embedding in the document.			*/
+	/************************************************/
+	int dsShapeNumber;
+	SelectionScope dsSelectionScope;
+	DocumentTree dsDocumentTree;
+	struct DrawingShape **dsChildren;
+	int dsChildCount;
 
-    PictureProperties		dsPictureProperties;
-    MemoryBuffer		dsPictureData;
-    struct DrawingSurface *	dsDrawingSurface;
-    RasterImage			dsRasterImage;
+	PictureProperties dsPictureProperties;
+	MemoryBuffer dsPictureData;
+	struct DrawingSurface *dsDrawingSurface;
+	RasterImage dsRasterImage;
 
-    } DrawingShape;
+} DrawingShape;
 
-# define DSflipHORIZONTAL( ds ) \
-    ( ( (ds)->dsIsChildShape && (ds)->dsDrawing.sd_fRelFlipH ) || (ds)->dsDrawing.sd_fFlipH )
+#define DSflipHORIZONTAL(ds)                                       \
+	(((ds)->dsIsChildShape && (ds)->dsDrawing.sd_fRelFlipH) || \
+	 (ds)->dsDrawing.sd_fFlipH)
 
-# define DSflipVERTICAL( ds ) \
-    ( ( (ds)->dsIsChildShape && (ds)->dsDrawing.sd_fRelFlipV ) || (ds)->dsDrawing.sd_fFlipV )
+#define DSflipVERTICAL(ds)                                         \
+	(((ds)->dsIsChildShape && (ds)->dsDrawing.sd_fRelFlipV) || \
+	 (ds)->dsDrawing.sd_fFlipV)
 
 /************************************************************************/
 /*									*/
@@ -75,40 +76,32 @@ typedef struct DrawingShape
 /*									*/
 /************************************************************************/
 
-void docInitShapeAllocated(		DrawingShape *		ds );
-extern void docInitDrawingShape(	DrawingShape *		ds );
-extern void docCleanDrawingShape(	DrawingShape *		ds );
+void docInitShapeAllocated(DrawingShape *ds);
+extern void docInitDrawingShape(DrawingShape *ds);
+extern void docCleanDrawingShape(DrawingShape *ds);
 
-extern void docDeleteDrawingShape(	struct BufferDocument *	bd,
-					DrawingShape *		ds );
+extern void docDeleteDrawingShape(struct BufferDocument *bd, DrawingShape *ds);
 
-extern void docShapeStartShapeTransform(
-				AffineTransform2D *		at,
-				const DrawingShape *		ds,
-				const DocumentRectangle *	dr,
-				int				xSize,
-				int				ySize );
+extern void docShapeStartShapeTransform(AffineTransform2D *at,
+					const DrawingShape *ds,
+					const DocumentRectangle *dr, int xSize,
+					int ySize);
 
-extern void docShapeInternalTransform(	AffineTransform2D *	at,
-					const DrawingShape *	ds );
+extern void docShapeInternalTransform(AffineTransform2D *at,
+				      const DrawingShape *ds);
 
-extern int docShapeGetFill(	int *			pFill,
-				RGB8Color *		rgb8,
-				const DrawingShape *	ds );
+extern int docShapeGetFill(int *pFill, RGB8Color *rgb8, const DrawingShape *ds);
 
-extern int docShapeGetLine(	int *			pFill,
-				RGB8Color *		rgb8,
-				const DrawingShape *	ds );
+extern int docShapeGetLine(int *pFill, RGB8Color *rgb8, const DrawingShape *ds);
 
-extern void docShapeGetRects(	DocumentRectangle *		drHere,
-				DocumentRectangle *		drNorm,
-				const DocumentRectangle *	drTwips,
-				const DrawingShape *		ds );
+extern void docShapeGetRects(DocumentRectangle *drHere,
+			     DocumentRectangle *drNorm,
+			     const DocumentRectangle *drTwips,
+			     const DrawingShape *ds);
 
-extern void docShapeGetChildRect(
-				DocumentRectangle *		drChild,
-				const DrawingShape *		dsChild,
-				const DocumentRectangle *	dr,
-				const DrawingShape *		ds );
+extern void docShapeGetChildRect(DocumentRectangle *drChild,
+				 const DrawingShape *dsChild,
+				 const DocumentRectangle *dr,
+				 const DrawingShape *ds);
 
-#   endif	/*  DOC_SHAPE_H	*/
+#endif /*  DOC_SHAPE_H	*/

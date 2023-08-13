@@ -1,10 +1,10 @@
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<ctype.h>
+#include <ctype.h>
 
-#   include	"utilX11FontNames.h"
+#include "utilX11FontNames.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -17,60 +17,63 @@
 /*									*/
 /************************************************************************/
 
-int utilX11SplitFontsDirLine(		char *		scratch,
-					int *		pX11Start,
-					int *		pX11Length,
-					int		line )
-    {
-    int		digitsOnly= 1;
-    char *	s= scratch;
-    int		past;
-    int		j;
+int utilX11SplitFontsDirLine(char *scratch, int *pX11Start, int *pX11Length,
+			     int line)
+{
+	int digitsOnly = 1;
+	char *s = scratch;
+	int past;
+	int j;
 
-    while( *s && ! isspace( *s ) )
-	{
-	if  ( ! isdigit( *s ) )
-	    { digitsOnly= 0;	}
-	s++;
+	while (*s && !isspace(*s)) {
+		if (!isdigit(*s)) {
+			digitsOnly = 0;
+		}
+		s++;
 	}
 
-    if  ( ! *s )
-	{
-	if  ( line != 0 || ! digitsOnly )
-	    { LSDEB(line,scratch); return -1;	}
+	if (!*s) {
+		if (line != 0 || !digitsOnly) {
+			LSDEB(line, scratch);
+			return -1;
+		}
 
-	return 1;
+		return 1;
 	}
 
-    *(s++)= '\0';
-    while( isspace( *s ) )
-	{ s++;	}
-    if  ( ! *s )
-	{
-	if  ( line != 0 || ! digitsOnly )
-	    { LSDEB(line,scratch); return -1;	}
-	
-	return 1;
+	*(s++) = '\0';
+	while (isspace(*s)) {
+		s++;
+	}
+	if (!*s) {
+		if (line != 0 || !digitsOnly) {
+			LSDEB(line, scratch);
+			return -1;
+		}
+
+		return 1;
 	}
 
-    past= -1;
+	past = -1;
 
-    j= 0;
-    while( s[j] )
-	{
-	if  ( s[j] == ' ' || s[j] == '\t' || s[j] == '\n' )
-	    { past= j;	}
-	else{ past= -1;	}
+	j = 0;
+	while (s[j]) {
+		if (s[j] == ' ' || s[j] == '\t' || s[j] == '\n') {
+			past = j;
+		} else {
+			past = -1;
+		}
 
-	j++;
+		j++;
 	}
 
-    if  ( past >= 0 )
-	{ s[past]= '\0';	}
-    else{ past= j;		}
+	if (past >= 0) {
+		s[past] = '\0';
+	} else {
+		past = j;
+	}
 
-    *pX11Start= s- scratch;
-    *pX11Length= past;
-    return 0;
-    }
-
+	*pX11Start = s - scratch;
+	*pX11Length = past;
+	return 0;
+}

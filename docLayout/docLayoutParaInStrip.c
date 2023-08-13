@@ -5,15 +5,15 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
+#include <stddef.h>
 
-#   include	"docLayout.h"
-#   include	<docTreeNode.h>
-#   include	<docTextLine.h>
+#include "docLayout.h"
+#include <docTreeNode.h>
+#include <docTextLine.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -44,129 +44,125 @@
 /*									*/
 /************************************************************************/
 
-int docLayoutParagraphInStrip(	int *				pStopCode,
-				ParagraphLayoutPosition *	plp,
-				BlockFrame *			bf,
-				const LayoutJob *		lj,
-				int				cellTopInset,
-				BufferItem *			paraNode )
-    {
-    const LayoutContext *	lc= &(lj->ljContext);
-    int				stopCode= FORMATstopREADY;
-    int				accepted;
-    int				prevLine;
-    LayoutPosition		lpBefore= plp->plpPos;
-    const int			isRedo= 0;
+int docLayoutParagraphInStrip(int *pStopCode, ParagraphLayoutPosition *plp,
+			      BlockFrame *bf, const LayoutJob *lj,
+			      int cellTopInset, BufferItem *paraNode)
+{
+	const LayoutContext *lc = &(lj->ljContext);
+	int stopCode = FORMATstopREADY;
+	int accepted;
+	int prevLine;
+	LayoutPosition lpBefore = plp->plpPos;
+	const int isRedo = 0;
 
-    int				changed= 0;
+	int changed = 0;
 
-    if  ( plp->pspPart == 0 )
-	{
-	int		xStopCode= FORMATstopREADY;
+	if (plp->pspPart == 0) {
+		int xStopCode = FORMATstopREADY;
 
-	/*  1  */
-	if  ( docLayoutStartParagraph( lj, &xStopCode, paraNode, bf, plp ) )
-	    { LDEB(1); return -1;	}
-
-	if  ( xStopCode != FORMATstopREADY )
-	    { *pStopCode= xStopCode; return xStopCode; }
-
-	paraNode->biTopPosition= plp->plpPos;
-
-	if  ( plp->pspChild == 0 )
-	    { plp->plpPos.lpPageYTwips += cellTopInset;	}
-	}
-
-    prevLine= plp->pspLine;
-
-    accepted= docLayoutParaLines( &stopCode, isRedo,
-				    &(plp->plpParagraphFrame),
-				    &(plp->plpPos), &(plp->pspLine),
-				    bf, lj, paraNode, plp->pspPart );
-    if  ( accepted < 0 )
-	{ LDEB(accepted); return -1;	}
-
-    /*  2  */
-    if  ( paraNode->biParaWidowControl					&&
-	  stopCode == FORMATstopBLOCK_FULL				&&
-	  ! lpBefore.lpAtTopOfColumn					&&
-	  plp->pspLine == 1						&&
-	  ! ( paraNode->biParaLines[0].tlFlags & TLflagBLOCKBREAK )	)
-	{
-	docStripLayoutStartChild( plp, plp->pspChild );
-	*pStopCode= stopCode; /* FORMATstopBLOCK_FULL */
-	return FORMATstopBLOCK_FULL;
-	}
-
-    /*  3  */
-    if  ( ( paraNode->biParaKeepOnPage	||
-	    paraNode->biParaKeepWithNext	)			&&
-	  ! lpBefore.lpAtTopOfColumn					&&
-	  stopCode == FORMATstopBLOCK_FULL				&&
-	  paraNode->biParaLineCount >= plp->pspLine			&&
-	  plp->pspLine > 0						&&
-	  ! ( paraNode->biParaLines[plp->pspLine- 1].tlFlags &
-						TLflagBLOCKBREAK )	)
-	{
-	docStripLayoutStartChild( plp, plp->pspChild );
-	*pStopCode= stopCode; /* FORMATstopBLOCK_FULL */
-	return FORMATstopBLOCK_FULL;
-	}
-
-    plp->pspPart += accepted;
-    if  ( accepted > 0 )
-	{ plp->pspChildAdvanced= 1;	}
-
-    if  ( stopCode != FORMATstopREADY				&&
-	  ( accepted > 0 || ! lpBefore.lpAtTopOfColumn )	)
-	{
-	*pStopCode= stopCode; return FORMATstopBLOCK_FULL;
-	}
-
-    /*  4  */
-    if  ( paraNode->biParaWidowControl				&&
-	  plp->pspLine > 1					&&
-	  plp->pspLine- prevLine == 1				)
-	{
-	TextLine *		tl= paraNode->biParaLines+ prevLine- 1;
-
-	if  ( ! ( tl[0].tlFlags & TLflagBLOCKBREAK )			&&
-	      ! tl[0].tlTopPosition.lpAtTopOfColumn			&&
-	      tl[0].tlTopPosition.lpPage < tl[1].tlTopPosition.lpPage	)
-	    {
-	    /*  5  */
-	    if  ( paraNode->biParaLineCount == 3 )
-		{
-		BufferItem *	node= paraNode;
-
-		docStripLayoutStartChild( plp, plp->pspChild );
-		plp->plpPos= tl[1].tlTopPosition;
-
-		while( node->biNumberInParent > 0 )
-		    {
-		    node= node->biParent->biChildren[node->biNumberInParent-1];
-		    if  ( ! node->biParaKeepWithNext )
-			{ *pStopCode= FORMATstopBLOCK_FULL; break; }
-
-		    plp->pspChild--;
-		    }
-		}
-	    else{
-		plp->pspLine= prevLine- 1;
-		plp->pspPart= tl->tlFirstParticule;
-		plp->plpPos= tl[1].tlTopPosition;
-
-		plp->pspChildAdvanced= ( plp->pspPart > 0 );
+		/*  1  */
+		if (docLayoutStartParagraph(lj, &xStopCode, paraNode, bf,
+					    plp)) {
+			LDEB(1);
+			return -1;
 		}
 
-	    return FORMATstopPARTIAL;
-	    }
+		if (xStopCode != FORMATstopREADY) {
+			*pStopCode = xStopCode;
+			return xStopCode;
+		}
+
+		paraNode->biTopPosition = plp->plpPos;
+
+		if (plp->pspChild == 0) {
+			plp->plpPos.lpPageYTwips += cellTopInset;
+		}
 	}
 
-    docLayoutSetNodeBottom( &changed, paraNode, &(plp->plpPos),
-				    lc, lj->ljChangedRectanglePixels );
+	prevLine = plp->pspLine;
 
-    docStripLayoutNextChild( plp );
-    return FORMATstopREADY;
-    }
+	accepted = docLayoutParaLines(&stopCode, isRedo,
+				      &(plp->plpParagraphFrame), &(plp->plpPos),
+				      &(plp->pspLine), bf, lj, paraNode,
+				      plp->pspPart);
+	if (accepted < 0) {
+		LDEB(accepted);
+		return -1;
+	}
 
+	/*  2  */
+	if (paraNode->biParaWidowControl && stopCode == FORMATstopBLOCK_FULL &&
+	    !lpBefore.lpAtTopOfColumn && plp->pspLine == 1 &&
+	    !(paraNode->biParaLines[0].tlFlags & TLflagBLOCKBREAK)) {
+		docStripLayoutStartChild(plp, plp->pspChild);
+		*pStopCode = stopCode; /* FORMATstopBLOCK_FULL */
+		return FORMATstopBLOCK_FULL;
+	}
+
+	/*  3  */
+	if ((paraNode->biParaKeepOnPage || paraNode->biParaKeepWithNext) &&
+	    !lpBefore.lpAtTopOfColumn && stopCode == FORMATstopBLOCK_FULL &&
+	    paraNode->biParaLineCount >= plp->pspLine && plp->pspLine > 0 &&
+	    !(paraNode->biParaLines[plp->pspLine - 1].tlFlags &
+	      TLflagBLOCKBREAK)) {
+		docStripLayoutStartChild(plp, plp->pspChild);
+		*pStopCode = stopCode; /* FORMATstopBLOCK_FULL */
+		return FORMATstopBLOCK_FULL;
+	}
+
+	plp->pspPart += accepted;
+	if (accepted > 0) {
+		plp->pspChildAdvanced = 1;
+	}
+
+	if (stopCode != FORMATstopREADY &&
+	    (accepted > 0 || !lpBefore.lpAtTopOfColumn)) {
+		*pStopCode = stopCode;
+		return FORMATstopBLOCK_FULL;
+	}
+
+	/*  4  */
+	if (paraNode->biParaWidowControl && plp->pspLine > 1 &&
+	    plp->pspLine - prevLine == 1) {
+		TextLine *tl = paraNode->biParaLines + prevLine - 1;
+
+		if (!(tl[0].tlFlags & TLflagBLOCKBREAK) &&
+		    !tl[0].tlTopPosition.lpAtTopOfColumn &&
+		    tl[0].tlTopPosition.lpPage < tl[1].tlTopPosition.lpPage) {
+			/*  5  */
+			if (paraNode->biParaLineCount == 3) {
+				BufferItem *node = paraNode;
+
+				docStripLayoutStartChild(plp, plp->pspChild);
+				plp->plpPos = tl[1].tlTopPosition;
+
+				while (node->biNumberInParent > 0) {
+					node = node->biParent->biChildren
+						       [node->biNumberInParent -
+							1];
+					if (!node->biParaKeepWithNext) {
+						*pStopCode =
+							FORMATstopBLOCK_FULL;
+						break;
+					}
+
+					plp->pspChild--;
+				}
+			} else {
+				plp->pspLine = prevLine - 1;
+				plp->pspPart = tl->tlFirstParticule;
+				plp->plpPos = tl[1].tlTopPosition;
+
+				plp->pspChildAdvanced = (plp->pspPart > 0);
+			}
+
+			return FORMATstopPARTIAL;
+		}
+	}
+
+	docLayoutSetNodeBottom(&changed, paraNode, &(plp->plpPos), lc,
+			       lj->ljChangedRectanglePixels);
+
+	docStripLayoutNextChild(plp);
+	return FORMATstopREADY;
+}

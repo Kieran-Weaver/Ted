@@ -10,11 +10,7 @@
 /*									*/
 /************************************************************************/
 
-extern long utilDateGregorianDayNumber(	int	year,
-					int	month,
-					int	day );
+extern long utilDateGregorianDayNumber(int year, int month, int day);
 
-extern void utilDateSplitGregorianDate(	long	value,
-					int *	pYear,
-					int *	pMonth,
-					int *	pDay );
+extern void utilDateSplitGregorianDate(long value, int *pYear, int *pMonth,
+				       int *pDay);

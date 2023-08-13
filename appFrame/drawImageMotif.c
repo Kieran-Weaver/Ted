@@ -6,21 +6,21 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<stdlib.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-#   include	"appGuiBase.h"
-#   include	<bitmap.h>
-#   include	<bmRender.h>
-#   include	"drawUtilMotif.h"
-#   include	<appDebugon.h>
+#include "appGuiBase.h"
+#include <bitmap.h>
+#include <bmRender.h>
+#include "drawUtilMotif.h"
+#include <appDebugon.h>
 
-#   ifdef USE_MOTIF
+#ifdef USE_MOTIF
 
-extern void _XInitImageFuncPtrs( XImage * xim );
+extern void _XInitImageFuncPtrs(XImage *xim);
 
 /************************************************************************/
 /*									*/
@@ -34,201 +34,205 @@ extern void _XInitImageFuncPtrs( XImage * xim );
 /*									*/
 /************************************************************************/
 
-int drawUtilMotifMakeImage(
-			Display *			display,
-			int				screen,
-			APP_IMAGE **			pPimage,
-			int				toWide,
-			int				toHigh,
-			AppColors *			ac,
-			const RasterImage *		abi,
-			const DocumentRectangle *	drSel )
-    {
-    int				depth= DefaultDepth( display, screen );
+int drawUtilMotifMakeImage(Display *display, int screen, APP_IMAGE **pPimage,
+			   int toWide, int toHigh, AppColors *ac,
+			   const RasterImage *abi,
+			   const DocumentRectangle *drSel)
+{
+	int depth = DefaultDepth(display, screen);
 
-    BitmapDescription		bdOut;
+	BitmapDescription bdOut;
 
-    APP_IMAGE *			xim;
+	APP_IMAGE *xim;
 
-    Visual *			vis;
+	Visual *vis;
 
-    int				pad= 8;
-    int				col;
+	int pad = 8;
+	int col;
 
-    unsigned int		one= 1;
+	unsigned int one = 1;
 
-    int				bitmapUnit= 0;
-    int				swapBitmapBytes= 0;
-    int				swapBitmapBits= 0;
-    const int			dither= 1;
+	int bitmapUnit = 0;
+	int swapBitmapBytes = 0;
+	int swapBitmapBits = 0;
+	const int dither = 1;
 
-    vis= DefaultVisual( display, screen );
+	vis = DefaultVisual(display, screen);
 
-    bmInitDescription ( &bdOut );
+	bmInitDescription(&bdOut);
 
-    bdOut.bdPixelsWide= toWide;
-    bdOut.bdPixelsHigh= toHigh;
-    bdOut.bdHasAlpha= 0;
-    bdOut.bdXResolution= 1;
-    bdOut.bdYResolution= 1;
-    bdOut.bdUnit= BMunPIXEL;
+	bdOut.bdPixelsWide = toWide;
+	bdOut.bdPixelsHigh = toHigh;
+	bdOut.bdHasAlpha = 0;
+	bdOut.bdXResolution = 1;
+	bdOut.bdYResolution = 1;
+	bdOut.bdUnit = BMunPIXEL;
 
-    if  ( ac->acVisualClass ==	TrueColor	||
-	  ac->acVisualClass ==	DirectColor	)
-	{
-	bdOut.bdBytesPerRow= toWide;
-	if  ( depth > 8 )
-	    { bdOut.bdBytesPerRow *= 2;	}
-	if  ( depth > 16 )
-	    { bdOut.bdBytesPerRow *= 2;	}
+	if (ac->acVisualClass == TrueColor ||
+	    ac->acVisualClass == DirectColor) {
+		bdOut.bdBytesPerRow = toWide;
+		if (depth > 8) {
+			bdOut.bdBytesPerRow *= 2;
+		}
+		if (depth > 16) {
+			bdOut.bdBytesPerRow *= 2;
+		}
 
-	xim= XCreateImage( display, vis, depth, ZPixmap, 0, (char *)0,
-						    toWide, toHigh, pad, 0 );
+		xim = XCreateImage(display, vis, depth, ZPixmap, 0, (char *)0,
+				   toWide, toHigh, pad, 0);
 
-	if  ( ! xim )
-	    { LDEB(xim); return -1;	}
+		if (!xim) {
+			LDEB(xim);
+			return -1;
+		}
 
-	bdOut.bdBytesPerRow= xim->bytes_per_line;
-	bdOut.bdBufferLength= toHigh* bdOut.bdBytesPerRow;
-	bdOut.bdBitsPerSample= depth/ 3;
-	bdOut.bdSamplesPerPixel= 3;
-	bdOut.bdBitsPerPixel= xim->bits_per_pixel;
-	bdOut.bdColorEncoding= BMcoRGB;
-	bdOut.bdPalette.cpColorCount= 0;
-	}
-    else{
-	switch( depth )
-	    {
-	    case 1:
-		xim= XCreateImage( display, vis, depth, XYPixmap, 0,
-					(char *)0, toWide, toHigh, pad, 0 );
+		bdOut.bdBytesPerRow = xim->bytes_per_line;
+		bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;
+		bdOut.bdBitsPerSample = depth / 3;
+		bdOut.bdSamplesPerPixel = 3;
+		bdOut.bdBitsPerPixel = xim->bits_per_pixel;
+		bdOut.bdColorEncoding = BMcoRGB;
+		bdOut.bdPalette.cpColorCount = 0;
+	} else {
+		switch (depth) {
+		case 1:
+			xim = XCreateImage(display, vis, depth, XYPixmap, 0,
+					   (char *)0, toWide, toHigh, pad, 0);
 
-		if  ( ! xim )
-		    { LDEB(xim); return -1;	}
+			if (!xim) {
+				LDEB(xim);
+				return -1;
+			}
 
-		if  ( xim->bitmap_unit > 32 )
-		    { LDEB(xim->bitmap_unit); return -1;	}
+			if (xim->bitmap_unit > 32) {
+				LDEB(xim->bitmap_unit);
+				return -1;
+			}
 
-		bitmapUnit= xim->bitmap_unit;
-		if  ( xim->byte_order == MSBFirst )
-		    {
-		    if  ( *((unsigned char *)&one)	)
-			{ swapBitmapBytes= 1;	}
-		    else{ swapBitmapBytes= 0;	}
-		    }
-		else{
-		    if  ( *((unsigned char *)&one)	)
-			{ swapBitmapBytes= 0;	}
-		    else{ swapBitmapBytes= 1;	}
-		    }
+			bitmapUnit = xim->bitmap_unit;
+			if (xim->byte_order == MSBFirst) {
+				if (*((unsigned char *)&one)) {
+					swapBitmapBytes = 1;
+				} else {
+					swapBitmapBytes = 0;
+				}
+			} else {
+				if (*((unsigned char *)&one)) {
+					swapBitmapBytes = 0;
+				} else {
+					swapBitmapBytes = 1;
+				}
+			}
 
-		/*  ?  */
-		if  ( xim->bitmap_bit_order == MSBFirst )
-		    { swapBitmapBits= 0;	}
-		else{ swapBitmapBits= 1;	}
+			/*  ?  */
+			if (xim->bitmap_bit_order == MSBFirst) {
+				swapBitmapBits = 0;
+			} else {
+				swapBitmapBits = 1;
+			}
 
-		bdOut.bdBytesPerRow= xim->bytes_per_line;
-		bdOut.bdBufferLength= toHigh* bdOut.bdBytesPerRow;
-		bdOut.bdBitsPerSample= 1;
-		bdOut.bdSamplesPerPixel= 1;
-		bdOut.bdBitsPerPixel= 1;
-		bdOut.bdColorEncoding= BMcoBLACKWHITE;
-		bdOut.bdPalette.cpColorCount= 0;
+			bdOut.bdBytesPerRow = xim->bytes_per_line;
+			bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;
+			bdOut.bdBitsPerSample = 1;
+			bdOut.bdSamplesPerPixel = 1;
+			bdOut.bdBitsPerPixel = 1;
+			bdOut.bdColorEncoding = BMcoBLACKWHITE;
+			bdOut.bdPalette.cpColorCount = 0;
 
-		break;
+			break;
 
-	    case 8:
-		xim= XCreateImage( display, vis, depth, ZPixmap, 0,
-						    (char *)0,
-						    toWide, toHigh, pad, 0 );
+		case 8:
+			xim = XCreateImage(display, vis, depth, ZPixmap, 0,
+					   (char *)0, toWide, toHigh, pad, 0);
 
-		if  ( ! xim )
-		    { LDEB(xim); return -1;	}
+			if (!xim) {
+				LDEB(xim);
+				return -1;
+			}
 
-		bdOut.bdBytesPerRow= xim->bytes_per_line;
-		bdOut.bdBufferLength= toHigh* bdOut.bdBytesPerRow;
-		bdOut.bdBitsPerSample= 8;
-		bdOut.bdSamplesPerPixel= 3;
-		bdOut.bdBitsPerPixel= 8;
-		bdOut.bdColorEncoding= BMcoRGB8PALETTE;
-		bdOut.bdPalette.cpColorCount= 0;
+			bdOut.bdBytesPerRow = xim->bytes_per_line;
+			bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;
+			bdOut.bdBitsPerSample = 8;
+			bdOut.bdSamplesPerPixel = 3;
+			bdOut.bdBitsPerPixel = 8;
+			bdOut.bdColorEncoding = BMcoRGB8PALETTE;
+			bdOut.bdPalette.cpColorCount = 0;
 
-		break;
-	    case 16:
-		bdOut.bdBytesPerRow= 4* ( ( 2* toWide+ 3 )/ 4 );
-		bdOut.bdBufferLength= toHigh* bdOut.bdBytesPerRow;
+			break;
+		case 16:
+			bdOut.bdBytesPerRow = 4 * ((2 * toWide + 3) / 4);
+			bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;
 
-		xim= XCreateImage( display, vis, depth, ZPixmap, 0,
-						    (char *)0,
-						    toWide, toHigh, pad, 0 );
+			xim = XCreateImage(display, vis, depth, ZPixmap, 0,
+					   (char *)0, toWide, toHigh, pad, 0);
 
-		if  ( ! xim )
-		    { LDEB(xim); return -1;	}
+			if (!xim) {
+				LDEB(xim);
+				return -1;
+			}
 
-		bdOut.bdBytesPerRow= xim->bytes_per_line;
-		bdOut.bdBufferLength= toHigh* bdOut.bdBytesPerRow;
-		bdOut.bdBitsPerSample= 8;
-		bdOut.bdSamplesPerPixel= 3;
-		bdOut.bdBitsPerPixel= 16;
-		bdOut.bdColorEncoding= BMcoRGB8PALETTE;
-		bdOut.bdPalette.cpColorCount= 0;
+			bdOut.bdBytesPerRow = xim->bytes_per_line;
+			bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;
+			bdOut.bdBitsPerSample = 8;
+			bdOut.bdSamplesPerPixel = 3;
+			bdOut.bdBitsPerPixel = 16;
+			bdOut.bdColorEncoding = BMcoRGB8PALETTE;
+			bdOut.bdPalette.cpColorCount = 0;
 
-		break;
+			break;
 
-	    case 32:
-	    case 24:
-	    default:
-		LDEB(depth); return -1;
-	    }
-	}
-
-    /*  2  */
-    for ( col= 0; col < 64; col++ )
-	{
-	int		r, g, b;
-	XColor		xc;
-
-	r= ( col & 0x30 ) << 2;
-	g= ( col & 0x0c ) << 4;
-	b= ( col & 0x03 ) << 6;
-
-	if  ( appColorRgb( &xc, ac, r, g, b ) )
-	    { LDEB(col); return -1; }
+		case 32:
+		case 24:
+		default:
+			LDEB(depth);
+			return -1;
+		}
 	}
 
-    if  ( *((unsigned char *)&one) )
-	{
-	if  ( xim->byte_order != LSBFirst )
-	    {
-	    xim->byte_order= LSBFirst;
-	    _XInitImageFuncPtrs( xim );
-	    }
-	}
-    else{
-	if  ( xim->byte_order != MSBFirst )
-	    {
-	    xim->byte_order= MSBFirst;
-	    _XInitImageFuncPtrs( xim );
-	    }
-	}
+	/*  2  */
+	for (col = 0; col < 64; col++) {
+		int r, g, b;
+		XColor xc;
 
-    xim->data= malloc( bdOut.bdBufferLength );
-    if  ( ! xim->data )
-	{
-	LXDEB(bdOut.bdBufferLength,xim->data);
-	XDestroyImage( xim ); return -1;
+		r = (col & 0x30) << 2;
+		g = (col & 0x0c) << 4;
+		b = (col & 0x03) << 6;
+
+		if (appColorRgb(&xc, ac, r, g, b)) {
+			LDEB(col);
+			return -1;
+		}
 	}
 
-    if  ( bmFillImage( &(ac->acAllocator),
-			bitmapUnit, swapBitmapBytes, swapBitmapBits, dither,
-			(unsigned char *)xim->data, &bdOut, abi, drSel ) )
-	{
-	LDEB(1);
-	XDestroyImage( xim );
-	return -1;
+	if (*((unsigned char *)&one)) {
+		if (xim->byte_order != LSBFirst) {
+			xim->byte_order = LSBFirst;
+			_XInitImageFuncPtrs(xim);
+		}
+	} else {
+		if (xim->byte_order != MSBFirst) {
+			xim->byte_order = MSBFirst;
+			_XInitImageFuncPtrs(xim);
+		}
 	}
 
-    *pPimage= xim; return 0;
-    }
+	xim->data = malloc(bdOut.bdBufferLength);
+	if (!xim->data) {
+		LXDEB(bdOut.bdBufferLength, xim->data);
+		XDestroyImage(xim);
+		return -1;
+	}
 
-#   endif /* USE_MOTIF */
+	if (bmFillImage(&(ac->acAllocator), bitmapUnit, swapBitmapBytes,
+			swapBitmapBits, dither, (unsigned char *)xim->data,
+			&bdOut, abi, drSel)) {
+		LDEB(1);
+		XDestroyImage(xim);
+		return -1;
+	}
+
+	*pPimage = xim;
+	return 0;
+}
+
+#endif /* USE_MOTIF */

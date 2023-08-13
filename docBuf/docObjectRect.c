@@ -4,14 +4,14 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	<docObject.h>
-#   include	<docObjectProperties.h>
-#   include	"docObjectRect.h"
-#   include	"docShape.h"
+#include <docObject.h>
+#include <docObjectProperties.h>
+#include "docObjectRect.h"
+#include "docShape.h"
 
 /************************************************************************/
 /*									*/
@@ -19,31 +19,28 @@
 /*									*/
 /************************************************************************/
 
-void docObjectGetPageRect(	DocumentRectangle *		drDest,
-				const InsertedObject *		io,
-				int				x0Twips,
-				int				baselineTwips )
-    {
-    const PictureProperties *	pip= &(io->ioPictureProperties);
+void docObjectGetPageRect(DocumentRectangle *drDest, const InsertedObject *io,
+			  int x0Twips, int baselineTwips)
+{
+	const PictureProperties *pip = &(io->ioPictureProperties);
 
-    if  ( io->ioKind == DOCokDRAWING_SHAPE )
-	{
-	docPlaceRootShapeRect( drDest, &(io->ioDrawingShape->dsShapeProperties),
-						x0Twips, baselineTwips );
-	}
-    else{
-	int	twipsWide= ( pip->pipScaleXUsed* pip->pipTwipsWide )/ 100;
-	int	twipsHigh= ( pip->pipScaleYUsed* pip->pipTwipsHigh )/ 100;
-	
-	drDest->drX0= x0Twips;
-	drDest->drY1= baselineTwips;
+	if (io->ioKind == DOCokDRAWING_SHAPE) {
+		docPlaceRootShapeRect(drDest,
+				      &(io->ioDrawingShape->dsShapeProperties),
+				      x0Twips, baselineTwips);
+	} else {
+		int twipsWide = (pip->pipScaleXUsed * pip->pipTwipsWide) / 100;
+		int twipsHigh = (pip->pipScaleYUsed * pip->pipTwipsHigh) / 100;
 
-	drDest->drX1= drDest->drX0+ twipsWide;
-	drDest->drY0= drDest->drY1- twipsHigh;
+		drDest->drX0 = x0Twips;
+		drDest->drY1 = baselineTwips;
+
+		drDest->drX1 = drDest->drX0 + twipsWide;
+		drDest->drY0 = drDest->drY1 - twipsHigh;
 	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -51,13 +48,13 @@ void docObjectGetPageRect(	DocumentRectangle *		drDest,
 /*									*/
 /************************************************************************/
 
-void docObjectGetSourceRect(	DocumentRectangle *		drSrc,
-				const PictureProperties *	pip )
-    {
-    drSrc->drX0= 0;
-    drSrc->drY0= 0;
-    drSrc->drX1= pip->pipTwipsWide- 1;
-    drSrc->drY1= pip->pipTwipsHigh- 1;
+void docObjectGetSourceRect(DocumentRectangle *drSrc,
+			    const PictureProperties *pip)
+{
+	drSrc->drX0 = 0;
+	drSrc->drY0 = 0;
+	drSrc->drX1 = pip->pipTwipsWide - 1;
+	drSrc->drY1 = pip->pipTwipsHigh - 1;
 
-    return;
-    }
+	return;
+}

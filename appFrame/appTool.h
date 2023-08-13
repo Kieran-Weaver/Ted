@@ -4,9 +4,9 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	APP_TOOL_H
-#   define	APP_TOOL_H
+#ifndef APP_TOOL_H
+#define APP_TOOL_H
 
-typedef void (*AppToolDestroy)( void * target );
+typedef void (*AppToolDestroy)(void *target);
 
-#   endif
+#endif

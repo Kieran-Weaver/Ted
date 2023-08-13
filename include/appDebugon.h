@@ -1,5 +1,5 @@
-# ifndef APP_DEBUG
-#	define	APP_DEBUG
-# endif
+#ifndef APP_DEBUG
+#define APP_DEBUG
+#endif
 
-# include	<appDebug.h>
+#include <appDebug.h>

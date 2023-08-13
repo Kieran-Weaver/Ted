@@ -4,10 +4,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_OBJECT_RECT_H
-#   define	DOC_OBJECT_RECT_H
+#ifndef DOC_OBJECT_RECT_H
+#define DOC_OBJECT_RECT_H
 
-#   include	"docBuf.h"
+#include "docBuf.h"
 
 /************************************************************************/
 /*									*/
@@ -15,12 +15,11 @@
 /*									*/
 /************************************************************************/
 
-extern void docObjectGetPageRect( DocumentRectangle *		drDest,
-				const InsertedObject *		io,
-				int				x0Twips,
-				int				baselineTwips );
+extern void docObjectGetPageRect(DocumentRectangle *drDest,
+				 const InsertedObject *io, int x0Twips,
+				 int baselineTwips);
 
-extern void docObjectGetSourceRect(	DocumentRectangle *		drSrc,
-					const PictureProperties *	pip );
+extern void docObjectGetSourceRect(DocumentRectangle *drSrc,
+				   const PictureProperties *pip);
 
-#   endif	/*  DOC_OBJECT_RECT_H  */
+#endif /*  DOC_OBJECT_RECT_H  */

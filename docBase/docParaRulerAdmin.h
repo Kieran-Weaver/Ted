@@ -5,17 +5,16 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_PARA_RULER_ADMIN_H
-#   define	DOC_PARA_RULER_ADMIN_H
+#ifndef DOC_PARA_RULER_ADMIN_H
+#define DOC_PARA_RULER_ADMIN_H
 
-#   include	"docTabStop.h"
-#   include	"docTabStopList.h"
-#   include	<utilIntegerValueNode.h>
-#   include	<utilNumberedPropertiesAdmin.h>
+#include "docTabStop.h"
+#include "docTabStopList.h"
+#include <utilIntegerValueNode.h>
+#include <utilNumberedPropertiesAdmin.h>
 
-typedef void (*TabStopListFunction)( 	const TabStopList * 	tsl,
-					int			n,
-					void *			through );
+typedef void (*TabStopListFunction)(const TabStopList *tsl, int n,
+				    void *through);
 
 /************************************************************************/
 /*									*/
@@ -23,18 +22,17 @@ typedef void (*TabStopListFunction)( 	const TabStopList * 	tsl,
 /*									*/
 /************************************************************************/
 
-extern void docInitTabStopListList(	NumberedPropertiesList *	tsll );
+extern void docInitTabStopListList(NumberedPropertiesList *tsll);
 
-extern int docTabStopListNumberImpl(	NumberedPropertiesList *	tsll,
-					const TabStopList *		tsl );
+extern int docTabStopListNumberImpl(NumberedPropertiesList *tsll,
+				    const TabStopList *tsl);
 
-extern void docGetTabStopListByNumberImpl( TabStopList *		tsl,
-					const NumberedPropertiesList *	tsll,
-					int				n );
+extern void docGetTabStopListByNumberImpl(TabStopList *tsl,
+					  const NumberedPropertiesList *tsll,
+					  int n);
 
-extern int docMergeTabstopListLists(
-				int **				pRulerMap,
-				NumberedPropertiesList *	tsllTo,
-				const NumberedPropertiesList *	tsllFrom );
+extern int docMergeTabstopListLists(int **pRulerMap,
+				    NumberedPropertiesList *tsllTo,
+				    const NumberedPropertiesList *tsllFrom);
 
-#   endif	/*  DOC_PARA_RULER_ADMIN_H	*/
+#endif /*  DOC_PARA_RULER_ADMIN_H	*/

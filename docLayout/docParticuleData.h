@@ -5,43 +5,42 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_PARTICULE_DATA_H
-#   define	DOC_PARTICULE_DATA_H
+#ifndef DOC_PARTICULE_DATA_H
+#define DOC_PARTICULE_DATA_H
 
-#   include	<psFontInfo.h>
-#   include	<geo2DInteger.h>
+#include <psFontInfo.h>
+#include <geo2DInteger.h>
 
-typedef struct ParticuleData
-    {
-			    /************************************/
-			    /*  Advance in X direction.		*/
-			    /************************************/
-    int			pdX0;
-    int			pdTwipsWide;
-    int			pdDecWidth;
-			    /************************************/
-			    /*  Actually visible.		*/
-			    /*  Origin is in ( 0, 0 )		*/
-			    /*  representing ( pdX0, baseline )	*/
-			    /************************************/
-    DocumentRectangle	pdVisibleBBox;
-			    /************************************/
-			    /*  Borders: Are inside the visible	*/
-			    /*  bounding box.			*/
-			    /************************************/
-    int			pdLeftBorderWidth;
-    int			pdRightBorderWidth;
+typedef struct ParticuleData {
+	/************************************/
+	/*  Advance in X direction.		*/
+	/************************************/
+	int pdX0;
+	int pdTwipsWide;
+	int pdDecWidth;
+	/************************************/
+	/*  Actually visible.		*/
+	/*  Origin is in ( 0, 0 )		*/
+	/*  representing ( pdX0, baseline )	*/
+	/************************************/
+	DocumentRectangle pdVisibleBBox;
+	/************************************/
+	/*  Borders: Are inside the visible	*/
+	/*  bounding box.			*/
+	/************************************/
+	int pdLeftBorderWidth;
+	int pdRightBorderWidth;
 
-    int			pdTabKind;
-    int			pdTabNumber;
-    int			pdTabPosition;
-    const AfmFontInfo *	pdAfi;
-    unsigned char	pdFlags;
+	int pdTabKind;
+	int pdTabNumber;
+	int pdTabPosition;
+	const AfmFontInfo *pdAfi;
+	unsigned char pdFlags;
 
-    int			pdVisiblePixels;
-    int			pdWhiteUnits;
-    int			pdCorrectBy;
-    } ParticuleData;
+	int pdVisiblePixels;
+	int pdWhiteUnits;
+	int pdCorrectBy;
+} ParticuleData;
 
 /************************************************************************/
 /*									*/
@@ -49,10 +48,8 @@ typedef struct ParticuleData
 /*									*/
 /************************************************************************/
 
-extern void docInitParticuleData(		ParticuleData *	pd );
+extern void docInitParticuleData(ParticuleData *pd);
 
-extern int docPsClaimParticuleData(
-				int			count,
-				ParticuleData **	pParticuleData );
+extern int docPsClaimParticuleData(int count, ParticuleData **pParticuleData);
 
-#   endif	/*  DOC_PARTICULE_DATA_H  */
+#endif /*  DOC_PARTICULE_DATA_H  */

@@ -4,10 +4,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_CALCULATE_TOC_FIELD_H
-#   define	DOC_CALCULATE_TOC_FIELD_H
+#ifndef DOC_CALCULATE_TOC_FIELD_H
+#define DOC_CALCULATE_TOC_FIELD_H
 
-#   include	<docRecalculateFields.h>
+#include <docRecalculateFields.h>
 
 /************************************************************************/
 /*									*/
@@ -15,9 +15,9 @@
 /*									*/
 /************************************************************************/
 
-extern int docRecalculateTocFields( RecalculateFields *		rf );
+extern int docRecalculateTocFields(RecalculateFields *rf);
 
-extern int docRecalculateOneTocField(	BufferDocument *	bdDoc,
-					const DocumentField *	df );
+extern int docRecalculateOneTocField(BufferDocument *bdDoc,
+				     const DocumentField *df);
 
-#   endif /*	DOC_CALCULATE_TOC_FIELD_H	*/
+#endif /*	DOC_CALCULATE_TOC_FIELD_H	*/

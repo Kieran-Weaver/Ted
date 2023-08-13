@@ -4,16 +4,16 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docRtfConfig.h"
+#include "docRtfConfig.h"
 
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docRtfWriterImpl.h"
-#   include	"docRtfReaderImpl.h"
-#   include	"docRtfTags.h"
+#include "docRtfWriterImpl.h"
+#include "docRtfReaderImpl.h"
+#include "docRtfTags.h"
 
 /************************************************************************/
 /*									*/
@@ -21,38 +21,40 @@
 /*									*/
 /************************************************************************/
 
-void docRtfSaveTabStopList( 	RtfWriter *		rw,
-				const TabStopList *	tsl )
-    {
-    int			i;
-    const TabStop *	ts;
+void docRtfSaveTabStopList(RtfWriter *rw, const TabStopList *tsl)
+{
+	int i;
+	const TabStop *ts;
 
-    ts= tsl->tslTabStops;
-    for ( i= 0; i < tsl->tslTabStopCount; ts++, i++ )
-	{
-	if  ( rw->rwCol >= 65 )
-	    { docRtfWriteNextLine( rw );	}
+	ts = tsl->tslTabStops;
+	for (i = 0; i < tsl->tslTabStopCount; ts++, i++) {
+		if (rw->rwCol >= 65) {
+			docRtfWriteNextLine(rw);
+		}
 
-	if  ( ts->tsAlignment != DOCtaLEFT )
-	    {
-	    docRtfWriteEnumTag( rw, DOCrtf_TabAlignTags, ts->tsAlignment,
-				    DOCrtf_TabAlignTagCount, DOCta_COUNT );
-	    }
+		if (ts->tsAlignment != DOCtaLEFT) {
+			docRtfWriteEnumTag(rw, DOCrtf_TabAlignTags,
+					   ts->tsAlignment,
+					   DOCrtf_TabAlignTagCount,
+					   DOCta_COUNT);
+		}
 
-	if  ( ts->tsLeader != DOCtlNONE )
-	    {
-	    docRtfWriteEnumTag( rw, DOCrtf_TabLeaderTags, ts->tsLeader,
-				    DOCrtf_TabLeaderTagCount, DOCtl_COUNT );
-	    }
+		if (ts->tsLeader != DOCtlNONE) {
+			docRtfWriteEnumTag(rw, DOCrtf_TabLeaderTags,
+					   ts->tsLeader,
+					   DOCrtf_TabLeaderTagCount,
+					   DOCtl_COUNT);
+		}
 
-	if  ( ts->tsFromStyleOrList )
-	    { docRtfWriteTag( rw, "jclisttab" );	}
+		if (ts->tsFromStyleOrList) {
+			docRtfWriteTag(rw, "jclisttab");
+		}
 
-	docRtfWriteArgTag( rw, "tx", ts->tsTwips );
+		docRtfWriteArgTag(rw, "tx", ts->tsTwips);
 	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -60,25 +62,27 @@ void docRtfSaveTabStopList( 	RtfWriter *		rw,
 /*									*/
 /************************************************************************/
 
-int docRtfRememberTabStopProperty(	const RtfControlWord *	rcw,
-					int			arg,
-					RtfReader *		rrc )
-    {
-    RtfReadingState *	rrs= rrc->rrcState;
-    TabStop *		ts= &(rrc->rrcTabStop);
+int docRtfRememberTabStopProperty(const RtfControlWord *rcw, int arg,
+				  RtfReader *rrc)
+{
+	RtfReadingState *rrs = rrc->rrcState;
+	TabStop *ts = &(rrc->rrcTabStop);
 
-    if  ( docTabStopSetProperty( ts, rcw->rcwID, arg ) )
-	{ SLDEB(rcw->rcwWord,arg); return 0;	}
-
-    if  ( rcw->rcwID == TABpropX )
-	{
-	if  ( docAddTabToListTwips( &(rrs->rrsTabStopList), ts ) < 0 )
-	    { SLDEB(rcw->rcwWord,arg); return -1;	}
-
-	docInitTabStop( ts );
-
-	PROPmaskADD( &(rrc->rrcStyle.dsParaMask), PPpropTAB_STOPS );
+	if (docTabStopSetProperty(ts, rcw->rcwID, arg)) {
+		SLDEB(rcw->rcwWord, arg);
+		return 0;
 	}
 
-    return 0;
-    }
+	if (rcw->rcwID == TABpropX) {
+		if (docAddTabToListTwips(&(rrs->rrsTabStopList), ts) < 0) {
+			SLDEB(rcw->rcwWord, arg);
+			return -1;
+		}
+
+		docInitTabStop(ts);
+
+		PROPmaskADD(&(rrc->rrcStyle.dsParaMask), PPpropTAB_STOPS);
+	}
+
+	return 0;
+}

@@ -1,6 +1,6 @@
-#   include	<math.h>
-#   include	<geoLineFitter.h>
-#   include	<appDebugon.h>
+#include <math.h>
+#include <geoLineFitter.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -15,32 +15,29 @@
 /*									*/
 /************************************************************************/
 
-void geoInitLineFitter(	LineFitter *	lf )
-    {
-    lf->lfN= 0;
-    lf->lfSx= 0;
-    lf->lfSy= 0;
-    lf->lfSxx= 0;
-    lf->lfSyy= 0;
-    lf->lfSxy= 0;
+void geoInitLineFitter(LineFitter *lf)
+{
+	lf->lfN = 0;
+	lf->lfSx = 0;
+	lf->lfSy = 0;
+	lf->lfSxx = 0;
+	lf->lfSyy = 0;
+	lf->lfSxy = 0;
 
-    return;
-    }
+	return;
+}
 
+void geoAddLineFitters(LineFitter *to, LineFitter *fr1, LineFitter *fr2)
+{
+	to->lfN = fr1->lfN + fr2->lfN;
+	to->lfSx = fr1->lfSx + fr2->lfSx;
+	to->lfSy = fr1->lfSy + fr2->lfSy;
+	to->lfSxx = fr1->lfSxx + fr2->lfSxx;
+	to->lfSyy = fr1->lfSyy + fr2->lfSyy;
+	to->lfSxy = fr1->lfSxy + fr2->lfSxy;
 
-void geoAddLineFitters(		LineFitter *		to,
-				LineFitter *		fr1,
-				LineFitter *		fr2 )
-    {
-    to->lfN= fr1->lfN+ fr2->lfN;
-    to->lfSx= fr1->lfSx+ fr2->lfSx;
-    to->lfSy= fr1->lfSy+ fr2->lfSy;
-    to->lfSxx= fr1->lfSxx+ fr2->lfSxx;
-    to->lfSyy= fr1->lfSyy+ fr2->lfSyy;
-    to->lfSxy= fr1->lfSxy+ fr2->lfSxy;
-
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -54,7 +51,7 @@ void geoAddLineFitters(		LineFitter *		to,
 /*									*/
 /************************************************************************/
 
-# if 0
+#if 0
 
 Find the line that minimizes the sum of squared distances from 
 the line for a given set of points.
@@ -133,42 +130,45 @@ VarY=  Syy/N- SySy/(N*N)
 
 A= atan( -CovXY/[( VarX- VarY )/2] )/2
 
-# endif
+#endif
 
-int geoLineFitterFitLine(	double *		pA,
-				double *		pB,
-				double *		pC,
-				const LineFitter *	lf )
-    {
-    double	NN;
-    double	CovXY;
-    double	VarX;
-    double	VarY;
-    double	A;
+int geoLineFitterFitLine(double *pA, double *pB, double *pC,
+			 const LineFitter *lf)
+{
+	double NN;
+	double CovXY;
+	double VarX;
+	double VarY;
+	double A;
 
-    if  ( lf->lfN < 2 )
-	{ LDEB(lf->lfN); return -1;	}
+	if (lf->lfN < 2) {
+		LDEB(lf->lfN);
+		return -1;
+	}
 
-    NN= lf->lfN* lf->lfN;
+	NN = lf->lfN * lf->lfN;
 
-    CovXY= lf->lfSxy/lf->lfN- ( lf->lfSx* lf->lfSy )/ NN;
-    VarX=  lf->lfSxx/lf->lfN- ( lf->lfSx* lf->lfSx )/ NN;
-    VarY=  lf->lfSyy/lf->lfN- ( lf->lfSy* lf->lfSy )/ NN;
+	CovXY = lf->lfSxy / lf->lfN - (lf->lfSx * lf->lfSy) / NN;
+	VarX = lf->lfSxx / lf->lfN - (lf->lfSx * lf->lfSx) / NN;
+	VarY = lf->lfSyy / lf->lfN - (lf->lfSy * lf->lfSy) / NN;
 
-    if  ( CovXY == 0 && VarX == 0 && VarY == 0 )
-	{ FFFDEB(VarX,VarY,CovXY); return -1;	}
+	if (CovXY == 0 && VarX == 0 && VarY == 0) {
+		FFFDEB(VarX, VarY, CovXY);
+		return -1;
+	}
 
-    if  ( CovXY == 0 && VarX != 0 && VarY != 0 )
-	{ return  1;	}
+	if (CovXY == 0 && VarX != 0 && VarY != 0) {
+		return 1;
+	}
 
-    A= atan2( -CovXY, ( VarX- VarY )/2 )/2;
+	A = atan2(-CovXY, (VarX - VarY) / 2) / 2;
 
-    *pA= sin( A );
-    *pB= cos( A );
-    *pC= -( lf->lfSx* *pA+ lf->lfSy* *pB )/lf->lfN;
+	*pA = sin(A);
+	*pB = cos(A);
+	*pC = -(lf->lfSx * *pA + lf->lfSy * *pB) / lf->lfN;
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -177,24 +177,18 @@ int geoLineFitterFitLine(	double *		pA,
 /*									*/
 /************************************************************************/
 
-double geoLineFitterMeanSquareDistance(	const LineFitter *	lf,
-					double			a,
-					double			b,
-					double			c )
-    {
-    double	d;
+double geoLineFitterMeanSquareDistance(const LineFitter *lf, double a, double b,
+				       double c)
+{
+	double d;
 
-    d=  a* a* lf->lfSxx+
-	2* a* b* lf->lfSxy+
-	2* a* c* lf->lfSx+
-	b* b* lf->lfSyy+
-	2* b* c* lf->lfSy+
-	c* c* lf->lfN;
+	d = a * a * lf->lfSxx + 2 * a * b * lf->lfSxy + 2 * a * c * lf->lfSx +
+	    b * b * lf->lfSyy + 2 * b * c * lf->lfSy + c * c * lf->lfN;
 
-    return d/ lf->lfN;
-    }
+	return d / lf->lfN;
+}
 
-# if 0
+#if 0
 typedef struct LineSegment
     {
     double	lsX0;
@@ -203,7 +197,7 @@ typedef struct LineSegment
     double	lsY1;
     } LineSegment;
 
-# define SCORE() (((d+0.1)*(l1-l0+1))/lf.lfN)
+#define SCORE() (((d + 0.1) * (l1 - l0 + 1)) / lf.lfN)
 
 extern void xxx( void );
 void xxx()
@@ -328,4 +322,4 @@ for ( dx= 0; dx <= 8; dx ++ )
 
     return;
     }
-# endif
+#endif

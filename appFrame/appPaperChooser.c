@@ -4,17 +4,17 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stdlib.h>
+#include <stdlib.h>
 
-#   include	<geoString.h>
-#   include	<appPaper.h>
+#include <geoString.h>
+#include <appPaper.h>
 
-#   include	"appPaperChooser.h"
-#   include	"guiWidgets.h"
+#include "appPaperChooser.h"
+#include "guiWidgets.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -22,12 +22,11 @@
 /*									*/
 /************************************************************************/
 
-void appEnablePaperChooser(	PaperChooser *			pc,
-				int				enabled )
-    {
-    guiEnableWidget( pc->pcFrame, enabled );
-    guiEnableText( pc->pcSizeText, enabled );
-    }
+void appEnablePaperChooser(PaperChooser *pc, int enabled)
+{
+	guiEnableWidget(pc->pcFrame, enabled);
+	guiEnableText(pc->pcSizeText, enabled);
+}
 
 /************************************************************************/
 /*									*/
@@ -35,21 +34,20 @@ void appEnablePaperChooser(	PaperChooser *			pc,
 /*									*/
 /************************************************************************/
 
-static void appPaperChooserShowWidthHeight(
-				PaperChooser *			pc,
-				const DocumentGeometry *	dg )
-    {
-    char			scratch[50];
+static void appPaperChooserShowWidthHeight(PaperChooser *pc,
+					   const DocumentGeometry *dg)
+{
+	char scratch[50];
 
-    geoRectangleToString( scratch,
-		    dg->dgPageWideTwips, dg->dgPageHighTwips, pc->pcUnitType );
+	geoRectangleToString(scratch, dg->dgPageWideTwips, dg->dgPageHighTwips,
+			     pc->pcUnitType);
 
-    pc->pcProgrammatic++;
-    appStringToTextWidget( pc->pcSizeText, scratch );
-    pc->pcProgrammatic--;
+	pc->pcProgrammatic++;
+	appStringToTextWidget(pc->pcSizeText, scratch);
+	pc->pcProgrammatic--;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -57,48 +55,45 @@ static void appPaperChooserShowWidthHeight(
 /*									*/
 /************************************************************************/
 
-int appPaperChooserGetSize(	PropertyMask *		pDoneMask,
-				PaperChooser *		pc,
-				DocumentGeometry *	dg )
-    {
-    char *		s;
-    DocumentGeometry	dgSet;
+int appPaperChooserGetSize(PropertyMask *pDoneMask, PaperChooser *pc,
+			   DocumentGeometry *dg)
+{
+	char *s;
+	DocumentGeometry dgSet;
 
-    PropertyMask	setMask;
-    PropertyMask	doneMask;
+	PropertyMask setMask;
+	PropertyMask doneMask;
 
-    dgSet= *dg;
+	dgSet = *dg;
 
-    utilPropMaskClear( &setMask );
-    utilPropMaskClear( &doneMask );
+	utilPropMaskClear(&setMask);
+	utilPropMaskClear(&doneMask);
 
-    PROPmaskADD( &setMask, DGpropPAGE_WIDTH );
-    PROPmaskADD( &setMask, DGpropPAGE_HEIGHT );
+	PROPmaskADD(&setMask, DGpropPAGE_WIDTH);
+	PROPmaskADD(&setMask, DGpropPAGE_HEIGHT);
 
-    s= appGetStringFromTextWidget( pc->pcSizeText );
+	s = appGetStringFromTextWidget(pc->pcSizeText);
 
-    if  ( geoRectangleFromString( s, pc->pcUnitType,
-				    &(dgSet.dgPageWideTwips),
-				    &(dgSet.dgPageHighTwips) )		||
-	  dgSet.dgPageWideTwips <= 0					||
-	  dgSet.dgPageHighTwips <= 0					)
-	{
-	appFreeStringFromTextWidget( s );
+	if (geoRectangleFromString(s, pc->pcUnitType, &(dgSet.dgPageWideTwips),
+				   &(dgSet.dgPageHighTwips)) ||
+	    dgSet.dgPageWideTwips <= 0 || dgSet.dgPageHighTwips <= 0) {
+		appFreeStringFromTextWidget(s);
 
-	appRefuseTextValue( pc->pcSizeText );
+		appRefuseTextValue(pc->pcSizeText);
 
-	return -1;
+		return -1;
 	}
 
-    appFreeStringFromTextWidget( s );
+	appFreeStringFromTextWidget(s);
 
-    utilUpdDocumentGeometry( &doneMask, dg, &setMask, &dgSet );
+	utilUpdDocumentGeometry(&doneMask, dg, &setMask, &dgSet);
 
-    if  ( pDoneMask )
-	{ utilPropMaskOr( pDoneMask, pDoneMask, &doneMask );	}
+	if (pDoneMask) {
+		utilPropMaskOr(pDoneMask, pDoneMask, &doneMask);
+	}
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -112,104 +107,99 @@ int appPaperChooserGetSize(	PropertyMask *		pDoneMask,
 /************************************************************************/
 
 /*  1  */
-static void appPaperChooserShowOrientation(	PaperChooser *	pc )
-    {
-    if  ( ! pc->pcPortraitRadio || ! pc->pcLandscapeRadio )
-	{ XXDEB(pc->pcPortraitRadio,pc->pcLandscapeRadio); return;	}
-
-    pc->pcProgrammatic++;
-
-    if  ( pc->pcLandscapeChosen )
-	{
-	appGuiSetToggleState( pc->pcPortraitRadio,  0 );
-	appGuiSetToggleState( pc->pcLandscapeRadio, 1 );
+static void appPaperChooserShowOrientation(PaperChooser *pc)
+{
+	if (!pc->pcPortraitRadio || !pc->pcLandscapeRadio) {
+		XXDEB(pc->pcPortraitRadio, pc->pcLandscapeRadio);
+		return;
 	}
-    else{
-	appGuiSetToggleState( pc->pcPortraitRadio,  1 );
-	appGuiSetToggleState( pc->pcLandscapeRadio, 0 );
-	}
-
-    pc->pcProgrammatic--;
-
-    return;
-    }
-
-/*  2  */
-static void appPaperChooserWidgetSettings(
-				int *				pLandscape,
-				int *				pSizeNr,
-				int				custom,
-				const DocumentGeometry *	dg )
-    {
-    int		sizeNr;
-    int		landscape;
-
-    if  ( dg->dgPageWideTwips > dg->dgPageHighTwips )
-	{
-	sizeNr= utilPaperGetNumberBySize( dg->dgPageHighTwips,
-						    dg->dgPageWideTwips );
-
-	landscape= 1;
-	}
-    else{
-	sizeNr= utilPaperGetNumberBySize( dg->dgPageWideTwips,
-						    dg->dgPageHighTwips );
-
-	landscape= 0;
-	}
-
-    if  ( sizeNr < 0 )
-	{ sizeNr= custom;	}
-
-    *pLandscape= landscape;
-    *pSizeNr= sizeNr;
-
-    return;
-    }
-
-/*  3  */
-static void appPaperChooserSetWidgets(	PaperChooser *		pc,
-					int			sizeNr,
-					int			landscape )
-    {
-    if  ( pc->pcSizeChosen != sizeNr )
-	{
-	pc->pcSizeChosen= sizeNr;
 
 	pc->pcProgrammatic++;
-	appSetOptionmenu( &(pc->pcOptionmenu), pc->pcSizeChosen );
+
+	if (pc->pcLandscapeChosen) {
+		appGuiSetToggleState(pc->pcPortraitRadio, 0);
+		appGuiSetToggleState(pc->pcLandscapeRadio, 1);
+	} else {
+		appGuiSetToggleState(pc->pcPortraitRadio, 1);
+		appGuiSetToggleState(pc->pcLandscapeRadio, 0);
+	}
+
 	pc->pcProgrammatic--;
+
+	return;
+}
+
+/*  2  */
+static void appPaperChooserWidgetSettings(int *pLandscape, int *pSizeNr,
+					  int custom,
+					  const DocumentGeometry *dg)
+{
+	int sizeNr;
+	int landscape;
+
+	if (dg->dgPageWideTwips > dg->dgPageHighTwips) {
+		sizeNr = utilPaperGetNumberBySize(dg->dgPageHighTwips,
+						  dg->dgPageWideTwips);
+
+		landscape = 1;
+	} else {
+		sizeNr = utilPaperGetNumberBySize(dg->dgPageWideTwips,
+						  dg->dgPageHighTwips);
+
+		landscape = 0;
 	}
 
-    if  ( pc->pcLandscapeChosen != landscape	)
-	{
-	pc->pcLandscapeChosen= landscape;
-
-	if  ( pc->pcPortraitRadio	&&
-	      pc->pcLandscapeRadio	)
-	    { appPaperChooserShowOrientation( pc );	}
+	if (sizeNr < 0) {
+		sizeNr = custom;
 	}
 
-    return;
-    }
+	*pLandscape = landscape;
+	*pSizeNr = sizeNr;
 
-void appPaperChooserAdaptToGeometry(	PaperChooser *			pc,
-					const DocumentGeometry *	dg )
-    {
-    int		sizeNr;
-    int		landscape;
+	return;
+}
 
-    pc->pcGeometryChosen= *dg;
+/*  3  */
+static void appPaperChooserSetWidgets(PaperChooser *pc, int sizeNr,
+				      int landscape)
+{
+	if (pc->pcSizeChosen != sizeNr) {
+		pc->pcSizeChosen = sizeNr;
 
-    appPaperChooserShowWidthHeight( pc, &(pc->pcGeometryChosen) );
+		pc->pcProgrammatic++;
+		appSetOptionmenu(&(pc->pcOptionmenu), pc->pcSizeChosen);
+		pc->pcProgrammatic--;
+	}
 
-    appPaperChooserWidgetSettings( &landscape, &sizeNr,
-			    pc->pcCustomPaperSize, &(pc->pcGeometryChosen) );
+	if (pc->pcLandscapeChosen != landscape) {
+		pc->pcLandscapeChosen = landscape;
 
-    appPaperChooserSetWidgets( pc, sizeNr, landscape );
+		if (pc->pcPortraitRadio && pc->pcLandscapeRadio) {
+			appPaperChooserShowOrientation(pc);
+		}
+	}
 
-    return;
-    }
+	return;
+}
+
+void appPaperChooserAdaptToGeometry(PaperChooser *pc,
+				    const DocumentGeometry *dg)
+{
+	int sizeNr;
+	int landscape;
+
+	pc->pcGeometryChosen = *dg;
+
+	appPaperChooserShowWidthHeight(pc, &(pc->pcGeometryChosen));
+
+	appPaperChooserWidgetSettings(&landscape, &sizeNr,
+				      pc->pcCustomPaperSize,
+				      &(pc->pcGeometryChosen));
+
+	appPaperChooserSetWidgets(pc, sizeNr, landscape);
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -218,70 +208,77 @@ void appPaperChooserAdaptToGeometry(	PaperChooser *			pc,
 /*									*/
 /************************************************************************/
 
-static void appPaperChooserSizeChosen(	int		i,
-					void *		voidpc )
-    {
-    PaperChooser *	pc= (PaperChooser *)voidpc;
+static void appPaperChooserSizeChosen(int i, void *voidpc)
+{
+	PaperChooser *pc = (PaperChooser *)voidpc;
 
-    int			changed= 0;
+	int changed = 0;
 
-    int			width;
-    int			height;
+	int width;
+	int height;
 
-    if  ( pc->pcProgrammatic )
-	{ return;	}
-
-    if  ( i < 0 || i >= pc->pcSizeOptionCount )
-	{ LLDEB(i,pc->pcSizeOptionCount); return;	}
-
-    pc->pcSizeChosen= i;
-
-    if  ( i == pc->pcCustomPaperSize )
-	{
-	PropertyMask		updMask;
-	DocumentGeometry	dgScratch;
-
-	utilPropMaskClear( &updMask );
-
-	if  ( appPaperChooserGetSize( &updMask, pc, &dgScratch ) )
-	    { LDEB(1); return;	}
-
-	width= dgScratch.dgPageWideTwips;
-	height= dgScratch.dgPageHighTwips;
-
-	if  ( width > height )
-	    { pc->pcLandscapeChosen= 1;	}
-	else{ pc->pcLandscapeChosen= 0;	}
-	}
-    else{
-	if  ( utilPaperGetInfoByNumber( i, &width, &height, (const char **)0 ) )
-	    { return;	}
-
-	if  ( pc->pcLandscapeChosen )
-	    {
-	    int		swap;
-
-	    swap= height; height= width; width= swap;
-	    }
+	if (pc->pcProgrammatic) {
+		return;
 	}
 
-    if  ( pc->pcGeometryChosen.dgPageWideTwips != width		||
-	  pc->pcGeometryChosen.dgPageHighTwips != height	)
-	{ changed= 1;	}
-
-    pc->pcGeometryChosen.dgPageWideTwips= width;
-    pc->pcGeometryChosen.dgPageHighTwips= height;
-
-    appPaperChooserShowWidthHeight( pc, &(pc->pcGeometryChosen) );
-
-    if  ( changed && pc->pcCallback )
-	{
-	(*pc->pcCallback)( pc, pc->pcCallbackThrough,
-						&(pc->pcGeometryChosen) );
+	if (i < 0 || i >= pc->pcSizeOptionCount) {
+		LLDEB(i, pc->pcSizeOptionCount);
+		return;
 	}
 
-    return;
-    }
+	pc->pcSizeChosen = i;
+
+	if (i == pc->pcCustomPaperSize) {
+		PropertyMask updMask;
+		DocumentGeometry dgScratch;
+
+		utilPropMaskClear(&updMask);
+
+		if (appPaperChooserGetSize(&updMask, pc, &dgScratch)) {
+			LDEB(1);
+			return;
+		}
+
+		width = dgScratch.dgPageWideTwips;
+		height = dgScratch.dgPageHighTwips;
+
+		if (width > height) {
+			pc->pcLandscapeChosen = 1;
+		} else {
+			pc->pcLandscapeChosen = 0;
+		}
+	} else {
+		if (utilPaperGetInfoByNumber(i, &width, &height,
+					     (const char **)0)) {
+			return;
+		}
+
+		if (pc->pcLandscapeChosen) {
+			int swap;
+
+			swap = height;
+			height = width;
+			width = swap;
+		}
+	}
+
+	if (pc->pcGeometryChosen.dgPageWideTwips != width ||
+	    pc->pcGeometryChosen.dgPageHighTwips != height) {
+		changed = 1;
+	}
+
+	pc->pcGeometryChosen.dgPageWideTwips = width;
+	pc->pcGeometryChosen.dgPageHighTwips = height;
+
+	appPaperChooserShowWidthHeight(pc, &(pc->pcGeometryChosen));
+
+	if (changed && pc->pcCallback) {
+		(*pc->pcCallback)(pc, pc->pcCallbackThrough,
+				  &(pc->pcGeometryChosen));
+	}
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -289,37 +286,36 @@ static void appPaperChooserSizeChosen(	int		i,
 /*									*/
 /************************************************************************/
 
-static APP_TXTYPING_CALLBACK_H( appPaperChooserTypingCallback, w, voidpc )
-    {
-    PaperChooser *	pc= (PaperChooser *)voidpc;
-    char *		s;
+static APP_TXTYPING_CALLBACK_H(appPaperChooserTypingCallback, w, voidpc)
+{
+	PaperChooser *pc = (PaperChooser *)voidpc;
+	char *s;
 
-    DocumentGeometry	dgHere;
+	DocumentGeometry dgHere;
 
-    if  ( pc->pcProgrammatic )
-	{ return;	}
-
-    s= appGetStringFromTextWidget( pc->pcSizeText );
-
-    if  ( ! geoRectangleFromString( s, pc->pcUnitType,
-				    &(dgHere.dgPageWideTwips),
-				    &(dgHere.dgPageHighTwips) )		&&
-	  dgHere.dgPageWideTwips > 0					&&
-	  dgHere.dgPageHighTwips > 0					)
-	{
-	int		sizeNr;
-	int		landscape;
-
-	appPaperChooserWidgetSettings( &landscape, &sizeNr,
-					    pc->pcCustomPaperSize, &dgHere );
-
-	appPaperChooserSetWidgets( pc, sizeNr, landscape );
+	if (pc->pcProgrammatic) {
+		return;
 	}
 
-    appFreeStringFromTextWidget( s );
+	s = appGetStringFromTextWidget(pc->pcSizeText);
 
-    return;
-    }
+	if (!geoRectangleFromString(s, pc->pcUnitType,
+				    &(dgHere.dgPageWideTwips),
+				    &(dgHere.dgPageHighTwips)) &&
+	    dgHere.dgPageWideTwips > 0 && dgHere.dgPageHighTwips > 0) {
+		int sizeNr;
+		int landscape;
+
+		appPaperChooserWidgetSettings(&landscape, &sizeNr,
+					      pc->pcCustomPaperSize, &dgHere);
+
+		appPaperChooserSetWidgets(pc, sizeNr, landscape);
+	}
+
+	appFreeStringFromTextWidget(s);
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -327,32 +323,33 @@ static APP_TXTYPING_CALLBACK_H( appPaperChooserTypingCallback, w, voidpc )
 /*									*/
 /************************************************************************/
 
-static APP_TXACTIVATE_CALLBACK_H( appPaperChooserGotValueCallback, w, voidpc )
-    {
-    PaperChooser *	pc= (PaperChooser *)voidpc;
-    PropertyMask	updMask;
+static APP_TXACTIVATE_CALLBACK_H(appPaperChooserGotValueCallback, w, voidpc)
+{
+	PaperChooser *pc = (PaperChooser *)voidpc;
+	PropertyMask updMask;
 
-    utilPropMaskClear( &updMask );
+	utilPropMaskClear(&updMask);
 
-    if  ( pc->pcProgrammatic )
-	{ return;	}
-
-    if  ( appPaperChooserGetSize( &updMask, pc, &(pc->pcGeometryChosen) ) )
-	{ LDEB(1); return;	}
-
-    if  ( ! utilPropMaskIsEmpty( &updMask ) )
-	{
-	appPaperChooserAdaptToGeometry( pc, &(pc->pcGeometryChosen) );
-
-	if  ( pc->pcCallback )
-	    {
-	    (*pc->pcCallback)( pc, pc->pcCallbackThrough,
-						&(pc->pcGeometryChosen) );
-	    }
+	if (pc->pcProgrammatic) {
+		return;
 	}
 
-    return;
-    }
+	if (appPaperChooserGetSize(&updMask, pc, &(pc->pcGeometryChosen))) {
+		LDEB(1);
+		return;
+	}
+
+	if (!utilPropMaskIsEmpty(&updMask)) {
+		appPaperChooserAdaptToGeometry(pc, &(pc->pcGeometryChosen));
+
+		if (pc->pcCallback) {
+			(*pc->pcCallback)(pc, pc->pcCallbackThrough,
+					  &(pc->pcGeometryChosen));
+		}
+	}
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -365,101 +362,96 @@ static APP_TXACTIVATE_CALLBACK_H( appPaperChooserGotValueCallback, w, voidpc )
 /*									*/
 /************************************************************************/
 
-static void appPaperChooserOrientationChanged(	PaperChooser *	pc )
-    {
-    int	swap;
+static void appPaperChooserOrientationChanged(PaperChooser *pc)
+{
+	int swap;
 
-    swap= pc->pcGeometryChosen.dgPageWideTwips;
-    pc->pcGeometryChosen.dgPageWideTwips=
-				pc->pcGeometryChosen.dgPageHighTwips;
-    pc->pcGeometryChosen.dgPageHighTwips= swap;
+	swap = pc->pcGeometryChosen.dgPageWideTwips;
+	pc->pcGeometryChosen.dgPageWideTwips =
+		pc->pcGeometryChosen.dgPageHighTwips;
+	pc->pcGeometryChosen.dgPageHighTwips = swap;
 
-    appPaperChooserShowWidthHeight( pc, &(pc->pcGeometryChosen) );
+	appPaperChooserShowWidthHeight(pc, &(pc->pcGeometryChosen));
 
-    if  ( pc->pcCallback )
-	{
-	(*pc->pcCallback)( pc, pc->pcCallbackThrough,
-						&(pc->pcGeometryChosen) );
+	if (pc->pcCallback) {
+		(*pc->pcCallback)(pc, pc->pcCallbackThrough,
+				  &(pc->pcGeometryChosen));
 	}
 
-    return;
-    }
+	return;
+}
 
-static APP_TOGGLE_CALLBACK_H( appPaperChooserLandscapeToggled, w, voidpc, e )
-    {
-    PaperChooser *		pc= (PaperChooser *)voidpc;
+static APP_TOGGLE_CALLBACK_H(appPaperChooserLandscapeToggled, w, voidpc, e)
+{
+	PaperChooser *pc = (PaperChooser *)voidpc;
 
-    int				change= 0;
-    int				set;
+	int change = 0;
+	int set;
 
-    if  ( pc->pcProgrammatic )
-	{ return;	}
-
-    set= appGuiGetToggleStateFromCallback( w, e );
-
-    if  ( pc->pcLandscapeChosen )
-	{
-	if  ( ! set )
-	    {
-	    pc->pcProgrammatic++;
-	    appGuiSetToggleState( pc->pcLandscapeRadio, 1 );
-	    pc->pcProgrammatic--;
-	    }
-	}
-    else{
-	if  ( set )
-	    {
-	    pc->pcLandscapeChosen= 1;
-	    pc->pcProgrammatic++;
-	    appGuiSetToggleState( pc->pcPortraitRadio, 0 );
-	    pc->pcProgrammatic--;
-	    change= 1;
-	    }
+	if (pc->pcProgrammatic) {
+		return;
 	}
 
-    if  ( change )
-	{ appPaperChooserOrientationChanged( pc );	}
+	set = appGuiGetToggleStateFromCallback(w, e);
 
-    return;
-    }
-
-static APP_TOGGLE_CALLBACK_H( appPaperChooserPortraitToggled, w, voidpc, e )
-    {
-    PaperChooser *		pc= (PaperChooser *)voidpc;
-
-    int				change= 0;
-    int				set;
-
-    if  ( pc->pcProgrammatic )
-	{ return;	}
-
-    set= appGuiGetToggleStateFromCallback( w, e );
-
-    if  ( pc->pcLandscapeChosen )
-	{
-	if  ( set )
-	    {
-	    pc->pcLandscapeChosen= 0;
-	    pc->pcProgrammatic++;
-	    appGuiSetToggleState( pc->pcLandscapeRadio, 0 );
-	    pc->pcProgrammatic--;
-	    change= 1;
-	    }
-	}
-    else{
-	if  ( ! set )
-	    {
-	    pc->pcProgrammatic++;
-	    appGuiSetToggleState( pc->pcPortraitRadio, 1 );
-	    pc->pcProgrammatic--;
-	    }
+	if (pc->pcLandscapeChosen) {
+		if (!set) {
+			pc->pcProgrammatic++;
+			appGuiSetToggleState(pc->pcLandscapeRadio, 1);
+			pc->pcProgrammatic--;
+		}
+	} else {
+		if (set) {
+			pc->pcLandscapeChosen = 1;
+			pc->pcProgrammatic++;
+			appGuiSetToggleState(pc->pcPortraitRadio, 0);
+			pc->pcProgrammatic--;
+			change = 1;
+		}
 	}
 
-    if  ( change )
-	{ appPaperChooserOrientationChanged( pc );	}
+	if (change) {
+		appPaperChooserOrientationChanged(pc);
+	}
 
-    return;
-    }
+	return;
+}
+
+static APP_TOGGLE_CALLBACK_H(appPaperChooserPortraitToggled, w, voidpc, e)
+{
+	PaperChooser *pc = (PaperChooser *)voidpc;
+
+	int change = 0;
+	int set;
+
+	if (pc->pcProgrammatic) {
+		return;
+	}
+
+	set = appGuiGetToggleStateFromCallback(w, e);
+
+	if (pc->pcLandscapeChosen) {
+		if (set) {
+			pc->pcLandscapeChosen = 0;
+			pc->pcProgrammatic++;
+			appGuiSetToggleState(pc->pcLandscapeRadio, 0);
+			pc->pcProgrammatic--;
+			change = 1;
+		}
+	} else {
+		if (!set) {
+			pc->pcProgrammatic++;
+			appGuiSetToggleState(pc->pcPortraitRadio, 1);
+			pc->pcProgrammatic--;
+		}
+	}
+
+	if (change) {
+		appPaperChooserOrientationChanged(pc);
+	}
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -467,37 +459,33 @@ static APP_TOGGLE_CALLBACK_H( appPaperChooserPortraitToggled, w, voidpc, e )
 /*									*/
 /************************************************************************/
 
-void appMakePaperChooserWidgets(	APP_WIDGET		parent,
-					const char *		title,
-					int			unitType,
-					PaperChooser *		pc,
-					PaperChooserCallback	callback,
-					void *			through )
-    {
-    const int	textEnabled= 1;
+void appMakePaperChooserWidgets(APP_WIDGET parent, const char *title,
+				int unitType, PaperChooser *pc,
+				PaperChooserCallback callback, void *through)
+{
+	const int textEnabled = 1;
 
-    pc->pcUnitType= unitType;
-    pc->pcCallback= callback;
-    pc->pcCallbackThrough= through;
+	pc->pcUnitType = unitType;
+	pc->pcCallback = callback;
+	pc->pcCallbackThrough = through;
 
-    appMakeColumnFrameInColumn( &(pc->pcFrame),
-				    &(pc->pcVerticalColumn), parent, title );
+	appMakeColumnFrameInColumn(&(pc->pcFrame), &(pc->pcVerticalColumn),
+				   parent, title);
 
+	appMakeOptionmenuInColumn(&(pc->pcOptionmenu), pc->pcVerticalColumn,
+				  appPaperChooserSizeChosen, (void *)pc);
 
-    appMakeOptionmenuInColumn( &(pc->pcOptionmenu), pc->pcVerticalColumn,
-				    appPaperChooserSizeChosen, (void *)pc );
+	appMakeTextInColumn(&(pc->pcSizeText), pc->pcVerticalColumn, 0,
+			    textEnabled);
 
-    appMakeTextInColumn( &(pc->pcSizeText), pc->pcVerticalColumn,
-							    0, textEnabled );
+	appGuiSetGotValueCallbackForText(
+		pc->pcSizeText, appPaperChooserGotValueCallback, (void *)pc);
 
-    appGuiSetGotValueCallbackForText( pc->pcSizeText,
-				appPaperChooserGotValueCallback, (void *)pc );
+	appGuiSetTypingCallbackForText(
+		pc->pcSizeText, appPaperChooserTypingCallback, (void *)pc);
 
-    appGuiSetTypingCallbackForText( pc->pcSizeText,
-				appPaperChooserTypingCallback, (void *)pc );
-    
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -505,23 +493,25 @@ void appMakePaperChooserWidgets(	APP_WIDGET		parent,
 /*									*/
 /************************************************************************/
 
-void appPaperChooserAddOrientationToggles( PaperChooser *	pc,
-					const char *		portrait,
-					const char *		landscape )
-    {
-    const int	heightResizable= 0;
+void appPaperChooserAddOrientationToggles(PaperChooser *pc,
+					  const char *portrait,
+					  const char *landscape)
+{
+	const int heightResizable = 0;
 
-    pc->pcOrientationRow= appMakeRowInColumn( pc->pcVerticalColumn, 2,
-							    heightResizable );
+	pc->pcOrientationRow =
+		appMakeRowInColumn(pc->pcVerticalColumn, 2, heightResizable);
 
-    pc->pcPortraitRadio= appMakeToggleInRow( pc->pcOrientationRow,
-		portrait, appPaperChooserPortraitToggled, (void *)pc, 0, 1 );
+	pc->pcPortraitRadio = appMakeToggleInRow(pc->pcOrientationRow, portrait,
+						 appPaperChooserPortraitToggled,
+						 (void *)pc, 0, 1);
 
-    pc->pcLandscapeRadio= appMakeToggleInRow( pc->pcOrientationRow,
-		landscape, appPaperChooserLandscapeToggled, (void *)pc, 1, 1 );
+	pc->pcLandscapeRadio = appMakeToggleInRow(
+		pc->pcOrientationRow, landscape,
+		appPaperChooserLandscapeToggled, (void *)pc, 1, 1);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -529,63 +519,66 @@ void appPaperChooserAddOrientationToggles( PaperChooser *	pc,
 /*									*/
 /************************************************************************/
 
-void appPaperChooserFillMenu(	PaperChooser *		pc,
-				const char *		customLabel )
-    {
-    const char *	label;
-    int			i;
-    int			gotSome= 0;
+void appPaperChooserFillMenu(PaperChooser *pc, const char *customLabel)
+{
+	const char *label;
+	int i;
+	int gotSome = 0;
 
-    if  ( ! pc->pcSizeOptions )
-	{
-	i= 0;
-	while( ! utilPaperGetInfoByNumber( i, (int *)0, (int *)0, &label ) )
-	    { i++; }
+	if (!pc->pcSizeOptions) {
+		i = 0;
+		while (!utilPaperGetInfoByNumber(i, (int *)0, (int *)0,
+						 &label)) {
+			i++;
+		}
 
-	pc->pcCustomPaperSize= i++;
-	pc->pcSizeOptionCount= i;
+		pc->pcCustomPaperSize = i++;
+		pc->pcSizeOptionCount = i;
 
-	pc->pcSizeOptions= realloc( pc->pcSizeOptions,
-				pc->pcSizeOptionCount* sizeof(APP_WIDGET) );
-	if  ( ! pc->pcSizeOptions )
-	    { LXDEB(pc->pcSizeOptionCount,pc->pcSizeOptions); return;	}
+		pc->pcSizeOptions =
+			realloc(pc->pcSizeOptions,
+				pc->pcSizeOptionCount * sizeof(APP_WIDGET));
+		if (!pc->pcSizeOptions) {
+			LXDEB(pc->pcSizeOptionCount, pc->pcSizeOptions);
+			return;
+		}
 
-	for ( i= 0; i < pc->pcSizeOptionCount; i++ )
-	    { pc->pcSizeOptions[i]= (APP_WIDGET)0;	}
+		for (i = 0; i < pc->pcSizeOptionCount; i++) {
+			pc->pcSizeOptions[i] = (APP_WIDGET)0;
+		}
 	}
 
-    appEmptyOptionmenu( &(pc->pcOptionmenu) );
+	appEmptyOptionmenu(&(pc->pcOptionmenu));
 
-    i= 0;
-    while( ! utilPaperGetInfoByNumber( i, (int *)0, (int *)0, &label ) )
-	{
-	pc->pcSizeOptions[i]= appAddItemToOptionmenu(
-					    &(pc->pcOptionmenu), label );
+	i = 0;
+	while (!utilPaperGetInfoByNumber(i, (int *)0, (int *)0, &label)) {
+		pc->pcSizeOptions[i] =
+			appAddItemToOptionmenu(&(pc->pcOptionmenu), label);
 
-	if  ( i == 0 )
-	    { gotSome= 1;	}
+		if (i == 0) {
+			gotSome = 1;
+		}
 
-	i++;
+		i++;
 	}
 
-    pc->pcSizeOptions[i]= appAddItemToOptionmenu(
-					    &(pc->pcOptionmenu), customLabel );
-    if  ( i == 0 )
-	{ gotSome= 1;	}
-
-    if  ( gotSome )
-	{
-	appSetOptionmenu( &(pc->pcOptionmenu), 0 );
-	pc->pcSizeChosen= 0;
-	}
-    else{
-	appSetOptionmenu( &(pc->pcOptionmenu), -1 );
+	pc->pcSizeOptions[i] =
+		appAddItemToOptionmenu(&(pc->pcOptionmenu), customLabel);
+	if (i == 0) {
+		gotSome = 1;
 	}
 
-    appOptionmenuRefreshWidth( &(pc->pcOptionmenu) );
+	if (gotSome) {
+		appSetOptionmenu(&(pc->pcOptionmenu), 0);
+		pc->pcSizeChosen = 0;
+	} else {
+		appSetOptionmenu(&(pc->pcOptionmenu), -1);
+	}
 
-    return;
-    }
+	appOptionmenuRefreshWidth(&(pc->pcOptionmenu));
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -593,37 +586,38 @@ void appPaperChooserFillMenu(	PaperChooser *		pc,
 /*									*/
 /************************************************************************/
 
-void appCleanPaperChooser(	PaperChooser *	pc )
-    {
-    if  ( pc->pcSizeOptions )
-	{ free( pc->pcSizeOptions );	}
-    }
+void appCleanPaperChooser(PaperChooser *pc)
+{
+	if (pc->pcSizeOptions) {
+		free(pc->pcSizeOptions);
+	}
+}
 
-void appInitPaperChooser(	PaperChooser *	pc )
-    {
-    pc->pcFrame= (APP_WIDGET)0;
-    pc->pcVerticalColumn= (APP_WIDGET)0;
+void appInitPaperChooser(PaperChooser *pc)
+{
+	pc->pcFrame = (APP_WIDGET)0;
+	pc->pcVerticalColumn = (APP_WIDGET)0;
 
-    appInitOptionmenu( &(pc->pcOptionmenu) );
-    pc->pcSizeText= (APP_WIDGET)0;
+	appInitOptionmenu(&(pc->pcOptionmenu));
+	pc->pcSizeText = (APP_WIDGET)0;
 
-    pc->pcOrientationRow= (APP_WIDGET)0;
-    pc->pcPortraitRadio= (APP_WIDGET)0;
-    pc->pcLandscapeRadio= (APP_WIDGET)0;
+	pc->pcOrientationRow = (APP_WIDGET)0;
+	pc->pcPortraitRadio = (APP_WIDGET)0;
+	pc->pcLandscapeRadio = (APP_WIDGET)0;
 
-    pc->pcCustomPaperSize= -1;
-    pc->pcSizeChosen= -1;
-    pc->pcLandscapeChosen= -1;
+	pc->pcCustomPaperSize = -1;
+	pc->pcSizeChosen = -1;
+	pc->pcLandscapeChosen = -1;
 
-    utilInitDocumentGeometry( &(pc->pcGeometryChosen) );
+	utilInitDocumentGeometry(&(pc->pcGeometryChosen));
 
-    pc->pcSizeOptions= (APP_WIDGET *)0;
-    pc->pcSizeOptionCount= 0;
+	pc->pcSizeOptions = (APP_WIDGET *)0;
+	pc->pcSizeOptionCount = 0;
 
-    pc->pcCallback= (PaperChooserCallback)0;
-    pc->pcCallbackThrough= (void *)0;
+	pc->pcCallback = (PaperChooserCallback)0;
+	pc->pcCallbackThrough = (void *)0;
 
-    pc->pcProgrammatic= 0;
+	pc->pcProgrammatic = 0;
 
-    return;
-    }
+	return;
+}

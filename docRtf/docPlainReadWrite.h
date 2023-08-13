@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_PLAIN_RW_H
-#   define		DOC_PLAIN_RW_H
+#ifndef DOC_PLAIN_RW_H
+#define DOC_PLAIN_RW_H
 
-#   include	<docBuf.h>
-#   include	<sioGeneral.h>
+#include <docBuf.h>
+#include <sioGeneral.h>
 
 /************************************************************************/
 /*									*/
@@ -16,13 +16,10 @@
 /*									*/
 /************************************************************************/
 
-extern BufferDocument *	docPlainReadFile( SimpleInputStream *	sis,
-				    int *			pMxL,
-				    const DocumentGeometry *	dg );
+extern BufferDocument *docPlainReadFile(SimpleInputStream *sis, int *pMxL,
+					const DocumentGeometry *dg);
 
-extern int docPlainSaveDocument(SimpleOutputStream *		sos,
-				BufferDocument *		bd,
-				const DocumentSelection *	ds,
-				int				fold );
+extern int docPlainSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
+				const DocumentSelection *ds, int fold);
 
-#   endif	/*	DOC_PLAIN_RW_H	*/
+#endif /*	DOC_PLAIN_RW_H	*/

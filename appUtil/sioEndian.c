@@ -1,10 +1,10 @@
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<string.h>
+#include <string.h>
 
-#   include	"sioEndian.h"
-#   include	"utilEndian.h"
-#   include	<appDebugon.h>
+#include "sioEndian.h"
+#include "utilEndian.h"
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -12,165 +12,173 @@
 /*									*/
 /************************************************************************/
 
-int sioEndianPutBeInt32(	long			l,
-				SimpleOutputStream *	sos )
-    {
-    unsigned char	b0,b1,b2,b3;
+int sioEndianPutBeInt32(long l, SimpleOutputStream *sos)
+{
+	unsigned char b0, b1, b2, b3;
 
-    if  ( l < 0 )
-	{
-	NEGBYTES32(b3,b2,b1,b0,l)
-	}
-    else{
-	POSBYTES32(b3,b2,b1,b0,l)
+	if (l < 0) {
+		NEGBYTES32(b3, b2, b1, b0, l)
+	} else {
+		POSBYTES32(b3, b2, b1, b0, l)
 	}
 
-    if  ( sioOutPutByte( b0, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b1, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b2, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b3, sos ) < 0 )
-	{ return -1;	}
-
-    return 0;
-    }
-
-int sioEndianPutLeInt32(	long			l,
-				SimpleOutputStream *	sos )
-    {
-    unsigned char	b0,b1,b2,b3;
-
-    if  ( l < 0 )
-	{
-	NEGBYTES32(b3,b2,b1,b0,l)
+	if (sioOutPutByte(b0, sos) < 0) {
+		return -1;
 	}
-    else{
-	POSBYTES32(b3,b2,b1,b0,l)
+	if (sioOutPutByte(b1, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b2, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b3, sos) < 0) {
+		return -1;
 	}
 
-    if  ( sioOutPutByte( b3, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b2, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b1, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b0, sos ) < 0 )
-	{ return -1;	}
+	return 0;
+}
 
-    return 0;
-    }
+int sioEndianPutLeInt32(long l, SimpleOutputStream *sos)
+{
+	unsigned char b0, b1, b2, b3;
 
-int sioEndianPutBeInt16(	int			i,
-				SimpleOutputStream *	sos )
-    {
-    unsigned char	b0,b1;
-
-    if  ( i < 0 )
-	{
-	NEGBYTES16(b1,b0,i)
-	}
-    else{
-	POSBYTES16(b1,b0,i)
+	if (l < 0) {
+		NEGBYTES32(b3, b2, b1, b0, l)
+	} else {
+		POSBYTES32(b3, b2, b1, b0, l)
 	}
 
-    if  ( sioOutPutByte( b0, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b1, sos ) < 0 )
-	{ return -1;	}
-
-    return 0;
-    }
-
-int sioEndianPutLeInt16(	int			i,
-				SimpleOutputStream *	sos )
-    {
-    unsigned char	b0,b1;
-
-    if  ( i < 0 )
-	{
-	NEGBYTES16(b1,b0,i)
+	if (sioOutPutByte(b3, sos) < 0) {
+		return -1;
 	}
-    else{
-	POSBYTES16(b1,b0,i)
+	if (sioOutPutByte(b2, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b1, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b0, sos) < 0) {
+		return -1;
 	}
 
-    if  ( sioOutPutByte( b1, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b0, sos ) < 0 )
-	{ return -1;	}
+	return 0;
+}
 
-    return 0;
-    }
+int sioEndianPutBeInt16(int i, SimpleOutputStream *sos)
+{
+	unsigned char b0, b1;
 
-int sioEndianPutBeUint32(	unsigned long		ul,
-				SimpleOutputStream *	sos )
-    {
-    unsigned char	b0,b1,b2,b3;
+	if (i < 0) {
+		NEGBYTES16(b1, b0, i)
+	} else {
+		POSBYTES16(b1, b0, i)
+	}
 
-    POSBYTES32(b3,b2,b1,b0,ul)
+	if (sioOutPutByte(b0, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b1, sos) < 0) {
+		return -1;
+	}
 
-    if  ( sioOutPutByte( b0, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b1, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b2, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b3, sos ) < 0 )
-	{ return -1;	}
+	return 0;
+}
 
-    return 0;
-    }
+int sioEndianPutLeInt16(int i, SimpleOutputStream *sos)
+{
+	unsigned char b0, b1;
 
-int sioEndianPutLeUint32(	unsigned long		ul,
-				SimpleOutputStream *	sos )
-    {
-    unsigned char	b0,b1,b2,b3;
+	if (i < 0) {
+		NEGBYTES16(b1, b0, i)
+	} else {
+		POSBYTES16(b1, b0, i)
+	}
 
-    POSBYTES32(b3,b2,b1,b0,ul)
+	if (sioOutPutByte(b1, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b0, sos) < 0) {
+		return -1;
+	}
 
-    if  ( sioOutPutByte( b3, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b2, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b1, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b0, sos ) < 0 )
-	{ return -1;	}
+	return 0;
+}
 
-    return 0;
-    }
+int sioEndianPutBeUint32(unsigned long ul, SimpleOutputStream *sos)
+{
+	unsigned char b0, b1, b2, b3;
 
-int sioEndianPutBeUint16(	unsigned int		ui,
-				SimpleOutputStream *	sos )
-    {
-    unsigned char	b0,b1;
+	POSBYTES32(b3, b2, b1, b0, ul)
 
-    POSBYTES16(b1,b0,ui)
+	if (sioOutPutByte(b0, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b1, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b2, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b3, sos) < 0) {
+		return -1;
+	}
 
-    if  ( sioOutPutByte( b0, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b1, sos ) < 0 )
-	{ return -1;	}
+	return 0;
+}
 
-    return 0;
-    }
+int sioEndianPutLeUint32(unsigned long ul, SimpleOutputStream *sos)
+{
+	unsigned char b0, b1, b2, b3;
 
-int sioEndianPutLeUint16(	unsigned int		ui,
-				SimpleOutputStream *	sos )
-    {
-    unsigned char	b0,b1;
+	POSBYTES32(b3, b2, b1, b0, ul)
 
-    POSBYTES16(b1,b0,ui)
+	if (sioOutPutByte(b3, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b2, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b1, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b0, sos) < 0) {
+		return -1;
+	}
 
-    if  ( sioOutPutByte( b1, sos ) < 0 )
-	{ return -1;	}
-    if  ( sioOutPutByte( b0, sos ) < 0 )
-	{ return -1;	}
+	return 0;
+}
 
-    return 0;
-    }
+int sioEndianPutBeUint16(unsigned int ui, SimpleOutputStream *sos)
+{
+	unsigned char b0, b1;
+
+	POSBYTES16(b1, b0, ui)
+
+	if (sioOutPutByte(b0, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b1, sos) < 0) {
+		return -1;
+	}
+
+	return 0;
+}
+
+int sioEndianPutLeUint16(unsigned int ui, SimpleOutputStream *sos)
+{
+	unsigned char b0, b1;
+
+	POSBYTES16(b1, b0, ui)
+
+	if (sioOutPutByte(b1, sos) < 0) {
+		return -1;
+	}
+	if (sioOutPutByte(b0, sos) < 0) {
+		return -1;
+	}
+
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -178,249 +186,232 @@ int sioEndianPutLeUint16(	unsigned int		ui,
 /*									*/
 /************************************************************************/
 
-int sioEndianGetLeInt16(	SimpleInputStream *	sis )
-    {
-    int			i;
+int sioEndianGetLeInt16(SimpleInputStream *sis)
+{
+	int i;
 
-    unsigned char	b0,b1;
+	unsigned char b0, b1;
 
-    b1= sioInGetByte( sis );
-    b0= sioInGetByte( sis );
+	b1 = sioInGetByte(sis);
+	b0 = sioInGetByte(sis);
 
-    if  ( b0 > 127 )
-	{
-	NEGVALUE16(b0,b1,i,int)
-	}
-    else{
-	POSVALUE16(b0,b1,i,int)
+	if (b0 > 127) {
+		NEGVALUE16(b0, b1, i, int)
+	} else {
+		POSVALUE16(b0, b1, i, int)
 	}
 
-    return i;
-    }
+	return i;
+}
 
-int sioEndianGetBeInt16(	SimpleInputStream *	sis )
-    {
-    int			i;
+int sioEndianGetBeInt16(SimpleInputStream *sis)
+{
+	int i;
 
-    unsigned char	b0,b1;
+	unsigned char b0, b1;
 
-    b0= sioInGetByte( sis );
-    b1= sioInGetByte( sis );
+	b0 = sioInGetByte(sis);
+	b1 = sioInGetByte(sis);
 
-    if  ( b0 > 127 )
-	{
-	NEGVALUE16(b0,b1,i,int)
-	}
-    else{
-	POSVALUE16(b0,b1,i,int)
+	if (b0 > 127) {
+		NEGVALUE16(b0, b1, i, int)
+	} else {
+		POSVALUE16(b0, b1, i, int)
 	}
 
-    return i;
-    }
+	return i;
+}
 
-unsigned int sioEndianGetLeUint16(	SimpleInputStream *	sis )
-    {
-    unsigned int	i;
+unsigned int sioEndianGetLeUint16(SimpleInputStream *sis)
+{
+	unsigned int i;
 
-    unsigned char	b0,b1;
+	unsigned char b0, b1;
 
-    b1= sioInGetByte( sis );
-    b0= sioInGetByte( sis );
+	b1 = sioInGetByte(sis);
+	b0 = sioInGetByte(sis);
 
-    POSVALUE16(b0,b1,i,unsigned int)
+	POSVALUE16(b0, b1, i, unsigned int)
 
-    return i;
-    }
+	return i;
+}
 
-unsigned int sioEndianGetBeUint16(	SimpleInputStream *	sis )
-    {
-    unsigned int	i;
+unsigned int sioEndianGetBeUint16(SimpleInputStream *sis)
+{
+	unsigned int i;
 
-    unsigned char	b0,b1;
+	unsigned char b0, b1;
 
-    b0= sioInGetByte( sis );
-    b1= sioInGetByte( sis );
+	b0 = sioInGetByte(sis);
+	b1 = sioInGetByte(sis);
 
-    POSVALUE16(b0,b1,i,unsigned int)
+	POSVALUE16(b0, b1, i, unsigned int)
 
-    return i;
-    }
+	return i;
+}
 
-long sioEndianGetLeInt32(	SimpleInputStream *	sis )
-    {
-    long		l;
+long sioEndianGetLeInt32(SimpleInputStream *sis)
+{
+	long l;
 
-    unsigned char	b0,b1,b2,b3;
+	unsigned char b0, b1, b2, b3;
 
-    b3= sioInGetByte( sis );
-    b2= sioInGetByte( sis );
-    b1= sioInGetByte( sis );
-    b0= sioInGetByte( sis );
+	b3 = sioInGetByte(sis);
+	b2 = sioInGetByte(sis);
+	b1 = sioInGetByte(sis);
+	b0 = sioInGetByte(sis);
 
-    if  ( b0 > 127 )
-	{
-	NEGVALUE32(b0,b1,b2,b3,l,long)
-	}
-    else{
-	POSVALUE32(b0,b1,b2,b3,l,long)
+	if (b0 > 127) {
+		NEGVALUE32(b0, b1, b2, b3, l, long)
+	} else {
+		POSVALUE32(b0, b1, b2, b3, l, long)
 	}
 
-    return l;
-    }
+	return l;
+}
 
-long sioEndianGetBeInt32(	SimpleInputStream *	sis )
-    {
-    long		l;
+long sioEndianGetBeInt32(SimpleInputStream *sis)
+{
+	long l;
 
-    unsigned char	b0,b1,b2,b3;
+	unsigned char b0, b1, b2, b3;
 
-    b0= sioInGetByte( sis );
-    b1= sioInGetByte( sis );
-    b2= sioInGetByte( sis );
-    b3= sioInGetByte( sis );
+	b0 = sioInGetByte(sis);
+	b1 = sioInGetByte(sis);
+	b2 = sioInGetByte(sis);
+	b3 = sioInGetByte(sis);
 
-    if  ( b0 > 127 )
-	{
-	NEGVALUE32(b0,b1,b2,b3,l,long)
-	}
-    else{
-	POSVALUE32(b0,b1,b2,b3,l,long)
+	if (b0 > 127) {
+		NEGVALUE32(b0, b1, b2, b3, l, long)
+	} else {
+		POSVALUE32(b0, b1, b2, b3, l, long)
 	}
 
-    return l;
-    }
+	return l;
+}
 
-unsigned long sioEndianGetLeUint32(	SimpleInputStream *	sis )
-    {
-    unsigned long		l;
+unsigned long sioEndianGetLeUint32(SimpleInputStream *sis)
+{
+	unsigned long l;
 
-    unsigned char	b0,b1,b2,b3;
+	unsigned char b0, b1, b2, b3;
 
-    b3= sioInGetByte( sis );
-    b2= sioInGetByte( sis );
-    b1= sioInGetByte( sis );
-    b0= sioInGetByte( sis );
+	b3 = sioInGetByte(sis);
+	b2 = sioInGetByte(sis);
+	b1 = sioInGetByte(sis);
+	b0 = sioInGetByte(sis);
 
-    POSVALUE32(b0,b1,b2,b3,l,unsigned long)
+	POSVALUE32(b0, b1, b2, b3, l, unsigned long)
 
-    return l;
-    }
+	return l;
+}
 
-unsigned long sioEndianGetBeUint32(	SimpleInputStream *	sis )
-    {
-    unsigned long		l;
+unsigned long sioEndianGetBeUint32(SimpleInputStream *sis)
+{
+	unsigned long l;
 
-    unsigned char	b0,b1,b2,b3;
+	unsigned char b0, b1, b2, b3;
 
-    b0= sioInGetByte( sis );
-    b1= sioInGetByte( sis );
-    b2= sioInGetByte( sis );
-    b3= sioInGetByte( sis );
+	b0 = sioInGetByte(sis);
+	b1 = sioInGetByte(sis);
+	b2 = sioInGetByte(sis);
+	b3 = sioInGetByte(sis);
 
-    POSVALUE32(b0,b1,b2,b3,l,unsigned long)
+	POSVALUE32(b0, b1, b2, b3, l, unsigned long)
 
-    return l;
-    }
+	return l;
+}
 
-int sioEndianPutLeFloat(	float			f,
-				SimpleOutputStream *	sos )
-    {
-    /* fishy */
-    if  ( sizeof(float) == sizeof(unsigned long) )
-	{
-	unsigned long	ul;
-	memcpy( (void *)&ul, (void *)&f, sizeof(float) );
-	return sioEndianPutLeUint32( ul, sos );
+int sioEndianPutLeFloat(float f, SimpleOutputStream *sos)
+{
+	/* fishy */
+	if (sizeof(float) == sizeof(unsigned long)) {
+		unsigned long ul;
+		memcpy((void *)&ul, (void *)&f, sizeof(float));
+		return sioEndianPutLeUint32(ul, sos);
 	}
 
-    /* fishy */
-    if  ( sizeof(float) == sizeof(unsigned int) )
-	{
-	unsigned int	ui;
-	memcpy( (void *)&ui, (void *)&f, sizeof(float) );
-	return sioEndianPutLeUint32( ui, sos );
+	/* fishy */
+	if (sizeof(float) == sizeof(unsigned int)) {
+		unsigned int ui;
+		memcpy((void *)&ui, (void *)&f, sizeof(float));
+		return sioEndianPutLeUint32(ui, sos);
 	}
 
-    LLLDEB(sizeof(float),sizeof(unsigned long),sizeof(unsigned int));
-    return -1;
-    }
+	LLLDEB(sizeof(float), sizeof(unsigned long), sizeof(unsigned int));
+	return -1;
+}
 
-int sioEndianPutBeFloat(	float			f,
-				SimpleOutputStream *	sos )
-    {
-    /* fishy */
-    if  ( sizeof(float) == sizeof(unsigned long) )
-	{
-	unsigned long	ul;
-	memcpy( (void *)&ul, (void *)&f, sizeof(float) );
-	return sioEndianPutBeUint32( ul, sos );
+int sioEndianPutBeFloat(float f, SimpleOutputStream *sos)
+{
+	/* fishy */
+	if (sizeof(float) == sizeof(unsigned long)) {
+		unsigned long ul;
+		memcpy((void *)&ul, (void *)&f, sizeof(float));
+		return sioEndianPutBeUint32(ul, sos);
 	}
 
-    /* fishy */
-    if  ( sizeof(float) == sizeof(unsigned int) )
-	{
-	unsigned int	ui;
-	memcpy( (void *)&ui, (void *)&f, sizeof(float) );
-	return sioEndianPutBeUint32( ui, sos );
+	/* fishy */
+	if (sizeof(float) == sizeof(unsigned int)) {
+		unsigned int ui;
+		memcpy((void *)&ui, (void *)&f, sizeof(float));
+		return sioEndianPutBeUint32(ui, sos);
 	}
 
-    LLLDEB(sizeof(float),sizeof(unsigned long),sizeof(unsigned int));
-    return -1;
-    }
+	LLLDEB(sizeof(float), sizeof(unsigned long), sizeof(unsigned int));
+	return -1;
+}
 
-float sioEndianGetLeFloat(	SimpleInputStream *	sis )
-    {
-    unsigned long	ul;
-    float		f;
+float sioEndianGetLeFloat(SimpleInputStream *sis)
+{
+	unsigned long ul;
+	float f;
 
-    ul= sioEndianGetLeUint32( sis );
+	ul = sioEndianGetLeUint32(sis);
 
-    /* fishy */
-    if  ( sizeof(float) ==  sizeof(unsigned long) )
-	{
-	memcpy( (void *)&f, (void *)&ul, sizeof(float) );
-	return f;
+	/* fishy */
+	if (sizeof(float) == sizeof(unsigned long)) {
+		memcpy((void *)&f, (void *)&ul, sizeof(float));
+		return f;
 	}
 
-    /* fishy */
-    if  ( sizeof(float) ==  sizeof(unsigned int) )
-	{
-	unsigned int ui= ul;
+	/* fishy */
+	if (sizeof(float) == sizeof(unsigned int)) {
+		unsigned int ui = ul;
 
-	memcpy( (void *)&f, (void *)&ui, sizeof(float) );
-	return f;
+		memcpy((void *)&f, (void *)&ui, sizeof(float));
+		return f;
 	}
 
-    LLLDEB(sizeof(float),sizeof(unsigned long),sizeof(unsigned int));
-    return 0;
-    }
+	LLLDEB(sizeof(float), sizeof(unsigned long), sizeof(unsigned int));
+	return 0;
+}
 
-float sioEndianGetBeFloat(	SimpleInputStream *	sis )
-    {
-    unsigned long	ul;
-    float		f;
+float sioEndianGetBeFloat(SimpleInputStream *sis)
+{
+	unsigned long ul;
+	float f;
 
-    if  ( sizeof(float) != sizeof(unsigned long) )
-	{ LLDEB(sizeof(float),sizeof(unsigned long));	}
-
-    ul= sioEndianGetBeUint32( sis );
-
-    /* fishy */
-    if  ( sizeof(float) ==  sizeof(unsigned long) )
-	{
-	memcpy( (void *)&f, (void *)&ul, sizeof(float) );
-	return f;
+	if (sizeof(float) != sizeof(unsigned long)) {
+		LLDEB(sizeof(float), sizeof(unsigned long));
 	}
 
-    /* fishy */
-    if  ( sizeof(float) ==  sizeof(unsigned int) )
-	{
-	unsigned int ui= ul;
+	ul = sioEndianGetBeUint32(sis);
 
-	memcpy( (void *)&f, (void *)&ui, sizeof(float) );
-	return f;
+	/* fishy */
+	if (sizeof(float) == sizeof(unsigned long)) {
+		memcpy((void *)&f, (void *)&ul, sizeof(float));
+		return f;
 	}
 
-    LLLDEB(sizeof(float),sizeof(unsigned long),sizeof(unsigned int));
-    return 0;
-    }
+	/* fishy */
+	if (sizeof(float) == sizeof(unsigned int)) {
+		unsigned int ui = ul;
+
+		memcpy((void *)&f, (void *)&ui, sizeof(float));
+		return f;
+	}
+
+	LLLDEB(sizeof(float), sizeof(unsigned long), sizeof(unsigned int));
+	return 0;
+}

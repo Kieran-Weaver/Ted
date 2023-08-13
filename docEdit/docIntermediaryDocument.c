@@ -4,14 +4,14 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docEditConfig.h"
+#include "docEditConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	<docBuf.h>
-#   include	<docNodeTree.h>
-#   include	"docIntermediaryDocument.h"
-#   include	<docPropertiesAdmin.h>
+#include <docBuf.h>
+#include <docNodeTree.h>
+#include "docIntermediaryDocument.h"
+#include <docPropertiesAdmin.h>
 
 /************************************************************************/
 /*									*/
@@ -24,47 +24,58 @@
 /*									*/
 /************************************************************************/
 
-BufferDocument * docIntermediaryDocument(
-				struct BufferItem **		pSectNode,
-				const BufferDocument *		bdRef )
-    {
-    BufferDocument *	rval= (BufferDocument *)0;
-    BufferDocument *	bdTo= (BufferDocument *)0;
-    struct BufferItem *	sectNode;
+BufferDocument *docIntermediaryDocument(struct BufferItem **pSectNode,
+					const BufferDocument *bdRef)
+{
+	BufferDocument *rval = (BufferDocument *)0;
+	BufferDocument *bdTo = (BufferDocument *)0;
+	struct BufferItem *sectNode;
 
-    const DocumentAttributeMap * const dam0= (const DocumentAttributeMap *)0;
+	const DocumentAttributeMap *const dam0 =
+		(const DocumentAttributeMap *)0;
 
-    bdTo= docNewDocument( bdRef );
-    if  ( ! bdTo )
-	{ XDEB(bdTo); goto ready;	}
+	bdTo = docNewDocument(bdRef);
+	if (!bdTo) {
+		XDEB(bdTo);
+		goto ready;
+	}
 
-    if  ( docCopyDocumentProperties( &(bdTo->bdProperties),
-					    &(bdRef->bdProperties) ) )
-	{ LDEB(1); goto ready;	}
+	if (docCopyDocumentProperties(&(bdTo->bdProperties),
+				      &(bdRef->bdProperties))) {
+		LDEB(1);
+		goto ready;
+	}
 
-    if  ( docCopyStyleSheet( &(bdTo->bdStyleSheet),
-					    &(bdRef->bdStyleSheet), dam0 ) )
-	{ LDEB(1); goto ready;	}
+	if (docCopyStyleSheet(&(bdTo->bdStyleSheet), &(bdRef->bdStyleSheet),
+			      dam0)) {
+		LDEB(1);
+		goto ready;
+	}
 
-    sectNode= docInsertNode( bdTo, bdTo->bdBody.dtRoot, -1, DOClevSECT );
-    if  ( ! sectNode )
-	{ XDEB(sectNode); goto ready;	}
+	sectNode = docInsertNode(bdTo, bdTo->bdBody.dtRoot, -1, DOClevSECT);
+	if (!sectNode) {
+		XDEB(sectNode);
+		goto ready;
+	}
 
-    rval= bdTo; bdTo= (BufferDocument *)0; /* steal */
-    if  ( pSectNode )
-	{ *pSectNode= sectNode;	}
+	rval = bdTo;
+	bdTo = (BufferDocument *)0; /* steal */
+	if (pSectNode) {
+		*pSectNode = sectNode;
+	}
 
-  ready:
+ready:
 
-    if  ( bdTo )
-	{ docFreeIntermediaryDocument( bdTo );	}
+	if (bdTo) {
+		docFreeIntermediaryDocument(bdTo);
+	}
 
-    return rval;
-    }
+	return rval;
+}
 
-void docFreeIntermediaryDocument(	BufferDocument *		bd )
-    {
-    bd->bdPropertyLists= (DocumentPropertyLists *)0;
+void docFreeIntermediaryDocument(BufferDocument *bd)
+{
+	bd->bdPropertyLists = (DocumentPropertyLists *)0;
 
-    docFreeDocument( bd );
-    }
+	docFreeDocument(bd);
+}

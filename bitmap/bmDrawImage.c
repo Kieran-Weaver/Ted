@@ -1,8 +1,8 @@
-#   include	"bitmapConfig.h"
+#include "bitmapConfig.h"
 
-#   include	"bmintern.h"
+#include "bmintern.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -10,53 +10,56 @@
 /*									*/
 /************************************************************************/
 
-# define PARANOIA 0
+#define PARANOIA 0
 
-# if	PARANOIA
+#if PARANOIA
 
-static const BitmapDescription * bdInPara;
-static const BitmapDescription * bdToPara;
+static const BitmapDescription *bdInPara;
+static const BitmapDescription *bdToPara;
 
-static unsigned char * bufToSav;
-static const unsigned char * bufInSav;
+static unsigned char *bufToSav;
+static const unsigned char *bufInSav;
 
 static unsigned char oo[2000];
 static unsigned char se[2000];
 static unsigned char no[2000];
 
-# define CHECK_RESULT() \
-    \
-    bmInflateTo8bit( no, bufToSav, bdToPara, 0, 0 ); \
-    ocol= colTo0; \
-    for ( col= colIn0; col < colInP; ocol++, col++ ) \
-	{ \
-	if  ( no[ocol] != ( oo[ocol] | se[col] ) ) \
-	    { LLLDEB(no[ocol],oo[ocol],se[col]);LLDEB(ocol,col);abort();} \
-	} \
-    for ( ocol= 0; ocol < colTo0; ocol++ ) \
-	{ \
-	if  ( no[ocol] != oo[ocol] ) \
-	    { LLLDEB(ocol,no[ocol],oo[ocol]);abort();} \
-	} \
-    for ( ocol= colTo0+ colInP- colIn0; \
-				    ocol < bdToPara->bdPixelsWide; ocol++ ) \
-	{ \
-	if  ( no[ocol] != oo[ocol] ) \
-	    { LLLDEB(ocol,no[ocol],oo[ocol]);abort();} \
+#define CHECK_RESULT()                                                       \
+                                                                             \
+	bmInflateTo8bit(no, bufToSav, bdToPara, 0, 0);                       \
+	ocol = colTo0;                                                       \
+	for (col = colIn0; col < colInP; ocol++, col++) {                    \
+		if (no[ocol] != (oo[ocol] | se[col])) {                      \
+			LLLDEB(no[ocol], oo[ocol], se[col]);                 \
+			LLDEB(ocol, col);                                    \
+			abort();                                             \
+		}                                                            \
+	}                                                                    \
+	for (ocol = 0; ocol < colTo0; ocol++) {                              \
+		if (no[ocol] != oo[ocol]) {                                  \
+			LLLDEB(ocol, no[ocol], oo[ocol]);                    \
+			abort();                                             \
+		}                                                            \
+	}                                                                    \
+	for (ocol = colTo0 + colInP - colIn0; ocol < bdToPara->bdPixelsWide; \
+	     ocol++) {                                                       \
+		if (no[ocol] != oo[ocol]) {                                  \
+			LLLDEB(ocol, no[ocol], oo[ocol]);                    \
+			abort();                                             \
+		}                                                            \
 	}
 
-# define INIT_CHECK() \
-    \
-    int			ocol; \
-\
-    bufToSav= bufTo; \
-    bufInSav= bufIn; \
-\
-    bmInflateTo8bit( oo, bufToSav, bdToPara, 0, 0 ); \
-    bmInflateTo8bit( se, bufInSav, bdInPara, 0, 0 );
+#define INIT_CHECK()                                   \
+                                                       \
+	int ocol;                                      \
+                                                       \
+	bufToSav = bufTo;                              \
+	bufInSav = bufIn;                              \
+                                                       \
+	bmInflateTo8bit(oo, bufToSav, bdToPara, 0, 0); \
+	bmInflateTo8bit(se, bufInSav, bdInPara, 0, 0);
 
-# endif
-
+#endif
 
 /************************************************************************/
 /*									*/
@@ -84,15 +87,10 @@ static unsigned char no[2000];
 /*									*/
 /************************************************************************/
 
-typedef void (*OR_ROW)	(	unsigned char *		bufTo,
-				const unsigned char *	bufIn,
-				const int		colTo0,
-				const int		colIn0,
-				const int		colInP,
-				int			shift0,
-				int			shift1,
-				unsigned char		invertMaskIn,
-				unsigned char		endMask );
+typedef void (*OR_ROW)(unsigned char *bufTo, const unsigned char *bufIn,
+		       const int colTo0, const int colIn0, const int colInP,
+		       int shift0, int shift1, unsigned char invertMaskIn,
+		       unsigned char endMask);
 
 /********************************/
 /*				*/
@@ -100,67 +98,62 @@ typedef void (*OR_ROW)	(	unsigned char *		bufTo,
 /*				*/
 /********************************/
 
-static void bmDrawOrRowRight(	unsigned char *		bufTo,
-				const unsigned char *	bufIn,
-				const int		colTo0,
-				const int		colIn0,
-				const int		colInP,
-				int			shift0,
-				int			shift1,
-				unsigned char		invertMaskIn,
-				unsigned char		endMask )
-    {
-    int			col;
-    unsigned char	mask;
-    unsigned char	val;
+static void bmDrawOrRowRight(unsigned char *bufTo, const unsigned char *bufIn,
+			     const int colTo0, const int colIn0,
+			     const int colInP, int shift0, int shift1,
+			     unsigned char invertMaskIn, unsigned char endMask)
+{
+	int col;
+	unsigned char mask;
+	unsigned char val;
 
-#   if PARANOIA
-    INIT_CHECK();
-#   endif
+#if PARANOIA
+	INIT_CHECK();
+#endif
 
-    bufTo += colTo0/8;
-    bufIn += colIn0/8;
+	bufTo += colTo0 / 8;
+	bufIn += colIn0 / 8;
 
-    col= 8* ( colIn0/ 8 );
-    mask= 0xff;
+	col = 8 * (colIn0 / 8);
+	mask = 0xff;
 
-    if  ( col+ 8 > colInP )
-	{ mask &= endMask; }
-
-    /*  a  */
-    val= bufIn[0] ^ invertMaskIn;
-    bufTo[0] |= ( val & mask ) << shift0;
-    bufIn++, col += 8;
-
-    /*  b  */
-    for (; col+ 8 < colInP; bufIn++, col += 8 )
-	{
-	val= bufIn[0] ^ invertMaskIn;
-
-	bufTo[0] |= ( val        ) >> shift1;
-	bufTo++;
-	bufTo[0] |= ( val        ) << shift0;
+	if (col + 8 > colInP) {
+		mask &= endMask;
 	}
 
-    /*  c  */
-    if  ( col < colInP )
-	{
-	val= bufIn[0] ^ invertMaskIn;
+	/*  a  */
+	val = bufIn[0] ^ invertMaskIn;
+	bufTo[0] |= (val & mask) << shift0;
+	bufIn++, col += 8;
 
-	if  ( col+ 8 > colInP )
-	    { mask &= endMask; }
+	/*  b  */
+	for (; col + 8 < colInP; bufIn++, col += 8) {
+		val = bufIn[0] ^ invertMaskIn;
 
-	bufTo[0] |= ( val & mask ) >> shift1;
-	bufTo++;
-	bufTo[0] |= ( val & mask ) << shift0;
+		bufTo[0] |= (val) >> shift1;
+		bufTo++;
+		bufTo[0] |= (val) << shift0;
 	}
 
-#   if PARANOIA
-    CHECK_RESULT();
-#   endif
+	/*  c  */
+	if (col < colInP) {
+		val = bufIn[0] ^ invertMaskIn;
 
-    return;
-    }
+		if (col + 8 > colInP) {
+			mask &= endMask;
+		}
+
+		bufTo[0] |= (val & mask) >> shift1;
+		bufTo++;
+		bufTo[0] |= (val & mask) << shift0;
+	}
+
+#if PARANOIA
+	CHECK_RESULT();
+#endif
+
+	return;
+}
 
 /********************************/
 /*				*/
@@ -168,70 +161,65 @@ static void bmDrawOrRowRight(	unsigned char *		bufTo,
 /*				*/
 /********************************/
 
-static void bmDrawOrRowLeft(	unsigned char *		bufTo,
-				const unsigned char *	bufIn,
-				const int		colTo0,
-				const int		colIn0,
-				const int		colInP,
-				int			shift0,
-				int			shift1,
-				unsigned char		invertMaskIn,
-				unsigned char		endMask )
-    {
-    int			col;
-    unsigned char	mask;
-    unsigned char	val;
+static void bmDrawOrRowLeft(unsigned char *bufTo, const unsigned char *bufIn,
+			    const int colTo0, const int colIn0,
+			    const int colInP, int shift0, int shift1,
+			    unsigned char invertMaskIn, unsigned char endMask)
+{
+	int col;
+	unsigned char mask;
+	unsigned char val;
 
-#   if PARANOIA
-    INIT_CHECK();
-#   endif
+#if PARANOIA
+	INIT_CHECK();
+#endif
 
-    bufTo += colTo0/8;
-    bufIn += colIn0/8;
+	bufTo += colTo0 / 8;
+	bufIn += colIn0 / 8;
 
-    col= 8* ( colIn0/ 8 );
-    mask= 0xff;
+	col = 8 * (colIn0 / 8);
+	mask = 0xff;
 
-    if  ( col+ 8 > colInP )
-	{ mask &= endMask; }
-
-    /*  A  */
-    val= bufIn[0] ^ invertMaskIn;
-
-    bufTo[0] |= ( val & mask ) >> shift0;
-    bufTo++;
-    bufTo[0] |= ( val & mask ) << shift1;
-    bufIn++, col += 8;
-
-    /*  B  */
-    for (; col+ 8 < colInP; bufIn++, col += 8 )
-	{
-	val= bufIn[0] ^ invertMaskIn;
-
-	bufTo[0] |= ( val        ) >> shift0;
-	bufTo++;
-	bufTo[0] |= ( val        ) << shift1;
+	if (col + 8 > colInP) {
+		mask &= endMask;
 	}
 
-    /*  C  */
-    if  ( col < colInP )
-	{
-	val= bufIn[0] ^ invertMaskIn;
+	/*  A  */
+	val = bufIn[0] ^ invertMaskIn;
 
-	if  ( col+ 8 > colInP )
-	    { mask &= endMask; }
-
-	bufTo[0] |= ( val & mask ) >> shift0;
+	bufTo[0] |= (val & mask) >> shift0;
 	bufTo++;
-	bufTo[0] |= ( val & mask ) << shift1;
+	bufTo[0] |= (val & mask) << shift1;
+	bufIn++, col += 8;
+
+	/*  B  */
+	for (; col + 8 < colInP; bufIn++, col += 8) {
+		val = bufIn[0] ^ invertMaskIn;
+
+		bufTo[0] |= (val) >> shift0;
+		bufTo++;
+		bufTo[0] |= (val) << shift1;
 	}
 
-#   if PARANOIA
-    CHECK_RESULT();
-#   endif
+	/*  C  */
+	if (col < colInP) {
+		val = bufIn[0] ^ invertMaskIn;
 
-    return;
-    }
+		if (col + 8 > colInP) {
+			mask &= endMask;
+		}
+
+		bufTo[0] |= (val & mask) >> shift0;
+		bufTo++;
+		bufTo[0] |= (val & mask) << shift1;
+	}
+
+#if PARANOIA
+	CHECK_RESULT();
+#endif
+
+	return;
+}
 
 /********************************/
 /*				*/
@@ -239,66 +227,61 @@ static void bmDrawOrRowLeft(	unsigned char *		bufTo,
 /*				*/
 /********************************/
 
-static void bmDrawOrRowEq(	unsigned char *		bufTo,
-				const unsigned char *	bufIn,
-				const int		colTo0,
-				const int		colIn0,
-				const int		colInP,
-				int			ign_shift0,
-				int			ign_shift1,
-				unsigned char		invertMaskIn,
-				unsigned char		endMask )
-    {
-    int			col;
-    unsigned char	mask;
-    unsigned char	val;
+static void bmDrawOrRowEq(unsigned char *bufTo, const unsigned char *bufIn,
+			  const int colTo0, const int colIn0, const int colInP,
+			  int ign_shift0, int ign_shift1,
+			  unsigned char invertMaskIn, unsigned char endMask)
+{
+	int col;
+	unsigned char mask;
+	unsigned char val;
 
-#   if PARANOIA
-    INIT_CHECK();
-#   endif
+#if PARANOIA
+	INIT_CHECK();
+#endif
 
-    bufTo += colTo0/8;
-    bufIn += colIn0/8;
+	bufTo += colTo0 / 8;
+	bufIn += colIn0 / 8;
 
-    col= 8* ( colIn0/ 8 );
-    mask= 0xff;
+	col = 8 * (colIn0 / 8);
+	mask = 0xff;
 
-    if  ( col+ 8 > colInP )
-	{ mask &= endMask; }
+	if (col + 8 > colInP) {
+		mask &= endMask;
+	}
 
-    /*  A  */
-    val= bufIn[0] ^ invertMaskIn;
+	/*  A  */
+	val = bufIn[0] ^ invertMaskIn;
 
-    bufTo[0] |= ( val & mask );
-    bufTo++;
-    bufIn++, col += 8;
-
-    /*  B  */
-    for (; col+ 8 < colInP; bufIn++, col += 8 )
-	{
-	val= bufIn[0] ^ invertMaskIn;
-
-	bufTo[0] |= ( val        );
+	bufTo[0] |= (val & mask);
 	bufTo++;
+	bufIn++, col += 8;
+
+	/*  B  */
+	for (; col + 8 < colInP; bufIn++, col += 8) {
+		val = bufIn[0] ^ invertMaskIn;
+
+		bufTo[0] |= (val);
+		bufTo++;
 	}
 
-    /*  C  */
-    if  ( col < colInP )
-	{
-	val= bufIn[0] ^ invertMaskIn;
+	/*  C  */
+	if (col < colInP) {
+		val = bufIn[0] ^ invertMaskIn;
 
-	if  ( col+ 8 > colInP )
-	    { mask &= endMask; }
+		if (col + 8 > colInP) {
+			mask &= endMask;
+		}
 
-	bufTo[0] |= ( val & mask );
+		bufTo[0] |= (val & mask);
 	}
 
-#   if PARANOIA
-    CHECK_RESULT();
-#   endif
+#if PARANOIA
+	CHECK_RESULT();
+#endif
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -312,101 +295,93 @@ static void bmDrawOrRowEq(	unsigned char *		bufTo,
 /*									*/
 /************************************************************************/
 
-void bmDraw1BitImage(		const BitmapDescription *	bdTo,
-				unsigned char *			bufTo,
-				const RasterImage *		riIn,
-				unsigned char			invertMaskIn,
-				int				rowTo0,
-				int				colTo0 )
-    {
-    const BitmapDescription *	bdIn= &(riIn->riDescription);
+void bmDraw1BitImage(const BitmapDescription *bdTo, unsigned char *bufTo,
+		     const RasterImage *riIn, unsigned char invertMaskIn,
+		     int rowTo0, int colTo0)
+{
+	const BitmapDescription *bdIn = &(riIn->riDescription);
 
-    int			rowToP, colToP;
-    int			rowIn0, colIn0;
-    int			rowInP, colInP;
+	int rowToP, colToP;
+	int rowIn0, colIn0;
+	int rowInP, colInP;
 
-    int			rowTo;
-    int			rowIn;
+	int rowTo;
+	int rowIn;
 
-    int			shift0;
-    int			shift1;
+	int shift0;
+	int shift1;
 
-    unsigned char	endMask;
+	unsigned char endMask;
 
-    OR_ROW		orRow= (OR_ROW)0;
+	OR_ROW orRow = (OR_ROW)0;
 
-    /*  1  */
-    rowToP= rowTo0+ bdIn->bdPixelsHigh;
-    colToP= colTo0+ bdIn->bdPixelsWide;
+	/*  1  */
+	rowToP = rowTo0 + bdIn->bdPixelsHigh;
+	colToP = colTo0 + bdIn->bdPixelsWide;
 
-    rowIn0= 0;
-    rowInP= bdIn->bdPixelsHigh;
-    colIn0= 0;
-    colInP= bdIn->bdPixelsWide;
+	rowIn0 = 0;
+	rowInP = bdIn->bdPixelsHigh;
+	colIn0 = 0;
+	colInP = bdIn->bdPixelsWide;
 
-    if  ( rowTo0 < 0 )
-	{
-	rowIn0 -= rowTo0;
-	rowTo0=  0;
+	if (rowTo0 < 0) {
+		rowIn0 -= rowTo0;
+		rowTo0 = 0;
 	}
-    if  ( rowToP > bdTo->bdPixelsHigh )
-	{
-	rowInP -= rowToP- bdTo->bdPixelsHigh;
-	rowToP= bdTo->bdPixelsHigh;
+	if (rowToP > bdTo->bdPixelsHigh) {
+		rowInP -= rowToP - bdTo->bdPixelsHigh;
+		rowToP = bdTo->bdPixelsHigh;
 	}
 
-    if  ( colTo0 < 0 )
-	{
-	colIn0 -= colTo0;
-	colTo0=  0;
+	if (colTo0 < 0) {
+		colIn0 -= colTo0;
+		colTo0 = 0;
 	}
-    if  ( colToP > bdTo->bdPixelsWide )
-	{
-	colInP -= colToP- bdTo->bdPixelsWide;
-	colToP= bdTo->bdPixelsWide;
+	if (colToP > bdTo->bdPixelsWide) {
+		colInP -= colToP - bdTo->bdPixelsWide;
+		colToP = bdTo->bdPixelsWide;
 	}
 
-    /*  2  */
-    endMask= 0xff;
-    if  ( colInP % 8 )
-	{ endMask= 0xff << ( 8- colInP % 8 );	}
-
-    /*  3  */
-    if  ( colIn0 % 8 > colTo0 % 8 )
-	{
-	shift0= colIn0 % 8- colTo0 % 8;
-	shift1= 8- shift0;
-
-	orRow= bmDrawOrRowRight;
-	}
-    else{
-	shift0= colTo0 % 8- colIn0 % 8;
-	shift1= 8- shift0;
-
-	if  ( colIn0 % 8 < colTo0 % 8 )
-	    { orRow= bmDrawOrRowLeft;	}
-	else{ orRow= bmDrawOrRowEq;	}
+	/*  2  */
+	endMask = 0xff;
+	if (colInP % 8) {
+		endMask = 0xff << (8 - colInP % 8);
 	}
 
-    /*
+	/*  3  */
+	if (colIn0 % 8 > colTo0 % 8) {
+		shift0 = colIn0 % 8 - colTo0 % 8;
+		shift1 = 8 - shift0;
+
+		orRow = bmDrawOrRowRight;
+	} else {
+		shift0 = colTo0 % 8 - colIn0 % 8;
+		shift1 = 8 - shift0;
+
+		if (colIn0 % 8 < colTo0 % 8) {
+			orRow = bmDrawOrRowLeft;
+		} else {
+			orRow = bmDrawOrRowEq;
+		}
+	}
+
+	/*
     LLLLDEB(rowTo0,rowToP,colTo0,colToP);
     LLLLDEB(rowIn0,rowInP,colIn0,colInP);
     */
 
-    /*  4  */
-    rowIn= rowIn0;
-    for ( rowTo= rowTo0; rowTo < rowToP; rowIn++, rowTo++ )
-	{
-	unsigned char *		rowBufTo;
-	const unsigned char *	rowBufIn;
+	/*  4  */
+	rowIn = rowIn0;
+	for (rowTo = rowTo0; rowTo < rowToP; rowIn++, rowTo++) {
+		unsigned char *rowBufTo;
+		const unsigned char *rowBufIn;
 
-	rowBufTo= bufTo+ rowTo* bdTo->bdBytesPerRow;
-	rowBufIn= riIn->riBytes+ rowIn* bdIn->bdBytesPerRow;
+		rowBufTo = bufTo + rowTo * bdTo->bdBytesPerRow;
+		rowBufIn = riIn->riBytes + rowIn * bdIn->bdBytesPerRow;
 
-	(*orRow)( rowBufTo, rowBufIn, colTo0, colIn0, colInP,
-			shift0, shift1, invertMaskIn, endMask );
+		(*orRow)(rowBufTo, rowBufIn, colTo0, colIn0, colInP, shift0,
+			 shift1, invertMaskIn, endMask);
 	}
 
-    return;
-    }
-
+	return;
+}

@@ -5,50 +5,48 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_EDIT_POSITION_H
-#   define		DOC_EDIT_POSITION_H
+#ifndef DOC_EDIT_POSITION_H
+#define DOC_EDIT_POSITION_H
 
-typedef enum SelectionPosition
-    {
-	    /**
+typedef enum SelectionPosition {
+	/**
 	     * After the edit action, the selection is at the head of 
 	     * the modified region.
 	     */
-    SELposHEAD= 0,
-	    /**
+	SELposHEAD = 0,
+	/**
 	     * After the edit action, the selection is at the head of 
 	     * the modified region. But as we split the paragraph, 
 	     * the position shows up as the position after the split.
 	     */
-    SELposNEXT,
-	    /**
+	SELposNEXT,
+	/**
 	     * After the edit action, the modified region is selected.
 	     */
-    SELposALL,
-	    /**
+	SELposALL,
+	/**
 	     * After the edit action, the selection is at the tail of 
 	     * the modified region.
 	     */
-    SELposTAIL,
-	    /**
+	SELposTAIL,
+	/**
 	     * After the edit action, the selection is before the 
 	     * deleted region.
 	     */
-    SELposBEFORE,
-	    /**
+	SELposBEFORE,
+	/**
 	     * After the edit action, the selection is after the 
 	     * deleted region.
 	     */
-    SELposAFTER,
+	SELposAFTER,
 
-    SELpos_COUNT
-    } SelectionPosition;
+	SELpos_COUNT
+} SelectionPosition;
 
-typedef struct EditPosition
-    {
-    int		epParaNr;
-    int		epStroff;
-    } EditPosition;
+typedef struct EditPosition {
+	int epParaNr;
+	int epStroff;
+} EditPosition;
 
 /************************************************************************/
 /*									*/
@@ -56,31 +54,21 @@ typedef struct EditPosition
 /*									*/
 /************************************************************************/
 
-extern void docInitEditPosition(		EditPosition *	ep );
+extern void docInitEditPosition(EditPosition *ep);
 
-extern void docAdjustEditPositionOffsetB(	EditPosition *	ep,
-						int		paraNr,
-						int		stroff,
-						int		stroffShift );
+extern void docAdjustEditPositionOffsetB(EditPosition *ep, int paraNr,
+					 int stroff, int stroffShift);
 
-extern void docAdjustEditPositionOffsetE(	EditPosition *	ep,
-						int		paraNr,
-						int		stroff,
-						int		stroffShift );
+extern void docAdjustEditPositionOffsetE(EditPosition *ep, int paraNr,
+					 int stroff, int stroffShift);
 
-extern void docAdjustEditPositionB(		EditPosition *	ep,
-						int		paraNr,
-						int		stroff,
-						int		paraShift,
-						int		stroffShift );
+extern void docAdjustEditPositionB(EditPosition *ep, int paraNr, int stroff,
+				   int paraShift, int stroffShift);
 
-extern void docAdjustEditPositionE(		EditPosition *	ep,
-						int		paraNr,
-						int		stroff,
-						int		paraShift,
-						int		stroffShift );
+extern void docAdjustEditPositionE(EditPosition *ep, int paraNr, int stroff,
+				   int paraShift, int stroffShift);
 
-extern int docCompareEditPositions(		const EditPosition *	ep1,
-						const EditPosition *	ep2 );
+extern int docCompareEditPositions(const EditPosition *ep1,
+				   const EditPosition *ep2);
 
-#   endif	/*	DOC_EDIT_POSITION_H	*/
+#endif /*	DOC_EDIT_POSITION_H	*/

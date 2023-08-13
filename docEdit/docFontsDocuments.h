@@ -4,10 +4,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_FONTS_DOCUMENTS_H
-#   define	DOC_FONTS_DOCUMENTS_H
+#ifndef DOC_FONTS_DOCUMENTS_H
+#define DOC_FONTS_DOCUMENTS_H
 
-#   include	<docBuf.h>
+#include <docBuf.h>
 
 /************************************************************************/
 /*									*/
@@ -15,8 +15,8 @@
 /*									*/
 /************************************************************************/
 
-extern int docFontsDocuments(	const PostScriptFontList *	psfl,
-				const MemoryBuffer *		templDir,
-				const MemoryBuffer *		outputDir );
+extern int docFontsDocuments(const PostScriptFontList *psfl,
+			     const MemoryBuffer *templDir,
+			     const MemoryBuffer *outputDir);
 
-#    endif	/*  DOC_FONTS_DOCUMENTS_H	*/
+#endif /*  DOC_FONTS_DOCUMENTS_H	*/

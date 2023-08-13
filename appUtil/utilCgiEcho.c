@@ -1,7 +1,7 @@
-#   include	"utilCgiEcho.h"
-#   include	"utilTree.h"
+#include "utilCgiEcho.h"
+#include "utilTree.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -9,108 +9,108 @@
 /*									*/
 /************************************************************************/
 
-static int utilCgiEchoValue(	const char *		key,
-				void *			val,
-				void *			through )
-    {
-    SimpleOutputStream *	sos= (SimpleOutputStream *)through;
-    char *			value= (char *)val;
+static int utilCgiEchoValue(const char *key, void *val, void *through)
+{
+	SimpleOutputStream *sos = (SimpleOutputStream *)through;
+	char *value = (char *)val;
 
-    sioOutPutString( "<tr><td>", sos );
+	sioOutPutString("<tr><td>", sos);
 
-    sioOutPutString( key, sos );
-    sioOutPutString( "</td>\r\n<td>", sos );
+	sioOutPutString(key, sos);
+	sioOutPutString("</td>\r\n<td>", sos);
 
-    if  ( value )
-	{ sioOutPutString( value, sos );	}
-    else{ sioOutPutString( "&#160;", sos );	}
-
-    sioOutPutString( "</td></tr>\r\n", sos );
-
-    return 0;
-    }
-
-void utilCgiEchoValueList(	void *			tree,
-				const char *		label,
-				SimpleOutputStream *	sos )
-    {
-    const int		stopOnFailure= 0;
-
-    sioOutPutString( "<table>\r\n", sos );
-
-    if  ( label && label[0] )
-	{
-	sioOutPutString( "<tr><td colspan=\"2\"><b>", sos );
-	sioOutPutString( label, sos );
-	sioOutPutString( "</b></td></tr>\r\n", sos );
+	if (value) {
+		sioOutPutString(value, sos);
+	} else {
+		sioOutPutString("&#160;", sos);
 	}
 
-    utilTreeForAll( tree, stopOnFailure, utilCgiEchoValue, (void *)sos );
+	sioOutPutString("</td></tr>\r\n", sos);
 
-    sioOutPutString( "</table>\r\n", sos );
+	return 0;
+}
 
-    return;
-    }
+void utilCgiEchoValueList(void *tree, const char *label,
+			  SimpleOutputStream *sos)
+{
+	const int stopOnFailure = 0;
 
-void utilCgiEchoRequest(		const CGIRequest *	cgir,
-					SimpleOutputStream *	sos )
-    {
-    if  ( cgir->cgirHeaderValues )
-	{
-	utilCgiEchoValueList( cgir->cgirHeaderValues, "Headers", sos );
+	sioOutPutString("<table>\r\n", sos);
+
+	if (label && label[0]) {
+		sioOutPutString("<tr><td colspan=\"2\"><b>", sos);
+		sioOutPutString(label, sos);
+		sioOutPutString("</b></td></tr>\r\n", sos);
 	}
 
-    if  ( cgir->cgirEnvironmentValues )
-	{
-	utilCgiEchoValueList( cgir->cgirEnvironmentValues,
-							"Environment", sos );
+	utilTreeForAll(tree, stopOnFailure, utilCgiEchoValue, (void *)sos);
+
+	sioOutPutString("</table>\r\n", sos);
+
+	return;
+}
+
+void utilCgiEchoRequest(const CGIRequest *cgir, SimpleOutputStream *sos)
+{
+	if (cgir->cgirHeaderValues) {
+		utilCgiEchoValueList(cgir->cgirHeaderValues, "Headers", sos);
 	}
 
-    if  ( cgir->cgirQueryValues )
-	{
-	utilCgiEchoValueList( cgir->cgirQueryValues, "Query", sos );
+	if (cgir->cgirEnvironmentValues) {
+		utilCgiEchoValueList(cgir->cgirEnvironmentValues, "Environment",
+				     sos);
 	}
 
-    if  ( cgir->cgirCookies )
-	{
-	utilCgiEchoValueList( cgir->cgirCookies, "Cookies", sos );
+	if (cgir->cgirQueryValues) {
+		utilCgiEchoValueList(cgir->cgirQueryValues, "Query", sos);
 	}
 
-    return;
-    }
+	if (cgir->cgirCookies) {
+		utilCgiEchoValueList(cgir->cgirCookies, "Cookies", sos);
+	}
 
-#   ifdef EXAMPLE_CODE
+	return;
+}
 
-int main(	int		argc,
-		char **		argv )
-    {
-    int				rval= 0;
-    CGIRequest *		cgir= (CGIRequest *)0;
+#ifdef EXAMPLE_CODE
 
-    SimpleOutputStream *	sos= (SimpleOutputStream *)0;
+int main(int argc, char **argv)
+{
+	int rval = 0;
+	CGIRequest *cgir = (CGIRequest *)0;
 
-    cgir= appCgiInGetRequest();
-    if  ( ! cgir )
-	{ XDEB(cgir); rval= -1; goto ready;	}
+	SimpleOutputStream *sos = (SimpleOutputStream *)0;
 
-    sos= sioOutStdoutOpen();
-    if  ( ! sos )
-	{ XDEB(sos); rval= -1; goto ready;	}
+	cgir = appCgiInGetRequest();
+	if (!cgir) {
+		XDEB(cgir);
+		rval = -1;
+		goto ready;
+	}
 
-    sioOutPutString( "Content-Type: text/html\r\n", sos );
-    sioOutPutString( "\r\n", sos );
+	sos = sioOutStdoutOpen();
+	if (!sos) {
+		XDEB(sos);
+		rval = -1;
+		goto ready;
+	}
 
-    utilCgiEchoRequest( cgir, sos );
+	sioOutPutString("Content-Type: text/html\r\n", sos);
+	sioOutPutString("\r\n", sos);
 
-  ready:
+	utilCgiEchoRequest(cgir, sos);
 
-    if  ( sos )
-	{ sioOutClose( sos );	}
+ready:
 
-    if  ( cgir )
-	{ appCgiInFreeRequest( cgir );	}
+	if (sos) {
+		sioOutClose(sos);
+	}
 
-    return rval;
-    }
+	if (cgir) {
+		appCgiInFreeRequest(cgir);
+	}
 
-#   endif
+	return rval;
+}
+
+#endif

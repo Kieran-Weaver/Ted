@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_TREE_NODE_H
-#   define	DOC_TREE_NODE_H
+#ifndef DOC_TREE_NODE_H
+#define DOC_TREE_NODE_H
 
-#   include	"docParaNode.h"
-#   include	"docCellNode.h"
-#   include	"docRowNode.h"
-#   include	"docSectNode.h"
+#include "docParaNode.h"
+#include "docCellNode.h"
+#include "docRowNode.h"
+#include "docSectNode.h"
 
 /************************************************************************/
 /*									*/
@@ -43,67 +43,65 @@ struct TextParticule;
 /*									*/
 /************************************************************************/
 
-typedef struct BufferItem
-    {
-				/**
+typedef struct BufferItem {
+	/**
 				 *  The kind of node. Try to avoid ordinal 
 				 *  comparisons of the values.
 				 */
-    unsigned char		biLevel;
-				/**
+	unsigned char biLevel;
+	/**
 				 *  The kind of document tree that this node
 				 *  is part of.
 				 */
-    unsigned char		biTreeType;
-				/**
+	unsigned char biTreeType;
+	/**
 				 *  The parent node. Is NULL in the root of 
 				 *  a tree.
 				 */
-    struct BufferItem *		biParent;
-				/**
+	struct BufferItem *biParent;
+	/**
 				 *  The children (If any) of the node.
 				 */
-    struct BufferItem **	biChildren;
-				/**
+	struct BufferItem **biChildren;
+	/**
 				 *  The number of children of the node. 
 				 *  Contrary to expexctations, real world 
 				 *  figures do not fit in a 'short int'.
 				 */
-    int				biChildCount;
-				/**
+	int biChildCount;
+	/**
 				 *  The index in the parents biChildren array.
 				 *  Is an 'int' for the same reason as
 				 *  biChildCount.
 				 */
-    int				biNumberInParent;
-				/**
+	int biNumberInParent;
+	/**
 				 *  The cumulative number of paragraphs 
 				 *  in all preceding children of our direct
 				 *  parent. Helps to map back and forth from 
 				 *  paragraph to sequence number in the tree.
 				 */
-    int				biLeftParagraphs;
+	int biLeftParagraphs;
 
-				/*  2  */
-    LayoutPosition		biTopPosition;
-    LayoutPosition		biBelowPosition;
+	/*  2  */
+	LayoutPosition biTopPosition;
+	LayoutPosition biBelowPosition;
 
-				/*  3  */
-    union			NodeTypeSpecific
-	{
-	ParaNode		biuPara;
-	CellNode		biuCell;
-	SectNode		biuSect;
-	RowNode			biuRow;
+	/*  3  */
+	union NodeTypeSpecific {
+		ParaNode biuPara;
+		CellNode biuCell;
+		SectNode biuSect;
+		RowNode biuRow;
 	} BIU;
 
-    } BufferItem;
+} BufferItem;
 
-# define docIsCellNode( bi )	( (bi)->biLevel == DOClevCELL )
-# define docIsParaNode( bi )	( (bi)->biLevel == DOClevPARA )
-# define docIsSectNode( bi )	( (bi)->biLevel == DOClevSECT )
-# define docIsRowNode( bi )	( (bi)->biLevel == DOClevROW && \
-				  (bi)->biRowCellCount > 0 )
+#define docIsCellNode(bi) ((bi)->biLevel == DOClevCELL)
+#define docIsParaNode(bi) ((bi)->biLevel == DOClevPARA)
+#define docIsSectNode(bi) ((bi)->biLevel == DOClevSECT)
+#define docIsRowNode(bi) \
+	((bi)->biLevel == DOClevROW && (bi)->biRowCellCount > 0)
 
 /************************************************************************/
 /*									*/
@@ -111,4 +109,4 @@ typedef struct BufferItem
 /*									*/
 /************************************************************************/
 
-#   endif
+#endif

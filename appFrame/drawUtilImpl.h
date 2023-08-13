@@ -5,5 +5,5 @@
 /*									*/
 /************************************************************************/
 
-#   include	"drawUtilMotif.h"
-#   include	"drawUtilGtk.h"
+#include "drawUtilMotif.h"
+#include "drawUtilGtk.h"

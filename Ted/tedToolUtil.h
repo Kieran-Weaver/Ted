@@ -4,15 +4,15 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	TED_TOOL_UTIL_H
-#   define	TED_TOOL_UTIL_H
+#ifndef TED_TOOL_UTIL_H
+#define TED_TOOL_UTIL_H
 
-#   include	<appFrame.h>
-#   include	<docRowProperties.h>
-#   include	<docBuf.h>
-#   include	<appInspector.h>
-#   include	<docSelectionGeometry.h>
-#   include	<docSelectionDescription.h>
+#include <appFrame.h>
+#include <docRowProperties.h>
+#include <docBuf.h>
+#include <appInspector.h>
+#include <docSelectionGeometry.h>
+#include <docSelectionDescription.h>
 
 /************************************************************************/
 /*									*/
@@ -20,20 +20,16 @@
 /*									*/
 /************************************************************************/
 
-extern int tedFormatValidateDimension(		int *		pNewValue,
-						int *		pChanged,
-						APP_WIDGET	w,
-						int		oldValue );
+extern int tedFormatValidateDimension(int *pNewValue, int *pChanged,
+				      APP_WIDGET w, int oldValue);
 
-extern BufferDocument * tedFormatCurDoc(	EditDocument **		pEd,
-						int *			pTraced,
-						EditApplication *	ea );
+extern BufferDocument *tedFormatCurDoc(EditDocument **pEd, int *pTraced,
+				       EditApplication *ea);
 
-extern void tedRefreshParaSubjectControls(
-				InspectorSubject *		is,
-				const DocumentSelection *	ds,
-				const SelectionGeometry *	sg,
-				const SelectionDescription *	sd,
-				const unsigned char *		cmdEnabled );
+extern void tedRefreshParaSubjectControls(InspectorSubject *is,
+					  const DocumentSelection *ds,
+					  const SelectionGeometry *sg,
+					  const SelectionDescription *sd,
+					  const unsigned char *cmdEnabled);
 
-#   endif	/*  TED_TOOL_UTIL_H */
+#endif /*  TED_TOOL_UTIL_H */

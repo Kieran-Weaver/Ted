@@ -4,15 +4,14 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	UTIL_TEXT_ATTRIBUTE_ADMIN_H
-#   define	UTIL_TEXT_ATTRIBUTE_ADMIN_H
+#ifndef UTIL_TEXT_ATTRIBUTE_ADMIN_H
+#define UTIL_TEXT_ATTRIBUTE_ADMIN_H
 
-#   include	"textAttribute.h"
-#   include	<utilNumberedPropertiesAdmin.h>
+#include "textAttribute.h"
+#include <utilNumberedPropertiesAdmin.h>
 
-typedef int (*TextAttributeFunction)(	int			n,
-					const TextAttribute *	ta,
-					void *			through );
+typedef int (*TextAttributeFunction)(int n, const TextAttribute *ta,
+				     void *through);
 
 /************************************************************************/
 /*									*/
@@ -20,20 +19,17 @@ typedef int (*TextAttributeFunction)(	int			n,
 /*									*/
 /************************************************************************/
 
-extern void utilInitTextAttributeList(	NumberedPropertiesList *	tal );
+extern void utilInitTextAttributeList(NumberedPropertiesList *tal);
 
-extern int utilTextAttributeNumber(	NumberedPropertiesList *	tal,
-					const TextAttribute *		ta );
+extern int utilTextAttributeNumber(NumberedPropertiesList *tal,
+				   const TextAttribute *ta);
 
-extern void utilGetTextAttributeByNumber(
-					TextAttribute *			ta,
-					const NumberedPropertiesList *	tal,
-					int				n );
+extern void utilGetTextAttributeByNumber(TextAttribute *ta,
+					 const NumberedPropertiesList *tal,
+					 int n);
 
-extern int textForAllAttributesInList(
-				const NumberedPropertiesList *	tal,
-				const IndexSet *		filter,
-				TextAttributeFunction		f,
-				void *				through );
+extern int textForAllAttributesInList(const NumberedPropertiesList *tal,
+				      const IndexSet *filter,
+				      TextAttributeFunction f, void *through);
 
-#   endif	/*  UTIL_TEXT_ATTRIBUTE_ADMIN_H	*/
+#endif /*  UTIL_TEXT_ATTRIBUTE_ADMIN_H	*/

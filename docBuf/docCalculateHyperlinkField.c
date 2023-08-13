@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBufConfig.h"
+#include "docBufConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docBuf.h"
-#   include	"docRecalculateFields.h"
-#   include	"docEvalField.h"
+#include "docBuf.h"
+#include "docRecalculateFields.h"
+#include "docEvalField.h"
 
 /************************************************************************/
 /*									*/
@@ -21,17 +21,12 @@
 /*									*/
 /************************************************************************/
 
-int docRecalculateHyperlinkField(
-				int *				pCalculated,
-				int *				pPartShift,
-				int *				pStroffShift,
-				struct BufferItem *		paraBi,
-				int				partFrom,
-				int				partCount,
-				DocumentField *			df,
-				const RecalculateFields *	rf )
-    {
-#   if 0
+int docRecalculateHyperlinkField(int *pCalculated, int *pPartShift,
+				 int *pStroffShift, struct BufferItem *paraBi,
+				 int partFrom, int partCount, DocumentField *df,
+				 const RecalculateFields *rf)
+{
+#if 0
     const int				partUpto= partFrom+ partCount+ 2;
 
     TextAttribute			taSet;
@@ -56,7 +51,6 @@ int docRecalculateHyperlinkField(
     *pStroffShift += 0;
     */
 
-#   endif
-    return 0;
-    }
-
+#endif
+	return 0;
+}

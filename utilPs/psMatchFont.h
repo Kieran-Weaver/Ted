@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	PS_MATCH_FONT_H
-#   define	PS_MATCH_FONT_H
+#ifndef PS_MATCH_FONT_H
+#define PS_MATCH_FONT_H
 
-#   include	"psPostScriptFontList.h"
-#   include	"textAttribute.h"
+#include "psPostScriptFontList.h"
+#include "textAttribute.h"
 
 /************************************************************************/
 /*									*/
@@ -16,11 +16,10 @@
 /*									*/
 /************************************************************************/
 
-extern AfmFontInfo * psGetPsFontInfoForAttribute(
-				const char *			familyName,
-				int				styleInt,
-				const IndexSet *		unicodesUsed,
-				const TextAttribute *		ta,
-				const PostScriptFontList *	psfl );
+extern AfmFontInfo *psGetPsFontInfoForAttribute(const char *familyName,
+						int styleInt,
+						const IndexSet *unicodesUsed,
+						const TextAttribute *ta,
+						const PostScriptFontList *psfl);
 
-#   endif
+#endif

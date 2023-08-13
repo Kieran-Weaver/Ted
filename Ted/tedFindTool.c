@@ -4,22 +4,22 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	"tedApp.h"
-#   include	"tedAppFront.h"
-#   include	"tedFormatTool.h"
-#   include	"tedAppResources.h"
-#   include	"tedFind.h"
-#   include	"tedFindTool.h"
-#   include	<guiToolUtil.h>
-#   include	<docEditCommand.h>
+#include "tedApp.h"
+#include "tedAppFront.h"
+#include "tedFormatTool.h"
+#include "tedAppResources.h"
+#include "tedFind.h"
+#include "tedFindTool.h"
+#include <guiToolUtil.h>
+#include <docEditCommand.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -27,26 +27,27 @@
 /*									*/
 /************************************************************************/
 
-void tedFormatSetFindPattern(	EditApplication *	ea,
-				const char *		findPattern,
-				int			findRegexp )
-    {
-#   if USE_FIND_TOOL
-    TedAppResources *		tar= (TedAppResources *)ea->eaResourceData;
-    AppInspector *		ai= tar->tarInspector;
-    TedFormatTool *		tft;
-    FindTool *			aft;
+void tedFormatSetFindPattern(EditApplication *ea, const char *findPattern,
+			     int findRegexp)
+{
+#if USE_FIND_TOOL
+	TedAppResources *tar = (TedAppResources *)ea->eaResourceData;
+	AppInspector *ai = tar->tarInspector;
+	TedFormatTool *tft;
+	FindTool *aft;
 
-    if  ( ! tar->tarInspector )
-	{ XDEB(tar->tarInspector); return;	}
-    tft= (TedFormatTool *)ai->aiTarget;
-    aft= &(tft->tftFindTool);
+	if (!tar->tarInspector) {
+		XDEB(tar->tarInspector);
+		return;
+	}
+	tft = (TedFormatTool *)ai->aiTarget;
+	aft = &(tft->tftFindTool);
 
-    appFindToolSetPattern( aft, findPattern, findRegexp );
+	appFindToolSetPattern(aft, findPattern, findRegexp);
 
-#   endif
-    return;
-    }
+#endif
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -54,19 +55,15 @@ void tedFormatSetFindPattern(	EditApplication *	ea,
 /*									*/
 /************************************************************************/
 
-void tedRefreshFindTool(	FindTool *			aft,
-				int *				pEnabled,
-				int *				pPref,
-				InspectorSubject *		is,
-				const DocumentSelection *	ds,
-				const SelectionDescription *	sd,
-				const BufferDocument *		bd,
-				int				documentId,
-				const unsigned char *		cmdEnabled )
-    {
-    appFindToolEnableReplace( aft, cmdEnabled[EDITcmdREPLACE] );
-    return;
-    }
+void tedRefreshFindTool(FindTool *aft, int *pEnabled, int *pPref,
+			InspectorSubject *is, const DocumentSelection *ds,
+			const SelectionDescription *sd,
+			const BufferDocument *bd, int documentId,
+			const unsigned char *cmdEnabled)
+{
+	appFindToolEnableReplace(aft, cmdEnabled[EDITcmdREPLACE]);
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -74,20 +71,17 @@ void tedRefreshFindTool(	FindTool *			aft,
 /*									*/
 /************************************************************************/
 
-void tedFillFindTool(		FindTool *			aft,
-				const FindToolResources *	aftr,
-				AppInspector *			ai,
-				int				subjectPage,
-				InspectorSubject *		is,
-				APP_WIDGET			pageWidget,
-				const InspectorSubjectResources * isr )
-    {
-    appFillFindTool( aft, aftr, ai, subjectPage, is, pageWidget, isr );
+void tedFillFindTool(FindTool *aft, const FindToolResources *aftr,
+		     AppInspector *ai, int subjectPage, InspectorSubject *is,
+		     APP_WIDGET pageWidget,
+		     const InspectorSubjectResources *isr)
+{
+	appFillFindTool(aft, aftr, ai, subjectPage, is, pageWidget, isr);
 
-    aft->aftFindNext= tedAppFindNext;
-    aft->aftFindPrev= tedAppFindPrev;
-    aft->aftSetPattern= tedFindToolSetPattern;
-    aft->aftReplace= tedAppReplace;
+	aft->aftFindNext = tedAppFindNext;
+	aft->aftFindPrev = tedAppFindPrev;
+	aft->aftSetPattern = tedFindToolSetPattern;
+	aft->aftReplace = tedAppReplace;
 
-    return;
-    }
+	return;
+}

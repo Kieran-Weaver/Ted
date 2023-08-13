@@ -4,24 +4,23 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_EDIT_OPERATION_H
-#   define		DOC_EDIT_OPERATION_H
+#ifndef DOC_EDIT_OPERATION_H
+#define DOC_EDIT_OPERATION_H
 
-#   include		<docBuf.h>
-#   include		<sioGeneral.h>
+#include <docBuf.h>
+#include <sioGeneral.h>
 
 /************************************************************************/
 
-typedef enum ReformatNeeded
-    {
-    REFORMAT_NOTHING= 0,
-    REFORMAT_ADJUST_PARAGRAPH,
-    REFORMAT_RANGE,
-    REFORMAT_BODY_SECT,
-    REFORMAT_DOCUMENT,
+typedef enum ReformatNeeded {
+	REFORMAT_NOTHING = 0,
+	REFORMAT_ADJUST_PARAGRAPH,
+	REFORMAT_RANGE,
+	REFORMAT_BODY_SECT,
+	REFORMAT_DOCUMENT,
 
-    REFORMAT__COUNT
-    } ReformatNeeded;
+	REFORMAT__COUNT
+} ReformatNeeded;
 
 /************************************************************************/
 /*									*/
@@ -30,52 +29,51 @@ typedef enum ReformatNeeded
 /*									*/
 /************************************************************************/
 
-typedef struct EditOperation
-    {
-    SelectionScope		eoSelectionScope;
-    struct BufferItem *		eoBodySectNode;
-    DocumentField *		eoBottomField;
-				    /************************************/
-				    /*  Field (if any) that fully holds	*/
-				    /*  the initial selection for this	*/
-				    /*  edit operation. The assumption	*/
-				    /*	is that it will not be deleted	*/
-				    /*  and that it will be the parent	*/
-				    /*  of new fields.			*/
-				    /************************************/
+typedef struct EditOperation {
+	SelectionScope eoSelectionScope;
+	struct BufferItem *eoBodySectNode;
+	DocumentField *eoBottomField;
+	/************************************/
+	/*  Field (if any) that fully holds	*/
+	/*  the initial selection for this	*/
+	/*  edit operation. The assumption	*/
+	/*	is that it will not be deleted	*/
+	/*  and that it will be the parent	*/
+	/*  of new fields.			*/
+	/************************************/
 
-    unsigned char		eoIBarSelectionOld;
-    unsigned char		eoMultiParagraphSelectionOld;
+	unsigned char eoIBarSelectionOld;
+	unsigned char eoMultiParagraphSelectionOld;
 
-    /**/
-    int				eoParaAdjustParagraphNumber;
-    int				eoParaAdjustStroffFrom;
-    int				eoParaAdjustStroffShift;
-    int				eoParaAdjustStroffUpto;
+	/**/
+	int eoParaAdjustParagraphNumber;
+	int eoParaAdjustStroffFrom;
+	int eoParaAdjustStroffShift;
+	int eoParaAdjustStroffUpto;
 
-    /**/
-				/**
+	/**/
+	/**
 				 *  Document range that is touched by the edit 
 				 *  operation: It must be reformatted and 
 				 *  redisplayed after editing.
 				 */
-    EditRange			eoReformatRange;
-				/**
+	EditRange eoReformatRange;
+	/**
 				 *  The selection at the beginning of the 
 				 *  edit operation. If needed, it is updated 
 				 *  along the way to make it possible to 
 				 *  select the same content after  the 
 				 *  operation.
 				 */
-    EditRange			eoSelectedRange;
-				/**
+	EditRange eoSelectedRange;
+	/**
 				 *  The selection that is touched by the edit
 				 *  operation. If needed, it is updated along
 				 *  the way. If some cases, it may be different,
 				 *  usually wider than the selected range.
 				 */
-    EditRange			eoAffectedRange;
-				/**
+	EditRange eoAffectedRange;
+	/**
 				 *  In some cases, the edit operation begins
 				 *  by deepening the split at the head of 
 				 *  the edit operation and inserting new 
@@ -84,62 +82,62 @@ typedef struct EditOperation
 				 *  will not be shifted because paragraphs
 				 *  are inserted.
 				 */
-    unsigned char		eoSplitAtHead;
+	unsigned char eoSplitAtHead;
 
-    /**/
-    IndexSet			eoNoteFieldsAdded;
-    int				eoSectionsDeleted;
-    int				eoSectionsAdded;
-    int				eoParagraphsInserted;
+	/**/
+	IndexSet eoNoteFieldsAdded;
+	int eoSectionsDeleted;
+	int eoSectionsAdded;
+	int eoParagraphsInserted;
 
-    unsigned int		eoFieldUpdate;
-				/**
+	unsigned int eoFieldUpdate;
+	/**
 				 *  A 'ReformatNeeded' enum value that tells 
 				 *  what to reformat at the end of the 
 				 *  operation.
 				 */
-    unsigned char		eoReformatNeeded;
+	unsigned char eoReformatNeeded;
 
-    /**/
-				/**
+	/**/
+	/**
 				  *  The document that the edit operation 
 				  *  operates upon.
 				  */
-    BufferDocument *		eoDocument;
-				/**
+	BufferDocument *eoDocument;
+	/**
 				  *  The tree of the document that the edit 
 				  *  operation operates upon.
 				  */
-    DocumentTree *		eoTree;
-    DOC_CLOSE_OBJECT		eoCloseObject;
+	DocumentTree *eoTree;
+	DOC_CLOSE_OBJECT eoCloseObject;
 
-				/**
+	/**
 				 *   The position at the head of the current 
 				 *   step in the dit operation. It is at the
 				 *   end of the region that will change in
 				 *   the current step.
 				 */
-    DocumentPosition		eoHeadDp;
-				/**
+	DocumentPosition eoHeadDp;
+	/**
 				 *   The position at the end of the current 
 				 *   step in the dit operation. It is at the
 				 *   end of the region that has been affected
 				 *   by the current step.
 				 */
-    DocumentPosition		eoTailDp;
-    DocumentPosition		eoLastDp;
+	DocumentPosition eoTailDp;
+	DocumentPosition eoLastDp;
 
-				/**
+	/**
 				 *  To delimit a table rectangle selection.
 				 *  Are reset to -1 after the first change 
 				 *  to the selection.
 				 */
-    int				eoCol0;
-    int				eoCol1;
+	int eoCol0;
+	int eoCol1;
 
-    SimpleOutputStream *	eoTraceStream;
-    struct RtfWriter *		eoTraceWriter;
-    } EditOperation;
+	SimpleOutputStream *eoTraceStream;
+	struct RtfWriter *eoTraceWriter;
+} EditOperation;
 
 /************************************************************************/
 /*									*/
@@ -147,43 +145,36 @@ typedef struct EditOperation
 /*									*/
 /************************************************************************/
 
-extern void docInitEditOperation(	EditOperation *	eo );
-extern void docCleanEditOperation(	EditOperation *	eo );
+extern void docInitEditOperation(EditOperation *eo);
+extern void docCleanEditOperation(EditOperation *eo);
 
-extern void docEditOperationGetSelection(	DocumentSelection *	dsNew,
-						const EditOperation *	eo );
+extern void docEditOperationGetSelection(DocumentSelection *dsNew,
+					 const EditOperation *eo);
 
-extern int docStartEditOperation(	EditOperation *			eo,
-					const DocumentSelection *	ds,
-					BufferDocument *		bd );
+extern int docStartEditOperation(EditOperation *eo, const DocumentSelection *ds,
+				 BufferDocument *bd);
 
-extern void docEditIncludeNodeInReformatRange(	EditOperation *		eo,
-						struct BufferItem *	bi );
+extern void docEditIncludeNodeInReformatRange(EditOperation *eo,
+					      struct BufferItem *bi);
 
-extern void docEditIncludeRowsInReformatRange(
-					EditOperation *		eo,
-					struct BufferItem *	sectBi,
-					int			row0,
-					int			row1 );
+extern void docEditIncludeRowsInReformatRange(EditOperation *eo,
+					      struct BufferItem *sectBi,
+					      int row0, int row1);
 
-extern void docSetParagraphAdjust(	EditOperation *		eo,
-					struct BufferItem *	paraBi,
-					int			stroffShift,
-					int			stroffUpto );
+extern void docSetParagraphAdjust(EditOperation *eo, struct BufferItem *paraBi,
+				  int stroffShift, int stroffUpto);
 
-extern void docExtendParagraphAdjust(	EditOperation *		eo,
-					struct BufferItem *	paraBi,
-					int			stroffShift );
+extern void docExtendParagraphAdjust(EditOperation *eo,
+				     struct BufferItem *paraBi,
+				     int stroffShift);
 
-extern void docEditFinishStep(		EditOperation *		eo );
+extern void docEditFinishStep(EditOperation *eo);
 
-extern int docMoveEditOperationToBodySect(
-					EditOperation *		eo,
-					struct BufferItem *	bodySectNode );
+extern int docMoveEditOperationToBodySect(EditOperation *eo,
+					  struct BufferItem *bodySectNode);
 
-extern DocumentField * docEditOperationGetSelectedNote(
-					struct DocumentNote **	pDn,
-					int *			pSelInNote,
-					const EditOperation *	eo );
+extern DocumentField *docEditOperationGetSelectedNote(struct DocumentNote **pDn,
+						      int *pSelInNote,
+						      const EditOperation *eo);
 
-#   endif	/*	DOC_EDIT_OPERATION_H	*/
+#endif /*	DOC_EDIT_OPERATION_H	*/

@@ -1,5 +1,5 @@
-#   ifndef		PS_TO_GLYPH_MAPPING_H
-#   define		PS_TO_GLYPH_MAPPING_H
+#ifndef PS_TO_GLYPH_MAPPING_H
+#define PS_TO_GLYPH_MAPPING_H
 
 /************************************************************************/
 /*									*/
@@ -15,28 +15,27 @@
 /*									*/
 /************************************************************************/
 
-typedef struct IndexMapping
-    {
-    int	**		imPages;
-    int			imPageCount;
-    } IndexMapping;
+typedef struct IndexMapping {
+	int **imPages;
+	int imPageCount;
+} IndexMapping;
 
-# define TGM_PSZ 256
+#define TGM_PSZ 256
 
-# define utilIndexMappingGet( m, f ) \
-	(((f)>=0&&(f)/TGM_PSZ<(m)->imPageCount&&(m)->imPages[(f)/TGM_PSZ])? \
-	(m)->imPages[(f)/TGM_PSZ][(f)%TGM_PSZ]:-1)
+#define utilIndexMappingGet(m, f)                             \
+	(((f) >= 0 && (f) / TGM_PSZ < (m)->imPageCount &&     \
+	  (m)->imPages[(f) / TGM_PSZ]) ?                      \
+		 (m)->imPages[(f) / TGM_PSZ][(f) % TGM_PSZ] : \
+		 -1)
 
-# define utilIndexMappingGetU( m, f ) \
-	(((f)/TGM_PSZ<(m)->imPageCount&&(m)->imPages[(f)/TGM_PSZ])? \
-	(m)->imPages[(f)/TGM_PSZ][(f)%TGM_PSZ]:-1)
+#define utilIndexMappingGetU(m, f)                                           \
+	(((f) / TGM_PSZ < (m)->imPageCount && (m)->imPages[(f) / TGM_PSZ]) ? \
+		 (m)->imPages[(f) / TGM_PSZ][(f) % TGM_PSZ] :                \
+		 -1)
 
-# define utilIndexMappingIsEmpty( m ) \
-	( (m)->imPageCount == 0 )
+#define utilIndexMappingIsEmpty(m) ((m)->imPageCount == 0)
 
-typedef int (*IndexMappingForOne)(	int		from,
-					int		to,
-					void *		through );
+typedef int (*IndexMappingForOne)(int from, int to, void *through);
 
 /************************************************************************/
 /*									*/
@@ -44,24 +43,18 @@ typedef int (*IndexMappingForOne)(	int		from,
 /*									*/
 /************************************************************************/
 
-extern void utilInitIndexMapping(	IndexMapping *	im );
-extern void utilCleanIndexMapping(	IndexMapping *	im );
-extern void utilClearIndexMapping(	IndexMapping *	im );
+extern void utilInitIndexMapping(IndexMapping *im);
+extern void utilCleanIndexMapping(IndexMapping *im);
+extern void utilClearIndexMapping(IndexMapping *im);
 
-extern int utilIndexMappingBuildBackward( IndexMapping *	im,
-					const int *		forward,
-					int			forwardCount );
+extern int utilIndexMappingBuildBackward(IndexMapping *im, const int *forward,
+					 int forwardCount);
 
-extern int  utilIndexMappingPut(	IndexMapping *		im,
-					int			from,
-					int			to );
+extern int utilIndexMappingPut(IndexMapping *im, int from, int to);
 
-extern int utilIndexMappingAppend(	IndexMapping *		im,
-					int *			pFrom,
-					int			to );
+extern int utilIndexMappingAppend(IndexMapping *im, int *pFrom, int to);
 
-extern int utilIndexMappingForAll(	const IndexMapping *	im,
-					IndexMappingForOne	forOne,
-					void *			through );
+extern int utilIndexMappingForAll(const IndexMapping *im,
+				  IndexMappingForOne forOne, void *through);
 
-#   endif	/*	PS_TO_GLYPH_MAPPING_H	*/
+#endif /*	PS_TO_GLYPH_MAPPING_H	*/

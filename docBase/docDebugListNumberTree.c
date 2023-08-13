@@ -1,12 +1,12 @@
-#   include	"docBaseConfig.h"
+#include "docBaseConfig.h"
 
-#   include	<string.h>
-#   include	<stdio.h>
+#include <string.h>
+#include <stdio.h>
 
-#   include	"docDebugListNumberTree.h"
-#   include	"docListNumberTree.h"
+#include "docDebugListNumberTree.h"
+#include "docListNumberTree.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -14,175 +14,171 @@
 /*									*/
 /************************************************************************/
 
-static void docDebugListNumberTreeNodeLine(
-					int				level,
-					int				idx,
-					int				of,
-					const ListNumberTreeNode *	lntn,
-					const char *			bb,
-					const char *			aa )
-    {
-    char	lev[22];
+static void docDebugListNumberTreeNodeLine(int level, int idx, int of,
+					   const ListNumberTreeNode *lntn,
+					   const char *bb, const char *aa)
+{
+	char lev[22];
 
-    if  ( level <= 0 )
-	{ strcpy( lev, ":::" );			}
-    else{ sprintf( lev, "L=%d", level -1 );	}
-
-    appDebug( "%*s%s@%d/%d:P=%d%s%s%s\n", 4* level, "",
-				    lev, idx, of,
-				    lntn->lntnParaNr,
-				    lntn->lntnParaNr>=0?"*":"",
-				    bb, aa );
-    return;
-    }
-
-static int docCheckListNumberTreeNode(	int				level,
-					int				idx,
-					int				of,
-					int				list,
-					const ListNumberTreeNode *	lntn,
-					int				before,
-					int				after )
-    {
-    int			rval= 0;
-
-    const char *	bb= "";
-    const char *	aa= "";
-
-    if  ( before >= 0				&&
-	  lntn->lntnParaNr >= 0	&&
-	  lntn->lntnParaNr <= before	)
-	{ bb= "#+#"; rval= -1; }
-    if  ( after >= 0 && lntn->lntnParaNr >= after )
-	{ aa= "#-#"; rval= -1; }
-
-    if  ( list )
-	{ docDebugListNumberTreeNodeLine( level, idx, of, lntn, bb, aa ); }
-
-    if  ( idx > 0 && lntn->lntnParaNr == -1 )
-	{ SLLDEB("##",idx,lntn->lntnParaNr); rval= -1;			}
-    if  ( level > 0 && lntn->lntnChildCount == 0 && lntn->lntnParaNr == -1 )
-	{
-	SLLDEB("##",lntn->lntnChildCount,lntn->lntnParaNr);
-	rval= -1;
+	if (level <= 0) {
+		strcpy(lev, ":::");
+	} else {
+		sprintf(lev, "L=%d", level - 1);
 	}
 
-    if  ( lntn->lntnParaNr >= 0 )
-	{ before= lntn->lntnParaNr;	}
+	appDebug("%*s%s@%d/%d:P=%d%s%s%s\n", 4 * level, "", lev, idx, of,
+		 lntn->lntnParaNr, lntn->lntnParaNr >= 0 ? "*" : "", bb, aa);
+	return;
+}
 
-    if  ( lntn->lntnChildCount > 0 )
-	{
-	int		i;
+static int docCheckListNumberTreeNode(int level, int idx, int of, int list,
+				      const ListNumberTreeNode *lntn,
+				      int before, int after)
+{
+	int rval = 0;
 
-	if  ( ! lntn->lntnChildren )
-	    { LDEB(lntn->lntnChildren); return -1;	}
+	const char *bb = "";
+	const char *aa = "";
 
-	for ( i= 0; i < lntn->lntnChildCount- 1; i++ )
-	    {
-	    int		aft;
-
-	    aft= lntn->lntnChildren[i+ 1]->lntnParaNr;
-	    if  ( after >= 0 && aft > after )
-		{ aft= after;	}
-
-	    if  ( docCheckListNumberTreeNode( level+ 1,
-				    i, lntn->lntnChildCount, list,
-				    lntn->lntnChildren[i], before, aft ) )
-		{ rval= -1;	}
-
-	    if  ( lntn->lntnChildren[i]->lntnParaNr >= 0 )
-		{ before= lntn->lntnChildren[i]->lntnParaNr;	}
-	    }
-
-	if  ( i < lntn->lntnChildCount )
-	    {
-	    if  ( docCheckListNumberTreeNode( level+ 1,
-				    i, lntn->lntnChildCount, list,
-				    lntn->lntnChildren[i], before, after ) )
-		{ rval= -1;	}
-	    }
+	if (before >= 0 && lntn->lntnParaNr >= 0 &&
+	    lntn->lntnParaNr <= before) {
+		bb = "#+#";
+		rval = -1;
+	}
+	if (after >= 0 && lntn->lntnParaNr >= after) {
+		aa = "#-#";
+		rval = -1;
 	}
 
-    return rval;
-    }
-
-int docListListNumberNode(	const ListNumberTreeNode *	lntn )
-    {
-    const int indent= 0;
-    const int list= 1;
-    const int idx= -1;
-    const int of= 0;
-    const int before= -1;
-    const int after= -1;
-
-    return docCheckListNumberTreeNode( indent, idx, of, list,
-						    lntn, before, after );
-    }
-
-int docCheckListNumberNode(	const ListNumberTreeNode *	lntn )
-    {
-    const int indent= 0;
-    const int list= 0;
-    const int idx= -1;
-    const int of= 0;
-    const int before= -1;
-    const int after= -1;
-
-    return docCheckListNumberTreeNode( indent, idx, of, list,
-						    lntn, before, after );
-    }
-
-int docListNumberTreeLogPath(	ListNumberTreeNode **	path,
-				int *			nums,
-				int			level )
-    {
-    int			rval= 0;
-
-    int			lvl;
-    const char * const	bb= "";
-    const char * const	aa= "";
-
-    if  ( ! path[0] )
-	{ XDEB(path[0]); return -1;	}
-
-    docDebugListNumberTreeNodeLine( 0, -1, 0, path[0], bb, aa );
-
-    for ( lvl= 1; lvl <= level; lvl++ )
-	{
-	ListNumberTreeNode *	node= path[lvl-1];
-	int			idx= nums[lvl-1];
-
-	if  ( ! node )
-	    {
-	    appDebug( "%*sL=%d##\n", 4* lvl, "", lvl );
-	    continue;
-	    }
-
-	if  ( idx < 0 )
-	    {
-	    appDebug( "%*sL=%d@%d <|\n", 4* lvl, "", lvl, idx );
-	    continue;
-	    }
-	if  ( idx >= node->lntnChildCount )
-	    {
-	    appDebug( "%*sL=%d@%d >|\n", 4* lvl, "", lvl, idx );
-	    continue;
-	    }
-
-	docDebugListNumberTreeNodeLine( lvl, idx, node->lntnChildCount,
-					node->lntnChildren[idx], bb, aa );
-
-	if  ( path[lvl] != node->lntnChildren[idx] )
-	    {
-	    SLXXDEB("##",lvl,path[lvl],&(node->lntnChildren[idx]));
-	    rval= -1;
-	    }
+	if (list) {
+		docDebugListNumberTreeNodeLine(level, idx, of, lntn, bb, aa);
 	}
 
-    return rval;
-    }
+	if (idx > 0 && lntn->lntnParaNr == -1) {
+		SLLDEB("##", idx, lntn->lntnParaNr);
+		rval = -1;
+	}
+	if (level > 0 && lntn->lntnChildCount == 0 && lntn->lntnParaNr == -1) {
+		SLLDEB("##", lntn->lntnChildCount, lntn->lntnParaNr);
+		rval = -1;
+	}
 
-# if 0
+	if (lntn->lntnParaNr >= 0) {
+		before = lntn->lntnParaNr;
+	}
+
+	if (lntn->lntnChildCount > 0) {
+		int i;
+
+		if (!lntn->lntnChildren) {
+			LDEB(lntn->lntnChildren);
+			return -1;
+		}
+
+		for (i = 0; i < lntn->lntnChildCount - 1; i++) {
+			int aft;
+
+			aft = lntn->lntnChildren[i + 1]->lntnParaNr;
+			if (after >= 0 && aft > after) {
+				aft = after;
+			}
+
+			if (docCheckListNumberTreeNode(
+				    level + 1, i, lntn->lntnChildCount, list,
+				    lntn->lntnChildren[i], before, aft)) {
+				rval = -1;
+			}
+
+			if (lntn->lntnChildren[i]->lntnParaNr >= 0) {
+				before = lntn->lntnChildren[i]->lntnParaNr;
+			}
+		}
+
+		if (i < lntn->lntnChildCount) {
+			if (docCheckListNumberTreeNode(
+				    level + 1, i, lntn->lntnChildCount, list,
+				    lntn->lntnChildren[i], before, after)) {
+				rval = -1;
+			}
+		}
+	}
+
+	return rval;
+}
+
+int docListListNumberNode(const ListNumberTreeNode *lntn)
+{
+	const int indent = 0;
+	const int list = 1;
+	const int idx = -1;
+	const int of = 0;
+	const int before = -1;
+	const int after = -1;
+
+	return docCheckListNumberTreeNode(indent, idx, of, list, lntn, before,
+					  after);
+}
+
+int docCheckListNumberNode(const ListNumberTreeNode *lntn)
+{
+	const int indent = 0;
+	const int list = 0;
+	const int idx = -1;
+	const int of = 0;
+	const int before = -1;
+	const int after = -1;
+
+	return docCheckListNumberTreeNode(indent, idx, of, list, lntn, before,
+					  after);
+}
+
+int docListNumberTreeLogPath(ListNumberTreeNode **path, int *nums, int level)
+{
+	int rval = 0;
+
+	int lvl;
+	const char *const bb = "";
+	const char *const aa = "";
+
+	if (!path[0]) {
+		XDEB(path[0]);
+		return -1;
+	}
+
+	docDebugListNumberTreeNodeLine(0, -1, 0, path[0], bb, aa);
+
+	for (lvl = 1; lvl <= level; lvl++) {
+		ListNumberTreeNode *node = path[lvl - 1];
+		int idx = nums[lvl - 1];
+
+		if (!node) {
+			appDebug("%*sL=%d##\n", 4 * lvl, "", lvl);
+			continue;
+		}
+
+		if (idx < 0) {
+			appDebug("%*sL=%d@%d <|\n", 4 * lvl, "", lvl, idx);
+			continue;
+		}
+		if (idx >= node->lntnChildCount) {
+			appDebug("%*sL=%d@%d >|\n", 4 * lvl, "", lvl, idx);
+			continue;
+		}
+
+		docDebugListNumberTreeNodeLine(lvl, idx, node->lntnChildCount,
+					       node->lntnChildren[idx], bb, aa);
+
+		if (path[lvl] != node->lntnChildren[idx]) {
+			SLXXDEB("##", lvl, path[lvl],
+				&(node->lntnChildren[idx]));
+			rval = -1;
+		}
+	}
+
+	return rval;
+}
+
+#if 0
 @   include	<string.h>
 @   include	"docListDepth.h"
 
@@ -796,14 +792,14 @@ void xxxx( void )
     {
     ListNumberTreeNode	tree;
 
-#   if 0
+#if 0
     static unsigned char ilvl[107];
     static unsigned char ilvl[257];
     static unsigned char ilvl[523];
     static unsigned char ilvl[4937];
-#   else
+#else
     static unsigned char ilvl[4937];
-#   endif
+#endif
 
     memset( ilvl, PPoutlineBODYTEXT, sizeof(ilvl) );
     docInitListNumberTreeNode( &tree );
@@ -841,4 +837,4 @@ void xxxx( void )
 
     return;
     }
-# endif
+#endif

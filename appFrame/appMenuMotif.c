@@ -4,206 +4,210 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
+#include <stddef.h>
+#include <stdio.h>
 
-#   include	"appFrame.h"
-#   include	<appDebugon.h>
+#include "appFrame.h"
+#include <appDebugon.h>
 
-#   ifdef USE_MOTIF
+#ifdef USE_MOTIF
 
-#   include	<Xm/PushB.h>
-#   include	<Xm/Separator.h>
-#   include	<Xm/ToggleB.h>
-#   include	<Xm/RowColumn.h>
-#   include	<Xm/CascadeB.h>
+#include <Xm/PushB.h>
+#include <Xm/Separator.h>
+#include <Xm/ToggleB.h>
+#include <Xm/RowColumn.h>
+#include <Xm/CascadeB.h>
 
-APP_WIDGET appSetMenuItem(	APP_WIDGET		menu,
-				AppToplevel *		at,
-				AppMenuItem *		ami,
-				void *			target )
-    {
-    Widget		rval;
+APP_WIDGET appSetMenuItem(APP_WIDGET menu, AppToplevel *at, AppMenuItem *ami,
+			  void *target)
+{
+	Widget rval;
 
-    XmString		labelString;
-    XmString		acceleratorString= (XmString)0;
+	XmString labelString;
+	XmString acceleratorString = (XmString)0;
 
-    Arg			al[20];
-    int			ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    labelString= XmStringCreateLocalized( (char *)ami->amiItemText );
+	labelString = XmStringCreateLocalized((char *)ami->amiItemText);
 
-    XtSetArg( al[ac], XmNlabelString, labelString ); ac++;
+	XtSetArg(al[ac], XmNlabelString, labelString);
+	ac++;
 
-    if  ( ami->amiKey )
-	{ XtSetArg( al[ac], XmNaccelerator, ami->amiKey ); ac++; }
-
-    if  ( ami->amiKeyText )
-	{
-	acceleratorString= XmStringCreateLocalized( (char *)ami->amiKeyText );
-
-	XtSetArg( al[ac], XmNacceleratorText, acceleratorString ); ac++;
+	if (ami->amiKey) {
+		XtSetArg(al[ac], XmNaccelerator, ami->amiKey);
+		ac++;
 	}
 
-    XtSetArg( al[ac], XmNmarginHeight, 1 ); ac++;
+	if (ami->amiKeyText) {
+		acceleratorString =
+			XmStringCreateLocalized((char *)ami->amiKeyText);
 
-    rval= XmCreatePushButton( menu, WIDGET_NAME, al, ac );
-
-    XmStringFree( labelString );
-    if  ( acceleratorString )
-	{ XmStringFree( acceleratorString );	}
-    
-    if  ( ami->amiCallback )
-	{ XtAddCallback( rval, XmNactivateCallback, ami->amiCallback, target );}
-
-    XtManageChild( rval );
-
-    return rval;
-    }	    
-
-APP_WIDGET appSetMenuSeparator(	APP_WIDGET		menu,
-				AppToplevel *		at,
-				AppMenuItem *		ami,
-				void *			target )
-    {
-    Widget		rval;
-
-    Arg			al[20];
-    int			ac= 0;
-
-    rval= XmCreateSeparator( menu, WIDGET_NAME, al, ac );
-
-    XtManageChild( rval );
-
-    return rval;
-    }	    
-
-APP_WIDGET appSetToggleMenuItem(	APP_WIDGET		menu,
-					AppToplevel *		at,
-					AppMenuItem *		ami,
-					void *			target )
-    {
-    Widget		rval;
-
-    XmString		labelString;
-    XmString		acceleratorString= (XmString)0;
-
-    Arg			al[20];
-    int			ac= 0;
-
-    labelString= XmStringCreateLocalized( (char *)ami->amiItemText );
-
-    XtSetArg( al[ac], XmNlabelString,		labelString ); ac++;
-    XtSetArg( al[ac], XmNvisibleWhenOff,	True ); ac++;
-    XtSetArg( al[ac], XmNuserData,		target ); ac++;
-
-    if  ( ami->amiItemType == ITEMtyTOGGLE_ON )
-	{
-#	if XmVersion >= 2000
-	XtSetArg( al[ac], XmNset,		XmSET ); ac++;
-#	else
-	XtSetArg( al[ac], XmNset,		True ); ac++;
-#	endif
+		XtSetArg(al[ac], XmNacceleratorText, acceleratorString);
+		ac++;
 	}
 
-    if  ( ami->amiKey )
-	{ XtSetArg( al[ac], XmNaccelerator, ami->amiKey ); ac++; }
+	XtSetArg(al[ac], XmNmarginHeight, 1);
+	ac++;
 
-    if  ( ami->amiKeyText )
-	{
-	acceleratorString=
-		    XmStringCreateLocalized( (char *)ami->amiKeyText );
+	rval = XmCreatePushButton(menu, WIDGET_NAME, al, ac);
 
-	XtSetArg( al[ac], XmNacceleratorText, acceleratorString ); ac++;
+	XmStringFree(labelString);
+	if (acceleratorString) {
+		XmStringFree(acceleratorString);
 	}
 
-    XtSetArg( al[ac], XmNmarginHeight, 1 ); ac++;
-
-    rval= XmCreateToggleButton( menu, WIDGET_NAME, al, ac );
-
-    XmStringFree( labelString );
-    if  ( acceleratorString )
-	{ XmStringFree( acceleratorString );	}
-
-    XtAddCallback( rval, XmNvalueChangedCallback, ami->amiCallback, target );
-
-    XtManageChild( rval );
-
-    return rval;
-    }	    
-
-APP_WIDGET appMakeMenuInParent(	APP_WIDGET *		pButton,
-				AppToplevel *		at,
-				APP_WIDGET		menuBar,
-				const char *		itemText,
-				int			isHelp )
-    {
-    APP_WIDGET			menu;
-    APP_WIDGET			button;
-
-    XmString			labelString;
-
-    Arg				al[20];
-    int				ac= 0;
-
-    labelString= XmStringCreateLocalized( (char *)itemText );
-
-    ac= 0;
-    menu= XmCreatePulldownMenu( menuBar, WIDGET_NAME, al, ac );
-    if  ( ! menu )
-	{ XDEB(menu); return menu;	}
-
-    ac= 0;
-    XtSetArg( al[ac], XmNlabelString,		labelString ); ac++;
-    XtSetArg( al[ac], XmNsubMenuId,		menu ); ac++;
-
-    button= XmCreateCascadeButton( menuBar, WIDGET_NAME, al, ac );
-    XtManageChild( button );
-
-    if  ( isHelp )
-	{
-	XtVaSetValues( menuBar,
-			    XmNmenuHelpWidget,	button,
-			    NULL );
+	if (ami->amiCallback) {
+		XtAddCallback(rval, XmNactivateCallback, ami->amiCallback,
+			      target);
 	}
 
-    XmStringFree( labelString );
+	XtManageChild(rval);
 
-    *pButton= button;
+	return rval;
+}
 
-    return menu;
-    }
+APP_WIDGET appSetMenuSeparator(APP_WIDGET menu, AppToplevel *at,
+			       AppMenuItem *ami, void *target)
+{
+	Widget rval;
 
-void appGuiSetToggleItemState(	APP_WIDGET		toggle,
-				int			set )
-    {
-    XmToggleButtonSetState( toggle, set != 0, False );
-    }
+	Arg al[20];
+	int ac = 0;
 
-void appGuiSetToggleItemLabel(	APP_WIDGET		toggle,
-				const char *		label )
-    {
-    XmString	labelString;
+	rval = XmCreateSeparator(menu, WIDGET_NAME, al, ac);
 
-    labelString= XmStringCreateLocalized( (char *)label );
-    XtVaSetValues( toggle,
-			XmNlabelString,	labelString,
-			NULL );
+	XtManageChild(rval);
 
-    XmStringFree( labelString );
-    }
+	return rval;
+}
 
-int appGuiGetMenuToggleStateFromCallback( APP_WIDGET		toggle,
-					void *			voidcbs )
-    {
-    XmToggleButtonCallbackStruct *	cbs;
+APP_WIDGET appSetToggleMenuItem(APP_WIDGET menu, AppToplevel *at,
+				AppMenuItem *ami, void *target)
+{
+	Widget rval;
 
-    cbs= (XmToggleButtonCallbackStruct *)voidcbs;
+	XmString labelString;
+	XmString acceleratorString = (XmString)0;
 
-    return cbs->set;
-    }
+	Arg al[20];
+	int ac = 0;
+
+	labelString = XmStringCreateLocalized((char *)ami->amiItemText);
+
+	XtSetArg(al[ac], XmNlabelString, labelString);
+	ac++;
+	XtSetArg(al[ac], XmNvisibleWhenOff, True);
+	ac++;
+	XtSetArg(al[ac], XmNuserData, target);
+	ac++;
+
+	if (ami->amiItemType == ITEMtyTOGGLE_ON) {
+#if XmVersion >= 2000
+		XtSetArg(al[ac], XmNset, XmSET);
+		ac++;
+#else
+		XtSetArg(al[ac], XmNset, True);
+		ac++;
+#endif
+	}
+
+	if (ami->amiKey) {
+		XtSetArg(al[ac], XmNaccelerator, ami->amiKey);
+		ac++;
+	}
+
+	if (ami->amiKeyText) {
+		acceleratorString =
+			XmStringCreateLocalized((char *)ami->amiKeyText);
+
+		XtSetArg(al[ac], XmNacceleratorText, acceleratorString);
+		ac++;
+	}
+
+	XtSetArg(al[ac], XmNmarginHeight, 1);
+	ac++;
+
+	rval = XmCreateToggleButton(menu, WIDGET_NAME, al, ac);
+
+	XmStringFree(labelString);
+	if (acceleratorString) {
+		XmStringFree(acceleratorString);
+	}
+
+	XtAddCallback(rval, XmNvalueChangedCallback, ami->amiCallback, target);
+
+	XtManageChild(rval);
+
+	return rval;
+}
+
+APP_WIDGET appMakeMenuInParent(APP_WIDGET *pButton, AppToplevel *at,
+			       APP_WIDGET menuBar, const char *itemText,
+			       int isHelp)
+{
+	APP_WIDGET menu;
+	APP_WIDGET button;
+
+	XmString labelString;
+
+	Arg al[20];
+	int ac = 0;
+
+	labelString = XmStringCreateLocalized((char *)itemText);
+
+	ac = 0;
+	menu = XmCreatePulldownMenu(menuBar, WIDGET_NAME, al, ac);
+	if (!menu) {
+		XDEB(menu);
+		return menu;
+	}
+
+	ac = 0;
+	XtSetArg(al[ac], XmNlabelString, labelString);
+	ac++;
+	XtSetArg(al[ac], XmNsubMenuId, menu);
+	ac++;
+
+	button = XmCreateCascadeButton(menuBar, WIDGET_NAME, al, ac);
+	XtManageChild(button);
+
+	if (isHelp) {
+		XtVaSetValues(menuBar, XmNmenuHelpWidget, button, NULL);
+	}
+
+	XmStringFree(labelString);
+
+	*pButton = button;
+
+	return menu;
+}
+
+void appGuiSetToggleItemState(APP_WIDGET toggle, int set)
+{
+	XmToggleButtonSetState(toggle, set != 0, False);
+}
+
+void appGuiSetToggleItemLabel(APP_WIDGET toggle, const char *label)
+{
+	XmString labelString;
+
+	labelString = XmStringCreateLocalized((char *)label);
+	XtVaSetValues(toggle, XmNlabelString, labelString, NULL);
+
+	XmStringFree(labelString);
+}
+
+int appGuiGetMenuToggleStateFromCallback(APP_WIDGET toggle, void *voidcbs)
+{
+	XmToggleButtonCallbackStruct *cbs;
+
+	cbs = (XmToggleButtonCallbackStruct *)voidcbs;
+
+	return cbs->set;
+}
 
 /************************************************************************/
 /*									*/
@@ -213,25 +217,25 @@ int appGuiGetMenuToggleStateFromCallback( APP_WIDGET		toggle,
 /************************************************************************/
 
 /*  1  */
-char *	appGetTextFromMenuOption(	Widget		w )
-    {
-    XmString	labelString= (XmString)0;
-    char *	s;
+char *appGetTextFromMenuOption(Widget w)
+{
+	XmString labelString = (XmString)0;
+	char *s;
 
-    XtVaGetValues( w,
-		    XmNlabelString,		&labelString,
-		    NULL );
+	XtVaGetValues(w, XmNlabelString, &labelString, NULL);
 
-    XmStringGetLtoR( labelString, XmSTRING_DEFAULT_CHARSET, &s );
+	XmStringGetLtoR(labelString, XmSTRING_DEFAULT_CHARSET, &s);
 
-    XmStringFree( labelString );
+	XmStringFree(labelString);
 
-    return s;
-    }
+	return s;
+}
 
 /*  2  */
-void appFreeTextFromMenuOption(	char *		s )
-    { XtFree( s );	}
+void appFreeTextFromMenuOption(char *s)
+{
+	XtFree(s);
+}
 
 /************************************************************************/
 /*									*/
@@ -239,13 +243,13 @@ void appFreeTextFromMenuOption(	char *		s )
 /*									*/
 /************************************************************************/
 
-void guiShowMenuOption(		APP_WIDGET		w,
-				int			visible )
-    {
-    if  ( visible )
-	{ XtManageChild( w );	}
-    else{ XtUnmanageChild( w );	}
-    }
+void guiShowMenuOption(APP_WIDGET w, int visible)
+{
+	if (visible) {
+		XtManageChild(w);
+	} else {
+		XtUnmanageChild(w);
+	}
+}
 
-#   endif
-
+#endif

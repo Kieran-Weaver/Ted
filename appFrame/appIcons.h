@@ -4,17 +4,16 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	APP_ICONS_H
-#   define	APP_ICONS_H
+#ifndef APP_ICONS_H
+#define APP_ICONS_H
 
-#   include	"appGuiBase.h"
+#include "appGuiBase.h"
 
-typedef struct NamedPicture
-    {
-    const char *	npPictureName;
-    const char **	npBuffer;
-    APP_BITMAP_IMAGE	npPixmap;
-    APP_BITMAP_MASK	npMask;
-    } NamedPicture;
+typedef struct NamedPicture {
+	const char *npPictureName;
+	const char **npBuffer;
+	APP_BITMAP_IMAGE npPixmap;
+	APP_BITMAP_MASK npMask;
+} NamedPicture;
 
-#   endif
+#endif

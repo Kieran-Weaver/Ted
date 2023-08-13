@@ -6,19 +6,19 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	APP_GUI_RESOURCE_H
-#   define	APP_GUI_RESOURCE_H
+#ifndef APP_GUI_RESOURCE_H
+#define APP_GUI_RESOURCE_H
 
-#   ifdef USE_GTK
-#	define USE_OWN_RESOURCE	1
-#   else
-#	define USE_OWN_RESOURCE	1
-#   endif
+#ifdef USE_GTK
+#define USE_OWN_RESOURCE 1
+#else
+#define USE_OWN_RESOURCE 1
+#endif
 
-#   if USE_OWN_RESOURCE == 0
-#   include	<X11/Xlib.h>
-#   include	<X11/Intrinsic.h>
-#   endif
+#if USE_OWN_RESOURCE == 0
+#include <X11/Xlib.h>
+#include <X11/Intrinsic.h>
+#endif
 
 /************************************************************************/
 /*									*/
@@ -31,54 +31,53 @@
 /*									*/
 /************************************************************************/
 
-#   if USE_OWN_RESOURCE == 1
+#if USE_OWN_RESOURCE == 1
 
-typedef struct AppConfigurableResource
-    {
-    const char *	acrResourceName;
-    unsigned int	acrStructOffset;
-    const char *	acrDefaultValue;
-    } AppConfigurableResource;
+typedef struct AppConfigurableResource {
+	const char *acrResourceName;
+	unsigned int acrStructOffset;
+	const char *acrDefaultValue;
+} AppConfigurableResource;
 
-#   define	APP_RESOURCE( x, o, d )					\
-				{ (x), (o), (d) }
+#define APP_RESOURCE(x, o, d) \
+	{                     \
+		(x), (o), (d) \
+	}
 
-#   define	APP_SET_RESOURCE( acr, x, o, d )			\
-				{					\
-				(acr)->acrResourceName= (x);		\
-				(acr)->acrStructOffset= (o);		\
-				(acr)->acrDefaultValue= (d);		\
-				}
+#define APP_SET_RESOURCE(acr, x, o, d)        \
+	{                                     \
+		(acr)->acrResourceName = (x); \
+		(acr)->acrStructOffset = (o); \
+		(acr)->acrDefaultValue = (d); \
+	}
 
-#   endif
+#endif
 
-#   if USE_OWN_RESOURCE == 0
+#if USE_OWN_RESOURCE == 0
 
-    typedef XtResource AppConfigurableResource;
+typedef XtResource AppConfigurableResource;
 
-#   define	acrResourceName	resource_name
-#   define	acrStructOffset	resource_offset
-#   define	acrDefaultValue	default_addr
+#define acrResourceName resource_name
+#define acrStructOffset resource_offset
+#define acrDefaultValue default_addr
 
-#   define	APP_RESOURCE( x, o, d )					\
-				{					\
-				(char *)(x),(char *)(x),		\
-				XtRString, sizeof(char *),		\
-				(o),					\
-				XtRString, (char *)(d),			\
-				}
+#define APP_RESOURCE(x, o, d)                                             \
+	{                                                                 \
+		(char *)(x), (char *)(x), XtRString, sizeof(char *), (o), \
+			XtRString, (char *)(d),                           \
+	}
 
-#   define	APP_SET_RESOURCE( acr, x, o, d )			\
-				{					\
-				(acr)->resource_name= (char *)(x);	\
-				(acr)->resource_class= (char *)(x);	\
-				(acr)->resource_type= XtRString;	\
-				(acr)->resource_size= sizeof(char *);	\
-				(acr)->resource_offset= (o);		\
-				(acr)->default_type= XtRString;		\
-				(acr)->default_addr= (char *)(d);	\
-				}
+#define APP_SET_RESOURCE(acr, x, o, d)                 \
+	{                                              \
+		(acr)->resource_name = (char *)(x);    \
+		(acr)->resource_class = (char *)(x);   \
+		(acr)->resource_type = XtRString;      \
+		(acr)->resource_size = sizeof(char *); \
+		(acr)->resource_offset = (o);          \
+		(acr)->default_type = XtRString;       \
+		(acr)->default_addr = (char *)(d);     \
+	}
 
-#   endif
+#endif
 
-#   endif	/* APP_GUI_RESOURCE_H */
+#endif /* APP_GUI_RESOURCE_H */

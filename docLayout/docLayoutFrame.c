@@ -4,13 +4,13 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docLayoutConfig.h"
+#include "docLayoutConfig.h"
 
-#   include	<stddef.h>
+#include <stddef.h>
 
-#   include	<docPageGrid.h>
+#include <docPageGrid.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -18,7 +18,7 @@
 /*									*/
 /************************************************************************/
 
-# if 0
+#if 0
 
 Word GUI:
 
@@ -103,177 +103,180 @@ Word GUI:
     ABS POS: (Margin/Page/Column/Character)
     The left of the frame is positioned relative to the positions.
 
-# endif
+#endif
 
-void docLayoutFrameX(		BlockFrame *			bfTextFrame,
-				int				xRefProp,
-				int				xPosProp,
-				int				xPosVal,
-				int				layoutInCell,
-				const ParagraphFrame *		pfRef,
-				const BlockFrame *		bfRef,
-				int				xChar,
-				int				frameWide )
-    {
-    int		xRef= 0;
-    int		xRel= 0;
-    int		xRight= 0;
+void docLayoutFrameX(BlockFrame *bfTextFrame, int xRefProp, int xPosProp,
+		     int xPosVal, int layoutInCell, const ParagraphFrame *pfRef,
+		     const BlockFrame *bfRef, int xChar, int frameWide)
+{
+	int xRef = 0;
+	int xRel = 0;
+	int xRight = 0;
 
-    if  ( xPosProp == FXposXI )
-	{
-	if  ( bfRef->bfPage % 2 )
-	    { xPosProp= FXposXR;	}
-	else{ xPosProp= FXposXL;	}
-	}
-
-    if  ( xPosProp == FXposXO )
-	{
-	if  ( bfRef->bfPage % 2 )
-	    { xPosProp= FXposXL;	}
-	else{ xPosProp= FXposXR;	}
-	}
-
-    switch( xRefProp )
-	{
-	case FXrefMARGIN:
-	    xRef= bfRef->bfPageGeometry.dgLeftMarginTwips;
-	    xRight= bfRef->bfPageGeometry.dgPageWideTwips-
-				    bfRef->bfPageGeometry.dgRightMarginTwips;
-
-	    switch( xPosProp )
-		{
-		case FXposXGIVEN:
-		    xRel= xPosVal;
-		    /* Copy MS-Word behaviour	*/
-		    if  ( xRel < -xRef )
-			{ xRel=  -xRef;	}
-		    break;
-		case FXposXL:
-		    xRel= 0;
-		    break;
-		case FXposXC:
-		    xRef= ( xRef+ xRight )/ 2;
-		    xRel= -frameWide/ 2;
-		    break;
-		case FXposXR:
-		    xRef= xRight;
-		    xRel= -frameWide;
-		    break;
-		case FXposXI: case FXposXO: default:
-		    LDEB(xPosProp);
-		    break;
+	if (xPosProp == FXposXI) {
+		if (bfRef->bfPage % 2) {
+			xPosProp = FXposXR;
+		} else {
+			xPosProp = FXposXL;
 		}
-	    break;
+	}
+
+	if (xPosProp == FXposXO) {
+		if (bfRef->bfPage % 2) {
+			xPosProp = FXposXL;
+		} else {
+			xPosProp = FXposXR;
+		}
+	}
+
+	switch (xRefProp) {
+	case FXrefMARGIN:
+		xRef = bfRef->bfPageGeometry.dgLeftMarginTwips;
+		xRight = bfRef->bfPageGeometry.dgPageWideTwips -
+			 bfRef->bfPageGeometry.dgRightMarginTwips;
+
+		switch (xPosProp) {
+		case FXposXGIVEN:
+			xRel = xPosVal;
+			/* Copy MS-Word behaviour	*/
+			if (xRel < -xRef) {
+				xRel = -xRef;
+			}
+			break;
+		case FXposXL:
+			xRel = 0;
+			break;
+		case FXposXC:
+			xRef = (xRef + xRight) / 2;
+			xRel = -frameWide / 2;
+			break;
+		case FXposXR:
+			xRef = xRight;
+			xRel = -frameWide;
+			break;
+		case FXposXI:
+		case FXposXO:
+		default:
+			LDEB(xPosProp);
+			break;
+		}
+		break;
 
 	case FXrefCOLUMN:
-	    if  ( layoutInCell )
-		{
-		xRef= pfRef->pfCellContentRect.drX0;
-		xRight= pfRef->pfCellContentRect.drX1;
-		}
-	    else{
-		xRef= bfRef->bfContentRect.drX0;
-		xRight= bfRef->bfContentRect.drX1;
+		if (layoutInCell) {
+			xRef = pfRef->pfCellContentRect.drX0;
+			xRight = pfRef->pfCellContentRect.drX1;
+		} else {
+			xRef = bfRef->bfContentRect.drX0;
+			xRight = bfRef->bfContentRect.drX1;
 		}
 
-	    switch( xPosProp )
-		{
+		switch (xPosProp) {
 		case FXposXGIVEN:
-		    xRel= xPosVal;
-		    /* Copy MS-Word behaviour	*/
-		    if  ( xRel < -xRef )
-			{ xRel=  -xRef;	}
-		    break;
+			xRel = xPosVal;
+			/* Copy MS-Word behaviour	*/
+			if (xRel < -xRef) {
+				xRel = -xRef;
+			}
+			break;
 		case FXposXL:
-		    xRel= 0;
-		    break;
+			xRel = 0;
+			break;
 		case FXposXC:
-		    xRef= ( xRef+ xRight )/ 2;
-		    xRel= -frameWide/ 2;
-		    break;
+			xRef = (xRef + xRight) / 2;
+			xRel = -frameWide / 2;
+			break;
 		case FXposXR:
-		    xRef= xRight;
-		    xRel= -frameWide;
-		    break;
-		case FXposXI: case FXposXO: default:
-		    LDEB(xPosProp);
-		    break;
+			xRef = xRight;
+			xRel = -frameWide;
+			break;
+		case FXposXI:
+		case FXposXO:
+		default:
+			LDEB(xPosProp);
+			break;
 		}
-	    break;
+		break;
 
 	case FXrefPAGE:
-	    xRef= 0;
-	    xRight= bfRef->bfPageGeometry.dgPageWideTwips;
+		xRef = 0;
+		xRight = bfRef->bfPageGeometry.dgPageWideTwips;
 
-	    switch( xPosProp )
-		{
+		switch (xPosProp) {
 		case FXposXGIVEN:
-		    xRel= xPosVal;
-		    /* Copy MS-Word behaviour	*/
-		    if  ( xRel < -xRef )
-			{ xRel=  -xRef;	}
-		    break;
+			xRel = xPosVal;
+			/* Copy MS-Word behaviour	*/
+			if (xRel < -xRef) {
+				xRel = -xRef;
+			}
+			break;
 		case FXposXL:
-		    xRef= bfRef->bfPageGeometry.dgLeftMarginTwips;
-		    xRel= -frameWide;
-		    break;
+			xRef = bfRef->bfPageGeometry.dgLeftMarginTwips;
+			xRel = -frameWide;
+			break;
 		case FXposXC:
-		    xRef= ( xRef+ xRight )/ 2;
-		    xRel= -frameWide/ 2;
-		    break;
+			xRef = (xRef + xRight) / 2;
+			xRel = -frameWide / 2;
+			break;
 		case FXposXR:
-		    xRef= bfRef->bfPageGeometry.dgPageWideTwips-
-				    bfRef->bfPageGeometry.dgRightMarginTwips;
-		    xRel= 0;
-		    break;
-		case FXposXI: case FXposXO: default:
-		    LDEB(xPosProp);
-		    break;
+			xRef = bfRef->bfPageGeometry.dgPageWideTwips -
+			       bfRef->bfPageGeometry.dgRightMarginTwips;
+			xRel = 0;
+			break;
+		case FXposXI:
+		case FXposXO:
+		default:
+			LDEB(xPosProp);
+			break;
 		}
-	    break;
+		break;
 
 	case FXrefCHARACTER:
-	    xRef= xChar;
-	    xRel= 0;
+		xRef = xChar;
+		xRel = 0;
 
-	    switch( xPosProp )
-		{
+		switch (xPosProp) {
 		case FXposXGIVEN:
-		    xRel= xPosVal;
-		    /* Copy MS-Word behaviour	*/
-		    if  ( xRel < -xRef )
-			{ xRel=  -xRef;	}
-		    break;
+			xRel = xPosVal;
+			/* Copy MS-Word behaviour	*/
+			if (xRel < -xRef) {
+				xRel = -xRef;
+			}
+			break;
 		case FXposXL:
-		    xRel= 0;
-		    break;
+			xRel = 0;
+			break;
 		case FXposXC:
-		    xRel= -frameWide/ 2;
-		    break;
+			xRel = -frameWide / 2;
+			break;
 		case FXposXR:
-		    xRel= -frameWide;
-		    break;
-		case FXposXI: case FXposXO: default:
-		    LDEB(xPosProp);
-		    break;
+			xRel = -frameWide;
+			break;
+		case FXposXI:
+		case FXposXO:
+		default:
+			LDEB(xPosProp);
+			break;
 		}
-	    break;
+		break;
 
 	default:
-	    LDEB(xRefProp); return;
+		LDEB(xRefProp);
+		return;
 	}
 
-    bfTextFrame->bfPageGeometry= bfRef->bfPageGeometry;
+	bfTextFrame->bfPageGeometry = bfRef->bfPageGeometry;
 
-    bfTextFrame->bfContentRect.drX0= xRef+ xRel;
-    bfTextFrame->bfContentRect.drX1= bfTextFrame->bfContentRect.drX0+ frameWide;
+	bfTextFrame->bfContentRect.drX0 = xRef + xRel;
+	bfTextFrame->bfContentRect.drX1 =
+		bfTextFrame->bfContentRect.drX0 + frameWide;
 
-    bfTextFrame->bfFlowRect.drX0= bfTextFrame->bfContentRect.drX0;
-    bfTextFrame->bfFlowRect.drX1= bfTextFrame->bfContentRect.drX1;
-    return;
-    }
+	bfTextFrame->bfFlowRect.drX0 = bfTextFrame->bfContentRect.drX0;
+	bfTextFrame->bfFlowRect.drX1 = bfTextFrame->bfContentRect.drX1;
+	return;
+}
 
-# if 0
+#if 0
 
 Word GUI:
 
@@ -370,180 +373,173 @@ Word GUI:
     ABS POS: (Margin/Page/Paragraph/Line)
     Positions are relative to the top of the objects.
 
-# endif
+#endif
 
-void docLayoutFrameY(		BlockFrame *			bfTextFrame,
-				int				yRefProp,
-				int				yPosProp,
-				int				yPosVal,
-				const LayoutPosition *		lpLineTop,
-				const LayoutPosition *		lpParaTop,
-				const BlockFrame *		bfRef,
-				int				frameHighProp,
-				int				frameHighVal )
-    {
-    /*
+void docLayoutFrameY(BlockFrame *bfTextFrame, int yRefProp, int yPosProp,
+		     int yPosVal, const LayoutPosition *lpLineTop,
+		     const LayoutPosition *lpParaTop, const BlockFrame *bfRef,
+		     int frameHighProp, int frameHighVal)
+{
+	/*
     const DocumentGeometry *	dg= &(bfRef->bfPageGeometry);
     */
 
-    int				yRef= 0;
-    int				yRel= 0;
-    int				yBot= 0;
+	int yRef = 0;
+	int yRel = 0;
+	int yBot = 0;
 
-    switch( yRefProp )
-	{
+	switch (yRefProp) {
 	case FYrefMARGIN:
-	    yRef= bfRef->bfContentRect.drY0;
-	    yBot= bfRef->bfPageGeometry.dgPageHighTwips-
-				    bfRef->bfPageGeometry.dgBottomMarginTwips;
-	    switch( yPosProp )
-		{
+		yRef = bfRef->bfContentRect.drY0;
+		yBot = bfRef->bfPageGeometry.dgPageHighTwips -
+		       bfRef->bfPageGeometry.dgBottomMarginTwips;
+		switch (yPosProp) {
 		case FYposYGIVEN:
-		    yRel= yPosVal;
-		    /* Copy MS-Word behaviour	*/
-		    if  ( yRel < -yRef )
-			{ yRel=  -yRef;	}
-		    break;
+			yRel = yPosVal;
+			/* Copy MS-Word behaviour	*/
+			if (yRel < -yRef) {
+				yRel = -yRef;
+			}
+			break;
 		case FYposYT:
-		    yRel= 0;
-		    break;
+			yRel = 0;
+			break;
 		case FYposYC:
-		    yRef= ( yRef+ yBot )/ 2;
-		    yRel= -frameHighVal/ 2;
-		    break;
+			yRef = (yRef + yBot) / 2;
+			yRel = -frameHighVal / 2;
+			break;
 		case FYposYB:
-		    yRef= yBot;
-		    yRel= -frameHighVal;
-		    break;
+			yRef = yBot;
+			yRel = -frameHighVal;
+			break;
 		case FYposYIN:
-		    yRel= 0;
-		    break;
+			yRel = 0;
+			break;
 		case FYposYOUT:
-		    yRef= yBot;
-		    yRel= -frameHighVal;
-		    break;
+			yRef = yBot;
+			yRel = -frameHighVal;
+			break;
 		default:
-		    LDEB(yPosProp);
-		    break;
+			LDEB(yPosProp);
+			break;
 		}
-	    break;
+		break;
 
 	case FYrefPAGE:
-	    yRef= 0;
-	    yBot= bfRef->bfPageGeometry.dgPageHighTwips;
+		yRef = 0;
+		yBot = bfRef->bfPageGeometry.dgPageHighTwips;
 
-	    switch( yPosProp )
-		{
+		switch (yPosProp) {
 		case FYposYGIVEN:
-		    yRel= yPosVal;
-		    /* Copy MS-Word behaviour	*/
-		    if  ( yRel < -yRef )
-			{ yRel=  -yRef;	}
-		    break;
+			yRel = yPosVal;
+			/* Copy MS-Word behaviour	*/
+			if (yRel < -yRef) {
+				yRel = -yRef;
+			}
+			break;
 		case FYposYT:
-		    yRel= 0;
-		    break;
+			yRel = 0;
+			break;
 		case FYposYC:
-		    yRef= ( yRef+ yBot )/ 2;
-		    yRel= -frameHighVal/ 2;
-		    break;
+			yRef = (yRef + yBot) / 2;
+			yRel = -frameHighVal / 2;
+			break;
 		case FYposYB:
-		    yRef= yBot;
-		    yRel= -frameHighVal;
-		    break;
+			yRef = yBot;
+			yRel = -frameHighVal;
+			break;
 		case FYposYIN:
-		    yRef= bfRef->bfPageGeometry.dgHeaderPositionTwips;
-		    yRel= -frameHighVal/ 2;
-		    break;
+			yRef = bfRef->bfPageGeometry.dgHeaderPositionTwips;
+			yRel = -frameHighVal / 2;
+			break;
 		case FYposYOUT:
-		    yRef= bfRef->bfPageGeometry.dgFooterPositionTwips;
-		    yRel= -frameHighVal/ 2;
-		    break;
+			yRef = bfRef->bfPageGeometry.dgFooterPositionTwips;
+			yRel = -frameHighVal / 2;
+			break;
 		default:
-		    LDEB(yPosProp);
-		    break;
+			LDEB(yPosProp);
+			break;
 		}
-	    break;
+		break;
 
 	case FYrefPARA:
-	    yRef= lpParaTop->lpPageYTwips;
+		yRef = lpParaTop->lpPageYTwips;
 
-	    switch( yPosProp )
-		{
+		switch (yPosProp) {
 		case FYposYGIVEN:
-		    yRel= yPosVal;
-		    /* Copy MS-Word behaviour	*/
-		    if  ( yRel < -yRef )
-			{ yRel=  -yRef;	}
-		    break;
+			yRel = yPosVal;
+			/* Copy MS-Word behaviour	*/
+			if (yRel < -yRef) {
+				yRel = -yRef;
+			}
+			break;
 		case FYposYT:
 		case FYposYC:
 		case FYposYB:
 		case FYposYIN:
 		case FYposYOUT:
-		    yRel= 0;
-		    break;
+			yRel = 0;
+			break;
 		default:
-		    LDEB(yPosProp);
-		    break;
+			LDEB(yPosProp);
+			break;
 		}
-	    break;
+		break;
 
 	case FYrefLINE:
-	    yRef= lpLineTop->lpPageYTwips;
+		yRef = lpLineTop->lpPageYTwips;
 
-	    switch( yPosProp )
-		{
+		switch (yPosProp) {
 		case FYposYGIVEN:
-		    yRel= yPosVal;
-		    /* Copy MS-Word behaviour	*/
-		    if  ( yRel < -yRef )
-			{ yRel=  -yRef;	}
-		    break;
+			yRel = yPosVal;
+			/* Copy MS-Word behaviour	*/
+			if (yRel < -yRef) {
+				yRel = -yRef;
+			}
+			break;
 		case FYposYT:
-		    yRel= 0;
-		    break;
+			yRel = 0;
+			break;
 		case FYposYC:
-		    /* See above: Align baselines! */
-		    yRel= -frameHighVal/ 2;
-		    break;
+			/* See above: Align baselines! */
+			yRel = -frameHighVal / 2;
+			break;
 		case FYposYB:
-		    yRel= -frameHighVal;
-		    break;
+			yRel = -frameHighVal;
+			break;
 		case FYposYIN:
-		    yRel= 0;
-		    break;
+			yRel = 0;
+			break;
 		case FYposYOUT:
-		    yRel= -frameHighVal;
-		    break;
+			yRel = -frameHighVal;
+			break;
 		default:
-		    LDEB(yPosProp);
-		    break;
+			LDEB(yPosProp);
+			break;
 		}
-	    break;
+		break;
 
 	default:
-	    LDEB(yRefProp);
-	    break;
+		LDEB(yRefProp);
+		break;
 	}
 
-    bfTextFrame->bfContentRect.drY0= yRef+ yRel;
-    if  ( frameHighProp < 0 )
-	{
-	bfTextFrame->bfContentRect.drY1=
-			    bfTextFrame->bfContentRect.drY0- frameHighProp;
-	}
-    else{
-	/* will see later on */
-	bfTextFrame->bfContentRect.drY1= bfTextFrame->bfContentRect.drY0+
-					bfRef->bfPageGeometry.dgPageHighTwips;
+	bfTextFrame->bfContentRect.drY0 = yRef + yRel;
+	if (frameHighProp < 0) {
+		bfTextFrame->bfContentRect.drY1 =
+			bfTextFrame->bfContentRect.drY0 - frameHighProp;
+	} else {
+		/* will see later on */
+		bfTextFrame->bfContentRect.drY1 =
+			bfTextFrame->bfContentRect.drY0 +
+			bfRef->bfPageGeometry.dgPageHighTwips;
 	}
 
-    bfTextFrame->bfFlowRect.drY0= bfTextFrame->bfContentRect.drY0;
-    bfTextFrame->bfFlowRect.drY1= bfTextFrame->bfContentRect.drY1;
+	bfTextFrame->bfFlowRect.drY0 = bfTextFrame->bfContentRect.drY0;
+	bfTextFrame->bfFlowRect.drY1 = bfTextFrame->bfContentRect.drY1;
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -558,33 +554,29 @@ void docLayoutFrameY(		BlockFrame *			bfTextFrame,
 /*									*/
 /************************************************************************/
 
-void docLayoutSetTextFrame(	BlockFrame *			bfTextFrame,
-				const LayoutPosition *		lpRef,
-				const BlockFrame *		bfRef,
-				const FrameProperties *		fp,
-				int				frameHighVal )
-    {
-    /*  2  */
-    const int				xChar= 0;
-    /*  3  */
-    const int				layoutInCell= 0;
-    const ParagraphFrame *		pfRef= (const ParagraphFrame *)0;
+void docLayoutSetTextFrame(BlockFrame *bfTextFrame, const LayoutPosition *lpRef,
+			   const BlockFrame *bfRef, const FrameProperties *fp,
+			   int frameHighVal)
+{
+	/*  2  */
+	const int xChar = 0;
+	/*  3  */
+	const int layoutInCell = 0;
+	const ParagraphFrame *pfRef = (const ParagraphFrame *)0;
 
-    /*  1  */
-    bfTextFrame->bfPage= bfRef->bfPage;
-    bfTextFrame->bfColumn= bfRef->bfColumn; /* ignored */
+	/*  1  */
+	bfTextFrame->bfPage = bfRef->bfPage;
+	bfTextFrame->bfColumn = bfRef->bfColumn; /* ignored */
 
-    /*  X  */
-    docLayoutFrameX( bfTextFrame,
-			fp->fpXReference, fp->fpXPosition, fp->fpXTwips,
-			layoutInCell, pfRef, bfRef, xChar, fp->fpWideTwips );
+	/*  X  */
+	docLayoutFrameX(bfTextFrame, fp->fpXReference, fp->fpXPosition,
+			fp->fpXTwips, layoutInCell, pfRef, bfRef, xChar,
+			fp->fpWideTwips);
 
-    /*  Y  */
-    docLayoutFrameY( bfTextFrame,
-			    fp->fpYReference, fp->fpYPosition, fp->fpYTwips,
-			    lpRef, lpRef, bfRef,
-			    fp->fpHighTwips, frameHighVal );
+	/*  Y  */
+	docLayoutFrameY(bfTextFrame, fp->fpYReference, fp->fpYPosition,
+			fp->fpYTwips, lpRef, lpRef, bfRef, fp->fpHighTwips,
+			frameHighVal);
 
-    return;
-    }
-
+	return;
+}

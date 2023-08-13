@@ -5,13 +5,10 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInForkOpen(
-					SimpleInputStream *	sisIn,
-					SimpleOutputStream *	sosFork );
+extern SimpleInputStream *sioInForkOpen(SimpleInputStream *sisIn,
+					SimpleOutputStream *sosFork);
 
-extern SimpleOutputStream * sioOutForkOpen(
-					SimpleOutputStream *	sosOut,
-					SimpleOutputStream *	sosFork );
-
+extern SimpleOutputStream *sioOutForkOpen(SimpleOutputStream *sosOut,
+					  SimpleOutputStream *sosFork);

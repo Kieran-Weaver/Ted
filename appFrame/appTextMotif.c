@@ -1,15 +1,15 @@
-#   include	"appFrameConfig.h"
+#include "appFrameConfig.h"
 
-#   include	<stdio.h>
+#include <stdio.h>
 
-#   include	"guiWidgets.h"
+#include "guiWidgets.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   ifdef USE_MOTIF
+#ifdef USE_MOTIF
 
-#   include	<X11/Xatom.h>
-#   include	<Xm/Text.h>
+#include <X11/Xatom.h>
+#include <Xm/Text.h>
 
 /************************************************************************/
 /*									*/
@@ -17,13 +17,13 @@
 /*									*/
 /************************************************************************/
 
-static const char *	APP_PasteTranslationString=
-    "Ctrl <Key>v: copy-clipboard()\n"	/*  PASTE	*/
-    "Ctrl <Key>c: copy-clipboard()\n"	/*  COPY	*/
-    "Ctrl <Key>x: cut-clipboard()\n"	/*  CUT		*/
-    ;
+static const char *APP_PasteTranslationString =
+	"Ctrl <Key>v: copy-clipboard()\n" /*  PASTE	*/
+	"Ctrl <Key>c: copy-clipboard()\n" /*  COPY	*/
+	"Ctrl <Key>x: cut-clipboard()\n" /*  CUT		*/
+	;
 
-static XtTranslations APP_PasteTranslations= (XtTranslations)0;
+static XtTranslations APP_PasteTranslations = (XtTranslations)0;
 
 /************************************************************************/
 /*									*/
@@ -31,74 +31,82 @@ static XtTranslations APP_PasteTranslations= (XtTranslations)0;
 /*									*/
 /************************************************************************/
 
-void appMakeTextInRow(		Widget *		pText,
-				Widget			row,
-				int			column,
-				int			colspan,
-				int			textColumns,
-				int			textEnabled )
-    {
-    Display *		display= XtDisplay( row );
-    int			screen= DefaultScreen( display );
-    Pixel		whitePixel= WhitePixel( display, screen );
-    Pixel		blackPixel= BlackPixel( display, screen );
+void appMakeTextInRow(Widget *pText, Widget row, int column, int colspan,
+		      int textColumns, int textEnabled)
+{
+	Display *display = XtDisplay(row);
+	int screen = DefaultScreen(display);
+	Pixel whitePixel = WhitePixel(display, screen);
+	Pixel blackPixel = BlackPixel(display, screen);
 
-    Widget		text;
+	Widget text;
 
-    Arg			al[20];
-    int			ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    if  ( ! APP_PasteTranslations )
-	{
-	APP_PasteTranslations=
-		    XtParseTranslationTable( APP_PasteTranslationString );
+	if (!APP_PasteTranslations) {
+		APP_PasteTranslations =
+			XtParseTranslationTable(APP_PasteTranslationString);
 	}
 
-    ac= 0;
-    XtSetArg( al[ac], XmNtopAttachment,		XmATTACH_FORM ); ac++;
-    XtSetArg( al[ac], XmNtopOffset,		0 ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNtopAttachment, XmATTACH_FORM);
+	ac++;
+	XtSetArg(al[ac], XmNtopOffset, 0);
+	ac++;
 
-    XtSetArg( al[ac], XmNleftAttachment,	XmATTACH_POSITION ); ac++;
-    XtSetArg( al[ac], XmNleftPosition,		column ); ac++;
+	XtSetArg(al[ac], XmNleftAttachment, XmATTACH_POSITION);
+	ac++;
+	XtSetArg(al[ac], XmNleftPosition, column);
+	ac++;
 
-    XtSetArg( al[ac], XmNrightAttachment,	XmATTACH_POSITION ); ac++;
-    XtSetArg( al[ac], XmNrightPosition,		column+ colspan ); ac++;
+	XtSetArg(al[ac], XmNrightAttachment, XmATTACH_POSITION);
+	ac++;
+	XtSetArg(al[ac], XmNrightPosition, column + colspan);
+	ac++;
 
-    if  ( textColumns > 0 )
-	{ XtSetArg( al[ac], XmNcolumns,		textColumns ); ac++;	}
-
-    XtSetArg( al[ac], XmNmarginHeight,		TXmargH ); ac++;
-
-    if  ( textEnabled )
-	{
-	XtSetArg( al[ac], XmNbackground,		whitePixel ); ac++;
-	XtSetArg( al[ac], XmNforeground,		blackPixel ); ac++;
-	}
-    else{
-	Pixel		background;
-	Pixel		foreground;
-
-	XtVaGetValues( row,
-			XmNbackground,			&background,
-			XmNforeground,			&foreground,
-			NULL );
-
-	XtSetArg( al[ac], XmNbackground,		background ); ac++;
-	XtSetArg( al[ac], XmNforeground,		foreground ); ac++;
-	XtSetArg( al[ac], XmNeditable,			False ); ac++;
-	XtSetArg( al[ac], XmNtraversalOn,		False ); ac++;
-	XtSetArg( al[ac], XmNcursorPositionVisible,	False ); ac++;
+	if (textColumns > 0) {
+		XtSetArg(al[ac], XmNcolumns, textColumns);
+		ac++;
 	}
 
-    text= XmCreateText( row, WIDGET_NAME, al, ac );
+	XtSetArg(al[ac], XmNmarginHeight, TXmargH);
+	ac++;
 
-    if  ( APP_PasteTranslations )
-	{ XtOverrideTranslations( text, APP_PasteTranslations ); }
+	if (textEnabled) {
+		XtSetArg(al[ac], XmNbackground, whitePixel);
+		ac++;
+		XtSetArg(al[ac], XmNforeground, blackPixel);
+		ac++;
+	} else {
+		Pixel background;
+		Pixel foreground;
 
-    XtManageChild( text );
+		XtVaGetValues(row, XmNbackground, &background, XmNforeground,
+			      &foreground, NULL);
 
-    *pText= text;
-    }
+		XtSetArg(al[ac], XmNbackground, background);
+		ac++;
+		XtSetArg(al[ac], XmNforeground, foreground);
+		ac++;
+		XtSetArg(al[ac], XmNeditable, False);
+		ac++;
+		XtSetArg(al[ac], XmNtraversalOn, False);
+		ac++;
+		XtSetArg(al[ac], XmNcursorPositionVisible, False);
+		ac++;
+	}
+
+	text = XmCreateText(row, WIDGET_NAME, al, ac);
+
+	if (APP_PasteTranslations) {
+		XtOverrideTranslations(text, APP_PasteTranslations);
+	}
+
+	XtManageChild(text);
+
+	*pText = text;
+}
 
 /************************************************************************/
 /*									*/
@@ -106,81 +114,87 @@ void appMakeTextInRow(		Widget *		pText,
 /*									*/
 /************************************************************************/
 
-void appMakeTextInColumn(	Widget *	pText,
-				Widget		column,
-				int		textColumns,
-				int		textEnabled )
-    {
-    Display *		display= XtDisplay( column );
-    int			screen= DefaultScreen( display );
-    Pixel		whitePixel= WhitePixel( display, screen );
-    Pixel		blackPixel= BlackPixel( display, screen );
+void appMakeTextInColumn(Widget *pText, Widget column, int textColumns,
+			 int textEnabled)
+{
+	Display *display = XtDisplay(column);
+	int screen = DefaultScreen(display);
+	Pixel whitePixel = WhitePixel(display, screen);
+	Pixel blackPixel = BlackPixel(display, screen);
 
-    Widget		text;
+	Widget text;
 
-    Arg			al[20];
-    int			ac= 0;
+	Arg al[20];
+	int ac = 0;
 
-    if  ( ! APP_PasteTranslations )
-	{
-	APP_PasteTranslations=
-		    XtParseTranslationTable( APP_PasteTranslationString );
+	if (!APP_PasteTranslations) {
+		APP_PasteTranslations =
+			XtParseTranslationTable(APP_PasteTranslationString);
 	}
 
-    ac= 0;
-    XtSetArg( al[ac], XmNnavigationType,	XmTAB_GROUP ); ac++;
-    XtSetArg( al[ac], XmNskipAdjust,		True ); ac++;
+	ac = 0;
+	XtSetArg(al[ac], XmNnavigationType, XmTAB_GROUP);
+	ac++;
+	XtSetArg(al[ac], XmNskipAdjust, True);
+	ac++;
 
-    XtSetArg( al[ac], XmNmarginHeight,		TXmargH ); ac++;
+	XtSetArg(al[ac], XmNmarginHeight, TXmargH);
+	ac++;
 
-    if  ( textColumns > 0 )
-	{ XtSetArg( al[ac], XmNcolumns,		textColumns ); ac++;	}
-
-    if  ( textEnabled )
-	{
-	XtSetArg( al[ac], XmNbackground,		whitePixel ); ac++;
-	XtSetArg( al[ac], XmNforeground,		blackPixel ); ac++;
-	}
-    else{
-	Pixel		background;
-	Pixel		foreground;
-
-	XtVaGetValues( column,
-			XmNbackground,			&background,
-			XmNforeground,			&foreground,
-			NULL );
-
-	XtSetArg( al[ac], XmNbackground,		background ); ac++;
-	XtSetArg( al[ac], XmNforeground,		foreground ); ac++;
-	XtSetArg( al[ac], XmNeditable,			False ); ac++;
-	XtSetArg( al[ac], XmNtraversalOn,		False ); ac++;
-	XtSetArg( al[ac], XmNcursorPositionVisible,	False ); ac++;
+	if (textColumns > 0) {
+		XtSetArg(al[ac], XmNcolumns, textColumns);
+		ac++;
 	}
 
-    text= XmCreateText( column, WIDGET_NAME, al, ac );
+	if (textEnabled) {
+		XtSetArg(al[ac], XmNbackground, whitePixel);
+		ac++;
+		XtSetArg(al[ac], XmNforeground, blackPixel);
+		ac++;
+	} else {
+		Pixel background;
+		Pixel foreground;
 
-    if  ( APP_PasteTranslations )
-	{ XtOverrideTranslations( text, APP_PasteTranslations ); }
+		XtVaGetValues(column, XmNbackground, &background, XmNforeground,
+			      &foreground, NULL);
 
-    XtManageChild( text );
+		XtSetArg(al[ac], XmNbackground, background);
+		ac++;
+		XtSetArg(al[ac], XmNforeground, foreground);
+		ac++;
+		XtSetArg(al[ac], XmNeditable, False);
+		ac++;
+		XtSetArg(al[ac], XmNtraversalOn, False);
+		ac++;
+		XtSetArg(al[ac], XmNcursorPositionVisible, False);
+		ac++;
+	}
 
-    appMotifTurnOfSashTraversal( column );
+	text = XmCreateText(column, WIDGET_NAME, al, ac);
 
-    *pText= text;
-    }
+	if (APP_PasteTranslations) {
+		XtOverrideTranslations(text, APP_PasteTranslations);
+	}
 
-void appRefuseTextValue(	Widget		w )
-    {
-    char *	s;
+	XtManageChild(text);
 
-    s= appGetStringFromTextWidget( w );
-    XmTextSetSelection( w, 0, strlen( s ),
-			    XtLastTimestampProcessed( XtDisplay( w ) ) );
-    appFreeStringFromTextWidget( s );
-    XmProcessTraversal( w, XmTRAVERSE_CURRENT );
+	appMotifTurnOfSashTraversal(column);
 
-    return;
-    }
+	*pText = text;
+}
+
+void appRefuseTextValue(Widget w)
+{
+	char *s;
+
+	s = appGetStringFromTextWidget(w);
+	XmTextSetSelection(w, 0, strlen(s),
+			   XtLastTimestampProcessed(XtDisplay(w)));
+	appFreeStringFromTextWidget(s);
+	XmProcessTraversal(w, XmTRAVERSE_CURRENT);
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -188,13 +202,12 @@ void appRefuseTextValue(	Widget		w )
 /*									*/
 /************************************************************************/
 
-void appStringToTextWidget(		Widget		w,
-					const char *	s )
-    {
-    XmTextSetString( w, (char *)s );
+void appStringToTextWidget(Widget w, const char *s)
+{
+	XmTextSetString(w, (char *)s);
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -202,40 +215,28 @@ void appStringToTextWidget(		Widget		w,
 /*									*/
 /************************************************************************/
 
-void guiEnableText(		Widget		text,
-				int		enabled )
-    {
-    if  ( enabled )
-	{
-	Display *	display= XtDisplay( text );
-	int		screen= DefaultScreen( display );
+void guiEnableText(Widget text, int enabled)
+{
+	if (enabled) {
+		Display *display = XtDisplay(text);
+		int screen = DefaultScreen(display);
 
-	XtVaSetValues( text,
-		    XmNbackground,		WhitePixel( display, screen ),
-		    XmNforeground,		BlackPixel( display, screen ),
-		    XmNeditable,		True,
-		    XmNtraversalOn,		True,
-		    XmNcursorPositionVisible,	True,
-		    NULL );
+		XtVaSetValues(text, XmNbackground, WhitePixel(display, screen),
+			      XmNforeground, BlackPixel(display, screen),
+			      XmNeditable, True, XmNtraversalOn, True,
+			      XmNcursorPositionVisible, True, NULL);
+	} else {
+		Pixel background;
+		Pixel foreground;
+
+		XtVaGetValues(XtParent(text), XmNbackground, &background,
+			      XmNforeground, &foreground, NULL);
+
+		XtVaSetValues(text, XmNbackground, background, XmNforeground,
+			      foreground, XmNeditable, False, XmNtraversalOn,
+			      False, XmNcursorPositionVisible, False, NULL);
 	}
-    else{
-	Pixel		background;
-	Pixel		foreground;
-
-	XtVaGetValues( XtParent( text ),
-			XmNbackground,			&background,
-			XmNforeground,			&foreground,
-			NULL );
-
-	XtVaSetValues( text,
-			    XmNbackground,		background,
-			    XmNforeground,		foreground,
-			    XmNeditable,		False,
-			    XmNtraversalOn,		False,
-			    XmNcursorPositionVisible,	False,
-			    NULL );
-	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -243,13 +244,11 @@ void guiEnableText(		Widget		text,
 /*									*/
 /************************************************************************/
 
-void appTextSelectContents(		APP_WIDGET	w,
-					int		from,
-					int		upto )
-    {
-    XmTextSetSelection( w, from, upto, CurrentTime );
-    return;
-    }
+void appTextSelectContents(APP_WIDGET w, int from, int upto)
+{
+	XmTextSetSelection(w, from, upto, CurrentTime);
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -259,29 +258,31 @@ void appTextSelectContents(		APP_WIDGET	w,
 /************************************************************************/
 
 /*  1  */
-char *	appGetStringFromTextWidget(	Widget		w )
-    { return XmTextGetString( w );	}
+char *appGetStringFromTextWidget(Widget w)
+{
+	return XmTextGetString(w);
+}
 
 /*  2  */
-void appFreeStringFromTextWidget(	char *		s )
-    { XtFree( s );	}
+void appFreeStringFromTextWidget(char *s)
+{
+	XtFree(s);
+}
 
-void appGuiSetTypingCallbackForText(	Widget		text,
-					XtCallbackProc	callBack,
-					void *		through )
-    {
-    XtAddCallback( text, XmNvalueChangedCallback, callBack, through );
+void appGuiSetTypingCallbackForText(Widget text, XtCallbackProc callBack,
+				    void *through)
+{
+	XtAddCallback(text, XmNvalueChangedCallback, callBack, through);
 
-    return;
-    }
+	return;
+}
 
-void appGuiSetGotValueCallbackForText(	Widget		text,
-					XtCallbackProc	callBack,
-					void *		through )
-    {
-    XtAddCallback( text, XmNactivateCallback, callBack, through );
+void appGuiSetGotValueCallbackForText(Widget text, XtCallbackProc callBack,
+				      void *through)
+{
+	XtAddCallback(text, XmNactivateCallback, callBack, through);
 
-    return;
-    }
+	return;
+}
 
-#   endif
+#endif

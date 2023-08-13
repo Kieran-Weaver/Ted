@@ -1,5 +1,5 @@
-#   include	"sioGeneral.h"
-#   include	"appCgiIn.h"
+#include "sioGeneral.h"
+#include "appCgiIn.h"
 
 /************************************************************************/
 /*									*/
@@ -7,10 +7,7 @@
 /*									*/
 /************************************************************************/
 
-extern void utilCgiEchoValueList(	void *			tree,
-					const char *		label,
-					SimpleOutputStream *	sos );
+extern void utilCgiEchoValueList(void *tree, const char *label,
+				 SimpleOutputStream *sos);
 
-extern void utilCgiEchoRequest(		const CGIRequest *	cgir,
-					SimpleOutputStream *	sos );
-
+extern void utilCgiEchoRequest(const CGIRequest *cgir, SimpleOutputStream *sos);

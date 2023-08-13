@@ -1,8 +1,8 @@
-#   include	"bitmapConfig.h"
+#include "bitmapConfig.h"
 
-#   include	"bmintern.h"
+#include "bmintern.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -15,67 +15,66 @@
 
 static unsigned char BM_BitCounts[256];
 
-static int bmCount1Run1Bit(	const unsigned char *	buffer,
-				int			col0,
-				int			col1 )
-    {
-    int				d;
-    unsigned char		c1, c2;
-    const unsigned char *	b1= (unsigned char *)0;
-    const unsigned char *	b2= (unsigned char *)0;
+static int bmCount1Run1Bit(const unsigned char *buffer, int col0, int col1)
+{
+	int d;
+	unsigned char c1, c2;
+	const unsigned char *b1 = (unsigned char *)0;
+	const unsigned char *b2 = (unsigned char *)0;
 
-    int				count= 0;
+	int count = 0;
 
-    /*
+	/*
     APP_DEB(appDebug( "bmCount1Run(,col0=%d,col1=%d)\n", col0, col1 ));
     */
 
-    /*  1  */
-    col1++;
+	/*  1  */
+	col1++;
 
-    d= ( col0 % 8 );
-    if  ( d )
-	{
-	b1= buffer+ col0/ 8;
+	d = (col0 % 8);
+	if (d) {
+		b1 = buffer + col0 / 8;
 
-	col0= 8* ( col0/ 8 )+ 8;
+		col0 = 8 * (col0 / 8) + 8;
 
-	c1= 0xff >> d;
-	}
-    else{ c1= 0;	}
-
-    d= ( col1 % 8 );
-    if  ( d )
-	{
-	b2= buffer+ col1/ 8;
-
-	col1= 8* ( col1/ 8 );
-
-	c2= 0xff << ( 8- d );
-	}
-    else{ c2= 0;	}
-
-    if  ( b1 )
-	{
-	if  ( b1 == b2 )
-	    { count += BM_BitCounts[ *b1 & c1 & c2 ]; }
-	else{
-	    count += BM_BitCounts[ *b1 & c1 ];
-	    }
+		c1 = 0xff >> d;
+	} else {
+		c1 = 0;
 	}
 
-    if  ( b2 && b2 != b1 )
-	{ count += BM_BitCounts[ *b2 & c2 ]; }
+	d = (col1 % 8);
+	if (d) {
+		b2 = buffer + col1 / 8;
 
-    col0 /= 8;
-    col1 /= 8;
+		col1 = 8 * (col1 / 8);
 
-    b1= buffer+ col0;
-    while( col0++ < col1 )
-	{ count += BM_BitCounts[ *(b1++) ];	}
+		c2 = 0xff << (8 - d);
+	} else {
+		c2 = 0;
+	}
 
-    return count;
-    }
+	if (b1) {
+		if (b1 == b2) {
+			count += BM_BitCounts[*b1 & c1 & c2];
+		} else {
+			count += BM_BitCounts[*b1 & c1];
+		}
+	}
+
+	if (b2 && b2 != b1) {
+		count += BM_BitCounts[*b2 & c2];
+	}
+
+	col0 /= 8;
+	col1 /= 8;
+
+	b1 = buffer + col0;
+	while (col0++ < col1) {
+		count += BM_BitCounts[*(b1++)];
+	}
+
+	return count;
+}
 
 /************************************************************************/
 /*									*/
@@ -93,64 +92,67 @@ static int bmCount1Run1Bit(	const unsigned char *	buffer,
 /*									*/
 /************************************************************************/
 
-static int bmCount0Run1Bit(	const unsigned char *	buffer,
-				int			col0,
-				int			col1 )
-    {
-    int				d;
-    unsigned char		c1, c2;
-    const unsigned char *	b1= (unsigned char *)0;
-    const unsigned char *	b2= (unsigned char *)0;
+static int bmCount0Run1Bit(const unsigned char *buffer, int col0, int col1)
+{
+	int d;
+	unsigned char c1, c2;
+	const unsigned char *b1 = (unsigned char *)0;
+	const unsigned char *b2 = (unsigned char *)0;
 
-    int				count= 0;
+	int count = 0;
 
-    /*  1  */
-    col1++;
+	/*  1  */
+	col1++;
 
-    /*  2  */
-    d= ( col0 % 8 );
-    if  ( d )
-	{
-	b1= buffer+ col0/ 8;
+	/*  2  */
+	d = (col0 % 8);
+	if (d) {
+		b1 = buffer + col0 / 8;
 
-	col0= 8* ( col0/ 8 )+ 8;
+		col0 = 8 * (col0 / 8) + 8;
 
-	c1= 0xff >> d; c1= ~c1;
-	}
-    else{ c1= 0xff;	}
-
-    /*  3  */
-    d= ( col1 % 8 );
-    if  ( d )
-	{
-	b2= buffer+ col1/ 8;
-
-	col1= 8* ( col1/ 8 );
-
-	c2= 0xff << ( 8- d ); c2= ~c2;
-	}
-    else{ c2= 0xff;	}
-
-    /*  4  */
-    if  ( b1 )
-	{
-	if  ( b1 == b2 )
-	    { count += 8- BM_BitCounts[ *b1 | c1 | c2 ];	}
-	else{ count += 8- BM_BitCounts[ *b1 | c1 ];		}
+		c1 = 0xff >> d;
+		c1 = ~c1;
+	} else {
+		c1 = 0xff;
 	}
 
-    if  ( b2 && b2 != b1 )
-	{ count += 8- BM_BitCounts[ *b2 | c2 ]; }
+	/*  3  */
+	d = (col1 % 8);
+	if (d) {
+		b2 = buffer + col1 / 8;
 
-    col0 /= 8;
-    col1 /= 8;
+		col1 = 8 * (col1 / 8);
 
-    b1= buffer+ col0;
-    while( col0++ < col1 )
-	{ count += 8- (int)BM_BitCounts[ *(b1++) ];	}
+		c2 = 0xff << (8 - d);
+		c2 = ~c2;
+	} else {
+		c2 = 0xff;
+	}
 
-    return count;
-    }
+	/*  4  */
+	if (b1) {
+		if (b1 == b2) {
+			count += 8 - BM_BitCounts[*b1 | c1 | c2];
+		} else {
+			count += 8 - BM_BitCounts[*b1 | c1];
+		}
+	}
+
+	if (b2 && b2 != b1) {
+		count += 8 - BM_BitCounts[*b2 | c2];
+	}
+
+	col0 /= 8;
+	col1 /= 8;
+
+	b1 = buffer + col0;
+	while (col0++ < col1) {
+		count += 8 - (int)BM_BitCounts[*(b1++)];
+	}
+
+	return count;
+}
 
 /************************************************************************/
 /*									*/
@@ -160,154 +162,166 @@ static int bmCount0Run1Bit(	const unsigned char *	buffer,
 /*									*/
 /************************************************************************/
 
-static int bmCountBres1Line1Bit(
-				const unsigned char *	buffer,
-				int			x0,
-				int			y0,
-				int			x1,
-				int			y1,
-				int			bytesPerRow )
-    {
-    int			dx;
-    int			dy;
-    int			i;
+static int bmCountBres1Line1Bit(const unsigned char *buffer, int x0, int y0,
+				int x1, int y1, int bytesPerRow)
+{
+	int dx;
+	int dy;
+	int i;
 
-    int			e, d2, e2;
+	int e, d2, e2;
 
-    unsigned char	byteMask;
+	unsigned char byteMask;
 
-    int			count= 0;
+	int count = 0;
 
-    dx= x1- x0;
-    dy= y1- y0;
+	dx = x1 - x0;
+	dy = y1 - y0;
 
-    /*  1  */
-    if  ( dx < 0 )
-	{ LDEB(dx); return 0;	}
-
-    buffer += y0* bytesPerRow+ x0/ 8;
-    byteMask= 0x80 >> ( x0 % 8 );
-
-    if  ( dy < 0 )
-	{ dy = -dy; bytesPerRow= -bytesPerRow; }
-
-    if  ( dx > dy )
-	{
-	e= 2* dy- dx;
-	d2= 2* dx;
-	e2= 2* dy;
-
-	while( x0 <= x1 )
-	    {
-	    count += BM_BitCounts[ *buffer & byteMask ];
-
-	    while( e >= 0 )
-		{ buffer += bytesPerRow; e -= d2; }
-
-	    byteMask >>= 1; x0++; e += e2;
-
-	    if  ( ! ( x0 % 8 ) )
-		{ buffer++; byteMask= 0x80;	}
-	    }
+	/*  1  */
+	if (dx < 0) {
+		LDEB(dx);
+		return 0;
 	}
-    else{
-	e= 2* dx- dy;
-	d2= 2* dy;
-	e2= 2* dx;
 
-	for ( i= 0; i <= dy; i++ )
-	    {
-	    count += BM_BitCounts[ *buffer & byteMask ];
+	buffer += y0 * bytesPerRow + x0 / 8;
+	byteMask = 0x80 >> (x0 % 8);
 
-	    while( e > 0 )
-		{
-		byteMask >>= 1; x0++; e -= d2;
+	if (dy < 0) {
+		dy = -dy;
+		bytesPerRow = -bytesPerRow;
+	}
 
-		if  ( ! ( x0 % 8 ) )
-		    { buffer++; byteMask= 0x80;	}
+	if (dx > dy) {
+		e = 2 * dy - dx;
+		d2 = 2 * dx;
+		e2 = 2 * dy;
+
+		while (x0 <= x1) {
+			count += BM_BitCounts[*buffer & byteMask];
+
+			while (e >= 0) {
+				buffer += bytesPerRow;
+				e -= d2;
+			}
+
+			byteMask >>= 1;
+			x0++;
+			e += e2;
+
+			if (!(x0 % 8)) {
+				buffer++;
+				byteMask = 0x80;
+			}
 		}
+	} else {
+		e = 2 * dx - dy;
+		d2 = 2 * dy;
+		e2 = 2 * dx;
 
-	    buffer += bytesPerRow; e += e2;
-	    }
-	}
+		for (i = 0; i <= dy; i++) {
+			count += BM_BitCounts[*buffer & byteMask];
 
-    return count;
-    }
+			while (e > 0) {
+				byteMask >>= 1;
+				x0++;
+				e -= d2;
 
-static int bmCountBres0Line1Bit(
-				const unsigned char *	buffer,
-				int			x0,
-				int			y0,
-				int			x1,
-				int			y1,
-				int			bytesPerRow )
-    {
-    int			dx;
-    int			dy;
-    int			i;
+				if (!(x0 % 8)) {
+					buffer++;
+					byteMask = 0x80;
+				}
+			}
 
-    int			e, d2, e2;
-
-    unsigned char	byteMask;
-
-    int			count= 0;
-
-    dx= x1- x0;
-    dy= y1- y0;
-
-    /*  1  */
-    if  ( dx < 0 )
-	{ LDEB(dx); return 0;	}
-
-    buffer += y0* bytesPerRow+ x0/ 8;
-    byteMask= 0x80 >> ( x0 % 8 ); byteMask= ~byteMask;
-
-    if  ( dy < 0 )
-	{ dy = -dy; bytesPerRow= -bytesPerRow; }
-
-    if  ( dx > dy )
-	{
-	e= 2* dy- dx;
-	d2= 2* dx;
-	e2= 2* dy;
-
-	while( x0 <= x1 )
-	    {
-	    count += 8- BM_BitCounts[ *buffer | byteMask ];
-
-	    while( e >= 0 )
-		{ buffer += bytesPerRow; e -= d2; }
-
-	    byteMask >>= 1; byteMask |= 0x80; x0++; e += e2;
-
-	    if  ( ! ( x0 % 8 ) )
-		{ buffer++; byteMask= 0x7f;	}
-	    }
-	}
-    else{
-	e= 2* dx- dy;
-	d2= 2* dy;
-	e2= 2* dx;
-
-	for ( i= 0; i <= dy; i++ )
-	    {
-	    count += 8- BM_BitCounts[ *buffer | byteMask ];
-
-	    while( e > 0 )
-		{
-		byteMask >>= 1; byteMask |= 0x80; x0++; e -= d2;
-
-		if  ( ! ( x0 % 8 ) )
-		    { buffer++; byteMask= 0x7f;	}
+			buffer += bytesPerRow;
+			e += e2;
 		}
-
-	    buffer += bytesPerRow; e += e2;
-	    }
 	}
 
-    return count;
-    }
+	return count;
+}
 
+static int bmCountBres0Line1Bit(const unsigned char *buffer, int x0, int y0,
+				int x1, int y1, int bytesPerRow)
+{
+	int dx;
+	int dy;
+	int i;
+
+	int e, d2, e2;
+
+	unsigned char byteMask;
+
+	int count = 0;
+
+	dx = x1 - x0;
+	dy = y1 - y0;
+
+	/*  1  */
+	if (dx < 0) {
+		LDEB(dx);
+		return 0;
+	}
+
+	buffer += y0 * bytesPerRow + x0 / 8;
+	byteMask = 0x80 >> (x0 % 8);
+	byteMask = ~byteMask;
+
+	if (dy < 0) {
+		dy = -dy;
+		bytesPerRow = -bytesPerRow;
+	}
+
+	if (dx > dy) {
+		e = 2 * dy - dx;
+		d2 = 2 * dx;
+		e2 = 2 * dy;
+
+		while (x0 <= x1) {
+			count += 8 - BM_BitCounts[*buffer | byteMask];
+
+			while (e >= 0) {
+				buffer += bytesPerRow;
+				e -= d2;
+			}
+
+			byteMask >>= 1;
+			byteMask |= 0x80;
+			x0++;
+			e += e2;
+
+			if (!(x0 % 8)) {
+				buffer++;
+				byteMask = 0x7f;
+			}
+		}
+	} else {
+		e = 2 * dx - dy;
+		d2 = 2 * dy;
+		e2 = 2 * dx;
+
+		for (i = 0; i <= dy; i++) {
+			count += 8 - BM_BitCounts[*buffer | byteMask];
+
+			while (e > 0) {
+				byteMask >>= 1;
+				byteMask |= 0x80;
+				x0++;
+				e -= d2;
+
+				if (!(x0 % 8)) {
+					buffer++;
+					byteMask = 0x7f;
+				}
+			}
+
+			buffer += bytesPerRow;
+			e += e2;
+		}
+	}
+
+	return count;
+}
 
 /************************************************************************/
 /*									*/
@@ -317,115 +331,113 @@ static int bmCountBres0Line1Bit(
 /*									*/
 /************************************************************************/
 
-int bmCountLinePixels(	const unsigned char *		buffer,
-			const BitmapDescription *	bd,
-			int				x0,
-			int				y0,
-			int				x1,
-			int				y1 )
-    {
-    int		i;
-    int		count= 0;
+int bmCountLinePixels(const unsigned char *buffer, const BitmapDescription *bd,
+		      int x0, int y0, int x1, int y1)
+{
+	int i;
+	int count = 0;
 
-    int		(*countRun)(	const unsigned char *	_buffer,
-				int			_x0,
-				int			_y0 );
+	int (*countRun)(const unsigned char *_buffer, int _x0, int _y0);
 
-    int		(*countLine)(	const unsigned char *	_buffer,
-				int			_x0,
-				int			_y0,
-				int			_x1,
-				int			_y1,
-				int			_bytesPerRow );
+	int (*countLine)(const unsigned char *_buffer, int _x0, int _y0,
+			 int _x1, int _y1, int _bytesPerRow);
 
-    switch( bd->bdColorEncoding )
-	{
+	switch (bd->bdColorEncoding) {
 	case BMcoBLACKWHITE:
-	    if  ( bd->bdBitsPerPixel != 1 )
-		{
-		LLDEB(bd->bdColorEncoding,bd->bdBitsPerPixel);
-		return -1;
+		if (bd->bdBitsPerPixel != 1) {
+			LLDEB(bd->bdColorEncoding, bd->bdBitsPerPixel);
+			return -1;
 		}
 
-	    countLine= bmCountBres1Line1Bit;
-	    countRun= bmCount1Run1Bit;
-	    break;
+		countLine = bmCountBres1Line1Bit;
+		countRun = bmCount1Run1Bit;
+		break;
 
 	case BMcoWHITEBLACK:
-	    if  ( bd->bdBitsPerPixel != 1 )
-		{
-		LLDEB(bd->bdColorEncoding,bd->bdBitsPerPixel);
-		return -1;
+		if (bd->bdBitsPerPixel != 1) {
+			LLDEB(bd->bdColorEncoding, bd->bdBitsPerPixel);
+			return -1;
 		}
 
-	    countLine= bmCountBres0Line1Bit;
-	    countRun= bmCount0Run1Bit;
-	    break;
+		countLine = bmCountBres0Line1Bit;
+		countRun = bmCount0Run1Bit;
+		break;
 
 	default:
-	    LDEB(bd->bdColorEncoding);
-	    return -1;
+		LDEB(bd->bdColorEncoding);
+		return -1;
 	}
 
+	if (x0 < 0 || x0 >= bd->bdPixelsWide) {
+		LLDEB(x0, bd->bdPixelsWide);
+		return -1;
+	}
+	if (x1 < 0 || x1 >= bd->bdPixelsWide) {
+		LLDEB(x1, bd->bdPixelsWide);
+		return -1;
+	}
+	if (y0 < 0 || y0 >= bd->bdPixelsHigh) {
+		LLDEB(y0, bd->bdPixelsHigh);
+		return -1;
+	}
+	if (y1 < 0 || y1 >= bd->bdPixelsHigh) {
+		LLDEB(y1, bd->bdPixelsHigh);
+		return -1;
+	}
 
-    if  ( x0 < 0 || x0 >= bd->bdPixelsWide )
-	{ LLDEB(x0,bd->bdPixelsWide); return -1; }
-    if  ( x1 < 0 || x1 >= bd->bdPixelsWide )
-	{ LLDEB(x1,bd->bdPixelsWide); return -1; }
-    if  ( y0 < 0 || y0 >= bd->bdPixelsHigh )
-	{ LLDEB(y0,bd->bdPixelsHigh); return -1; }
-    if  ( y1 < 0 || y1 >= bd->bdPixelsHigh )
-	{ LLDEB(y1,bd->bdPixelsHigh); return -1; }
+	if (BM_BitCounts[1] == 0) {
+		int pos;
 
+		for (pos = 0; pos < 256; pos++) {
+			unsigned int p = pos;
 
-    if  ( BM_BitCounts[1] == 0 )
-	{
-	int	pos;
+			BM_BitCounts[pos] = 0;
 
-	for ( pos= 0; pos < 256; pos++ )
-	    {
-	    unsigned int	p= pos;
+			while (p) {
+				if (p & 0x01) {
+					BM_BitCounts[pos]++;
+				}
 
-	    BM_BitCounts[pos]= 0;
-
-	    while( p )
-		{
-		if  ( p & 0x01 )
-		    { BM_BitCounts[pos]++;	}
-
-		p >>= 1;
+				p >>= 1;
+			}
 		}
-	    }
 	}
 
-    /*  1  */
-    if  ( x0 > x1 )
-	{ i= x0; x0= x1; x1= i; i= y0; y0= y1; y1= i; }
+	/*  1  */
+	if (x0 > x1) {
+		i = x0;
+		x0 = x1;
+		x1 = i;
+		i = y0;
+		y0 = y1;
+		y1 = i;
+	}
 
-    if  ( y1 == y0 )
-	{
-	count += (*countRun)( buffer+ y0* bd->bdBytesPerRow, x0, x1 );
+	if (y1 == y0) {
+		count += (*countRun)(buffer + y0 * bd->bdBytesPerRow, x0, x1);
+		return count;
+	}
+
+	if (x1 == x0) {
+		if (y1 < y0) {
+			i = y0;
+			y0 = y1;
+			y1 = i;
+		}
+
+		buffer += y0 * bd->bdBytesPerRow;
+
+		while (y0 <= y1) {
+			count += (*countRun)(buffer, x0, x1);
+
+			y0++;
+			buffer += bd->bdBytesPerRow;
+		}
+
+		return count;
+	}
+
+	count += (*countLine)(buffer, x0, y0, x1, y1, bd->bdBytesPerRow);
+
 	return count;
-	}
-
-    if  ( x1 == x0 )
-	{
-	if  ( y1 < y0 )
-	    { i= y0; y0= y1; y1= i; }
-
-	buffer += y0* bd->bdBytesPerRow;
-
-	while( y0 <= y1 )
-	    {
-	    count += (*countRun)( buffer, x0, x1 );
-
-	    y0++; buffer += bd->bdBytesPerRow;
-	    }
-
-	return count;
-	}
-
-    count += (*countLine)( buffer, x0, y0, x1, y1, bd->bdBytesPerRow );
-
-    return count;
-    }
+}

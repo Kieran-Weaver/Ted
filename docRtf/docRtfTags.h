@@ -4,104 +4,104 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_RTF_TAGS_H
-#   define	DOC_RTF_TAGS_H
+#ifndef DOC_RTF_TAGS_H
+#define DOC_RTF_TAGS_H
 
-extern const char * const	DOCrtf_DocFootNotesJustificationTags[];
-extern const int		DOCrtf_DocFootNotesJustificationTagCount;
+extern const char *const DOCrtf_DocFootNotesJustificationTags[];
+extern const int DOCrtf_DocFootNotesJustificationTagCount;
 
-extern const char * const	DOCrtf_DocEndNotesJustificationTags[];
-extern const int		DOCrtf_DocEndNotesJustificationTagCount;
+extern const char *const DOCrtf_DocEndNotesJustificationTags[];
+extern const int DOCrtf_DocEndNotesJustificationTagCount;
 
-extern const char * const	DOCrtf_DocFootNotesPlacementTags[];
-extern const int		DOCrtf_DocFootNotesPlacementTagCount;
+extern const char *const DOCrtf_DocFootNotesPlacementTags[];
+extern const int DOCrtf_DocFootNotesPlacementTagCount;
 
-extern const char * const	DOCrtf_DocEndNotesPlacementTags[];
-extern const int		DOCrtf_DocEndNotesPlacementTagCount;
+extern const char *const DOCrtf_DocEndNotesPlacementTags[];
+extern const int DOCrtf_DocEndNotesPlacementTagCount;
 
-extern const char * const	DOCrtf_SectFootNotesJustificationTags[];
-extern const int		DOCrtf_SectFootNotesJustificationTagCount;
+extern const char *const DOCrtf_SectFootNotesJustificationTags[];
+extern const int DOCrtf_SectFootNotesJustificationTagCount;
 
-extern const char * const	DOCrtf_SectEndNotesJustificationTags[];
-extern const int		DOCrtf_SectEndNotesJustificationTagCount;
+extern const char *const DOCrtf_SectEndNotesJustificationTags[];
+extern const int DOCrtf_SectEndNotesJustificationTagCount;
 
-extern const char * const	DOCrtf_SectEndNotesPlacementTags[];
-extern const int		DOCrtf_SectEndNotesPlacementTagCount;
+extern const char *const DOCrtf_SectEndNotesPlacementTags[];
+extern const int DOCrtf_SectEndNotesPlacementTagCount;
 
-extern const char * const	DOCrtf_DocFootNotesRestartTags[];
-extern const int		DOCrtf_DocFootNotesRestartTagCount;
+extern const char *const DOCrtf_DocFootNotesRestartTags[];
+extern const int DOCrtf_DocFootNotesRestartTagCount;
 
-extern const char * const	DOCrtf_DocEndNotesRestartTags[];
-extern const int		DOCrtf_DocEndNotesRestartTagCount;
+extern const char *const DOCrtf_DocEndNotesRestartTags[];
+extern const int DOCrtf_DocEndNotesRestartTagCount;
 
-extern const char * const	DOCrtf_SectFootNotesRestartTags[];
-extern const int		DOCrtf_SectFootNotesRestartTagCount;
+extern const char *const DOCrtf_SectFootNotesRestartTags[];
+extern const int DOCrtf_SectFootNotesRestartTagCount;
 
-extern const char * const	DOCrtf_SectEndNotesRestartTags[];
-extern const int		DOCrtf_SectEndNotesRestartTagCount;
+extern const char *const DOCrtf_SectEndNotesRestartTags[];
+extern const int DOCrtf_SectEndNotesRestartTagCount;
 
-extern const char * const	DOCrtf_DocFootNotesNumberStyleTags[];
-extern const int		DOCrtf_DocFootNotesNumberStyleTagCount;
+extern const char *const DOCrtf_DocFootNotesNumberStyleTags[];
+extern const int DOCrtf_DocFootNotesNumberStyleTagCount;
 
-extern const char * const	DOCrtf_DocEndNotesNumberStyleTags[];
-extern const int		DOCrtf_DocEndNotesNumberStyleTagCount;
+extern const char *const DOCrtf_DocEndNotesNumberStyleTags[];
+extern const int DOCrtf_DocEndNotesNumberStyleTagCount;
 
-extern const char * const	DOCrtf_SectFootNotesNumberStyleTags[];
-extern const int		DOCrtf_SectFootNotesNumberStyleTagCount;
+extern const char *const DOCrtf_SectFootNotesNumberStyleTags[];
+extern const int DOCrtf_SectFootNotesNumberStyleTagCount;
 
-extern const char * const	DOCrtf_SectEndNotesNumberStyleTags[];
-extern const int		DOCrtf_SectEndNotesNumberStyleTagCount;
+extern const char *const DOCrtf_SectEndNotesNumberStyleTags[];
+extern const int DOCrtf_SectEndNotesNumberStyleTagCount;
 
-extern const char * const	DOCrtf_BorderStyleTags[];
-extern const int		DOCrtf_BorderStyleTagCount;
+extern const char *const DOCrtf_BorderStyleTags[];
+extern const int DOCrtf_BorderStyleTagCount;
 
-extern const char * const	DOCrtf_ParaShadingTags[];
-extern const int		DOCrtf_ParaShadingTagCount;
+extern const char *const DOCrtf_ParaShadingTags[];
+extern const int DOCrtf_ParaShadingTagCount;
 
-extern const char * const	DOCrtf_TextShadingTags[];
-extern const int		DOCrtf_TextShadingTagCount;
+extern const char *const DOCrtf_TextShadingTags[];
+extern const int DOCrtf_TextShadingTagCount;
 
-extern const char * const	DOCrtf_RowShadingTags[];
-extern const int		DOCrtf_RowShadingTagCount;
+extern const char *const DOCrtf_RowShadingTags[];
+extern const int DOCrtf_RowShadingTagCount;
 
-extern const char * const	DOCrtf_CellShadingTags[];
-extern const int		DOCrtf_CellShadingTagCount;
+extern const char *const DOCrtf_CellShadingTags[];
+extern const int DOCrtf_CellShadingTagCount;
 
-extern const char * const	DOCrtf_SectBreakTags[];
-extern const int		DOCrtf_SectBreakTagCount;
+extern const char *const DOCrtf_SectBreakTags[];
+extern const int DOCrtf_SectBreakTagCount;
 
-extern const char * const	DOCrtf_ParaBreakTags[];
-extern const int		DOCrtf_ParaBreakTagCount;
+extern const char *const DOCrtf_ParaBreakTags[];
+extern const int DOCrtf_ParaBreakTagCount;
 
-extern const char * const	DOCrtf_PageNumberStyleTags[];
-extern const int		DOCrtf_PageNumberStyleTagCount;
+extern const char *const DOCrtf_PageNumberStyleTags[];
+extern const int DOCrtf_PageNumberStyleTagCount;
 
-extern const char * const	DOCrtf_PageNumberHyphenTags[];
-extern const int		DOCrtf_PageNumberHyphenTagCount;
+extern const char *const DOCrtf_PageNumberHyphenTags[];
+extern const int DOCrtf_PageNumberHyphenTagCount;
 
-extern const char * const	DOCrtf_CellValignTags[];
-extern const int		DOCrtf_CellValignTagCount;
+extern const char *const DOCrtf_CellValignTags[];
+extern const int DOCrtf_CellValignTagCount;
 
-extern const char * const	DOCrtf_CellTextFlowTags[];
-extern const int		DOCrtf_CellTextFlowTagCount;
+extern const char *const DOCrtf_CellTextFlowTags[];
+extern const int DOCrtf_CellTextFlowTagCount;
 
-extern const char * const	DOCrtf_CellHorMergeTags[];
-extern const int		DOCrtf_CellHorMergeTagCount;
+extern const char *const DOCrtf_CellHorMergeTags[];
+extern const int DOCrtf_CellHorMergeTagCount;
 
-extern const char * const	DOCrtf_CellVerMergeTags[];
-extern const int		DOCrtf_CellVerMergeTagCount;
+extern const char *const DOCrtf_CellVerMergeTags[];
+extern const int DOCrtf_CellVerMergeTagCount;
 
-extern const char * const	DOCrtf_ParaAlignTags[];
-extern const int		DOCrtf_ParaAlignTagCount;
+extern const char *const DOCrtf_ParaAlignTags[];
+extern const int DOCrtf_ParaAlignTagCount;
 
-extern const char * const	DOCrtf_TabAlignTags[];
-extern const int		DOCrtf_TabAlignTagCount;
+extern const char *const DOCrtf_TabAlignTags[];
+extern const int DOCrtf_TabAlignTagCount;
 
-extern const char * const	DOCrtf_TabLeaderTags[];
-extern const int		DOCrtf_TabLeaderTagCount;
+extern const char *const DOCrtf_TabLeaderTags[];
+extern const int DOCrtf_TabLeaderTagCount;
 
-extern const char * const	DOCrtf_SupersubTags[];
-extern const int		DOCrtf_SupersubTagCount;
+extern const char *const DOCrtf_SupersubTags[];
+extern const int DOCrtf_SupersubTagCount;
 
 extern const char RTFtag_pict[];
 extern const char RTFtag_result[];
@@ -231,4 +231,4 @@ extern const char RTFtag_SEA[];
 
 extern const char RTFtag_FLK[];
 
-#    endif	/*  DOC_RTF_TAGS_H	*/
+#endif /*  DOC_RTF_TAGS_H	*/

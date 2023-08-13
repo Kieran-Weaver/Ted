@@ -1,9 +1,9 @@
-#   include	"docBuf.h"
+#include "docBuf.h"
 
-#   ifndef	DOC_RECALCULATE_FIELDS_H
-#   define	DOC_RECALCULATE_FIELDS_H
+#ifndef DOC_RECALCULATE_FIELDS_H
+#define DOC_RECALCULATE_FIELDS_H
 
-#   include	"docBuf.h"
+#include "docBuf.h"
 
 /************************************************************************/
 /*									*/
@@ -13,22 +13,17 @@
 /*									*/
 /************************************************************************/
 
-typedef int (*FieldDataProvider)(	int *		pCalculated,
-					MemoryBuffer *	mbResult,
-					const char *	fieldName,
-					void *		through );
+typedef int (*FieldDataProvider)(int *pCalculated, MemoryBuffer *mbResult,
+				 const char *fieldName, void *through);
 
-typedef enum StreamPosition
-    {
-    StreamFirstInstance= 0,
-    StreamNextInstance,
-    StreamReady
-    } StreamPosition;
+typedef enum StreamPosition {
+	StreamFirstInstance = 0,
+	StreamNextInstance,
+	StreamReady
+} StreamPosition;
 
-typedef int (*InstanceStreamProvider)(	int *		pCalculated,
-					const char *	streamName,
-					int		streamPosition,
-					void *		through );
+typedef int (*InstanceStreamProvider)(int *pCalculated, const char *streamName,
+				      int streamPosition, void *through);
 
 /************************************************************************/
 /*									*/
@@ -36,25 +31,24 @@ typedef int (*InstanceStreamProvider)(	int *		pCalculated,
 /*									*/
 /************************************************************************/
 
-typedef struct RecalculateFields
-    {
-    struct BufferDocument *	rfDocument;
-    struct DocumentTree *	rfTree;
-    struct DocumentTree *	rfSelectedTree;
-    void *			rfMergeValueTree;
-    DOC_CLOSE_OBJECT		rfCloseObject;
-    unsigned int		rfFieldsUpdated;
-    unsigned int		rfUpdateFlags;
-    EditPosition		rfSelHead;
-    EditPosition		rfSelTail;
+typedef struct RecalculateFields {
+	struct BufferDocument *rfDocument;
+	struct DocumentTree *rfTree;
+	struct DocumentTree *rfSelectedTree;
+	void *rfMergeValueTree;
+	DOC_CLOSE_OBJECT rfCloseObject;
+	unsigned int rfFieldsUpdated;
+	unsigned int rfUpdateFlags;
+	EditPosition rfSelHead;
+	EditPosition rfSelTail;
 
-    const struct BufferItem *	rfBodySectNode;
-    int				rfBodySectPage;
+	const struct BufferItem *rfBodySectNode;
+	int rfBodySectPage;
 
-    FieldDataProvider		rfFieldDataProvider;
-    InstanceStreamProvider	rfInstanceStreamProvider;
-    void *			rfMergeThrough;
-    } RecalculateFields;
+	FieldDataProvider rfFieldDataProvider;
+	InstanceStreamProvider rfInstanceStreamProvider;
+	void *rfMergeThrough;
+} RecalculateFields;
 
 /************************************************************************/
 /*									*/
@@ -62,48 +56,32 @@ typedef struct RecalculateFields
 /*									*/
 /************************************************************************/
 
-extern void docInitRecalculateFields(	RecalculateFields *	rf );
+extern void docInitRecalculateFields(RecalculateFields *rf);
 
-extern void docRenumberNotes(		int *			pChanged,
-					BufferDocument *	bd );
+extern void docRenumberNotes(int *pChanged, BufferDocument *bd);
 
-extern int docRenumberSeqFields(	int *			pChanged,
-					DocumentTree *		dt,
-					BufferDocument *	bd );
+extern int docRenumberSeqFields(int *pChanged, DocumentTree *dt,
+				BufferDocument *bd);
 
-extern int docRenumberSeqField( int *				pChanged,
-				DocumentField *			df,
-				BufferDocument *		bd );
+extern int docRenumberSeqField(int *pChanged, DocumentField *df,
+			       BufferDocument *bd);
 
-extern int docFieldReplaceContents(
-				int *				pStroff,
-				int *				pStroffShift,
-				int *				pTextAttrNr,
-				struct BufferItem *		paraBi,
-				int				part,
-				int				partCount,
-				int				stroffShift,
-				const char *			addedString,
-				int				addedStrlen,
-				const RecalculateFields *	rf );
+extern int docFieldReplaceContents(int *pStroff, int *pStroffShift,
+				   int *pTextAttrNr, struct BufferItem *paraBi,
+				   int part, int partCount, int stroffShift,
+				   const char *addedString, int addedStrlen,
+				   const RecalculateFields *rf);
 
-extern int docRecalculateTextLevelFields(	RecalculateFields *	rf,
-						struct BufferItem *	bi );
+extern int docRecalculateTextLevelFields(RecalculateFields *rf,
+					 struct BufferItem *bi);
 
 extern int docRecalculateTextLevelFieldsInDocumentTree(
-				    RecalculateFields *		rf,
-				    DocumentTree *		dt,
-				    const struct BufferItem *	sectBi,
-				    int				page );
+	RecalculateFields *rf, DocumentTree *dt,
+	const struct BufferItem *sectBi, int page);
 
 extern int docRecalculateFieldParticulesFromString(
-				int *				pCalculated,
-				int *				pPartShift,
-				int *				pStroffShift,
-				struct BufferItem *		paraBi,
-				int				part,
-				int				partCount,
-				const MemoryBuffer *		mbResult,
-				const RecalculateFields *	rf );
+	int *pCalculated, int *pPartShift, int *pStroffShift,
+	struct BufferItem *paraBi, int part, int partCount,
+	const MemoryBuffer *mbResult, const RecalculateFields *rf);
 
-#   endif	/*  DOC_RECALCULATE_FIELDS_H  */
+#endif /*  DOC_RECALCULATE_FIELDS_H  */

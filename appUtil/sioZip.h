@@ -6,19 +6,18 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilPagedList.h"
-#   include	"sioGeneral.h"
+#include "utilPagedList.h"
+#include "sioGeneral.h"
 
-typedef struct ZipOutput
-    {
-    SimpleOutputStream *	zoSosZip;
-    unsigned long		zoBytesWritten;
-    PagedList			zoFileList;
+typedef struct ZipOutput {
+	SimpleOutputStream *zoSosZip;
+	unsigned long zoBytesWritten;
+	PagedList zoFileList;
 
-    int				zoEntryCount;
-    unsigned long		zoDirectoryOffset;
-    unsigned long		zoDirectorySize;
-    } ZipOutput;
+	int zoEntryCount;
+	unsigned long zoDirectoryOffset;
+	unsigned long zoDirectorySize;
+} ZipOutput;
 
 /************************************************************************/
 /*									*/
@@ -26,12 +25,10 @@ typedef struct ZipOutput
 /*									*/
 /************************************************************************/
 
-extern void sioZipInitOutput(	ZipOutput *			zo );
-extern void sioZipCleanOutput(	ZipOutput *			zo );
+extern void sioZipInitOutput(ZipOutput *zo);
+extern void sioZipCleanOutput(ZipOutput *zo);
 
-extern int sioZipFlushOutput(	ZipOutput *			zo );
+extern int sioZipFlushOutput(ZipOutput *zo);
 
-extern SimpleOutputStream * sioOutZipOpen(
-					ZipOutput *		zipOutput,
-					const char *		fileName,
-					int			compressed );
+extern SimpleOutputStream *sioOutZipOpen(ZipOutput *zipOutput,
+					 const char *fileName, int compressed);

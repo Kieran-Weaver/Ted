@@ -4,52 +4,52 @@
 /*									*/
 /************************************************************************/
 
-#   include	"docBaseConfig.h"
+#include "docBaseConfig.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
-#   include	"docInsertedObjectList.h"
-#   include	"docObject.h"
+#include "docInsertedObjectList.h"
+#include "docObject.h"
 
-InsertedObject * docClaimInsertedObject(	int *			pNr,
-						InsertedObjectList *	iol )
-    {
-    InsertedObject *	io;
-    int			nr;
+InsertedObject *docClaimInsertedObject(int *pNr, InsertedObjectList *iol)
+{
+	InsertedObject *io;
+	int nr;
 
-    io= (InsertedObject *)utilPagedListClaimNewItem( &nr,
-							&(iol->iolPagedList) );
-    if  ( ! io )
-	{ PDEB(io); return io;	}
+	io = (InsertedObject *)utilPagedListClaimNewItem(&nr,
+							 &(iol->iolPagedList));
+	if (!io) {
+		PDEB(io);
+		return io;
+	}
 
-    *pNr= nr; return io;
-    }
+	*pNr = nr;
+	return io;
+}
 
-InsertedObject * docGetObjectByNumber(
-					const InsertedObjectList *	iol,
-					int				n )
-    {
-    InsertedObject *	io;
+InsertedObject *docGetObjectByNumber(const InsertedObjectList *iol, int n)
+{
+	InsertedObject *io;
 
-    io= (InsertedObject *)utilPagedListGetItemByNumber(
-						    &(iol->iolPagedList), n );
-    if  ( ! io )
-	{ LPDEB(n,io);	}
+	io = (InsertedObject *)utilPagedListGetItemByNumber(
+		&(iol->iolPagedList), n);
+	if (!io) {
+		LPDEB(n, io);
+	}
 
-    return io;
-    }
+	return io;
+}
 
-void docInitObjectList(			InsertedObjectList *		iol )
-    {
-    utilInitPagedList( &(iol->iolPagedList) );
+void docInitObjectList(InsertedObjectList *iol)
+{
+	utilInitPagedList(&(iol->iolPagedList));
 
-    utilStartPagedList( &(iol->iolPagedList),
-			    sizeof(InsertedObject),
-			    (InitPagedListItem)docInitInsertedObject,
-			    (CleanPagedListItem)docCleanInsertedObject );
-    }
+	utilStartPagedList(&(iol->iolPagedList), sizeof(InsertedObject),
+			   (InitPagedListItem)docInitInsertedObject,
+			   (CleanPagedListItem)docCleanInsertedObject);
+}
 
-void docCleanObjectList(	InsertedObjectList *		iol )
-    {
-    utilCleanPagedList( &(iol->iolPagedList) );
-    }
+void docCleanObjectList(InsertedObjectList *iol)
+{
+	utilCleanPagedList(&(iol->iolPagedList));
+}

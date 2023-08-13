@@ -1,5 +1,5 @@
-#   ifndef	UTIL_ROMAN_H
-#   define	UTIL_ROMAN_H
+#ifndef UTIL_ROMAN_H
+#define UTIL_ROMAN_H
 
 /************************************************************************/
 /*									*/
@@ -7,9 +7,6 @@
 /*									*/
 /************************************************************************/
 
-extern int utilRomanString(	char *		to,
-				int		maxlen,
-				int		n,
-				int		upper );
+extern int utilRomanString(char *to, int maxlen, int n, int upper);
 
-#   endif	/*  UTIL_ROMAN_H  */
+#endif /*  UTIL_ROMAN_H  */

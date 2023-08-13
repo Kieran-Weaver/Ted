@@ -4,22 +4,21 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	PS_DOCUMENT_FONT_STYLE_H
-#   define	PS_DOCUMENT_FONT_STYLE_H
+#ifndef PS_DOCUMENT_FONT_STYLE_H
+#define PS_DOCUMENT_FONT_STYLE_H
 
-typedef enum DocumentFontStyle
-    {
-    DFstyleFNIL= 0,
-    DFstyleFROMAN,
-    DFstyleFSWISS,
-    DFstyleFMODERN,
-    DFstyleFSCRIPT,
-    DFstyleFDECOR,
-    DFstyleFTECH,
-    DFstyleFBIDI,
+typedef enum DocumentFontStyle {
+	DFstyleFNIL = 0,
+	DFstyleFROMAN,
+	DFstyleFSWISS,
+	DFstyleFMODERN,
+	DFstyleFSCRIPT,
+	DFstyleFDECOR,
+	DFstyleFTECH,
+	DFstyleFBIDI,
 
-    DFstyle_COUNT
-    } DocumentFontStyle;
+	DFstyle_COUNT
+} DocumentFontStyle;
 
 /************************************************************************/
 /*									*/
@@ -27,6 +26,6 @@ typedef enum DocumentFontStyle
 /*									*/
 /************************************************************************/
 
-extern int psFontFamilyStyle( const char * fontFamilyName );
+extern int psFontFamilyStyle(const char *fontFamilyName);
 
-#   endif	/*  PS_DOCUMENT_FONT_STYLE_H	*/
+#endif /*  PS_DOCUMENT_FONT_STYLE_H	*/

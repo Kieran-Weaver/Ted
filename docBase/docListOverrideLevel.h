@@ -4,26 +4,24 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef	DOC_LIST_OVERRIDE_LEVEL_H
-#   define	DOC_LIST_OVERRIDE_LEVEL_H
+#ifndef DOC_LIST_OVERRIDE_LEVEL_H
+#define DOC_LIST_OVERRIDE_LEVEL_H
 
-#   include	"docListLevel.h"
+#include "docListLevel.h"
 
-typedef struct ListOverrideLevel
-    {
-    unsigned char	lolOverrideStartAt;
-    unsigned char	lolOverrideFormat;
-    ListLevel		lolListLevel;
-    } ListOverrideLevel;
+typedef struct ListOverrideLevel {
+	unsigned char lolOverrideStartAt;
+	unsigned char lolOverrideFormat;
+	ListLevel lolListLevel;
+} ListOverrideLevel;
 
-typedef enum ListOverrideLevelProperty
-    {
-    LOLpropSTARTAT,
-    LOLpropFORMAT,
-    LOLpropLEVEL,
+typedef enum ListOverrideLevelProperty {
+	LOLpropSTARTAT,
+	LOLpropFORMAT,
+	LOLpropLEVEL,
 
-    LOLprop_COUNT
-    } ListOverrideLevelProperty;
+	LOLprop_COUNT
+} ListOverrideLevelProperty;
 
 /************************************************************************/
 /*									*/
@@ -31,14 +29,12 @@ typedef enum ListOverrideLevelProperty
 /*									*/
 /************************************************************************/
 
-extern void docInitListOverrideLevel(	ListOverrideLevel *		lol );
-extern void docCleanListOverrideLevel(	ListOverrideLevel *		lol );
+extern void docInitListOverrideLevel(ListOverrideLevel *lol);
+extern void docCleanListOverrideLevel(ListOverrideLevel *lol);
 
-extern int docCopyListOverrideLevel(
-				ListOverrideLevel *		to,
-				const ListOverrideLevel *	from,
-				const int *			fontMap,
-				const int *			colorMap,
-				const int *			rulerMap );
+extern int docCopyListOverrideLevel(ListOverrideLevel *to,
+				    const ListOverrideLevel *from,
+				    const int *fontMap, const int *colorMap,
+				    const int *rulerMap);
 
-#   endif
+#endif

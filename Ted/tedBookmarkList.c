@@ -4,28 +4,28 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stdlib.h>
+#include <stdlib.h>
 
-#   include	"tedBookmarkList.h"
-#   include	"tedAppFront.h"
-#   include	<guiTextUtil.h>
+#include "tedBookmarkList.h"
+#include "tedAppFront.h"
+#include <guiTextUtil.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 
-void tedInitBookmarkList(	BookmarkList *		bl )
-    {
-    bl->blMarkLabelWidget= (APP_WIDGET)0;
-    bl->blMarkTextWidget= (APP_WIDGET)0;
+void tedInitBookmarkList(BookmarkList *bl)
+{
+	bl->blMarkLabelWidget = (APP_WIDGET)0;
+	bl->blMarkTextWidget = (APP_WIDGET)0;
 
-    bl->blMarkListWidget= (APP_WIDGET)0;
+	bl->blMarkListWidget = (APP_WIDGET)0;
 
-    bl->blIsLocal= 0;
-    bl->blMarkChosenExists= 0;
-    }
+	bl->blIsLocal = 0;
+	bl->blMarkChosenExists = 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -38,79 +38,80 @@ void tedInitBookmarkList(	BookmarkList *		bl )
 /*									*/
 /************************************************************************/
 
-void tedFillBookmarkList(	BookmarkList *		bl,
-				int			includeTocMarks,
-				const BufferDocument *	bd )
-    {
-    int				i;
+void tedFillBookmarkList(BookmarkList *bl, int includeTocMarks,
+			 const BufferDocument *bd)
+{
+	int i;
 
-    int				bookmarkCount= 0;
-    char **			bookmarks= (char **)0;
-    const DocumentFieldList *	dfl= &(bd->bdFieldList);
-    const int			fieldCount= dfl->dflPagedList.plItemCount;
+	int bookmarkCount = 0;
+	char **bookmarks = (char **)0;
+	const DocumentFieldList *dfl = &(bd->bdFieldList);
+	const int fieldCount = dfl->dflPagedList.plItemCount;
 
-    APP_WIDGET			list= bl->blMarkListWidget;
+	APP_WIDGET list = bl->blMarkListWidget;
 
-    /*  1  */
-    appGuiEmptyListWidget( list );
+	/*  1  */
+	appGuiEmptyListWidget(list);
 
-    if  ( fieldCount == 0 )
-	{ goto ready;	}
-
-    /*  2,3  */
-    if  ( docMakeBookmarkList( &bookmarks, &bookmarkCount,
-				    includeTocMarks, &(bd->bdFieldList) ) )
-	{ goto ready;	}
-
-    /*  4  */
-    for ( i= 0; i < bookmarkCount; i++ )
-	{ appGuiAddValueToListWidget( list, -1, bookmarks[i] );	}
-
-  ready:
-
-    if  ( bookmarks )
-	{
-	for ( i= 0; i < bookmarkCount; i++ )
-	    {
-	    if  ( bookmarks[i] )
-		{ free( bookmarks[i] );	}
-	    }
-
-	free( bookmarks );
+	if (fieldCount == 0) {
+		goto ready;
 	}
 
-    return;
-    }
-
-void tedBookmarkUpdateSelectionInList(	BookmarkList *		bl,
-					const MemoryBuffer *	mbChosen )
-    {
-    if  ( bl->blIsLocal && bl->blMarkChosenExists )
-	{
-	appGuiSelectValueInListWidget( bl->blMarkListWidget,
-				    utilMemoryBufferGetString( mbChosen ) );
+	/*  2,3  */
+	if (docMakeBookmarkList(&bookmarks, &bookmarkCount, includeTocMarks,
+				&(bd->bdFieldList))) {
+		goto ready;
 	}
-    else{
-	appGuiRemoveSelectionFromListWidget( bl->blMarkListWidget );
+
+	/*  4  */
+	for (i = 0; i < bookmarkCount; i++) {
+		appGuiAddValueToListWidget(list, -1, bookmarks[i]);
 	}
-    }
 
-void tedBookmarkFindChosen(	BookmarkList *		bl,
-				EditApplication *	ea,
-				const MemoryBuffer *	mbChosen )
-    {
-    if  ( mbChosen && ! utilMemoryBufferIsEmpty( mbChosen ) )
-	{
-	DocumentField *		df;
+ready:
 
-	if  ( tedAppFindBookmarkField( &df, ea, mbChosen ) < 0 )
-	    { bl->blMarkChosenExists= 0;	}
-	else{ bl->blMarkChosenExists= 1;	}
+	if (bookmarks) {
+		for (i = 0; i < bookmarkCount; i++) {
+			if (bookmarks[i]) {
+				free(bookmarks[i]);
+			}
+		}
+
+		free(bookmarks);
 	}
-    else{ bl->blMarkChosenExists= 0;		}
 
-    return;
-    }
+	return;
+}
+
+void tedBookmarkUpdateSelectionInList(BookmarkList *bl,
+				      const MemoryBuffer *mbChosen)
+{
+	if (bl->blIsLocal && bl->blMarkChosenExists) {
+		appGuiSelectValueInListWidget(
+			bl->blMarkListWidget,
+			utilMemoryBufferGetString(mbChosen));
+	} else {
+		appGuiRemoveSelectionFromListWidget(bl->blMarkListWidget);
+	}
+}
+
+void tedBookmarkFindChosen(BookmarkList *bl, EditApplication *ea,
+			   const MemoryBuffer *mbChosen)
+{
+	if (mbChosen && !utilMemoryBufferIsEmpty(mbChosen)) {
+		DocumentField *df;
+
+		if (tedAppFindBookmarkField(&df, ea, mbChosen) < 0) {
+			bl->blMarkChosenExists = 0;
+		} else {
+			bl->blMarkChosenExists = 1;
+		}
+	} else {
+		bl->blMarkChosenExists = 0;
+	}
+
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -118,24 +119,25 @@ void tedBookmarkFindChosen(	BookmarkList *		bl,
 /*									*/
 /************************************************************************/
 
-void tedBookmarkListToText(	BookmarkList *		bl,
-				MemoryBuffer *		mbChosen,
-				void *			voidlcs,
-				APP_WIDGET		w )
-    {
-    char *			markName;
+void tedBookmarkListToText(BookmarkList *bl, MemoryBuffer *mbChosen,
+			   void *voidlcs, APP_WIDGET w)
+{
+	char *markName;
 
-    markName= appGuiGetStringFromListCallback( w, voidlcs );
-    if  ( ! markName )
-	{ XDEB(markName); return;	}
-    appStringToTextWidget( bl->blMarkTextWidget, markName );
+	markName = appGuiGetStringFromListCallback(w, voidlcs);
+	if (!markName) {
+		XDEB(markName);
+		return;
+	}
+	appStringToTextWidget(bl->blMarkTextWidget, markName);
 
-    appFreeStringFromListCallback( markName );
+	appFreeStringFromListCallback(markName);
 
-    if  ( appBufferFromTextWidget( mbChosen, bl->blMarkTextWidget ) )
-	{ LDEB(1);			}
-    else{ bl->blMarkChosenExists= 1;	}
+	if (appBufferFromTextWidget(mbChosen, bl->blMarkTextWidget)) {
+		LDEB(1);
+	} else {
+		bl->blMarkChosenExists = 1;
+	}
 
-    return;
-    }
-
+	return;
+}

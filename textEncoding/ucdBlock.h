@@ -4,12 +4,11 @@
 /*									*/
 /************************************************************************/
 
-typedef struct UcdBlock
-    {
-    unsigned int	ubFirst;
-    unsigned int	ubLast;
-    const char *	ubDescription;
-    } UcdBlock;
+typedef struct UcdBlock {
+	unsigned int ubFirst;
+	unsigned int ubLast;
+	const char *ubDescription;
+} UcdBlock;
 
 /************************************************************************/
 /*									*/
@@ -17,8 +16,8 @@ typedef struct UcdBlock
 /*									*/
 /************************************************************************/
 
-extern const UcdBlock	UCD_Blocks[];
-extern const int	UCD_BlockCount;
+extern const UcdBlock UCD_Blocks[];
+extern const int UCD_BlockCount;
 
 /************************************************************************/
 /*									*/
@@ -26,5 +25,4 @@ extern const int	UCD_BlockCount;
 /*									*/
 /************************************************************************/
 
-extern int ucdGetBlock(	int sym );
-
+extern int ucdGetBlock(int sym);

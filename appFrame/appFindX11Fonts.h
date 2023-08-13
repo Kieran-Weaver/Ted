@@ -1,5 +1,4 @@
-#   include	"appGuiBase.h"
-#   include	<psPostScriptFontList.h>
+#include "appGuiBase.h"
+#include <psPostScriptFontList.h>
 
-extern int appFindX11Fonts(		APP_WIDGET			topw,
-					PostScriptFontList *		psfl );
+extern int appFindX11Fonts(APP_WIDGET topw, PostScriptFontList *psfl);

@@ -723,7 +723,7 @@
 #define _XFlush _XFLUSH
 #define _XInitImageFuncPtrs _XINITIMAGEFUNCPTRS
 #define _XRead _XREAD
-#define _XRegisterFilterByType _XREGISTERFILTERBYTYPE 
+#define _XRegisterFilterByType _XREGISTERFILTERBYTYPE
 #define _XReply _XREPLY
 #define _XSend _XSEND
 #define _XUnregisterFilter _XUNREGISTERFILTER
@@ -800,7 +800,7 @@
 #define pthread_attr_setschedparam PTHREAD_ATTR_SETSCHEDPARAM
 #define pthread_attr_setschedpolicy PTHREAD_ATTR_SETSCHEDPOLICY
 #ifndef pthread_attr_setscope
-# define pthread_attr_setscope PTHREAD_ATTR_SETSCOPE
+#define pthread_attr_setscope PTHREAD_ATTR_SETSCOPE
 #endif
 #define pthread_attr_setstacksize PTHREAD_ATTR_SETSTACKSIZE
 #define pthread_cancel PTHREAD_CANCEL
@@ -934,17 +934,17 @@
 #define xmToggleButtonGadgetClass XMTOGGLEBUTTONGADGETCLASS
 #define xmToggleButtonWidgetClass XMTOGGLEBUTTONWIDGETCLASS
 
-#define SetReqLen(req,n,badlen) \
-    if ((req->length + n) > (unsigned)65535) { \
-	    n = badlen; \
-	    req->length += n; \
-    } else \
-	req->length += n
+#define SetReqLen(req, n, badlen)                  \
+	if ((req->length + n) > (unsigned)65535) { \
+		n = badlen;                        \
+		req->length += n;                  \
+	} else                                     \
+		req->length += n
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern void XtFree(char*);
+extern void XtFree(char *);
 #ifdef __cplusplus
 }
 #endif

@@ -4,8 +4,8 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_STATISTICS_H
-#   define		DOC_STATISTICS_H
+#ifndef DOC_STATISTICS_H
+#define DOC_STATISTICS_H
 
 /************************************************************************/
 /*									*/
@@ -14,14 +14,13 @@
 /*									*/
 /************************************************************************/
 
-typedef struct DocumentStatistics
-    {
-    int		dsPageCount;
-    int		dsParagraphCount;
-    int		dsLineCount;
-    int		dsWordCount;
-    int		dsCharacterCount;
-    } DocumentStatistics;
+typedef struct DocumentStatistics {
+	int dsPageCount;
+	int dsParagraphCount;
+	int dsLineCount;
+	int dsWordCount;
+	int dsCharacterCount;
+} DocumentStatistics;
 
 /************************************************************************/
 /*									*/
@@ -29,6 +28,6 @@ typedef struct DocumentStatistics
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentStatistics(		DocumentStatistics *	ds );
+extern void docInitDocumentStatistics(DocumentStatistics *ds);
 
-#   endif	/*	DOC_STATISTICS_H	*/
+#endif /*	DOC_STATISTICS_H	*/

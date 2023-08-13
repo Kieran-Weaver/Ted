@@ -1,8 +1,8 @@
-#   include	"bitmapConfig.h"
+#include "bitmapConfig.h"
 
-#   include	"bmintern.h"
+#include "bmintern.h"
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -22,53 +22,54 @@
 /*									*/
 /************************************************************************/
 
-int bmForAll1Pixels(		const RasterImage *		riIn,
-				unsigned char			invertMaskIn,
-				void *				through,
-				BM_PIX_FUN			pixFun )
-    {
-    const BitmapDescription *	bdIn= &(riIn->riDescription);
-    int				row;
-    unsigned char		lastMaskIn;
+int bmForAll1Pixels(const RasterImage *riIn, unsigned char invertMaskIn,
+		    void *through, BM_PIX_FUN pixFun)
+{
+	const BitmapDescription *bdIn = &(riIn->riDescription);
+	int row;
+	unsigned char lastMaskIn;
 
-    int			col;
+	int col;
 
-    if  ( bdIn->bdBitsPerPixel != 1 )
-	{ LLDEB(bdIn->bdBitsPerPixel,bdIn->bdBitsPerPixel!=1);	}
-
-    /*  1  */
-    lastMaskIn= 0xff;
-    lastMaskIn >>= ( bdIn->bdPixelsWide % 8 );
-    lastMaskIn= ~lastMaskIn;
-
-    for ( row= 0; row < bdIn->bdPixelsHigh; row++ )
-	{
-	const unsigned char *	from= riIn->riBytes+ row* bdIn->bdBytesPerRow;
-
-	for ( col= 0; col < bdIn->bdPixelsWide; from++, col += 8 )
-	    {
-	    unsigned char	val= ( from[0] ^ invertMaskIn );
-	    unsigned char	mask= 0x80;
-	    int			pix;
-
-	    if  ( col+ 8 >= bdIn->bdPixelsWide )
-		{ val &= lastMaskIn;	}
-	    if  ( ! val )
-		{ continue;	}
-
-	    for ( pix= 0; pix < 8; mask >>= 1, pix++ )
-		{
-		int		colIn= col+ pix;
-
-		if  ( ! ( val & mask ) )
-		    { continue;	}
-
-		if  ( (*pixFun)( through, row, colIn ) )
-		    { LLDEB(row,colIn); return -1; }
-		}
-	    }
+	if (bdIn->bdBitsPerPixel != 1) {
+		LLDEB(bdIn->bdBitsPerPixel, bdIn->bdBitsPerPixel != 1);
 	}
 
-    return 0;
-    }
+	/*  1  */
+	lastMaskIn = 0xff;
+	lastMaskIn >>= (bdIn->bdPixelsWide % 8);
+	lastMaskIn = ~lastMaskIn;
 
+	for (row = 0; row < bdIn->bdPixelsHigh; row++) {
+		const unsigned char *from =
+			riIn->riBytes + row * bdIn->bdBytesPerRow;
+
+		for (col = 0; col < bdIn->bdPixelsWide; from++, col += 8) {
+			unsigned char val = (from[0] ^ invertMaskIn);
+			unsigned char mask = 0x80;
+			int pix;
+
+			if (col + 8 >= bdIn->bdPixelsWide) {
+				val &= lastMaskIn;
+			}
+			if (!val) {
+				continue;
+			}
+
+			for (pix = 0; pix < 8; mask >>= 1, pix++) {
+				int colIn = col + pix;
+
+				if (!(val & mask)) {
+					continue;
+				}
+
+				if ((*pixFun)(through, row, colIn)) {
+					LLDEB(row, colIn);
+					return -1;
+				}
+			}
+		}
+	}
+
+	return 0;
+}

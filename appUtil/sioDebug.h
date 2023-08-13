@@ -7,14 +7,10 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInDebugOpen(
-					SimpleInputStream *	sisIn );
+extern SimpleInputStream *sioInDebugOpen(SimpleInputStream *sisIn);
 
-extern SimpleOutputStream * sioOutDebugOpen(
-					SimpleOutputStream *	sosOut );
+extern SimpleOutputStream *sioOutDebugOpen(SimpleOutputStream *sosOut);
 
-
-extern SimpleOutputStream * sioOutAppDebugOpen( void );
-
+extern SimpleOutputStream *sioOutAppDebugOpen(void);

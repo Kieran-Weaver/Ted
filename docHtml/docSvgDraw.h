@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_SVG_DRAW_H
-#   define		DOC_SVG_DRAW_H
+#ifndef DOC_SVG_DRAW_H
+#define DOC_SVG_DRAW_H
 
-#   include	<sioGeneral.h>
-#   include	<layoutContext.h>
+#include <sioGeneral.h>
+#include <layoutContext.h>
 
 /************************************************************************/
 /*									*/
@@ -16,10 +16,9 @@
 /*									*/
 /************************************************************************/
 
-extern int docSvgDrawDocument(
-			SimpleOutputStream *		sos,
-			const char *			applicationName,
-			const char *			applicationReference,
-			const LayoutContext *		lc );
+extern int docSvgDrawDocument(SimpleOutputStream *sos,
+			      const char *applicationName,
+			      const char *applicationReference,
+			      const LayoutContext *lc);
 
-#   endif	/*	DOC_SVG_DRAW_H	*/
+#endif /*	DOC_SVG_DRAW_H	*/

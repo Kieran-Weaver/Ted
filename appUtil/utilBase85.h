@@ -4,10 +4,10 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		UTIL_BASE85_H
-#   define		UTIL_BASE85_H
+#ifndef UTIL_BASE85_H
+#define UTIL_BASE85_H
 
-extern const unsigned char	UTIL_Base85Digits[];
+extern const unsigned char UTIL_Base85Digits[];
 
 /************************************************************************/
 /*									*/
@@ -15,10 +15,8 @@ extern const unsigned char	UTIL_Base85Digits[];
 /*									*/
 /************************************************************************/
 
-extern const int * utilBase85GetIndexArray( void );
+extern const int *utilBase85GetIndexArray(void);
 
-extern int utilBase85Make(	int *			d,
-				const unsigned char *	b,
-				int			last );
+extern int utilBase85Make(int *d, const unsigned char *b, int last);
 
-#   endif	/*	UTIL_BASE85_H	*/
+#endif /*	UTIL_BASE85_H	*/

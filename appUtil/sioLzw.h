@@ -8,12 +8,10 @@
 /*									*/
 /************************************************************************/
 
-#   include	"sioGeneral.h"
+#include "sioGeneral.h"
 
-extern SimpleInputStream * sioInLzwGifOpen(
-					SimpleInputStream *	sisLzw,
-					int			codeSize );
+extern SimpleInputStream *sioInLzwGifOpen(SimpleInputStream *sisLzw,
+					  int codeSize);
 
-extern SimpleOutputStream * sioOutLzwGifOpen(
-					SimpleOutputStream *	sosLzw,
-					int			codeSize );
+extern SimpleOutputStream *sioOutLzwGifOpen(SimpleOutputStream *sosLzw,
+					    int codeSize);

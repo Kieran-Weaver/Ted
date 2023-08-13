@@ -5,13 +5,12 @@
 /*									*/
 /************************************************************************/
 
-#   include	"appUtilConfig.h"
+#include "appUtilConfig.h"
 
-#   include	<stdlib.h>
+#include <stdlib.h>
 
-#   include	"sioDebug.h"
-#   include	<appDebugon.h>
-
+#include "sioDebug.h"
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -19,109 +18,122 @@
 /*									*/
 /************************************************************************/
 
-static int sioDebugClose( void *	voids )
-    {
-    if  ( voids )
-	{ free( voids );	}
-
-    return 0;
-    }
-
-typedef struct DebugedInputStream
-    {
-    SimpleInputStream *		disSisIn;
-    int				disExhausted;
-    } DebugedInputStream;
-
-static int sioInDebugReadBytes(	void *		voiddis,
-				unsigned char *	buffer,
-				unsigned int	count )
-    {
-    DebugedInputStream *	dis= (DebugedInputStream *)voiddis;
-    int				done= 0;
-
-    if  ( dis->disExhausted )
-	{ LDEB(dis->disExhausted); return -1;	}
-
-    while( done < count )
-	{
-	int		got;
-
-	got= sioInReadBytes( dis->disSisIn, buffer, count- done );
-	if  ( got <= 0 )
-	    { dis->disExhausted= 1; break;	}
-
-	appDebug( "%*s", got, buffer );
-
-	done += got;
-	buffer += got;
+static int sioDebugClose(void *voids)
+{
+	if (voids) {
+		free(voids);
 	}
 
-    return done;
-    }
+	return 0;
+}
 
-SimpleInputStream * sioInDebugOpen(	SimpleInputStream *	sisIn )
-    {
-    SimpleInputStream *		sis;
-    DebugedInputStream *		dis;
+typedef struct DebugedInputStream {
+	SimpleInputStream *disSisIn;
+	int disExhausted;
+} DebugedInputStream;
 
-    dis= (DebugedInputStream *)malloc( sizeof(DebugedInputStream) );
-    if  ( ! dis )
-	{ XDEB(dis); return (SimpleInputStream *)0;	}
+static int sioInDebugReadBytes(void *voiddis, unsigned char *buffer,
+			       unsigned int count)
+{
+	DebugedInputStream *dis = (DebugedInputStream *)voiddis;
+	int done = 0;
 
-    dis->disSisIn= sisIn;
-    dis->disExhausted= 0;
+	if (dis->disExhausted) {
+		LDEB(dis->disExhausted);
+		return -1;
+	}
 
-    sis= sioInOpen( (void *)dis, sioInDebugReadBytes, sioDebugClose );
+	while (done < count) {
+		int got;
 
-    if  ( ! sis )
-	{ XDEB(sis); free( dis ); return (SimpleInputStream *)0; }
+		got = sioInReadBytes(dis->disSisIn, buffer, count - done);
+		if (got <= 0) {
+			dis->disExhausted = 1;
+			break;
+		}
 
-    return sis;
-    }
+		appDebug("%*s", got, buffer);
+
+		done += got;
+		buffer += got;
+	}
+
+	return done;
+}
+
+SimpleInputStream *sioInDebugOpen(SimpleInputStream *sisIn)
+{
+	SimpleInputStream *sis;
+	DebugedInputStream *dis;
+
+	dis = (DebugedInputStream *)malloc(sizeof(DebugedInputStream));
+	if (!dis) {
+		XDEB(dis);
+		return (SimpleInputStream *)0;
+	}
+
+	dis->disSisIn = sisIn;
+	dis->disExhausted = 0;
+
+	sis = sioInOpen((void *)dis, sioInDebugReadBytes, sioDebugClose);
+
+	if (!sis) {
+		XDEB(sis);
+		free(dis);
+		return (SimpleInputStream *)0;
+	}
+
+	return sis;
+}
 
 /************************************************************************/
 /*									*/
 /************************************************************************/
 
-typedef struct DebuggingOutputStream
-    {
-    SimpleOutputStream *	dosSosOut;
-    } DebuggingOutputStream;
+typedef struct DebuggingOutputStream {
+	SimpleOutputStream *dosSosOut;
+} DebuggingOutputStream;
 
-static int sioOutDebugWriteBytes(	void *			voiddos,
-					const unsigned char *	buffer,
-					int			count )
-    {
-    DebuggingOutputStream *	dos= (DebuggingOutputStream *)voiddos;
-    int				i;
+static int sioOutDebugWriteBytes(void *voiddos, const unsigned char *buffer,
+				 int count)
+{
+	DebuggingOutputStream *dos = (DebuggingOutputStream *)voiddos;
+	int i;
 
-    for ( i= 0; i < count; i++ )
-	{ appDebug( "%c", buffer[i] ); }
+	for (i = 0; i < count; i++) {
+		appDebug("%c", buffer[i]);
+	}
 
-    if  ( dos->dosSosOut )
-	{ return sioOutWriteBytes( dos->dosSosOut, buffer, count );	}
-    else{ return count;							}
-    }
+	if (dos->dosSosOut) {
+		return sioOutWriteBytes(dos->dosSosOut, buffer, count);
+	} else {
+		return count;
+	}
+}
 
-SimpleOutputStream * sioOutDebugOpen(	SimpleOutputStream *	sosOut )
-    {
-    SimpleOutputStream *	sos;
-    DebuggingOutputStream *	dos;
+SimpleOutputStream *sioOutDebugOpen(SimpleOutputStream *sosOut)
+{
+	SimpleOutputStream *sos;
+	DebuggingOutputStream *dos;
 
-    dos= (DebuggingOutputStream *)malloc( sizeof(DebuggingOutputStream) );
-    if  ( ! dos )
-	{ XDEB(dos); return (SimpleOutputStream *)0;	}
+	dos = (DebuggingOutputStream *)malloc(sizeof(DebuggingOutputStream));
+	if (!dos) {
+		XDEB(dos);
+		return (SimpleOutputStream *)0;
+	}
 
-    dos->dosSosOut= sosOut;
+	dos->dosSosOut = sosOut;
 
-    sos= sioOutOpen( (void *)dos, sioOutDebugWriteBytes, sioDebugClose );
+	sos = sioOutOpen((void *)dos, sioOutDebugWriteBytes, sioDebugClose);
 
-    if  ( ! sos )
-	{ XDEB(sos); free( dos ); return (SimpleOutputStream *)0; }
+	if (!sos) {
+		XDEB(sos);
+		free(dos);
+		return (SimpleOutputStream *)0;
+	}
 
-    return sos;
-    }
+	return sos;
+}
 
 /************************************************************************/
 /*									*/
@@ -129,22 +141,26 @@ SimpleOutputStream * sioOutDebugOpen(	SimpleOutputStream *	sosOut )
 /*									*/
 /************************************************************************/
 
-SimpleOutputStream * sioOutAppDebugOpen( void )
-    {
-    SimpleOutputStream *	sos;
-    DebuggingOutputStream *	dos;
+SimpleOutputStream *sioOutAppDebugOpen(void)
+{
+	SimpleOutputStream *sos;
+	DebuggingOutputStream *dos;
 
-    dos= (DebuggingOutputStream *)malloc( sizeof(DebuggingOutputStream) );
-    if  ( ! dos )
-	{ XDEB(dos); return (SimpleOutputStream *)0;	}
+	dos = (DebuggingOutputStream *)malloc(sizeof(DebuggingOutputStream));
+	if (!dos) {
+		XDEB(dos);
+		return (SimpleOutputStream *)0;
+	}
 
-    dos->dosSosOut= (SimpleOutputStream *)0;
+	dos->dosSosOut = (SimpleOutputStream *)0;
 
-    sos= sioOutOpen( (void *)dos, sioOutDebugWriteBytes, sioDebugClose );
+	sos = sioOutOpen((void *)dos, sioOutDebugWriteBytes, sioDebugClose);
 
-    if  ( ! sos )
-	{ XDEB(sos); free( dos ); return (SimpleOutputStream *)0; }
+	if (!sos) {
+		XDEB(sos);
+		free(dos);
+		return (SimpleOutputStream *)0;
+	}
 
-    return sos;
-    }
-
+	return sos;
+}

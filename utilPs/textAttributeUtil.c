@@ -4,11 +4,11 @@
 /*									*/
 /************************************************************************/
 
-#   include	"utilPsConfig.h"
+#include "utilPsConfig.h"
 
-#   include	"textAttributeUtil.h"
-#   include	<geoGrid.h>
-#   include	"psFontInfo.h"
+#include "textAttributeUtil.h"
+#include <geoGrid.h>
+#include "psFontInfo.h"
 
 /************************************************************************/
 /*									*/
@@ -16,19 +16,14 @@
 /*									*/
 /************************************************************************/
 
-int textGetPixelSize(		double				pixelsPerTwip,
-				const TextAttribute *		ta )
-    {
-    int			twipsSize= 10* ta->taFontSizeHalfPoints;
+int textGetPixelSize(double pixelsPerTwip, const TextAttribute *ta)
+{
+	int twipsSize = 10 * ta->taFontSizeHalfPoints;
 
-    if  ( ta->taSuperSub == TEXTvaSUPERSCRIPT		||
-	  ta->taSuperSub == TEXTvaSUBSCRIPT		)
-	{
-	return COORDtoGRID( pixelsPerTwip, SUPERSUB_SIZE( twipsSize ) );
+	if (ta->taSuperSub == TEXTvaSUPERSCRIPT ||
+	    ta->taSuperSub == TEXTvaSUBSCRIPT) {
+		return COORDtoGRID(pixelsPerTwip, SUPERSUB_SIZE(twipsSize));
+	} else {
+		return COORDtoGRID(pixelsPerTwip, twipsSize);
 	}
-    else{
-	return COORDtoGRID( pixelsPerTwip, twipsSize );
-	}
-
-    }
-
+}

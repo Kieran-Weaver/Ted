@@ -10,12 +10,12 @@
 /*									*/
 /************************************************************************/
 
-#   ifndef		DOC_HTML_WRITE_H
-#   define		DOC_HTML_WRITE_H
+#ifndef DOC_HTML_WRITE_H
+#define DOC_HTML_WRITE_H
 
-#   include		<sioGeneral.h>
-#   include		<docBuf.h>
-#   include		<layoutContext.h>
+#include <sioGeneral.h>
+#include <docBuf.h>
+#include <layoutContext.h>
 
 /************************************************************************/
 /*									*/
@@ -23,19 +23,15 @@
 /*									*/
 /************************************************************************/
 
-extern int docHtmlSaveDocument(	SimpleOutputStream *	sos,
-				BufferDocument *	bd,
-				const MemoryBuffer *	filename,
-				const LayoutContext *	lc );
+extern int docHtmlSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
+			       const MemoryBuffer *filename,
+			       const LayoutContext *lc);
 
-extern int docEmlSaveDocument(	SimpleOutputStream *	sos,
-				BufferDocument *	bd,
-				const char *		mimeBoundary,
-				const LayoutContext *	lc );
+extern int docEmlSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
+			      const char *mimeBoundary,
+			      const LayoutContext *lc);
 
-extern int docEpubSaveDocument(	SimpleOutputStream *	sos,
-				BufferDocument *	bd,
-				const LayoutContext *	lc );
+extern int docEpubSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
+			       const LayoutContext *lc);
 
-#   endif	/*	DOC_HTML_WRITE_H	*/
-
+#endif /*	DOC_HTML_WRITE_H	*/

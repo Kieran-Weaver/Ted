@@ -1,8 +1,8 @@
-#   include	"bitmapConfig.h"
+#include "bitmapConfig.h"
 
-#   include	"bmRender.h"
-#   include	<stdlib.h>
-#   include	<appDebugon.h>
+#include "bmRender.h"
+#include <stdlib.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -10,9 +10,9 @@
 /*									*/
 /************************************************************************/
 
-#   define	F_R	77
-#   define	F_G	150
-#   define	F_B	29
+#define F_R 77
+#define F_G 150
+#define F_B 29
 
 /************************************************************************/
 /*									*/
@@ -20,13 +20,14 @@
 /*									*/
 /************************************************************************/
 
-static void bmGrayCleanupAllocator(	ColorAllocator *	ca )
-    {
-    if  ( ca->caSystemPrivate )
-	{ free( ca->caSystemPrivate );	}
+static void bmGrayCleanupAllocator(ColorAllocator *ca)
+{
+	if (ca->caSystemPrivate) {
+		free(ca->caSystemPrivate);
+	}
 
-    return;
-    }
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -35,33 +36,34 @@ static void bmGrayCleanupAllocator(	ColorAllocator *	ca )
 /*									*/
 /************************************************************************/
 
-static int bmGraySetAllocator(		ColorAllocator *	ca,
-					int			bitsPerPixel,
-					SystemAllocator		sysAllocator )
-    {
-    unsigned int *	fresh;
+static int bmGraySetAllocator(ColorAllocator *ca, int bitsPerPixel,
+			      SystemAllocator sysAllocator)
+{
+	unsigned int *fresh;
 
-    unsigned int	mask;
-    unsigned int	divi;
+	unsigned int mask;
+	unsigned int divi;
 
-    mask= ( 1 << bitsPerPixel )- 1;
-    divi= ( 255* 256 )/mask;
+	mask = (1 << bitsPerPixel) - 1;
+	divi = (255 * 256) / mask;
 
-    fresh= (unsigned int *)realloc( ca->caSystemPrivate, 2* sizeof(int) );
-    if  ( ! fresh )
-	{ XDEB(fresh); return -1;	}
+	fresh = (unsigned int *)realloc(ca->caSystemPrivate, 2 * sizeof(int));
+	if (!fresh) {
+		XDEB(fresh);
+		return -1;
+	}
 
-    ca->caSystemPrivate= fresh;
+	ca->caSystemPrivate = fresh;
 
-    fresh[0]= divi;
-    fresh[1]= mask;
+	fresh[0] = divi;
+	fresh[1] = mask;
 
-    ca->caSystemAllocator= sysAllocator;
-    ca->caSystemCleanup= bmGrayCleanupAllocator;
-    ca->caAllocationType= CA_ALLOCATOR;
+	ca->caSystemAllocator = sysAllocator;
+	ca->caSystemCleanup = bmGrayCleanupAllocator;
+	ca->caAllocationType = CA_ALLOCATOR;
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -72,46 +74,42 @@ static int bmGraySetAllocator(		ColorAllocator *	ca,
 /*									*/
 /************************************************************************/
 
-static int bmToGrayAllocateWBColor(	AllocatorColor *	ac,
-					ColorAllocator *	ca,
-					unsigned int		r,
-					unsigned int		g,
-					unsigned int		b )
-    {
-    const unsigned int *	pars= (unsigned int *)ca->caSystemPrivate;
-    unsigned int		divi= pars[0];
-    long			val;
+static int bmToGrayAllocateWBColor(AllocatorColor *ac, ColorAllocator *ca,
+				   unsigned int r, unsigned int g,
+				   unsigned int b)
+{
+	const unsigned int *pars = (unsigned int *)ca->caSystemPrivate;
+	unsigned int divi = pars[0];
+	long val;
 
-    val= ( F_R* r+ F_G* g+ F_B* b )/ divi;
+	val = (F_R * r + F_G * g + F_B * b) / divi;
 
-    ac->acRed= 257* r;
-    ac->acGreen= 257* g;
-    ac->acBlue= 257* b;
-    ac->acColorNumber= val;
+	ac->acRed = 257 * r;
+	ac->acGreen = 257 * g;
+	ac->acBlue = 257 * b;
+	ac->acColorNumber = val;
 
-    return 0;
-    }
+	return 0;
+}
 
-static int bmToGrayAllocateBWColor(	AllocatorColor *	ac,
-					ColorAllocator *	ca,
-					unsigned int		r,
-					unsigned int		g,
-					unsigned int		b )
-    {
-    const unsigned int *	pars= (unsigned int *)ca->caSystemPrivate;
-    unsigned int		divi= pars[0];
-    unsigned int		mask= pars[1];
-    long			val;
+static int bmToGrayAllocateBWColor(AllocatorColor *ac, ColorAllocator *ca,
+				   unsigned int r, unsigned int g,
+				   unsigned int b)
+{
+	const unsigned int *pars = (unsigned int *)ca->caSystemPrivate;
+	unsigned int divi = pars[0];
+	unsigned int mask = pars[1];
+	long val;
 
-    val= ( F_R* r+ F_G* g+ F_B* b )/ divi;
+	val = (F_R * r + F_G * g + F_B * b) / divi;
 
-    ac->acRed= 257* r;
-    ac->acGreen= 257* g;
-    ac->acBlue= 257* b;
-    ac->acColorNumber= mask- val;
+	ac->acRed = 257 * r;
+	ac->acGreen = 257 * g;
+	ac->acBlue = 257 * b;
+	ac->acColorNumber = mask - val;
 
-    return 0;
-    }
+	return 0;
+}
 
 /************************************************************************/
 /*									*/
@@ -122,45 +120,49 @@ static int bmToGrayAllocateBWColor(	AllocatorColor *	ac,
 /*									*/
 /************************************************************************/
 
-int bmSetColorAllocatorForBWImage(	ColorAllocator *		ca,
-					const BitmapDescription *	bd )
-    {
-    switch( bd->bdBitsPerPixel )
-	{
+int bmSetColorAllocatorForBWImage(ColorAllocator *ca,
+				  const BitmapDescription *bd)
+{
+	switch (bd->bdBitsPerPixel) {
 	case 8:
 	case 4:
 	case 2:
 	case 1:
-	    if  ( bmGraySetAllocator( ca, bd->bdBitsPerPixel,
-						    bmToGrayAllocateBWColor ) )
-		{ LDEB(bd->bdBitsPerPixel); return -1;	}
+		if (bmGraySetAllocator(ca, bd->bdBitsPerPixel,
+				       bmToGrayAllocateBWColor)) {
+			LDEB(bd->bdBitsPerPixel);
+			return -1;
+		}
 
-	    return 0;
+		return 0;
 
 	default:
-	    LDEB(bd->bdBitsPerPixel); return -1;
+		LDEB(bd->bdBitsPerPixel);
+		return -1;
 	}
-    }
+}
 
-int bmSetColorAllocatorForWBImage(	ColorAllocator *		ca,
-					const BitmapDescription *	bd )
-    {
-    switch( bd->bdBitsPerPixel )
-	{
+int bmSetColorAllocatorForWBImage(ColorAllocator *ca,
+				  const BitmapDescription *bd)
+{
+	switch (bd->bdBitsPerPixel) {
 	case 8:
 	case 4:
 	case 2:
 	case 1:
-	    if  ( bmGraySetAllocator( ca, bd->bdBitsPerPixel,
-						bmToGrayAllocateWBColor ) )
-		{ LDEB(bd->bdBitsPerPixel); return -1;	}
+		if (bmGraySetAllocator(ca, bd->bdBitsPerPixel,
+				       bmToGrayAllocateWBColor)) {
+			LDEB(bd->bdBitsPerPixel);
+			return -1;
+		}
 
-	    return 0;
+		return 0;
 
 	default:
-	    LDEB(bd->bdBitsPerPixel); return -1;
+		LDEB(bd->bdBitsPerPixel);
+		return -1;
 	}
-    }
+}
 
 /************************************************************************/
 /*									*/
@@ -176,84 +178,95 @@ int bmSetColorAllocatorForWBImage(	ColorAllocator *		ca,
 /*									*/
 /************************************************************************/
 
-int bmToGrayscale(	RasterImage *			riOut,
-			const RasterImage *		riIn,
-			int				ignoredInt )
-    {
-    const BitmapDescription *	bdIn= &(riIn->riDescription);
-    int				rval= 0;
+int bmToGrayscale(RasterImage *riOut, const RasterImage *riIn, int ignoredInt)
+{
+	const BitmapDescription *bdIn = &(riIn->riDescription);
+	int rval = 0;
 
-    RasterImage			ri;
+	RasterImage ri;
 
-    ColorAllocator		ca;
+	ColorAllocator ca;
 
-    int				bitmapUnit= 0;
-    int				swapBitmapBytes= 0;
-    int				swapBitmapBits= 0;
-    const int			dither= 0;
+	int bitmapUnit = 0;
+	int swapBitmapBytes = 0;
+	int swapBitmapBits = 0;
+	const int dither = 0;
 
-    bmInitRasterImage( &ri );
-    bmInitColorAllocator( &ca );
+	bmInitRasterImage(&ri);
+	bmInitColorAllocator(&ca);
 
-    /*  1  */
-    switch( bdIn->bdColorEncoding )
-	{
+	/*  1  */
+	switch (bdIn->bdColorEncoding) {
 	case BMcoRGB:
-	    break;
+		break;
 
 	case BMcoBLACKWHITE:
 	case BMcoWHITEBLACK:
 	case BMcoRGB8PALETTE:
 	default:
-	    LDEB(bdIn->bdColorEncoding);
-	    rval= -1; goto ready;
+		LDEB(bdIn->bdColorEncoding);
+		rval = -1;
+		goto ready;
 	}
 
-    switch( bdIn->bdBitsPerSample )
-	{
+	switch (bdIn->bdBitsPerSample) {
 	case 8:
-	    break;
+		break;
 	default:
-	    LDEB(bdIn->bdBitsPerSample);
-	    rval= -1; goto ready;
+		LDEB(bdIn->bdBitsPerSample);
+		rval = -1;
+		goto ready;
 	}
 
-    /*  2  */
-    if  ( bmCopyDescription( &(ri.riDescription), bdIn ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    ri.riDescription.bdColorEncoding= BMcoBLACKWHITE;
-    ri.riDescription.bdBitsPerSample= 8;
-
-    if  ( bmCalculateSizes( &(ri.riDescription) ) )
-	{ LDEB(1); rval= -1; goto ready;	}
-
-    /*  3  */
-    if  ( bmGraySetAllocator( &ca, ri.riDescription.bdBitsPerPixel,
-						    bmToGrayAllocateBWColor ) )
-	{ LDEB(ri.riDescription.bdBitsPerPixel); rval= -1; goto ready; }
-
-    /*  4  */
-    if  ( bmAllocateBuffer( &ri ) )
-	{
-	LLDEB(ri.riDescription.bdBufferLength,ri.riBytes);
-	rval= -1; goto ready;
+	/*  2  */
+	if (bmCopyDescription(&(ri.riDescription), bdIn)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
 	}
 
-    /*  5  */
-    if  ( bmFillImage( &ca, bitmapUnit, swapBitmapBytes, swapBitmapBits,
-			dither, ri.riBytes, &(ri.riDescription),
-			riIn, (const DocumentRectangle *)0 ) )
-	{ LDEB(1); rval= -1; goto ready;	}
+	ri.riDescription.bdColorEncoding = BMcoBLACKWHITE;
+	ri.riDescription.bdBitsPerSample = 8;
 
-    /* steal */
-    *riOut= ri; bmInitRasterImage( &ri );
+	if (bmCalculateSizes(&(ri.riDescription))) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
 
-  ready:
+	/*  3  */
+	if (bmGraySetAllocator(&ca, ri.riDescription.bdBitsPerPixel,
+			       bmToGrayAllocateBWColor)) {
+		LDEB(ri.riDescription.bdBitsPerPixel);
+		rval = -1;
+		goto ready;
+	}
 
-    /*  7  */
-    bmCleanRasterImage( &ri );
-    bmCleanColorAllocator( &ca );
+	/*  4  */
+	if (bmAllocateBuffer(&ri)) {
+		LLDEB(ri.riDescription.bdBufferLength, ri.riBytes);
+		rval = -1;
+		goto ready;
+	}
 
-    return rval;
-    }
+	/*  5  */
+	if (bmFillImage(&ca, bitmapUnit, swapBitmapBytes, swapBitmapBits,
+			dither, ri.riBytes, &(ri.riDescription), riIn,
+			(const DocumentRectangle *)0)) {
+		LDEB(1);
+		rval = -1;
+		goto ready;
+	}
+
+	/* steal */
+	*riOut = ri;
+	bmInitRasterImage(&ri);
+
+ready:
+
+	/*  7  */
+	bmCleanRasterImage(&ri);
+	bmCleanColorAllocator(&ca);
+
+	return rval;
+}

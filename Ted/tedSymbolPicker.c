@@ -4,21 +4,21 @@
 /*									*/
 /************************************************************************/
 
-#   include	"tedConfig.h"
+#include "tedConfig.h"
 
-#   include	<stddef.h>
-#   include	<stdio.h>
-#   include	<ctype.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <ctype.h>
 
-#   include	"tedSymbolPicker.h"
-#   include	"tedApp.h"
-#   include	"tedEdit.h"
-#   include	"tedDocument.h"
-#   include	"tedAppResources.h"
-#   include	<appSymbolPicker.h>
-#   include	<docEditCommand.h>
+#include "tedSymbolPicker.h"
+#include "tedApp.h"
+#include "tedEdit.h"
+#include "tedDocument.h"
+#include "tedAppResources.h"
+#include <appSymbolPicker.h>
+#include <docEditCommand.h>
 
-#   include	<appDebugon.h>
+#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/
@@ -26,31 +26,31 @@
 /*									*/
 /************************************************************************/
 
-void tedRefreshSymbolPicker(	SymbolPicker *			sp,
-				int *				pEnabled,
-				int *				pPref,
-				InspectorSubject *		is,
-				const DocumentSelection *	ds,
-				const SelectionDescription *	sd,
-				const BufferDocument *		bd,
-				int				documentId,
-				const unsigned char *		cmdEnabled )
-    {
-    const DocumentProperties *	dp= &(bd->bdProperties);
-    const DocumentFontList *	dfl= dp->dpFontList;
+void tedRefreshSymbolPicker(SymbolPicker *sp, int *pEnabled, int *pPref,
+			    InspectorSubject *is, const DocumentSelection *ds,
+			    const SelectionDescription *sd,
+			    const BufferDocument *bd, int documentId,
+			    const unsigned char *cmdEnabled)
+{
+	const DocumentProperties *dp = &(bd->bdProperties);
+	const DocumentFontList *dfl = dp->dpFontList;
 
-    if  ( sd->sdIsListBullet )
-	{ *pEnabled= 0; return;	}
+	if (sd->sdIsListBullet) {
+		*pEnabled = 0;
+		return;
+	}
 
-    if  ( appAdaptSymbolPickerToFontFamily( sp, documentId, dfl,
-			&(sd->sdTextAttributeMask), &(sd->sdTextAttribute) ) )
-	{ LDEB(1);	}
+	if (appAdaptSymbolPickerToFontFamily(sp, documentId, dfl,
+					     &(sd->sdTextAttributeMask),
+					     &(sd->sdTextAttribute))) {
+		LDEB(1);
+	}
 
-    appEnableSymbolPicker( sp, cmdEnabled[EDITcmdREPLACE] );
+	appEnableSymbolPicker(sp, cmdEnabled[EDITcmdREPLACE]);
 
-    *pEnabled= 1;
-    return;
-    }
+	*pEnabled = 1;
+	return;
+}
 
 /************************************************************************/
 /*									*/
@@ -58,20 +58,21 @@ void tedRefreshSymbolPicker(	SymbolPicker *			sp,
 /*									*/
 /************************************************************************/
 
-void tedSymbolPickerInsert(	void *			voidea,
-				const char *		bytes,
-				int			size,
-				const TextAttribute *	taSet,
-				const PropertyMask *	taSetMask )
-    {
-    EditApplication *		ea= (EditApplication *)voidea;
-    EditDocument *		ed= ea->eaCurrentDocument;
+void tedSymbolPickerInsert(void *voidea, const char *bytes, int size,
+			   const TextAttribute *taSet,
+			   const PropertyMask *taSetMask)
+{
+	EditApplication *ea = (EditApplication *)voidea;
+	EditDocument *ed = ea->eaCurrentDocument;
 
-    if  ( ! ed )
-	{ XDEB(ed); return;	}
+	if (!ed) {
+		XDEB(ed);
+		return;
+	}
 
-    tedDocInsertStringWithAttribute( ed, bytes, size, taSet, taSetMask, ((TedDocument *)ed->edPrivateData)->tdTraced );
+	tedDocInsertStringWithAttribute(
+		ed, bytes, size, taSet, taSetMask,
+		((TedDocument *)ed->edPrivateData)->tdTraced);
 
-    return;
-    }
-
+	return;
+}
