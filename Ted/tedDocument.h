@@ -210,10 +210,6 @@ typedef struct TedDocument {
 	guint tdHideIBarId;
 	guint tdShowIBarId;
 
-#ifdef USE_QT
-	int tdHideIBarId;
-	int tdShowIBarId;
-#endif
 
 	APP_WINDOW tdObjectWindow;
 	APP_WINDOW tdObjectResizeWindows[RESIZE_COUNT];

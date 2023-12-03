@@ -1408,9 +1408,6 @@ int appMain(EditApplication *ea, int argc, char *argv[])
 
 	gtk_main();
 
-#ifdef USE_QT
-	appRunMainLoop(ea);
-#endif
 
 ready:
 
