@@ -874,11 +874,9 @@ void appFinishColorChooser(ColorChooser *cc, const PostScriptFontList *psfl,
 	int wide;
 	int strips;
 
-#ifdef USE_GTK /* Crashes with Motif */
 	if (appFinishDrawnPulldownPulldown(&(cc->ccPulldown))) {
 		LDEB(1);
 	}
-#endif
 
 	if (appFinishDrawnPulldownInplace(&(cc->ccPulldown))) {
 		LDEB(1);
@@ -902,10 +900,8 @@ void appFinishColorChooser(ColorChooser *cc, const PostScriptFontList *psfl,
 	/**/
 	cc->ccInplaceScreenFont = guiGetLabelFont(
 		cc->ccPulldown.adpInplaceDrawingSurface, psfl, fontWidget);
-#ifdef USE_GTK /* Crashes with Motif */
 	cc->ccPulldownScreenFont = guiGetLabelFont(
 		cc->ccPulldown.adpPulldownDrawingSurface, psfl, fontWidget);
-#endif
 
 	return;
 }
@@ -953,9 +949,7 @@ void appMakeColorChooserInRow(ColorChooser *cc, int hasAutomatic,
 	AppDrawnPulldownPuldown pullDown = (AppDrawnPulldownPuldown)0;
 
 #if 0
-#ifdef USE_GTK
     pullDown= appColorChooserAllocatePulldownResources;
-#endif
 #endif
 
 	/**/

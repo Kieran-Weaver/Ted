@@ -32,9 +32,7 @@ typedef struct XFontFaceSize {
 #include <utilTree.h>
 #include <psCompareFontInfo.h>
 
-#ifdef USE_GTK
 #include <gdk/gdkx.h>
-#endif
 
 #include <bitmap.h>
 
@@ -1056,16 +1054,11 @@ static void appXFontSymbols(EncodedScreenFontList *esfl,
 {
 	const XFontStruct *xfs;
 
-#ifdef USE_MOTIF
-	xfs = sf->esfFontStruct;
-#endif
 
-#ifdef USE_GTK
 #if GTK_MAJOR_VERSION >= 2
 	xfs = (XFontStruct *)gdk_x11_font_get_xfont(sf->esfFontStruct);
 #else
 	xfs = GDK_FONT_XFONT(sf->esfFontStruct);
-#endif
 #endif
 
 	if (unicodes) {
@@ -1182,13 +1175,8 @@ static int appFontX11TryEncoding(EncodedScreenFont *sf,
 	sf->esfIsTwoByte = fe->feBytesPerChar == 2;
 	sf->esfSymbolToByteMapping = im;
 
-#ifdef USE_MOTIF
-	sf->esfFontStruct = XLoadQueryFont(dsf->dsfDisplay, sf->esfFontName);
-#endif
 
-#ifdef USE_GTK
 	sf->esfFontStruct = gdk_font_load(sf->esfFontName);
-#endif
 
 	if (!sf->esfFontStruct) {
 		SXDEB(sf->esfFontName, sf->esfFontStruct);
@@ -1361,13 +1349,8 @@ int appFindX11Fonts(APP_WIDGET topw, PostScriptFontList *psfl)
 	XFontStruct *fontInfos = (XFontStruct *)0;
 	int fontCount = 0;
 
-#ifdef USE_MOTIF
-	Display *display = XtDisplay(topw);
-#endif
 
-#ifdef USE_GTK
 	Display *display = GDK_DISPLAY();
-#endif
 
 #ifndef XA_FACE_NAME
 	if (!XA_FACE_NAME) {
@@ -1477,12 +1460,7 @@ void addDrawX11GetFontProperties(EncodedScreenFont *esf, DrawScreenFont *dsf)
 
 	static Atom na[14];
 
-#ifdef USE_MOTIF
-	xfs = esf->esfFontStruct;
-	display = dsf->dsfDisplay;
-#endif
 
-#ifdef USE_GTK
 #if GTK_MAJOR_VERSION >= 2
 	xfs = (XFontStruct *)gdk_x11_font_get_xfont(esf->esfFontStruct);
 #else
@@ -1494,7 +1472,6 @@ void addDrawX11GetFontProperties(EncodedScreenFont *esf, DrawScreenFont *dsf)
 		return;
 	}
 	display = GDK_DISPLAY();
-#endif
 
 	if (na[0] == None) {
 		for (i = 0; i < 14; i++) {
@@ -1639,18 +1616,10 @@ int guiSystemFont(DrawingSurface ds, APP_FONT *xfs)
 
 	dsf->dsfEncodedFonts.esfFonts[0].esfFontStruct = xfs;
 
-#ifdef USE_MOTIF
-	dsf->dsfDisplay = ds->dsDisplay;
-	dsf->dsfDrawable = ds->dsDrawable;
-	dsf->dsfGc = ds->dsGc;
-	dsf->dsfEncodedFonts.esfFonts[0].esfFontBorrowed = 1;
-#endif
 
-#ifdef USE_GTK
 	dsf->dsfDrawable = ds->dsDrawable;
 	dsf->dsfGc = ds->dsGc;
 	dsf->dsfEncodedFonts.esfFonts[0].esfFontBorrowed = 0;
-#endif
 
 #ifdef USE_XFT
 	dsf->dsfXftDrawable = ds->dsXftDrawable;

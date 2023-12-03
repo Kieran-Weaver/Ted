@@ -622,9 +622,6 @@ static void appSelectionChosen(int n, void *voidapd)
 {
 	AppPrintDialog *apd = (AppPrintDialog *)voidapd;
 
-#ifdef USE_MOTIF
-	appGuiMotifSetFocusToWindow(apd->apdDialog.adTopWidget);
-#endif
 
 	if (n < 0 || n >= PRINTselCOUNT) {
 		LLDEB(n, PRINTselCOUNT);

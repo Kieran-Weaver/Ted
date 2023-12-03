@@ -9,7 +9,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -68,4 +67,3 @@ APP_WIDGET appMakeToggleInRow(APP_WIDGET row, const char *text,
 	return toggle;
 }
 
-#endif /* USE_GTK */

@@ -9,11 +9,7 @@
 #ifndef APP_GUI_RESOURCE_H
 #define APP_GUI_RESOURCE_H
 
-#ifdef USE_GTK
 #define USE_OWN_RESOURCE 1
-#else
-#define USE_OWN_RESOURCE 1
-#endif
 
 #if USE_OWN_RESOURCE == 0
 #include <X11/Xlib.h>

@@ -8,7 +8,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 void appInspectorMakePageParent(AppInspector *ai)
 {
@@ -99,4 +98,3 @@ void appInspectorEnablePage(AppInspector *ai, int subject, int enabled)
 	return;
 }
 
-#endif /*  USE_GTK	*/

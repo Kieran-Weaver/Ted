@@ -5,7 +5,6 @@
 
 #include "guiWidgets.h"
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -64,4 +63,3 @@ void appMakeColumnInRow(APP_WIDGET *pColumn, APP_WIDGET row, int position,
 	*pColumn = column;
 }
 
-#endif

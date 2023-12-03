@@ -8,7 +8,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 #define USE_OPT_MENU 1
 
@@ -279,4 +278,3 @@ void appOptionmenuItemSetVisibility(APP_WIDGET w, int visible)
 	return;
 }
 
-#endif

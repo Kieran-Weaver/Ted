@@ -143,10 +143,8 @@ typedef struct EditDocument {
 	APP_WIDGET edVerticalScrollbar;
 	APP_WIDGET edHorizontalScrollbar;
 	APP_WIDGET edWorkWidget;
-#ifdef USE_GTK
 	GtkAdjustment *edVerticalAdjustment;
 	GtkAdjustment *edHorizontalAdjustment;
-#endif
 	DocumentWidget edDocumentWidget;
 	struct DrawingSurface *edDrawingSurface;
 
@@ -426,9 +424,6 @@ typedef struct EditApplication {
 	char *eaLocaleName;
 
 	/*  2  */
-#ifdef USE_MOTIF
-	XtAppContext eaContext;
-#endif
 
 	int eaScreenPixelsWide;
 	int eaScreenPixelsHigh;
@@ -659,14 +654,12 @@ APP_MENU_CALLBACK_H(appDocAbout, option, voided, e);
 extern APP_EVENT_HANDLER_H(appDocCopyPasteHandler, w, voided, event);
 extern APP_EVENT_HANDLER_H(appAppGotPasteCall, w, voided, event);
 
-#ifdef USE_GTK
 
 extern void appDocGotPasteReplyGtk(GtkWidget *w, GtkSelectionData *gsd,
 				   guint time, void *voided);
 
 extern void appAppGotPasteReplyGtk(GtkWidget *w, GtkSelectionData *gsd,
 				   guint time, void *voidea);
-#endif
 
 extern int appDocReleaseSelection(EditDocument *ed, const char *selection);
 

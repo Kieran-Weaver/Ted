@@ -18,16 +18,9 @@ extern "C" {
 typedef struct AppColors {
 	ColorAllocator acAllocator;
 
-#ifdef USE_MOTIF
-	Display *acDisplay;
-	Colormap acColormap;
-	int acVisualClass;
-#endif
 
-#ifdef USE_GTK
 	GdkColormap *acColormap;
 	int acVisualClass;
-#endif
 } AppColors;
 
 /************************************************************************/

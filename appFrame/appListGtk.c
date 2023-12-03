@@ -8,7 +8,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -224,4 +223,3 @@ void appGuiGtkSetListAdjustment(ListAction *la, int position)
 	return;
 }
 
-#endif

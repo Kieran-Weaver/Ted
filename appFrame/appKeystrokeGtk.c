@@ -15,7 +15,6 @@
 /*									*/
 /************************************************************************/
 
-#ifdef USE_GTK
 
 #include "appGuiKeysGtk.h"
 #define IS_MODIFIER(k) \
@@ -119,4 +118,3 @@ void appDocumentSetInputContext(APP_INPUT_METHOD im, DocumentWidget *dw)
 #endif
 }
 
-#endif

@@ -911,13 +911,11 @@ static APP_EVENT_HANDLER_H(appSymbolMousePress, w, voidsp, downEvent)
 	appSymbolPickerExposeString(sp);
 
 	if (sameAsPrevious && seq == 2) {
-#ifdef USE_GTK
 		/* Silly GTK sends 3 events for a double click and we can only
 	 * know in the 3rd one that the second one was superfluous
 	 */
 		utilMemoryBufferSetSize(&(sp->spCollectedString),
 					sp->spPreviousSize);
-#endif
 
 		appSymbolPickerInsert(sp);
 		appSymbolPickerClear(sp);

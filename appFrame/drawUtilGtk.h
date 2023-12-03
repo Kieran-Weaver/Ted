@@ -5,7 +5,6 @@
 /*									*/
 /************************************************************************/
 
-#ifdef USE_GTK /* { */
 
 #include "appGuiBase.h"
 #include "drawImpl.h"
@@ -33,4 +32,3 @@ extern void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
 
 extern void appDrawGtkSetXFillRule(GdkGC *gc, int rule);
 
-#endif /* } USE_GTK */

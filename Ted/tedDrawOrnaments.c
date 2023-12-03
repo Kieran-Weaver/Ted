@@ -495,23 +495,12 @@ void tedDrawShadedRectangle(const LayoutContext *lc,
 	}
 
 #if 0
-#ifdef USE_MOTIF
-    XSetFillStyle( lc->lcAdd->addDisplay, lc->lcAdd->addGc, FillTiled );
-    XSetTile( lc->lcAdd->addDisplay, lc->lcAdd->addGc, shadingPixmaps[pattern] );
-#endif
-#ifdef USE_GTK
     gdk_gc_set_fill( lc->lcAdd->addGc, GDK_TILED );
     gdk_gc_set_tile( lc->lcAdd->addGc, shadingPixmaps[pattern] );
-#endif
 
     drawFillRectangle( lc->lcAdd, drShade );
 
-#ifdef USE_MOTIF
-    XSetFillStyle( lc->lcAdd->addDisplay, lc->lcAdd->addGc, FillSolid );
-#endif
-#ifdef USE_GTK
     gdk_gc_set_fill( lc->lcAdd->addGc, GDK_SOLID );
-#endif
 #endif
 
 	return;

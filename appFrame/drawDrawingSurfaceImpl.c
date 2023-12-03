@@ -37,17 +37,9 @@ void drawInitDrawingSurface(DrawingSurface ds)
 
 	ds->dsColors = (AppColors *)0;
 
-#ifdef USE_GTK
 	ds->dsDrawable = (GdkDrawable *)0;
 	ds->dsGc = (GdkGC *)0;
-#endif
 
-#ifdef USE_MOTIF
-	ds->dsDrawable = (Drawable)0;
-	ds->dsDisplay = (Display *)0;
-	ds->dsScreen = 0;
-	ds->dsGc = (GC)0;
-#endif
 
 	ds->dsAvoidFontconfig = 0;
 	drawStartScreenFontList(&(ds->dsScreenFontAdmin));

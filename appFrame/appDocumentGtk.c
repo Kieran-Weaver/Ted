@@ -17,7 +17,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -438,4 +437,3 @@ void appRenameWindowsOption(APP_WIDGET menu, EditDocument *ed,
 	return;
 }
 
-#endif

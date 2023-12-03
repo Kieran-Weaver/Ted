@@ -186,9 +186,7 @@ static int tedStartEdit(EditDocument *ed)
 		XBell(add->addDisplay, 0);
 #endif
 
-#ifdef USE_GTK
 		gdk_beep();
-#endif
 
 		return 1;
 	}
@@ -827,14 +825,12 @@ shiftTab:
 
 	default:
 unknown:
-#ifdef USE_GTK
 #if GTK_MAJOR_VERSION < 2
 		gtk_accel_group_activate(ed->edToplevel.atAccelGroup, keySym,
 					 state);
 #else
 		gtk_accel_groups_activate(G_OBJECT(ed->edToplevel.atAccelGroup),
 					  keySym, state);
-#endif
 #endif
 		goto ready;
 	}
@@ -876,12 +872,6 @@ APP_EVENT_HANDLER_H(tedScrollEventHandler, w, voided, scrollEvent)
 	tedStopCursorBlink(ed);
 
 	switch (direction) {
-#ifdef USE_MOTIF
-	case Button1:
-	case Button2:
-	case Button3:
-		break;
-#endif
 
 	case SCROLL_UP:
 		appMouseWheelUp(ed);

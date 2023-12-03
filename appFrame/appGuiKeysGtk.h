@@ -4,7 +4,6 @@
 /*									*/
 /************************************************************************/
 
-#ifdef USE_GTK
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -87,4 +86,3 @@
 #define SCROLL_DOWN (5)
 #endif
 
-#endif

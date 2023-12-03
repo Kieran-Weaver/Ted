@@ -266,9 +266,6 @@ appFindToolMakeButtonRow(APP_WIDGET *pRow, APP_WIDGET parent,
 	appMakeButtonInRow(&(rightButton), row, rightLabel, rightCallback,
 			   (void *)aft, 1, colspan, showAsDefault);
 
-#ifdef USE_MOTIF
-	XtVaSetValues(XtParent(parent), XmNdefaultButton, leftButton, NULL);
-#endif
 
 	*pLeftButton = leftButton, *pRightButton = rightButton;
 	return;
@@ -299,10 +296,6 @@ static APP_WIDGET appFindMakeFindFrame(APP_WIDGET parent,
 	appGuiSetTypingCallbackForText(aft->aftPatternText,
 				       appFindToolPatternChanged, (void *)aft);
 
-#ifdef USE_MOTIF
-	XtVaSetValues(XtParent(paned), XmNinitialFocus, aft->aftPatternText,
-		      NULL);
-#endif
 
 	/***************/
 
@@ -348,10 +341,6 @@ static void appFindMakeReplaceFrame(APP_WIDGET parent,
 				       appFindToolReplacementChanged,
 				       (void *)aft);
 
-#ifdef USE_MOTIF
-	XtVaSetValues(XtParent(paned), XmNinitialFocus, aft->aftReplaceText,
-		      NULL);
-#endif
 
 	/***************/
 

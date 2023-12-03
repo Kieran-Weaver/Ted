@@ -25,9 +25,6 @@ typedef struct AppDrawnPulldown {
 	DrawingSurface adpPulldownDrawingSurface;
 	RGB8Color adpInplaceBackgroundColor;
 
-#ifdef USE_MOTIF
-	Time adpFirstDownTime;
-#endif
 } AppDrawnPulldown;
 
 /************************************************************************/

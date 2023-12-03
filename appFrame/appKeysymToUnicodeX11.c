@@ -3,14 +3,9 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_MOTIF
-#define TRANSLATE_KEYSYMS
-#endif
 
-#ifdef USE_GTK
 #if GTK_MAJOR_VERSION < 2
 #define TRANSLATE_KEYSYMS
-#endif
 #endif
 
 #ifdef TRANSLATE_KEYSYMS

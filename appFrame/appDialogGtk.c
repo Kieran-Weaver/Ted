@@ -6,7 +6,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 #include <gdk/gdkkeysyms.h>
 
@@ -175,4 +174,3 @@ void appGuiHideDialog(AppDialog *ad)
 				     (GtkWindow *)0);
 }
 
-#endif

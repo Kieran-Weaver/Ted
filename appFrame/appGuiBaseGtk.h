@@ -5,7 +5,6 @@
 /*									*/
 /************************************************************************/
 
-#ifdef USE_GTK /*  { */
 
 #include <gtk/gtk.h>
 
@@ -198,4 +197,3 @@ typedef struct AppToplevel {
 #define LINEjoinROUND GDK_JOIN_ROUND
 #define LINEjoinBEVEL GDK_JOIN_BEVEL
 
-#endif /* } USE_GTK */

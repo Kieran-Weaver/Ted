@@ -30,7 +30,6 @@ static int bc = 0;
 /*									*/
 /************************************************************************/
 
-#ifdef USE_GTK
 
 void drawTextSegment8X11(TextProgress *tp, DrawScreenFont *dsf, APP_FONT *xfs,
 			 const char *s, int l)
@@ -58,7 +57,6 @@ void drawTextSegment16LengthX11(TextProgress *tp, DrawScreenFont *dsf,
 	tp->tpX += gdk_text_width(xfs, (gchar *)ws, 2 * wl);
 }
 
-#endif
 
 /************************************************************************/
 /*									*/
@@ -66,39 +64,6 @@ void drawTextSegment16LengthX11(TextProgress *tp, DrawScreenFont *dsf,
 /*									*/
 /************************************************************************/
 
-#ifdef USE_MOTIF
-
-void drawTextSegment8X11(TextProgress *tp, DrawScreenFont *dsf, APP_FONT *xfs,
-			 const char *s, int l)
-{
-	XSetFont(dsf->dsfDisplay, dsf->dsfGc, xfs->fid);
-
-	XDrawString(dsf->dsfDisplay, dsf->dsfDrawable, dsf->dsfGc, tp->tpX,
-		    tp->tpY, s, l);
-}
-
-void drawTextSegment16X11(TextProgress *tp, DrawScreenFont *dsf, APP_FONT *xfs,
-			  const XChar2b *ws, int wl)
-{
-	XSetFont(dsf->dsfDisplay, dsf->dsfGc, xfs->fid);
-
-	XDrawString16(dsf->dsfDisplay, dsf->dsfDrawable, dsf->dsfGc, tp->tpX,
-		      tp->tpY, ws, wl);
-}
-
-void drawTextSegment8LengthX11(TextProgress *tp, DrawScreenFont *dsf,
-			       APP_FONT *xfs, const char *s, int l)
-{
-	tp->tpX += XTextWidth(xfs, s, l);
-}
-
-void drawTextSegment16LengthX11(TextProgress *tp, DrawScreenFont *dsf,
-				APP_FONT *xfs, const XChar2b *ws, int wl)
-{
-	tp->tpX += XTextWidth16(xfs, ws, wl);
-}
-
-#endif
 
 /************************************************************************/
 /*									*/

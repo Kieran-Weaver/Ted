@@ -153,12 +153,7 @@ static int appMetaSelectBrushObjectX11(DeviceContext *dc, void *through,
 			return -1;
 		}
 
-#ifdef USE_MOTIF
-		XSetFillStyle(ds->dsDisplay, ds->dsGc, FillSolid);
-#endif
-#ifdef USE_GTK
 		gdk_gc_set_fill(ds->dsGc, GDK_SOLID);
-#endif
 
 		dcx->dcxFillTiled = 0;
 		dcx->dcxFillHatched = 0;
@@ -166,12 +161,7 @@ static int appMetaSelectBrushObjectX11(DeviceContext *dc, void *through,
 		break;
 
 	case BS_HOLLOW:
-#ifdef USE_MOTIF
-		XSetFillStyle(ds->dsDisplay, ds->dsGc, FillSolid);
-#endif
-#ifdef USE_GTK
 		gdk_gc_set_fill(ds->dsGc, GDK_SOLID);
-#endif
 
 		dcx->dcxFillTiled = 0;
 		dcx->dcxFillHatched = 0;
@@ -245,12 +235,7 @@ static int appMetaSelectBrushObjectX11(DeviceContext *dc, void *through,
 			}
 		}
 
-#ifdef USE_MOTIF
-		XSetTile(ds->dsDisplay, ds->dsGc, lb->lbTilePixmap->dsDrawable);
-#endif
-#ifdef USE_GTK
 		gdk_gc_set_tile(ds->dsGc, lb->lbTilePixmap->dsDrawable);
-#endif
 
 		dc->dcFillInsides = 1;
 		dcx->dcxFillTiled = 1;
@@ -287,12 +272,7 @@ static int appMetaSelectPatternBrushObjectX11(DeviceContext *dc, void *through,
 		}
 	}
 
-#ifdef USE_MOTIF
-	XSetTile(ds->dsDisplay, ds->dsGc, pb->pbTilePixmap->dsDrawable);
-#endif
-#ifdef USE_GTK
 	gdk_gc_set_tile(ds->dsGc, pb->pbTilePixmap->dsDrawable);
-#endif
 
 	dc->dcFillInsides = 1;
 	dcx->dcxFillTiled = 1;
@@ -649,21 +629,11 @@ static void appMeta_SetFillX11(DeviceContextX11 *dcx, int before)
 	}
 
 	if (dcx->dcxFillTiled && before) {
-#ifdef USE_MOTIF
-		XSetFillStyle(ds->dsDisplay, ds->dsGc, FillTiled);
-#endif
-#ifdef USE_GTK
 		gdk_gc_set_fill(ds->dsGc, GDK_TILED);
-#endif
 	}
 
 	if (dcx->dcxFillTiled && !before) {
-#ifdef USE_MOTIF
-		XSetFillStyle(ds->dsDisplay, ds->dsGc, FillSolid);
-#endif
-#ifdef USE_GTK
 		gdk_gc_set_fill(ds->dsGc, GDK_SOLID);
-#endif
 	}
 
 	return;
@@ -855,21 +825,11 @@ static int appMetaSetPolyFillModeX11(DeviceContext *dc, void *through, int mode)
 
 	switch (mode) {
 	case ALTERNATE:
-#ifdef USE_MOTIF
-		XSetFillRule(ds->dsDisplay, ds->dsGc, EvenOddRule);
-#endif
-#ifdef USE_GTK
 		appDrawGtkSetXFillRule(ds->dsGc, GDK_EVEN_ODD_RULE);
-#endif
 		break;
 
 	case WINDING:
-#ifdef USE_MOTIF
-		XSetFillRule(ds->dsDisplay, ds->dsGc, WindingRule);
-#endif
-#ifdef USE_GTK
 		appDrawGtkSetXFillRule(ds->dsGc, GDK_WINDING_RULE);
-#endif
 		break;
 
 	default:

@@ -18,15 +18,8 @@
 void drawCleanEncodedScreenFont(DrawScreenFont *dsf, EncodedScreenFont *esf)
 {
 	if (esf->esfFontStruct) {
-#ifdef USE_MOTIF
-		if (!esf->esfFontBorrowed) {
-			XFreeFont(dsf->dsfDisplay, esf->esfFontStruct);
-		}
-#endif
 
-#ifdef USE_GTK
 		gdk_font_unref(esf->esfFontStruct);
-#endif
 	}
 
 	return;

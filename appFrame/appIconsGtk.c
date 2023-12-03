@@ -19,7 +19,6 @@
 /*									*/
 /************************************************************************/
 
-#ifdef USE_GTK
 
 int appGetImagePixmap(EditApplication *ea, const char *name,
 		      APP_BITMAP_IMAGE *pPixmap, APP_BITMAP_MASK *pMask)
@@ -84,4 +83,3 @@ void appDiscardImagePixmaps(EditApplication *ea)
 	return;
 }
 
-#endif

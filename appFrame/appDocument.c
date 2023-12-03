@@ -340,11 +340,6 @@ ready:
 
 static void appCleanDocumentWidget(DocumentWidget *dw)
 {
-#ifdef USE_MOTIF
-	if (dw->dwInputContext) {
-		XDestroyIC(dw->dwInputContext);
-	}
-#endif
 
 #if defined(USE_GTK) && defined(GTK_TYPE_IM_CONTEXT)
 	if (dw->dwInputContext) {
@@ -391,16 +386,11 @@ static void appInitDocumentWidget(DocumentWidget *dw)
 {
 	dw->dwWidget = (APP_WIDGET)0;
 
-#ifdef USE_MOTIF
-	dw->dwInputContext = (XIC)0;
-#endif
 
-#ifdef USE_GTK
 #ifdef GTK_TYPE_IM_CONTEXT
 	dw->dwInputContext = (GtkIMContext *)0;
 #else
 	dw->dwInputContext = 0;
-#endif
 #endif
 }
 
@@ -543,13 +533,8 @@ int appSetupDocument(EditApplication *ea, EditDocument *ed)
 	int wide;
 	int high;
 
-#ifdef USE_MOTIF
-	XtRealizeWidget(ed->edToplevel.atTopWidget);
-#endif
 
-#ifdef USE_GTK
 	gtk_widget_realize(ed->edToplevel.atTopWidget);
-#endif
 
 	ed->edDrawingSurface = guiDrawingSurfaceForNativeWidget(
 		ed->edDocumentWidget.dwWidget, ea->eaAvoidFontconfigInt > 0);
@@ -578,36 +563,7 @@ int appSetupDocument(EditApplication *ea, EditDocument *ed)
 		high = (4 * ea->eaScreenPixelsHigh) / 5;
 	}
 
-#ifdef USE_MOTIF
-	{
-		Dimension docW = -1, docH = -1;
-		Dimension topW = -1, topH = -1;
 
-		XtVaSetValues(dw->dwWidget, XmNborderWidth, 0,
-			      XmNshadowThickness, 0, XmNwidth, wide, XmNheight,
-			      high, NULL);
-
-		/*
-     * Cope with the fact that Motif performs the geometry calculations
-     * when the widget is realised (And that we need to realize the widget 
-     * before we perform the layout of the document.)
-     */
-
-		XtVaGetValues(dw->dwWidget, XmNwidth, &docW, XmNheight, &docH,
-			      NULL);
-		XtVaGetValues(ed->edToplevel.atTopWidget, XmNwidth, &topW,
-			      XmNheight, &topH, NULL);
-
-		if (docW != wide && docH != high && topW > docW &&
-		    topH > docH) {
-			XtVaSetValues(ed->edToplevel.atTopWidget, XmNwidth,
-				      wide + (topW - docW), XmNheight,
-				      high + (topH - docH), NULL);
-		}
-	}
-#endif
-
-#ifdef USE_GTK
 	gtk_drawing_area_size(GTK_DRAWING_AREA(ed->edTopRulerWidget),
 			      ed->edLeftRulerWidePixels + wide +
 				      ed->edRightRulerWidePixels,
@@ -625,7 +581,6 @@ int appSetupDocument(EditApplication *ea, EditDocument *ed)
 			      ed->edBottomRulerHighPixels);
 
 	gtk_object_set_user_data(GTK_OBJECT(dw->dwWidget), (void *)ed);
-#endif
 
 	if (ea->eaSetTopRuler && (*ea->eaSetTopRuler)(ed)) {
 		LDEB(1);
@@ -676,12 +631,6 @@ void appCloseDocument(EditDocument *ed)
 	appRemoveDocument(ea, ed);
 
 	/* Is done by the widget destroy callback for GTK: */
-#ifdef USE_MOTIF
-	if (ed->edPrivateData) {
-		(*ea->eaFreeDocument)(ed->edPrivateData, ed->edFormat);
-		ed->edPrivateData = (void *)0;
-	}
-#endif
 
 	appCleanDocument(ea, ed);
 	appDestroyShellWidget(ed->edToplevel.atTopWidget);

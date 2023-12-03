@@ -341,11 +341,9 @@ void appScrollToRectangle(EditDocument *ed, const DocumentRectangle *dr,
 			appDocScrollVertically(ed, scrolledY);
 		}
 
-#ifdef USE_GTK
 		if (changed) {
 			guiExposeDrawingWidget(ed->edDocumentWidget.dwWidget);
 		}
-#endif
 
 		if (pScrolledX) {
 			*pScrolledX = scrolledX;
@@ -582,12 +580,6 @@ APP_EVENT_HANDLER_H(appScrollEventHandler, w, voided, scrollEvent)
 	int direction = SCROLL_DIRECTION_FROM_EVENT(scrollEvent);
 
 	switch (direction) {
-#ifdef USE_MOTIF
-	case Button1:
-	case Button2:
-	case Button3:
-		break;
-#endif
 
 	case SCROLL_UP:
 		appMouseWheelUp(ed);
@@ -626,14 +618,7 @@ void appDocSetScrollbarValues(EditDocument *ed)
 		value = maximum - sliderSize;
 	}
 
-#ifdef USE_MOTIF
-	XtVaSetValues(ed->edVerticalScrollbar, XmNminimum, minimum, XmNmaximum,
-		      maximum, XmNvalue, value, XmNsliderSize, sliderSize,
-		      XmNpageIncrement, (9 * sliderSize + 9) / 10, XmNincrement,
-		      (sliderSize + BAR_STEP - 1) / BAR_STEP, NULL);
-#endif
 
-#ifdef USE_GTK
 	ed->edVerticalAdjustment->lower = minimum;
 	ed->edVerticalAdjustment->upper = maximum;
 	ed->edVerticalAdjustment->value = value;
@@ -643,7 +628,6 @@ void appDocSetScrollbarValues(EditDocument *ed)
 		(sliderSize + BAR_STEP - 1) / BAR_STEP;
 
 	gtk_adjustment_changed(ed->edVerticalAdjustment);
-#endif
 
 	sliderSize = ed->edVisibleRect.drX1 - ed->edVisibleRect.drX0 + 1;
 	minimum = ed->edFullRect.drX0;
@@ -655,13 +639,7 @@ void appDocSetScrollbarValues(EditDocument *ed)
 		maximum = ed->edFullRect.drX1 + 1;
 	}
 
-#ifdef USE_MOTIF
-	XtVaSetValues(ed->edHorizontalScrollbar, XmNminimum, minimum,
-		      XmNmaximum, maximum, XmNvalue, value, XmNsliderSize,
-		      sliderSize, NULL);
-#endif
 
-#ifdef USE_GTK
 	ed->edHorizontalAdjustment->lower = minimum;
 	ed->edHorizontalAdjustment->upper = maximum;
 	ed->edHorizontalAdjustment->value = value;
@@ -673,7 +651,6 @@ void appDocSetScrollbarValues(EditDocument *ed)
 		(sliderSize + BAR_STEP - 1) / BAR_STEP;
 
 	gtk_adjustment_changed(ed->edHorizontalAdjustment);
-#endif
 
 	return;
 }

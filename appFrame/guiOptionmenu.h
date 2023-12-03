@@ -11,7 +11,6 @@
 
 typedef void (*OptionmenuCallback)(int n, void *through);
 
-#ifdef USE_GTK
 
 typedef struct AppOptionmenu {
 	APP_WIDGET aomInplace;
@@ -21,21 +20,7 @@ typedef struct AppOptionmenu {
 	void *aomTarget;
 } AppOptionmenu;
 
-#endif
 
-#ifdef USE_MOTIF
-
-typedef struct AppOptionmenu {
-	APP_WIDGET aomInplace;
-	APP_WIDGET aomPulldown;
-
-	OptionmenuCallback aomCallback;
-	void *aomTarget;
-
-	int aomOptionsVisible;
-} AppOptionmenu;
-
-#endif
 
 /************************************************************************/
 /*									*/

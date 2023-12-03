@@ -14,9 +14,5 @@
 extern int appImgPastePixmap(RasterImage *abi, APP_WIDGET w,
 			     APP_SELECTION_EVENT *event);
 
-#ifdef USE_MOTIF
-extern int appGetImageMotif(RasterImage *abi, const APP_IMAGE *xim,
-			    Display *display);
-#endif
 
 #endif

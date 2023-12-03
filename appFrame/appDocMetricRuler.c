@@ -306,9 +306,7 @@ void appDocSetMetricTopRuler(EditDocument *ed, int topRulerHeight,
 
 	guiDrawSetButtonPressHandler(ed->edTopRulerWidget, mouseDown,
 				     (void *)ed);
-#ifdef USE_GTK
 	gtk_widget_add_events(ed->edTopRulerWidget, GDK_POINTER_MOTION_MASK);
-#endif
 
 	return;
 }
@@ -349,9 +347,7 @@ void appDocSetMetricLeftRuler(EditDocument *ed, int leftRulerWidth,
 
 	guiDrawSetButtonPressHandler(ed->edLeftRulerWidget, mouseDown,
 				     (void *)ed);
-#ifdef USE_GTK
 	gtk_widget_add_events(ed->edTopRulerWidget, GDK_POINTER_MOTION_MASK);
-#endif
 
 	return;
 }

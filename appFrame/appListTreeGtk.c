@@ -8,7 +8,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -354,4 +353,3 @@ void appGuiSelectValueInListWidget(APP_WIDGET tree, const char *value)
 	}
 }
 
-#endif

@@ -6,7 +6,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 #include "guiWidgetsGtk.h"
 
@@ -78,4 +77,3 @@ void appMakeButtonInColumn(APP_WIDGET *pButton, APP_WIDGET column,
 	return;
 }
 
-#endif

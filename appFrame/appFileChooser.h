@@ -37,17 +37,11 @@ typedef int (*APP_SAVE_DOCUMENT)(EditDocument *ed, void *through,
 				 int format, const MemoryBuffer *filename);
 
 typedef struct AppChooserInformation {
-#ifdef USE_MOTIF
-	AppDialog aciDialog;
-#endif
-#ifdef USE_GTK
 #ifdef GTK_RESPONSE_ACCEPT
 	APP_WIDGET aciWidget;
 #endif
 	AppDialog aciDialog;
 #define aciWidget aciDialog.adTopWidget
-#else
-#endif
 
 	EditApplication *aciApplication;
 	EditDocument *aciDocument;

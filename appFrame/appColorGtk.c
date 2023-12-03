@@ -10,7 +10,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 #include "drawUtilGtk.h"
 
@@ -371,4 +370,3 @@ AppColors *guiGetColorsGtk(void)
 	return APP_TheColors;
 }
 
-#endif

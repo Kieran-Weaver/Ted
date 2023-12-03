@@ -206,15 +206,9 @@ typedef struct TedDocument {
 
 	void *tdFindProg;
 
-#ifdef USE_MOTIF
-	XtIntervalId tdHideIBarId;
-	XtIntervalId tdShowIBarId;
-#endif
 
-#ifdef USE_GTK
 	guint tdHideIBarId;
 	guint tdShowIBarId;
-#endif
 
 #ifdef USE_QT
 	int tdHideIBarId;

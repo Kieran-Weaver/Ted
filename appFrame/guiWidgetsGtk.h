@@ -9,7 +9,6 @@
 
 #include "appGuiBase.h"
 
-#ifdef USE_GTK
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,5 +30,4 @@ extern void appGuiGtkListTree(int indent, APP_WIDGET w);
 }
 #endif
 
-#endif
 #endif

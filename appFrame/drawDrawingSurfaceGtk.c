@@ -17,7 +17,6 @@
 #include "drawImpl.h"
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 
@@ -415,9 +414,7 @@ int drawString(DrawingSurface ds, int x0, int y0, int screenFont, const char *s,
 	return 0;
 }
 
-#ifdef USE_GTK
 #include <gdk/gdkx.h>
-#endif
 
 int drawOpenScreenFont(DrawingSurface ds, const AfmFontInfo *afi, int pixelSize,
 		       const IndexSet *unicodesWanted)
@@ -522,4 +519,3 @@ void drawMoveArea(DrawingSurface ds, int xDest, int yDest,
 			     drSrc->drY1 - drSrc->drY0 + 1);
 }
 
-#endif

@@ -18,7 +18,6 @@
 #include "drawDrawingSurfacePrivate.h"
 #include "guiDrawingWidget.h"
 
-#ifdef USE_GTK
 
 void guiExposeDrawingWidget(APP_WIDGET nativeWidget)
 {
@@ -274,4 +273,3 @@ void guiGetBottomShadowColor(RGB8Color *rgb8, APP_WIDGET nativeWidget)
 	return;
 }
 
-#endif

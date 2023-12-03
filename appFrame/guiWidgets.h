@@ -154,23 +154,14 @@ extern void appGuiChangeLabelText(APP_WIDGET w, const char *labelt);
 
 extern void appDocumentSetInputContext(APP_INPUT_METHOD im, DocumentWidget *dw);
 
-#ifdef USE_GTK
 extern int appGuiGetMenuToggleStateFromCallbackGtk(APP_WIDGET toggle);
 #define appGuiGetMenuToggleStateFromCallback(t, e) \
 	appGuiGetMenuToggleStateFromCallbackGtk((t))
-#else
-extern int appGuiGetMenuToggleStateFromCallback(APP_WIDGET toggle,
-						void *voidcbs);
-#endif
 
-#ifdef USE_GTK
 extern int appGuiGetScrollbarValueFromCallbackGtk(APP_WIDGET scrollbar);
 
 #define appGuiGetScrollbarValueFromCallback(bar, e) \
 	appGuiGetScrollbarValueFromCallbackGtk((bar))
-#else
-extern int appGuiGetScrollbarValueFromCallback(APP_WIDGET scrollbar, void *e);
-#endif
 
 /**
  *  Construct a list of values in the column

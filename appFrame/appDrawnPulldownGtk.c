@@ -8,7 +8,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -356,4 +355,3 @@ int appGuiDrawnPulldownGetStrip(int *pStrip, const AppDrawnPulldown *adp,
 	return 0;
 }
 
-#endif

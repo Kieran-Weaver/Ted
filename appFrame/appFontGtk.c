@@ -10,7 +10,6 @@
 #include "appScreenFont.h"
 #include "appMatchFont.h"
 
-#ifdef USE_GTK
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -111,4 +110,3 @@ int drawOpenDefaultFont(DrawingSurface ds, const PostScriptFontList *psfl,
 	return drawOpenScreenFont(ds, afi, pixelSize, (IndexSet *)0);
 }
 
-#endif

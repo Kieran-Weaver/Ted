@@ -6,13 +6,8 @@
 #include <utilIndexMapping.h>
 #include <psFontInfo.h>
 
-#ifdef USE_GTK
 typedef GdkFont(APP_FONT);
-#endif
 
-#ifdef USE_MOTIF
-typedef XFontStruct(APP_FONT);
-#endif
 
 /************************************************************************/
 /*									*/

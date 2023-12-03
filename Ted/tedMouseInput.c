@@ -644,12 +644,7 @@ static APP_TIMER_HANDLER(tedTick, voiddc)
 		}
 	}
 
-#ifdef USE_MOTIF
-	return;
-#endif
-#ifdef USE_GTK
 	return 0;
-#endif
 }
 
 static void tedButton1Pressed(APP_WIDGET w, EditDocument *ed,
@@ -821,17 +816,7 @@ APP_EVENT_HANDLER_H(tedMouseButtonPressed, w, voided, downEvent)
 
 	switch (button) {
 	case MOUSE_BUTTON_1:
-#ifdef USE_MOTIF
-		if (!ed->edFileReadOnly && downEvent->xbutton.subwindow) {
-			int res = tedObjectDrag(w, ed, downEvent);
 
-			if (res < 1) {
-				return;
-			}
-		}
-#endif
-
-#ifdef USE_GTK
 		if (!ed->edFileReadOnly) {
 			int res = tedObjectDrag(w, ed, downEvent);
 
@@ -839,7 +824,6 @@ APP_EVENT_HANDLER_H(tedMouseButtonPressed, w, voided, downEvent)
 				return;
 			}
 		}
-#endif
 
 		tedButton1Pressed(w, ed, downEvent);
 		break;
@@ -852,13 +836,7 @@ APP_EVENT_HANDLER_H(tedMouseButtonPressed, w, voided, downEvent)
 		tedButton3Pressed(w, ed, downEvent);
 		break;
 
-#ifdef USE_MOTIF
-	case Button4:
-	case Button5:
-		break;
-#endif
 
-#ifdef USE_GTK
 #if GTK_MAJOR_VERSION < 2
 
 	case SCROLL_UP:
@@ -869,7 +847,6 @@ APP_EVENT_HANDLER_H(tedMouseButtonPressed, w, voided, downEvent)
 		appMouseWheelDown(ed);
 		break;
 
-#endif
 #endif
 
 	default:

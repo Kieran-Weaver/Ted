@@ -6,7 +6,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 void appGuiMakeSliderInRow(APP_WIDGET *pSlider, APP_WIDGET row, int column,
 			   int colspan, APP_BUTTON_CALLBACK_T callback,
@@ -67,4 +66,3 @@ int appGuiGetValueFromSliderCallback(int *pValue, APP_WIDGET w, void *voidscs)
 	return 0;
 }
 
-#endif

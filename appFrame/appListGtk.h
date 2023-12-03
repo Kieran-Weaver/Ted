@@ -1,7 +1,6 @@
 #include <config.h>
 #include "appGuiBase.h"
 
-#ifdef USE_GTK
 
 typedef struct ListAction {
 	GtkWidget *laWidget;
@@ -41,4 +40,3 @@ extern ListAction *appListGtkGetListAction(GtkWidget *widget);
 
 extern void appGuiGtkSetListAdjustment(ListAction *la, int position);
 
-#endif

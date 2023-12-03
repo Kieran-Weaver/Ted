@@ -712,14 +712,8 @@ void *tedMakePrivateData(void)
 	td->tdFindProg = (void *)0;
 	td->tdOwnsPrimarySelection = 0;
 
-#ifdef USE_MOTIF
-	td->tdHideIBarId = (XtIntervalId)0;
-	td->tdShowIBarId = (XtIntervalId)0;
-#endif
-#ifdef USE_GTK
 	td->tdHideIBarId = 0;
 	td->tdShowIBarId = 0;
-#endif
 
 	td->tdObjectWindow = (APP_WINDOW)0;
 	for (i = 0; i < RESIZE_COUNT; i++) {

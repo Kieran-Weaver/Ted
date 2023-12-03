@@ -21,7 +21,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -203,4 +202,3 @@ ready:
 	return rval;
 }
 
-#endif /* USE_GTK */

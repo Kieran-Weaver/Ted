@@ -19,7 +19,6 @@
 /*									*/
 /************************************************************************/
 
-#ifdef USE_GTK
 
 #include <gdk/gdkx.h>
 #include "appFrame.h"
@@ -102,4 +101,3 @@ XftDraw *appGtkXftDrawCreate(GdkDrawable *drawable, AppXftColorList *axcl)
 
 #endif
 
-#endif

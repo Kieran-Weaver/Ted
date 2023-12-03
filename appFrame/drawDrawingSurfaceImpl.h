@@ -15,18 +15,9 @@ struct DrawingSurface {
 	APP_POINT *dsPoints;
 	int dsPointCount;
 
-#ifdef USE_MOTIF
-	GC dsGc;
-	Drawable dsDrawable;
-	Display *dsDisplay;
-	int dsScreen;
-	Atom dsCurrentFID;
-#endif
 
-#ifdef USE_GTK
 	GdkGC *dsGc;
 	GdkDrawable *dsDrawable;
-#endif
 
 #ifdef USE_XFT
 	XftDraw *dsXftDrawable;

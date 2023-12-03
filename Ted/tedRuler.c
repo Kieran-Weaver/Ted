@@ -1153,12 +1153,7 @@ int tedSetRulerColumns(APP_WIDGET w, void *voidttr, int bfX0Pixels,
 		}
 	}
 
-#ifdef USE_MOTIF
-	if (changed && XtIsRealized(w))
-#endif
-#ifdef USE_GTK
 		if (changed && GTK_WIDGET_REALIZED(w))
-#endif
 		{
 			guiExposeDrawingWidget(w);
 		}

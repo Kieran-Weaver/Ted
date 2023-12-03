@@ -8,7 +8,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
 		      int colspan, int textColumns, int textEnabled)
@@ -179,4 +178,3 @@ void appGuiSetGotValueCallbackForText(APP_WIDGET text,
 	return;
 }
 
-#endif

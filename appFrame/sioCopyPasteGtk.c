@@ -13,7 +13,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -153,4 +152,3 @@ SimpleOutputStream *sioOutOpenCopy(APP_WIDGET w, GtkSelectionData *gsd)
 	return sos;
 }
 
-#endif

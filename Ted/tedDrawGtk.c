@@ -18,7 +18,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -259,4 +258,3 @@ int tedMakeDocumentCursor(EditApplication *ea)
 	return 0;
 }
 
-#endif

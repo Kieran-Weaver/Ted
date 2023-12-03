@@ -1783,13 +1783,8 @@ static SpecialCall TedSpecialCalls[] = {
 
 static const char TED_ConfigString[] =
 
-#ifdef USE_MOTIF
-	MOTIF_VSS
-#endif
 
-#ifdef USE_GTK
 		GTK_VSS
-#endif
 
 #ifdef USE_FONTCONFIG
 			FC_VSS

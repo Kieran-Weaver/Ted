@@ -14,7 +14,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 int guiDrawGetSizeFromConfigureEvent(int *pWide, int *pHigh, APP_WIDGET w,
 				     APP_EVENT *event)
@@ -172,4 +171,3 @@ int guiDrawGetSizeOfWidget(int *pWide, int *pHigh, APP_WIDGET w)
 	return 0;
 }
 
-#endif

@@ -22,9 +22,9 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 #ifndef GTK_FILE_CHOOSER
+#error "GTK_FILE_CHOOSER not present"
 #define HAS_DIRECTORY 0
 #define MAKE_SELECTION 1
 #define MAKE_CHOOSER 0
@@ -963,4 +963,3 @@ int appFileChooserConfirmOverWrite(const AppChooserInformation *aci,
 	}
 }
 
-#endif

@@ -726,23 +726,6 @@ static int appFinishApplicationWindow(EditApplication *ea)
 				    ea->eaAppHelpMenuItemCount, (void *)ea);
 	}
 
-#ifdef USE_MOTIF
-	/*  Work around BUG in LessTif	*/
-	{
-		Dimension high;
-
-		XtVaGetValues(ea->eaMenuBar, XmNheight, &high, NULL);
-		if (high < 8) {
-			XtWidgetGeometry preferred;
-
-			XtQueryGeometry(ea->eaMenuBar, (XtWidgetGeometry *)0,
-					&preferred);
-
-			high = preferred.height + preferred.border_width;
-			XtVaSetValues(ea->eaMenuBar, XmNheight, high, NULL);
-		}
-	}
-#endif
 
 	if (ea->eaMainPicture) {
 		APP_BITMAP_IMAGE labelPixmap;
@@ -791,15 +774,9 @@ static int appFinishApplicationWindow(EditApplication *ea)
 	}
 
 	if (pixmap) {
-#ifdef USE_MOTIF
-		XtVaSetValues(ea->eaToplevel.atTopWidget, XmNiconPixmap, pixmap,
-			      NULL);
-#endif
-#ifdef USE_GTK
 		gdk_window_set_icon(ea->eaToplevel.atTopWidget->window,
 				    ea->eaToplevel.atTopWidget->window, pixmap,
 				    mask);
-#endif
 	}
 
 	return 0;
@@ -1321,13 +1298,6 @@ int appMain(EditApplication *ea, int argc, char *argv[])
 
 	appAllocateCopyPasteTargetAtoms(ea);
 
-#ifdef USE_MOTIF
-	if (ea->eaAppSelectionTypeCount > 0) {
-		XtAddEventHandler(ea->eaToplevel.atTopWidget,
-				  PropertyChangeMask, True, appAppGotPasteCall,
-				  ea);
-	}
-#endif
 
 	res = appMainHandleSpecialCalls(ea, "++", 0, prog, argc - 1, argv + 1);
 	if (res < 0) {
@@ -1435,13 +1405,8 @@ int appMain(EditApplication *ea, int argc, char *argv[])
 		appShowShellWidget(ea, ea->eaToplevel.atTopWidget);
 	}
 
-#ifdef USE_MOTIF
-	XtAppMainLoop(ea->eaContext);
-#endif
 
-#ifdef USE_GTK
 	gtk_main();
-#endif
 
 #ifdef USE_QT
 	appRunMainLoop(ea);

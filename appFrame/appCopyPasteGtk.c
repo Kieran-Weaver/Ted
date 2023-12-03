@@ -11,7 +11,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 #define ADEB(a) SDEB(((a) == 0 ? "None" : gdk_atom_name((a))))
 
@@ -443,4 +442,3 @@ void appAllocateCopyPasteTargetAtoms(EditApplication *ea)
 	return;
 }
 
-#endif

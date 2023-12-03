@@ -16,7 +16,6 @@
 #include "appFrame.h"
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 #include <gdk/gdkkeysyms.h>
 
@@ -322,4 +321,3 @@ void guiShowMenuOption(APP_WIDGET w, int visible)
 	}
 }
 
-#endif

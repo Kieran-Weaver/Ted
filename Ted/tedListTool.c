@@ -26,11 +26,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_MOTIF
-#include <Xm/Text.h>
-#include <Xm/PushB.h>
-#include <Xm/RowColumn.h>
-#endif
 
 #define IS_STRING(idx) (((idx) % 2) == 0)
 #define IS_NUMBER(idx) (((idx) % 2) != 0)
@@ -187,18 +182,15 @@ static int tedListToolSelectNumberFormatRange(ListTool *lt, const int off0,
 /*									*/
 /************************************************************************/
 
-#ifdef USE_GTK
 static void tedListToolFormatInsertText(GtkEditable *w, gchar *new_text,
 					gint new_text_length, gint *position,
 					void *voidlt);
 
 static void tedListToolFormatDeleteText(GtkEditable *w, gint start_pos,
 					gint end_pos, void *voidlt);
-#endif
 
 static void tedListToolSetLevelFormatText(ListTool *lt, const char *text)
 {
-#ifdef USE_GTK
 #if GTK_MAJOR_VERSION >= 2
 	/*  The weird construct is to make good compilers
 			 *  shut up about the weird and ugly construct in GTK
@@ -220,17 +212,14 @@ static void tedListToolSetLevelFormatText(ListTool *lt, const char *text)
 	g_signal_handlers_block_by_func(lt->ltNumberFormatText, it, (void *)lt);
 	g_signal_handlers_block_by_func(lt->ltNumberFormatText, dt, (void *)lt);
 #endif
-#endif
 
 	appStringToTextWidget(lt->ltNumberFormatText, (char *)text);
 
-#ifdef USE_GTK
 #if GTK_MAJOR_VERSION >= 2
 	g_signal_handlers_unblock_by_func(lt->ltNumberFormatText, it,
 					  (void *)lt);
 	g_signal_handlers_unblock_by_func(lt->ltNumberFormatText, dt,
 					  (void *)lt);
-#endif
 #endif
 }
 
@@ -262,39 +251,6 @@ static void tedListToolRefreshLevelFormat(ListTool *lt, const ListLevel *ll,
 /*									*/
 /************************************************************************/
 
-#ifdef USE_MOTIF
-
-static void tedListFormatLevelChosen(Widget w, void *voidlt, void *pbcs)
-{
-	ListTool *lt = (ListTool *)voidlt;
-	DocumentList *dl = &(lt->ltListPropertiesChosen);
-	int level = lt->ltCurrentLevel;
-	ListLevel *ll;
-
-	short number = -1;
-
-	if (level < 0 || level >= dl->dlLevelCount) {
-		LLDEB(level, dl->dlLevelCount);
-		return;
-	}
-
-	ll = &(dl->dlLevels[level]);
-
-#ifdef USE_MOTIF
-	XtVaGetValues(w, XmNpositionIndex, &number, NULL);
-#endif
-
-	if (number < 0 || number > level) {
-		LLDEB(number, level);
-		return;
-	}
-
-	tedListToolSetFormatLevel(lt, number);
-
-	return;
-}
-
-#endif
 
 /************************************************************************/
 /*									*/
@@ -302,56 +258,7 @@ static void tedListFormatLevelChosen(Widget w, void *voidlt, void *pbcs)
 /*									*/
 /************************************************************************/
 
-#ifdef USE_MOTIF
 
-static int tedListToolGetSelection(APP_WIDGET w, ListTool *lt)
-{
-	XmTextPosition start;
-	XmTextPosition end;
-
-	if (!XmTextGetSelectionPosition(w, &start, &end)) {
-		start = end = XmTextGetCursorPosition(w);
-	}
-
-	return tedListToolSelectNumberFormatRange(lt, start, end);
-}
-
-static void tedListToolFormatSelectionChanged(APP_WIDGET w, void *voidlt,
-					      void *voidcbs)
-{
-	XmTextVerifyCallbackStruct *cbs;
-
-	cbs = (XmTextVerifyCallbackStruct *)voidcbs;
-
-	if (cbs->reason == XmCR_MOVING_INSERT_CURSOR) {
-		ListTool *lt = (ListTool *)voidlt;
-
-		XmTextPosition off0;
-		XmTextPosition off1;
-
-		if (XmTextGetSelectionPosition(w, &off0, &off1) &&
-		    off0 != off1) {
-			if (off0 != cbs->newInsert && off1 != cbs->newInsert) {
-				LLLDEB(cbs->newInsert, off0, off1);
-				return;
-			}
-		} else {
-			off0 = off1 = cbs->newInsert;
-		}
-
-		if (tedListToolSelectNumberFormatRange(lt, off0, off1)) {
-			appTextSelectContents(lt->ltNumberFormatText,
-					      lt->ltFormatOffset0,
-					      lt->ltFormatOffset1);
-		}
-	}
-
-	return;
-}
-
-#endif
-
-#ifdef USE_GTK
 
 static int tedListToolGetSelection(APP_WIDGET w, ListTool *lt)
 {
@@ -389,7 +296,6 @@ static void tedListToolFormatSelectionChanged(GtkEntry *w, GtkMovementStep step,
 
 #endif
 
-#endif
 
 static void tedListToolRefreshFormat(ListTool *lt, const int level,
 				     ListLevel *ll, int textAlso)
@@ -667,32 +573,7 @@ static void tedListToolReplaceText(ListTool *lt, const char *text, int length)
 	return;
 }
 
-#ifdef USE_MOTIF
 
-static void tedListToolFormatModified(APP_WIDGET w, void *voidlt, void *voidcbs)
-{
-	XmTextVerifyCallbackStruct *cbs;
-
-	cbs = (XmTextVerifyCallbackStruct *)voidcbs;
-
-	if (cbs->event && cbs->reason == XmCR_MODIFYING_TEXT_VALUE) {
-		ListTool *lt = (ListTool *)voidlt;
-
-		if (tedListToolSelectNumberFormatRange(lt, cbs->startPos,
-						       cbs->endPos)) {
-			cbs->startPos = lt->ltFormatOffset0;
-			cbs->endPos = lt->ltFormatOffset1;
-		}
-
-		tedListToolReplaceText(lt, cbs->text->ptr, cbs->text->length);
-	}
-
-	return;
-}
-
-#endif
-
-#ifdef USE_GTK
 
 static void tedListToolFormatInsertText(GtkEditable *w, gchar *new_text,
 					gint new_text_length, gint *position,
@@ -728,77 +609,8 @@ static void tedListToolFormatDeleteText(GtkEditable *w, gint start_pos,
 	return;
 }
 
-#endif
 
-#ifdef USE_MOTIF
 
-static void tedListLevelRefreshFormatMenu(ListTool *lt)
-{
-	int level = lt->ltCurrentLevel;
-
-	Arg al[20];
-	int ac = 0;
-	int acCommon;
-	Widget option;
-
-	char scratch[50];
-	char acci[30 + 1];
-
-	int lev;
-
-	ac = 0;
-	XtSetArg(al[ac], XmNmarginWidth, 1);
-	ac++;
-	XtSetArg(al[ac], XmNmarginHeight, 1);
-	ac++;
-	XtSetArg(al[ac], XmNborderWidth, 0);
-	ac++;
-	XtSetArg(al[ac], XmNhighlightThickness, 1);
-	ac++;
-	XtSetArg(al[ac], XmNshadowThickness, 1);
-	ac++;
-	XtSetArg(al[ac], XmNfillOnArm, True);
-	ac++;
-
-	acCommon = ac;
-
-	/**/
-	appEmptyParentWidget(lt->ltNumberFormatMenu);
-
-	for (lev = 0; lev <= level; lev++) {
-		char texti[30 + 1];
-
-		ac = acCommon;
-
-		if (docListLevelFormatLevelNumber(texti, sizeof(texti) - 1,
-						  lt->ltCurrPath[lev] +
-							  lt->ltStartPath[lev],
-						  lt->ltFormatPath[lev]) < 0) {
-			LLDEB(lev, lt->ltCurrPath[lev]);
-			strcpy((char *)texti, "?");
-		}
-
-		sprintf(scratch, "%d: %s", lev + 1, texti);
-		sprintf(acci, "<Key>%d", lev + 1);
-
-		XtSetArg(al[ac], XmNaccelerator, acci);
-		ac++;
-
-		option = XmCreatePushButton(lt->ltNumberFormatMenu, scratch, al,
-					    ac);
-
-		XtAddCallback(option, XmNactivateCallback,
-			      tedListFormatLevelChosen, (void *)lt);
-
-		XtManageChild(option);
-	}
-
-	return;
-}
-
-#endif
-
-#ifdef USE_GTK
 
 static void tedListLevelRefreshFormatMenu(ListTool *lt)
 {
@@ -825,7 +637,6 @@ static void tedListLevelRefreshFormatMenu(ListTool *lt)
 	}
 }
 
-#endif
 
 static void tedListToolSetLevelHeader(ListTool *lt, const char *level)
 {
@@ -1698,30 +1509,14 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 	APP_KEY_VALUE keySym;
 	unsigned int state;
 
-#ifdef USE_MOTIF
-	int refused = *pRefused;
-#endif
-#ifdef USE_GTK
 	int refused = 1;
-#endif
 
 	if (level < 0 || level >= dl->dlLevelCount) {
 		LLDEB(level, dl->dlLevelCount);
 		return;
 	}
 
-#ifdef USE_MOTIF
-	{
-		XKeyPressedEvent *keyEvent = &(event->xkey);
-		char scratch[40];
 
-		XLookupString(keyEvent, scratch, sizeof(scratch) - 1, &keySym,
-			      (XComposeStatus *)0);
-		state = keyEvent->state;
-	}
-#endif
-
-#ifdef USE_GTK
 	{
 		GdkEventKey *keyEvent = &(event->key);
 
@@ -1730,7 +1525,6 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 
 		tedListToolGetSelection(w, lt);
 	}
-#endif
 
 	switch (keySym) {
 	case KEY_KP_Insert:
@@ -1739,31 +1533,7 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 	case KEY_Return:
 		tedListLevelRefreshFormatMenu(lt);
 
-#ifdef USE_MOTIF
-		{
-			Position textX = 0;
-			Position textY = 0;
-			Position screenX;
-			Position screenY;
 
-			int pos = lt->ltNumberFormatOffsets[lt->ltFormatIndex0];
-
-			XmTextPosToXY(lt->ltNumberFormatText, pos, &textX,
-				      &textY);
-
-			XtTranslateCoords(lt->ltNumberFormatText, textX, textY,
-					  &screenX, &screenY);
-
-			XtVaSetValues(lt->ltNumberFormatMenu, XmNx, screenX,
-				      XmNy, screenY, NULL);
-
-			XtManageChild(lt->ltNumberFormatMenu);
-
-			refused = 0;
-		}
-#endif
-
-#ifdef USE_GTK
 
 		LDEB(1);
 		gtk_menu_popup(GTK_MENU(lt->ltNumberFormatMenu), NULL, NULL,
@@ -1771,7 +1541,6 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 
 		refused = 0;
 
-#endif
 
 		break;
 
@@ -1868,23 +1637,17 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 		break;
 	}
 
-#ifdef USE_MOTIF
-	*pRefused = refused;
-#endif
 
-#ifdef USE_GTK
 	if (!refused) {
 #if GTK_MAJOR_VERSION >= 2
 		g_signal_stop_emission_by_name(lt->ltNumberFormatText,
 					       "key_press_event");
 #endif
 	}
-#endif
 
 	return;
 }
 
-#ifdef USE_GTK
 
 static void tedListToolFormatMouseUp(APP_WIDGET w, APP_EVENT *event,
 				     void *voidlt)
@@ -1920,7 +1683,6 @@ static void tedListToolFormatMouseMove(APP_WIDGET w, APP_EVENT *event,
 	}
 }
 
-#endif
 
 /************************************************************************/
 /*									*/
@@ -1999,30 +1761,7 @@ void tedFormatFillListsPage(ListTool *lt, const ListsPageResources *lpr,
 				   lt->ltListLevelPaned, lpr->lprNumberFormat,
 				   textColumns, 1);
 
-#ifdef USE_MOTIF
-	{
-		Arg al[20];
-		int ac = 0;
 
-		XtAddCallback(lt->ltNumberFormatText, XmNmotionVerifyCallback,
-			      tedListToolFormatSelectionChanged, (void *)lt);
-
-		XtAddCallback(lt->ltNumberFormatText, XmNmodifyVerifyCallback,
-			      tedListToolFormatModified, (void *)lt);
-
-		XtInsertEventHandler(lt->ltNumberFormatText, KeyPressMask,
-				     False, tedListToolNumberKeyPress,
-				     (void *)lt, XtListHead);
-
-		ac = 0;
-		lt->ltNumberFormatMenu = XmCreatePopupMenu(
-			lt->ltNumberFormatText, WIDGET_NAME, al, ac);
-
-		lt->ltFormatEditable = 0;
-	}
-#endif
-
-#ifdef USE_GTK
 
 #if GTK_MAJOR_VERSION >= 2
 	gtk_signal_connect_after(
@@ -2055,7 +1794,6 @@ void tedFormatFillListsPage(ListTool *lt, const ListsPageResources *lpr,
 
 	lt->ltNumberFormatMenu = gtk_menu_new();
 
-#endif
 
 	/**/
 	guiToolMakeLabelAndTextRow(&row, &firstLabel, &(lt->ltFirstIndentText),

@@ -13,7 +13,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 int appImgPastePixmap(RasterImage *abi, APP_WIDGET w,
 		      APP_SELECTION_EVENT *event)
@@ -22,4 +21,3 @@ int appImgPastePixmap(RasterImage *abi, APP_WIDGET w,
 	return -1;
 }
 
-#endif

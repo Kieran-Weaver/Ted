@@ -11,7 +11,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -739,4 +738,3 @@ void appGuiGtkListTree(int indent, APP_WIDGET w)
 	return;
 }
 
-#endif

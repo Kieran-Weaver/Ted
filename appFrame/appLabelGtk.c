@@ -6,7 +6,6 @@
 
 #include <appDebugon.h>
 
-#ifdef USE_GTK
 
 /************************************************************************/
 /*									*/
@@ -95,4 +94,3 @@ void appGuiChangeLabelText(APP_WIDGET evbox, const char *labelt)
 	return;
 }
 
-#endif
