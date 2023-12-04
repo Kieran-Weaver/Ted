@@ -16,7 +16,7 @@
 #include "appGuiBase.h"
 #include <bitmap.h>
 #include <bmRender.h>
-#include "drawUtilGtk.h"
+#include "drawUtilImpl.h"
 #include <appDebugon.h>
 
 #include <appDebugon.h>

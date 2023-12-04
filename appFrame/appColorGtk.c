@@ -3,15 +3,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
-
-#include "drawUtilGtk.h"
+#include "drawUtilImpl.h"
 
 /************************************************************************/
 /*									*/

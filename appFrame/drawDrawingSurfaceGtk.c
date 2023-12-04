@@ -10,9 +10,8 @@
 #include <drawDrawingSurface.h>
 #include "drawDrawingSurfaceImpl.h"
 #include "drawScreenFontImpl.h"
-#include "drawTextImplX11.h"
 #include "drawScreenFontAdmin.h"
-#include "drawUtilGtk.h"
+#include "drawUtilImpl.h"
 #include "drawImplXft.h"
 #include "drawImpl.h"
 #include <appDebugon.h>

@@ -11,7 +11,7 @@
 #include "drawDrawingSurfaceImpl.h"
 #include "drawScreenFontImpl.h"
 #include "drawScreenFontAdmin.h"
-#include "drawUtilGtk.h"
+#include "drawUtilImpl.h"
 #include "drawImpl.h"
 #include "drawImplXft.h"
 #include <appDebugon.h>

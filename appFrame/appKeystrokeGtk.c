@@ -16,7 +16,7 @@
 /************************************************************************/
 
 
-#include "appGuiKeysGtk.h"
+#include "appGuiKeys.h"
 #define IS_MODIFIER(k) \
 	(((k) >= GDK_Shift_L && (k) <= GDK_Hyper_R) || (k) == GDK_Num_Lock)
 

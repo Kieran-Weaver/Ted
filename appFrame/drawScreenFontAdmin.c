@@ -14,7 +14,6 @@
 
 #include "drawImpl.h"
 #include "drawScreenFontAdmin.h"
-#include "drawTextImplX11.h"
 #include <psFontMetrics.h>
 
 /************************************************************************/
