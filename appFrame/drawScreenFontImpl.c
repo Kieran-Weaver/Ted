@@ -155,16 +155,6 @@ int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig)
 	}
 #endif
 
-#ifdef USE_X11_FONTS
-	/********************************************************************/
-	/*  Open X11 fonts (if freetype is not configured, or it failed)	*/
-	/********************************************************************/
-	if (openFullFont) {
-		if (!appFontOpenX11Fonts(dsf)) {
-			openFullFont = 0;
-		}
-	}
-#endif
 
 	if (openFullFont) {
 		SLDEB(dsf->apfPsFontInfo->afiFontName, openFullFont);

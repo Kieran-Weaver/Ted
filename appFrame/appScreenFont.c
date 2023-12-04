@@ -43,17 +43,6 @@ int drawFontImplementationNameImpl(char *target, int maxlen,
 	}
 #endif
 
-#ifdef USE_X11_FONTS
-	if (dsf->dsfEncodedFonts.esfFontCount > 0) {
-		if (maxlen < sizeof(dsf->apfFontName)) {
-			return -1;
-		}
-
-		strcpy(target, dsf->apfFontName);
-
-		return 0;
-	}
-#endif
 
 	return -1;
 }

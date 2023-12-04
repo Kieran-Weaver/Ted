@@ -377,8 +377,6 @@ int drawString(DrawingSurface ds, int x0, int y0, int screenFont, const char *s,
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
 	DrawScreenFont *dsf;
 
-	TextProgress tp;
-
 	dsf = drawGetScreenFontByNumber(npl, screenFont);
 	if (!dsf) {
 		LXDEB(screenFont, dsf);
@@ -404,14 +402,7 @@ int drawString(DrawingSurface ds, int x0, int y0, int screenFont, const char *s,
 	}
 #endif
 
-	tp.tpX = x0;
-	tp.tpY = y0;
-
-	drawHandleTextSegmentsX11(&tp, dsf, s, len, drawTextSegment8X11,
-				  drawTextSegment16X11,
-				  &(dsf->dsfEncodedFonts));
-
-	return 0;
+	return -1;
 }
 
 #include <gdk/gdkx.h>

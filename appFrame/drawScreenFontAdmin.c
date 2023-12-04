@@ -173,8 +173,6 @@ int drawTextExtentsImpl(DocumentRectangle *drText, int x, int y,
 {
 	DrawScreenFont *dsf;
 
-	TextProgress tp;
-
 	dsf = drawGetScreenFontByNumber(npl, screenFont);
 	if (!dsf) {
 		LXDEB(screenFont, dsf);
@@ -188,19 +186,7 @@ int drawTextExtentsImpl(DocumentRectangle *drText, int x, int y,
 	}
 #endif
 
-	tp.tpX = x;
-	tp.tpY = y;
-
-	drawHandleTextSegmentsX11(&tp, dsf, s, len, drawTextSegment8LengthX11,
-				  drawTextSegment16LengthX11,
-				  &(dsf->dsfEncodedFonts));
-
-	drText->drX0 = x;
-	drText->drX1 = tp.tpX;
-
-	drawVerticalTextExtentsX11(drText, y, &(dsf->dsfEncodedFonts));
-
-	return 0;
+	return -1;
 }
 
 int drawScapsTextExtentsImpl(DocumentRectangle *drText, int x, int y,
@@ -210,8 +196,6 @@ int drawScapsTextExtentsImpl(DocumentRectangle *drText, int x, int y,
 {
 	DrawScreenFont *fullDsf;
 	DrawScreenFont *scapsDsf;
-
-	TextProgress tp;
 
 	fullDsf = drawGetScreenFontByNumber(npl, fullScreenFont);
 	if (!fullDsf) {
@@ -232,19 +216,5 @@ int drawScapsTextExtentsImpl(DocumentRectangle *drText, int x, int y,
 	}
 #endif
 
-	tp.tpX = x;
-	tp.tpY = y;
-
-	drawHandleTextSegmentsX11(&tp, scapsDsf, s, len,
-				  drawTextSegment8LengthX11,
-				  drawTextSegment16LengthX11,
-				  &(scapsDsf->dsfEncodedFonts));
-
-	drText->drX0 = x;
-	drText->drX1 = tp.tpX;
-
-	/* note: no scaps here */
-	drawVerticalTextExtentsX11(drText, y, &(fullDsf->dsfEncodedFonts));
-
-	return 0;
+	return -1;
 }

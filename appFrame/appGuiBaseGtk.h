@@ -8,8 +8,6 @@
 
 #include <gtk/gtk.h>
 
-#define USE_X11_FONTS 0
-
 /************************************************************************/
 /*									*/
 /*  Basic GUI primitives.						*/

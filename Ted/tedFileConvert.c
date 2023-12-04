@@ -17,7 +17,6 @@
 #include <psBuildConfigFiles.h>
 #include <sioFileio.h>
 #include <sioStdout.h>
-#include <appFindX11Fonts.h>
 #include <appMatchFont.h>
 #include <appSystem.h>
 #include <docFontsDocuments.h>
@@ -215,13 +214,6 @@ int tedAfmForFontFiles(EditApplication *ea, const char *prog, const char *call,
 	if (psAfmForFontFiles(&psfl, ea->eaUseKerningInt < 0, argc, argv,
 			      &afmDir, &psDir)) {
 		SSSDEB(call, ea->eaAfmDirectory, PSSCRIPT_DIR);
-		ret = -1;
-		goto ready;
-	}
-
-	if (ea->eaToplevel.atTopWidget &&
-	    appFindX11Fonts(ea->eaToplevel.atTopWidget, &psfl)) {
-		XDEB(ea->eaToplevel.atTopWidget);
 		ret = -1;
 		goto ready;
 	}

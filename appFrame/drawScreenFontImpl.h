@@ -92,12 +92,5 @@ extern int drawTextExtentsXft(DocumentRectangle *drText, int x, int y,
 			      const DrawScreenFont *vDsf, const char *s,
 			      int len);
 
-#ifdef USE_X11_FONTS
-
-extern int appFontOpenX11Fonts(DrawScreenFont *dsf);
-
-extern void addDrawX11GetFontProperties(EncodedScreenFont *esf,
-					DrawScreenFont *dsf);
-#endif
 
 #endif
