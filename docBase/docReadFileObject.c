@@ -24,18 +24,6 @@ static int docReadIncludedBitmapFile(const MemoryBuffer *fullName,
 	return docReadBitmapObject(io, fullName);
 }
 
-static int docCollectIncludedWmfFile(const MemoryBuffer *fullName,
-				     InsertedObject *io)
-{
-	return docReadWmfObject(io, fullName);
-}
-
-static int docCollectIncludedEmfFile(const MemoryBuffer *fullName,
-				     InsertedObject *io)
-{
-	return docReadEmfObject(io, fullName);
-}
-
 /************************************************************************/
 /*									*/
 /*  Evaluate an 'INCLUDEPICTURE' field.					*/
@@ -62,28 +50,6 @@ int docReadFileObject(const MemoryBuffer *fullName, InsertedObject *io)
 			  utilMemoryBufferEqualsString(&extension, "PS") ||
 			  utilMemoryBufferEqualsString(&extension, "EPS"))) {
 		res = docReadEpsObject(fullName, io);
-		if (res) {
-			LDEB(res);
-			goto ready;
-		} else {
-			included = 1;
-		}
-	}
-
-	if (!included && (utilMemoryBufferEqualsString(&extension, "wmf") ||
-			  utilMemoryBufferEqualsString(&extension, "WMF"))) {
-		res = docCollectIncludedWmfFile(fullName, io);
-		if (res) {
-			LDEB(res);
-			goto ready;
-		} else {
-			included = 1;
-		}
-	}
-
-	if (!included && (utilMemoryBufferEqualsString(&extension, "emf") ||
-			  utilMemoryBufferEqualsString(&extension, "EMF"))) {
-		res = docCollectIncludedEmfFile(fullName, io);
 		if (res) {
 			LDEB(res);
 			goto ready;
