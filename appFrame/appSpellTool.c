@@ -609,8 +609,6 @@ static void appSpellFillDictionaryMenu(SpellTool *ast,
 
 	appSetOptionmenu(&(ast->astDictionaryOptionmenu), defaultDict);
 	ast->astCurrentDictionary = defaultDict;
-
-	appOptionmenuRefreshWidth(&(ast->astDictionaryOptionmenu));
 }
 
 /************************************************************************/
@@ -853,8 +851,6 @@ void appFinishSpellTool(SpellTool *ast, const SpellToolResources *astr)
 {
 	SpellChecker *sc;
 	int hasDict = 1;
-
-	appOptionmenuRefreshWidth(&(ast->astDictionaryOptionmenu));
 
 	if (!(sc = ast->astSpellChecker)) {
 		hasDict = 0;

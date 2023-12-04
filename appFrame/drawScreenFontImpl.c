@@ -84,7 +84,7 @@ void drawInitScreenFont(DrawScreenFont *dsf)
 
 	dsf->dsfUnicodesUsed = (const IndexSet *)0;
 
-#if defined(USE_XFT) || defined(USE_MOTIF)
+#ifdef USE_XFT
 	dsf->dsfDisplay = (Display *)0;
 	dsf->dsfDrawable = (APP_DRAWABLE)0;
 	dsf->dsfGc = (APP_GC)0;

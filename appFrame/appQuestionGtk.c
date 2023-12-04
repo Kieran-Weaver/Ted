@@ -15,7 +15,6 @@
 
 #include <appDebugon.h>
 
-#if USE_GTK_DIALOGS
 
 int appQuestionRunSubjectYesNoCancelDialog(EditApplication *ea,
 					   APP_WIDGET relative,
@@ -228,4 +227,3 @@ void appQuestionRunErrorDialog(EditApplication *ea, APP_WIDGET relative,
 	gtk_widget_destroy(dialog);
 }
 
-#endif

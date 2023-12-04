@@ -117,8 +117,6 @@ extern void tedFormatFillTabsPage(TabsTool *tt, const TabsPageResources *tpr,
 
 extern void tedTabsToolFillChoosers(TabsTool *tt);
 
-extern void tedFormatFinishTabsPage(TabsTool *tt);
-
 extern void tedFormatCleanParaTabsTool(TabsTool *tt);
 
 #endif /*  TED_TABS_TOOL_H */

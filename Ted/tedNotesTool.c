@@ -646,27 +646,6 @@ void tedFormatFillNotesChoosers(NotesTool *nt, const NotesPageResources *npr)
 	}
 }
 
-void tedFormatFinishNotesPage(NotesTool *nt, const NotesPageResources *npr)
-{
-	if (nt->ntJustifyOptionmenu.aomInplace) {
-		appOptionmenuRefreshWidth(&(nt->ntJustifyOptionmenu));
-	}
-
-	if (nt->ntPlacementOptionmenu.aomInplace) {
-		appOptionmenuRefreshWidth(&(nt->ntPlacementOptionmenu));
-	}
-
-	if (nt->ntRestartOptionmenu.aomInplace) {
-		appOptionmenuRefreshWidth(&(nt->ntRestartOptionmenu));
-	}
-
-	if (nt->ntStyleOptionmenu.aomInplace) {
-		appOptionmenuRefreshWidth(&(nt->ntStyleOptionmenu));
-	}
-
-	return;
-}
-
 /************************************************************************/
 /*									*/
 /*  Clean the notes tool.						*/

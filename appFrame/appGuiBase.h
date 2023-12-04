@@ -7,8 +7,8 @@
 /*									*/
 /************************************************************************/
 
-#define USE_GTK_DIALOGS 1
 #include <gtk/gtk.h>
+#include <config.h>
 
 /************************************************************************/
 /*									*/
@@ -165,20 +165,6 @@ typedef struct AppToplevel {
 	GtkWidget *atTopWidget;
 	GtkAccelGroup *atAccelGroup;
 } AppToplevel;
-
-/*
-#   define	COLUMN_SPACING_GTK	1
-#   define	WINDOW_BORDER_GTK	4
-#   define	FRAME_BORDER_GTK	4
-#   define	ROW_XPADDING_GTK	3
-#   define	ROW_YPADDING_GTK	2
-*/
-
-#define COLUMN_SPACING_GTK 1
-#define WINDOW_BORDER_GTK 4
-#define FRAME_BORDER_GTK 4
-#define ROW_XPADDING_GTK 1
-#define ROW_YPADDING_GTK 0
 
 /************************************************************************/
 /*									*/

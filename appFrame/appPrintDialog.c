@@ -366,8 +366,6 @@ static void appPrintDialogMenuRange(AppPrintDialog *apd)
 	guiEnableWidget(apd->apdPrinterOptions[apd->apdUpOptionNr], gotBefore);
 	guiEnableWidget(apd->apdPrinterOptions[apd->apdDownOptionNr], gotAfter);
 
-	appOptionmenuRefreshWidth(&(apd->apdPrinterOptionmenu));
-
 	return;
 }
 
@@ -1031,8 +1029,6 @@ static int appPrintDialogFillPrinterMenu(const AppPrintDialogResources *apdr,
 	appSetOptionmenu(&(apd->apdPrinterOptionmenu), apd->apdOptionNrChosen);
 	appPrintDialogMenuRange(apd);
 
-	appOptionmenuRefreshWidth(&(apd->apdPrinterOptionmenu));
-
 	return 0;
 }
 
@@ -1062,8 +1058,6 @@ static void appPrintDialogFillPlacementMenu(AppPrintDialog *apd)
 	apd->apdCenterHChosen = 0;
 
 	appSetOptionmenu(&(apd->apdPlacementOptionmenu), 0);
-
-	appOptionmenuRefreshWidth(&(apd->apdPlacementOptionmenu));
 }
 
 /************************************************************************/
@@ -1093,8 +1087,6 @@ static void appPrintDialogFillSelectionMenu(AppPrintDialog *apd)
 
 	appSetOptionmenu(&(apd->apdSelectionOptionmenu),
 			 apd->apdSelectionChosen);
-
-	appOptionmenuRefreshWidth(&(apd->apdSelectionOptionmenu));
 }
 
 /************************************************************************/
@@ -1452,12 +1444,6 @@ static AppPrintDialog *appMakePrintDialog(EditApplication *ea, EditDocument *ed,
 				apdr.apdrCustomPaperSizeText);
 
 	appGuiShowDialog(ea, &(apd->apdDialog), ed->edToplevel.atTopWidget);
-
-	appPaperChooserRefreshMenuWidth(&(apd->apdPaperChooser));
-
-	appOptionmenuRefreshWidth(&(apd->apdPrinterOptionmenu));
-	appOptionmenuRefreshWidth(&(apd->apdPlacementOptionmenu));
-	appOptionmenuRefreshWidth(&(apd->apdSelectionOptionmenu));
 
 	if (apd->apdPageDrawing) {
 		apd->apdDrawingSurface = guiDrawingSurfaceForNativeWidget(

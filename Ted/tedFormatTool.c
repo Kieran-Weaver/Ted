@@ -685,38 +685,17 @@ void tedShowFormatTool(APP_WIDGET option, EditApplication *ea)
 
 	tedFormatFinishRowPage(&(tft->tftRowTool),
 			       &(tftr.tttrRowToolResources));
-	tedFinishParaLayoutPage(&(tft->tftParagraphLayoutTool),
-				&(tftr.tttrParaLayoutToolResources));
-#if USE_TABS_TOOL
-	tedFormatFinishTabsPage(&(tft->tftTabsTool));
-#endif
 	tedFormatFinishParaOrnamentsPage(
 		&(tft->tftParagraphOrnamentsTool),
 		&(tftr.tttrParaOrnamentsToolResources));
-#if USE_LIST_TOOL
-	tedFormatFinishListPage(&(tft->tftListsTool));
-#endif
-	tedFormatFinishSectionPage(&(tft->tftSectionTool),
-				   &(tftr.tttrSectToolResources));
 #if USE_PAGE_TOOL
 	tedFormatFinishPageLayoutPage(&(tft->tftPageLayoutTool),
 				      &(tftr.tttrPageLayoutToolResources));
 #endif
-	tedFormatFinishHeaderFooterPage(&(tft->tftHeaderFooterTool),
-					&(tftr.tttrHeadFootToolResources));
 	tedFormatFinishColumnPage(&(tft->tftColumnTool),
 				  &(tftr.tttrColumnToolResources));
 	tedFormatFinishCellPage(&(tft->tftCellTool),
 				&(tftr.tttrCellToolResources));
-#if 0
-    tedFormatFinishThisNotePage( &(tft->tftThisNoteTool),
-					&(tftr.tttrNotesToolResources) );
-#endif
-
-	tedFormatFinishNotesPage(&(tft->tftFootNotesTool),
-				 &(tftr.tttrNotesToolResources));
-	tedFormatFinishNotesPage(&(tft->tftEndNotesTool),
-				 &(tftr.tttrNotesToolResources));
 #if USE_FONT_TOOL
 	appFontToolFinishPage(&(tft->tftFontTool),
 			      &(tftr.tttrFontToolResources));
@@ -729,11 +708,6 @@ void tedShowFormatTool(APP_WIDGET option, EditApplication *ea)
 #if USE_BOOKMARK_TOOL
 	tedFinishBookmarkTool(&(tft->tftBookmarkTool));
 #endif
-#if USE_FRAME_TOOL
-	tedFinishFrameTool(&(tft->tftFrameTool),
-			   &(tftr.tttrFrameToolResources));
-#endif
-	tedFinishTocTool(&(tft->tftTocTool), &(tftr.tttrTocToolResources));
 	appFinishSymbolPicker(&(tft->tftSymbolPicker),
 			      &(tftr.tttrSymbolPickerResources));
 #if USE_SPELL_TOOL

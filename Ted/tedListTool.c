@@ -1842,15 +1842,6 @@ void tedFormatFillListChoosers(ListTool *lt)
 	return;
 }
 
-void tedFormatFinishListPage(ListTool *lt)
-{
-	appOptionmenuRefreshWidth(&(lt->ltNumberStyleOptionmenu));
-	appOptionmenuRefreshWidth(&(lt->ltJustifyOptionmenu));
-	appOptionmenuRefreshWidth(&(lt->ltFollowOptionmenu));
-
-	return;
-}
-
 /************************************************************************/
 /*									*/
 /*  Clean allocated resources in a tabs tool.				*/

@@ -317,8 +317,6 @@ void appFinishInspector(AppInspector *ai)
 {
 	appShowShellWidget(ai->aiApplication, ai->aiTopWidget);
 
-	appOptionmenuRefreshWidth(&(ai->aiSubjectOptionmenu));
-
 	return;
 }
 

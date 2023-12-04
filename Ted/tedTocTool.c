@@ -614,14 +614,6 @@ void tedTocToolFillChoosers(TocTool *tt, const TocPageResources *tpr)
 	guiEnableWidget(tt->ttOulineLevelItems[PPoutline_COUNT], 0);
 }
 
-void tedFinishTocTool(TocTool *tt, const TocPageResources *tpr)
-{
-	appOptionmenuRefreshWidth(&(tt->ttTocTypeMenu));
-	appOptionmenuRefreshWidth(&(tt->ttTocLevelsMenu));
-	appOptionmenuRefreshWidth(&(tt->ttTocSeqOptionMenu));
-	appOptionmenuRefreshWidth(&(tt->ttOulineLevelMenu));
-}
-
 /************************************************************************/
 /*									*/
 /*  Get Toc tool resources.						*/

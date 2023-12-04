@@ -119,6 +119,4 @@ extern void tedTocToolFillChoosers(TocTool *tt, const TocPageResources *fpr);
 extern void tedInitTocTool(TocTool *tt);
 extern void tedCleanTocTool(TocTool *tt);
 
-extern void tedFinishTocTool(TocTool *tt, const TocPageResources *fpr);
-
 #endif /*  TED_TOC_TOOL_H */

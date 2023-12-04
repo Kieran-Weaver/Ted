@@ -68,8 +68,6 @@ void guiExposeDrawingWidgetRectangle(APP_WIDGET nativeWidget,
 	return;
 }
 
-#define LOG_EXPOSES 0
-
 void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
 			    APP_EVENT *event)
 {

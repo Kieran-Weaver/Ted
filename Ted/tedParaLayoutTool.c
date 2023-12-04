@@ -828,16 +828,6 @@ void tedParaLayoutToolFillChoosers(ParagraphLayoutTool *plt,
 	return;
 }
 
-void tedFinishParaLayoutPage(ParagraphLayoutTool *plt,
-			     const ParagraphLayoutPageResources *plpr)
-{
-	appOptionmenuRefreshWidth(&(plt->ptLineDistChooser.hcOptionmenu));
-
-	appOptionmenuRefreshWidth(&(plt->pltAlignOptionmenu));
-
-	return;
-}
-
 /************************************************************************/
 /*									*/
 /*  Clean the paragraph tool.						*/

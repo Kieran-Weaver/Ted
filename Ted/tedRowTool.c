@@ -640,8 +640,6 @@ void tedFormatFinishRowPage(RowTool *rt, const RowPageResources *rpr)
 
 	psfl = &(rt->rtApplication->eaPostScriptFontList);
 
-	appOptionmenuRefreshWidth(&(rt->rtHeightChooser.hcOptionmenu));
-
 	tedFinishBorderTool(&(rt->rtTopBorderTool), psfl);
 	tedFinishBorderTool(&(rt->rtBottomBorderTool), psfl);
 

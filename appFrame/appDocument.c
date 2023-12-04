@@ -20,8 +20,6 @@
 
 #include <appDebugon.h>
 
-#define LOG_REDRAWS 0
-
 /************************************************************************/
 /*									*/
 /*  Callback for the file menu.						*/

@@ -7,8 +7,6 @@
 
 #include <appDebugoff.h>
 
-#define LOG_GUESSES 0
-
 typedef struct GuessContext {
 	/*
 				 * The finite automaton that holds the 

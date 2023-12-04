@@ -561,14 +561,6 @@ void tedFormatFillHeaderFooterChoosers(HeaderFooterTool *hft,
 	return;
 }
 
-void tedFormatFinishHeaderFooterPage(HeaderFooterTool *hft,
-				     const HeaderFooterPageResources *hfpr)
-{
-	appOptionmenuRefreshWidth(&(hft->hftPagesOptionmenu));
-
-	return;
-}
-
 /************************************************************************/
 /*									*/
 /*  Clean the header footer tool.					*/

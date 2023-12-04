@@ -217,8 +217,6 @@ void tedFormatFillHeightChooser(HeightChooser *hc, const char *freeText,
 
 	appSetOptionmenu(&(hc->hcOptionmenu), HC_FREE);
 	hc->hcHow = HC_FREE;
-
-	appOptionmenuRefreshWidth(&(hc->hcOptionmenu));
 }
 
 /************************************************************************/

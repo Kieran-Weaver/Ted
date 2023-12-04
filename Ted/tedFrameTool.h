@@ -104,6 +104,4 @@ extern void tedFrameToolFillChoosers(FrameTool *ft,
 extern void tedInitFrameTool(FrameTool *ft);
 extern void tedCleanFrameTool(FrameTool *ft);
 
-extern void tedFinishFrameTool(FrameTool *ft, const FramePageResources *fpr);
-
 #endif /*  TED_FRAME_TOOL_H */

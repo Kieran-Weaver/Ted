@@ -1,6 +1,25 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#define USE_OPT_MENU 1
+#define BLINK_IBAR 1
+
+/* Logging settings */
+#define LOG_EXPOSES 0
+#define LOG_MATCHES 0
+#define LOG_GUESSES 0
+#define LOG_CUTS 0
+#define LOG_PALETTE 0
+#define LOG_TRANSACTIONS 0
+#define LOG_REDRAWS 0
+#define LOG_RELAYOUT 0
+
+#define COLUMN_SPACING_GTK 1
+#define WINDOW_BORDER_GTK 4
+#define FRAME_BORDER_GTK 4
+#define ROW_XPADDING_GTK 1
+#define ROW_YPADDING_GTK 0
+
 #undef HAVE_MKSTEMP
 #define HAVE_FT2 1
 #define HAVE_XFT 1

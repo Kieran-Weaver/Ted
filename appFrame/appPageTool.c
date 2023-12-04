@@ -477,8 +477,6 @@ void *appMakePageTool(EditApplication *ea, APP_WIDGET pageOption,
 
 	appShowShellWidget(ea, apt->aptTopWidget);
 
-	appPaperChooserRefreshMenuWidth(&(apt->aptPaperChooser));
-
 	apt->aptDrawingSurface = guiDrawingSurfaceForNativeWidget(
 		apt->aptPageDrawing,
 		ea->eaPostScriptFontList.psflAvoidFontconfig);

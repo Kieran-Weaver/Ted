@@ -36,8 +36,6 @@ extern void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row,
 				   int column, int colspan,
 				   OptionmenuCallback callBack, void *through);
 
-extern void appOptionmenuRefreshWidth(AppOptionmenu *aom);
-
 extern void appEmptyOptionmenu(AppOptionmenu *aom);
 
 extern void appGuiEnableOptionmenu(AppOptionmenu *aom, int sensitive);

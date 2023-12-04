@@ -1762,12 +1762,6 @@ static SpecialCall TedSpecialCalls[] = {
 #define VSS(x) #x
 #define VSSS(x) VSS(x)
 
-#ifdef XmVERSION_STRING
-#define MOTIF_VSS "\"" XmVERSION_STRING "\" "
-#else
-#define MOTIF_VSS "Motif "
-#endif
-
 #define GTK_VSS                                                              \
 	"GTK " VSSS(GTK_MAJOR_VERSION) "." VSSS(GTK_MINOR_VERSION) "." VSSS( \
 		GTK_MICRO_VERSION) " "

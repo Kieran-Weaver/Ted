@@ -43,9 +43,6 @@ typedef struct PaperChooser {
 	int pcProgrammatic;
 } PaperChooser;
 
-#define appPaperChooserRefreshMenuWidth(pc) \
-	appOptionmenuRefreshWidth(&((pc)->pcOptionmenu))
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

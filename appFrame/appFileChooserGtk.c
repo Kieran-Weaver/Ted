@@ -22,20 +22,9 @@
 
 #include <appDebugon.h>
 
-
-#ifndef GTK_FILE_CHOOSER
-#error "GTK_FILE_CHOOSER not present"
-#define HAS_DIRECTORY 0
-#define MAKE_SELECTION 1
-#define MAKE_CHOOSER 0
-#define GtkFileChooser GtkFileSelection
-#define gtk_file_chooser_set_filename gtk_file_selection_set_filename
-#define gtk_file_chooser_get_filename gtk_file_selection_get_filename
-#else
 #define HAS_DIRECTORY 1
 #define MAKE_SELECTION 0
 #define MAKE_CHOOSER 1
-#endif
 
 /************************************************************************/
 /*									*/

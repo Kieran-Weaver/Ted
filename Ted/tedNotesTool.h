@@ -107,9 +107,6 @@ extern void tedFormatInitNotesTool(NotesTool *nt);
 extern void tedFormatFillNotesChoosers(NotesTool *nt,
 				       const NotesPageResources *npr);
 
-extern void tedFormatFinishNotesPage(NotesTool *nt,
-				     const NotesPageResources *npr);
-
 extern void tedFormatFillNotesPage(NotesTool *nt, const NotesPageResources *npr,
 				   InspectorSubject *is, APP_WIDGET pageWidget,
 				   const InspectorSubjectResources *isr,

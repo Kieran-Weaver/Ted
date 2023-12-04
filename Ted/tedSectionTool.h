@@ -118,7 +118,4 @@ extern void tedFormatFillSectionPage(SectionTool *st,
 extern void tedFormatFillSectionChoosers(SectionTool *st,
 					 const SectionPageResources *spr);
 
-extern void tedFormatFinishSectionPage(SectionTool *st,
-				       const SectionPageResources *spr);
-
 #endif /*  TED_SECTION_TOOL_H */

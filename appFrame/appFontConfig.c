@@ -695,8 +695,6 @@ static int appFcAddChar(int unicode, void *vcharset)
 
 /************************************************************************/
 
-#define LOG_MATCHES 0
-
 static AfmFontInfo *appFcGetFontInfoFromFont(FcPattern *font,
 					     const PostScriptFontList *psfl)
 {

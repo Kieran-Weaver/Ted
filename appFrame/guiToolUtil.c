@@ -248,8 +248,6 @@ void appFillInspectorMenu(int count, int current, APP_WIDGET *items,
 
 	appSetOptionmenu(aom, current);
 
-	appOptionmenuRefreshWidth(aom);
-
 	return;
 }
 

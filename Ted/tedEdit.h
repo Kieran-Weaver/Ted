@@ -8,13 +8,12 @@
 #ifndef TED_EDIT_H
 #define TED_EDIT_H
 
+#include <config.h>
 #include <docEdit.h>
 #include <docEditTrace.h>
 #include <layoutContext.h>
 #include <docSelectionGeometry.h>
 #include <docSelectionDescription.h>
-
-#define LOG_RELAYOUT 0
 
 struct EditDocument;
 

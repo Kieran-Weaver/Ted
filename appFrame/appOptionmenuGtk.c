@@ -1,15 +1,9 @@
 #include <config.h>
-
 #include <stdio.h>
-
 #include "guiWidgets.h"
 #include "guiOptionmenu.h"
 #include "guiWidgetsImpl.h"
-
 #include <appDebugon.h>
-
-
-#define USE_OPT_MENU 1
 
 /************************************************************************/
 
@@ -93,18 +87,6 @@ static void appComboBoxGtkCallback(GtkComboBox *combo, void *voidaom)
 	if (aom->aomCallback) {
 		(*aom->aomCallback)(idx, aom->aomTarget);
 	}
-}
-
-/************************************************************************/
-/*									*/
-/*  Used to get around Motif's ridiculous resize behavior. Probably	*/
-/*  not needed for GTK.							*/
-/*									*/
-/************************************************************************/
-
-void appOptionmenuRefreshWidth(AppOptionmenu *aom)
-{
-	return;
 }
 
 void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row, int column,

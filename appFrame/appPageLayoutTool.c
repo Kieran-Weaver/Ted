@@ -539,8 +539,6 @@ void appPageLayoutPageFillChoosers(PageLayoutTool *plt,
 void appPageLayoutPageFinishPage(PageLayoutTool *plt,
 				 const PageLayoutPageResources *plpr)
 {
-	appPaperChooserRefreshMenuWidth(&(plt->pltPaperChooser));
-
 	plt->pltDrawingSurface = guiDrawingSurfaceForNativeWidget(
 		plt->pltPageDrawing,
 		plt->pltApplication->eaPostScriptFontList.psflAvoidFontconfig);

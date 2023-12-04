@@ -441,8 +441,6 @@ static void appSymbolAdaptBlockMenuToFont(SymbolPicker *sp)
 		}
 	}
 
-	appOptionmenuRefreshWidth(&(sp->spBlockOptionmenu));
-
 	return;
 }
 
@@ -1125,8 +1123,6 @@ static void appSymbolFillFontMenu(int *pEnabled,
 	sp->spFontInfo = (const AfmFontInfo *)0;
 	appSetOptionmenu(&(sp->spFontOptionmenu), 0);
 
-	appOptionmenuRefreshWidth(&(sp->spFontOptionmenu));
-
 	return;
 }
 
@@ -1244,9 +1240,6 @@ void appSymbolPickerFillChoosers(SymbolPicker *sp,
 
 void appFinishSymbolPicker(SymbolPicker *sp, const SymbolPickerResources *spr)
 {
-	appOptionmenuRefreshWidth(&(sp->spFontOptionmenu));
-	appOptionmenuRefreshWidth(&(sp->spBlockOptionmenu));
-
 	sp->spDrawingSurface = guiDrawingSurfaceForNativeWidget(
 		sp->spSymbolDrawing,
 		sp->spPostScriptFontList->psflAvoidFontconfig);

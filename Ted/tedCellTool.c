@@ -534,8 +534,6 @@ void tedFormatFinishCellPage(CellTool *ct, const CellPageResources *cpr)
 
 	psfl = &(ct->ctApplication->eaPostScriptFontList);
 
-	appOptionmenuRefreshWidth(&(ct->ctValignMenu));
-
 	tedFinishBorderTool(&(ct->ctTopBorderTool), psfl);
 	tedFinishBorderTool(&(ct->ctBottomBorderTool), psfl);
 	tedFinishBorderTool(&(ct->ctLeftBorderTool), psfl);

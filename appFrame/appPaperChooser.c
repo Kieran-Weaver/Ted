@@ -575,8 +575,6 @@ void appPaperChooserFillMenu(PaperChooser *pc, const char *customLabel)
 		appSetOptionmenu(&(pc->pcOptionmenu), -1);
 	}
 
-	appOptionmenuRefreshWidth(&(pc->pcOptionmenu));
-
 	return;
 }
 

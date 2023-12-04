@@ -642,17 +642,6 @@ void tedFrameToolFillChoosers(FrameTool *ft, const FramePageResources *fpr)
 			     fpr->fprYPosItemTexts, &(ft->ftYPosMenu));
 }
 
-void tedFinishFrameTool(FrameTool *ft, const FramePageResources *fpr)
-{
-	appOptionmenuRefreshWidth(&(ft->ftHeightChooser.hcOptionmenu));
-
-	appOptionmenuRefreshWidth(&(ft->ftXRefMenu));
-	appOptionmenuRefreshWidth(&(ft->ftXPosMenu));
-
-	appOptionmenuRefreshWidth(&(ft->ftYRefMenu));
-	appOptionmenuRefreshWidth(&(ft->ftYPosMenu));
-}
-
 /************************************************************************/
 /*									*/
 /*  Clean a frame tool.							*/

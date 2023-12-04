@@ -11,9 +11,6 @@
 /*									*/
 /************************************************************************/
 
-#define LOG_CUTS 0
-#define LOG_PALETTE 0
-
 typedef struct HistogramEntry {
 	int heCount;
 	RGB8Color heColor;

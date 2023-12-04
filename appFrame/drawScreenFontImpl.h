@@ -55,7 +55,7 @@ typedef struct DrawScreenFont {
 
 	const IndexSet *dsfUnicodesUsed;
 
-#if defined(USE_XFT) || defined(USE_MOTIF)
+#ifdef USE_XFT
 	Display *dsfDisplay;
 	APP_DRAWABLE dsfDrawable;
 	APP_GC dsfGc;

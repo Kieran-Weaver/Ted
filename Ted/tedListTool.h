@@ -159,8 +159,6 @@ extern void tedFormatFillListsPage(ListTool *lt, const ListsPageResources *lpr,
 
 extern void tedFormatFillListChoosers(ListTool *lt);
 
-extern void tedFormatFinishListPage(ListTool *lt);
-
 extern void tedFormatCleanListsTool(ListTool *lt);
 
 #endif /*  TED_LIST_TOOL_H */

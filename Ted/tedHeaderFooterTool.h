@@ -112,10 +112,6 @@ extern void
 tedFormatFillHeaderFooterChoosers(HeaderFooterTool *hft,
 				  const HeaderFooterPageResources *hfpr);
 
-extern void
-tedFormatFinishHeaderFooterPage(HeaderFooterTool *hft,
-				const HeaderFooterPageResources *hfpr);
-
 extern void tedFormatFillHeaderFooterPage(HeaderFooterTool *hft,
 					  const HeaderFooterPageResources *hfpr,
 					  InspectorSubject *is,

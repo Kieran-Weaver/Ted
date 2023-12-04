@@ -865,18 +865,6 @@ void tedFormatFillSectionChoosers(SectionTool *st,
 	return;
 }
 
-void tedFormatFinishSectionPage(SectionTool *st,
-				const SectionPageResources *spr)
-{
-	appOptionmenuRefreshWidth(&(st->stNumberStyleOptionmenu));
-
-	appOptionmenuRefreshWidth(&(st->stBreakKindOptionmenu));
-
-	appOptionmenuRefreshWidth(&(st->stColumnCountMenu));
-
-	return;
-}
-
 /************************************************************************/
 /*									*/
 /*  Clean a section tool						*/

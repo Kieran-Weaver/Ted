@@ -128,7 +128,4 @@ extern void tedRefreshParaLayoutTool(ParagraphLayoutTool *plt, int *pEnabled,
 
 extern void tedFormatCleanParaLayoutTool(ParagraphLayoutTool *plt);
 
-extern void tedFinishParaLayoutPage(ParagraphLayoutTool *plt,
-				    const ParagraphLayoutPageResources *plpr);
-
 #endif /*  TED_PARA_LAYOUT_TOOL_H */

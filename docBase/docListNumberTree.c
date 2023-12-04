@@ -41,8 +41,6 @@ other than ilvl= 0.
 #include "docListDepth.h"
 #include "docDebugListNumberTree.h"
 
-#define LOG_TRANSACTIONS 0
-
 /************************************************************************/
 /*									*/
 /*  Initialise a node.							*/

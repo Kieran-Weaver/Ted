@@ -782,12 +782,6 @@ void tedFormatFillTabsPage(TabsTool *tt, const TabsPageResources *tpr,
 	return;
 }
 
-/************************************************************************/
-/*									*/
-/*  Finish the tabs page.						*/
-/*									*/
-/************************************************************************/
-
 void tedTabsToolFillChoosers(TabsTool *tt)
 {
 	const TabsPageResources *tpr = tt->ttPageResources;
@@ -802,14 +796,6 @@ void tedTabsToolFillChoosers(TabsTool *tt)
 
 	guiEnableWidget(tt->ttLeaderItems[DOCtlTHICK], 0);
 	guiEnableWidget(tt->ttLeaderItems[DOCtlEQUAL], 0);
-
-	return;
-}
-
-void tedFormatFinishTabsPage(TabsTool *tt)
-{
-	appOptionmenuRefreshWidth(&(tt->ttAlignmentOptionmenu));
-	appOptionmenuRefreshWidth(&(tt->ttLeaderOptionmenu));
 
 	return;
 }

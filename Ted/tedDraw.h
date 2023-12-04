@@ -9,10 +9,8 @@
 #define TED_DRAW_H
 
 #include <docDraw.h>
+#include <config.h>
 #include <drawDrawingSurface.h>
-
-#define LOG_REDRAWS 0
-#define BLINK_IBAR 1
 
 #if LOG_REDRAWS
 #undef BLINK_IBAR
