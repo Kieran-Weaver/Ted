@@ -387,7 +387,6 @@ static void appFileChooserOpenFiles(AppChooserInformation *aci,
 				    APP_OPEN_DOCUMENT openDocument,
 				    void *through)
 {
-#if GTK_MAJOR_VERSION >= 2
 	gchar **filenames;
 	gchar **fn;
 
@@ -404,14 +403,6 @@ static void appFileChooserOpenFiles(AppChooserInformation *aci,
 
 		g_strfreev(filenames);
 	}
-#else
-
-	gchar *filename = gtk_file_selection_get_filename(gfs);
-	if (filename) {
-		appFileChooserOpenFile(aci, filename, openDocument, through);
-	}
-
-#endif
 
 	return;
 }
@@ -491,9 +482,7 @@ void appRunOpenChooser(APP_WIDGET option, APP_WIDGET relative,
 
 	gfs = GTK_FILE_SELECTION(aci->aciWidget);
 
-#if GTK_MAJOR_VERSION >= 2
 	gtk_file_selection_set_select_multiple(gfs, TRUE);
-#endif
 
 #endif /*  MAKE_SELECTION  */
 

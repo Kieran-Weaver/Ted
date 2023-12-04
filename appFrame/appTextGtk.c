@@ -16,11 +16,9 @@ void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
 
 	gtk_widget_set_name(GTK_WIDGET(text), "tedRowText");
 
-#if GTK_MAJOR_VERSION >= 2
 	if (textColumns > 0) {
 		gtk_entry_set_width_chars(GTK_ENTRY(text), textColumns);
 	}
-#endif
 
 	gtk_table_attach(GTK_TABLE(row), text, column, column + colspan, 0, 1,
 			 GTK_FILL | GTK_EXPAND | GTK_SHRINK,
@@ -43,11 +41,9 @@ void appMakeTextInHBox(APP_WIDGET *pText, APP_WIDGET hbox, int textColumns,
 {
 	APP_WIDGET text = gtk_entry_new();
 
-#if GTK_MAJOR_VERSION >= 2
 	if (textColumns > 0) {
 		gtk_entry_set_width_chars(GTK_ENTRY(text), textColumns);
 	}
-#endif
 
 	gtk_box_pack_start(GTK_BOX(hbox), text, FALSE, FALSE, 0);
 
@@ -77,11 +73,9 @@ void appMakeTextInColumn(APP_WIDGET *pText, APP_WIDGET column, int textColumns,
 
 	gtk_widget_set_name(GTK_WIDGET(text), "tedColumnText");
 
-#if GTK_MAJOR_VERSION >= 2
 	if (textColumns > 0) {
 		gtk_entry_set_width_chars(GTK_ENTRY(text), textColumns);
 	}
-#endif
 
 	gtk_box_pack_start(GTK_BOX(column), text, FALSE, TRUE, 0);
 

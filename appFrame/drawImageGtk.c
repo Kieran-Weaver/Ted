@@ -83,54 +83,6 @@ int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 		bdOut.bdColorEncoding = BMcoRGB;
 	} else {
 		switch (depth) {
-#if GTK_MAJOR_VERSION < 2
-		case 1: {
-			int pad = 8;
-			unsigned int one = 1;
-
-			pad = 8;
-			bdOut.bdBytesPerRow = (toWide + pad - 1) / pad;
-			bdOut.bdBytesPerRow *= (pad / 8);
-
-			bdOut.bdBufferLength =
-				toHigh * bdOut.bdBytesPerRow + toWide + 32;
-
-			bufferOut =
-				(unsigned char *)malloc(bdOut.bdBufferLength);
-			if (!bufferOut) {
-				LLDEB(toWide, toHigh);
-				rval = -1;
-				goto ready;
-			}
-
-			xim = gdk_image_new_bitmap(vis, (gpointer *)bufferOut,
-						   toWide, toHigh);
-
-			if (!xim) {
-				LDEB(xim);
-				free(bufferOut);
-				rval = -1;
-				goto ready;
-			}
-
-			if (*((unsigned char *)&one)) {
-				swapBitmapBytes = 1;
-			} else {
-				swapBitmapBytes = 0;
-			}
-
-			bitmapUnit = 8;
-
-			bdOut.bdBitsPerSample = 1;
-			bdOut.bdSamplesPerPixel = 1;
-			bdOut.bdBitsPerPixel = 1;
-			bdOut.bdColorEncoding = BMcoBLACKWHITE;
-			bdOut.bdPalette.cpColorCount = 0;
-
-		}
-
-		break;
-#endif
 
 		case 8:
 		case 16:

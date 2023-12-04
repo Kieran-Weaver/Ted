@@ -84,11 +84,7 @@ int drawOpenDefaultFont(DrawingSurface ds, const PostScriptFontList *psfl,
 			} else {
 				GdkFont *gf;
 
-#if GTK_MAJOR_VERSION < 2
-				gf = gs->font;
-#else
 				gf = gtk_style_get_font(gs);
-#endif
 
 				gdk_font_ref(gf);
 				return guiSystemFont(ds, gf);

@@ -30,13 +30,8 @@
 /************************************************************************/
 
 
-#if GTK_MAJOR_VERSION < 2
-#define USE_GTK_DIALOGS 0
-#define USE_OWN_DIALOGS 1
-#else
 #define USE_GTK_DIALOGS 1
 #define USE_OWN_DIALOGS 0
-#endif
 
 /************************************************************************/
 /*									*/

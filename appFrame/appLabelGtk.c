@@ -83,11 +83,7 @@ void appMakeLabelInColumn(APP_WIDGET *pLabel, APP_WIDGET column,
 
 void appGuiChangeLabelText(APP_WIDGET evbox, const char *labelt)
 {
-#if GTK_MAJOR_VERSION >= 2
 	GtkWidget *labelw = gtk_bin_get_child(GTK_BIN(evbox));
-#else
-	GtkWidget *labelw = GTK_BIN(evbox)->child;
-#endif
 
 	gtk_label_set_text(GTK_LABEL(labelw), (char *)labelt);
 

@@ -129,12 +129,10 @@ void guiDrawSetButtonPressHandler(APP_WIDGET w, APP_EVENT_HANDLER_T handler,
 void guiDrawSetScrollHandler(APP_WIDGET w, APP_EVENT_HANDLER_T handler,
 			     void *through)
 {
-#if GTK_MAJOR_VERSION >= 2
 	gtk_widget_add_events(w, GDK_SCROLL_MASK);
 
 	gtk_signal_connect(GTK_OBJECT(w), "scroll_event",
 			   (GtkSignalFunc)handler, through);
-#endif
 }
 
 int guiDrawGetInoutFromFocusEvent(int *pInOut, APP_WIDGET w, APP_EVENT *event)

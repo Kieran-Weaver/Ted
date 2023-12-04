@@ -191,7 +191,6 @@ static void tedListToolFormatDeleteText(GtkEditable *w, gint start_pos,
 
 static void tedListToolSetLevelFormatText(ListTool *lt, const char *text)
 {
-#if GTK_MAJOR_VERSION >= 2
 	/*  The weird construct is to make good compilers
 			 *  shut up about the weird and ugly construct in GTK
 			 */
@@ -211,16 +210,13 @@ static void tedListToolSetLevelFormatText(ListTool *lt, const char *text)
 
 	g_signal_handlers_block_by_func(lt->ltNumberFormatText, it, (void *)lt);
 	g_signal_handlers_block_by_func(lt->ltNumberFormatText, dt, (void *)lt);
-#endif
 
 	appStringToTextWidget(lt->ltNumberFormatText, (char *)text);
 
-#if GTK_MAJOR_VERSION >= 2
 	g_signal_handlers_unblock_by_func(lt->ltNumberFormatText, it,
 					  (void *)lt);
 	g_signal_handlers_unblock_by_func(lt->ltNumberFormatText, dt,
 					  (void *)lt);
-#endif
 }
 
 static void tedListToolRefreshLevelFormat(ListTool *lt, const ListLevel *ll,
@@ -265,18 +261,13 @@ static int tedListToolGetSelection(APP_WIDGET w, ListTool *lt)
 	gint start;
 	gint end;
 
-#if GTK_MAJOR_VERSION < 2
-	start = end = gtk_editable_get_position(GTK_EDITABLE(w));
-#else
 	if (!gtk_editable_get_selection_bounds(GTK_EDITABLE(w), &start, &end)) {
 		start = end = gtk_editable_get_position(GTK_EDITABLE(w));
 	}
-#endif
 
 	return tedListToolSelectNumberFormatRange(lt, start, end);
 }
 
-#if GTK_MAJOR_VERSION >= 2
 
 static void tedListToolFormatSelectionChanged(GtkEntry *w, GtkMovementStep step,
 					      gint arg2, gboolean arg3,
@@ -294,7 +285,6 @@ static void tedListToolFormatSelectionChanged(GtkEntry *w, GtkMovementStep step,
 	return;
 }
 
-#endif
 
 
 static void tedListToolRefreshFormat(ListTool *lt, const int level,
@@ -596,9 +586,7 @@ static void tedListToolFormatDeleteText(GtkEditable *w, gint start_pos,
 	ListTool *lt = (ListTool *)voidlt;
 
 	if (tedListToolSelectNumberFormatRange(lt, start_pos, end_pos)) {
-#if GTK_MAJOR_VERSION >= 2
 		g_signal_stop_emission_by_name(w, "delete_text");
-#endif
 
 		gtk_editable_delete_text(w, lt->ltFormatOffset0,
 					 lt->ltFormatOffset1);
@@ -1639,10 +1627,8 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 
 
 	if (!refused) {
-#if GTK_MAJOR_VERSION >= 2
 		g_signal_stop_emission_by_name(lt->ltNumberFormatText,
 					       "key_press_event");
-#endif
 	}
 
 	return;
@@ -1655,9 +1641,7 @@ static void tedListToolFormatMouseUp(APP_WIDGET w, APP_EVENT *event,
 	ListTool *lt = (ListTool *)voidlt;
 
 	if (tedListToolGetSelection(w, lt)) {
-#if GTK_MAJOR_VERSION >= 2
 		g_signal_stop_emission_by_name(w, "button_release_event");
-#endif
 
 		appTextSelectContents(lt->ltNumberFormatText,
 				      lt->ltFormatOffset0, lt->ltFormatOffset1);
@@ -1674,9 +1658,7 @@ static void tedListToolFormatMouseMove(APP_WIDGET w, APP_EVENT *event,
 	}
 
 	if (tedListToolGetSelection(w, lt)) {
-#if GTK_MAJOR_VERSION >= 2
 		g_signal_stop_emission_by_name(w, "motion_notify_event");
-#endif
 
 		appTextSelectContents(lt->ltNumberFormatText,
 				      lt->ltFormatOffset0, lt->ltFormatOffset1);
@@ -1763,11 +1745,9 @@ void tedFormatFillListsPage(ListTool *lt, const ListsPageResources *lpr,
 
 
 
-#if GTK_MAJOR_VERSION >= 2
 	gtk_signal_connect_after(
 		GTK_OBJECT(lt->ltNumberFormatText), "move_cursor",
 		(GtkSignalFunc)tedListToolFormatSelectionChanged, (void *)lt);
-#endif
 
 	gtk_signal_connect(GTK_OBJECT(lt->ltNumberFormatText), "insert_text",
 			   (GtkSignalFunc)tedListToolFormatInsertText,

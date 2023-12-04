@@ -837,17 +837,6 @@ APP_EVENT_HANDLER_H(tedMouseButtonPressed, w, voided, downEvent)
 		break;
 
 
-#if GTK_MAJOR_VERSION < 2
-
-	case SCROLL_UP:
-		appMouseWheelUp(ed);
-		break;
-
-	case SCROLL_DOWN:
-		appMouseWheelDown(ed);
-		break;
-
-#endif
 
 	default:
 		LDEB(button);

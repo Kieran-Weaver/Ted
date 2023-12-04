@@ -246,12 +246,7 @@ APP_WIDGET appMakeMenuInParent(APP_WIDGET *pButton, AppToplevel *at,
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(button), menu);
 
 	if (isHelp) {
-#if GTK_MAJOR_VERSION < 2
-		gtk_menu_item_set_placement(GTK_MENU_ITEM(button),
-					    GTK_DIRECTION_RIGHT);
-#else
 		gtk_menu_item_set_right_justified(GTK_MENU_ITEM(button), TRUE);
-#endif
 	}
 
 	gtk_widget_show(button);

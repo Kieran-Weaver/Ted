@@ -35,11 +35,7 @@ static APP_EVENT_HANDLER_H(appKeyPressed, w, voiddw, event)
 		SDEB("## Impossible");
 #endif
 	} else {
-#if GTK_MAJOR_VERSION >= 2
 		int unicode = gdk_keyval_to_unicode(keyEvent->keyval);
-#else
-		int unicode = appKeysymX11ToUnicode(keyEvent->keyval);
-#endif
 
 		if (dw->dwGotString && unicode > 0) {
 			char scratch[8];

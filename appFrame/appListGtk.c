@@ -72,22 +72,13 @@ void appListGtkSetVisibleSize(GtkWidget *list, GtkWidget *scrolled_window,
 	} else {
 		GdkFont *gf;
 
-#if GTK_MAJOR_VERSION < 2
-		gf = gs->font;
-#else
 		gf = gtk_style_get_font(gs);
-#endif
 
 		pixelSize = gf->ascent + gf->descent;
 	}
 
-#if GTK_MAJOR_VERSION < 2
-	gtk_widget_set_usize(scrolled_window, -1,
-			     (110 * visibleItems * pixelSize) / 100);
-#else
 	gtk_widget_set_size_request(scrolled_window, 0,
 				    (110 * visibleItems * pixelSize) / 100);
-#endif
 }
 
 static void appListGtkResized(GtkWidget *w, GdkRectangle *allocation,

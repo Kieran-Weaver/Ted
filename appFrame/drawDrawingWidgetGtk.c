@@ -52,9 +52,6 @@ void guiExposeDrawingWidgetRectangle(APP_WIDGET nativeWidget,
 		gtk_widget_realize(nativeWidget);
 	}
 
-#if GTK_MAJOR_VERSION < 2
-	gdk_window_clear_area_e(nativeWidget->window, x, y, wide, high);
-#else
 
 	{
 		GdkRectangle rect;
@@ -67,7 +64,6 @@ void guiExposeDrawingWidgetRectangle(APP_WIDGET nativeWidget,
 		gdk_window_invalidate_rect(nativeWidget->window, &rect, TRUE);
 	}
 
-#endif
 
 	return;
 }
@@ -189,11 +185,9 @@ DrawingSurface guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 			XDEB(ds->dsXftDrawable);
 		}
 
-#if GTK_MAJOR_VERSION >= 2
 		if (ds->dsXftDrawable) {
 			gtk_widget_set_double_buffered(nativeWidget, FALSE);
 		}
-#endif
 	}
 #endif
 
@@ -209,11 +203,7 @@ DrawingSurface guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 int guiGetLabelFont(DrawingSurface ds, const PostScriptFontList *psfl,
 		    APP_WIDGET nativeLabel)
 {
-#if GTK_MAJOR_VERSION >= 2
 	GtkWidget *labelw = gtk_bin_get_child(GTK_BIN(nativeLabel));
-#else
-	GtkWidget *labelw = GTK_BIN(nativeLabel)->child;
-#endif
 	const int fontSizeHintPixels = -1;
 
 	if (!GTK_IS_BIN(nativeLabel)) {

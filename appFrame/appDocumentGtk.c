@@ -115,13 +115,8 @@ static int appDocMakeMainWindow(EditDocument *ed)
 
 	ed->edToplevel.atAccelGroup = gtk_accel_group_new();
 
-#if GTK_MAJOR_VERSION < 2
-	gtk_accel_group_attach(ed->edToplevel.atAccelGroup,
-			       GTK_OBJECT(ed->edToplevel.atTopWidget));
-#else
 	gtk_window_add_accel_group(GTK_WINDOW(ed->edToplevel.atTopWidget),
 				   ed->edToplevel.atAccelGroup);
-#endif
 
 	ed->edMenuBar = gtk_menu_bar_new();
 	gtk_widget_show(ed->edMenuBar);

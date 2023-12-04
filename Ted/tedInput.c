@@ -825,13 +825,8 @@ shiftTab:
 
 	default:
 unknown:
-#if GTK_MAJOR_VERSION < 2
-		gtk_accel_group_activate(ed->edToplevel.atAccelGroup, keySym,
-					 state);
-#else
 		gtk_accel_groups_activate(G_OBJECT(ed->edToplevel.atAccelGroup),
 					  keySym, state);
-#endif
 		goto ready;
 	}
 

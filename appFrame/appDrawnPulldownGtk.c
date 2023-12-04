@@ -76,11 +76,7 @@ static APP_EVENT_HANDLER_H(appDrawnPulldownPulldown, w, voidadp, mouseEvent)
 	gdk_window_get_origin(adp->adpInplaceDrawing->window, &screenX,
 			      &screenY);
 
-#if GTK_MAJOR_VERSION < 2
-	gtk_widget_set_uposition(adp->adpPulldownShell, screenX, screenY);
-#else
 	gtk_window_move(GTK_WINDOW(adp->adpPulldownShell), screenX, screenY);
-#endif
 
 	if (adp->adpPulldown) {
 		(*adp->adpPulldown)(adp->adpThrough);
@@ -139,12 +135,7 @@ static APP_EVENT_HANDLER_H(appDrawnPulldownMouseUpDown, w, voidadp, mouseEvent)
 		return;
 	}
 
-#if GTK_MAJOR_VERSION < 2
-	wide = w->allocation.width;
-	high = w->allocation.height;
-#else
 	gtk_window_get_size(GTK_WINDOW(w), &wide, &high);
-#endif
 
 	/**/
 	if (mouseX < 0 || mouseY < 0 || mouseX >= wide || mouseY >= high) {
@@ -298,23 +289,14 @@ void appGuiSetDrawnPulldownHeight(AppDrawnPulldown *adp, int height)
 	gint wide;
 	gint high;
 
-#if GTK_MAJOR_VERSION < 2
-	wide = adp->adpPulldownShell->allocation.width;
-	high = adp->adpPulldownShell->allocation.height;
-#else
 	gtk_window_get_size(GTK_WINDOW(adp->adpPulldownShell), &wide, &high);
-#endif
 
 	high = height;
 	wide = adp->adpInplaceDrawing->allocation.width;
 
 	gtk_window_set_default_size(GTK_WINDOW(adp->adpPulldownShell), wide,
 				    high);
-#if GTK_MAJOR_VERSION < 2
-	gtk_widget_set_usize(adp->adpPulldownShell, wide, high);
-#else
 	gtk_window_resize(GTK_WINDOW(adp->adpPulldownShell), wide, high);
-#endif
 
 	return;
 }

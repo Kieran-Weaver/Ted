@@ -61,11 +61,7 @@ int appGuiInitApplication(EditApplication *ea, int *pArgc, char ***pArgv)
 	gAccelGroup = gtk_accel_group_new();
 	ea->eaToplevel.atAccelGroup = gAccelGroup;
 
-#if GTK_MAJOR_VERSION < 2
-	gtk_accel_group_attach(gAccelGroup, GTK_OBJECT(gWindow));
-#else
 	gtk_window_add_accel_group(GTK_WINDOW(gWindow), gAccelGroup);
-#endif
 
 	/* 
      * Do this here so that we don't get an error when

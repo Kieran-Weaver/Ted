@@ -35,12 +35,7 @@ void appCopyPixmapValue(APP_SELECTION_EVENT *gsd, APP_BITMAP_IMAGE pixmapCopied)
 
 void appDrawGtkSetXFillRule(GdkGC *gc, int rule)
 {
-#if GTK_MAJOR_VERSION < 2
-	GdkGCPrivate *private = (GdkGCPrivate *)gc;
-	GC xgc = private->xgc;
-#else
 	GC xgc = gdk_x11_gc_get_xgc(gc);
-#endif
 
 	switch (rule) {
 	case GDK_EVEN_ODD_RULE:
@@ -75,19 +70,11 @@ XftDraw *appGtkXftDrawCreate(GdkDrawable *drawable, AppXftColorList *axcl)
 
 	axcl->axclDisplay = GDK_WINDOW_XDISPLAY(drawable);
 
-#if GTK_MAJOR_VERSION >= 2
 
 	x_drawable = GDK_WINDOW_XID(drawable);
 	axcl->axclVisual = gdk_x11_visual_get_xvisual(gdk_vis);
 	axcl->axclColormap = gdk_x11_colormap_get_xcolormap(gdk_cmap);
 
-#else
-
-	x_drawable = GDK_WINDOW_XWINDOW(drawable);
-	axcl->axclVisual = GDK_VISUAL_XVISUAL(gdk_vis);
-	axcl->axclColormap = GDK_COLORMAP_XCOLORMAP(gdk_cmap);
-
-#endif
 
 	xftDraw = XftDrawCreate(axcl->axclDisplay, x_drawable, axcl->axclVisual,
 				axcl->axclColormap);

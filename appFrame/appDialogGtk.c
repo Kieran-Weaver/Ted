@@ -24,16 +24,8 @@ void appMakeVerticalDialog(AppDialog *ad, APP_WIDGET *pColumn,
 	APP_WIDGET shell;
 	APP_WIDGET column;
 
-#if GTK_MAJOR_VERSION < 2
-	const gboolean homogeneous = FALSE;
-	const gint spacing = COLUMN_SPACING_GTK;
-#endif
 
-#if GTK_MAJOR_VERSION < 2
-	shell = gtk_window_new(GTK_WINDOW_DIALOG);
-#else
 	shell = gtk_dialog_new();
-#endif
 
 	gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER);
 
@@ -49,22 +41,10 @@ void appMakeVerticalDialog(AppDialog *ad, APP_WIDGET *pColumn,
 
 	gtk_container_set_border_width(GTK_CONTAINER(shell), WINDOW_BORDER_GTK);
 
-#if GTK_MAJOR_VERSION < 2
-	column = gtk_vbox_new(homogeneous, spacing);
-
-	gtk_container_add(GTK_CONTAINER(shell), column);
-
-	gtk_widget_show(column);
-#else
 	column = gtk_bin_get_child(GTK_BIN(shell));
-#endif
 
 	ad->adAccelGroup = gtk_accel_group_new();
-#if GTK_MAJOR_VERSION < 2
-	gtk_accel_group_attach(ad->adAccelGroup, GTK_OBJECT(shell));
-#else
 	gtk_window_add_accel_group(GTK_WINDOW(shell), ad->adAccelGroup);
-#endif
 
 	ad->adTopWidget = shell;
 	*pColumn = column;

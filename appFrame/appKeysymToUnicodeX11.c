@@ -4,9 +4,6 @@
 #include <appDebugon.h>
 
 
-#if GTK_MAJOR_VERSION < 2
-#define TRANSLATE_KEYSYMS
-#endif
 
 #ifdef TRANSLATE_KEYSYMS
 

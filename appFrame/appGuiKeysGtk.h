@@ -76,13 +76,7 @@
 #define MOUSE_BUTTON_2 2
 #define MOUSE_BUTTON_3 3
 
-#if GTK_MAJOR_VERSION >= 2
 #define SCROLL_DIRECTION_FROM_EVENT(e) (e)->scroll.direction
 #define SCROLL_UP GDK_SCROLL_UP
 #define SCROLL_DOWN GDK_SCROLL_DOWN
-#else
-#define SCROLL_DIRECTION_FROM_EVENT(e) (e)->button.button
-#define SCROLL_UP (4)
-#define SCROLL_DOWN (5)
-#endif
 
