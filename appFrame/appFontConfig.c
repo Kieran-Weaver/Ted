@@ -306,6 +306,8 @@ int appFcGetFontMetrics(AfmFontInfo *afi)
 	}
 
 	/*  3  */
+	if ( !ftFace->units_per_EM ) ftFace->units_per_EM = 2;
+
 	afi->afiFontBBox.drX0 = ftFace->bbox.xMin;
 	afi->afiFontBBox.drX1 = ftFace->bbox.xMax;
 	afi->afiFontBBox.drY0 = ftFace->bbox.yMin;
