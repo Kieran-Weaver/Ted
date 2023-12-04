@@ -105,13 +105,6 @@ static BitmapFileType bmXbmFile = {
 	"X-Windows bitmap ( *.xbm )",
 };
 
-static BitmapFileType bmWmfFile = {
-	bmWriteWmfFile, bmCanWriteWmfFile,
-	NULL, /* bmReadWmfFile, */
-	"wmf",		"*.wmf",
-	"wmfFile",	"Windows Meta File ( *.wmf )",
-};
-
 static BitmapFileType bmPngFile = {
 	bmWritePngFile,
 	bmCanWritePngFile,
@@ -190,7 +183,7 @@ BitmapFileType *bmFileTypes[] = {
 	&bmXpmFile,
 #endif
 	&bmPgmFile,  &bmPbmFile,  &bmPpmFile, &bmPnmFile,
-	&bmWbmpFile, &bmWmfFile,
+	&bmWbmpFile,
 };
 
 BitmapFileFormat bmFileFormats[] = {
@@ -237,10 +230,8 @@ BitmapFileFormat bmFileFormats[] = {
 	{ "PPM  Pixmap (Text)", "pgm3File", 3, &bmPbmFile },
 	{ "PPM  Pixmap (Raw)", "pgm6File", 6, &bmPbmFile },
 	{ "WBMP  Wireless Bitmap", "wbmp0File", 0, &bmWbmpFile },
-	{ "WMF  Windows Meta File", "wmfFile", 0, &bmWmfFile },
 	{ "RTF  Rich Text Format (\\pngblip)", "rtfPngFile", 0, &bmRtfFile },
 	{ "RTF  Rich Text Format (\\jpegblip)", "rtfJpegFile", 1, &bmRtfFile },
-	{ "RTF  Rich Text Format (\\wmetafile)", "rtfWmfFile", 2, &bmRtfFile },
 };
 
 const int bmNumberOfFileFormats =

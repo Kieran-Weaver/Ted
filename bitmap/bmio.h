@@ -23,13 +23,6 @@ typedef int (*bmWriteBitmap)(const BitmapDescription *bd,
 /*									*/
 /************************************************************************/
 
-extern int bmWmfWriteWmf(const BitmapDescription *bd,
-			 const unsigned char *buffer, SimpleOutputStream *sos);
-
-extern int bmRtfWriteWmfRtf(const BitmapDescription *bd,
-			    const unsigned char *buffer,
-			    SimpleOutputStream *sos);
-
 extern int bmRtfWriteRtf(const BitmapDescription *bd,
 			 const unsigned char *buffer, SimpleOutputStream *sos);
 
@@ -74,7 +67,4 @@ extern int bmPsPrintJpegImage(SimpleOutputStream *sos, double xscale,
 			      int pixelsWide, int pixelsHigh,
 			      int bitsPerComponent, SimpleInputStream *sis);
 
-extern int bmMacPictGetImage(RasterImage *ri, DocumentRectangle *drSource,
-			     DocumentRectangle *drDest, SimpleInputStream *sis,
-			     int packed, int direct, int clipRegion);
 #endif

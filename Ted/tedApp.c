@@ -106,7 +106,7 @@ static int tedBuildOpenImageExtensions(TedAppResources *tar)
 
 		afe = (AppFileExtension *)realloc(
 			tar->tarOpenImageExtensions,
-			(tar->tarOpenImageExtensionCount + 1) *
+			(tar->tarOpenImageExtensionCount) *
 				sizeof(AppFileExtension));
 		if (!afe) {
 			LXDEB(tar->tarOpenImageExtensionCount, afe);
@@ -115,14 +115,6 @@ static int tedBuildOpenImageExtensions(TedAppResources *tar)
 		tar->tarOpenImageExtensions = afe;
 
 		afe += tar->tarOpenImageExtensionCount;
-
-		afe->afeId = "wmfFile";
-		afe->afeFilter = "*.wmf";
-		afe->afeDescription = "Windows Metafile ( *.wmf )";
-		afe->afeExtension = "wmf";
-		afe->afeUseFlags = APPFILE_CAN_OPEN;
-
-		tar->tarOpenImageExtensionCount++;
 	}
 
 	return 0;

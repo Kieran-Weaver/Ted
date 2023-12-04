@@ -19,9 +19,6 @@ typedef struct PictureProperties {
 	unsigned char pipType;
 	signed char pipMapMode;
 
-	int pip_xWinExt; /*  Of metafile picture.	*/
-	int pip_yWinExt; /*  Of metafile picture.	*/
-
 	/********************************/
 	int pipTwipsWide; /*  Width of object.		*/
 	int pipTwipsHigh; /*  Height of object.		*/
@@ -44,14 +41,12 @@ typedef struct PictureProperties {
 
 	unsigned long pipBliptag;
 
-	int pipMetafileBitmapBpp;
 	int pipBmUnitsPerInch;
 	int pipBmBitsPerPixel;
 	int pipBmPlanes;
 	int pipBmBytesPerRow;
 
 	unsigned int pipPictureIsWordArt : 1;
-	unsigned int pipMetafileIsBitmap : 1;
 	unsigned int pipPictIsScaled : 1;
 } PictureProperties;
 

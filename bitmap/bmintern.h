@@ -88,12 +88,6 @@ extern int bmWriteXbmFile(const MemoryBuffer *filename,
 			  const unsigned char *buffer,
 			  const BitmapDescription *bd, int privateFormat);
 
-extern int bmCanWriteWmfFile(const BitmapDescription *bd, int privateFormat);
-
-extern int bmWriteWmfFile(const MemoryBuffer *filename,
-			  const unsigned char *buffer,
-			  const BitmapDescription *bd, int privateFormat);
-
 extern int bmReadPngFile(const MemoryBuffer *filename, unsigned char **pBuffer,
 			 BitmapDescription *bd, int *pPrivateFormat);
 

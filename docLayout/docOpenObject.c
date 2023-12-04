@@ -314,8 +314,5 @@ void docScaleObjectToParagraph(BufferDocument *bd, BufferItem *paraBi,
 		io->ioPixelsHigh = 1;
 	}
 
-	pip->pip_xWinExt = (int)((100000.0 * pip->pipTwipsWide) / TWIPS_PER_M);
-	pip->pip_yWinExt = (int)((100000.0 * pip->pipTwipsHigh) / TWIPS_PER_M);
-
 	return;
 }

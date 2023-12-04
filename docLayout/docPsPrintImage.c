@@ -21,12 +21,6 @@
 
 #include <appDebugon.h>
 
-/************************************************************************/
-/*									*/
-/*  Print a metafile.							*/
-/*									*/
-/************************************************************************/
-
 static int psPrintIncludeEpsObject(PrintingState *ps, InsertedObject *io,
 				   int x0, int baseLine)
 {

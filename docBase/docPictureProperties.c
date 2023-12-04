@@ -18,9 +18,6 @@ void docInitPictureProperties(PictureProperties *pip)
 	pip->pipType = DOCokUNKNOWN;
 	pip->pipMapMode = -1;
 
-	pip->pip_xWinExt = 0;
-	pip->pip_yWinExt = 0;
-
 	pip->pipTwipsWide = 0;
 	pip->pipTwipsHigh = 0;
 
@@ -36,14 +33,12 @@ void docInitPictureProperties(PictureProperties *pip)
 
 	pip->pipBliptag = 0;
 
-	pip->pipMetafileBitmapBpp = 0;
 	pip->pipBmUnitsPerInch = 0;
 	pip->pipBmBitsPerPixel = 0;
 	pip->pipBmPlanes = 0;
 	pip->pipBmBytesPerRow = 0;
 
 	pip->pipPictureIsWordArt = 0;
-	pip->pipMetafileIsBitmap = 0;
 	pip->pipPictIsScaled = 0;
 
 	return;
@@ -139,13 +134,6 @@ int docSetPictureProperty(PictureProperties *pip, int prop, int val)
 		pip->pipType = val;
 		break;
 
-	case PIPpropPICX_WIN_EXT:
-		pip->pip_xWinExt = val;
-		break;
-	case PIPpropPICY_WIN_EXT:
-		pip->pip_yWinExt = val;
-		break;
-
 	case PIPpropPICTWIPS_WIDE:
 		pip->pipTwipsWide = val;
 		break;
@@ -177,9 +165,6 @@ int docSetPictureProperty(PictureProperties *pip, int prop, int val)
 		pip->pipBliptag = ((unsigned)val & 0xffffffff);
 		break;
 
-	case PIPpropPICBPP:
-		pip->pipMetafileBitmapBpp = val;
-		break;
 	case PIPpropBLIPUPI:
 		pip->pipBmUnitsPerInch = val;
 		break;
@@ -195,9 +180,6 @@ int docSetPictureProperty(PictureProperties *pip, int prop, int val)
 
 	case PIPpropDEFSHP:
 		pip->pipPictureIsWordArt = val != 0;
-		break;
-	case PIPpropPICBMP:
-		pip->pipMetafileIsBitmap = val != 0;
 		break;
 	case PIPpropPICSCALED:
 		pip->pipPictIsScaled = val != 0;
@@ -216,11 +198,6 @@ int docGetPictureProperty(const PictureProperties *pip, int prop)
 	switch (prop) {
 	case PIPpropTYPE:
 		return pip->pipType;
-
-	case PIPpropPICX_WIN_EXT:
-		return pip->pip_xWinExt;
-	case PIPpropPICY_WIN_EXT:
-		return pip->pip_yWinExt;
 
 	case PIPpropPICTWIPS_WIDE:
 		return pip->pipTwipsWide;
@@ -244,8 +221,6 @@ int docGetPictureProperty(const PictureProperties *pip, int prop)
 	case PIPpropBLIPTAG:
 		return pip->pipBliptag;
 
-	case PIPpropPICBPP:
-		return pip->pipMetafileBitmapBpp;
 	case PIPpropBLIPUPI:
 		return pip->pipBmUnitsPerInch;
 	case PIPpropWBMBITSPIXEL:
@@ -257,8 +232,6 @@ int docGetPictureProperty(const PictureProperties *pip, int prop)
 
 	case PIPpropDEFSHP:
 		return pip->pipPictureIsWordArt;
-	case PIPpropPICBMP:
-		return pip->pipMetafileIsBitmap;
 	case PIPpropPICSCALED:
 		return pip->pipPictIsScaled;
 

@@ -44,28 +44,6 @@ int docRtfSavePictureTags(RtfWriter *rwc, const PropertyMask *pipSetMask,
 		}
 	}
 
-	if (PROPmaskISSET(pipSetMask, PIPpropPICX_WIN_EXT)) {
-		int xExt = pipSet->pip_xWinExt;
-
-		if (xExt == 0) {
-			xExt = (int)(100000.0 * pipSet->pipTwipsWide) /
-			       (20 * POINTS_PER_M);
-		}
-
-		docRtfWriteArgTag(rwc, "picw", xExt);
-	}
-
-	if (PROPmaskISSET(pipSetMask, PIPpropPICY_WIN_EXT)) {
-		int yExt = pipSet->pip_yWinExt;
-
-		if (yExt == 0) {
-			yExt = (int)(100000.0 * pipSet->pipTwipsHigh) /
-			       (20 * POINTS_PER_M);
-		}
-
-		docRtfWriteArgTag(rwc, "pich", yExt);
-	}
-
 	if (PROPmaskISSET(pipSetMask, PIPpropPICSCALE_X)) {
 		docRtfWriteArgTag(rwc, "picscalex", pipSet->pipScaleXSet);
 	}
@@ -114,9 +92,6 @@ int docRtfSavePictureTags(RtfWriter *rwc, const PropertyMask *pipSetMask,
 	}
 	if (PROPmaskISSET(pipSetMask, PIPpropPICSCALED)) {
 		docRtfWriteFlagTag(rwc, "picscaled", pipSet->pipPictIsScaled);
-	}
-	if (PROPmaskISSET(pipSetMask, PIPpropPICBMP)) {
-		docRtfWriteFlagTag(rwc, "picbmp", pipSet->pipMetafileIsBitmap);
 	}
 
 	if (PROPmaskISSET(pipSetMask, PIPpropBLIPUPI)) {

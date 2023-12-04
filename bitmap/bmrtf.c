@@ -91,31 +91,6 @@ int bmRtfWriteJfifRtf(const BitmapDescription *bd, const unsigned char *buffer,
 	return rval;
 }
 
-int bmRtfWriteWmfRtf(const BitmapDescription *bd, const unsigned char *buffer,
-		     SimpleOutputStream *sos)
-{
-	int rval = 0;
-	SimpleOutputStream *sosHex = (SimpleOutputStream *)0;
-	const int lastNl = 1;
-
-	sosHex = sioOutHexOpenFolded(sos, 72, lastNl);
-	if (!sosHex) {
-		XDEB(sosHex);
-		return -1;
-	}
-
-	bmRtfStartRtf(bd, "\\wmetafile8\\picbmp", sos);
-	sioOutPrintf(sos, "\\picbpp%d", bd->bdBitsPerPixel);
-	bmRtfImageSize(bd, sos);
-
-	rval = bmWmfWriteWmf(bd, buffer, sosHex);
-
-	sioOutClose(sosHex);
-	sioOutPrintf(sos, "}\\par}\r\n");
-
-	return rval;
-}
-
 /************************************************************************/
 /*									*/
 /*  Write a bitmap to an rtf stream.					*/
@@ -141,8 +116,6 @@ int bmCanWriteRtfFile(const BitmapDescription *bd, int privateFormat)
 		return bmCanWritePngFile(bd, 1);
 	case 1:
 		return bmCanWriteJpegFile(bd, 1);
-	case 2:
-		return bmCanWriteWmfFile(bd, 1);
 	default:
 		LDEB(privateFormat);
 		return -1;
@@ -167,9 +140,6 @@ int bmWriteRtfFile(const MemoryBuffer *filename, const unsigned char *buffer,
 		break;
 	case 1:
 		rval = bmRtfWriteJfifRtf(bd, buffer, sos);
-		break;
-	case 2:
-		rval = bmRtfWriteWmfRtf(bd, buffer, sos);
 		break;
 	default:
 		LDEB(privateFormat);
