@@ -49,7 +49,6 @@ int docGetAttributesUsedInTree(BufferDocument *bd, const DocumentTree *dt,
 
 	gau.gauAttributesUsed = isUsed;
 
-	sdf.sdfListObjectFonts = (DocListObjectFonts)0;
 	sdf.sdfDocListSpanFont = docAttributesUsedGotSpan;
 	sdf.sdfThrough = &gau;
 

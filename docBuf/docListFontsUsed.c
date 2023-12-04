@@ -148,7 +148,6 @@ int docGetCharsUsed(BufferDocument *bd)
 
 	gcu.gcuDocumentFontList = dfl;
 
-	sdf.sdfListObjectFonts = (DocListObjectFonts)0;
 	sdf.sdfDocListSpanFont = docCharsUsedGotSpan;
 	sdf.sdfListObject = docCharsListObject;
 	sdf.sdfThrough = &gcu;

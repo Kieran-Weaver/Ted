@@ -146,14 +146,6 @@ static int docScanParaSpans(DocumentSelection *ds, BufferItem *paraNode,
 				}
 			}
 
-			if (sdf->sdfListObjectFonts) {
-				if ((*sdf->sdfListObjectFonts)(
-					    io, "f", sdf->sdfThrough)) {
-					LDEB(tp->tpKind);
-					return -1;
-				}
-			}
-
 			if (io->ioKind == DOCokDRAWING_SHAPE &&
 			    io->ioDrawingShape &&
 			    docScanShapeSpans(io->ioDrawingShape, bd, sdf)) {
@@ -232,7 +224,6 @@ int docListTreeFonts(BufferDocument *bd, const DocumentTree *dt,
 
 void docInitScanDocumentFonts(ScanDocumentFonts *sdf)
 {
-	sdf->sdfListObjectFonts = (DocListObjectFonts)0;
 	sdf->sdfDocListSpanFont = (DocListSpanFont)0;
 	sdf->sdfListObject = (DocListObject)0;
 	sdf->sdfThrough = (void *)0;

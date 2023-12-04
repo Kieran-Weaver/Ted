@@ -17,9 +17,6 @@ struct BufferItem;
 /*									*/
 /************************************************************************/
 
-typedef int (*DocListObjectFonts)(const InsertedObject *io, const char *prefix,
-				  void *through);
-
 typedef int (*DocListSpanFont)(BufferDocument *bd, struct BufferItem *paraNode,
 			       int textAttrNr, const TextAttribute *ta,
 			       int from, int upto, void *through);
@@ -29,7 +26,6 @@ typedef int (*DocListObject)(const BufferDocument *bd,
 			     const TextAttribute *ta, void *through);
 
 typedef struct ScanDocumentFonts {
-	DocListObjectFonts sdfListObjectFonts;
 	DocListSpanFont sdfDocListSpanFont;
 	DocListObject sdfListObject;
 	void *sdfThrough;
