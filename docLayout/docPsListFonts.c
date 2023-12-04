@@ -10,7 +10,6 @@
 #include <stddef.h>
 #include <stdio.h>
 
-#include <drawMetafilePsList.h>
 #include "docParticuleData.h"
 #include "docPsPrintImpl.h"
 #include <docListFonts.h>
@@ -18,7 +17,6 @@
 #include <sioMemory.h>
 #include <docObjectProperties.h>
 #include <docTreeNode.h>
-#include "docMetafileObject.h"
 
 #include <appDebugon.h>
 
@@ -40,61 +38,6 @@ int docPsListImageFonts(PostScriptTypeList *pstl, const PictureProperties *pip,
 			const char *prefix)
 {
 	int rval = 0;
-	MetafileWriteListPs listFontsPs;
-
-	SimpleInputStream *sisMem = (SimpleInputStream *)0;
-	SimpleInputStream *sisMeta = (SimpleInputStream *)0;
-
-	MetafilePlayer mp;
-
-	switch (pip->pipType) {
-	case DOCokPICTWMETAFILE:
-		listFontsPs = appWmfListFontsPs;
-		break;
-
-	case DOCokMACPICT:
-		listFontsPs = appMacPictListFontsPs;
-		break;
-
-	case DOCokPICTEMFBLIP:
-		listFontsPs = appEmfListFontsPs;
-		break;
-
-	default:
-		LDEB(pip->pipType);
-		goto ready;
-	}
-
-	sisMem = sioInMemoryOpen(mb);
-	if (!sisMem) {
-		XDEB(sisMem);
-		rval = -1;
-		goto ready;
-	}
-
-	sisMeta = sioInHexOpen(sisMem);
-	if (!sisMeta) {
-		XDEB(sisMeta);
-		rval = -1;
-		goto ready;
-	}
-
-	docSetMetafilePlayer(&mp, sisMeta, lc, pip, 0, 0);
-
-	if ((*listFontsPs)(pstl, &mp, prefix)) {
-		LDEB(1);
-		rval = -1;
-		goto ready;
-	}
-
-ready:
-	if (sisMeta) {
-		sioInClose(sisMeta);
-	}
-	if (sisMem) {
-		sioInClose(sisMem);
-	}
-
 	return rval;
 }
 
@@ -118,25 +61,12 @@ static int docPsListObjectFonts(const InsertedObject *io, const char *prefix,
 	case DOCokMACPICT:
 	case DOCokPICTWMETAFILE:
 	case DOCokPICTEMFBLIP:
-		return docPsListImageFonts(pstl, &(io->ioPictureProperties),
-					   &(io->ioObjectData), lc, prefix);
-		break;
-
 	case DOCokPICTJPEGBLIP:
 	case DOCokPICTPNGBLIP:
 		return 0;
 
 	case DOCokOLEOBJECT:
-		if (io->ioResultKind == DOCokPICTWMETAFILE ||
-		    io->ioResultKind == DOCokPICTEMFBLIP ||
-		    io->ioResultKind == DOCokMACPICT) {
-			return docPsListImageFonts(pstl,
-						   &(io->ioPictureProperties),
-						   &(io->ioResultData), lc,
-						   prefix);
-		} else { /*LDEB(io->ioResultKind);*/
-			return 0;
-		}
+		return 0;
 
 	case DOCokEPS_FILE:
 		LDEB(io->ioKind);

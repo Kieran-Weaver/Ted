@@ -10,7 +10,6 @@
 
 #include <sioMemory.h>
 #include <sioHex.h>
-#include <drawMetafile.h>
 #include "docLayoutObject.h"
 
 #include <appDebugon.h>
@@ -76,14 +75,6 @@ ready:
 int docGetBitmapForObjectData(int kind, RasterImage *ri, const MemoryBuffer *mb)
 {
 	switch (kind) {
-	case DOCokPICTWMETAFILE:
-		if (docGetBitmap(appMetaPlayWmfImg, ri, mb)) {
-			LDEB(1);
-			return -1;
-		}
-
-		break;
-
 	case DOCokPICTPNGBLIP:
 		if (docGetBitmap(bmPngReadPng, ri, mb)) {
 			LDEB(1);
@@ -99,6 +90,7 @@ int docGetBitmapForObjectData(int kind, RasterImage *ri, const MemoryBuffer *mb)
 
 		break;
 
+	case DOCokPICTWMETAFILE:
 	case DOCokMACPICT:
 	case DOCokPICTEMFBLIP:
 	default:

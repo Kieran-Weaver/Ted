@@ -17,7 +17,6 @@
 #include <stdio.h>
 
 #include <sioFileio.h>
-#include <drawMetafilePs.h>
 
 #include "docDraw.h"
 #include "docLayout.h"
@@ -502,7 +501,6 @@ int docPsPrintDocument(SimpleOutputStream *sos, const char *title,
 	psSelectFontProcedures(sos, &pstl, /*allFonts=*/1);
 #endif
 
-	appMetaDefineProcsetPs(sos);
 	psSetPatternImplementation(sos, shadingMesh);
 
 	sioOutPrintf(sos, "%%%%EndProlog\n");

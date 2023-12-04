@@ -18,9 +18,6 @@
 #include "tedDraw.h"
 #include "tedLayout.h"
 #include <docScreenLayout.h>
-#include <drawMetafile.h>
-#include <appWinMetaX11.h>
-#include <docMetafileObject.h>
 #include <docObjectProperties.h>
 #include <docTreeNode.h>
 #include <docTextParticule.h>
@@ -165,67 +162,6 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 	return 0;
 }
 
-static int docOpenMetafileObject(DrawingSurface *pDs, RasterImage *ri,
-				 const PictureProperties *pip, int pixelsWide,
-				 int pixelsHigh, MetafilePlayX11 playMetaX11,
-				 const LayoutContext *lc,
-				 const MemoryBuffer *mb)
-{
-	int rval = 0;
-	MetafilePlayer mp;
-
-	SimpleInputStream *sisMem = (SimpleInputStream *)0;
-	SimpleInputStream *sisMeta = (SimpleInputStream *)0;
-
-	void *ownData = (void *)0;
-	DrawingSurface ds = (DrawingSurface)0;
-
-	sisMem = sioInMemoryOpen(mb);
-	if (!sisMem) {
-		XDEB(sisMem);
-		rval = -1;
-		goto ready;
-	}
-
-	sisMeta = sioInHexOpen(sisMem);
-	if (!sisMeta) {
-		XDEB(sisMeta);
-		rval = -1;
-		goto ready;
-	}
-
-	docSetMetafilePlayer(&mp, sisMeta, lc, pip, pixelsWide, pixelsHigh);
-
-	ds = drawMakeDrawingSurfaceForParent(lc->lcDrawingSurface, pixelsWide,
-					     pixelsHigh);
-	if (!ds) {
-		XDEB(ds);
-		rval = -1;
-		goto ready;
-	}
-
-	if ((*playMetaX11)(&ownData, ds, &mp)) {
-		LDEB(1);
-	}
-
-	if (ownData) {
-		XDEB(ownData);
-		SDEB("IS PLAATJE");
-	}
-	*pDs = ds;
-
-ready:
-
-	if (sisMeta) {
-		sioInClose(sisMeta);
-	}
-	if (sisMem) {
-		sioInClose(sisMem);
-	}
-
-	return rval;
-}
-
 static int docOpenBitmapObject(DrawingSurface *pSp, RasterImage *ri,
 			       int pixelsWide, int pixelsHigh,
 			       bmReadBitmap readBitmap, const LayoutContext *lc,
@@ -289,31 +225,6 @@ static int tedOpenPixmap(DrawingSurface *pSp, RasterImage *ri,
 			 const MemoryBuffer *mb)
 {
 	switch (kind) {
-	case DOCokPICTWMETAFILE:
-		if (docOpenMetafileObject(pSp, ri, pip, pixelsWide, pixelsHigh,
-					  appMetaPlayWmfX11, lc, mb)) {
-			LDEB(1);
-			return 0;
-		}
-
-		return 0;
-
-	case DOCokPICTEMFBLIP:
-		if (docOpenMetafileObject(pSp, ri, pip, pixelsWide, pixelsHigh,
-					  appMetaPlayEmfX11, lc, mb)) {
-			LDEB(1);
-			return 0;
-		}
-		return 0;
-
-	case DOCokMACPICT:
-		if (docOpenMetafileObject(pSp, ri, pip, pixelsWide, pixelsHigh,
-					  appMacPictPlayFileX11, lc, mb)) {
-			LDEB(1);
-			return 0;
-		}
-		return 0;
-
 	case DOCokPICTPNGBLIP:
 		if (docOpenBitmapObject(pSp, ri, pixelsWide, pixelsHigh,
 					bmPngReadPng, lc, mb)) {
@@ -330,6 +241,9 @@ static int tedOpenPixmap(DrawingSurface *pSp, RasterImage *ri,
 		}
 		return 0;
 
+	case DOCokPICTEMFBLIP:
+	case DOCokMACPICT:
+	case DOCokPICTWMETAFILE:
 	default:
 		LDEB(kind);
 		return 0;

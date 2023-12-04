@@ -14,11 +14,9 @@
 
 #include "docDraw.h"
 #include "docPsPrintImpl.h"
-#include <drawMetafilePs.h>
 #include <docShape.h>
 #include <docObjectProperties.h>
 #include <bmBitmapPrinter.h>
-#include "docMetafileObject.h"
 #include "docLayoutObject.h"
 
 #include <appDebugon.h>
@@ -28,110 +26,6 @@
 /*  Print a metafile.							*/
 /*									*/
 /************************************************************************/
-
-static int docPsPrintMetafile(PrintingState *ps, const PictureProperties *pip,
-			      const MemoryBuffer *mb, int objectKind,
-			      const LayoutContext *lc, int x0, int baseline)
-{
-	int rval = 0;
-	int scaleX = pip->pipScaleXUsed;
-	int scaleY = pip->pipScaleYUsed;
-
-	SimpleInputStream *sisMem = (SimpleInputStream *)0;
-	SimpleInputStream *sisMeta = (SimpleInputStream *)0;
-
-	PostScriptTypeList pstl;
-
-	int y0;
-
-	MetafilePlayer mp;
-	MetafileWritePs playMetafile;
-
-	psInitPostScriptFaceList(&pstl);
-
-	if (docPsListImageFonts(&pstl, pip, mb, lc, "pf")) {
-		LDEB(1);
-		rval = -1;
-		goto ready;
-	}
-
-	switch (objectKind) {
-	case DOCokPICTWMETAFILE:
-		playMetafile = appMetaPlayWmfPs;
-		break;
-
-	case DOCokPICTEMFBLIP:
-		playMetafile = appMetaPlayEmfPs;
-		break;
-
-	case DOCokMACPICT:
-		playMetafile = appMacPictPlayFilePs;
-		break;
-
-	case DOCokPICTJPEGBLIP:
-	case DOCokPICTPNGBLIP:
-	default:
-		LDEB(pip->pipType);
-		goto ready;
-	}
-
-	sisMem = sioInMemoryOpen(mb);
-	if (!sisMem) {
-		XDEB(sisMem);
-		rval = -1;
-		goto ready;
-	}
-
-	sisMeta = sioInHexOpen(sisMem);
-	if (!sisMeta) {
-		XDEB(sisMeta);
-		rval = -1;
-		goto ready;
-	}
-
-	docSetMetafilePlayer(&mp, sisMeta, lc, pip, 0, 0);
-
-	y0 = baseline - ((scaleY / 100.0) * mp.mpTwipsHigh);
-
-	sioOutPrintf(ps->psSos, "100 dict begin\n");
-
-#if 0
-    /* First fix definition of fonts in images */
-    psSelectFontProcedures( ps->psSos, &pstl, /*allFonts=*/ 1 );
-#endif
-
-	sioOutPrintf(ps->psSos, "gsave %d %d translate %%{IMG\n", x0, y0);
-
-	if (scaleX != 100 || scaleY != 100) {
-		sioOutPrintf(ps->psSos, "%f %f scale\n", scaleX / 100.0,
-			     scaleY / 100.0);
-	}
-
-	sioOutPrintf(ps->psSos,
-		     "0 0 bp %d 0 rl 0 %d rl %d 0 rl 0 %d rl closepath clip\n",
-		     mp.mpTwipsWide, mp.mpTwipsHigh, -mp.mpTwipsWide,
-		     -mp.mpTwipsHigh);
-
-	if ((*playMetafile)(ps, &mp)) {
-		LDEB(1);
-	}
-
-	sioOutPrintf(ps->psSos, "grestore end %%}IMG\n");
-
-	ps->psLastPageMarked = ps->psPagesPrinted;
-
-ready:
-	if (sisMeta) {
-		sioInClose(sisMeta);
-	}
-	if (sisMem) {
-		sioInClose(sisMem);
-	}
-
-	psCleanPostScriptFaceList(&pstl);
-
-	return rval;
-}
 
 static int psPrintIncludeEpsObject(PrintingState *ps, InsertedObject *io,
 				   int x0, int baseLine)
@@ -325,19 +219,6 @@ int docPsPrintShapeImage(PrintingState *ps, DrawingContext *dc,
 	const int y0 = 0;
 
 	switch (pip->pipType) {
-	case DOCokPICTWMETAFILE:
-	case DOCokMACPICT:
-	case DOCokPICTEMFBLIP:
-		if (docPsPrintMetafile(ps, pip, &(ds->dsPictureData),
-				       pip->pipType, lc, x0, y0)) {
-			LDEB(1);
-			break;
-		}
-
-		dc->dcCurrentTextAttributeSet = 0;
-		dc->dcCurrentColorSet = 0;
-		return 0;
-
 	case DOCokPICTPNGBLIP:
 	case DOCokPICTJPEGBLIP:
 		if (docPsPrintShapeBitmap(pip->pipType, ps, ds, drTwips, at)) {
@@ -346,6 +227,9 @@ int docPsPrintShapeImage(PrintingState *ps, DrawingContext *dc,
 		}
 		break;
 
+	case DOCokPICTWMETAFILE:
+	case DOCokMACPICT:
+	case DOCokPICTEMFBLIP:
 	default:
 		LDEB(pip->pipType);
 		return 0;
@@ -481,21 +365,6 @@ int docPsPrintObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 	switch (io->ioKind) {
 		int done;
 
-	case DOCokPICTWMETAFILE:
-	case DOCokPICTEMFBLIP:
-	case DOCokMACPICT:
-
-		if (docPsPrintMetafile(ps, pip, &(io->ioObjectData), io->ioKind,
-				       lc, x0Twips, baseLine->lpPageYTwips)) {
-			LDEB(1);
-			break;
-		}
-
-		dc->dcCurrentTextAttributeSet = 0;
-		dc->dcCurrentColorSet = 0;
-		ps->psLinkParticulesDone++;
-		return 1;
-
 	case DOCokPICTJPEGBLIP:
 	case DOCokPICTPNGBLIP:
 
@@ -506,22 +375,6 @@ int docPsPrintObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 		break;
 
 	case DOCokOLEOBJECT:
-		if (io->ioResultKind == DOCokPICTWMETAFILE ||
-		    io->ioResultKind == DOCokPICTEMFBLIP ||
-		    io->ioResultKind == DOCokMACPICT) {
-			if (docPsPrintMetafile(ps, pip, &(io->ioResultData),
-					       io->ioResultKind, lc, x0Twips,
-					       baseLine->lpPageYTwips)) {
-				LDEB(1);
-				break;
-			}
-
-			dc->dcCurrentTextAttributeSet = 0;
-			dc->dcCurrentColorSet = 0;
-			ps->psLinkParticulesDone++;
-			return 1;
-		}
-
 		if (io->ioResultKind == DOCokPICTJPEGBLIP ||
 		    io->ioResultKind == DOCokPICTPNGBLIP) {
 			done = docPsPrintBitmapImage(ps, dc, io,
@@ -550,6 +403,9 @@ int docPsPrintObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 		/*  Done in a separate loop from generic drawing code */
 		return 1;
 
+	case DOCokPICTWMETAFILE:
+	case DOCokPICTEMFBLIP:
+	case DOCokMACPICT:
 	default:
 		LDEB(io->ioKind);
 		return 0;
