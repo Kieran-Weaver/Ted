@@ -11,7 +11,6 @@
 #include <sioPipe.h>
 #include <sioMD5.h>
 #include <utilMD5.h>
-#include <docHtmlWrite.h>
 #include <textOfficeCharset.h>
 #include <appQuestion.h>
 #include <appSystem.h>
@@ -24,7 +23,6 @@
 #include "tedDocument.h"
 
 #include <docPsPrint.h>
-#include <docSvgDraw.h>
 #include <docDebug.h>
 #include <docScreenLayout.h>
 #include <docRtfReadWrite.h>
@@ -154,37 +152,6 @@ ready:
 }
 
 /************************************************************************/
-/*									*/
-/*  Save a document to SVG.						*/
-/*									*/
-/************************************************************************/
-
-static int tedSaveSvg(SimpleOutputStream *sos, EditApplication *ea,
-		      TedDocument *td, DrawingSurface ds)
-{
-	RecalculateFields rf;
-	LayoutContext lc;
-
-	docInitRecalculateFields(&rf);
-	layoutInitContext(&lc);
-	tedSetDocumentLayoutContext(&lc, ds, &(ea->eaPostScriptFontList), td);
-
-	if (tedRefreshRecalculateFields((int *)0, &rf, docScreenCloseObject, td,
-					&lc)) {
-		LDEB(1);
-		return -1;
-	}
-
-	if (docSvgDrawDocument(sos, ea->eaApplicationName, ea->eaReference,
-			       &lc)) {
-		LDEB(1);
-		return -1;
-	}
-
-	return 0;
-}
-
-/************************************************************************/
 
 static SimpleOutputStream *tedOpenSaveOutput(const DocumentProperties *dp,
 					     int format, int suggestStdout,
@@ -257,11 +224,6 @@ static int tedSaveDocumentImpl(EditApplication *ea, DrawingSurface ds,
 	BufferDocument *bd = td->tdDocument;
 	DocumentProperties *dp = &(bd->bdProperties);
 
-	const PostScriptFontList *psfl = &(ea->eaPostScriptFontList);
-
-	DocumentRectangle drScreenIgnored;
-	DocumentRectangle drVisibleIgnored;
-
 	switch (format) {
 	case TEDdockindRTF:
 		now = time((time_t *)0);
@@ -294,132 +256,16 @@ static int tedSaveDocumentImpl(EditApplication *ea, DrawingSurface ds,
 		}
 		break;
 
-	case TEDdockindHTML_FILES: {
-		RecalculateFields rf;
-		LayoutContext lc;
-
-		docInitRecalculateFields(&rf);
-		layoutInitContext(&lc);
-		tedSetDocumentLayoutContext(&lc, ds, psfl, td);
-
-		if (!ds) {
-			if (tedFirstRecalculateFields(&rf, (DOC_CLOSE_OBJECT)0,
-						      bd)) {
-				LDEB(1);
-				return -1;
-			}
-
-			if (tedLayoutDocument(&drScreenIgnored,
-					      &drVisibleIgnored, td, format,
-					      (DrawingSurface)0, psfl,
-					      &(dp->dpGeometry))) {
-				SDEB(utilMemoryBufferGetString(documentTitle));
-				return -1;
-			}
-		}
-
-		if (docHtmlSaveDocument(sos, bd, filename, &lc)) {
-			LDEB(1);
-			return -1;
-		}
-	} break;
-
-	case TEDdockindEML: {
-		const char *mimeBoundary = "-----------MimeBoundary";
-		RecalculateFields rf;
-		LayoutContext lc;
-
-		docInitRecalculateFields(&rf);
-		layoutInitContext(&lc);
-		tedSetDocumentLayoutContext(&lc, ds, psfl, td);
-
-		if (!ds) {
-			if (tedFirstRecalculateFields(&rf, (DOC_CLOSE_OBJECT)0,
-						      bd)) {
-				LDEB(1);
-				return -1;
-			}
-
-			if (tedLayoutDocument(&drScreenIgnored,
-					      &drVisibleIgnored, td, format,
-					      (DrawingSurface)0, psfl,
-					      &(dp->dpGeometry))) {
-				SDEB(utilMemoryBufferGetString(documentTitle));
-				return -1;
-			}
-		}
-
-		if (docEmlSaveDocument(sos, bd, mimeBoundary, &lc)) {
-			SDEB(mimeBoundary);
-			return -1;
-		}
-	} break;
-
-	case TEDdockindEPUB: {
-		RecalculateFields rf;
-		LayoutContext lc;
-
-		docInitRecalculateFields(&rf);
-		layoutInitContext(&lc);
-		tedSetDocumentLayoutContext(&lc, ds, psfl, td);
-
-		if (!ds) {
-			if (tedFirstRecalculateFields(&rf, (DOC_CLOSE_OBJECT)0,
-						      bd)) {
-				LDEB(1);
-				return -1;
-			}
-
-			if (tedLayoutDocument(&drScreenIgnored,
-					      &drVisibleIgnored, td, format,
-					      (DrawingSurface)0, psfl,
-					      &(dp->dpGeometry))) {
-				SDEB(utilMemoryBufferGetString(documentTitle));
-				return -1;
-			}
-		}
-
-		if (docEpubSaveDocument(sos, bd, &lc)) {
-			LDEB(format);
-			return -1;
-		}
-	} break;
-
+	case TEDdockindHTML_FILES:
+	case TEDdockindEML:
+	case TEDdockindEPUB:
 	case TEDdockindPS:
 	case TEDdockindPDF:
-		if (appSaveToPs(ea, ds, sos, td, documentTitle, format)) {
-			LDEB(format);
-			return -1;
-		}
-		break;
-
-	case TEDdockindSVG: {
-		LayoutContext lc;
-
-		layoutInitContext(&lc);
-		tedSetDocumentLayoutContext(&lc, ds, psfl, td);
-
-		if (!ds) {
-			if (tedLayoutDocument(&drScreenIgnored,
-					      &drVisibleIgnored, td, format,
-					      (DrawingSurface)0, psfl,
-					      &(dp->dpGeometry))) {
-				SDEB(utilMemoryBufferGetString(documentTitle));
-				return -1;
-			}
-		}
-
-		if (tedSaveSvg(sos, ea, td, ds)) {
-			SDEB(utilMemoryBufferGetString(documentTitle));
-			return -1;
-		}
-	}
-
-	break;
-
+	case TEDdockindSVG:
 	default:
 		LDEB(format);
 		return -1;
+		break;
 	}
 
 	return 0;
