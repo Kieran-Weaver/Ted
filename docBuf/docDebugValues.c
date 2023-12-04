@@ -139,18 +139,10 @@ const char *docObjectKindStr(int objectKind)
 	switch (objectKind) {
 	case DOCokUNKNOWN:
 		return "UNKNOWN";
-	case DOCokPICTWMETAFILE:
-		return "PICTWMETAFILE";
 	case DOCokPICTPNGBLIP:
 		return "PICTPNGBLIP";
 	case DOCokPICTJPEGBLIP:
 		return "PICTJPEGBLIP";
-	case DOCokPICTEMFBLIP:
-		return "PICTEMFBLIP";
-	case DOCokMACPICT:
-		return "MACPICT";
-	case DOCokPMMETAFILE:
-		return "PMMETAFILE";
 	case DOCokDIBITMAP:
 		return "DIBITMAP";
 	case DOCokWBITMAP:

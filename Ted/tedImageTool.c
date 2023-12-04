@@ -166,10 +166,6 @@ void tedRefreshImageTool(ImageTool *it, int *pEnabled, int *pPref,
 	pip = &(it->itPropertiesChosen);
 
 	it->itTotalBytes = io->ioObjectData.mbSize;
-	if (io->ioKind == DOCokOLEOBJECT &&
-	    io->ioResultKind == DOCokPICTWMETAFILE) {
-		it->itTotalBytes = io->ioResultData.mbSize;
-	}
 
 	it->itObjectType = io->ioKind;
 	if (io->ioKind == DOCokOLEOBJECT) {
@@ -180,8 +176,7 @@ void tedRefreshImageTool(ImageTool *it, int *pEnabled, int *pPref,
 
 	if (pip->pipType == DOCokDIBITMAP || pip->pipType == DOCokWBITMAP ||
 	    pip->pipType == DOCokPICTPNGBLIP ||
-	    pip->pipType == DOCokPICTJPEGBLIP ||
-	    (pip->pipType == DOCokPICTWMETAFILE && pip->pipMetafileIsBitmap)) {
+	    pip->pipType == DOCokPICTJPEGBLIP ) {
 		if (!io->ioRasterImage.riBytes) {
 			XDEB(io->ioRasterImage.riBytes);
 			*pEnabled = 0;

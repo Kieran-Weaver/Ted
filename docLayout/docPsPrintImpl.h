@@ -19,11 +19,6 @@
 extern int docPsPrintGetDocumentFonts(PostScriptTypeList *pstl,
 				      const LayoutContext *lc);
 
-extern int docPsListImageFonts(PostScriptTypeList *pstl,
-			       const PictureProperties *pip,
-			       const MemoryBuffer *mb, const LayoutContext *lc,
-			       const char *prefix);
-
 extern int docPsPrintTab(const DrawTextLine *dtl, int part, int textAttrNr,
 			 const TextAttribute *ta, int leader, int x0Twips,
 			 int x1Twips, const LayoutPosition *baseLine);

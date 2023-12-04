@@ -99,9 +99,6 @@ int docRtfPictureProperty(const RtfControlWord *rcw, int arg, RtfReader *rrc)
 			return 0;
 		}
 
-		if (pip->pipType == DOCokPICTWMETAFILE) {
-			pip->pipMapMode = arg;
-		}
 		break;
 
 	case PIPpropPICSCALE_X:

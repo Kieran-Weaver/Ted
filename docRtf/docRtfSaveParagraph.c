@@ -104,12 +104,8 @@ static int docRtfSaveObject(RtfWriter *rwc, const BufferItem *paraNode,
 	docRtfWriteNextLine(rwc);
 
 	switch (io->ioKind) {
-	case DOCokPICTWMETAFILE:
-	case DOCokMACPICT:
 	case DOCokPICTPNGBLIP:
 	case DOCokPICTJPEGBLIP:
-	case DOCokPICTEMFBLIP:
-
 		docRtfWriteDestinationBegin(rwc, RTFtag_pict);
 
 		docRtfPicturePropertyMask(&pipSetMask,
@@ -207,23 +203,6 @@ static int docRtfSaveObject(RtfWriter *rwc, const BufferItem *paraNode,
 		docRtfWriteMemoryBuffer(rwc, &io->ioObjectData);
 		docRtfWriteNextLine(rwc);
 		docRtfWriteDestinationEnd(rwc);
-
-		if (io->ioResultKind == DOCokPICTWMETAFILE) {
-			docRtfWriteDestinationBegin(rwc, RTFtag_result);
-			docRtfWriteDestinationBegin(rwc, RTFtag_pict);
-			docRtfWriteArgTag(rwc, "wmetafile", pip->pipMapMode);
-
-			docRtfPicturePropertyMask(&pipSetMask,
-						  &(io->ioPictureProperties));
-			docRtfSavePictureTags(rwc, &pipSetMask,
-					      &(io->ioPictureProperties));
-
-			docRtfWriteMemoryBuffer(rwc, &(io->ioResultData));
-			docRtfWriteNextLine(rwc);
-			docRtfWriteDestinationEnd(rwc);
-
-			docRtfWriteDestinationEnd(rwc);
-		}
 
 		docRtfWriteDestinationEnd(rwc);
 		return 0;

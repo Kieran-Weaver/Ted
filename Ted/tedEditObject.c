@@ -445,20 +445,6 @@ InsertedObject *tedObjectMakeRasterObject(int *pObjectNumber, EditDocument *ed,
 		includedAsBitmap = 1;
 	}
 
-	if (!includedAsBitmap) {
-		if (bmWmfWriteWmf(&(ri->riDescription), ri->riBytes, sosHex)) {
-			LDEB(1);
-			return (InsertedObject *)0;
-		}
-
-		pip->pipMetafileIsBitmap = 1;
-		pip->pipMetafileBitmapBpp = ri->riDescription.bdBitsPerPixel;
-
-		io->ioKind = DOCokPICTWMETAFILE;
-		pip->pipType = DOCokPICTWMETAFILE;
-		pip->pipMapMode = 8;
-	}
-
 	sioOutClose(sosHex);
 	sioOutClose(sosMem);
 

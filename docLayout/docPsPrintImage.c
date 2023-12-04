@@ -227,9 +227,6 @@ int docPsPrintShapeImage(PrintingState *ps, DrawingContext *dc,
 		}
 		break;
 
-	case DOCokPICTWMETAFILE:
-	case DOCokMACPICT:
-	case DOCokPICTEMFBLIP:
 	default:
 		LDEB(pip->pipType);
 		return 0;
@@ -403,9 +400,6 @@ int docPsPrintObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 		/*  Done in a separate loop from generic drawing code */
 		return 1;
 
-	case DOCokPICTWMETAFILE:
-	case DOCokPICTEMFBLIP:
-	case DOCokMACPICT:
 	default:
 		LDEB(io->ioKind);
 		return 0;

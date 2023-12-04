@@ -97,10 +97,6 @@ extern void docCleanInsertedObject(InsertedObject *io);
 extern void docObjectAdaptToPictureGeometry(InsertedObject *io,
 					    const PictureProperties *pip);
 
-extern int docReadWmfObject(InsertedObject *io, const MemoryBuffer *filename);
-
-extern int docReadEmfObject(InsertedObject *io, const MemoryBuffer *filename);
-
 extern int docReadBitmapObject(InsertedObject *io,
 			       const MemoryBuffer *filename);
 

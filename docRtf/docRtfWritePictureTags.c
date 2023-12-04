@@ -26,29 +26,11 @@ int docRtfSavePictureTags(RtfWriter *rwc, const PropertyMask *pipSetMask,
 {
 	if (PROPmaskISSET(pipSetMask, PIPpropTYPE)) {
 		switch (pipSet->pipType) {
-		case DOCokPICTWMETAFILE:
-			docRtfWriteArgTag(rwc, "wmetafile", pipSet->pipMapMode);
-
-			if (pipSet->pipMetafileIsBitmap) {
-				if (pipSet->pipMetafileBitmapBpp > 0) {
-					docRtfWriteArgTag(
-						rwc, "picbpp",
-						pipSet->pipMetafileBitmapBpp);
-				}
-			}
-			break;
-
-		case DOCokMACPICT:
-			docRtfWriteTag(rwc, "macpict");
-			break;
 		case DOCokPICTPNGBLIP:
 			docRtfWriteTag(rwc, "pngblip");
 			break;
 		case DOCokPICTJPEGBLIP:
 			docRtfWriteTag(rwc, "jpegblip");
-			break;
-		case DOCokPICTEMFBLIP:
-			docRtfWriteTag(rwc, "emfblip");
 			break;
 		case DOCokDIBITMAP:
 			docRtfWriteTag(rwc, "dibitmap");
@@ -56,10 +38,6 @@ int docRtfSavePictureTags(RtfWriter *rwc, const PropertyMask *pipSetMask,
 		case DOCokWBITMAP:
 			docRtfWriteTag(rwc, "wbitmap");
 			break;
-		case DOCokPMMETAFILE:
-			docRtfWriteTag(rwc, "pmmetafile");
-			break;
-
 		default:
 			LDEB(pipSet->pipType);
 			break;

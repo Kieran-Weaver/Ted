@@ -135,21 +135,6 @@ int docReadBitmapObject(InsertedObject *io, const MemoryBuffer *filename)
 		includedAsRaster = 1;
 	}
 
-	if (!includedAsRaster) {
-		if (bmWmfWriteWmf(&(ri.riDescription), ri.riBytes, sosHex)) {
-			LDEB(1);
-			rval = -1;
-			goto ready;
-		}
-
-		pip->pipMetafileIsBitmap = 1;
-		pip->pipMetafileBitmapBpp = ri.riDescription.bdBitsPerPixel;
-
-		io->ioKind = DOCokPICTWMETAFILE;
-		pip->pipType = DOCokPICTWMETAFILE;
-		pip->pipMapMode = 8;
-	}
-
 ready:
 
 	bmCleanRasterImage(&ri);

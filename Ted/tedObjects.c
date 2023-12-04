@@ -124,19 +124,14 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 	}
 
 	if (io->ioDrawingSurface &&
-	    (io->ioKind == DOCokPICTWMETAFILE ||
-	     io->ioKind == DOCokPICTEMFBLIP || io->ioKind == DOCokMACPICT ||
-	     io->ioKind == DOCokPICTPNGBLIP ||
+	    (io->ioKind == DOCokPICTPNGBLIP ||
 	     io->ioKind == DOCokPICTJPEGBLIP)) {
 		tedDrawObjectPixmap(io, x0, y0, drClip, lc);
 		return 0;
 	}
 
 	if (io->ioKind == DOCokOLEOBJECT && io->ioDrawingSurface &&
-	    (io->ioResultKind == DOCokPICTWMETAFILE ||
-	     io->ioResultKind == DOCokPICTEMFBLIP ||
-	     io->ioResultKind == DOCokMACPICT ||
-	     io->ioResultKind == DOCokPICTPNGBLIP ||
+	    (io->ioResultKind == DOCokPICTPNGBLIP ||
 	     io->ioResultKind == DOCokPICTJPEGBLIP)) {
 		tedDrawObjectPixmap(io, x0, y0, drClip, lc);
 		return 0;
@@ -240,10 +235,6 @@ static int tedOpenPixmap(DrawingSurface *pSp, RasterImage *ri,
 			return 0;
 		}
 		return 0;
-
-	case DOCokPICTEMFBLIP:
-	case DOCokMACPICT:
-	case DOCokPICTWMETAFILE:
 	default:
 		LDEB(kind);
 		return 0;
@@ -374,9 +365,6 @@ static int tedOpenShapePixmaps(DrawingShape *ds,
 	case DOCokUNKNOWN:
 		break;
 
-	case DOCokPICTWMETAFILE:
-	case DOCokPICTEMFBLIP:
-	case DOCokMACPICT:
 	case DOCokPICTPNGBLIP:
 	case DOCokPICTJPEGBLIP:
 		if (pixelsWide == 0 || pixelsHigh == 0) {
@@ -427,23 +415,6 @@ int tedOpenObject(InsertedObject *io, const LayoutContext *lc)
 	}
 
 	switch (io->ioKind) {
-	case DOCokPICTWMETAFILE:
-	case DOCokPICTEMFBLIP:
-		if (!io->ioDrawingSurface &&
-		    tedOpenPixmap(&(io->ioDrawingSurface), &(io->ioRasterImage),
-				  pip, io->ioKind, io->ioPixelsWide,
-				  io->ioPixelsHigh, lc, &(io->ioObjectData))) {
-			LDEB(1);
-			return 0;
-		}
-
-		if (io->ioRasterImage.riBytes) {
-			io->ioPictureProperties.pipMetafileIsBitmap = 1;
-		}
-
-		return 0;
-
-	case DOCokMACPICT:
 	case DOCokPICTPNGBLIP:
 	case DOCokPICTJPEGBLIP:
 		if (!io->ioDrawingSurface &&
@@ -456,27 +427,7 @@ int tedOpenObject(InsertedObject *io, const LayoutContext *lc)
 		return 0;
 
 	case DOCokOLEOBJECT:
-		if (io->ioResultKind == DOCokPICTWMETAFILE ||
-		    io->ioResultKind == DOCokPICTEMFBLIP) {
-			if (!io->ioDrawingSurface &&
-			    tedOpenPixmap(&(io->ioDrawingSurface),
-					  &(io->ioRasterImage), pip,
-					  io->ioResultKind, io->ioPixelsWide,
-					  io->ioPixelsHigh, lc,
-					  &(io->ioResultData))) {
-				LDEB(1);
-				return 0;
-			}
-
-			if (io->ioRasterImage.riBytes) {
-				io->ioPictureProperties.pipMetafileIsBitmap = 1;
-			}
-
-			return 0;
-		}
-
-		if (io->ioResultKind == DOCokMACPICT ||
-		    io->ioResultKind == DOCokPICTPNGBLIP ||
+		if (io->ioResultKind == DOCokPICTPNGBLIP ||
 		    io->ioResultKind == DOCokPICTJPEGBLIP) {
 			if (!io->ioDrawingSurface &&
 			    tedOpenPixmap(&(io->ioDrawingSurface),
@@ -741,12 +692,9 @@ void docScreenCloseObject(const BufferDocument *bd, const TextParticule *tp)
 	}
 
 	switch (io->ioKind) {
-	case DOCokPICTWMETAFILE:
-	case DOCokPICTEMFBLIP:
 	case DOCokPICTPNGBLIP:
 	case DOCokPICTJPEGBLIP:
 	case DOCokOLEOBJECT:
-	case DOCokMACPICT:
 	case DOCokEPS_FILE:
 		if (io->ioDrawingSurface) {
 			drawFreeDrawingSurface(io->ioDrawingSurface);

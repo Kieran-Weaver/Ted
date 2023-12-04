@@ -90,9 +90,6 @@ int docGetBitmapForObjectData(int kind, RasterImage *ri, const MemoryBuffer *mb)
 
 		break;
 
-	case DOCokPICTWMETAFILE:
-	case DOCokMACPICT:
-	case DOCokPICTEMFBLIP:
 	default:
 		LDEB(kind);
 		return -1;
@@ -104,20 +101,6 @@ int docGetBitmapForObjectData(int kind, RasterImage *ri, const MemoryBuffer *mb)
 int docGetBitmapForObject(InsertedObject *io)
 {
 	switch (io->ioKind) {
-	case DOCokPICTWMETAFILE:
-		if (!io->ioRasterImage.riBytes &&
-		    docGetBitmapForObjectData(io->ioKind, &(io->ioRasterImage),
-					      &(io->ioObjectData))) {
-			LDEB(1);
-			return 0;
-		}
-
-		if (io->ioRasterImage.riBytes) {
-			io->ioPictureProperties.pipMetafileIsBitmap = 1;
-		}
-
-		break;
-
 	case DOCokPICTPNGBLIP:
 	case DOCokPICTJPEGBLIP:
 		if (!io->ioRasterImage.riBytes &&
@@ -129,22 +112,6 @@ int docGetBitmapForObject(InsertedObject *io)
 		break;
 
 	case DOCokOLEOBJECT:
-		if (io->ioResultKind == DOCokPICTWMETAFILE) {
-			if (!io->ioRasterImage.riBytes &&
-			    docGetBitmapForObjectData(io->ioResultKind,
-						      &(io->ioRasterImage),
-						      &(io->ioResultData))) {
-				LDEB(1);
-				return 0;
-			}
-
-			if (io->ioRasterImage.riBytes) {
-				io->ioPictureProperties.pipMetafileIsBitmap = 1;
-			}
-
-			return 0;
-		}
-
 		if (io->ioResultKind == DOCokPICTPNGBLIP ||
 		    io->ioResultKind == DOCokPICTJPEGBLIP) {
 			if (!io->ioRasterImage.riBytes &&
@@ -160,8 +127,6 @@ int docGetBitmapForObject(InsertedObject *io)
 
 		return 0;
 
-	case DOCokMACPICT:
-	case DOCokPICTEMFBLIP:
 	default:
 		LDEB(io->ioKind);
 		return 0;
@@ -174,17 +139,6 @@ int docCheckObjectLayout(int *pFixed, InsertedObject *io)
 {
 	PictureProperties *pip = &(io->ioPictureProperties);
 	int fixed = 0;
-
-	if (io->ioKind == DOCokMACPICT) {
-		if (pip->pipTwipsWide == 0) {
-			pip->pipTwipsWide = 20 * pip->pip_xWinExt;
-			fixed = 1;
-		}
-		if (pip->pipTwipsHigh == 0) {
-			pip->pipTwipsHigh = 20 * pip->pip_yWinExt;
-			fixed = 1;
-		}
-	}
 
 	if (io->ioKind == DOCokDRAWING_SHAPE) {
 		const DrawingShape *ds = io->ioDrawingShape;
