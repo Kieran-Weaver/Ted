@@ -256,11 +256,17 @@ static int tedSaveDocumentImpl(EditApplication *ea, DrawingSurface ds,
 		}
 		break;
 
+	case TEDdockindPS:
+	case TEDdockindPDF:
+		if (appSaveToPs(ea, ds, sos, td, documentTitle, format)) {
+			LDEB(format);
+			return -1;
+		}
+		break;
+
 	case TEDdockindHTML_FILES:
 	case TEDdockindEML:
 	case TEDdockindEPUB:
-	case TEDdockindPS:
-	case TEDdockindPDF:
 	case TEDdockindSVG:
 	default:
 		LDEB(format);

@@ -46,8 +46,6 @@ typedef struct PostScriptFace {
 	int psfEmbed;
 #define PSembedNO -1
 #define PSembedUNKNOWN 0
-#define PSembedCOPY 1
-#define PSembedBTOA 2
 #define PSembedTTFTO42 3
 #define PSembedTTCTO42 4
 	MemoryBuffer psfFontFileName;

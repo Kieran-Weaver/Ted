@@ -18,7 +18,6 @@
 #include <appSystem.h>
 #include "psFace.h"
 #include <sioFileio.h>
-#include <sioPfb.h>
 #include "psTtf.h"
 #include <ucdGeneralCategory.h>
 
@@ -43,18 +42,6 @@ static int utilPsGetEmbedFromFilename(const MemoryBuffer *fontFile)
 		goto ready;
 	}
 	if (utilMemoryBufferIsEmpty(&extension)) {
-		goto ready;
-	}
-
-	if (utilMemoryBufferEqualsString(&extension, "pfb") ||
-	    utilMemoryBufferEqualsString(&extension, "PFB")) {
-		rval = PSembedBTOA;
-		goto ready;
-	}
-
-	if (utilMemoryBufferEqualsString(&extension, "pfa") ||
-	    utilMemoryBufferEqualsString(&extension, "PFA")) {
-		rval = PSembedCOPY;
 		goto ready;
 	}
 
@@ -289,7 +276,6 @@ int psIncludeFonts(SimpleOutputStream *sos, const PostScriptTypeList *pstl)
 	PostScriptFace *psf;
 
 	SimpleInputStream *sisFile = (SimpleInputStream *)0;
-	SimpleInputStream *sisPfb = (SimpleInputStream *)0;
 	SimpleInputStream *sis = (SimpleInputStream *)0;
 
 	psf = (PostScriptFace *)utilTreeGetFirst(pstl->pstlFaceTree, &fontName);
@@ -325,36 +311,6 @@ int psIncludeFonts(SimpleOutputStream *sos, const PostScriptTypeList *pstl)
 				int c;
 				int atBol;
 
-			case PSembedBTOA:
-				sisPfb = sioInPfbOpen(sisFile);
-				if (!sisPfb) {
-					XDEB(sisPfb);
-					rval = -1;
-					goto ready;
-				}
-
-				sis = sisPfb;
-
-				/*FALLTHROUGH*/
-			case PSembedCOPY:
-				atBol = 1;
-				while ((c = sioInGetByte(sis)) != EOF) {
-					if (sioOutPutByte(c, sos) < 0) {
-						rval = -1;
-						goto ready;
-					}
-					atBol = c == '\n';
-				}
-
-				if (!atBol) {
-					if (sioOutPutByte('\n', sos) < 0) {
-						rval = -1;
-						goto ready;
-					}
-				}
-
-				break;
-
 			case PSembedTTFTO42:
 				if (psTtfToPt42(sos, &(psf->psfFontFileName),
 						sisFile)) {
@@ -384,10 +340,6 @@ int psIncludeFonts(SimpleOutputStream *sos, const PostScriptTypeList *pstl)
 			sioOutPrintf(sos, "%%###}   F_%d:\n",
 				     afi->afiFaceNumber);
 
-			if (sisPfb) {
-				sioInClose(sisPfb);
-				sisPfb = (SimpleInputStream *)0;
-			}
 			if (sisFile) {
 				sioInClose(sisFile);
 				sisFile = (SimpleInputStream *)0;
@@ -400,9 +352,6 @@ int psIncludeFonts(SimpleOutputStream *sos, const PostScriptTypeList *pstl)
 
 ready:
 
-	if (sisPfb) {
-		sioInClose(sisPfb);
-	}
 	if (sisFile) {
 		sioInClose(sisFile);
 	}
