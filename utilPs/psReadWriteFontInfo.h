@@ -16,9 +16,6 @@
 /*									*/
 /************************************************************************/
 
-extern int psWriteAfmFile(SimpleOutputStream *sos, int omitKernPairs,
-			  const AfmFontInfo *afi);
-
 extern void psWriteFontInfoDict(SimpleOutputStream *sos,
 				const AfmFontInfo *afi);
 

@@ -25,7 +25,4 @@ extern int psTtcToPt42(SimpleOutputStream *sosPf42,
 		       const MemoryBuffer *fontFileName, int fontFileIndex,
 		       SimpleInputStream *sisTtf);
 
-extern int psTtfToAfi(AfmFontInfo *afi, const MemoryBuffer *fontFileName,
-		      SimpleInputStream *sisTtf);
-
 #endif
