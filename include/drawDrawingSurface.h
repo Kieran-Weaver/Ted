@@ -116,12 +116,6 @@ extern int drawGetStrikethroughGeometry(int *pThick, int *pY,
 extern int drawSetForegroundColorWhite(DrawingSurface ds);
 extern int drawSetForegroundColorBlack(DrawingSurface ds);
 
-extern int drawRoundedRect(DrawingSurface ds, const DocumentRectangle *dr,
-			   int w, int h);
-
-extern int drawFillRoundedRect(DrawingSurface ds, const DocumentRectangle *dr,
-			       int w, int h);
-
 extern int drawGetSubBaseline(int *pSubBaseline, const DrawingSurface ds,
 			      int screenFont, int baselinePixels);
 

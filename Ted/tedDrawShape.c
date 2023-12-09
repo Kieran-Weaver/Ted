@@ -698,23 +698,6 @@ int tedDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 		}
 		break;
 
-	case SHPtyROUND_RECTANGLE:
-	case SHPtyFLOW_CHART_ALTERNATE_PROCESS: {
-		RGB8Color rgb8Fill;
-
-		const int w = (drPixels.drX1 - drPixels.drX0) / 4;
-		const int h = (drPixels.drY1 - drPixels.drY0) / 4;
-
-		docDrawShapeGetFill(&fill, &rgb8Fill, ds, dc, sdd);
-		if (fill) {
-			drawFillRoundedRect(drsf, &drPixels, w, h);
-		}
-		tedShapeGetLine(&line, &widthPixels, (int *)0, ds, dc, sdd);
-		if (line) {
-			drawRoundedRect(drsf, &drPixels, w, h);
-		}
-	} break;
-
 	case SHPtyELLIPSE:
 	case SHPtyFLOW_CHART_CONNECTOR: {
 		RGB8Color rgb8Fill;
