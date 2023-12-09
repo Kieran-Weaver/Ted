@@ -7,7 +7,7 @@ SRCS := $(shell find . -path "*.c")
 OBJS := $(patsubst %.c, ./build/%.o, $(SRCS))
 DEPS := $(OBJS:.o=.d)
 
-LDFLAGS=-Wl,-O1 `pkgconf gtk+-2.0 --libs` `pkgconf glib-2.0 --libs` -lXft -lfreetype -lX11 -lm -lz -lpng -ljpeg -lpcre
+LDFLAGS=-Wl,-O1 `pkgconf gtk+-2.0 --libs` `pkgconf glib-2.0 --libs` -lXft -lfreetype -lX11 -lm -lz -lpng -ljpeg -lpcre2-8
 
 .PHONY: all clean
 

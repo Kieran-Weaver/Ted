@@ -3,14 +3,16 @@
 #include <config.h>
 
 #include <string.h>
-
 #include <reg.h>
-#include <pcre.h>
+
+#define PCRE2_CODE_UNIT_WIDTH 8
+#include <pcre2.h>
 
 #include <appDebugon.h>
 
 static char *regEscape(const char *pattern)
 {
+	static const char escape[] = "\\^$.[|()?*+{";
 	int l = 2 * strlen(pattern);
 	char *escaped = (char *)malloc(2 * l + 1);
 
@@ -19,10 +21,7 @@ static char *regEscape(const char *pattern)
 		char *to = escaped;
 
 		while (*from) {
-			if (*from == '\\' || *from == '^' || *from == '$' ||
-			    *from == '.' || *from == '[' || *from == '|' ||
-			    *from == '(' || *from == ')' || *from == '?' ||
-			    *from == '*' || *from == '+' || *from == '{') {
+			if ( memchr( escape, *from, sizeof( escape ) ) ) {
 				*(to++) = '\\';
 			}
 
@@ -37,38 +36,11 @@ static char *regEscape(const char *pattern)
 
 regProg *regCompile(const char *pattern, int options)
 {
-	pcre *rval;
+	pcre2_code *re;
 	int error = 0;
-	int erroffset = 0;
-	const char *errormsg = (const char *)0;
+	PCRE2_SIZE erroffset = 0;
+	static char errormsg[256];
 	char *escaped = (char *)0;
-
-	const unsigned char *const tableptr = (const unsigned char *)0;
-	int pcre_opts = PCRE_UTF8;
-
-	{
-		static int checkedOptions = 0;
-
-		if (!checkedOptions) {
-			int res;
-			int has;
-
-			has = 0;
-			res = pcre_config(PCRE_CONFIG_UTF8, &has);
-			if (res || !has) {
-				appDebug("PCRE_CONFIG_UTF8 not set!\n");
-			}
-
-			has = 0;
-			res = pcre_config(PCRE_CONFIG_UNICODE_PROPERTIES, &has);
-			if (res || !has) {
-				appDebug(
-					"PCRE_CONFIG_UNICODE_PROPERTIES not set!\n");
-			}
-
-			checkedOptions = 1;
-		}
-	}
 
 	if (options & REGflagESCAPE_REGEX) {
 		escaped = regEscape(pattern);
@@ -79,71 +51,117 @@ regProg *regCompile(const char *pattern, int options)
 		pattern = escaped;
 	}
 
-	rval = pcre_compile2(pattern, pcre_opts, &error, &errormsg, &erroffset,
-			     tableptr);
+	re = pcre2_compile( pattern, PCRE2_ZERO_TERMINATED, PCRE2_UTF, &error, &erroffset, NULL );
 
-	if (!rval) {
-		XSSDEB(rval, errormsg, pattern + erroffset);
+	if (!re) {
+		pcre2_get_error_message( error, errormsg, sizeof( errormsg ) );
+		XSSDEB(re, errormsg, pattern + erroffset);
 	}
 
 	if (escaped) {
 		free(escaped);
 	}
 
-	return (void *)rval;
+	return (void *)re;
 }
 
 int regFindLeftToRight(ExpressionMatch *em, const regProg *prog,
 		       const char *string, int fromByte, int byteLength)
 {
+	pcre2_match_data *match_data;
+	PCRE2_SIZE* ovector;
 	int res;
+	int i;
 
-	int opts = 0;
+	match_data = pcre2_match_data_create_from_pattern( (pcre2_code*) prog, NULL );
 
-	res = pcre_exec((pcre *)prog, (pcre_extra *)0, (const char *)string,
-			byteLength, fromByte, opts, em->emMatches,
-			2 + (2 * REG_MAX_MATCH) /*!*/ + 1 + REG_MAX_MATCH);
+	res = pcre2_match(
+		(pcre2_code*) prog, string,
+		byteLength, fromByte, PCRE2_NO_UTF_CHECK,
+		match_data, NULL );
 
-#if 0
-    if  ( res >= 0 )
-	{
-	appDebug( "# %d..%d: \"%.*s\"\n",
-				    em->emMatches[0], em->emMatches[1],
-				    em->emMatches[1]- em->emMatches[0],
-				    string+ em->emMatches[0] );
+	ovector = pcre2_get_ovector_pointer( match_data );
+
+	if ( res <= 0 ) {
+		pcre2_match_data_free( match_data );
+		return 0;
 	}
-#endif
 
-	return res >= 0;
+	memset( em->emMatches, 0, sizeof( em->emMatches ) );
+
+	for ( i = 0; i < ( res * 2 ); i++ ) {
+		em->emMatches[ i ] = ovector[ i ];
+	}
+
+	pcre2_match_data_free( match_data );
+
+	return 1;
 }
 
 int regFindRightToLeft(ExpressionMatch *em, const regProg *prog,
 		       const char *string, int fromByte, int byteLength)
 {
-	int res = PCRE_ERROR_NOMATCH;
+	int res;
 
-	int opts = PCRE_ANCHORED;
+	pcre2_match_data *match_data;
+	PCRE2_SIZE* ovector;
 
-	while (fromByte >= 0) {
-		/*  UTF-8  */
-		if ((fromByte & 0xc0) == 0x80) {
-			fromByte--;
-			continue;
-		}
+	match_data = pcre2_match_data_create_from_pattern( (pcre2_code*) prog, NULL );
 
-		res = pcre_exec(
-			(pcre *)prog, (pcre_extra *)0, (const char *)string,
-			byteLength, fromByte, opts, em->emMatches,
-			2 + (2 * REG_MAX_MATCH) /*!*/ + 1 + REG_MAX_MATCH);
+	int prev = 0;
+	int cur = 0;
+	int i;
 
-		if (res != PCRE_ERROR_NOMATCH) {
-			break;
-		}
+	while ( cur < fromByte ) {
 
-		fromByte--;
+		res = pcre2_match(
+			(pcre2_code*) prog, string,
+			byteLength, cur, PCRE2_NO_UTF_CHECK,
+			match_data, NULL );
+
+		if ( res < 0 ) break;
+
+		ovector = pcre2_get_ovector_pointer( match_data );
+
+		prev = cur;
+		cur = ovector[ 0 ] + 1;
+
 	}
 
-	return res >= 0;
+	if ( ( res != PCRE2_ERROR_NOMATCH ) || ( cur >= fromByte ) ) {
+		/* Error */
+		pcre2_match_data_free( match_data );
+		return 0;
+	}
+
+	/* Valid Match */
+	res = pcre2_match(
+		(pcre2_code*) prog, string,
+		byteLength + fromByte, prev, 0,
+		match_data, NULL );
+
+	if ( res < 0 ) {
+		/* Error */
+		pcre2_match_data_free( match_data );
+		return 0;
+	}
+
+	ovector = pcre2_get_ovector_pointer( match_data );
+
+	if ( ovector[ 1 ] > fromByte ) {
+		/* Error */
+	       return 0;
+	}	       
+
+	memset( em->emMatches, 0, sizeof( em->emMatches ) );
+
+	for ( i = 0; i < ( res * 2 ); i++ ) {
+		em->emMatches[ i ] = ovector[ i ];
+	}
+
+	pcre2_match_data_free( match_data );
+	
+	return 1;
 }
 
 int regGetMatch(int *pFrom, int *pPast, const ExpressionMatch *em, int n)
@@ -175,5 +193,5 @@ int regGetFullMatch(int *pFrom, int *pPast, const ExpressionMatch *em)
 
 void regFree(regProg *prog)
 {
-	pcre_free(prog);
+	pcre2_code_free(prog);
 }
