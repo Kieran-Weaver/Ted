@@ -416,14 +416,6 @@ int appFcGetFontMetrics(AfmFontInfo *afi)
 	}
 
 	afi->afiMetricsDeferred = 0;
-
-	if (afi->afiMetricsDeferred) {
-		SDEB(afi->afiFontName);
-		appFcShowCharmaps(afi, ftFace);
-		afi->afiMetricsDeferred = 0;
-		rval = -1;
-		goto ready;
-	}
 ready:
 
 	if (ftFace) {
@@ -559,17 +551,6 @@ static int appFcListOneFont(PostScriptFontList *psfl, FcPattern *font)
 
 	afi->afiMetricsDeferred = 1;
 	afi->afiResolveMetrics = appFcGetFontMetrics;
-	if (!afi->afiMetricsDeferred) {
-		if (appFcGetFontMetrics(afi)) {
-			SLDEB((char *)file, idx);
-			goto ready;
-		}
-	}
-
-	/* No: This is a font as it is found on the machine: use it without 
-     * modifications.
-    psMapVisibleNamesToBase35( afi );
-    */
 
 	if (psPostScriptFontListAddInfo(psfl, afi)) {
 		LDEB(1);

@@ -27,16 +27,6 @@ int appPostScriptFontCatalog(EditApplication *ea)
 {
 	int rval = 0;
 
-	MemoryBuffer afmDirectory;
-
-	utilInitMemoryBuffer(&afmDirectory);
-
-	if (utilMemoryBufferSetString(&afmDirectory, ea->eaAfmDirectory)) {
-		SDEB(ea->eaAfmDirectory);
-		rval = -1;
-		goto ready;
-	}
-
 	if (ea->eaPostScriptFontList.psflFamilyCount > 0) {
 		goto ready;
 	}
@@ -56,13 +46,6 @@ int appPostScriptFontCatalog(EditApplication *ea)
 	ea->eaPostScriptFontList.psflAvoidFontconfig = 1;
 #endif
 
-	if (psFontCatalog(&(ea->eaPostScriptFontList), ea->eaUseKerningInt <= 0,
-			  &afmDirectory)) {
-		SDEB(ea->eaAfmDirectory);
-		rval = -1;
-		goto ready;
-	}
-
 	if (ea->eaGhostscriptFontmap && !ea->eaGhostscriptMappingsRead) {
 		if (utilFontmapReadMap(ea->eaGhostscriptFontmap)) {
 			SDEB(ea->eaGhostscriptFontmap);
@@ -74,8 +57,6 @@ int appPostScriptFontCatalog(EditApplication *ea)
 	}
 
 ready:
-
-	utilCleanMemoryBuffer(&afmDirectory);
 
 	return rval;
 }

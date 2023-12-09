@@ -123,14 +123,6 @@ int appGetDeferredFontMetrics(AfmFontInfo *afi)
 	}
 #endif
 
-	if (afi->afiMetricsDeferred &&
-	    !utilMemoryBufferIsEmpty(&(afi->afiAfmFileName))) {
-		if (psGetDeferredMetrics(afi)) {
-			LDEB(afi->afiAfmFileName.mbSize);
-			return -1;
-		}
-	}
-
 	if (afi->afiMetricsDeferred) {
 		SLDEB(afi->afiFullName, afi->afiMetricsDeferred);
 		return -1;
