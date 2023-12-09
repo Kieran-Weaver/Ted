@@ -9,13 +9,6 @@
 #ifndef APP_GUI_RESOURCE_H
 #define APP_GUI_RESOURCE_H
 
-#define USE_OWN_RESOURCE 1
-
-#if USE_OWN_RESOURCE == 0
-#include <X11/Xlib.h>
-#include <X11/Intrinsic.h>
-#endif
-
 /************************************************************************/
 /*									*/
 /*  Resource table entries. In order no to complicate things, all	*/
@@ -26,8 +19,6 @@
 /*  NO LONGER USE THE ARCHAIC X11 RESOURCE MECHANISM			*/
 /*									*/
 /************************************************************************/
-
-#if USE_OWN_RESOURCE == 1
 
 typedef struct AppConfigurableResource {
 	const char *acrResourceName;
@@ -46,34 +37,5 @@ typedef struct AppConfigurableResource {
 		(acr)->acrStructOffset = (o); \
 		(acr)->acrDefaultValue = (d); \
 	}
-
-#endif
-
-#if USE_OWN_RESOURCE == 0
-
-typedef XtResource AppConfigurableResource;
-
-#define acrResourceName resource_name
-#define acrStructOffset resource_offset
-#define acrDefaultValue default_addr
-
-#define APP_RESOURCE(x, o, d)                                             \
-	{                                                                 \
-		(char *)(x), (char *)(x), XtRString, sizeof(char *), (o), \
-			XtRString, (char *)(d),                           \
-	}
-
-#define APP_SET_RESOURCE(acr, x, o, d)                 \
-	{                                              \
-		(acr)->resource_name = (char *)(x);    \
-		(acr)->resource_class = (char *)(x);   \
-		(acr)->resource_type = XtRString;      \
-		(acr)->resource_size = sizeof(char *); \
-		(acr)->resource_offset = (o);          \
-		(acr)->default_type = XtRString;       \
-		(acr)->default_addr = (char *)(d);     \
-	}
-
-#endif
 
 #endif /* APP_GUI_RESOURCE_H */

@@ -124,11 +124,6 @@ typedef struct AfmFontInfo {
 	/********************************************/
 	/*  Collected screen font information.	*/
 	/********************************************/
-	char **afiX11Fonts;
-	int afiX11FontCount;
-
-	char *afiEncodingScheme;
-	char *afiCharacterSet;
 	char *afiVendor;
 
 	char *afiResourceName;

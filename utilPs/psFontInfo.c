@@ -187,12 +187,10 @@ void psInitAfmFontInfo(AfmFontInfo *afi)
 	geoInitRectangle(&(afi->afiFontBBox));
 	afi->afiUnderlinePosition = 0;
 	afi->afiUnderlineThickness = 0;
-	afi->afiEncodingScheme = (char *)0;
 	afi->afiCapHeight = 0;
 	afi->afiXHeight = 0;
 	afi->afiAscender = 0;
 	afi->afiDescender = 0;
-	afi->afiCharacterSet = (char *)0;
 	afi->afiVendor = (char *)0;
 
 	afi->afiResourceName = (char *)0;
@@ -206,9 +204,6 @@ void psInitAfmFontInfo(AfmFontInfo *afi)
 	afi->afiMetrics = (AfmCharMetric **)0;
 	afi->afiNameToMetric = (void *)0;
 	afi->afiFallbackGlyph = 0;
-
-	afi->afiX11FontCount = 0;
-	afi->afiX11Fonts = (char **)0;
 
 	utilInitIndexMapping(&(afi->afiUnicodeToGlyphMapping));
 	utilInitIndexSet(&(afi->afiUnicodesProvided));
@@ -249,8 +244,6 @@ void psRemoveMetricsFromInfo(AfmFontInfo *afi)
 
 void psCleanAfmFontInfo(AfmFontInfo *afi)
 {
-	int i;
-
 	if (afi->afiFontName) {
 		free(afi->afiFontName);
 	}
@@ -275,12 +268,6 @@ void psCleanAfmFontInfo(AfmFontInfo *afi)
 	if (afi->afiWidthStr) {
 		free(afi->afiWidthStr);
 	}
-	if (afi->afiEncodingScheme) {
-		free(afi->afiEncodingScheme);
-	}
-	if (afi->afiCharacterSet) {
-		free(afi->afiCharacterSet);
-	}
 	if (afi->afiVendor) {
 		free(afi->afiVendor);
 	}
@@ -290,16 +277,6 @@ void psCleanAfmFontInfo(AfmFontInfo *afi)
 
 	utilCleanMemoryBuffer(&(afi->afiFontFileName));
 	utilCleanMemoryBuffer(&(afi->afiAfmFileName));
-
-	for (i = 0; i < afi->afiX11FontCount; i++) {
-		if (afi->afiX11Fonts[i]) {
-			free(afi->afiX11Fonts[i]);
-		}
-	}
-
-	if (afi->afiX11Fonts) {
-		free(afi->afiX11Fonts);
-	}
 
 	psRemoveMetricsFromInfo(afi);
 

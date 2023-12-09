@@ -28,37 +28,6 @@
 
 /************************************************************************/
 /*									*/
-/*  Just log events that pass by for debugging purposes.		*/
-/*									*/
-/*  NOTE the silly constuction to do away with the 'unused' compiler	*/
-/*	 warning.							*/
-/*									*/
-/************************************************************************/
-
-#ifdef USE_MOTIF_AND_NEEDED
-
-static void tedLogEvent(Widget w, void *voided, XEvent *event,
-			Boolean *pRefused)
-{
-	EditDocument *ed = (EditDocument *)voided;
-
-	appDebug("EVENT \"%s\": %s\n", ed->edTitle,
-		 APP_X11EventNames[event->type]);
-
-	*pRefused = 1;
-
-	if (!event) {
-		return;
-	}
-	if (!event) {
-		tedLogEvent(w, voided, event, pRefused);
-	}
-}
-
-#endif
-
-/************************************************************************/
-/*									*/
 /*  Handle keyboard input.						*/
 /*									*/
 /*  a)  Handle miscelaneous keysyms as keysyms, even if they have a	*/

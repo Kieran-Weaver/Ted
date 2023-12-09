@@ -23,38 +23,8 @@
 #include <guiWidgetDrawingSurface.h>
 #include <guiDrawingWidget.h>
 #include <docParaParticules.h>
-
 #include <appGuiKeys.h>
-
 #include <appDebugon.h>
-
-/************************************************************************/
-/*									*/
-/*  Just log events that pass by for debugging purposes.		*/
-/*									*/
-/*  NOTE the silly constuction to do away with the 'unused' compiler	*/
-/*	 warning.							*/
-/*									*/
-/************************************************************************/
-
-#ifdef USE_MOTIF_AND_NEEDED
-
-static void tedLogEvent(Widget w, void *voided, XEvent *event,
-			Boolean *pRefused)
-{
-	EditDocument *ed = (EditDocument *)voided;
-
-	appDebug("EVENT \"%s\": %s\n", ed->edTitle,
-		 APP_X11EventNames[event->type]);
-
-	*pRefused = 1;
-
-	if (!event) {
-		return;
-	}
-}
-
-#endif
 
 /************************************************************************/
 /*									*/
