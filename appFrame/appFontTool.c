@@ -1395,7 +1395,7 @@ static int appFontToolSetCurrentFont(AppFontChooser *afc,
 
 int appFontToolShowCurrentFont(AppFontChooser *afc, const PropertyMask *newMask,
 			       const TextAttribute *taNew,
-			       unsigned int documentId, int canChange,
+			       int documentId, int canChange,
 			       const DocumentFontList *dfl,
 			       const ColorPalette *cp)
 {

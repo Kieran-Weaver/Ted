@@ -13,8 +13,8 @@
 #include "tedabout.xpm"
 
 static NamedPicture TEDPictures[] = {
-	{ "tedmain", tedmain_xpm },
-	{ "tedabout", tedabout_xpm },
+	{ "tedmain", tedmain_xpm, NULL, NULL },
+	{ "tedabout", tedabout_xpm, NULL, NULL },
 };
 
 void tedGetNamedPictures(EditApplication *ea)

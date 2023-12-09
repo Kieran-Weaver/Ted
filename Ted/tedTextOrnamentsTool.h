@@ -40,7 +40,7 @@ typedef struct TextOrnamentsTool {
 	EditApplication *totApplication;
 	AppInspector *totInspector;
 	int totSubjectPage;
-	int totCurrentDocumentId;
+	unsigned int totCurrentDocumentId;
 	const TextOrnamentsPageResources *totPageResources;
 	FontChooserSetFont totSetFont;
 
