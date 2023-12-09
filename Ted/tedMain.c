@@ -1646,110 +1646,6 @@ static void tedMainSetPageLayout(EditDocument *ed,
 
 /************************************************************************/
 
-static int tedFind(EditApplication *ea, const char *prog, const char *call,
-		   int argc, char **argv)
-{
-	if (argc < 1) {
-		SLDEB(call, argc);
-		return -1;
-	}
-
-	TEDResources.tarFindPattern = (const char *)argv[0];
-	TEDResources.tarFindRegex = 0;
-
-	return 1;
-}
-
-static int tedRegFind(EditApplication *ea, const char *prog, const char *call,
-		      int argc, char **argv)
-{
-	if (argc < 1) {
-		SLDEB(call, argc);
-		return -1;
-	}
-
-	TEDResources.tarFindPattern = (const char *)argv[0];
-	TEDResources.tarFindRegex = 1;
-
-	return 1;
-}
-
-static int tedGSFontmapForFiles(EditApplication *ea, const char *prog,
-				const char *call, int argc, char **argv)
-{
-	int ret = argc;
-
-	SimpleOutputStream *sosOut = sioOutStdoutOpen();
-	if (!sosOut) {
-		XDEB(sosOut);
-		return -1;
-	}
-
-	if (psFontmapForFiles(sosOut, argc, (const char *const *)argv)) {
-		SLDEB(call, argc);
-		ret = -1;
-	}
-
-	sioOutClose(sosOut);
-
-	return ret;
-}
-
-static int tedRtfToPs(EditApplication *ea, const char *prog, const char *call,
-		      int argc, char **argv)
-{
-	fprintf(stderr, "Use Ted --printToFile -rtf- -ps-\n");
-	return -1;
-}
-
-static int tedRtfToPsPaper(EditApplication *ea, const char *prog,
-			   const char *call, int argc, char **argv)
-{
-	fprintf(stderr, "Use Ted --printToFilePaper -rtf- -ps- %s\n", argv[0]);
-	return 1;
-}
-
-static SpecialCall TedSpecialCalls[] = {
-	{
-		"TtfToAfm",
-		tedTtfToAfm,
-	},
-	{
-		"AfmToGSFontmap",
-		tedAfmToGSFontmap,
-	},
-	{
-		"GSFontmapForFiles",
-		tedGSFontmapForFiles,
-	},
-	{
-		"AfmForFontFiles",
-		tedAfmForFontFiles,
-	},
-	{
-		"RtfToPs",
-		tedRtfToPs,
-	},
-	{
-		"RtfToPsPaper",
-		tedRtfToPsPaper,
-	},
-	{
-		"Find",
-		tedFind,
-	},
-	{
-		"RegFind",
-		tedRegFind,
-	},
-	{
-		"FontsDocuments",
-		tedFontsDocuments,
-	},
-};
-
-/************************************************************************/
-
 #ifdef USE_FONTCONFIG
 #include <fontconfig/fontconfig.h> /* keep for version */
 #include <ft2build.h> /* keep for version */
@@ -1828,8 +1724,6 @@ static EditApplication TedApplication = {
 	sizeof(TEDApplicationResourceTable) / sizeof(AppConfigurableResource),
 	TEDFileMessageResourceTable,
 	sizeof(TEDFileMessageResourceTable) / sizeof(AppConfigurableResource),
-	TedSpecialCalls,
-	sizeof(TedSpecialCalls) / sizeof(SpecialCall),
 	/****************************************************/
 	/*  Create new document from command line?		*/
 	/****************************************************/

@@ -250,8 +250,6 @@ typedef struct EditApplication {
 	int eaResourceCount;
 	AppConfigurableResource *eaFileMessageResourceTable;
 	int eaFileMessageResourceCount;
-	const SpecialCall *eaSpecialCalls;
-	int eaSpecialCallCount;
 	int eaCreateNewFromCommand;
 
 	double eaMagnification;

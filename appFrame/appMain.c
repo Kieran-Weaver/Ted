@@ -1051,12 +1051,8 @@ static int appMainHandleSpecialCalls(EditApplication *ea, const char *prefix,
 		}
 
 		call = argv[done] + prefixLength;
-		sc = appGetSpecialCall(ea->eaSpecialCalls,
-				       ea->eaSpecialCallCount, call);
-		if (!sc) {
-			sc = appGetSpecialCall(AppSpecialCalls,
-					       AppSpecialCallCount, call);
-		}
+		sc = appGetSpecialCall(AppSpecialCalls,
+				       AppSpecialCallCount, call);
 		if (!sc) {
 			break;
 		}
