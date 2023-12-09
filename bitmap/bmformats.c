@@ -50,12 +50,6 @@ static BitmapFileType bmIcoFile = {
 	"Microsoft Icon ( *.ico )",
 };
 
-static BitmapFileType bmXwdFile = {
-	NULL, /* bmWriteXwdFile, */
-	NULL, /* bmCanWriteXwdFile, */
-	bmReadXwdFile, "xwd", "*.xwd", "xwdFile", "X-Window Dump ( *.xwd )",
-};
-
 static BitmapFileType bmJpgFile = {
 	bmWriteJpegFile, bmCanWriteJpegFile, bmReadJpegFile,   "jpg",
 	"*.jpg",	 "jpgFile",	     "JPEG ( *.jpg )",
@@ -162,19 +156,9 @@ static BitmapFileType bmPnmFile = {
 	"Portable Anymap ( *.pnm )",
 };
 
-static BitmapFileType bmWbmpFile = {
-	bmWriteWbmpFile,
-	bmCanWriteWbmpFile,
-	bmReadWbmpFile,
-	"wbmp",
-	"*.wbmp",
-	"wbmpFile",
-	"WAP Wireless Bitmap Format ( *.wbmp )",
-};
-
 BitmapFileType *bmFileTypes[] = {
 	&bmPngFile,  &bmJpegFile, &bmJpgFile, &bmBmpFile,
-	&bmGifFile,  &bmXwdFile,  &bmEpsFile, &bmPdfFile,
+	&bmGifFile,  &bmEpsFile, &bmPdfFile,
 	&bmRtfFile,  &bmXbmFile,  &bmIcoFile,
 #if USE_LIBTIFF
 	&bmTiffFile, &bmTifFile,
@@ -183,7 +167,6 @@ BitmapFileType *bmFileTypes[] = {
 	&bmXpmFile,
 #endif
 	&bmPgmFile,  &bmPbmFile,  &bmPpmFile, &bmPnmFile,
-	&bmWbmpFile,
 };
 
 BitmapFileFormat bmFileFormats[] = {
@@ -192,8 +175,6 @@ BitmapFileFormat bmFileFormats[] = {
 	{ "JPEG  Independent JPEG Group (.jpeg)", "jpeg1File", 1, &bmJpegFile },
 	{ "BMP  Microsoft Windows 3.x bitmap", "bmp3File", 40, &bmBmpFile },
 	{ "GIF  Compuserve GIF", "gif87File", 87, &bmGifFile },
-	{ "XWD  X/11 Window dump", "xwd11File", 11, &bmXwdFile },
-	{ "XWD  X/10 Window dump", "xwd10File", 10, &bmXwdFile },
 	{ "EPS  Encapsulated Postscript", "eps1File", 1, &bmEpsFile },
 	{ "EPS  Encapsulated Postscript (Level 2)", "eps2File", 2, &bmEpsFile },
 	{ "PDF  Acrobat Portable Document Format", "pdf2File", 12, &bmPdfFile },
@@ -229,7 +210,6 @@ BitmapFileFormat bmFileFormats[] = {
 	{ "PBM  Bitmap (Raw)", "pgm4File", 4, &bmPbmFile },
 	{ "PPM  Pixmap (Text)", "pgm3File", 3, &bmPbmFile },
 	{ "PPM  Pixmap (Raw)", "pgm6File", 6, &bmPbmFile },
-	{ "WBMP  Wireless Bitmap", "wbmp0File", 0, &bmWbmpFile },
 	{ "RTF  Rich Text Format (\\pngblip)", "rtfPngFile", 0, &bmRtfFile },
 	{ "RTF  Rich Text Format (\\jpegblip)", "rtfJpegFile", 1, &bmRtfFile },
 };

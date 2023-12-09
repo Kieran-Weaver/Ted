@@ -30,15 +30,10 @@ extern int bmCanWriteTiffFile(const BitmapDescription *bd, int privateFormat);
 extern int bmReadBmpFile(const MemoryBuffer *filename, unsigned char **pBuffer,
 			 BitmapDescription *bd, int *pPrivateFormat);
 
-extern int bmReadWbmpFile(const MemoryBuffer *filename, unsigned char **pBuffer,
-			  BitmapDescription *bd, int *pPrivateFormat);
-
 extern int bmReadIcoFile(const MemoryBuffer *filename, unsigned char **pBuffer,
 			 BitmapDescription *bd, int *pPrivateFormat);
 
 extern int bmCanWriteBmpFile(const BitmapDescription *bd, int privateFormat);
-
-extern int bmCanWriteWbmpFile(const BitmapDescription *bd, int privateFormat);
 
 extern int bmCanWriteIcoFile(const BitmapDescription *bd, int privateFormat);
 
@@ -46,18 +41,7 @@ extern int bmWriteBmpFile(const MemoryBuffer *filename,
 			  const unsigned char *buffer,
 			  const BitmapDescription *bd, int privateFormat);
 
-extern int bmWriteWbmpFile(const MemoryBuffer *filename,
-			   const unsigned char *buffer,
-			   const BitmapDescription *bd, int privateFormat);
-
 extern int bmWriteIcoFile(const MemoryBuffer *filename,
-			  const unsigned char *buffer,
-			  const BitmapDescription *bd, int privateFormat);
-
-extern int bmReadXwdFile(const MemoryBuffer *filename, unsigned char **pBuffer,
-			 BitmapDescription *bd, int *pPrivateFormat);
-
-extern int bmWriteXwdFile(const MemoryBuffer *filename,
 			  const unsigned char *buffer,
 			  const BitmapDescription *bd, int privateFormat);
 

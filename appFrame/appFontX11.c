@@ -19,7 +19,6 @@ typedef struct XFontFaceSize {
 	short int xffsListIndex;
 } XFontFaceSize;
 
-
 int guiSystemFont(DrawingSurface ds, APP_FONT *xfs)
 {
 	NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
@@ -41,7 +40,6 @@ int guiSystemFont(DrawingSurface ds, APP_FONT *xfs)
 
 	dsf->dsfEncodedFonts.esfFonts[0].esfFontStruct = xfs;
 
-
 	dsf->dsfDrawable = ds->dsDrawable;
 	dsf->dsfGc = ds->dsGc;
 	dsf->dsfEncodedFonts.esfFonts[0].esfFontBorrowed = 0;
@@ -49,7 +47,6 @@ int guiSystemFont(DrawingSurface ds, APP_FONT *xfs)
 #ifdef USE_XFT
 	dsf->dsfXftDrawable = ds->dsXftDrawable;
 #endif
-
 
 	return screenFont;
 }
