@@ -531,39 +531,3 @@ int psFontInfoGetGlyphIndex(const AfmFontInfo *afi, const char *glyphName)
 
 	return acm->acmGlyphIndex;
 }
-
-/************************************************************************/
-/*									*/
-/*  Add one metic to a font info.					*/
-/*									*/
-/************************************************************************/
-
-int psAddX11FontToInfo(AfmFontInfo *afi, const char *fontName)
-{
-	int i;
-	char **fresh;
-
-	for (i = 0; i < afi->afiX11FontCount; i++) {
-		if (!strcmp(afi->afiX11Fonts[i], fontName)) {
-			return 0;
-		}
-	}
-
-	fresh = (char **)realloc(afi->afiX11Fonts,
-				 (afi->afiX11FontCount + 1) * sizeof(char *));
-	if (!fresh) {
-		XDEB(fresh);
-		return -1;
-	}
-	afi->afiX11Fonts = fresh;
-
-	fresh[afi->afiX11FontCount] = strdup(fontName);
-	if (!fresh[afi->afiX11FontCount]) {
-		XDEB(fresh[afi->afiX11FontCount]);
-		return -1;
-	}
-
-	afi->afiX11FontCount++;
-
-	return 0;
-}

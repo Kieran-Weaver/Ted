@@ -19,7 +19,4 @@
 extern void psWriteFontInfoDict(SimpleOutputStream *sos,
 				const AfmFontInfo *afi);
 
-extern int psAfmReadAfm(SimpleInputStream *sisAfm, AfmFontInfo *afi,
-			int deferMetrics);
-
 #endif

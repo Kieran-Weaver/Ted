@@ -215,10 +215,6 @@ extern void psCleanAfmFontInfo(AfmFontInfo *afi);
 extern void psFreeAfmFontInfo(AfmFontInfo *afi);
 extern void psRemoveMetricsFromInfo(AfmFontInfo *afi);
 
-extern int psFindAlternate(const AfmFontInfo *afi, const char *glyphName);
-
-extern int psGetDeferredMetrics(AfmFontInfo *afi);
-
 extern int psFontInfoAddMetric(AfmFontInfo *afi, int C, int WX, const char *N,
 			       const DocumentRectangle *abb);
 
@@ -234,9 +230,5 @@ extern const char *psFontInfoGetGlyphName(const AfmFontInfo *afi,
 extern int psFontInfoSetGlyphCode(AfmFontInfo *afi, int glyphIndex, int c);
 
 extern int psFontInfoSetGlyphUnicode(AfmFontInfo *afi, int glyphIndex, int c);
-
-extern int psAddX11FontToInfo(AfmFontInfo *afi, const char *x11Font);
-
-extern int psMapVisibleNamesToBase35(AfmFontInfo *afi);
 
 #endif
