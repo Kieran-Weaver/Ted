@@ -185,68 +185,6 @@ static int appFcGetDefaultEncoding(AfmFontInfo *afi, const FT_Face ftFace)
 
 /************************************************************************/
 /*									*/
-/*  Diagnostic routine: Show the encodings of a font.			*/
-/*									*/
-/************************************************************************/
-
-static void appFcShowCharmaps(const AfmFontInfo *afi, FT_Face ftFace)
-{
-	int cm;
-
-	SLDEB(afi->afiFullName, ftFace->num_charmaps);
-	for (cm = 0; cm < ftFace->num_charmaps; cm++) {
-		FT_CharMap *ftCharMap = ftFace->charmaps + cm;
-		char s[5];
-		int fterror;
-
-		FT_ULong charcode;
-		FT_UInt glyphIdx;
-
-		s[0] = ((*ftCharMap)->encoding >> 24) & 0xff;
-		s[1] = ((*ftCharMap)->encoding >> 16) & 0xff;
-		s[2] = ((*ftCharMap)->encoding >> 8) & 0xff;
-		s[3] = ((*ftCharMap)->encoding) & 0xff;
-		s[4] = '\0';
-		LSLLDEB(cm, s, (*ftCharMap)->platform_id,
-			(*ftCharMap)->encoding_id);
-
-		fterror = FT_Set_Charmap(ftFace, *ftCharMap);
-		if (fterror) {
-			LSLDEB(cm, s, fterror);
-			continue;
-		}
-
-		charcode = FT_Get_First_Char(ftFace, &glyphIdx);
-		while (glyphIdx != 0) {
-			charcode =
-				FT_Get_Next_Char(ftFace, charcode, &glyphIdx);
-
-			if (charcode < 256) {
-				unsigned int ch = charcode & 0xff;
-				if (glyphIdx < afi->afiMetricCount) {
-					CLSDEB(ch, glyphIdx,
-					       afi->afiMetrics[glyphIdx]->acmN);
-				} else {
-					CLLDEB(ch, glyphIdx,
-					       afi->afiMetricCount);
-				}
-			} else {
-				if (glyphIdx < afi->afiMetricCount) {
-					XLSDEB(charcode, glyphIdx,
-					       afi->afiMetrics[glyphIdx]->acmN);
-				} else {
-					XLLDEB(charcode, glyphIdx,
-					       afi->afiMetricCount);
-				}
-			}
-		}
-	}
-
-	return;
-}
-
-/************************************************************************/
-/*									*/
 /*  Get the metrics of a font. As, with freetype, this can be an	*/
 /*  expensive operation. This is deferred until the font is actually	*/
 /*  used.								*/

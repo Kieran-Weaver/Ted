@@ -379,7 +379,7 @@ int appMakeUniqueString(char *target, unsigned int maxlen)
 	target += needed;
 
 	if (maxlen > 10) {
-		char *nodename;
+		char *nodename = NULL;
 		struct hostent *hp;
 
 #if HAVE_UNAME
@@ -602,8 +602,6 @@ ready:
 
 #define FILEL 1000
 
-#if USE_OPENDIR
-
 int appForAllFiles(const MemoryBuffer *dir, const char *ext, void *through,
 		   FILE_CALLBACK callback)
 {
@@ -682,72 +680,6 @@ ready:
 
 	return rval;
 }
-#else
-
-/*
-This doesn't compile
-
-int appForAllFiles(const char *dir, const char *ext, void *through,
-		   FILE_CALLBACK callback)
-{
-	int rval = 0;
-	const char *format;
-	char scratch[FILEL + 1];
-	FILE *names;
-
-	if (ext) {
-		format = "( ls -d '%s'/*.'%s' '%s'/.*.'%s' ) 2>/dev/null";
-
-		sprintf(scratch, format, dir, ext, dir, ext);
-		names = popen(scratch, "r");
-		if (!names) {
-			SXDEB(scratch, names);
-			return -1;
-		}
-	} else {
-		format = "( ls -d '%s'/* '%s'/.*  ) 2>/dev/null";
-
-		sprintf(scratch, format, dir, dir);
-		names = popen(scratch, "r");
-		if (!names) {
-			SXDEB(scratch, names);
-			return -1;
-		}
-	}
-
-	while (fgets(scratch, FILEL, names)) {
-		int len = strlen(scratch);
-
-		if (len > 0 && scratch[len - 1] == '\n') {
-			scratch[len - 1] = '\0';
-		} else {
-			SLDEB(scratch, len);
-			continue;
-		}
-
-		if (!strcmp(scratch, ".")) {
-			continue;
-		}
-		if (!strcmp(scratch, "..")) {
-			continue;
-		}
-
-		if ((*callback)(scratch, through)) {
-			SDEB(scratch);
-			rval = -1;
-			break;
-		}
-	}
-
-	if (pclose(names)) {
-		LDEB(1);
-		rval = -1;
-	}
-
-	return rval;
-}
-*/
-#endif
 
 /************************************************************************/
 /*									*/

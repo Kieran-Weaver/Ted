@@ -1525,7 +1525,7 @@ void appRunPrintDialog(EditDocument *ed, const DocumentGeometry *dgDocument,
 	const AppPrintDialogResources *apdr;
 
 	PrintJob pj;
-	PrintGeometry pg;
+	PrintGeometry pg = {};
 
 	int i;
 

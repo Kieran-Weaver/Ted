@@ -136,7 +136,7 @@ static void tedRulerFormatPageNumber(TedBottomRuler *tbr)
 	fr = tbr->tbrPageFormat;
 	to = tbr->tbrPageString;
 	while (*fr) {
-		char scratch[11];
+		char scratch[13];
 
 		if (fr[0] != '%') {
 			*(to++) = *(fr++);

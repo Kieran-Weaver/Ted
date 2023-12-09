@@ -337,7 +337,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 /************************************************************************/
 
 void tedDrawShadedRectangle(const LayoutContext *lc,
-			    DrawingSurface shadingPixmaps[PSshd_COUNT],
+			    DrawingSurface *shadingPixmaps,
 			    int pattern, const DocumentRectangle *drShade)
 {
 	if (!shadingPixmaps[pattern]) {

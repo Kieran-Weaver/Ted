@@ -291,7 +291,7 @@ static void tedListToolRefreshFormat(ListTool *lt, const int level,
 				     ListLevel *ll, int textAlso)
 {
 	char listtext[255 + 1];
-	char listScratch[3 + sizeof(listtext)];
+	char listScratch[20 + sizeof(listtext)];
 
 	tedListToolFormatLevelText(listtext, sizeof(listtext) - 1,
 				   lt->ltNumberFormatOffsets,
@@ -783,7 +783,7 @@ static void tedFormatToolRefreshListPage(ListTool *lt)
 
 	if (dl->dlLevelCount > 0) {
 		char listtext[255 + 1];
-		char listScratch[3 + sizeof(listtext)];
+		char listScratch[30 + sizeof(listtext)];
 
 		const ListLevel *ll;
 		int level;

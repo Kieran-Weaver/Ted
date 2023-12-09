@@ -276,7 +276,6 @@ int psIncludeFonts(SimpleOutputStream *sos, const PostScriptTypeList *pstl)
 	PostScriptFace *psf;
 
 	SimpleInputStream *sisFile = (SimpleInputStream *)0;
-	SimpleInputStream *sis = (SimpleInputStream *)0;
 
 	psf = (PostScriptFace *)utilTreeGetFirst(pstl->pstlFaceTree, &fontName);
 	while (psf) {
@@ -293,7 +292,6 @@ int psIncludeFonts(SimpleOutputStream *sos, const PostScriptTypeList *pstl)
 				rval = -1;
 				goto ready;
 			}
-			sis = sisFile;
 
 			sioOutPrintf(sos, "\n");
 			sioOutPrintf(sos, "%%###{   F_%d:\n",
@@ -308,9 +306,6 @@ int psIncludeFonts(SimpleOutputStream *sos, const PostScriptTypeList *pstl)
 				     afi->afiFontName);
 
 			switch (psf->psfEmbed) {
-				int c;
-				int atBol;
-
 			case PSembedTTFTO42:
 				if (psTtfToPt42(sos, &(psf->psfFontFileName),
 						sisFile)) {

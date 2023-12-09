@@ -89,8 +89,6 @@ static int docRtfSaveObject(RtfWriter *rwc, const BufferItem *paraNode,
 			    const TextParticule *tp)
 {
 	InsertedObject *io;
-	PictureProperties *pip;
-
 	PropertyMask pipSetMask;
 
 	io = docGetObject(rwc->rwDocument, tp->tpObjectNumber);
@@ -98,8 +96,6 @@ static int docRtfSaveObject(RtfWriter *rwc, const BufferItem *paraNode,
 		LXDEB(tp->tpObjectNumber, io);
 		return -1;
 	}
-
-	pip = &(io->ioPictureProperties);
 
 	docRtfWriteNextLine(rwc);
 

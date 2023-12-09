@@ -205,7 +205,7 @@ GifFileType *DGifOpenFileHandle(SimpleInputStream *sis)
 
 	memset(gft, '\0', sizeof(GifFileType));
 
-	strncpy(gft->gftVersionString, GIF87_STAMP, 6)[6] = '\0';
+	strncpy(gft->gftVersionString, GIF87_STAMP, 7);
 
 	gft->gftSis = sis;
 	gft->gftSisBlocked = (SimpleInputStream *)0;

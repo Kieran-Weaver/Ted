@@ -207,10 +207,6 @@ int docPsPrintShapeImage(PrintingState *ps, DrawingContext *dc,
 			 const AffineTransform2D *at)
 {
 	const PictureProperties *pip = &(ds->dsPictureProperties);
-	const LayoutContext *lc = &(dc->dcLayoutContext);
-
-	const int x0 = 0;
-	const int y0 = 0;
 
 	switch (pip->pipType) {
 	case DOCokPICTPNGBLIP:
@@ -350,8 +346,6 @@ int docPsPrintObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 {
 	PrintingState *ps = (PrintingState *)dtl->dtlThrough;
 	DrawingContext *dc = dtl->dtlDrawingContext;
-	const LayoutContext *lc = &(dc->dcLayoutContext);
-	const PictureProperties *pip = &(io->ioPictureProperties);
 
 	switch (io->ioKind) {
 		int done;

@@ -210,7 +210,7 @@ static void appHandleRgbColorBlock(double k, int square, double scale,
 	static const int bottom[4] = { 2, 3, 1, 0 };
 	static const int top[4] = { 4, 5, 7, 6 };
 
-	typedef enum fc { fr, ba, le, ri, bo, to } fc;
+	enum fc { fr, ba, le, ri, bo, to };
 
 	BlockFace faces[6] = {
 		{
