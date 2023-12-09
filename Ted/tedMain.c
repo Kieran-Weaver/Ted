@@ -17,10 +17,8 @@
 #include "tedDocument.h"
 
 #include <appUnit.h>
-#include <psBuildConfigFiles.h>
 #include <sioGeneral.h>
 #include <sioStdout.h>
-#include "tedFileConvert.h"
 
 #include <appDebugon.h>
 

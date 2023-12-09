@@ -57,9 +57,6 @@ extern AfmFontInfo *
 psPostScriptFontListGetFontInfoByFontName(const PostScriptFontList *psfl,
 					  const char *name);
 
-extern int psSaveAfms(const PostScriptFontList *psfl, int omitKernPairs,
-		      const MemoryBuffer *afmDirectory);
-
 extern int psFontCatalog(PostScriptFontList *psfl, int ignoreKerning,
 			 const MemoryBuffer *afmDirectory);
 

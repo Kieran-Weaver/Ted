@@ -240,67 +240,6 @@ ready:
 }
 
 /************************************************************************/
-
-int psSaveAfms(const PostScriptFontList *psfl, int omitKernPairs,
-	       const MemoryBuffer *afmDirectory)
-{
-	int rval = 0;
-	int i;
-
-	MemoryBuffer localDirectory;
-
-	SimpleOutputStream *sosAfm = (SimpleOutputStream *)0;
-
-	utilInitMemoryBuffer(&localDirectory);
-
-	if (psLocalDirectoryName(&localDirectory, afmDirectory)) {
-		LDEB(1);
-		rval = -1;
-		goto ready;
-	}
-
-	if (appTestDirectory(&localDirectory) &&
-	    appMakeDirectory(&localDirectory)) {
-		LDEB(1);
-		rval = -1;
-		goto ready;
-	}
-
-	for (i = 0; i < psfl->psflInfoCount; i++) {
-		AfmFontInfo *afi = psfl->psflInfos[i];
-
-		if (!afi || utilMemoryBufferIsEmpty(&(afi->afiAfmFileName))) {
-			continue;
-		}
-
-		sosAfm = sioOutFileioOpen(&(afi->afiAfmFileName));
-		if (!sosAfm) {
-			XDEB(sosAfm);
-			rval = -1;
-			goto ready;
-		}
-
-		if (psWriteAfmFile(sosAfm, omitKernPairs, afi)) {
-			SDEB(afi->afiFontName);
-			rval = -1;
-			goto ready;
-		}
-
-		sioOutClose(sosAfm);
-		sosAfm = (SimpleOutputStream *)0;
-	}
-
-ready:
-
-	if (sosAfm) {
-		sioOutClose(sosAfm);
-	}
-
-	utilCleanMemoryBuffer(&localDirectory);
-
-	return rval;
-}
-
 int psGetDeferredMetrics(AfmFontInfo *afi)
 {
 	int rval = 0;
