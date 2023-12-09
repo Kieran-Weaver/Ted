@@ -108,51 +108,27 @@ int regFindRightToLeft(ExpressionMatch *em, const regProg *prog,
 
 	match_data = pcre2_match_data_create_from_pattern( (pcre2_code*) prog, NULL );
 
-	int prev = 0;
-	int cur = 0;
+	int cur = fromByte;
 	int i;
 
-	while ( cur < fromByte ) {
-
+	while ( cur > 0 ) {
 		res = pcre2_match(
 			(pcre2_code*) prog, string,
-			byteLength, cur, PCRE2_NO_UTF_CHECK,
+			fromByte, cur, PCRE2_NO_UTF_CHECK | PCRE2_ANCHORED,
 			match_data, NULL );
 
-		if ( res < 0 ) break;
+		if ( res > 0 ) break;
 
-		ovector = pcre2_get_ovector_pointer( match_data );
-
-		prev = cur;
-		cur = ovector[ 0 ] + 1;
-
+		cur--;
 	}
 
-	if ( ( res != PCRE2_ERROR_NOMATCH ) || ( cur >= fromByte ) ) {
-		/* Error */
-		pcre2_match_data_free( match_data );
-		return 0;
-	}
-
-	/* Valid Match */
-	res = pcre2_match(
-		(pcre2_code*) prog, string,
-		byteLength + fromByte, prev, 0,
-		match_data, NULL );
-
-	if ( res < 0 ) {
+	if ( ( res <= 0 ) || ( cur <= 0 ) ) {
 		/* Error */
 		pcre2_match_data_free( match_data );
 		return 0;
 	}
 
 	ovector = pcre2_get_ovector_pointer( match_data );
-
-	if ( ovector[ 1 ] > fromByte ) {
-		/* Error */
-	       return 0;
-	}	       
-
 	memset( em->emMatches, 0, sizeof( em->emMatches ) );
 
 	for ( i = 0; i < ( res * 2 ); i++ ) {
