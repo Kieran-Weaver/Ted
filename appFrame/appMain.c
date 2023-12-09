@@ -503,8 +503,6 @@ static AppConfigurableResource APP_ApplicationResourceTable[] = {
 
 	APP_RESOURCE("author", offsetof(EditApplication, eaAuthor), (char *)0),
 
-	APP_RESOURCE("afmDirectory", offsetof(EditApplication, eaAfmDirectory),
-		     AFMDIR),
 	APP_RESOURCE("fontDirectory",
 		     offsetof(EditApplication, eaFontDirectory), (char *)0),
 	APP_RESOURCE("ghostscriptFontmap",

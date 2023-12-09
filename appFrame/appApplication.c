@@ -17,9 +17,7 @@
 
 /************************************************************************/
 /*									*/
-/*  Collect a list of fonts through fontconfig. If that fails, fall	*/
-/*  that collects the set of fonts by scanning a directory of afm	*/
-/*  files.								*/
+/*  Collect a list of fonts through fontconfig.                 	*/
 /*									*/
 /************************************************************************/
 

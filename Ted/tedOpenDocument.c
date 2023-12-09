@@ -57,7 +57,6 @@ static int tedSetDocumentDefaults(TedDocument *td, EditApplication *ea)
 
 	/*  2  */
 	if (appPostScriptFontCatalog(ea)) {
-		SDEB(ea->eaAfmDirectory);
 		return -1;
 	}
 
@@ -456,7 +455,6 @@ int tedOpenDocumentFile(unsigned char *digest, int *pFormat,
 	tedDetermineDefaultSettings(tar);
 
 	if (appPostScriptFontCatalog(ea)) {
-		SDEB(ea->eaAfmDirectory);
 		rval = -1;
 		goto ready;
 	}

@@ -451,7 +451,6 @@ typedef struct EditApplication {
 	int eaVisibleDocumentCount;
 	int eaMainVisibleAsAbout;
 
-	char *eaAfmDirectory;
 	char *eaFontDirectory;
 	char *eaGhostscriptFontmap;
 	char *eaGhostscriptFontToXmapping;
