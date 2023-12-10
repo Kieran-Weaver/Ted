@@ -38,7 +38,7 @@ void docShapeGetRects(rect *drHere, rect *drNorm,
 		drHere->drY1 = sw;
 	}
 
-	geoNormalizeRectangle(drNorm, drHere);
+	*drNorm = norm( *drHere );
 
 	return;
 }

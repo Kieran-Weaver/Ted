@@ -123,7 +123,7 @@ static void appDrawNupTextPage(struct DrawingSurface *ds, const RGB8Color *backC
 
 		drawGetTextExtents(&drLabel, ds, drText->drX0, drText->drY0,
 				   screenFont, label, l);
-		geoNormalizeRectangle(&drLabel, &drLabel);
+		drLabel = norm( drLabel );
 
 		desc = drLabel.drY1 - drText->drY0;
 		shift = drText->drY0 - drLabel.drY0;

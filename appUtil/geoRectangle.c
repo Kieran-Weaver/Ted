@@ -1,6 +1,5 @@
 #include <config.h>
-
-#include <limits.h>
+#include <utility>
 #include "geo2DInteger.h"
 
 void rect::shift( int x, int y ) {
@@ -17,29 +16,16 @@ void rect::shift( int x, int y ) {
 /*									*/
 /************************************************************************/
 
-void geoNormalizeRectangle(rect *drTo,
-			   const rect *drFrom)
-{
-	rect dr;
-	int swap;
-
-	dr = *drFrom;
-
-	if (dr.drX1 < dr.drX0) {
-		swap = dr.drX1;
-		dr.drX1 = dr.drX0;
-		dr.drX0 = swap;
+rect norm( rect dr ) {
+	if ( dr.drX1 < dr.drX0 ) {
+		std::swap( dr.drX1, dr.drX0 );
 	}
 
-	if (dr.drY1 < dr.drY0) {
-		swap = dr.drY1;
-		dr.drY1 = dr.drY0;
-		dr.drY0 = swap;
+	if ( dr.drY1 < dr.drY0 ) {
+		std::swap( dr.drY1, dr.drY0 );
 	}
 
-	*drTo = dr;
-
-	return;
+	return dr;
 }
 
 void geoUnionRectangle(rect *dr, const rect *dr1,

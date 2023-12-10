@@ -79,12 +79,11 @@ typedef struct LineSegment2DI {
 /*									*/
 /************************************************************************/
 
+rect norm( rect dr );
+
 void geoUnionRectangle(rect *dr,
 			      const rect *dr1,
 			      const rect *dr2);
-
-void geoNormalizeRectangle(rect *drTo,
-				  const rect *drFrom);
 
 int geoIntersectRectangle(rect *dr,
 				 const rect *dr1,

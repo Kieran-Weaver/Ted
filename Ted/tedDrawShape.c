@@ -66,7 +66,7 @@ static int tedShapeDrawArrowHead(const LayoutContext *lc, int widthPixels,
 		arc.a2diRect.drX1 = dsa->dsaArrowRectangle.x1;
 		arc.a2diRect.drY1 = dsa->dsaArrowRectangle.y1;
 
-		geoNormalizeRectangle(&(arc.a2diRect), &(arc.a2diRect));
+		arc.a2diRect = norm( arc.a2diRect );
 		arc.a2diAngleFrom = 64 * 0;
 		arc.a2diAngleStep = 64 * 360;
 
@@ -644,7 +644,7 @@ int tedDrawDrawingShape(const rect *drTwips, int page,
 	vec2 *xp = (vec2 *)0;
 
 	docGetPixelRect(&drPixels, lc, drTwips, page);
-	geoNormalizeRectangle(&drNorm, &drPixels);
+	drNorm = norm( drPixels );
 
 	if (dc->dcClipRect && !geoIntersectRectangle((rect *)0,
 						     &drNorm, dc->dcClipRect)) {

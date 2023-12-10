@@ -94,7 +94,7 @@ static int docDrawDrawingShape(const rect *drTwips,
 			rect drPixels;
 
 			docGetPixelRect(&drPixels, lc, drTwips, page);
-			geoNormalizeRectangle(&drPixels, &drPixels);
+			drPixels = norm( drPixels );
 
 			if (!geoIntersectRectangle((rect *)0,
 						   dc->dcClipRect, &drPixels)) {
@@ -193,7 +193,7 @@ int docDrawShape(DrawingContext *dc, void *through,
 		rect drPixels;
 
 		docGetPixelRect(&drPixels, lc, &drTwips, page);
-		geoNormalizeRectangle(&drPixels, &drPixels);
+		drPixels = norm( drPixels );
 
 		if (!geoIntersectRectangle((rect *)0, &drPixels,
 					   dc->dcClipRect)) {

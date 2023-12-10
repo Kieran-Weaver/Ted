@@ -260,7 +260,7 @@ void psNupSheetBoundingBox(rect *sheetBBox, const NupSchema *ns,
 		dr.drX0 += ns->nsXShift;
 		dr.drX1 += ns->nsXShift;
 
-		geoNormalizeRectangle(&dr, &dr);
+		dr = norm( dr );
 
 		if (i == 0) {
 			*sheetBBox = dr;
