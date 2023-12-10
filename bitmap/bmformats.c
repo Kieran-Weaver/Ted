@@ -5,31 +5,6 @@
 #include <appSystem.h>
 #include <appDebugon.h>
 
-#if USE_LIBTIFF
-#include <tiffio.h>
-
-static BitmapFileType bmTiffFile = {
-	bmWriteTiffFile,
-	bmCanWriteTiffFile,
-	bmReadTiffFile,
-	"tiff",
-	"*.tiff",
-	"tiffFile",
-	"Tagged Image Format ( *.tiff )",
-};
-
-static BitmapFileType bmTifFile = {
-	bmWriteTiffFile,
-	bmCanWriteTiffFile,
-	bmReadTiffFile,
-	"tif",
-	"*.tif",
-	"tifFile",
-	"Tagged Image Format ( *.tif )",
-};
-
-#endif /*	TIFF_FOUND	*/
-
 static BitmapFileType bmBmpFile = {
 	bmWriteBmpFile,
 	bmCanWriteBmpFile,
@@ -38,16 +13,6 @@ static BitmapFileType bmBmpFile = {
 	"*.bmp",
 	"bmpFile",
 	"Microsoft Bitmap ( *.bmp )",
-};
-
-static BitmapFileType bmIcoFile = {
-	bmWriteIcoFile,
-	bmCanWriteIcoFile,
-	bmReadIcoFile,
-	"ico",
-	"*.ico",
-	"icoFile",
-	"Microsoft Icon ( *.ico )",
 };
 
 static BitmapFileType bmJpgFile = {
@@ -70,35 +35,6 @@ static BitmapFileType bmGifFile = {
 	"Compuserve GIF ( *.gif )",
 };
 
-static BitmapFileType bmEpsFile = {
-	bmWriteEpsFile, bmCanWriteEpsFile,
-	NULL, /* bmReadEpsFile, */
-	"eps",		"*.eps",
-	"epsFile",	"Encapsulated Postscript ( *.eps )",
-};
-
-static BitmapFileType bmPdfFile = {
-	bmWritePdfFile, bmCanWritePdfFile, NULL, /* bmReadPdfFile, */
-	"pdf",		"*.pdf",	   "pdfFile", "Acrobat PDF ( *.pdf )",
-};
-
-static BitmapFileType bmRtfFile = {
-	bmWriteRtfFile, bmCanWriteRtfFile,
-	NULL, /* bmReadRtfFile, */
-	"rtf",		"*.rtf",
-	"rtfFile",	"Rich Text Format ( *.rtf )",
-};
-
-static BitmapFileType bmXbmFile = {
-	bmWriteXbmFile,
-	bmCanWriteXbmFile,
-	bmReadXbmFile,
-	"xbm",
-	"*.xbm",
-	"xbmFile",
-	"X-Windows bitmap ( *.xbm )",
-};
-
 static BitmapFileType bmPngFile = {
 	bmWritePngFile,
 	bmCanWritePngFile,
@@ -109,64 +45,9 @@ static BitmapFileType bmPngFile = {
 	"Portable Network Graphics ( *.png )",
 };
 
-#if USE_LIBXPM
-static BitmapFileType bmXpmFile = {
-	bmWriteXpmFile, bmCanWriteXpmFile, bmReadXpmFile,	   "xpm",
-	"*.xpm",	"xpmFile",	   "X11 Pixmap ( *.xpm )",
-};
-#endif /* USE_XPM */
-
-static BitmapFileType bmPgmFile = {
-	bmWritePbmFile,
-	bmCanWritePbmFile,
-	bmReadPbmFile,
-	"pgm",
-	"*.pgm",
-	"pgmFile",
-	"Portable Gray Map ( *.pgm )",
-};
-
-static BitmapFileType bmPbmFile = {
-	bmWritePbmFile,
-	bmCanWritePbmFile,
-	bmReadPbmFile,
-	"pbm",
-	"*.pbm",
-	"pbmFile",
-	"Portable Bitmap ( *.pbm )",
-};
-
-static BitmapFileType bmPpmFile = {
-	bmWritePbmFile,
-	bmCanWritePbmFile,
-	bmReadPbmFile,
-	"ppm",
-	"*.ppm",
-	"ppmFile",
-	"Portable Pixmap ( *.ppm )",
-};
-
-static BitmapFileType bmPnmFile = {
-	NULL,
-	NULL,
-	bmReadPbmFile,
-	"pnm",
-	"*.pnm",
-	"pnmFile",
-	"Portable Anymap ( *.pnm )",
-};
-
 BitmapFileType *bmFileTypes[] = {
-	&bmPngFile,  &bmJpegFile, &bmJpgFile, &bmBmpFile,
-	&bmGifFile,  &bmEpsFile, &bmPdfFile,
-	&bmRtfFile,  &bmXbmFile,  &bmIcoFile,
-#if USE_LIBTIFF
-	&bmTiffFile, &bmTifFile,
-#endif
-#if USE_LIBXPM
-	&bmXpmFile,
-#endif
-	&bmPgmFile,  &bmPbmFile,  &bmPpmFile, &bmPnmFile,
+	&bmPngFile, &bmJpegFile, &bmJpgFile,
+	&bmBmpFile, &bmGifFile,
 };
 
 BitmapFileFormat bmFileFormats[] = {
@@ -175,43 +56,6 @@ BitmapFileFormat bmFileFormats[] = {
 	{ "JPEG  Independent JPEG Group (.jpeg)", "jpeg1File", 1, &bmJpegFile },
 	{ "BMP  Microsoft Windows 3.x bitmap", "bmp3File", 40, &bmBmpFile },
 	{ "GIF  Compuserve GIF", "gif87File", 87, &bmGifFile },
-	{ "EPS  Encapsulated Postscript", "eps1File", 1, &bmEpsFile },
-	{ "EPS  Encapsulated Postscript (Level 2)", "eps2File", 2, &bmEpsFile },
-	{ "PDF  Acrobat Portable Document Format", "pdf2File", 12, &bmPdfFile },
-	{ "XBM  X/11 Bitmap File", "xbm11File", 11, &bmXbmFile },
-	{ "ICO  Microsoft 3.x Windows Icon", "ico3File", 40, &bmIcoFile },
-#if USE_LIBTIFF
-	{ "TIFF  No compression", "tiffPlainFile", COMPRESSION_NONE,
-	  &bmTiffFile },
-	{ "TIFF  CCITT run length", "tiffCcittRleFile", COMPRESSION_CCITTRLE,
-	  &bmTiffFile },
-	{ "TIFF  Fax 3 format", "tiffFax3File", COMPRESSION_CCITTFAX3,
-	  &bmTiffFile },
-	{ "TIFF  Fax 4 format", "tiffFax4File", COMPRESSION_CCITTFAX4,
-	  &bmTiffFile },
-	{ "TIFF  Lempel-Ziv & Welch", "tiffLzwFile", COMPRESSION_LZW,
-	  &bmTiffFile },
-	{ "TIFF  NeXT 2-bit RLE", "tiffNextFile", COMPRESSION_NEXT,
-	  &bmTiffFile },
-	{ "TIFF  Run length, aligned", "tiffRleFile", COMPRESSION_CCITTRLEW,
-	  &bmTiffFile },
-	{ "TIFF  Packbits", "tiffPackbitsFile", COMPRESSION_PACKBITS,
-	  &bmTiffFile },
-	{ "TIFF  Thunderscan", "tiffThunderFile", COMPRESSION_THUNDERSCAN,
-	  &bmTiffFile },
-	{ "TIFF  JPEG", "tiffJpegFile", COMPRESSION_JPEG, &bmTiffFile },
-#endif /* TIFF_FOUND */
-#if USE_LIBXPM
-	{ "XPM  X11 Pixmap File", "xpm1File", 0, &bmXpmFile },
-#endif /* USE_XPM */
-	{ "PGM  Gray Map (Text)", "pgm2File", 2, &bmPgmFile },
-	{ "PGM  Gray Map (Raw)", "pgm5File", 5, &bmPgmFile },
-	{ "PBM  Bitmap (Text)", "pgm1File", 1, &bmPbmFile },
-	{ "PBM  Bitmap (Raw)", "pgm4File", 4, &bmPbmFile },
-	{ "PPM  Pixmap (Text)", "pgm3File", 3, &bmPbmFile },
-	{ "PPM  Pixmap (Raw)", "pgm6File", 6, &bmPbmFile },
-	{ "RTF  Rich Text Format (\\pngblip)", "rtfPngFile", 0, &bmRtfFile },
-	{ "RTF  Rich Text Format (\\jpegblip)", "rtfJpegFile", 1, &bmRtfFile },
 };
 
 const int bmNumberOfFileFormats =

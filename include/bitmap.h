@@ -187,12 +187,6 @@ extern int bmCanWriteJpegFile(const BitmapDescription *bd, int privateFormat);
 
 /************************************************************************/
 
-extern int bmWriteRtfFile(const MemoryBuffer *filename,
-			  const unsigned char *buffer,
-			  const BitmapDescription *bd, int privateFormat);
-
-extern int bmCanWriteRtfFile(const BitmapDescription *bd, int privateFormat);
-
 extern int bmCanWritePngFile(const BitmapDescription *bd, int privateFormat);
 
 /************************************************************************/

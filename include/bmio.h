@@ -23,23 +23,12 @@ typedef int (*bmWriteBitmap)(const BitmapDescription *bd,
 /*									*/
 /************************************************************************/
 
-int bmRtfWriteRtf(const BitmapDescription *bd,
-			 const unsigned char *buffer, SimpleOutputStream *sos);
-
 int bmPngWritePng(const BitmapDescription *bd,
 			 const unsigned char *buffer, SimpleOutputStream *sos);
-
-int bmRtfWritePngRtf(const BitmapDescription *bd,
-			    const unsigned char *buffer,
-			    SimpleOutputStream *sos);
 
 int bmJpegWriteJfif(const BitmapDescription *bd,
 			   const unsigned char *buffer,
 			   SimpleOutputStream *sos);
-
-int bmRtfWriteJfifRtf(const BitmapDescription *bd,
-			     const unsigned char *buffer,
-			     SimpleOutputStream *sos);
 
 int bmGifWriteGif(const BitmapDescription *bd,
 			 const unsigned char *buffer, SimpleOutputStream *sos);
