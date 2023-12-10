@@ -32,14 +32,15 @@ documentation and/or software.
 #define UTIL_MD5_H
 
 #include <config.h>
+#include <stdint.h>
 
 #define MD5_DIGEST_SIZE_BITS 128
 #define MD5_DIGEST_SIZE_BYTES 16
 #define MD5_DIGEST_SIZE_BASE64 (((16 + 2) / 3) * 4 + 1) /* 24+ 1 */
 
 typedef struct MD5Context {
-	UtilUint32 md5cState[4]; /*  state (ABCD)	*/
-	UtilUint32 md5cCount[2]; /*  number of bits,	*/
+	uint32_t md5cState[4]; /*  state (ABCD)	*/
+	uint32_t md5cCount[2]; /*  number of bits,	*/
 	/*  modulo 2^64 (lsb	*/
 	/*  first)		*/
 	unsigned char md5cBuffer[64]; /*  input buffer	*/

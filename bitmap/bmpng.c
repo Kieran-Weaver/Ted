@@ -8,13 +8,7 @@
 #include <sioFileio.h>
 #include <utilEndian.h>
 #include <geoUnits.h>
-
-#if 1
-#ifndef png_jmpbuf
-/*  Works with older libs as well */
-#define png_jmpbuf(pngp) pngp->jmpbuf
-#endif
-#endif
+#include <stdint.h>
 
 /************************************************************************/
 /*									*/
@@ -480,13 +474,13 @@ static void bmPngWriteContents(png_structp png, png_infop pngi,
 		if (color_type == PNG_COLOR_TYPE_RGB &&
 		    bd->bdBitsPerSample == 16 && scratch) {
 			int col;
-			const BmUint16 *fr = (const BmUint16 *)from;
+			const uint16_t *fr = (const uint16_t *)from;
 			unsigned char *to = scratch;
 
 			for (col = 0; col < bd->bdBytesPerRow;
-			     col += sizeof(BmUint16)) {
+			     col += sizeof(uint16_t)) {
 				utilEndianStoreBeInt16(*(fr++), to);
-				to += sizeof(BmUint16);
+				to += sizeof(uint16_t);
 			}
 
 			from = scratch;

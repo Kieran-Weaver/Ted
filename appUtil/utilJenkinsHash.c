@@ -15,8 +15,9 @@ Source is http://burtleburtle.net/bob/c/lookupa.c
 
 #include <config.h>
 #include "utilJenkinsHash.h"
+#include <stdint.h>
 
-#define ub4 UtilUint32
+#define ub4 uint32_t
 #define ub1 unsigned char
 
 /*

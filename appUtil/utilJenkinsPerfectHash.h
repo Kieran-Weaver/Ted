@@ -12,9 +12,10 @@ Source is http://burtleburtle.net/bob/c/perfect.h
 #define UTIL_JENKINS_PERFECT_HASH_H
 
 #include <config.h>
+#include <stdint.h>
 
-#define ub4 UtilUint32
-#define ub2 UtilUint16
+#define ub4 uint32_t
+#define ub2 uint16_t
 #define ub1 unsigned char
 
 #define MAXKEYLEN 30 /* maximum length of a key */

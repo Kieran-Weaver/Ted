@@ -50,14 +50,10 @@ void tedExposeSelection(EditDocument *ed, const DocumentSelection *ds,
 /*									*/
 /*  Blinking cursor.							*/
 /*									*/
-/*  1)  Turned off when we are debugging exposures and redraws.		*/
-/*									*/
 /************************************************************************/
 
 void tedUndrawIBar(const EditDocument *ed)
 {
-#if BLINK_IBAR
-
 	DocumentSelection ds;
 	SelectionGeometry sg;
 	SelectionDescription sd;
@@ -71,13 +67,7 @@ void tedUndrawIBar(const EditDocument *ed)
 		return;
 	}
 
-#if LOG_REDRAWS
-	docLogRectangle("BLINK*", &(sg.sgRectangle));
-#endif
-
 	appDocExposeRectangle(ed, &(sg.sgRectangle), scrolledX, scrolledY);
-
-#endif
 
 	return;
 }

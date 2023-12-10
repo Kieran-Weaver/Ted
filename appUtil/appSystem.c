@@ -23,7 +23,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <netdb.h>
-#include <sys/utsname.h>
+#include <dirent.h>
 
 #include "appSystem.h"
 
@@ -36,17 +36,6 @@
 #define USE_STAT 1
 #define USE_ACCESS 1
 #define USE_GETCWD 1
-
-#if HAVE_SYS_SOCKET_H
-#include <sys/socket.h>
-#endif
-
-#if HAVE_DIRENT_H
-#define USE_OPENDIR 1
-#include <dirent.h>
-#else
-#error "opendir() is required"
-#endif
 
 #ifndef PATH_MAX
 #define PATH_MAX 1000
@@ -340,17 +329,9 @@ int appMakeUniqueString(char *target, unsigned int maxlen)
 	int pid = getpid();
 	time_t now = time((time_t *)0);
 	unsigned int needed;
-
 	static time_t prevNow;
 	static unsigned long count;
-
-#if HAVE_UNAME
-	struct utsname un;
-#endif
-
-#ifdef USE_GETHOSTNAME
 	char node_scratch[256 + 1];
-#endif
 
 	if (now == prevNow) {
 		needed = 26;
@@ -382,23 +363,13 @@ int appMakeUniqueString(char *target, unsigned int maxlen)
 		char *nodename = NULL;
 		struct hostent *hp;
 
-#if HAVE_UNAME
-		if (uname(&un) < 0) {
-			LDEB(1);
-			return -1;
-		}
-		nodename = un.nodename;
-#endif
-
-#ifdef USE_GETHOSTNAME
 		if (gethostname(node_scratch, sizeof(node_scratch) - 1)) {
 			LDEB(1);
-			return (char *)0;
+			return 0;
 		}
 
 		node_scratch[sizeof(node_scratch) - 1] = '\0';
 		nodename = node_scratch;
-#endif
 
 		if (!nodename) {
 			XDEB(nodename);

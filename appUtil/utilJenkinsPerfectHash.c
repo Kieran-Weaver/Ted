@@ -52,6 +52,7 @@ determined a perfect hash for the whole set of keys.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
 #include <config.h>
 #include "utilJenkinsHash.h"
@@ -1091,8 +1092,8 @@ static int make_c(const char *cOutput, const char *cInclude,
 		fprintf(f, "#   include %s\n\n", cInclude);
 	}
 
-	fprintf(f, "#   define ub4 UtilUint32\n");
-	fprintf(f, "#   define ub2 UtilUint16\n");
+	fprintf(f, "#   define ub4 uint32_t\n");
+	fprintf(f, "#   define ub2 uint16_t\n");
 	fprintf(f, "#   define ub1 unsigned char\n");
 
 	fprintf(f, "\n");

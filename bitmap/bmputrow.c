@@ -4,6 +4,7 @@
 #include "bmputrow.h"
 #include <string.h>
 #include <appDebugon.h>
+#include <stdint.h>
 
 /************************************************************************/
 /*									*/
@@ -558,7 +559,7 @@ static int scanFillRow_16_FromRGB(unsigned char *cto, const FillJob *fj,
 	int d2;
 	int e2;
 
-	BmUint16 *to = (BmUint16 *)cto;
+	uint16_t *to = (uint16_t *)cto;
 	AllocatorColor ac;
 
 	if (fj->fjToWide <= fj->fjFrWide) {
@@ -931,7 +932,7 @@ static int scanFillRow_32_FromRGB(unsigned char *cto, const FillJob *fj,
 	int d2;
 	int e2;
 
-	BmUint32 *to = (BmUint32 *)cto;
+	uint32_t *to = (uint32_t *)cto;
 	AllocatorColor ac;
 
 	if (fj->fjToWide <= fj->fjFrWide) {
