@@ -364,7 +364,7 @@ static void tedDrawTabSymbol(struct DrawingSurface *ds, int tabX, int ox, int ta
 	dr.drY0 = tabY - tabHeight + 1;
 	dr.drY1 = tabY;
 
-	geoShiftRectangle(&dr, -ox, 0);
+	dr.shift( -ox, 0 );
 	drawFillRectangle(ds, &dr);
 
 	if (kind == DOCtaLEFT || kind == DOCtaCENTER || kind == DOCtaDECIMAL) {
@@ -374,7 +374,7 @@ static void tedDrawTabSymbol(struct DrawingSurface *ds, int tabX, int ox, int ta
 		dr.drY0 = tabY - thick + 1;
 		dr.drY1 = tabY;
 
-		geoShiftRectangle(&dr, -ox, 0);
+		dr.shift( -ox, 0 );
 		drawFillRectangle(ds, &dr);
 	}
 
@@ -385,7 +385,7 @@ static void tedDrawTabSymbol(struct DrawingSurface *ds, int tabX, int ox, int ta
 		dr.drY0 = tabY - thick + 1;
 		dr.drY1 = tabY;
 
-		geoShiftRectangle(&dr, -ox, 0);
+		dr.shift( -ox, 0 );
 		drawFillRectangle(ds, &dr);
 	}
 
@@ -398,7 +398,7 @@ static void tedDrawTabSymbol(struct DrawingSurface *ds, int tabX, int ox, int ta
 		dr.drY0 = tabY - tabHeight + 1;
 		dr.drY1 = dr.drY0 + dec - 1;
 
-		geoShiftRectangle(&dr, -ox, 0);
+		dr.shift( -ox, 0 );
 		drawFillRectangle(ds, &dr);
 	}
 

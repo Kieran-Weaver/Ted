@@ -219,8 +219,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 
 				docDrawSetColorRgb(dc, (void *)sdd, &rgb8);
 
-				geoShiftRectangle(&drFill, -lc->lcOx,
-						  -lc->lcOy);
+				drFill.shift( -lc->lcOx, -lc->lcOy);
 				drawFillRectangle(lc->lcDrawingSurface,
 						  &drFill);
 			}
@@ -243,7 +242,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 			tedDrawSetBorderColor(dc, sdd, bo->boTopBorder.bpColor,
 					      topAsGrid);
 
-			geoShiftRectangle(&drBorder, -lc->lcOx, -lc->lcOy);
+			drBorder.shift( -lc->lcOx, -lc->lcOy );
 			drawFillRectangle(lc->lcDrawingSurface, &drBorder);
 		}
 	}
@@ -266,7 +265,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 			tedDrawSetBorderColor(dc, sdd, bo->boLeftBorder.bpColor,
 					      leftAsGrid);
 
-			geoShiftRectangle(&drBorder, -lc->lcOx, -lc->lcOy);
+			drBorder.shift( -lc->lcOx, -lc->lcOy );
 			drawFillRectangle(lc->lcDrawingSurface, &drBorder);
 		}
 	}
@@ -295,7 +294,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 					      bo->boRightBorder.bpColor,
 					      rightAsGrid);
 
-			geoShiftRectangle(&drBorder, -lc->lcOx, -lc->lcOy);
+			drBorder.shift( -lc->lcOx, -lc->lcOy );
 			drawFillRectangle(lc->lcDrawingSurface, &drBorder);
 		}
 	}
@@ -322,7 +321,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 					      bo->boBottomBorder.bpColor,
 					      bottomAsGrid);
 
-			geoShiftRectangle(&drBorder, -lc->lcOx, -lc->lcOy);
+			drBorder.shift( -lc->lcOx, -lc->lcOy );
 			drawFillRectangle(lc->lcDrawingSurface, &drBorder);
 		}
 	}

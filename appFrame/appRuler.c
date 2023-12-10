@@ -329,7 +329,7 @@ static void appShowCopy(struct DrawingSurface *ds, int x, int y,
 
 	drTarget = *drSrc;
 
-	geoShiftRectangle(&drTarget, x - drSrc->drX0, y - drSrc->drY0);
+	drTarget.shift( x - drSrc->drX0, y - drSrc->drY0 );
 	drTarget.drX1--;
 	drTarget.drY1--;
 

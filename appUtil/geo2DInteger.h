@@ -8,6 +8,7 @@
 #define GEO_2D_INTEGER_H
 
 struct rect {
+	void shift( int x, int y );
 	int drX0;
 	int drY0;
 	int drX1;
@@ -70,14 +71,6 @@ typedef struct LineSegment2DI {
 		if ((b)->drY1 < (y)) {   \
 			(b)->drY1 = (y); \
 		}                        \
-	}
-
-#define geoShiftRectangle(dr, ox, oy) \
-	{                             \
-		(dr)->drX0 += (ox);   \
-		(dr)->drX1 += (ox);   \
-		(dr)->drY0 += (oy);   \
-		(dr)->drY1 += (oy);   \
 	}
 
 /************************************************************************/

@@ -415,7 +415,7 @@ static int tedDrawPictureFrame(DrawingShape *ds, DrawingContext *dc,
 	}
 
 	drSrc = *drPixels;
-	geoShiftRectangle(&drSrc, -drPixels->drX0, -drPixels->drY0);
+	drSrc.shift( -drPixels->drX0, -drPixels->drY0 );
 
 	drawChildSurface(lc->lcDrawingSurface, ds->dsDrawingSurface,
 			 drPixels->drX0, drPixels->drY0, &drSrc);
@@ -651,7 +651,7 @@ int tedDrawDrawingShape(const rect *drTwips, int page,
 		return 0;
 	}
 
-	geoShiftRectangle(&drPixels, -lc->lcOx, -lc->lcOy);
+	drPixels.shift( -lc->lcOx, -lc->lcOy );
 
 	switch (sd->sdShapeType) {
 	case SHPtyGROUP:

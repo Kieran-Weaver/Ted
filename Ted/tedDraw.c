@@ -125,7 +125,7 @@ static void tedDrawPageRect(ScreenDrawingData *sdd, DrawingContext *dc,
 		return;
 	}
 
-	geoShiftRectangle(&drPage, -lc->lcOx, -lc->lcOy);
+	drPage.shift( -lc->lcOx, -lc->lcOy );
 	drawFillRectangle(lc->lcDrawingSurface, &drPage);
 
 	return;
@@ -145,7 +145,7 @@ void tedOriginalClipping(DrawingContext *dc, ScreenDrawingData *sdd)
 		rect drRestore;
 
 		drRestore = *(dc->dcClipRect);
-		geoShiftRectangle(&drRestore, -lc->lcOx, -lc->lcOy);
+		drRestore.shift( -lc->lcOx, -lc->lcOy );
 
 		drawSetClipRect(lc->lcDrawingSurface, &drRestore);
 	} else {
@@ -175,7 +175,7 @@ int tedDrawIBar(const rect *drPixels, const LayoutContext *lc)
 {
 	rect drShifted = *drPixels;
 
-	geoShiftRectangle(&drShifted, -lc->lcOx, -lc->lcOy);
+	drShifted.shift( -lc->lcOx, -lc->lcOy );
 
 	drawFillRectangle(lc->lcDrawingSurface, &drShifted);
 
@@ -206,7 +206,7 @@ static void tedDrawObjectBlocks(const rect *drObj,
 		drBox.drX1 = drBox.drX0 + RESIZE_BLOCK - 1;
 		drBox.drY1 = drBox.drY0 + RESIZE_BLOCK - 1;
 
-		geoShiftRectangle(&drBox, -lc->lcOx, -lc->lcOy);
+		drBox.shift( -lc->lcOx, -lc->lcOy );
 		drawFillRectangle(lc->lcDrawingSurface, &drBox);
 	}
 
@@ -218,13 +218,13 @@ static void tedDrawObjectBlocks(const rect *drObj,
 		drBox.drX1 = drBox.drX0 + RESIZE_BLOCK - 2;
 		drBox.drY1 = drBox.drY0 + RESIZE_BLOCK - 2;
 
-		geoShiftRectangle(&drBox, -lc->lcOx, -lc->lcOy);
+		drBox.shift( -lc->lcOx, -lc->lcOy );
 		drawRectangle(lc->lcDrawingSurface, &drBox);
 	}
 
 	drBox = *drObj;
 
-	geoShiftRectangle(&drBox, -lc->lcOx, -lc->lcOy);
+	drBox.shift( -lc->lcOx, -lc->lcOy );
 	drawRectangle(lc->lcDrawingSurface, &drBox);
 
 	return;
@@ -513,7 +513,7 @@ void tedDrawRectangle(EditDocument *ed, rect *drClipPixels, int ox,
 	{
 		rect drFill = *drClipPixels;
 
-		geoShiftRectangle(&drFill, -ox, -oy);
+		drFill.shift( -ox, -oy );
 		drawFillRectangle(drsf, &drFill);
 	}
 
@@ -705,7 +705,7 @@ void tedDrawRectangle(EditDocument *ed, rect *drClipPixels, int ox,
 			drawSetForegroundColorBlack(drsf);
 			blackSet = 1;
 
-			geoShiftRectangle(&drHair, -ox, -oy);
+			drHair.shift( -ox, -oy );
 			drawFillRectangle(drsf, &drHair);
 		}
 
@@ -723,7 +723,7 @@ void tedDrawRectangle(EditDocument *ed, rect *drClipPixels, int ox,
 					drawSetForegroundColorBlack(drsf);
 				}
 
-				geoShiftRectangle(&drHair, -ox, -oy);
+				drHair.shift( -ox, -oy );
 				drawFillRectangle(drsf, &drHair);
 			}
 		}

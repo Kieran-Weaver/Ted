@@ -48,7 +48,7 @@ static void tedDrawParticuleLine(DrawingContext *dc, ScreenDrawingData *sdd,
 	if (drFill.drX1 > drFill.drX0) {
 		docDrawSetColorNumber(dc, (void *)sdd, textColorNr);
 
-		geoShiftRectangle(&drFill, -lc->lcOx, -lc->lcOy);
+		drFill.shift( -lc->lcOx, -lc->lcOy );
 		drawFillRectangle(lc->lcDrawingSurface, &drFill);
 	}
 
@@ -363,7 +363,7 @@ int tedDrawChftnsep(const DrawTextLine *dtl, int part, int textAttrNr,
 
 	docDrawSetColorNumber(dc, (void *)sdd, ta->taTextColorNumber);
 
-	geoShiftRectangle(&drSpan, -lc->lcOx, -lc->lcOy);
+	drSpan.shift( -lc->lcOx, -lc->lcOy );
 	drawFillRectangle(lc->lcDrawingSurface, &drSpan);
 
 	return 0;
@@ -734,7 +734,7 @@ int tedDrawTextReverse(BufferItem *paraNode, int line, const ParagraphFrame *pf,
 
 	if (tedLineRectangle(&drRedraw, &inSelection, paraNode, dc, sdd, line,
 			     &(pf->pfParaContentRect))) {
-		geoShiftRectangle(&drRedraw, -lc->lcOx, -lc->lcOy);
+		drRedraw.shift( -lc->lcOx, -lc->lcOy );
 		drawSetClipRect(lc->lcDrawingSurface, &drRedraw);
 
 		done = tedDrawTextLine(paraNode, line, pf, drLine, vsdd, dc,
@@ -764,7 +764,7 @@ int tedDrawTextSelected(BufferItem *paraNode, int line,
 
 	if (tedLineRectangle(&drRedraw, &inSelection, paraNode, dc, sdd, line,
 			     &(pf->pfParaContentRect))) {
-		geoShiftRectangle(&drRedraw, -lc->lcOx, -lc->lcOy);
+		drRedraw.shift( -lc->lcOx, -lc->lcOy );
 		drawSetClipRect(lc->lcDrawingSurface, &drRedraw);
 
 		if (inSelection) {

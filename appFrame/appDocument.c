@@ -833,7 +833,7 @@ APP_EVENT_HANDLER_H(appDocExposeHandler, w, voided, exposeEvent)
 			    exposeEvent);
 	drawSetClipRect(ed->edDrawingSurface, &drClip);
 
-	geoShiftRectangle(&drClip, ox, oy);
+	drClip.shift( ox, oy );
 
 	/*  2,3,4  */
 	(*ea->eaDrawRectangle)(ed, &drClip, ox, oy);
@@ -870,7 +870,7 @@ void appDocExposeRectangle(const EditDocument *ed,
 	}
 
 	drScrolled = *drChanged;
-	geoShiftRectangle(&drScrolled, -scrolledX, -scrolledY);
+	drScrolled.shift( -scrolledX, -scrolledY );
 
 	if (scrolledX != 0) {
 		drScrolled.drY0 = drVisible->drY0;
@@ -887,8 +887,7 @@ void appDocExposeRectangle(const EditDocument *ed,
 	drExpose = *drVisible;
 
 	if (geoIntersectRectangle(&drExpose, &drExpose, &drScrolled)) {
-		geoShiftRectangle(&drExpose, -drVisible->drX0,
-				  -drVisible->drY0);
+		drExpose.shift( -drVisible->drX0, -drVisible->drY0 );
 
 		if (drExpose.drX0 < 0) {
 			drExpose.drX0 = 0;

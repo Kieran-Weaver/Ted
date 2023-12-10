@@ -143,7 +143,7 @@ static void tedDrawTopRuler(APP_WIDGET w, TedTopRuler *ttr,
 		drBack.drY1 = sizeAcross - 1;
 	}
 
-	geoShiftRectangle(&drBack, -ox, 0);
+	drBack.shift( -ox, 0 );
 	appRulerDrawBackground(&(ttr->ttrRulerData), &drBack);
 
 	tedRulerActiveRect(&drActive, ttr);
@@ -151,7 +151,7 @@ static void tedDrawTopRuler(APP_WIDGET w, TedTopRuler *ttr,
 	if (!drClip || geoIntersectRectangle(&drWhite, &drWhite, drClip)) {
 		drawSetForegroundColorWhite(ds);
 
-		geoShiftRectangle(&drWhite, -ox, 0);
+		drWhite.shift( -ox, 0 );
 
 		if (drWhite.drX0 < rd->rdMinUsed) {
 			drWhite.drX0 = rd->rdMinUsed;
@@ -294,7 +294,7 @@ APP_EVENT_HANDLER_H(tedRedrawTopRuler, w, voidttr, event)
 	guiCollectExposures(&drClip, w, event);
 	drawSetClipRect(rd->rdDrawingSurface, &drClip);
 
-	geoShiftRectangle(&drClip, ox, oy);
+	drClip.shift( ox, oy );
 	tedDrawTopRuler(w, ttr, &drClip);
 	drawNoClipping(rd->rdDrawingSurface);
 }
@@ -369,7 +369,7 @@ void tedScrollTopRuler(void *voidttr, APP_WIDGET w, int d)
 	drawSetClipRect(rd->rdDrawingSurface, &drClip);
 
 	drRedraw = drClip;
-	geoShiftRectangle(&drRedraw, ox, oy);
+	drRedraw.shift( ox, oy );
 	tedDrawTopRuler(w, ttr, &drRedraw);
 
 	drawNoClipping(rd->rdDrawingSurface);
@@ -506,7 +506,7 @@ static void tedTopRulerSetValue(TopRulerDrag *trd, int newValue)
 	drExpose.drY0 = 0;
 	drExpose.drY1 = rd->rdSizeAcross;
 
-	geoShiftRectangle(&drExpose, -ox, -oy);
+	drExpose.shift( -ox, -oy );
 	guiExposeDrawingWidgetRectangle(trd->trdWidget, &drExpose);
 
 	/*  5  */

@@ -92,7 +92,7 @@ static void appDocScrollVertically(EditDocument *ed, int scrolledY)
 	oy = ed->edVisibleRect.drY0;
 
 	drScreen = drClip;
-	geoShiftRectangle(&drScreen, -ox, -oy);
+	drScreen.shift( -ox, -oy );
 
 #if 1
 	drawSetClipRect(ds, &drScreen);
@@ -181,7 +181,7 @@ static void appDocScrollHorizontally(EditDocument *ed, int scrolledX)
 	oy = ed->edVisibleRect.drY0;
 
 	drScreen = drClip;
-	geoShiftRectangle(&drScreen, -ox, -oy);
+	drScreen.shift( -ox, -oy );
 
 #if 1
 	drawSetClipRect(ds, &drScreen);

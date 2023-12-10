@@ -708,7 +708,7 @@ void appMetricRulerExposeValue(EditDocument *ed)
 		return;
 	}
 
-	geoShiftRectangle(&drExpose, -ox, -oy);
+	drExpose.shift( -ox, -oy );
 	guiExposeDrawingWidgetRectangle(ed->edDocumentWidget.dwWidget,
 					&drExpose);
 
@@ -801,7 +801,7 @@ static void appHorizontalRulerSetValue(MetricRulerDrag *mrd, APP_WIDGET w,
 	/*
     appDrawHorizontalRuler( mrd->mrdWidget, mr, &drExpose, mrd->mrdOc );
     */
-	geoShiftRectangle(&drExpose, -ox, -oy);
+	drExpose.shift( -ox, -oy );
 	guiExposeDrawingWidgetRectangle(w, &drExpose);
 
 	/*  5  */
@@ -1114,7 +1114,7 @@ static void appVerticalRulerSetValue(MetricRulerDrag *mrd, APP_WIDGET w,
 		drExpose.drY1 = oldValue + rd->rdSizeAcross;
 	}
 
-	geoShiftRectangle(&drExpose, -ox, -oy);
+	drExpose.shift( -ox, -oy );
 	guiExposeDrawingWidgetRectangle(w, &drExpose);
 
 	/*  5  */

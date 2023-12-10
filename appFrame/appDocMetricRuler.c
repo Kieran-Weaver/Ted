@@ -43,7 +43,7 @@ void appDrawRectangleSelection(rect *drClip,
 		drMark = *drScreen;
 		drMark.drX0 = drMark.drX1 = drSelected->drX0 - 1;
 
-		geoShiftRectangle(&drMark, -ox, -oy);
+		drMark.shift( -ox, -oy );
 		drawFillRectangle(ds, &drMark);
 	}
 
@@ -51,7 +51,7 @@ void appDrawRectangleSelection(rect *drClip,
 		drMark = *drScreen;
 		drMark.drX0 = drMark.drX1 = drSelected->drX1;
 
-		geoShiftRectangle(&drMark, -ox, -oy);
+		drMark.shift( -ox, -oy );
 		drawFillRectangle(ds, &drMark);
 	}
 
@@ -59,7 +59,7 @@ void appDrawRectangleSelection(rect *drClip,
 		drMark = *drScreen;
 		drMark.drY0 = drMark.drY1 = drSelected->drY0 - 1;
 
-		geoShiftRectangle(&drMark, -ox, -oy);
+		drMark.shift( -ox, -oy );
 		drawFillRectangle(ds, &drMark);
 	}
 
@@ -67,7 +67,7 @@ void appDrawRectangleSelection(rect *drClip,
 		drMark = *drScreen;
 		drMark.drY0 = drMark.drY1 = drSelected->drY1;
 
-		geoShiftRectangle(&drMark, -ox, -oy);
+		drMark.shift( -ox, -oy );
 		drawFillRectangle(ds, &drMark);
 	}
 
@@ -77,7 +77,7 @@ void appDrawRectangleSelection(rect *drClip,
 		drMark = *drScreen;
 		drMark.drX0 = drMark.drX1 = drSelected->drX0 - 2;
 
-		geoShiftRectangle(&drMark, -ox, -oy);
+		drMark.shift( -ox, -oy );
 		drawFillRectangle(ds, &drMark);
 	}
 
@@ -85,7 +85,7 @@ void appDrawRectangleSelection(rect *drClip,
 		drMark = *drScreen;
 		drMark.drX0 = drMark.drX1 = drSelected->drX1 - 1;
 
-		geoShiftRectangle(&drMark, -ox, -oy);
+		drMark.shift( -ox, -oy );
 		drawFillRectangle(ds, &drMark);
 	}
 
@@ -93,7 +93,7 @@ void appDrawRectangleSelection(rect *drClip,
 		drMark = *drScreen;
 		drMark.drY0 = drMark.drY1 = drSelected->drY0 - 2;
 
-		geoShiftRectangle(&drMark, -ox, -oy);
+		drMark.shift( -ox, -oy );
 		drawFillRectangle(ds, &drMark);
 	}
 
@@ -101,7 +101,7 @@ void appDrawRectangleSelection(rect *drClip,
 		drMark = *drScreen;
 		drMark.drY0 = drMark.drY1 = drSelected->drY1 + 1;
 
-		geoShiftRectangle(&drMark, -ox, -oy);
+		drMark.shift( -ox, -oy );
 		drawFillRectangle(ds, &drMark);
 	}
 

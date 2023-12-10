@@ -3,18 +3,11 @@
 #include <limits.h>
 #include "geo2DInteger.h"
 
-void geoInitRectangle(rect *dr)
-{
-	dr->drX0 = dr->drY0 = dr->drX1 = dr->drY1 = 0;
-	return;
-}
-
-void geoInvalidateRectangle(rect *dr)
-{
-	dr->drX0 = dr->drY0 = INT_MAX;
-	dr->drX1 = dr->drY1 = INT_MIN;
-
-	return;
+void rect::shift( int x, int y ) {
+	this->drX0 += x;
+	this->drX1 += x;
+	this->drY0 += y;
+	this->drY1 += y;
 }
 
 /************************************************************************/

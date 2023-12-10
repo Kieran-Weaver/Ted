@@ -270,6 +270,6 @@ APP_EVENT_HANDLER_H(tedRedrawBottomRuler, w, voidtbr, event)
 	}
 
 	guiCollectExposures(&drClip, w, event);
-	geoShiftRectangle(&drClip, ox, oy);
+	drClip.shift( ox, oy );
 	tedDrawBottomRuler(w, tbr, &drClip);
 }

@@ -70,7 +70,7 @@ static void tedDrawObjectPixmap(const InsertedObject *io, int x0, int y0,
 	if (drClip) {
 		rect drClipSrc = *drClip;
 
-		geoShiftRectangle(&drClipSrc, -x0, -y0);
+		drClipSrc.shift( -x0, -y0 );
 
 		if (!geoIntersectRectangle(&drSrc, &drSrc, &drClipSrc)) {
 			return;
@@ -151,7 +151,7 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 			      LineCapButt, LineJoinMiter,
 			      (const unsigned char *)0, 0);
 
-	geoShiftRectangle(&drObject, -lc->lcOx, -lc->lcOy);
+	drObject.shift( -lc->lcOx, -lc->lcOy );
 	drawRectangle(lc->lcDrawingSurface, &drObject);
 
 	return 0;

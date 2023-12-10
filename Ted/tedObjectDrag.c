@@ -139,7 +139,7 @@ static void tedObjectHandleMove(TedObjectDrag *tod, int mouseX, int mouseY)
 				      ed);
 
 		geoUnionRectangle(&drExp, &drFrom, &drTo);
-		geoShiftRectangle(&drExp, -ox, -oy);
+		drExp.shift( -ox, -oy );
 
 		if (drExp.drX0 < 0) {
 			drExp.drX0 = 0;
@@ -434,7 +434,7 @@ int tedObjectDrag(APP_WIDGET w, EditDocument *ed, APP_EVENT *downEvent)
 		    td->tdObjectCornerMovedY != 0) {
 			rect drExp = drResized;
 
-			geoShiftRectangle(&drExp, -ox, -oy);
+			drExp.shift( -ox, -oy );
 			if (drExp.drX0 < 0) {
 				drExp.drX0 = 0;
 			}
