@@ -54,13 +54,13 @@ documentation and/or software.
 #define S43 15
 #define S44 21
 
-static void utilMD5Transform(UtilUint32 state[4],
+static void utilMD5Transform(uint32_t state[4],
 			     const unsigned char block[64]);
 
-static void utilMD5Encode(unsigned char *output, UtilUint32 *input,
+static void utilMD5Encode(unsigned char *output, uint32_t *input,
 			  unsigned int len);
 
-static void utilMD5Decode(UtilUint32 *output, const unsigned char *input,
+static void utilMD5Decode(uint32_t *output, const unsigned char *input,
 			  unsigned int len);
 
 static unsigned char PADDING[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -85,25 +85,25 @@ Rotation is separate from addition to prevent recomputation.
  */
 #define FF(a, b, c, d, x, s, ac)                                  \
 	{                                                         \
-		(a) += F((b), (c), (d)) + (x) + (UtilUint32)(ac); \
+		(a) += F((b), (c), (d)) + (x) + (uint32_t)(ac); \
 		(a) = ROTATE_LEFT((a), (s));                      \
 		(a) += (b);                                       \
 	}
 #define GG(a, b, c, d, x, s, ac)                                  \
 	{                                                         \
-		(a) += G((b), (c), (d)) + (x) + (UtilUint32)(ac); \
+		(a) += G((b), (c), (d)) + (x) + (uint32_t)(ac); \
 		(a) = ROTATE_LEFT((a), (s));                      \
 		(a) += (b);                                       \
 	}
 #define HH(a, b, c, d, x, s, ac)                                  \
 	{                                                         \
-		(a) += H((b), (c), (d)) + (x) + (UtilUint32)(ac); \
+		(a) += H((b), (c), (d)) + (x) + (uint32_t)(ac); \
 		(a) = ROTATE_LEFT((a), (s));                      \
 		(a) += (b);                                       \
 	}
 #define II(a, b, c, d, x, s, ac)                                  \
 	{                                                         \
-		(a) += I((b), (c), (d)) + (x) + (UtilUint32)(ac); \
+		(a) += I((b), (c), (d)) + (x) + (uint32_t)(ac); \
 		(a) = ROTATE_LEFT((a), (s));                      \
 		(a) += (b);                                       \
 	}
@@ -153,11 +153,11 @@ void utilMD5Update(MD5Context *md5c, const unsigned char *bytes,
 	idx = (unsigned int)((md5c->md5cCount[0] >> 3) & 0x3F);
 
 	/*  2  */
-	if ((md5c->md5cCount[0] += ((UtilUint32)count << 3)) <
-	    ((UtilUint32)count << 3)) {
+	if ((md5c->md5cCount[0] += ((uint32_t)count << 3)) <
+	    ((uint32_t)count << 3)) {
 		md5c->md5cCount[1]++;
 	}
-	md5c->md5cCount[1] += ((UtilUint32)count >> 29);
+	md5c->md5cCount[1] += ((uint32_t)count >> 29);
 
 	partLen = 64 - idx;
 
@@ -226,13 +226,13 @@ void utilMD5Final(unsigned char digest[MD5_DIGEST_SIZE_BYTES], MD5Context *md5c)
 /*									*/
 /************************************************************************/
 
-static void utilMD5Transform(UtilUint32 state[4], const unsigned char block[64])
+static void utilMD5Transform(uint32_t state[4], const unsigned char block[64])
 {
-	UtilUint32 a = state[0];
-	UtilUint32 b = state[1];
-	UtilUint32 c = state[2];
-	UtilUint32 d = state[3];
-	UtilUint32 x[16];
+	uint32_t a = state[0];
+	uint32_t b = state[1];
+	uint32_t c = state[2];
+	uint32_t d = state[3];
+	uint32_t x[16];
 
 	utilMD5Decode(x, block, 64);
 
@@ -321,12 +321,12 @@ static void utilMD5Transform(UtilUint32 state[4], const unsigned char block[64])
 
 /************************************************************************/
 /*									*/
-/*  Encodes input (UtilUint32) into output (unsigned char). Assumes len	*/
+/*  Encodes input (uint32_t) into output (unsigned char). Assumes len	*/
 /*  is a multiple of 4.							*/
 /*									*/
 /************************************************************************/
 
-static void utilMD5Encode(unsigned char *output, UtilUint32 *input,
+static void utilMD5Encode(unsigned char *output, uint32_t *input,
 			  unsigned int len)
 {
 	unsigned int i, j;
@@ -343,21 +343,21 @@ static void utilMD5Encode(unsigned char *output, UtilUint32 *input,
 
 /************************************************************************/
 /*									*/
-/*  Decodes input (unsigned char) into output (UtilUint32). Assumes len	*/
+/*  Decodes input (unsigned char) into output (uint32_t). Assumes len	*/
 /*  is a multiple of 4.							*/
 /*									*/
 /************************************************************************/
 
-static void utilMD5Decode(UtilUint32 *output, const unsigned char *input,
+static void utilMD5Decode(uint32_t *output, const unsigned char *input,
 			  unsigned int len)
 {
 	unsigned int i, j;
 
 	for (i = 0, j = 0; j < len; i++, j += 4) {
-		output[i] = ((UtilUint32)input[j]) |
-			    (((UtilUint32)input[j + 1]) << 8) |
-			    (((UtilUint32)input[j + 2]) << 16) |
-			    (((UtilUint32)input[j + 3]) << 24);
+		output[i] = ((uint32_t)input[j]) |
+			    (((uint32_t)input[j + 1]) << 8) |
+			    (((uint32_t)input[j + 2]) << 16) |
+			    (((uint32_t)input[j + 3]) << 24);
 	}
 
 	return;

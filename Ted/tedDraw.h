@@ -12,11 +12,6 @@
 #include <config.h>
 #include <drawDrawingSurface.h>
 
-#if LOG_REDRAWS
-#undef BLINK_IBAR
-#define BLINK_IBAR 0
-#endif
-
 typedef struct ScreenDrawingData {
 	RGB8Color sddForeColor;
 	RGB8Color sddBehindColor;

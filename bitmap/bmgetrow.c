@@ -3,6 +3,7 @@
 #include "bmintern.h"
 #include "bmgetrow.h"
 #include <appDebugon.h>
+#include <stdint.h>
 
 /************************************************************************/
 /*									*/
@@ -123,7 +124,7 @@ static void bmGetPaletteSourceRow(ColorValue *cv, int col0Out,
 		return;
 
 	case 16: {
-		const BmUint16 *psh = (const BmUint16 *)from;
+		const uint16_t *psh = (const uint16_t *)from;
 
 		psh += col0In;
 
@@ -138,7 +139,7 @@ static void bmGetPaletteSourceRow(ColorValue *cv, int col0Out,
 	}
 
 	case 32: {
-		const BmUint32 *plo = (const BmUint32 *)from;
+		const uint32_t *plo = (const uint32_t *)from;
 
 		plo += col0In;
 
@@ -178,7 +179,7 @@ static void bmGetPaletteSourceRowAlpha(ColorValue *cv, int col0Out,
 
 	switch (bdIn->bdBitsPerPixel) {
 	case 32: {
-		const BmUint16 *psh = (const BmUint16 *)from;
+		const uint16_t *psh = (const uint16_t *)from;
 
 		psh += 2 * col0In;
 
@@ -526,7 +527,7 @@ static void bmGetRGB48SourceRow(ColorValue *cv, int col0Out,
 				int colPIn, const BitmapDescription *bdIn)
 {
 	int col;
-	const BmUint16 *from = (const BmUint16 *)ucFrom;
+	const uint16_t *from = (const uint16_t *)ucFrom;
 
 	cv += col0Out;
 	from += 3 * col0In;
@@ -546,7 +547,7 @@ static void bmGetRGBA64SourceRow(ColorValue *cv, int col0Out,
 				 int colPIn, const BitmapDescription *bdIn)
 {
 	int col;
-	const BmUint16 *from = (const BmUint16 *)ucFrom;
+	const uint16_t *from = (const uint16_t *)ucFrom;
 
 	cv += col0Out;
 	from += 3 * col0In;

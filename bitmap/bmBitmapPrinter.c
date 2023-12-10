@@ -1,6 +1,7 @@
 #include <config.h>
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdio.h>
 
 #include <sioHex.h>
@@ -78,7 +79,7 @@ void bmCloseBitmapPrinter(BitmapPrinter *bp)
 /************************************************************************/
 
 static int bmPsWriteShortRow(SimpleOutputStream *sos, int invert, int count,
-			     const BmUint16 *from)
+			     const uint16_t *from)
 {
 	int col;
 	int val0;
@@ -506,7 +507,7 @@ int bmPsWriteBitmapData(BitmapPrinter *bp, const DocumentRectangle *drSel,
 			       originByte;
 
 			bmPsWriteShortRow(sos, invert, shortsPerRow,
-					  (const BmUint16 *)from);
+					  (const uint16_t *)from);
 		}
 
 		return 0;

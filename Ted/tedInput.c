@@ -148,13 +148,6 @@ static int tedStartEdit(EditDocument *ed)
 	TedDocument *td = (TedDocument *)ed->edPrivateData;
 
 	if (!tedHasSelection(ed) || !td->tdSelectionDescription.sdCanReplace) {
-#ifdef NOT_USE_MOTIF
-		const AppDrawingData *add =
-			&(ed->edDocumentWidget.dwDrawingData);
-
-		XBell(add->addDisplay, 0);
-#endif
-
 		gdk_beep();
 
 		return 1;

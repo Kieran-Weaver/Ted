@@ -97,11 +97,7 @@ void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row, int column,
 	APP_WIDGET inplace;
 
 	pulldown = gtk_menu_new();
-#if USE_OPT_MENU
 	inplace = gtk_option_menu_new();
-#else
-	inplace = gtk_combo_box_new_text();
-#endif
 
 	gtk_widget_set_name(GTK_WIDGET(pulldown), "tedRowOptMenu");
 	gtk_widget_set_name(GTK_WIDGET(inplace), "tedRowOptMenu");
@@ -137,11 +133,7 @@ void appMakeOptionmenuInColumn(AppOptionmenu *aom, APP_WIDGET column,
 	APP_WIDGET inplace;
 
 	pulldown = gtk_menu_new();
-#if USE_OPT_MENU
 	inplace = gtk_option_menu_new();
-#else
-	inplace = gtk_combo_box_new_text();
-#endif
 
 	gtk_widget_set_name(GTK_WIDGET(pulldown), "tedRowOptMenu");
 	gtk_widget_set_name(GTK_WIDGET(inplace), "tedRowOptMenu");
