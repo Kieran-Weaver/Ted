@@ -26,7 +26,7 @@
 /************************************************************************/
 
 void appDrawRectangleSelection(DocumentRectangle *drClip,
-			       DocumentRectangle *drSelected, DrawingSurface ds,
+			       DocumentRectangle *drSelected, DrawingSurface *ds,
 			       const DocumentRectangle *drScreen, int ox,
 			       int oy)
 {

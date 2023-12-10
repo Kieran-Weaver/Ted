@@ -14,17 +14,21 @@ extern "C" {
 /************************************************************************/
 
 extern void drawFontUnderlineGeometry(int *pThick, int *pY,
-				      const DrawingSurface ds, int screenFont,
+				      const DrawingSurface* ds, int screenFont,
 				      int baselinePixels);
 
 extern void drawFontStrikethroughGeometry(int *pThick, int *pY,
-					  const DrawingSurface ds,
+					  const DrawingSurface* ds,
 					  int screenFont, int baselinePixels);
 
 extern void drawFontGetSuperBaseline(int *pSuperBaseline, int baselinePixels,
-				     const DrawingSurface ds, int screenFont);
+				     const DrawingSurface* ds, int screenFont);
 
 extern void drawFontGetSubBaseline(int *pSubBaseline, int baselinePixels,
-				   const DrawingSurface ds, int screenFont);
+				   const DrawingSurface* ds, int screenFont);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /*  DRAW_SCREEN_FONT_UTIL_H	*/

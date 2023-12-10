@@ -29,7 +29,7 @@
 static void appDocScrollVertically(EditDocument *ed, int scrolledY)
 {
 	EditApplication *ea = ed->edApplication;
-	DrawingSurface ds = ed->edDrawingSurface;
+	DrawingSurface *ds = ed->edDrawingSurface;
 
 	int ox;
 	int oy;
@@ -124,7 +124,7 @@ static void appDocScrollVertically(EditDocument *ed, int scrolledY)
 static void appDocScrollHorizontally(EditDocument *ed, int scrolledX)
 {
 	EditApplication *ea = ed->edApplication;
-	DrawingSurface ds = ed->edDrawingSurface;
+	DrawingSurface *ds = ed->edDrawingSurface;
 
 	int ox;
 	int oy;

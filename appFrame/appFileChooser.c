@@ -245,7 +245,7 @@ int appFileChooserTestNameForWrite(const AppChooserInformation *aci)
 		}
 	} else {
 		if (!dirExists) {
-			char *slash = strrchr(filename + 1, '/');
+			char *slash = (char*)strrchr(filename + 1, '/');
 
 			if (slash) {
 				*slash = '\0';

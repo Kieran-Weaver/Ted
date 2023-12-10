@@ -77,7 +77,7 @@ void *tedMakeBottomRuler(const PostScriptFontList *psfl, int height,
 		s++;
 	}
 
-	tbr->tbrPageString = malloc(l + 1);
+	tbr->tbrPageString = (char*)malloc(l + 1);
 	if (!tbr->tbrPageString) {
 		LXDEB(l, tbr->tbrPageString);
 		free(tbr);
@@ -221,7 +221,7 @@ static void tedDrawBottomRuler(APP_WIDGET w, TedBottomRuler *tbr,
 			       DocumentRectangle *drClip)
 {
 	RulerData *rd = &(tbr->tbrRulerData);
-	DrawingSurface ds = rd->rdDrawingSurface;
+	DrawingSurface *ds = rd->rdDrawingSurface;
 	int x;
 	int y;
 

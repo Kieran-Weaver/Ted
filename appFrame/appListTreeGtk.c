@@ -42,7 +42,7 @@ appGuiGtkHandlePotentialListCallback(GtkTreeSelection *selection,
 		position = appGuiGetPositionFromListCallback(la->laWidget,
 							     selection);
 
-		appGuiGtkSetListAdjustment(voidla, position);
+		appGuiGtkSetListAdjustment((ListAction*)voidla, position);
 
 		(*la->laListCallback)(la->laWidget, selection, la->laThrough);
 		return TRUE;

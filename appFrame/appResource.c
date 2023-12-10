@@ -294,7 +294,7 @@ void appSetResourceDefaults(EditApplication *ea, AppConfigurableResource *acr,
 	}
 
 	maxLen = strlen(ea->eaApplicationName) + 1 + maxLen + 1;
-	scratch = malloc(maxLen);
+	scratch = (char*)malloc(maxLen);
 	if (!scratch) {
 		LXDEB(maxLen, scratch);
 		return;
@@ -331,7 +331,7 @@ static int appSetProperty(EditApplication *ea, void *properties,
 	void *prevValue = (char *)0;
 
 	maxLen = strlen(ea->eaApplicationName) + 1 + strlen(name) + 1;
-	scratch = malloc(maxLen);
+	scratch = (char*)malloc(maxLen);
 	if (!scratch) {
 		LXDEB(maxLen, scratch);
 		rval = -1;

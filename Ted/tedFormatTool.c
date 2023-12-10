@@ -294,7 +294,7 @@ static void tedDestroyFormatTool(void *voidtft)
 
 	free(tft);
 
-	tar->tarInspector = (void *)0;
+	tar->tarInspector = (AppInspector *)0;
 
 	return;
 }

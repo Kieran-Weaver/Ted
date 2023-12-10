@@ -25,7 +25,7 @@
 /*									*/
 /************************************************************************/
 
-static void appDrawTextPattern(DrawingSurface ds,
+static void appDrawTextPattern(DrawingSurface *ds,
 			       const DocumentRectangle *drNum,
 			       const DocumentRectangle *drText)
 {
@@ -86,7 +86,7 @@ static void appDrawTextPattern(DrawingSurface ds,
 /*									*/
 /************************************************************************/
 
-static void appDrawTextPage(DrawingSurface ds, const RGB8Color *backColor,
+static void appDrawTextPage(DrawingSurface *ds, const RGB8Color *backColor,
 			    const DocumentRectangle *drText)
 {
 	DocumentRectangle drAround = *drText;
@@ -105,7 +105,7 @@ static void appDrawTextPage(DrawingSurface ds, const RGB8Color *backColor,
 	return;
 }
 
-static void appDrawNupTextPage(DrawingSurface ds, const RGB8Color *backColor,
+static void appDrawNupTextPage(DrawingSurface *ds, const RGB8Color *backColor,
 			       int screenFont, const char *label,
 			       const DocumentRectangle *drText)
 {
@@ -153,7 +153,7 @@ static void appDrawNupTextPage(DrawingSurface ds, const RGB8Color *backColor,
 /************************************************************************/
 
 static void appDrawPageSheet(const DocumentRectangle *drSheet,
-			     DrawingSurface ds)
+			     DrawingSurface *ds)
 {
 	DocumentRectangle drAround = *drSheet;
 
@@ -183,7 +183,7 @@ static void appDrawPageSheet(const DocumentRectangle *drSheet,
 /*									*/
 /************************************************************************/
 
-void appDrawPageDiagram(APP_WIDGET w, DrawingSurface ds,
+void appDrawPageDiagram(APP_WIDGET w, DrawingSurface *ds,
 			const RGB8Color *backColor, double pixelsPerTwip,
 			const DocumentGeometry *dg)
 {
@@ -245,7 +245,7 @@ void appDrawPageDiagram(APP_WIDGET w, DrawingSurface ds,
 
 #define ARROWD 16
 
-static void appDrawDirectionArrow(DrawingSurface ds, int rotate, int x0, int y0)
+static void appDrawDirectionArrow(DrawingSurface *ds, int rotate, int x0, int y0)
 {
 	static Point2DI offsets[8] = {
 		{
@@ -306,7 +306,7 @@ static void appDrawDirectionArrow(DrawingSurface ds, int rotate, int x0, int y0)
 	drawLines(ds, points, 8, 0);
 }
 
-static void appDrawDirectionArrows(DrawingSurface ds, int rotate,
+static void appDrawDirectionArrows(DrawingSurface *ds, int rotate,
 				   const DocumentRectangle *drSheet)
 {
 	if (rotate) {
@@ -342,7 +342,7 @@ static void appDrawDirectionArrows(DrawingSurface ds, int rotate,
 /*									*/
 /************************************************************************/
 
-void appDrawNupDiagram(APP_WIDGET w, DrawingSurface ds,
+void appDrawNupDiagram(APP_WIDGET w, DrawingSurface *ds,
 		       const RGB8Color *backColor, int screenFont,
 		       double pixelsPerTwip, const DocumentGeometry *dgPage,
 		       const PrintGeometry *pg)

@@ -54,7 +54,7 @@ void *appMakeMetricRuler(int sizeAcross, double magnifiedPixelsPerTwip,
 	MetricRuler *mr;
 	RulerData *rd;
 
-	mr = malloc(sizeof(MetricRuler));
+	mr = (MetricRuler*)malloc(sizeof(MetricRuler));
 	if (!mr) {
 		XDEB(mr);
 		return (void *)0;

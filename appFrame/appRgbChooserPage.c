@@ -386,7 +386,7 @@ void appRgbChooserPageFillPage(RgbChooserPage *rcp,
 
 	/**/
 
-	rcp->rcpDrawingSurface = (DrawingSurface)0;
+	rcp->rcpDrawingSurface = (DrawingSurface*)0;
 	appInitRgbCube(&(rcp->rcpRgbCube));
 
 	/**************/

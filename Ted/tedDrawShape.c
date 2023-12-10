@@ -27,7 +27,7 @@ static int tedShapeDrawArrowHead(const LayoutContext *lc, int widthPixels,
 				 const DrawShapeArrow *dsa)
 {
 	const ShapeArrow *sa = &(dsa->dsaArrow);
-	DrawingSurface ds = lc->lcDrawingSurface;
+	DrawingSurface *ds = lc->lcDrawingSurface;
 	Point2DI points[7];
 	Arc2DI arc;
 
@@ -99,7 +99,7 @@ static Point2DI *tedDrawGetVertices(const DocumentRectangle *drTwips,
 	Point2DI *xp;
 	Point2DI *xpret;
 
-	xp = xpret = malloc((sd->sdVertexCount + 1) * sizeof(Point2DI));
+	xp = xpret = (Point2DI*)malloc((sd->sdVertexCount + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(sd->sdVertexCount, xp);
 		return (Point2DI *)0;
@@ -366,7 +366,7 @@ static int tedDrawShapePath(const DrawingShape *ds, DrawingContext *dc,
 	int np = sp->spVertexCount;
 	Point2DI *xp;
 
-	xp = malloc((np + 1) * sizeof(Point2DI));
+	xp = (Point2DI*)malloc((np + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(np, xp);
 		return -1;
@@ -401,7 +401,7 @@ static int tedDrawPictureFrame(DrawingShape *ds, DrawingContext *dc,
 	RGB8Color rgb8Fill;
 	DocumentRectangle drSrc;
 
-	xp = malloc((np + 1) * sizeof(Point2DI));
+	xp = (Point2DI*)malloc((np + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(np, xp);
 		return -1;
@@ -435,7 +435,7 @@ static int tedDrawOnlineStorage(DrawingShape *ds, DrawingContext *dc,
 				const DocumentRectangle *drPixels)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
-	DrawingSurface drsf = lc->lcDrawingSurface;
+	DrawingSurface *drsf = lc->lcDrawingSurface;
 
 	const ShapePath *sp = &SP_RECTANGLE;
 	int np = sp->spVertexCount;
@@ -452,7 +452,7 @@ static int tedDrawOnlineStorage(DrawingShape *ds, DrawingContext *dc,
 
 	RGB8Color rgb8Fill;
 
-	xp = malloc((np + 1) * sizeof(Point2DI));
+	xp = (Point2DI*)malloc((np + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(np, xp);
 		return -1;
@@ -502,7 +502,7 @@ static int tedDrawCan(DrawingShape *ds, DrawingContext *dc,
 		      ScreenDrawingData *sdd, const DocumentRectangle *drPixels)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
-	DrawingSurface drsf = lc->lcDrawingSurface;
+	DrawingSurface *drsf = lc->lcDrawingSurface;
 
 	Arc2DI topArc;
 	Arc2DI botArc;
@@ -563,7 +563,7 @@ static int tedDrawCallout(DrawingShape *ds, DrawingContext *dc,
 {
 	const ShapeDrawing *sd = &(ds->dsDrawing);
 	const LayoutContext *lc = &(dc->dcLayoutContext);
-	DrawingSurface drsf = lc->lcDrawingSurface;
+	DrawingSurface *drsf = lc->lcDrawingSurface;
 
 	const ShapePath *sp = &SP_RECTANGLE;
 	int np = sp->spVertexCount;
@@ -580,7 +580,7 @@ static int tedDrawCallout(DrawingShape *ds, DrawingContext *dc,
 		return -1;
 	}
 
-	xp = malloc((np + 1 + 2 + 1) * sizeof(Point2DI));
+	xp = (Point2DI*)malloc((np + 1 + 2 + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(np, xp);
 		return -1;
@@ -630,7 +630,7 @@ int tedDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 {
 	const ShapeDrawing *sd = &(ds->dsDrawing);
 	const LayoutContext *lc = &(dc->dcLayoutContext);
-	DrawingSurface drsf = lc->lcDrawingSurface;
+	DrawingSurface *drsf = lc->lcDrawingSurface;
 	ScreenDrawingData *sdd = (ScreenDrawingData *)vsdd;
 
 	int rval = 0;
@@ -1041,7 +1041,7 @@ int tedDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 
 		int wide;
 
-		xp = malloc((np + 1) * sizeof(Point2DI));
+		xp = (Point2DI*)malloc((np + 1) * sizeof(Point2DI));
 		if (!xp) {
 			LXDEB(np, xp);
 			return -1;

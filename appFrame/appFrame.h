@@ -860,7 +860,7 @@ extern void appInitSelectRectangle(SelectRectangle *sr);
 
 extern void guiShowMenuOption(APP_WIDGET w, int visible);
 
-extern int appSaveToPs(EditApplication *ea, DrawingSurface ds,
+extern int appSaveToPs(EditApplication *ea, DrawingSurface *ds,
 		       SimpleOutputStream *sos, void *privateData,
 		       const MemoryBuffer *documentTitle, int format);
 

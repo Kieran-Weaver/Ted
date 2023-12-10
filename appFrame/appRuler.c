@@ -44,7 +44,7 @@ void appInitRulerData(RulerData *rd)
 	rd->rdVisibleC1 = 0;
 
 	rd->rdScreenFont = -1;
-	rd->rdDrawingSurface = (DrawingSurface)0;
+	rd->rdDrawingSurface = (DrawingSurface*)0;
 	rd->rdPostScriptFontList = (const PostScriptFontList *)0;
 
 	rd->rdBackgroundExplicit = 0;

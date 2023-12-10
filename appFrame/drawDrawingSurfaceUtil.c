@@ -10,7 +10,7 @@
 #include <appDebugon.h>
 #include <uniUtf8.h>
 
-int drawSetForegroundColorWhite(DrawingSurface ds)
+int drawSetForegroundColorWhite(DrawingSurface *ds)
 {
 	RGB8Color rgb8;
 
@@ -19,7 +19,7 @@ int drawSetForegroundColorWhite(DrawingSurface ds)
 	return drawSetForegroundColor(ds, &rgb8);
 }
 
-int drawSetForegroundColorBlack(DrawingSurface ds)
+int drawSetForegroundColorBlack(DrawingSurface *ds)
 {
 	RGB8Color rgb8;
 
@@ -34,7 +34,7 @@ int drawSetForegroundColorBlack(DrawingSurface ds)
 /*									*/
 /************************************************************************/
 
-int drawGetSymbolExtents(DocumentRectangle *drText, DrawingSurface ds, int x0,
+int drawGetSymbolExtents(DocumentRectangle *drText, DrawingSurface *ds, int x0,
 			 int y0, int screenFont, int symbol)
 {
 	int step;
@@ -50,7 +50,7 @@ int drawGetSymbolExtents(DocumentRectangle *drText, DrawingSurface ds, int x0,
 				  step);
 }
 
-void drawSymbol(DrawingSurface ds, int x, int y, int screenFont, int symbol)
+void drawSymbol(DrawingSurface *ds, int x, int y, int screenFont, int symbol)
 {
 	int step;
 	char scratch[10];

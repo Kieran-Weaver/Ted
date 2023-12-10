@@ -24,7 +24,7 @@ struct TedDocument;
 extern void tedSetScreenLayoutContext(LayoutContext *lc,
 				      struct EditDocument *ed);
 
-extern void tedSetDocumentLayoutContext(LayoutContext *lc, DrawingSurface ds,
+extern void tedSetDocumentLayoutContext(LayoutContext *lc, DrawingSurface *ds,
 					const PostScriptFontList *psfl,
 					struct TedDocument *td);
 

@@ -13,7 +13,7 @@ void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip, int *pRestWide,
 			       int *pRestHigh, APP_WIDGET w,
 			       AppDrawnPulldown *adp)
 {
-	DrawingSurface ds = adp->adpInplaceDrawingSurface;
+	DrawingSurface *ds = adp->adpInplaceDrawingSurface;
 
 	int wide;
 	int high;

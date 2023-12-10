@@ -1,3 +1,6 @@
+#ifndef BM_BMP_H
+#define BM_BMP_H
+
 #include <config.h>
 
 #include <stdio.h>
@@ -111,3 +114,5 @@ extern int bmpSizeImageHeader(const BmpImageHeader *bih, RGB8Color *palette);
 extern int bmBmpSaveImageBytes(MemoryBuffer *bmpBytes,
 			       const BitmapDescription *bd,
 			       const unsigned char *buffer, int compression);
+
+#endif

@@ -25,7 +25,7 @@ void appGuiMakeSliderInRow(APP_WIDGET *pSlider, APP_WIDGET row, int column,
 	}
 
 	gtk_table_attach(GTK_TABLE(row), scale, column, column + colspan, 0, 1,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			 (GtkAttachOptions)GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 

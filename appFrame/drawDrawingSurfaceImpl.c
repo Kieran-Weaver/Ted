@@ -17,13 +17,13 @@
 #include <appDebugon.h>
 
 int drawFontImplementationName(char *target, int maxlen,
-			       const DrawingSurface ds, int screenFont)
+			       const DrawingSurface *ds, int screenFont)
 {
 	return drawFontImplementationNameImpl(
 		target, maxlen, &(ds->dsScreenFontAdmin), screenFont);
 }
 
-void drawInitDrawingSurface(DrawingSurface ds)
+void drawInitDrawingSurface(DrawingSurface *ds)
 {
 	ds->dsPoints = (APP_POINT *)0;
 	ds->dsPointCount = 0;

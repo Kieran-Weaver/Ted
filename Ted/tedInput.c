@@ -795,7 +795,7 @@ shiftTab:
 	default:
 unknown:
 		gtk_accel_groups_activate(G_OBJECT(ed->edToplevel.atAccelGroup),
-					  keySym, state);
+					  keySym, (GdkModifierType)state);
 		goto ready;
 	}
 

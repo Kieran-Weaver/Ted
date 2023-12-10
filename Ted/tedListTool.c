@@ -649,7 +649,7 @@ static void tedListToolSetLevelHeader(ListTool *lt, const char *level)
 		from++;
 	}
 
-	scratch = to = malloc(size + 1);
+	scratch = to = (char*)malloc(size + 1);
 	if (!scratch || !to) {
 		LXDEB(size, scratch);
 		return;

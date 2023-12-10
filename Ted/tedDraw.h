@@ -58,7 +58,7 @@ extern int tedDrawTextLine(struct BufferItem *paraBi, int line,
 
 extern void tedOriginalClipping(DrawingContext *dc, ScreenDrawingData *sdd);
 
-extern void tedDrawFreePixmap(DrawingSurface sp);
+extern void tedDrawFreePixmap(DrawingSurface *sp);
 
 extern int tedDrawIBar(const DocumentRectangle *drPixels,
 		       const LayoutContext *lc);
@@ -74,7 +74,7 @@ extern void tedDrawShadedRectangle(const LayoutContext *lc,
 				   DrawingSurface *shadingPixmaps, int pattern,
 				   const DocumentRectangle *drShade);
 
-extern void tedDrawHorizontalBorderLine(DrawingSurface ds, int style,
+extern void tedDrawHorizontalBorderLine(DrawingSurface *ds, int style,
 					int minThick, int x0, int x1, int y);
 
 extern int tedDrawTab(const DrawTextLine *dtl, int part, int textAttrNr,

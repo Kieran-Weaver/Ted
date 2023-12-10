@@ -157,7 +157,7 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 	return 0;
 }
 
-static int docOpenBitmapObject(DrawingSurface *pSp, RasterImage *ri,
+static int docOpenBitmapObject(DrawingSurface **pSp, RasterImage *ri,
 			       int pixelsWide, int pixelsHigh,
 			       bmReadBitmap readBitmap, const LayoutContext *lc,
 			       const MemoryBuffer *mb)
@@ -166,7 +166,7 @@ static int docOpenBitmapObject(DrawingSurface *pSp, RasterImage *ri,
 	SimpleInputStream *sisMem = (SimpleInputStream *)0;
 	SimpleInputStream *sisBitmap = (SimpleInputStream *)0;
 
-	DrawingSurface ds;
+	DrawingSurface *ds;
 
 	if (!ri->riBytes) {
 		sisMem = sioInMemoryOpen(mb);
@@ -214,7 +214,7 @@ ready:
 	return rval;
 }
 
-static int tedOpenPixmap(DrawingSurface *pSp, RasterImage *ri,
+static int tedOpenPixmap(DrawingSurface **pSp, RasterImage *ri,
 			 const PictureProperties *pip, int kind, int pixelsWide,
 			 int pixelsHigh, const LayoutContext *lc,
 			 const MemoryBuffer *mb)
@@ -622,7 +622,7 @@ static void tedCloseDrawingShape(DrawingShape *ds)
 
 	if (ds->dsDrawingSurface) {
 		drawFreeDrawingSurface(ds->dsDrawingSurface);
-		ds->dsDrawingSurface = (DrawingSurface)0;
+		ds->dsDrawingSurface = (DrawingSurface*)0;
 	}
 
 	return;
@@ -698,7 +698,7 @@ void docScreenCloseObject(const BufferDocument *bd, const TextParticule *tp)
 	case DOCokEPS_FILE:
 		if (io->ioDrawingSurface) {
 			drawFreeDrawingSurface(io->ioDrawingSurface);
-			io->ioDrawingSurface = (DrawingSurface)0;
+			io->ioDrawingSurface = (DrawingSurface*)0;
 		}
 		break;
 

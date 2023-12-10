@@ -32,7 +32,7 @@ typedef struct ShadingTool {
 
 	int stShowPattern;
 	AppDrawnPulldown stPatternPulldown;
-	DrawingSurface stPatternPixmaps[PSshd_COUNT];
+	DrawingSurface* stPatternPixmaps[PSshd_COUNT];
 
 	APP_WIDGET stOnOffToggle;
 	APP_WIDGET stLevelText;

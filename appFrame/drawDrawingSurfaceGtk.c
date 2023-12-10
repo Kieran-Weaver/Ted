@@ -19,11 +19,11 @@
 
 /************************************************************************/
 
-DrawingSurface drawMakeDrawingSurfaceForParent(DrawingSurface parent, int wide,
+DrawingSurface *drawMakeDrawingSurfaceForParent(DrawingSurface *parent, int wide,
 					       int high)
 {
 	int depth = gdk_visual_get_system()->depth;
-	DrawingSurface ds = malloc(sizeof(struct DrawingSurface));
+	DrawingSurface *ds = malloc(sizeof(struct DrawingSurface));
 
 	if (!ds) {
 		PDEB(ds);
@@ -62,11 +62,11 @@ DrawingSurface drawMakeDrawingSurfaceForParent(DrawingSurface parent, int wide,
 	return ds;
 }
 
-DrawingSurface drawMakeDrawingSurfaceForImageAndParent(
-	DrawingSurface parent, const RasterImage *abi,
+DrawingSurface *drawMakeDrawingSurfaceForImageAndParent(
+	DrawingSurface *parent, const RasterImage *abi,
 	const DocumentRectangle *drSrc, int wide, int high)
 {
-	DrawingSurface ds;
+	DrawingSurface *ds;
 	APP_IMAGE *xim = (APP_IMAGE *)0;
 
 	ds = drawMakeDrawingSurfaceForParent(parent, wide, high);
@@ -89,7 +89,7 @@ DrawingSurface drawMakeDrawingSurfaceForImageAndParent(
 
 /************************************************************************/
 
-int drawRasterImage(DrawingSurface ds, const DocumentRectangle *drDest,
+int drawRasterImage(DrawingSurface *ds, const DocumentRectangle *drDest,
 		    const RasterImage *abi, const DocumentRectangle *drSrc)
 {
 	APP_IMAGE *xim = (APP_IMAGE *)0;
@@ -116,7 +116,7 @@ int drawRasterImage(DrawingSurface ds, const DocumentRectangle *drDest,
 /*									*/
 /************************************************************************/
 
-int drawSetForegroundColor(DrawingSurface ds, const RGB8Color *rgb8)
+int drawSetForegroundColor(DrawingSurface *ds, const RGB8Color *rgb8)
 {
 	APP_COLOR_RGB xc;
 
@@ -145,7 +145,7 @@ int drawSetForegroundColor(DrawingSurface ds, const RGB8Color *rgb8)
 /*									*/
 /************************************************************************/
 
-void drawFreeDrawingSurface(DrawingSurface ds)
+void drawFreeDrawingSurface(DrawingSurface *ds)
 {
 #ifdef USE_XFT
 	appCleanAppXftColorList(&(ds->dsXftColorList));
@@ -177,7 +177,7 @@ void drawFreeDrawingSurface(DrawingSurface ds)
 /*									*/
 /************************************************************************/
 
-void drawFillRectangle(DrawingSurface ds, const DocumentRectangle *dr)
+void drawFillRectangle(DrawingSurface *ds, const DocumentRectangle *dr)
 {
 #ifdef USE_XFT
 	if (!drawFillRectangleXft(ds->dsXftDrawable, &(ds->dsXftColorList),
@@ -190,7 +190,7 @@ void drawFillRectangle(DrawingSurface ds, const DocumentRectangle *dr)
 			   dr->drX1 - dr->drX0 + 1, dr->drY1 - dr->drY0 + 1);
 }
 
-void drawRectangle(DrawingSurface ds, const DocumentRectangle *dr)
+void drawRectangle(DrawingSurface *ds, const DocumentRectangle *dr)
 {
 	gdk_draw_rectangle(ds->dsDrawable, ds->dsGc, FALSE, dr->drX0, dr->drY0,
 			   dr->drX1 - dr->drX0 + 1, dr->drY1 - dr->drY0 + 1);
@@ -202,7 +202,7 @@ void drawRectangle(DrawingSurface ds, const DocumentRectangle *dr)
 /*									*/
 /************************************************************************/
 
-int drawLine(DrawingSurface ds, int x0, int y0, int x1, int y1)
+int drawLine(DrawingSurface *ds, int x0, int y0, int x1, int y1)
 {
 	gdk_draw_line(ds->dsDrawable, ds->dsGc, x0, y0, x1, y1);
 	return 0;
@@ -214,7 +214,7 @@ int drawLine(DrawingSurface ds, int x0, int y0, int x1, int y1)
 /*									*/
 /************************************************************************/
 
-static int drawSetPoints(DrawingSurface ds, const Point2DI *points,
+static int drawSetPoints(DrawingSurface *ds, const Point2DI *points,
 			 int pointCount)
 {
 	int i;
@@ -245,7 +245,7 @@ static int drawSetPoints(DrawingSurface ds, const Point2DI *points,
 /*									*/
 /************************************************************************/
 
-int drawLines(DrawingSurface ds, const Point2DI *points, int pointCount,
+int drawLines(DrawingSurface *ds, const Point2DI *points, int pointCount,
 	      int close)
 {
 	int i;
@@ -278,7 +278,7 @@ int drawLines(DrawingSurface ds, const Point2DI *points, int pointCount,
 /*									*/
 /************************************************************************/
 
-int drawFillPolygon(DrawingSurface ds, const Point2DI *points, int pointCount)
+int drawFillPolygon(DrawingSurface *ds, const Point2DI *points, int pointCount)
 {
 	if (drawSetPoints(ds, points, pointCount)) {
 		LDEB(pointCount);
@@ -311,7 +311,7 @@ static const int JoinStyleMap[LineJoin_Count] = { GDK_JOIN_MITER,
 						  GDK_JOIN_ROUND,
 						  GDK_JOIN_BEVEL };
 
-int drawSetLineAttributes(DrawingSurface ds, int lineWidth, int lineStyle,
+int drawSetLineAttributes(DrawingSurface *ds, int lineWidth, int lineStyle,
 			  int capStyle, int joinStyle,
 			  const unsigned char *dashList, int dashCount)
 {
@@ -331,7 +331,7 @@ int drawSetLineAttributes(DrawingSurface ds, int lineWidth, int lineStyle,
 	return 0;
 }
 
-void drawArc(DrawingSurface ds, const Arc2DI *arc)
+void drawArc(DrawingSurface *ds, const Arc2DI *arc)
 {
 	gdk_draw_arc(ds->dsDrawable, ds->dsGc, FALSE, arc->a2diRect.drX0,
 		     arc->a2diRect.drY0,
@@ -340,7 +340,7 @@ void drawArc(DrawingSurface ds, const Arc2DI *arc)
 		     arc->a2diAngleFrom, arc->a2diAngleStep);
 }
 
-void drawFillArc(DrawingSurface ds, const Arc2DI *arc)
+void drawFillArc(DrawingSurface *ds, const Arc2DI *arc)
 {
 	gdk_draw_arc(ds->dsDrawable, ds->dsGc, TRUE, arc->a2diRect.drX0,
 		     arc->a2diRect.drY0,
@@ -355,7 +355,7 @@ void drawFillArc(DrawingSurface ds, const Arc2DI *arc)
 /*									*/
 /************************************************************************/
 
-void drawSetSystemColor(DrawingSurface ds, APP_COLOR_RGB *xc)
+void drawSetSystemColor(DrawingSurface *ds, APP_COLOR_RGB *xc)
 {
 	gdk_gc_set_foreground(ds->dsGc, xc);
 
@@ -370,7 +370,7 @@ void drawSetSystemColor(DrawingSurface ds, APP_COLOR_RGB *xc)
 /*									*/
 /************************************************************************/
 
-int drawString(DrawingSurface ds, int x0, int y0, int screenFont, const char *s,
+int drawString(DrawingSurface *ds, int x0, int y0, int screenFont, const char *s,
 	       int len)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
@@ -406,7 +406,7 @@ int drawString(DrawingSurface ds, int x0, int y0, int screenFont, const char *s,
 
 #include <gdk/gdkx.h>
 
-int drawOpenScreenFont(DrawingSurface ds, const AfmFontInfo *afi, int pixelSize,
+int drawOpenScreenFont(DrawingSurface *ds, const AfmFontInfo *afi, int pixelSize,
 		       const IndexSet *unicodesWanted)
 {
 	DrawScreenFont *dsf;
@@ -440,7 +440,7 @@ int drawOpenScreenFont(DrawingSurface ds, const AfmFontInfo *afi, int pixelSize,
 	return screenFont;
 }
 
-void drawNoClipping(DrawingSurface ds)
+void drawNoClipping(DrawingSurface *ds)
 {
 #ifdef USE_XFT
 	if (ds->dsXftDrawable) {
@@ -453,7 +453,7 @@ void drawNoClipping(DrawingSurface ds)
 	return;
 }
 
-void drawSetClipRect(DrawingSurface ds, const DocumentRectangle *drClip)
+void drawSetClipRect(DrawingSurface *ds, const DocumentRectangle *drClip)
 {
 	GdkRectangle gRect;
 
@@ -482,7 +482,7 @@ void drawSetClipRect(DrawingSurface ds, const DocumentRectangle *drClip)
 
 /************************************************************************/
 
-void drawChildSurface(DrawingSurface ds, const DrawingSurface child, int xDest,
+void drawChildSurface(DrawingSurface *ds, const DrawingSurface child, int xDest,
 		      int yDest, const DocumentRectangle *drChild)
 {
 	if (!child) {
@@ -500,7 +500,7 @@ void drawChildSurface(DrawingSurface ds, const DrawingSurface child, int xDest,
 
 /************************************************************************/
 
-void drawMoveArea(DrawingSurface ds, int xDest, int yDest,
+void drawMoveArea(DrawingSurface *ds, int xDest, int yDest,
 		  const DocumentRectangle *drSrc)
 {
 	gdk_window_copy_area(ds->dsDrawable, ds->dsGc, xDest, yDest,

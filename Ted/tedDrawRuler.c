@@ -85,7 +85,7 @@ void tedHangingButtonRect(DocumentRectangle *drButton, int value,
 void tedRulerDrawHangingButton(int value, const RulerData *rd)
 {
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
-	DrawingSurface ds = rd->rdDrawingSurface;
+	DrawingSurface* ds = rd->rdDrawingSurface;
 	int sizeAcross = rd->rdSizeAcross;
 	Point2DI points[6];
 	int w = BUTTON_MARG;
@@ -169,7 +169,7 @@ void tedStandingButtonRect(DocumentRectangle *drButton, int value,
 void tedRulerDrawStandingButton(int value, const RulerData *rd)
 {
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
-	DrawingSurface ds = rd->rdDrawingSurface;
+	DrawingSurface* ds = rd->rdDrawingSurface;
 	int sizeAcross = rd->rdSizeAcross;
 	Point2DI points[6];
 	int w = BUTTON_MARG;
@@ -257,7 +257,7 @@ void tedRulerColumnControlRect(DocumentRectangle *drButton, int x0, int x1,
 void tedRulerDrawColumnControl(int x0, int x1, int ox, const RulerData *rd)
 {
 	int sizeAcross = rd->rdSizeAcross;
-	DrawingSurface ds = rd->rdDrawingSurface;
+	DrawingSurface* ds = rd->rdDrawingSurface;
 	Point2DI points[5];
 	int w = BUTTON_MARG;
 
@@ -348,7 +348,7 @@ void tedTabSymbolRect(DocumentRectangle *drButton, int tabX,
 	return;
 }
 
-static void tedDrawTabSymbol(DrawingSurface ds, int tabX, int ox, int tabY,
+static void tedDrawTabSymbol(DrawingSurface *ds, int tabX, int ox, int tabY,
 			     const RulerData *rd, int kind)
 {
 	int sizeAcross = rd->rdSizeAcross;
@@ -407,7 +407,7 @@ static void tedDrawTabSymbol(DrawingSurface ds, int tabX, int ox, int tabY,
 
 void tedRulerDrawTab(const RulerData *rd, int tabX, int kind)
 {
-	DrawingSurface ds = rd->rdDrawingSurface;
+	DrawingSurface *ds = rd->rdDrawingSurface;
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 
 	int sizeAcross = rd->rdSizeAcross;
@@ -436,7 +436,7 @@ void tedTabButtonRectangle(DocumentRectangle *drButton, int x,
 
 void tedDrawTabButton(const RulerData *rd, int kind)
 {
-	DrawingSurface ds = rd->rdDrawingSurface;
+	DrawingSurface *ds = rd->rdDrawingSurface;
 	int sizeAcross = rd->rdSizeAcross;
 	int whiteY = WHITE_TOP(sizeAcross);
 	int tw = TAB_WIDTH(sizeAcross);

@@ -75,9 +75,9 @@ extern void appCleanRgbCube(RgbCube *rc);
 
 extern void appRedrawRgbCube(RgbCube *rc, int wide, int high,
 			     const DocumentRectangle *drClip,
-			     DrawingSurface ds);
+			     DrawingSurface *ds);
 
-extern int appPrepareRgbCube(RgbCube *rc, DrawingSurface ds, int redSteps,
+extern int appPrepareRgbCube(RgbCube *rc, DrawingSurface *ds, int redSteps,
 			     int greenSteps, int blueSteps);
 
 extern void appRotateRgbCube(RgbCube *rc, int mouseX, int mouseY, int wide,

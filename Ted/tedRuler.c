@@ -118,7 +118,7 @@ static void tedDrawTopRuler(APP_WIDGET w, TedTopRuler *ttr,
 			    const DocumentRectangle *drClip)
 {
 	RulerData *rd = &(ttr->ttrRulerData);
-	DrawingSurface ds = rd->rdDrawingSurface;
+	DrawingSurface *ds = rd->rdDrawingSurface;
 	int sizeAcross = rd->rdSizeAcross;
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 	int maxUsed;

@@ -25,7 +25,7 @@ typedef struct PrintJob {
 	void *pjPrivateData;
 	int pjFormat;
 	const char *pjTitle;
-	DrawingSurface pjDrawingSurface;
+	DrawingSurface *pjDrawingSurface;
 	struct EditApplication *pjApplication;
 	const struct PrintGeometry *pjPrintGeometry;
 } PrintJob;

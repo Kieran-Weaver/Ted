@@ -48,7 +48,7 @@ typedef struct RgbChooserPage {
 	int rcpProperty;
 
 	APP_WIDGET rcpDrawing;
-	DrawingSurface rcpDrawingSurface;
+	DrawingSurface *rcpDrawingSurface;
 
 	APP_WIDGET rcpRedToggle;
 	APP_WIDGET rcpGreenToggle;

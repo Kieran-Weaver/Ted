@@ -414,13 +414,13 @@ SimpleInputStream *sioInFdOpen(int fd)
 /************************************************************************/
 
 SimpleOutputStream *sioOutFileioOpenTempFile(MemoryBuffer *filename,
-					     const char *template)
+					     const char *templateStr)
 {
 	int fd;
 	SimpleOutputStream *sos = (SimpleOutputStream *)0;
 
-	if (utilMemoryBufferSetString(filename, template)) {
-		SDEB(template);
+	if (utilMemoryBufferSetString(filename, templateStr)) {
+		SDEB(templateStr);
 		return (SimpleOutputStream *)0;
 	}
 

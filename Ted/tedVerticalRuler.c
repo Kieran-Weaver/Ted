@@ -45,7 +45,7 @@ void tedFreeVerticalRuler(void *voidrd)
 static void tedDrawVerticalRuler(APP_WIDGET w, RulerData *rd,
 				 DocumentRectangle *drClip)
 {
-	DrawingSurface ds = rd->rdDrawingSurface;
+	DrawingSurface *ds = rd->rdDrawingSurface;
 
 	if (rd->rdSizeAlong == 0) {
 		int wide;

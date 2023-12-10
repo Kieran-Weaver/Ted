@@ -625,7 +625,7 @@ static int tedRemebmerTraceStep(const TraceStep *ts, const EditStep *es,
 		return -1;
 	}
 
-	tsNew = utilPagedListClaimItem(&(fd->fdEditTrace->etTraceSteps), step);
+	tsNew = (TraceStep*)utilPagedListClaimItem(&(fd->fdEditTrace->etTraceSteps), step);
 	if (!tsNew) {
 		LXDEB(step, tsNew);
 		return -1;

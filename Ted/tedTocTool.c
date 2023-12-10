@@ -413,7 +413,7 @@ void tedRefreshTocTool(TocTool *tt, int *pEnabled, int *pPref,
 			       tedCountSequence, (void *)tt);
 		if (tt->ttSequenceCount > 0) {
 			tt->ttSequences =
-				realloc(tt->ttSequences,
+				(const char**)realloc(tt->ttSequences,
 					tt->ttSequenceCount * sizeof(char *));
 			if (!tt->ttSequences) {
 				PDEB(tt->ttSequences);

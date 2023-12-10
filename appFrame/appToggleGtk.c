@@ -53,7 +53,7 @@ APP_WIDGET appMakeToggleInRow(APP_WIDGET row, const char *text,
 	gtk_widget_set_name(GTK_WIDGET(toggle), "tedRowToggle");
 
 	gtk_table_attach(GTK_TABLE(row), toggle, col, col + colspan, 0, 1,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			 (GtkAttachOptions)GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 

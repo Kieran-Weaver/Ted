@@ -215,7 +215,7 @@ ready:
 
 /************************************************************************/
 
-static int tedSaveDocumentImpl(EditApplication *ea, DrawingSurface ds,
+static int tedSaveDocumentImpl(EditApplication *ea, DrawingSurface *ds,
 			       SimpleOutputStream *sos, TedDocument *td,
 			       int format, const MemoryBuffer *documentTitle,
 			       const MemoryBuffer *filename)
@@ -283,7 +283,7 @@ static int tedSaveDocumentImpl(EditApplication *ea, DrawingSurface ds,
 /*									*/
 /************************************************************************/
 
-int tedSaveDocument(EditApplication *ea, DrawingSurface ds,
+int tedSaveDocument(EditApplication *ea, DrawingSurface *ds,
 		    const void *privateData, int format,
 		    const MemoryBuffer *documentTitle, int suggestStdout,
 		    const MemoryBuffer *filename, int isDocName)

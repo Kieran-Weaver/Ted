@@ -136,7 +136,7 @@ int appPrintDocument(int printer, const PrintJob *pj)
 	MemoryBuffer command;
 	MemoryBuffer scratchName;
 
-	const char *template = "/tmp/tprXXXXXX";
+	const char *filename = "/tmp/tprXXXXXX";
 
 	utilInitMemoryBuffer(&command);
 	utilInitMemoryBuffer(&scratchName);
@@ -163,9 +163,9 @@ int appPrintDocument(int printer, const PrintJob *pj)
 
 	case APPprinterTMPFILE:
 
-		sos = sioOutFileioOpenTempFile(&scratchName, template);
+		sos = sioOutFileioOpenTempFile(&scratchName, filename);
 		if (!sos) {
-			SXDEB(template, sos);
+			SXDEB(filename, sos);
 			rval = -1;
 			goto ready;
 		}

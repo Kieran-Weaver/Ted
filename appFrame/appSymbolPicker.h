@@ -75,7 +75,7 @@ typedef struct SymbolPicker {
 	const AfmFontInfo *spFontInfo;
 
 	double spPixelsPerTwip;
-	DrawingSurface spDrawingSurface;
+	DrawingSurface *spDrawingSurface;
 	RGB8Color spBackgroundColor;
 	int spScreenFont;
 

@@ -337,7 +337,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 /************************************************************************/
 
 void tedDrawShadedRectangle(const LayoutContext *lc,
-			    DrawingSurface *shadingPixmaps,
+			    DrawingSurface **shadingPixmaps,
 			    int pattern, const DocumentRectangle *drShade)
 {
 	if (!shadingPixmaps[pattern]) {
@@ -512,13 +512,13 @@ void tedDrawShadedRectangle(const LayoutContext *lc,
 /*									*/
 /************************************************************************/
 
-static void tedBorderSetLineSolid(DrawingSurface ds, int thick)
+static void tedBorderSetLineSolid(DrawingSurface *ds, int thick)
 {
 	drawSetLineAttributes(ds, thick, LineStyleSolid, LineCapButt,
 			      LineJoinMiter, (unsigned char *)0, 0);
 }
 
-static void tedBorderSetLineDashes(DrawingSurface ds,
+static void tedBorderSetLineDashes(DrawingSurface *ds,
 				   const unsigned char *dashes, int dashCount,
 				   int thick)
 {
@@ -532,7 +532,7 @@ static const unsigned char TED_Border_DASHSM[] = { 3, 1 };
 static const unsigned char TED_Border_DASHD[] = { 4, 2, 2, 2 };
 static const unsigned char TED_Border_DASHDD[] = { 4, 2, 2, 2, 2, 2 };
 
-void tedDrawHorizontalBorderLine(DrawingSurface ds, int style, int minThick,
+void tedDrawHorizontalBorderLine(DrawingSurface *ds, int style, int minThick,
 				 int x0, int x1, int y)
 {
 	int yy;
