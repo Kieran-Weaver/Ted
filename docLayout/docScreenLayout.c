@@ -761,7 +761,7 @@ int docScreenLayoutDocumentBody(int *pReachedBottom, BufferDocument *bd,
 
 	rect drChanged;
 
-	geoInitRectangle(&drChanged);
+	drChanged = {};
 
 	/*  1  */
 	if (dp->dpFontList->dflFontCount == 0) {

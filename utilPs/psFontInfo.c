@@ -30,7 +30,7 @@ static void psInitAfmCharMetric(AfmCharMetric *acm)
 
 	acm->acmWX = 0;
 	;
-	geoInitRectangle(&(acm->acmBBox));
+	acm->acmBBox = {};
 	acm->acmN = (char *)0;
 	acm->acmKernPairs = (AfmKerningPair *)0;
 	acm->acmKernPairCount = 0;
@@ -184,7 +184,7 @@ void psInitAfmFontInfo(AfmFontInfo *afi)
 	afi->afiTanItalicAngle = 0.0;
 
 	afi->afiIsFixedPitch = 0;
-	geoInitRectangle(&(afi->afiFontBBox));
+	afi->afiFontBBox = {};
 	afi->afiUnderlinePosition = 0;
 	afi->afiUnderlineThickness = 0;
 	afi->afiCapHeight = 0;

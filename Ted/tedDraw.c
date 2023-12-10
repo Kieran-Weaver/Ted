@@ -308,7 +308,7 @@ static int tedDrawCheckPageOfSelectedTree(SelectionGeometry *sg,
 
 	BufferItem *bodySectNode;
 
-	geoInitRectangle(&drChanged);
+	drChanged = {};
 
 	if (docCheckPageOfSelectedTree(&changed, &bodySectNode, &drChanged,
 				       selRootTree, lc,

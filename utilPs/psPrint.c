@@ -303,7 +303,7 @@ void psInitPrintingState(PrintingState *ps)
 
 	ps->psOrientation = (char *)0;
 
-	geoInitRectangle(&(ps->psSheetBoundingBox));
+	ps->psSheetBoundingBox = {};
 
 	ps->psInsideLink = 0;
 

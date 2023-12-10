@@ -701,8 +701,8 @@ void tedInitEditOperation(TedEditOperation *teo)
 	teo->teoEditDocument = (EditDocument *)0;
 	layoutInitContext(&(teo->teoLayoutContext));
 
-	geoInitRectangle(&(teo->teoChangedRect));
-	geoInitRectangle(&(teo->teoOldScreenRectangle));
+	teo->teoChangedRect = {};
+	teo->teoOldScreenRectangle = {};
 	teo->teoChangedRectSet = 0;
 	teo->teoRefreshScreenRectangle = 0;
 }

@@ -19,7 +19,7 @@ void docInitParticuleData(ParticuleData *pd)
 	pd->pdTwipsWide = 0;
 	pd->pdDecWidth = 0;
 
-	geoInitRectangle(&(pd->pdVisibleBBox));
+	pd->pdVisibleBBox = {};
 
 	pd->pdLeftBorderWidth = 0;
 	pd->pdRightBorderWidth = 0;

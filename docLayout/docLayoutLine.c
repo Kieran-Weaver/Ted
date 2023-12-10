@@ -1347,7 +1347,7 @@ static int docLayoutParticules(LineLayoutJob *llj, int part, int *pFound,
 		pd->pdX0 = x0;
 		pd->pdTwipsWide = nextTabX1 - x0;
 		pd->pdDecWidth = nextTabX1 - x0;
-		geoInitRectangle(&(pd->pdVisibleBBox));
+		pd->pdVisibleBBox = {};
 		pd->pdTabNumber = tab;
 		pd->pdTabKind = tabKind;
 		pd->pdTabPosition = nextTabX1;

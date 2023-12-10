@@ -26,8 +26,7 @@ static void bmInitSegmentCluster(SegmentCluster *sc)
 {
 	sc->scSegments = (LineSegment2DI *)0;
 	sc->scSegmentCount = 0;
-
-	geoInvalidateRectangle(&(sc->scRectangle));
+	sc->scRectangle = {};
 
 	geoInitLineFitter(&(sc->scLineFitter));
 
@@ -448,7 +447,7 @@ void geoInitClusterSegments(ClusterSegments *cs)
 	cs->csFile = (FILE *)0;
 	cs->csClusterTree = (QuadTree *)0;
 	cs->csCurrentCluster = (SegmentCluster *)0;
-	geoInitRectangle(&(cs->csCurrentRectangle));
+	cs->csCurrentRectangle = {};
 	cs->csMerged = 0;
 	cs->csDiagonal = 0;
 	cs->csClusterCount = 0;

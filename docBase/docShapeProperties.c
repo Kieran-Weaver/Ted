@@ -13,7 +13,7 @@
 
 void docInitShapeProperties(ShapeProperties *sp)
 {
-	geoInitRectangle(&(sp->spRect));
+	sp->spRect = {};
 
 	sp->spXReference = FXrefCOLUMN;
 	sp->spYReference = FYrefPARA;

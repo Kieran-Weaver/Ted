@@ -38,7 +38,7 @@ void docInitPositionGeometry(PositionGeometry *pg)
 
 void docInitSelectionGeometry(SelectionGeometry *sg)
 {
-	geoInitRectangle(&(sg->sgRectangle));
+	sg->sgRectangle = {};
 
 	docInitPositionGeometry(&(sg->sgHead));
 	docInitPositionGeometry(&(sg->sgTail));

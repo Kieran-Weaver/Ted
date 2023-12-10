@@ -86,9 +86,6 @@ typedef struct LineSegment2DI {
 /*									*/
 /************************************************************************/
 
-void geoInitRectangle(rect *dr);
-void geoInvalidateRectangle(rect *dr);
-
 void geoUnionRectangle(rect *dr,
 			      const rect *dr1,
 			      const rect *dr2);

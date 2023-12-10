@@ -69,7 +69,7 @@ void docInitDrawTextLine(DrawTextLine *dtl)
 	dtl->dtlDrawingContext = (DrawingContext *)0;
 
 	docInitLayoutPosition(&(dtl->dtlShiftedTop));
-	geoInitRectangle(&(dtl->dtlLineRectangle));
+	dtl->dtlLineRectangle = {};
 	docInitLayoutPosition(&(dtl->dtlBaselinePosition));
 	docInitLayoutPosition(&(dtl->dtlShiftedBaselinePosition));
 	dtl->dtlXShift = 0;

@@ -22,9 +22,9 @@
 
 void docInitParagraphFrame(ParagraphFrame *pf)
 {
-	geoInitRectangle(&(pf->pfParaContentRect));
-	geoInitRectangle(&(pf->pfCellContentRect));
-	geoInitRectangle(&(pf->pfCellRect));
+	pf->pfParaContentRect = {};
+	pf->pfCellContentRect = {};
+	pf->pfCellRect = {};
 
 	pf->pfParaContentRect.drY1 = INT_MAX / 2;
 	pf->pfCellContentRect.drY1 = INT_MAX / 2;

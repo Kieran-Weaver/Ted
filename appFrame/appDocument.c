@@ -913,9 +913,9 @@ void appInitSelectRectangle(SelectRectangle *sr)
 {
 	sr->srDirection = DOCselNONE;
 
-	geoInitRectangle(&(sr->srSelected));
-	geoInitRectangle(&(sr->srLTM));
-	geoInitRectangle(&(sr->srRBM));
+	sr->srSelected = {};
+	sr->srLTM = {};
+	sr->srRBM = {};
 }
 
 /************************************************************************/

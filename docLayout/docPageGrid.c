@@ -29,8 +29,8 @@ void docLayoutInitBlockFrame(BlockFrame *bf)
 {
 	bf->bfPage = -1;
 	bf->bfColumn = -1;
-	geoInitRectangle(&(bf->bfFlowRect));
-	geoInitRectangle(&(bf->bfContentRect));
+	bf->bfFlowRect = {};
+	bf->bfContentRect = {};
 
 	utilInitDocumentGeometry(&(bf->bfPageGeometry));
 
