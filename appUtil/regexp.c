@@ -39,7 +39,7 @@ regProg *regCompile(const char *pattern, int options)
 	pcre2_code *re;
 	int error = 0;
 	PCRE2_SIZE erroffset = 0;
-	static char errormsg[256];
+	unsigned char errormsg[256];
 	char *escaped = (char *)0;
 
 	if (options & REGflagESCAPE_REGEX) {
@@ -51,11 +51,11 @@ regProg *regCompile(const char *pattern, int options)
 		pattern = escaped;
 	}
 
-	re = pcre2_compile( pattern, PCRE2_ZERO_TERMINATED, PCRE2_UTF, &error, &erroffset, NULL );
+	re = pcre2_compile( (PCRE2_SPTR8)pattern, PCRE2_ZERO_TERMINATED, PCRE2_UTF, &error, &erroffset, NULL );
 
 	if (!re) {
 		pcre2_get_error_message( error, errormsg, sizeof( errormsg ) );
-		XSSDEB(re, errormsg, pattern + erroffset);
+		XSSDEB(re, (char*)errormsg, pattern + erroffset);
 	}
 
 	if (escaped) {
@@ -76,7 +76,7 @@ int regFindLeftToRight(ExpressionMatch *em, const regProg *prog,
 	match_data = pcre2_match_data_create_from_pattern( (pcre2_code*) prog, NULL );
 
 	res = pcre2_match(
-		(pcre2_code*) prog, string,
+		(pcre2_code*) prog, (PCRE2_SPTR8)string,
 		byteLength, fromByte, PCRE2_NO_UTF_CHECK,
 		match_data, NULL );
 
@@ -113,7 +113,7 @@ int regFindRightToLeft(ExpressionMatch *em, const regProg *prog,
 
 	while ( cur > 0 ) {
 		res = pcre2_match(
-			(pcre2_code*) prog, string,
+			(pcre2_code*) prog, (PCRE2_SPTR8)string,
 			fromByte, cur, PCRE2_NO_UTF_CHECK | PCRE2_ANCHORED,
 			match_data, NULL );
 
@@ -169,5 +169,5 @@ int regGetFullMatch(int *pFrom, int *pPast, const ExpressionMatch *em)
 
 void regFree(regProg *prog)
 {
-	pcre2_code_free(prog);
+	pcre2_code_free( (pcre2_code_8*)prog );
 }

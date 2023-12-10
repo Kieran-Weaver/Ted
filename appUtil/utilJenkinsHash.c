@@ -105,7 +105,7 @@ unsigned long utilJenkinsHash(const unsigned char *k, int l, unsigned long lev)
 	ub4 length = l;
 	ub4 level = lev;
 
-	register ub4 a, b, c, len;
+	ub4 a, b, c, len;
 
 	/* Set up the internal state */
 	len = length;
@@ -220,9 +220,9 @@ is trying to cause collisions.  Do NOT use for cryptography.
 
 void utilJenkinsHash2(const unsigned char *k, int l, unsigned long *state)
 {
-	register ub4 len = l;
+	ub4 len = l;
 
-	register ub4 a, b, c, d, e, f, g, h, length;
+	ub4 a, b, c, d, e, f, g, h, length;
 
 	/* Use the length and level; add in the golden ratio. */
 	length = len;

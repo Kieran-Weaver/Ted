@@ -89,7 +89,7 @@ static APP_EVENT_HANDLER_H(appDrawnPulldownPulldown, w, voidadp, mouseEvent)
 	gtk_grab_add(adp->adpPulldownShell);
 
 	gdk_pointer_grab(adp->adpPulldownShell->window, TRUE,
-			 GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, NULL,
+			 (GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK), NULL,
 			 NULL, GDK_CURRENT_TIME);
 
 	return;

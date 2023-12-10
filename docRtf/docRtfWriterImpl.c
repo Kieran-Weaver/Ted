@@ -427,14 +427,14 @@ RtfWriter *docRtfOpenWriter(SimpleOutputStream *sos, BufferDocument *bd,
 
 	docRtfInitWritingContext(rw);
 
-	rw->rwRtfTextConverter = malloc(sizeof(TextConverter));
+	rw->rwRtfTextConverter = (TextConverter*)malloc(sizeof(TextConverter));
 	if (!rw->rwRtfTextConverter) {
 		PDEB(rw->rwRtfTextConverter);
 		goto ready;
 	}
 	textInitTextConverter(rw->rwRtfTextConverter);
 
-	rw->rwTextTextConverter = malloc(sizeof(TextConverter));
+	rw->rwTextTextConverter = (TextConverter*)malloc(sizeof(TextConverter));
 	if (!rw->rwTextTextConverter) {
 		PDEB(rw->rwTextTextConverter);
 		goto ready;

@@ -139,7 +139,7 @@ static void appDrawRgbColorFace(RgbCube *rc, RgbColorBlock *rcb, void *through,
 				const double yo[8], int canSplit,
 				const int nodes[4])
 {
-	DrawingSurface *ds = (DrawingSurface)through;
+	DrawingSurface *ds = (DrawingSurface*)through;
 	int linewidth;
 
 	Point2DI points[5];
@@ -812,7 +812,7 @@ int appPrepareRgbCube(RgbCube *rc, DrawingSurface *ds, int redSteps,
 
 	count = redSteps * greenSteps * blueSteps;
 
-	fresh = realloc(rc->rcColorBlocks, count * sizeof(RgbColorBlock));
+	fresh = (RgbColorBlock*)realloc(rc->rcColorBlocks, count * sizeof(RgbColorBlock));
 	if (!fresh) {
 		LXDEB(count, fresh);
 		return -1;

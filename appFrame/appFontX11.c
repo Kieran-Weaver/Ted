@@ -26,12 +26,12 @@ int guiSystemFont(DrawingSurface *ds, APP_FONT *xfs)
 	int screenFont;
 
 	/* HACK */
-	dsf = utilPagedListClaimItemAtEnd(&screenFont, &(npl->nplPagedList));
+	dsf = (DrawScreenFont*)utilPagedListClaimItemAtEnd(&screenFont, &(npl->nplPagedList));
 	if (!dsf) {
 		return -1;
 	}
 
-	dsf->dsfEncodedFonts.esfFonts = malloc(sizeof(EncodedScreenFont));
+	dsf->dsfEncodedFonts.esfFonts = (EncodedScreenFont*)malloc(sizeof(EncodedScreenFont));
 	if (!dsf->dsfEncodedFonts.esfFonts) {
 		return -1;
 	}

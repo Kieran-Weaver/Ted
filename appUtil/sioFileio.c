@@ -151,7 +151,7 @@ int sioFdOpenFile(const MemoryBuffer *filename, int read, int write, int append,
 SimpleInputStream *sioInFileioOpenS(const char *filename)
 {
 	SimpleInputStream *sis = (SimpleInputStream *)0;
-	FileIo *fi = malloc(sizeof(FileIo));
+	FileIo *fi = (FileIo*)malloc(sizeof(FileIo));
 
 	const int read = 1;
 	const int write = 0;
@@ -212,7 +212,7 @@ static SimpleOutputStream *sioOutFileioOpenSAt(const char *filename, int append,
 					       long offset)
 {
 	SimpleOutputStream *sos = (SimpleOutputStream *)0;
-	FileIo *fi = malloc(sizeof(FileIo));
+	FileIo *fi = (FileIo*)malloc(sizeof(FileIo));
 	int flags = O_CREAT | O_WRONLY;
 	const int mode = 0666;
 
@@ -305,7 +305,7 @@ SimpleOutputStream *sioOutFileioOpenForAppend(const MemoryBuffer *filename)
 static SimpleOutputStream *sioOutFdOpenAtX(int fd, int seek, long offset)
 {
 	SimpleOutputStream *sos = (SimpleOutputStream *)0;
-	FileIo *fi = malloc(sizeof(FileIo));
+	FileIo *fi = (FileIo*)malloc(sizeof(FileIo));
 
 	if (!fi) {
 		XDEB(fi);
@@ -368,7 +368,7 @@ SimpleOutputStream *sioOutFdOpen(int fd)
 SimpleInputStream *sioInFdOpenAt(int fd, long offset)
 {
 	SimpleInputStream *sis = (SimpleInputStream *)0;
-	FileIo *fi = malloc(sizeof(FileIo));
+	FileIo *fi = (FileIo*)malloc(sizeof(FileIo));
 
 	if (!fi) {
 		XDEB(fi);

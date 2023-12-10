@@ -98,7 +98,7 @@ int appInspectorAddSubject(AppInspector *ai,
 {
 	InspectorSubject *is;
 
-	is = realloc(ai->aiSubjects,
+	is = (InspectorSubject*)realloc(ai->aiSubjects,
 		     (ai->aiSubjectCount + 1) * sizeof(InspectorSubject));
 	if (!is) {
 		LXDEB(ai->aiSubjectCount, is);
@@ -257,7 +257,7 @@ AppInspector *appMakeInspector(EditApplication *ea, APP_WIDGET option,
 		InspectorSubject *is;
 
 		ai->aiSubjects =
-			malloc(subjectCount * sizeof(InspectorSubject));
+			(InspectorSubject*)malloc(subjectCount * sizeof(InspectorSubject));
 		if (!ai->aiSubjects) {
 			LXDEB(subjectCount, ai->aiSubjects);
 			goto ready;

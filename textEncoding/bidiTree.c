@@ -111,7 +111,7 @@ BidiNode *bidiNodeAddChild(BidiNode *parent, int embedding, int level, int from,
 		return (BidiNode *)0;
 	}
 
-	child = malloc(sizeof(BidiNode));
+	child = (BidiNode*)malloc(sizeof(BidiNode));
 	if (!child) {
 		XDEB(child);
 		return (BidiNode *)0;

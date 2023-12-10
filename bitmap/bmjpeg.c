@@ -306,7 +306,7 @@ static int bmJpegRememberScanline(JSAMPARRAY pixel_data,
 	BmJpegInputSource *bjis = (BmJpegInputSource *)cinfo->src;
 
 	unsigned char *to;
-	register JSAMPROW ptr0;
+	JSAMPROW ptr0;
 	long col;
 
 	switch (cinfo->out_color_space) {

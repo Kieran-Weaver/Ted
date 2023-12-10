@@ -84,7 +84,7 @@ int docAllocateComponents(FieldInstructions *fi, int n)
 					      fi->fiComponentCount);
 	}
 
-	fresh = realloc(fi->fiComponents, n * sizeof(InstructionsComponent));
+	fresh = (InstructionsComponent*)realloc(fi->fiComponents, n * sizeof(InstructionsComponent));
 	if (!fresh) {
 		LXDEB(n, fresh);
 		return -1;

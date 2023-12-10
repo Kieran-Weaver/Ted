@@ -262,7 +262,7 @@ int utilMemoryBufferGetRange(MemoryBuffer *mbTo, const MemoryBuffer *mbFrom,
 char *utilMemoryStrdup(const MemoryBuffer *mbFrom)
 {
 	if (utilMemoryBufferIsEmpty(mbFrom)) {
-		char *empty = malloc(1);
+		char *empty = (char*)malloc(1);
 		if (empty) {
 			*empty = '\0';
 		}

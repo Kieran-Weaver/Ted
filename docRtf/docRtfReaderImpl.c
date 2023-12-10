@@ -305,14 +305,14 @@ RtfReader *docRtfOpenReader(SimpleInputStream *sis, BufferDocument *bd,
 
 	docRtfInitReader(rr);
 
-	rr->rrRtfTextConverter = malloc(sizeof(TextConverter));
+	rr->rrRtfTextConverter = (TextConverter*)malloc(sizeof(TextConverter));
 	if (!rr->rrRtfTextConverter) {
 		PDEB(rr->rrRtfTextConverter);
 		goto ready;
 	}
 	textInitTextConverter(rr->rrRtfTextConverter);
 
-	rr->rrTextTextConverter = malloc(sizeof(TextConverter));
+	rr->rrTextTextConverter = (TextConverter*)malloc(sizeof(TextConverter));
 	if (!rr->rrTextTextConverter) {
 		PDEB(rr->rrTextTextConverter);
 		goto ready;

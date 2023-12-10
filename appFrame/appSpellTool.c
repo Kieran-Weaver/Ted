@@ -678,12 +678,12 @@ static int appSpellGetLocaleNames(EditApplication *ea, SpellChecker *sc)
 
 	if (!gotResources) {
 		localeNames =
-			malloc(sc->scDictionaryCount * sizeof(LocaleName));
+			(LocaleName*)malloc(sc->scDictionaryCount * sizeof(LocaleName));
 		if (!localeNames) {
 			LXDEB(sc->scDictionaryCount, localeNames);
 			return -1;
 		}
-		localeRes = malloc(sc->scDictionaryCount *
+		localeRes = (AppConfigurableResource*)malloc(sc->scDictionaryCount *
 				   sizeof(AppConfigurableResource));
 		if (!localeRes) {
 			LXDEB(sc->scDictionaryCount, localeRes);
@@ -702,7 +702,7 @@ static int appSpellGetLocaleNames(EditApplication *ea, SpellChecker *sc)
 				return -1;
 			}
 
-			name = malloc(
+			name = (char*)malloc(
 				5 + strlen(sc->scDictionaries[i].sdLocale) + 1);
 			if (!name) {
 				XDEB(name);

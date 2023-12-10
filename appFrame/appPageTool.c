@@ -52,7 +52,7 @@ typedef struct AppPageToolResources {
 typedef struct AppPageTool {
 	EditApplication *aptApplication;
 
-	DrawingSurface aptDrawingSurface;
+	DrawingSurface *aptDrawingSurface;
 	RGB8Color aptBackgroundColor;
 
 	APP_WIDGET aptTopWidget;

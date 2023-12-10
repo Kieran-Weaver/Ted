@@ -242,7 +242,7 @@ typedef struct AppPrintDialog {
 	int apdPageHighMm;
 
 	APP_WIDGET apdPageDrawing;
-	DrawingSurface apdDrawingSurface;
+	DrawingSurface *apdDrawingSurface;
 	RGB8Color apdBackgroundColor;
 	int apdScreenFont;
 
@@ -936,7 +936,7 @@ static int appPrintDialogFillPrinterMenu(const AppPrintDialogResources *apdr,
 		char *scratch;
 		int pos;
 
-		scratch = malloc(ltxt + lval + 1);
+		scratch = (char*)malloc(ltxt + lval + 1);
 		if (!scratch) {
 			LLXDEB(ltxt, lval, scratch);
 			return -1;
@@ -990,7 +990,7 @@ static int appPrintDialogFillPrinterMenu(const AppPrintDialogResources *apdr,
 		char *scratch;
 		int pos;
 
-		scratch = malloc(ltxt + lval + 1);
+		scratch = (char*)malloc(ltxt + lval + 1);
 		if (!scratch) {
 			LLXDEB(ltxt, lval, scratch);
 			return -1;

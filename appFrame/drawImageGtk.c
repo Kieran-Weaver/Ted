@@ -72,7 +72,7 @@ int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 			rval = -1;
 			goto ready;
 		}
-		bufferOut = xim->mem;
+		bufferOut = (unsigned char*)xim->mem;
 
 		bdOut.bdBytesPerRow = xim->bpl;
 		bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;
@@ -93,7 +93,7 @@ int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 				rval = -1;
 				goto ready;
 			}
-			bufferOut = xim->mem;
+			bufferOut = (unsigned char*)xim->mem;
 
 			bdOut.bdBytesPerRow = xim->bpl;
 			bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;

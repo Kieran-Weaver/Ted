@@ -62,7 +62,7 @@ static gboolean appGuiGtkListCursorChanged(GtkTreeView *treev, gpointer voidla)
 		selection = gtk_tree_view_get_selection(treev);
 		position = appGuiGetPositionFromListCallback(GTK_WIDGET(treev),
 							     selection);
-		appGuiGtkSetListAdjustment(voidla, position);
+		appGuiGtkSetListAdjustment((ListAction*)voidla, position);
 
 		return TRUE;
 	}

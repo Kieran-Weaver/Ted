@@ -353,7 +353,7 @@ static AppColors *APP_TheColors = (AppColors *)0;
 AppColors *guiGetColorsGtk(void)
 {
 	if (!APP_TheColors) {
-		APP_TheColors = malloc(sizeof(AppColors));
+		APP_TheColors = (AppColors*)malloc(sizeof(AppColors));
 		if (!APP_TheColors) {
 			XDEB(APP_TheColors);
 			return (AppColors *)0;

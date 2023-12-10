@@ -794,7 +794,7 @@ int docRtfTraceCloseTrace(EditOperation *eo, EditTrace *et)
 	sioOutClose(eo->eoTraceStream);
 	eo->eoTraceStream = (SimpleOutputStream *)0;
 
-	ts = utilPagedListClaimItem(&(et->etTraceSteps), et->etIndex);
+	ts = (TraceStep*)utilPagedListClaimItem(&(et->etTraceSteps), et->etIndex);
 	if (!ts) {
 		LXDEB(et->etIndex, ts);
 		return -1;

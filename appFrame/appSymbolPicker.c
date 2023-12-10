@@ -1043,7 +1043,7 @@ static int appSymbolFillBlockMenu(SymbolPicker *sp)
 {
 	int block;
 
-	sp->spUnicodeBlockOpts = malloc(UCD_BlockCount * sizeof(APP_WIDGET));
+	sp->spUnicodeBlockOpts = (GtkWidget**)malloc(UCD_BlockCount * sizeof(APP_WIDGET));
 	if (!sp->spUnicodeBlockOpts) {
 		LXDEB(UCD_BlockCount, sp->spUnicodeBlockOpts);
 		return -1;
@@ -1088,7 +1088,7 @@ static void appSymbolFillFontMenu(int *pEnabled,
 	if (sp->spFontFamilyOptCount < dfl->dflFontCount + 1) {
 		APP_WIDGET *opts;
 
-		opts = realloc(sp->spFontFamilyOpts,
+		opts = (GtkWidget**)realloc(sp->spFontFamilyOpts,
 			       (dfl->dflFontCount + 1) * sizeof(APP_WIDGET));
 		if (!opts) {
 			XDEB(opts);

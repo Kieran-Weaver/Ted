@@ -50,7 +50,7 @@ int utilPaletteSetCount(ColorPalette *cp, int colorCount)
 	} else {
 		RGB8Color *fresh;
 
-		fresh = realloc(cp->cpColors, colorCount * sizeof(RGB8Color));
+		fresh = (RGB8Color*)realloc(cp->cpColors, colorCount * sizeof(RGB8Color));
 		if (!fresh) {
 			LXDEB(colorCount, fresh);
 			return -1;

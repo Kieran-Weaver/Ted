@@ -14,7 +14,7 @@
 /*									*/
 /************************************************************************/
 
-extern DrawingSurface guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
+extern DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 						       int avoidFontconfig);
 
 extern int guiGetLabelFont(DrawingSurface *ds, const PostScriptFontList *psfl,

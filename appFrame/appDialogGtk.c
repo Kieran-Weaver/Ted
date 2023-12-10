@@ -105,7 +105,7 @@ void appGuiSetDefaultButtonForDialog(AppDialog *ad, APP_WIDGET button)
 	unsigned int keyCode = GDK_Return;
 
 	gtk_widget_add_accelerator(button, "clicked", ad->adAccelGroup, keyCode,
-				   keyMask, GTK_ACCEL_VISIBLE);
+				   (GdkModifierType)keyMask, GTK_ACCEL_VISIBLE);
 }
 
 void appGuiSetCancelButtonForDialog(AppDialog *ad, APP_WIDGET button)
@@ -114,7 +114,7 @@ void appGuiSetCancelButtonForDialog(AppDialog *ad, APP_WIDGET button)
 	unsigned int keyCode = GDK_Escape;
 
 	gtk_widget_add_accelerator(button, "clicked", ad->adAccelGroup, keyCode,
-				   keyMask, GTK_ACCEL_VISIBLE);
+				   (GdkModifierType)keyMask, GTK_ACCEL_VISIBLE);
 }
 
 void appGuiShowDialog(EditApplication *ea, AppDialog *ad, APP_WIDGET relative)

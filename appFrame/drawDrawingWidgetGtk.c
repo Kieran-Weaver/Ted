@@ -144,10 +144,10 @@ void guiCollectExposures(DocumentRectangle *drClip, APP_WIDGET nativeWidget,
 /*									*/
 /************************************************************************/
 
-DrawingSurface guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
+DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 						int avoidFontconfig)
 {
-	DrawingSurface *ds = malloc(sizeof(struct DrawingSurface));
+	DrawingSurface *ds = (DrawingSurface*)malloc(sizeof(struct DrawingSurface));
 
 	if (!nativeWidget->window) {
 		gtk_widget_realize(nativeWidget);

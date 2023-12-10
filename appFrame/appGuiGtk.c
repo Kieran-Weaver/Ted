@@ -511,7 +511,7 @@ static int appDragTick(void *vdl)
 
 	gint winX;
 	gint winY;
-	GdkModifierType mask = 0;
+	GdkModifierType mask;
 
 	gdk_window_get_pointer(dl->dlWidget->window, &winX, &winY, &mask);
 

@@ -129,11 +129,11 @@ ListAction *appListGtkSetCallbacks(GtkWidget *widget,
 				   APP_BUTTON_CALLBACK_T actionCallback,
 				   void *through)
 {
-	ListAction *la = malloc(sizeof(ListAction));
+	ListAction *la = (ListAction*)malloc(sizeof(ListAction));
 
 	if (!la) {
 		XDEB(la);
-		return (void *)0;
+		return NULL;
 	}
 
 	la->laWidget = widget;

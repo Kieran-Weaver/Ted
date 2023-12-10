@@ -49,7 +49,7 @@
 
 static void indSwapInt(unsigned char *buf)
 {
-	register unsigned char c;
+	unsigned char c;
 
 	c = buf[0];
 	buf[0] = buf[3];

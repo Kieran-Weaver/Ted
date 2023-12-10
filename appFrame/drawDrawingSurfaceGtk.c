@@ -23,7 +23,7 @@ DrawingSurface *drawMakeDrawingSurfaceForParent(DrawingSurface *parent, int wide
 					       int high)
 {
 	int depth = gdk_visual_get_system()->depth;
-	DrawingSurface *ds = malloc(sizeof(struct DrawingSurface));
+	DrawingSurface *ds = (DrawingSurface*)malloc(sizeof(struct DrawingSurface));
 
 	if (!ds) {
 		PDEB(ds);
@@ -297,17 +297,17 @@ int drawFillPolygon(DrawingSurface *ds, const Point2DI *points, int pointCount)
 /*									*/
 /************************************************************************/
 
-static const int LineStyleMap[LineStyle_Count] = {
+static const GdkLineStyle LineStyleMap[LineStyle_Count] = {
 	GDK_LINE_SOLID,
 	GDK_LINE_ON_OFF_DASH,
 	GDK_LINE_DOUBLE_DASH,
 };
 
-static const int CapStyleMap[LineCap_Count] = { GDK_CAP_NOT_LAST, GDK_CAP_BUTT,
+static const GdkCapStyle CapStyleMap[LineCap_Count] = { GDK_CAP_NOT_LAST, GDK_CAP_BUTT,
 						GDK_CAP_ROUND,
 						GDK_CAP_PROJECTING };
 
-static const int JoinStyleMap[LineJoin_Count] = { GDK_JOIN_MITER,
+static const GdkJoinStyle JoinStyleMap[LineJoin_Count] = { GDK_JOIN_MITER,
 						  GDK_JOIN_ROUND,
 						  GDK_JOIN_BEVEL };
 
@@ -482,7 +482,7 @@ void drawSetClipRect(DrawingSurface *ds, const DocumentRectangle *drClip)
 
 /************************************************************************/
 
-void drawChildSurface(DrawingSurface *ds, const DrawingSurface child, int xDest,
+void drawChildSurface(DrawingSurface *ds, const DrawingSurface *child, int xDest,
 		      int yDest, const DocumentRectangle *drChild)
 {
 	if (!child) {

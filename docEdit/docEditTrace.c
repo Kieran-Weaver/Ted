@@ -226,12 +226,12 @@ int docEditTraceTryTemp(EditTrace *et, const char *extension)
 
 int docEditTraceTryAnon(EditTrace *et, const char *extension)
 {
-	MemoryBuffer try;
+	MemoryBuffer mem;
 	int fdTrace = FDerrOTHER;
 	const int maxTurns = 10000;
 	int turn;
 
-	utilInitMemoryBuffer(&try);
+	utilInitMemoryBuffer(&mem);
 
 	for (turn = 0; turn < maxTurns; turn++) {
 		time_t now = time((time_t *)0);
@@ -245,14 +245,14 @@ int docEditTraceTryAnon(EditTrace *et, const char *extension)
 
 		int fd;
 
-		utilMemoryBufferPrintf(&try, "/tmp/%ld-%d.%s", now, turn,
+		utilMemoryBufferPrintf(&mem, "/tmp/%ld-%d.%s", now, turn,
 				       extension);
 
-		fd = sioFdOpenFile(&try, read, write, append, create,
+		fd = sioFdOpenFile(&mem, read, write, append, create,
 				   exclusive);
 
 		if (fd >= 0) {
-			utilCopyMemoryBuffer(&(et->etTraceFileName), &try);
+			utilCopyMemoryBuffer(&(et->etTraceFileName), &mem);
 			et->etTraceFileHandle = fd;
 			et->etTraceStatus = TRACING_ANON;
 
@@ -261,7 +261,7 @@ int docEditTraceTryAnon(EditTrace *et, const char *extension)
 		}
 
 		if (fd != FDerrEXIST) {
-			LSDEB(fd, utilMemoryBufferGetString(&try));
+			LSDEB(fd, utilMemoryBufferGetString(&mem));
 			break;
 		}
 	}
@@ -270,7 +270,7 @@ int docEditTraceTryAnon(EditTrace *et, const char *extension)
 		LDEB(turn);
 	}
 
-	utilCleanMemoryBuffer(&try);
+	utilCleanMemoryBuffer(&mem);
 
 	return fdTrace;
 }

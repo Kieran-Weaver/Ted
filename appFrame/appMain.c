@@ -740,7 +740,7 @@ static int appFinishApplicationWindow(EditApplication *ea)
 		char *ident = (char *)0;
 
 		if (0 && ea->eaPlatformCompiled) {
-			ident = malloc(strlen(ea->eaNameAndVersion) + 3 +
+			ident = (char*)malloc(strlen(ea->eaNameAndVersion) + 3 +
 				       strlen(ea->eaPlatformCompiled) + 1);
 			if (!ident) {
 				XDEB(ident);
@@ -1216,7 +1216,7 @@ int appMain(EditApplication *ea, int argc, char *argv[])
 		if (s > locale) {
 			int len = s - locale;
 
-			ea->eaLocaleName = malloc(len + 1);
+			ea->eaLocaleName = (char*)malloc(len + 1);
 			if (!ea->eaLocaleName) {
 				LXDEB(len, ea->eaLocaleName);
 				return -1;

@@ -50,7 +50,7 @@ void docFreeDocumentPropertyLists(DocumentPropertyLists *dpl)
 
 DocumentPropertyLists *docMakeDocumentPropertyLists(void)
 {
-	DocumentPropertyLists *dpl = malloc(sizeof(DocumentPropertyLists));
+	DocumentPropertyLists *dpl = (DocumentPropertyLists*)malloc(sizeof(DocumentPropertyLists));
 	if (!dpl) {
 		XDEB(dpl);
 		return (DocumentPropertyLists *)0;

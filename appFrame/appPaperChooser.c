@@ -536,7 +536,7 @@ void appPaperChooserFillMenu(PaperChooser *pc, const char *customLabel)
 		pc->pcSizeOptionCount = i;
 
 		pc->pcSizeOptions =
-			realloc(pc->pcSizeOptions,
+			(GtkWidget**)realloc(pc->pcSizeOptions,
 				pc->pcSizeOptionCount * sizeof(APP_WIDGET));
 		if (!pc->pcSizeOptions) {
 			LXDEB(pc->pcSizeOptionCount, pc->pcSizeOptions);
