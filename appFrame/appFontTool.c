@@ -92,7 +92,7 @@ static int appFontToolFindExistingFace(const ExpandedTextAttribute *etaC,
 static APP_EVENT_HANDLER_H(appFontRedraw, w, voidafc, exposeEvent)
 {
 	AppFontChooser *afc = (AppFontChooser *)voidafc;
-	DrawingSurface ds = afc->afcDrawingSurface;
+	DrawingSurface *ds = afc->afcDrawingSurface;
 
 	DocumentRectangle drClip;
 
@@ -450,7 +450,7 @@ static void appFontFormatCurrent(char *target, AppFontChooser *afc,
 static void appFontShowExampleOfCurrent(AppFontChooser *afc)
 {
 	const ExpandedTextAttribute *etaC = &(afc->afcTextAttributeChosen);
-	DrawingSurface ds = afc->afcDrawingSurface;
+	DrawingSurface *ds = afc->afcDrawingSurface;
 	DocumentFontList *dfl = &(afc->afcDocumentFontList);
 	int pixelSize;
 
@@ -1484,7 +1484,7 @@ void appFontToolFillPage(AppFontChooser *afc, const AppFontToolResources *aftr,
 	EditApplication *ea = afc->afcApplication;
 
 	afc->afcPixelsPerTwip = 0;
-	afc->afcDrawingSurface = (DrawingSurface)0;
+	afc->afcDrawingSurface = (DrawingSurface*)0;
 
 	afc->afcPostScriptFontList = &(ea->eaPostScriptFontList);
 

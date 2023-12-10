@@ -64,7 +64,7 @@
 /*									*/
 /************************************************************************/
 
-static int docScreenSegmentedWidth(DrawingSurface ds, int fullScreenFont,
+static int docScreenSegmentedWidth(DrawingSurface *ds, int fullScreenFont,
 				   int scapsScreenFont, const char *s,
 				   const int *segments, int segmentCount)
 {

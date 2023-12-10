@@ -67,8 +67,8 @@ void appInitDrawnPulldown(AppDrawnPulldown *adp)
 
 	adp->adpEnabled = 1;
 
-	adp->adpInplaceDrawingSurface = (DrawingSurface)0;
-	adp->adpPulldownDrawingSurface = (DrawingSurface)0;
+	adp->adpInplaceDrawingSurface = (DrawingSurface*)0;
+	adp->adpPulldownDrawingSurface = (DrawingSurface*)0;
 }
 
 void appCleanDrawnPulldown(AppDrawnPulldown *adp)

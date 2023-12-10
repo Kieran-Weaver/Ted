@@ -302,7 +302,7 @@ static int appPrintJobForCommand(PrintJob *pj, PrintGeometry *pg,
 		goto ready;
 	}
 
-	pj->pjDrawingSurface = (DrawingSurface)0;
+	pj->pjDrawingSurface = (DrawingSurface*)0;
 	pj->pjApplication = ea;
 	pj->pjTitle = fromName;
 	pj->pjPrintGeometry = pg;
@@ -361,7 +361,7 @@ static int appPrintStartCommandRun(EditApplication *ea, PrintJob *pj,
 
 	if ((*ea->eaLayoutDocument)(
 		    &drScreenIgnored, &drVisibleIgnored, pj->pjPrivateData,
-		    pj->pjFormat, (DrawingSurface)0,
+		    pj->pjFormat, (DrawingSurface*)0,
 		    &(ea->eaPostScriptFontList), &(pg->pgSheetGeometry))) {
 		SDEB(fromName);
 		appPrintFinishCommandRun(ea, pj);
@@ -433,7 +433,7 @@ ready:
 
 /************************************************************************/
 
-int appSaveToPs(EditApplication *ea, DrawingSurface ds, SimpleOutputStream *sos,
+int appSaveToPs(EditApplication *ea, DrawingSurface *ds, SimpleOutputStream *sos,
 		void *privateData, const MemoryBuffer *documentTitle,
 		int format)
 {
@@ -461,7 +461,7 @@ int appSaveToPs(EditApplication *ea, DrawingSurface ds, SimpleOutputStream *sos,
 
 	if ((*ea->eaLayoutDocument)(
 		    &drScreenIgnored, &drVisibleIgnored, pj.pjPrivateData,
-		    pj.pjFormat, (DrawingSurface)0, &(ea->eaPostScriptFontList),
+		    pj.pjFormat, (DrawingSurface*)0, &(ea->eaPostScriptFontList),
 		    &(pg.pgSheetGeometry))) {
 		SDEB(pj.pjTitle);
 		rval = -1;

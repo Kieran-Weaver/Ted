@@ -107,8 +107,8 @@ void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row, int column,
 	gtk_widget_set_name(GTK_WIDGET(inplace), "tedRowOptMenu");
 
 	gtk_table_attach(GTK_TABLE(row), inplace, column, column + colspan, 0,
-			 1, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, ROW_XPADDING_GTK,
+			 1, GTK_FES,
+			 GTK_FES, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 
 	gtk_widget_show(inplace);

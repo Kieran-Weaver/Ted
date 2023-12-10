@@ -38,8 +38,8 @@ void appMakeHBoxInRow(APP_WIDGET *pHbox, APP_WIDGET row, int position,
 	GtkWidget *hbox = gtk_hbox_new(FALSE, spacing);
 
 	gtk_table_attach(GTK_TABLE(row), hbox, position, position + colspan, 0,
-			 1, (GtkAttachOptions)GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, ROW_XPADDING_GTK,
+			 1, (GtkAttachOptions)GTK_FES,
+			 GTK_FES, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 
 	gtk_widget_show(hbox);
@@ -54,8 +54,8 @@ void appMakeColumnInRow(APP_WIDGET *pColumn, APP_WIDGET row, int position,
 	GtkWidget *column = gtk_vbox_new(FALSE, COLUMN_SPACING_GTK);
 
 	gtk_table_attach(GTK_TABLE(row), column, position, position + colspan,
-			 0, 1, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, ROW_XPADDING_GTK,
+			 0, 1, GTK_FES,
+			 GTK_FES, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 
 	gtk_widget_show(column);

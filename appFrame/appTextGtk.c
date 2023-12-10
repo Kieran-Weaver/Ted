@@ -21,8 +21,8 @@ void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
 	}
 
 	gtk_table_attach(GTK_TABLE(row), text, column, column + colspan, 0, 1,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, ROW_XPADDING_GTK,
+			 GTK_FES,
+			 GTK_FES, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 
 	gtk_widget_show(text);

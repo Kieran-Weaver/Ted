@@ -370,8 +370,8 @@ static void appGuiGtkMakeFrameInColumn(APP_WIDGET *pFrame, APP_WIDGET *pTable,
 	gtk_widget_show(table);
 
 	gtk_table_attach(GTK_TABLE(table), child, 0, 1, 0, 1,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, FRAME_BORDER_GTK,
+			 GTK_FES,
+			 GTK_FES, FRAME_BORDER_GTK,
 			 FRAME_BORDER_GTK);
 
 	gtk_widget_show(child);

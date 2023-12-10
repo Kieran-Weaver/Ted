@@ -327,7 +327,7 @@ void tedTopRulerSetBackground(void *voidttr, const RGB8Color *back)
 
 #if SHOW_SCROLLS
 
-static void tedShowClip(DrawingSurface ds, const DocumentRectangle *dr)
+static void tedShowClip(DrawingSurface *ds, const DocumentRectangle *dr)
 {
 	RGB8Color red;
 	DocumentRectangle drCopy = *dr;

@@ -25,8 +25,8 @@ void appMakeButtonInRow(APP_WIDGET *pButton, APP_WIDGET row, const char *text,
 
 	gtk_table_attach(GTK_TABLE(row), button, position, position + colspan,
 			 0, 1,
-			 (GtkAttachOptions)(GTK_FILL | GTK_EXPAND | GTK_SHRINK),
-			 (GtkAttachOptions)(GTK_FILL | GTK_EXPAND | GTK_SHRINK),
+			 (GtkAttachOptions)(GTK_FES),
+			 (GtkAttachOptions)(GTK_FES),
 			 ROW_XPADDING_GTK, ROW_YPADDING_GTK);
 
 	gtk_widget_show(button);

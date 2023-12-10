@@ -312,13 +312,13 @@ typedef struct EditApplication {
 	int (*eaNewDocument)(EditDocument *ed, const MemoryBuffer *filename);
 	int (*eaLayoutDocument)(DocumentRectangle *drScreen,
 				DocumentRectangle *drVisible, void *privateData,
-				int format, DrawingSurface ds,
+				int format, DrawingSurface *ds,
 				const PostScriptFontList *psfl,
 				const DocumentGeometry *defDg);
 	int (*eaFinishDocumentSetup)(EditDocument *ed);
 	void (*eaDocumentFirstVisible)(EditDocument *ed);
 	int (*eaCanSaveDocument)(const void *privateData, int format);
-	int (*eaSaveDocument)(struct EditApplication *ea, DrawingSurface ds,
+	int (*eaSaveDocument)(struct EditApplication *ea, DrawingSurface *ds,
 			      const void *privateData, int format,
 			      const MemoryBuffer *documentTitle,
 			      int suggestStdout, const MemoryBuffer *filename,

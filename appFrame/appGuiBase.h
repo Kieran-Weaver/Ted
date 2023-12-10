@@ -10,6 +10,8 @@
 #include <gtk/gtk.h>
 #include <config.h>
 
+#define GTK_FES (GtkAttachOptions)(GTK_FILL | GTK_EXPAND | GTK_SHRINK)
+
 /************************************************************************/
 /*									*/
 /*  Basic GUI primitives.						*/

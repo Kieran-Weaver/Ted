@@ -147,7 +147,7 @@ void guiCollectExposures(DocumentRectangle *drClip, APP_WIDGET nativeWidget,
 DrawingSurface guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 						int avoidFontconfig)
 {
-	DrawingSurface ds = malloc(sizeof(struct DrawingSurface));
+	DrawingSurface *ds = malloc(sizeof(struct DrawingSurface));
 
 	if (!nativeWidget->window) {
 		gtk_widget_realize(nativeWidget);
@@ -163,7 +163,7 @@ DrawingSurface guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 	if (!ds->dsColors) {
 		XDEB(ds->dsGc);
 		drawFreeDrawingSurface(ds);
-		return (DrawingSurface)0;
+		return (DrawingSurface*)0;
 	}
 	ds->dsDrawable = nativeWidget->window;
 	ds->dsAvoidFontconfig = avoidFontconfig;
@@ -172,7 +172,7 @@ DrawingSurface guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 	if (!ds->dsGc) {
 		XDEB(ds->dsGc);
 		drawFreeDrawingSurface(ds);
-		return (DrawingSurface)0;
+		return (DrawingSurface*)0;
 	}
 
 #ifdef USE_XFT
@@ -198,7 +198,7 @@ DrawingSurface guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 /*									*/
 /************************************************************************/
 
-int guiGetLabelFont(DrawingSurface ds, const PostScriptFontList *psfl,
+int guiGetLabelFont(DrawingSurface *ds, const PostScriptFontList *psfl,
 		    APP_WIDGET nativeLabel)
 {
 	GtkWidget *labelw = gtk_bin_get_child(GTK_BIN(nativeLabel));

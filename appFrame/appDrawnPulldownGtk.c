@@ -260,8 +260,8 @@ void appMakeDrawnPulldownInRow(AppDrawnPulldown *adp,
 
 	gtk_table_attach(GTK_TABLE(row), adp->adpInplaceDrawing, column,
 			 column + colspan, 0, 1,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0);
+			 GTK_FES,
+			 GTK_FES, 0, 0);
 	/*
 			ROW_XPADDING_GTK, ROW_YPADDING_GTK );
 			*/

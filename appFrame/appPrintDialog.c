@@ -1348,7 +1348,7 @@ static AppPrintDialog *appMakePrintDialog(EditApplication *ea, EditDocument *ed,
 	apd->apdCenterHToggle = (APP_WIDGET)0;
 	apd->apdResources = &apdr;
 
-	apd->apdDrawingSurface = (DrawingSurface)0;
+	apd->apdDrawingSurface = (DrawingSurface*)0;
 
 	if (!gotResources) {
 		for (i = 0; i < PSnum__COUNT; i++) {

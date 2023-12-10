@@ -339,7 +339,7 @@ static APP_BUTTON_CALLBACK_H(appPageLayoutRevertDocumentPushed, w, voidplt)
 static APP_EVENT_HANDLER_H(appPageLayoutToolDrawPage, w, voidplt, exposeEvent)
 {
 	PageLayoutTool *plt = (PageLayoutTool *)voidplt;
-	DrawingSurface ds = plt->pltDrawingSurface;
+	DrawingSurface *ds = plt->pltDrawingSurface;
 	DocumentGeometry *dg = &(plt->pltGeometryChosen);
 
 	appDrawPageDiagram(w, ds, &(plt->pltBackgroundColor),
@@ -456,7 +456,7 @@ void appPageLayoutPageFillPage(PageLayoutTool *plt, int doHdFt, int doSelection,
 
 	/**/
 
-	plt->pltDrawingSurface = (DrawingSurface)0;
+	plt->pltDrawingSurface = (DrawingSurface*)0;
 
 	utilInitDocumentGeometry(&(plt->pltGeometrySetDocument));
 	utilInitDocumentGeometry(&(plt->pltGeometrySetSelection));

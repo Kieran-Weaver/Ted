@@ -39,14 +39,14 @@ DrawingSurface *drawMakeDrawingSurfaceForParent(DrawingSurface *parent, int wide
 	if (!ds->dsDrawable) {
 		XDEB(ds->dsDrawable);
 		drawFreeDrawingSurface(ds);
-		return (DrawingSurface)0;
+		return (DrawingSurface*)0;
 	}
 
 	ds->dsGc = gdk_gc_new(ds->dsDrawable);
 	if (!ds->dsGc) {
 		XDEB(ds->dsGc);
 		drawFreeDrawingSurface(ds);
-		return (DrawingSurface)0;
+		return (DrawingSurface*)0;
 	}
 
 #ifdef USE_XFT
@@ -77,7 +77,7 @@ DrawingSurface *drawMakeDrawingSurfaceForImageAndParent(
 
 	if (drawUtilGtkMakeImage(&xim, wide, high, ds->dsColors, abi, drSrc)) {
 		drawFreeDrawingSurface(ds);
-		return (DrawingSurface)0;
+		return (DrawingSurface*)0;
 	}
 
 	gdk_draw_image(ds->dsDrawable, ds->dsGc, xim, 0, 0, 0, 0, wide, high);

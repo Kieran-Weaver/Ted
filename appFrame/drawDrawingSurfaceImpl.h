@@ -35,6 +35,6 @@ struct DrawingSurface {
 /*									*/
 /************************************************************************/
 
-extern void drawInitDrawingSurface(DrawingSurface ds);
+extern void drawInitDrawingSurface(DrawingSurface *ds);
 
-void drawSetSystemColor(DrawingSurface ds, APP_COLOR_RGB *xc);
+void drawSetSystemColor(DrawingSurface *ds, APP_COLOR_RGB *xc);

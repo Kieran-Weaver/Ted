@@ -149,7 +149,7 @@ static int appDocMakeScrolledWindow(EditDocument *ed)
 
 	gtk_table_attach(GTK_TABLE(ed->edScrolledWindow),
 			 ed->edVerticalScrollbar, 1, 2, 0, 1, GTK_FILL,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0);
+			 GTK_FES, 0, 0);
 
 	gtk_widget_show(ed->edVerticalScrollbar);
 
@@ -161,7 +161,7 @@ static int appDocMakeScrolledWindow(EditDocument *ed)
 
 	gtk_table_attach(GTK_TABLE(ed->edScrolledWindow),
 			 ed->edHorizontalScrollbar, 0, 1, 1, 2,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, GTK_FILL, 0, 0);
+			 GTK_FES, GTK_FILL, 0, 0);
 
 	gtk_widget_show(ed->edHorizontalScrollbar);
 
@@ -176,15 +176,15 @@ int appMakeDocumentWidget(EditApplication *ea, EditDocument *ed)
 	ed->edWorkWidget = gtk_table_new(3, 3, FALSE);
 
 	gtk_table_attach(GTK_TABLE(ed->edScrolledWindow), ed->edWorkWidget, 0,
-			 1, 0, 1, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0);
+			 1, 0, 1, GTK_FES,
+			 GTK_FES, 0, 0);
 
 	gtk_widget_show(ed->edWorkWidget);
 
 	ed->edTopRulerWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget), ed->edTopRulerWidget, 0,
-			 3, 0, 1, GTK_FILL | GTK_EXPAND | GTK_SHRINK, GTK_FILL,
+			 3, 0, 1, GTK_FES, GTK_FILL,
 			 0, 0);
 
 	gtk_widget_show(ed->edTopRulerWidget);
@@ -192,7 +192,7 @@ int appMakeDocumentWidget(EditApplication *ea, EditDocument *ed)
 	ed->edBottomRulerWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget), ed->edBottomRulerWidget,
-			 0, 3, 2, 3, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			 0, 3, 2, 3, GTK_FES,
 			 GTK_FILL, 0, 0);
 
 	gtk_widget_show(ed->edBottomRulerWidget);
@@ -200,7 +200,7 @@ int appMakeDocumentWidget(EditApplication *ea, EditDocument *ed)
 	ed->edLeftRulerWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget), ed->edLeftRulerWidget, 0,
-			 1, 1, 2, GTK_FILL, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			 1, 1, 2, GTK_FILL, GTK_FES,
 			 0, 0);
 
 	gtk_widget_show(ed->edLeftRulerWidget);
@@ -208,7 +208,7 @@ int appMakeDocumentWidget(EditApplication *ea, EditDocument *ed)
 	ed->edRightRulerWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget), ed->edRightRulerWidget, 2,
-			 3, 1, 2, GTK_FILL, GTK_FILL | GTK_EXPAND | GTK_SHRINK,
+			 3, 1, 2, GTK_FILL, GTK_FES,
 			 0, 0);
 
 	gtk_widget_show(ed->edRightRulerWidget);
@@ -217,8 +217,8 @@ int appMakeDocumentWidget(EditApplication *ea, EditDocument *ed)
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget),
 			 ed->edDocumentWidget.dwWidget, 1, 2, 1, 2,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK,
-			 GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0);
+			 GTK_FES,
+			 GTK_FES, 0, 0);
 
 	gtk_widget_show(ed->edDocumentWidget.dwWidget);
 
