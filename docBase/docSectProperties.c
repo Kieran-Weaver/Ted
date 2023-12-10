@@ -152,7 +152,7 @@ int docUpdSectProperties(PropertyMask *pSpDoneMask, SectionProperties *spTo,
 		int oval;
 		int nval;
 
-		if (!PROPmaskISSET(spSetMask, prop)) {
+		if (!(PROPmaskISSET(spSetMask, prop))) {
 			continue;
 		}
 
@@ -245,7 +245,7 @@ void docSectPropertyDifference(PropertyMask *pDiffMask,
 		int oval;
 		int nval;
 
-		if (!PROPmaskISSET(cmpMask, prop)) {
+		if (!(PROPmaskISSET(cmpMask, prop))) {
 			continue;
 		}
 

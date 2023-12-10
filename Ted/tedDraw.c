@@ -712,10 +712,8 @@ void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
 			      ed->edSelectRectangle.srLTM.drX0;
 
 		if (geoIntersectRectangle(&drHair, &drHair, drClipPixels)) {
-			if (!blackSet) {
-				drawSetForegroundColorBlack(drsf);
-				blackSet = 1;
-			}
+			drawSetForegroundColorBlack(drsf);
+			blackSet = 1;
 
 			geoShiftRectangle(&drHair, -ox, -oy);
 			drawFillRectangle(drsf, &drHair);
@@ -733,7 +731,6 @@ void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
 						  drClipPixels)) {
 				if (!blackSet) {
 					drawSetForegroundColorBlack(drsf);
-					blackSet = 1;
 				}
 
 				geoShiftRectangle(&drHair, -ox, -oy);

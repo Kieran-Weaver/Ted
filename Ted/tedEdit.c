@@ -438,7 +438,7 @@ void tedDocInsertStringWithAttribute(EditDocument *ed, const char *word,
 	PropertyMask taDoneMask;
 
 	TextAttribute ta = td->tdSelectionDescription.sdTextAttribute;
-	int textAttrNr = td->tdSelectionDescription.sdTextAttributeNumber;
+	int textAttrNr;
 
 	DocumentSelection dsTraced;
 

@@ -313,7 +313,7 @@ static void tedTextSetExplicitColorChoice(TextOrnamentsTool *tot,
 				   &(etaC->etaTextColorExplicit), rgb8,
 				   colorExplicit, TApropTEXT_COLOR);
 
-	if (!PROPmaskISSET(&(tot->totChosenMask), TApropTEXT_COLOR) ||
+	if (!(PROPmaskISSET(&(tot->totChosenMask), TApropTEXT_COLOR)) ||
 	    changed) {
 		appColorChooserSetColor(&(tot->totTextColorChooser),
 					etaC->etaTextColorExplicit,

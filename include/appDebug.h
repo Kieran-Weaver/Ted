@@ -14,7 +14,7 @@
 #endif
 
 #ifdef __cplusplus
-"C" {
+extern "C"{
 #endif
 
 #ifdef __GNUC__

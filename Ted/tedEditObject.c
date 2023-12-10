@@ -442,7 +442,6 @@ InsertedObject *tedObjectMakeRasterObject(int *pObjectNumber, EditDocument *ed,
 
 		io->ioKind = DOCokPICTJPEGBLIP;
 		pip->pipType = DOCokPICTJPEGBLIP;
-		includedAsBitmap = 1;
 	}
 
 	sioOutClose(sosHex);

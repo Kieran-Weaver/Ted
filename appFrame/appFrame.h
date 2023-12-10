@@ -22,7 +22,7 @@
 #include <psPostScriptFontList.h>
 
 #ifdef __cplusplus
-"C" {
+extern "C"{
 #endif
 
 struct PrintGeometry;

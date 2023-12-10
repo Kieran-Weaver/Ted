@@ -69,7 +69,6 @@ void docListTextLine(int indent, const char *label, int n,
 	}
 	if (tl->tlFlags & TLflagBORDER) {
 		strcat(flags, sep);
-		sep = "|";
 		strcat(flags, "BD");
 	}
 

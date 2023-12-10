@@ -77,7 +77,7 @@ static int docUpdNotesProperties(PropertyMask *pDoneMask, NotesProperties *np,
 		int oval;
 		int nval;
 
-		if (pprop < 0 || !PROPmaskISSET(setMask, pprop)) {
+		if (pprop < 0 || !(PROPmaskISSET(setMask, pprop))) {
 			continue;
 		}
 
@@ -133,7 +133,7 @@ static int docNotesPropertyDifference(PropertyMask *pDifMask,
 		int oval;
 		int nval;
 
-		if (pprop < 0 || !PROPmaskISSET(cmpMask, pprop)) {
+		if (pprop < 0 || !(PROPmaskISSET(cmpMask, pprop))) {
 			continue;
 		}
 

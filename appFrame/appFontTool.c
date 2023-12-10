@@ -756,7 +756,7 @@ static APP_TOGGLE_CALLBACK_H(appFontUnderlinedToggled, w, voidafc, voidtbcs)
 	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
 	if (!set &&
-	    !PROPmaskISSET(&(afc->afcChosenMask), TApropTEXTUNDERLINED)) {
+	    !(PROPmaskISSET(&(afc->afcChosenMask), TApropTEXTUNDERLINED))) {
 		return;
 	}
 
@@ -779,7 +779,7 @@ static APP_TOGGLE_CALLBACK_H(appFontStrikethroughToggled, w, voidafc, voidtbcs)
 	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
 	if (!set &&
-	    !PROPmaskISSET(&(afc->afcChosenMask), TApropSTRIKETHROUGH)) {
+	    !(PROPmaskISSET(&(afc->afcChosenMask), TApropSTRIKETHROUGH))) {
 		return;
 	}
 
@@ -801,7 +801,7 @@ static APP_TOGGLE_CALLBACK_H(appFontSuperscriptToggled, w, voidafc, voidtbcs)
 
 	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
-	if (!set && !PROPmaskISSET(&(afc->afcChosenMask), TApropSUPERSUB)) {
+	if (!set && !(PROPmaskISSET(&(afc->afcChosenMask), TApropSUPERSUB))) {
 		return;
 	}
 
@@ -840,7 +840,7 @@ static APP_TOGGLE_CALLBACK_H(appFontSubscriptToggled, w, voidafc, voidtbcs)
 
 	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
-	if (!set && !PROPmaskISSET(&(afc->afcChosenMask), TApropSUPERSUB)) {
+	if (!set && !(PROPmaskISSET(&(afc->afcChosenMask), TApropSUPERSUB))) {
 		return;
 	}
 
@@ -879,7 +879,7 @@ static APP_TOGGLE_CALLBACK_H(appFontSmallcapsToggled, w, voidafc, voidtbcs)
 
 	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
-	if (!set && !PROPmaskISSET(&(afc->afcChosenMask), TApropSMALLCAPS)) {
+	if (!set && !(PROPmaskISSET(&(afc->afcChosenMask), TApropSMALLCAPS))) {
 		return;
 	}
 
@@ -919,7 +919,7 @@ static APP_TOGGLE_CALLBACK_H(appFontCapitalsToggled, w, voidafc, voidtbcs)
 
 	set = appGuiGetToggleStateFromCallback(w, voidtbcs);
 
-	if (!set && !PROPmaskISSET(&(afc->afcChosenMask), TApropCAPITALS)) {
+	if (!set && !(PROPmaskISSET(&(afc->afcChosenMask), TApropCAPITALS))) {
 		return;
 	}
 
@@ -988,7 +988,7 @@ static APP_LIST_CALLBACK_H(appFontFamilyChosen, w, voidafc, voidlcs)
 		return;
 	}
 
-	if (!PROPmaskISSET(&(afc->afcChosenMask), TApropFONT_NUMBER)) {
+	if (!(PROPmaskISSET(&(afc->afcChosenMask), TApropFONT_NUMBER))) {
 		changed = 1;
 	}
 

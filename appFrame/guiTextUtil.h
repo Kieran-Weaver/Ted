@@ -13,7 +13,7 @@
 #include <utilMemoryBuffer.h>
 
 #ifdef __cplusplus
-"C" {
+extern "C"{
 #endif
 
 /************************************************************************/

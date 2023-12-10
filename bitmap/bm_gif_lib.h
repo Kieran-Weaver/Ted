@@ -205,6 +205,6 @@ int DGifGetExtensionNext(GifFileType *GifFile, int *pGot,
 #define D_GIF_ERR_IMAGE_DEFECT 112
 #define D_GIF_ERR_EOF_TOO_SOON 113
 
-int _GifError;
+extern int _GifError;
 
 #endif /* _GIF_LIB_H */

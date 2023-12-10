@@ -13,7 +13,7 @@
 #include "guiOptionmenu.h"
 
 #ifdef __cplusplus
-"C" {
+extern "C"{
 #endif
 
 /************************************************************************/

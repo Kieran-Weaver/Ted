@@ -14,7 +14,7 @@
 #include <drawDrawingSurface.h>
 
 #ifdef __cplusplus
-"C" {
+extern "C"{
 #endif
 
 #define A3_MM_HIGH 420

@@ -71,8 +71,8 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 			 const LayoutPosition *baseLine);
 
 void tedDrawShadedRectangle(const LayoutContext *lc,
-				   struct DrawingSurface *shadingPixmaps, int pattern,
-				   const DocumentRectangle *drShade);
+			    struct DrawingSurface **shadingPixmaps, int pattern,
+			    const DocumentRectangle *drShade);
 
 void tedDrawHorizontalBorderLine(struct DrawingSurface *ds, int style,
 					int minThick, int x0, int x1, int y);

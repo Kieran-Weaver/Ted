@@ -88,7 +88,7 @@ void tedRefreshFrameTool(FrameTool *ft, int *pEnabled, int *pPref,
 
 	paraBi = ds->dsHead.dpNode;
 
-	if (1) {
+	if (0) {
 		*pEnabled = 0;
 		return;
 	}

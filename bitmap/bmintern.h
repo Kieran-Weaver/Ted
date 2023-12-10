@@ -9,8 +9,8 @@
 /*									*/
 /************************************************************************/
 
-unsigned char Bmc1Masks[8];
-unsigned char Bmc7Masks[8];
+extern const unsigned char Bmc1Masks[8];
+extern const unsigned char Bmc7Masks[8];
 
 /************************************************************************/
 /*									*/

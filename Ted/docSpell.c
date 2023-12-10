@@ -225,9 +225,8 @@ int docSpellParaFindNext(DocumentSelection *ds, BufferItem *paraBi,
 		}
 
 		/*  Is the word and the trailing white space a valid prefix? */
-		count = indCountPossibilities(&ssj, scc, dpHere.dpStroff,
-					      dpHere.dpStroff >=
-						      docParaStrlen(paraBi));
+		indCountPossibilities(&ssj, scc, dpHere.dpStroff,
+				      dpHere.dpStroff >= docParaStrlen(paraBi));
 
 		indRejectPossibilities(&acceptedPos, acceptedPos, &ssj);
 	}

@@ -131,7 +131,6 @@ static void tedAnalyseFileNamePart(int *pIsFile, int *pIsAbsolute,
 			if (protocolSize == 4 &&
 			    !strncmp(fileName, "file", 4)) {
 				fileName += 5;
-				fileSize -= 5;
 				isAbsolute = fileName[0] == '/';
 				protocolSize = 5;
 				isFile = 1;

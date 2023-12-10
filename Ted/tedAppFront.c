@@ -167,6 +167,7 @@ void tedAppSetTocField(EditApplication *ea, const TocField *tf)
 
 	if (!ed) {
 		XDEB(ed);
+		return;
 	}
 
 	tedDocSetTocField(ed, tf, ((TedDocument *)ed->edPrivateData)->tdTraced);
@@ -178,6 +179,7 @@ void tedAppAddTocField(EditApplication *ea, const TocField *tf)
 
 	if (!ed) {
 		XDEB(ed);
+		return;
 	}
 
 	tedDocAddTocField(ed, tf, ((TedDocument *)ed->edPrivateData)->tdTraced);

@@ -98,7 +98,7 @@ typedef enum TextProperty {
 /*									*/
 /************************************************************************/
 
-TextAttribute DocDefaultAttributes;
+extern TextAttribute DocDefaultAttributes;
 
 /************************************************************************/
 /*									*/

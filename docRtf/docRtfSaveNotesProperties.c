@@ -27,7 +27,7 @@ int docRtfSaveNotesProperties(
 		const int pprop = propMap[prop];
 		int val;
 
-		if (pprop < 0 || !PROPmaskISSET(mask, pprop)) {
+		if (pprop < 0 || !(PROPmaskISSET(mask, pprop))) {
 			continue;
 		}
 

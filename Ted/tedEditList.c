@@ -252,10 +252,6 @@ int tedDocSetNewList(EditDocument *ed, int traced)
 		}
 	}
 
-	if (sd.sdHasLists && !sd.sdMultiList && sd.sdListOverride > 0) {
-		lsExample = sd.sdListOverride;
-	}
-
 	utilPropMaskFill(&taSetMask, TAprop_COUNT);
 	taNew = td->tdSelectionDescription.sdTextAttribute;
 

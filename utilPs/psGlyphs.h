@@ -13,7 +13,7 @@
 /*									*/
 /************************************************************************/
 
-const char *const psAppleTtfGlyphNames[258]; /*  258 !  */
+extern const char *const psAppleTtfGlyphNames[258]; /*  258 !  */
 
 const char *psUnicodeToGlyphName(int unicode);
 int psGlyphNameToUnicode(const char *glyphname);

@@ -123,7 +123,7 @@ void tedRefreshHeaderFooterTool(HeaderFooterTool *hft, int *pEnabled,
 		return;
 	}
 
-	whatHeaderFooter = hft->hftInTreeType = selSectBi->biTreeType;
+	hft->hftInTreeType = selSectBi->biTreeType;
 	if (sd->sdInHeaderFooter) {
 		whatHeaderFooter = selSectBi->biTreeType;
 		hft->hftSectionNumber = bodySectNode->biNumberInParent;

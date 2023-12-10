@@ -145,8 +145,8 @@ static void docCountListFontsUsed(BufferDocument *bdFrom, const int *lsUsed,
 			if (!lol->lolOverrideFormat) {
 				continue;
 			}
-			if (!PROPmaskISSET(&(ll->llTextAttributeMask),
-					   TApropFONT_NUMBER)) {
+			if (!(PROPmaskISSET(&(ll->llTextAttributeMask),
+					   TApropFONT_NUMBER))) {
 				continue;
 			}
 
@@ -164,8 +164,8 @@ static void docCountListFontsUsed(BufferDocument *bdFrom, const int *lsUsed,
 		}
 
 		for (level = 0; level < dl->dlLevelCount; ll++, level++) {
-			if (!PROPmaskISSET(&(ll->llTextAttributeMask),
-					   TApropFONT_NUMBER)) {
+			if (!(PROPmaskISSET(&(ll->llTextAttributeMask),
+					   TApropFONT_NUMBER))) {
 				continue;
 			}
 

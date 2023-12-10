@@ -113,8 +113,6 @@ static int tedBuildOpenImageExtensions(TedAppResources *tar)
 			return -1;
 		}
 		tar->tarOpenImageExtensions = afe;
-
-		afe += tar->tarOpenImageExtensionCount;
 	}
 
 	return 0;

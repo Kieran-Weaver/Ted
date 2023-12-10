@@ -57,7 +57,7 @@ int docUpdPictureProperties(PropertyMask *pDoneMask, PictureProperties *pipTo,
 		int valFrom;
 		int valTo;
 
-		if (!PROPmaskISSET(pipSetMask, prop)) {
+		if (!(PROPmaskISSET(pipSetMask, prop))) {
 			continue;
 		}
 
@@ -102,7 +102,7 @@ void docPicturePropertyDifference(PropertyMask *pDifMask,
 		int val1;
 		int val2;
 
-		if (!PROPmaskISSET(cmpMask, prop)) {
+		if (!(PROPmaskISSET(cmpMask, prop))) {
 			continue;
 		}
 

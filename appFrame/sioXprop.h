@@ -9,7 +9,7 @@
 #include <sioGeneral.h>
 
 #ifdef __cplusplus
-"C" {
+extern "C"{
 #endif
 
 SimpleInputStream *sioInOpenPaste(APP_WIDGET w,

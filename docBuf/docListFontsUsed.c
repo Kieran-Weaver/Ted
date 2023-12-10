@@ -163,7 +163,7 @@ int docGetCharsUsed(BufferDocument *bd)
 		const DocumentStyle *ds = bd->bdStyleSheet.dssStyles[i];
 
 		if (!ds ||
-		    !PROPmaskISSET(&(ds->dsTextMask), TApropFONT_NUMBER)) {
+		    !(PROPmaskISSET(&(ds->dsTextMask), TApropFONT_NUMBER))) {
 			continue;
 		}
 
@@ -183,8 +183,8 @@ int docGetCharsUsed(BufferDocument *bd)
 			const ListLevel *ll = &(lol->lolListLevel);
 
 			if (!lol->lolOverrideFormat ||
-			    !PROPmaskISSET(&(ll->llTextAttributeMask),
-					   TApropFONT_NUMBER)) {
+			    !(PROPmaskISSET(&(ll->llTextAttributeMask),
+					   TApropFONT_NUMBER))) {
 				continue;
 			}
 
@@ -202,8 +202,8 @@ int docGetCharsUsed(BufferDocument *bd)
 		const ListLevel *ll = dl->dlLevels;
 
 		for (level = 0; level < dl->dlLevelCount; ll++, level++) {
-			if (!PROPmaskISSET(&(ll->llTextAttributeMask),
-					   TApropFONT_NUMBER)) {
+			if (!(PROPmaskISSET(&(ll->llTextAttributeMask),
+					   TApropFONT_NUMBER))) {
 				continue;
 			}
 
