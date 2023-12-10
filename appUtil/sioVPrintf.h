@@ -16,6 +16,6 @@
 /*									*/
 /************************************************************************/
 
-extern int sioOutVPrintf(SimpleOutputStream *sos, const char *format,
+int sioOutVPrintf(SimpleOutputStream *sos, const char *format,
 			 va_list ap);
 #endif

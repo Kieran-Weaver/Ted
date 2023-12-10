@@ -69,9 +69,9 @@ typedef struct CalculateToc {
 /*									*/
 /************************************************************************/
 
-extern void docInitCalculateToc(CalculateToc *ct);
-extern void docCleanCalculateToc(CalculateToc *ct);
+void docInitCalculateToc(CalculateToc *ct);
+void docCleanCalculateToc(CalculateToc *ct);
 
-extern int docCollectTocInput(CalculateToc *ct);
+int docCollectTocInput(CalculateToc *ct);
 
 #endif /*	DOC_CALCULATE_TOC_H	*/

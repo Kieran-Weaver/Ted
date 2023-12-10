@@ -20,13 +20,13 @@ typedef struct TrueTypeNameTable {
 	TrueTypeNameRecord *ttntRecords;
 } TrueTypeNameTable;
 
-extern void psTtfInitTrueTypeNameRecord(TrueTypeNameRecord *ttnr);
-extern void psTtfCleanTrueTypeNameRecord(TrueTypeNameRecord *ttnr);
-extern void psTtfInitTrueTypeNameTable(TrueTypeNameTable *ttnt);
-extern void psTtfCleanTrueTypeNameTable(TrueTypeNameTable *ttnt);
+void psTtfInitTrueTypeNameRecord(TrueTypeNameRecord *ttnr);
+void psTtfCleanTrueTypeNameRecord(TrueTypeNameRecord *ttnr);
+void psTtfInitTrueTypeNameTable(TrueTypeNameTable *ttnt);
+void psTtfCleanTrueTypeNameTable(TrueTypeNameTable *ttnt);
 
-extern int psTtfExtractNameRecords(SimpleInputStream *sisName,
+int psTtfExtractNameRecords(SimpleInputStream *sisName,
 				   const TrueTypeTableEntry *ttte,
 				   TrueTypeNameTable *ttnt);
 
-extern int psTtfGetName(char **pName, const TrueTypeNameTable *ttnt, int which);
+int psTtfGetName(char **pName, const TrueTypeNameTable *ttnt, int which);

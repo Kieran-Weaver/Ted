@@ -51,20 +51,20 @@ typedef struct TableTool {
 /*									*/
 /************************************************************************/
 
-extern void tedFormatFillTablePage(TableTool *tt, const TablePageResources *tpr,
+void tedFormatFillTablePage(TableTool *tt, const TablePageResources *tpr,
 				   InspectorSubject *is, APP_WIDGET pageWidget,
 				   const InspectorSubjectResources *isr);
 
-extern void tedFormatToolGetTableResourceTable(EditApplication *ea,
+void tedFormatToolGetTableResourceTable(EditApplication *ea,
 					       TablePageResources *tpr,
 					       InspectorSubjectResources *isr);
 
-extern void
+void
 tedRefreshTableTool(TableTool *tt, int *pEnabled, int *pPref,
 		    InspectorSubject *is, const DocumentSelection *ds,
 		    const SelectionGeometry *sg, const SelectionDescription *sd,
 		    BufferDocument *bd, const unsigned char *cmdEnabled);
 
-extern void tedFormatCleanTableTool(TableTool *tt);
+void tedFormatCleanTableTool(TableTool *tt);
 
 #endif /*  TED_TABLE_TOOL_H */

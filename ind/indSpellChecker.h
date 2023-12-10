@@ -95,11 +95,11 @@ typedef enum SpellCheckError {
 /*									*/
 /************************************************************************/
 
-extern void indInitSpellDictionary(SpellDictionary *sd);
-extern void indInitSpellChecker(SpellChecker *sc);
-extern void indCleanSpellChecker(SpellChecker *sc);
+void indInitSpellDictionary(SpellDictionary *sd);
+void indInitSpellChecker(SpellChecker *sc);
+void indCleanSpellChecker(SpellChecker *sc);
 
-extern int indSpellDictionarySetLocaleLabel(SpellDictionary *sd,
+int indSpellDictionarySetLocaleLabel(SpellDictionary *sd,
 					    const char *localeLabel);
 
 #endif /* IND_SPELL_CHECHER_H */

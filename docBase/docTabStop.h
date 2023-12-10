@@ -74,13 +74,13 @@ typedef enum TabProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitTabStop(TabStop *ts);
+void docInitTabStop(TabStop *ts);
 
-extern int docTabStopGetProperty(const TabStop *ts, int prop);
+int docTabStopGetProperty(const TabStop *ts, int prop);
 
-extern int docTabStopSetProperty(TabStop *ts, int prop, int val);
+int docTabStopSetProperty(TabStop *ts, int prop, int val);
 
-extern const char *docTabAlignmentStr(int alignment);
-extern const char *docTabLeaderStr(int leader);
+const char *docTabAlignmentStr(int alignment);
+const char *docTabLeaderStr(int leader);
 
 #endif /*  DOC_TAB_STOP_H	*/

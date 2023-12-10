@@ -77,29 +77,29 @@ typedef struct DrawingShape {
 /************************************************************************/
 
 void docInitShapeAllocated(DrawingShape *ds);
-extern void docInitDrawingShape(DrawingShape *ds);
-extern void docCleanDrawingShape(DrawingShape *ds);
+void docInitDrawingShape(DrawingShape *ds);
+void docCleanDrawingShape(DrawingShape *ds);
 
-extern void docDeleteDrawingShape(struct BufferDocument *bd, DrawingShape *ds);
+void docDeleteDrawingShape(struct BufferDocument *bd, DrawingShape *ds);
 
-extern void docShapeStartShapeTransform(AffineTransform2D *at,
+void docShapeStartShapeTransform(AffineTransform2D *at,
 					const DrawingShape *ds,
 					const DocumentRectangle *dr, int xSize,
 					int ySize);
 
-extern void docShapeInternalTransform(AffineTransform2D *at,
+void docShapeInternalTransform(AffineTransform2D *at,
 				      const DrawingShape *ds);
 
-extern int docShapeGetFill(int *pFill, RGB8Color *rgb8, const DrawingShape *ds);
+int docShapeGetFill(int *pFill, RGB8Color *rgb8, const DrawingShape *ds);
 
-extern int docShapeGetLine(int *pFill, RGB8Color *rgb8, const DrawingShape *ds);
+int docShapeGetLine(int *pFill, RGB8Color *rgb8, const DrawingShape *ds);
 
-extern void docShapeGetRects(DocumentRectangle *drHere,
+void docShapeGetRects(DocumentRectangle *drHere,
 			     DocumentRectangle *drNorm,
 			     const DocumentRectangle *drTwips,
 			     const DrawingShape *ds);
 
-extern void docShapeGetChildRect(DocumentRectangle *drChild,
+void docShapeGetChildRect(DocumentRectangle *drChild,
 				 const DrawingShape *dsChild,
 				 const DocumentRectangle *dr,
 				 const DrawingShape *ds);

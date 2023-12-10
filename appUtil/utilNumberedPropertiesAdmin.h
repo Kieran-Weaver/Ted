@@ -29,22 +29,22 @@ typedef struct NumberedPropertiesList {
 /*									*/
 /************************************************************************/
 
-extern void utilInitNumberedPropertiesList(NumberedPropertiesList *npl);
+void utilInitNumberedPropertiesList(NumberedPropertiesList *npl);
 
-extern void utilCleanNumberedPropertiesList(NumberedPropertiesList *npl);
+void utilCleanNumberedPropertiesList(NumberedPropertiesList *npl);
 
-extern void utilForAllNumberedProperties(const NumberedPropertiesList *npl,
+void utilForAllNumberedProperties(const NumberedPropertiesList *npl,
 					 NumberedPropertiesFunction f,
 					 void *through);
 
-extern void utilStartNumberedPropertyList(NumberedPropertiesList *npl,
+void utilStartNumberedPropertyList(NumberedPropertiesList *npl,
 					  int propCount,
 					  NumberedPropertiesGetProperty getProp,
 					  int sizeofItem,
 					  InitPagedListItem initItem,
 					  CleanPagedListItem cleanItem);
 
-extern int utilGetPropertyNumber(NumberedPropertiesList *npl, int make,
+int utilGetPropertyNumber(NumberedPropertiesList *npl, int make,
 				 const void *vob);
 
 #endif /*  UTIL_NUMBERED_PROPERTIES_ADMIN_H	*/

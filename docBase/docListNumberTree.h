@@ -44,41 +44,41 @@ typedef int (*LIST_TREE_FUNC)(int ilvl, void *through);
 /*									*/
 /************************************************************************/
 
-extern void docInitListNumberTreeNode(ListNumberTreeNode *lntn);
-extern void docCleanListNumberTreeNode(ListNumberTreeNode *lntn);
+void docInitListNumberTreeNode(ListNumberTreeNode *lntn);
+void docCleanListNumberTreeNode(ListNumberTreeNode *lntn);
 
-extern void docInitListNumberTrees(ListNumberTrees *lnt);
-extern void docCleanListNumberTrees(ListNumberTrees *lnt);
-extern int docClaimListNumberTrees(ListNumberTrees *lnt, int count);
+void docInitListNumberTrees(ListNumberTrees *lnt);
+void docCleanListNumberTrees(ListNumberTrees *lnt);
+int docClaimListNumberTrees(ListNumberTrees *lnt, int count);
 
-extern void docShiftListNodeReferences(ListNumberTreeNode *root, int paraFrom,
+void docShiftListNodeReferences(ListNumberTreeNode *root, int paraFrom,
 				       int paraShift);
 
-extern void docShiftListTreeReferences(ListNumberTrees *lnt, int paraFrom,
+void docShiftListTreeReferences(ListNumberTrees *lnt, int paraFrom,
 				       int paraShift);
 
-extern ListNumberTreeNode *docGetListNumberTree(ListNumberTrees *lnt, int ls);
+ListNumberTreeNode *docGetListNumberTree(ListNumberTrees *lnt, int ls);
 
-extern int docListNumberTreeInsertParagraph(ListNumberTreeNode *root, int ilvl,
+int docListNumberTreeInsertParagraph(ListNumberTreeNode *root, int ilvl,
 					    int paraNr);
 
-extern int docListNumberTreesInsertParagraph(ListNumberTrees *lnt, int ls,
+int docListNumberTreesInsertParagraph(ListNumberTrees *lnt, int ls,
 					     int ilvl, int paraNr);
 
-extern int docListNumberTreeDeleteParagraph(ListNumberTreeNode *root,
+int docListNumberTreeDeleteParagraph(ListNumberTreeNode *root,
 					    int paraNr);
 
-extern int docListNumberTreesDeleteParagraph(ListNumberTrees *lnt, int ls,
+int docListNumberTreesDeleteParagraph(ListNumberTrees *lnt, int ls,
 					     int paraNr);
 
-extern int docListNumberTreeGetNumberPath(int *numberPath,
+int docListNumberTreeGetNumberPath(int *numberPath,
 					  ListNumberTreeNode *root, int ilvl,
 					  int paraNr);
 
-extern int docListNumberTreeGetPrevPath(int *numberPath, int *pLevel,
+int docListNumberTreeGetPrevPath(int *numberPath, int *pLevel,
 					ListNumberTreeNode *root, int paraNr);
 
-extern int docListNumberTreeForAll(ListNumberTreeNode *root,
+int docListNumberTreeForAll(ListNumberTreeNode *root,
 				   LIST_TREE_FUNC forOne, void *through);
 
 #endif

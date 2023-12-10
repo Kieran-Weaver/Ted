@@ -11,7 +11,7 @@
 #include <docBuf.h>
 #include "layoutContext.h"
 
-extern int docDescribeSetSelection(DocumentTree **pTreeSet,
+int docDescribeSetSelection(DocumentTree **pTreeSet,
 				   struct BufferItem **pBodySectNodeSet,
 				   DocumentRectangle *drExternalSet,
 				   int *pRedrawOldTree, int *pRedrawNewTree,

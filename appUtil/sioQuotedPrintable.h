@@ -7,8 +7,8 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *
+SimpleInputStream *
 sioInQuotedPrintableOpen(SimpleInputStream *sisQuoted);
 
-extern SimpleOutputStream *
+SimpleOutputStream *
 sioOutQuotedPrintableOpen(SimpleOutputStream *sosQuoted);

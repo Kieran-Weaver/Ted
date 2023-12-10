@@ -40,17 +40,17 @@ typedef void (*AppXftColorFunction)(AppXftColor *axc, int n, void *through);
 /*									*/
 /************************************************************************/
 
-extern void appSolidXftColor(AppXftColor *to, const APP_COLOR_RGB *from);
+void appSolidXftColor(AppXftColor *to, const APP_COLOR_RGB *from);
 
-extern int appXftAllocateColor(AppXftColor *axc, AppXftColorList *axcl);
+int appXftAllocateColor(AppXftColor *axc, AppXftColorList *axcl);
 
-extern void appInitAppXftColorList(AppXftColorList *axcl);
+void appInitAppXftColorList(AppXftColorList *axcl);
 
-extern void appCleanAppXftColorList(AppXftColorList *axcl);
+void appCleanAppXftColorList(AppXftColorList *axcl);
 
-extern int appAppXftColorNumber(AppXftColorList *axcl, const AppXftColor *axc);
+int appAppXftColorNumber(AppXftColorList *axcl, const AppXftColor *axc);
 
-extern void appGetAppXftColorByNumber(AppXftColor *axc,
+void appGetAppXftColorByNumber(AppXftColor *axc,
 				      const AppXftColorList *axcl, int n);
 
 #endif

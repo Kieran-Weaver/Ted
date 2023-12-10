@@ -44,6 +44,6 @@ typedef struct ParagraphFrame {
 /*									*/
 /************************************************************************/
 
-extern void docInitParagraphFrame(ParagraphFrame *pf);
+void docInitParagraphFrame(ParagraphFrame *pf);
 
 #endif /*	DOC_STRIP_FRAME_H */

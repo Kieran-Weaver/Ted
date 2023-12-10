@@ -48,17 +48,17 @@ typedef struct BitmapSegment {
 /*									*/
 /************************************************************************/
 
-extern int bcComponents(BitmapSegment ***pSegments, int *pCount,
+int bcComponents(BitmapSegment ***pSegments, int *pCount,
 			const unsigned char *buffer,
 			const BitmapDescription *bd);
 
-extern void bmFreeSegment(BitmapSegment *bs);
+void bmFreeSegment(BitmapSegment *bs);
 
-extern int bmcDrawComponent(const BitmapSegment *bs, unsigned char *buffer,
+int bmcDrawComponent(const BitmapSegment *bs, unsigned char *buffer,
 			    int col0, int row0, int bytesPerRow,
 			    int colorEncoding);
 
-extern void bmcStatistics(const BitmapSegment *bs, int *pN, float *pSx,
+void bmcStatistics(const BitmapSegment *bs, int *pN, float *pSx,
 			  float *pSy, float *pSxx, float *pSyy, float *pSxy);
 
 #endif /*	BM_SEGMENTS_H	*/

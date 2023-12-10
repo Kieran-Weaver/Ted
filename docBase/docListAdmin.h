@@ -25,26 +25,26 @@ typedef struct ListAdmin {
 /*									*/
 /************************************************************************/
 
-extern void docInitListAdmin(ListAdmin *la);
-extern void docCleanListAdmin(ListAdmin *la);
+void docInitListAdmin(ListAdmin *la);
+void docCleanListAdmin(ListAdmin *la);
 
-extern int docCopyListAdmin(ListAdmin *to, const ListAdmin *from);
+int docCopyListAdmin(ListAdmin *to, const ListAdmin *from);
 
-extern int docMakeOverrideForEveryList(ListAdmin *la);
+int docMakeOverrideForEveryList(ListAdmin *la);
 
-extern int docMergeListAdmins(ListAdmin *laTo, const ListAdmin *laFrom,
+int docMergeListAdmins(ListAdmin *laTo, const ListAdmin *laFrom,
 			      const int *lsUsed, int *lsMap,
 			      const int *listUsed, const int *fontMap,
 			      const int *colorMap, const int *rulerMap);
 
-extern int docGetListForStyle(struct ListOverride **pLo,
+int docGetListForStyle(struct ListOverride **pLo,
 			      struct DocumentList **pDl, int ls,
 			      const ListAdmin *la);
 
-extern int docGetListOfOverride(struct ListOverride *lo,
+int docGetListOfOverride(struct ListOverride *lo,
 				const DocumentListTable *dlt);
 
-extern int docListGetFormatPath(int *startPath, int *formatPath,
+int docListGetFormatPath(int *startPath, int *formatPath,
 				const struct ListLevel **pLl, int ilvl,
 				const struct DocumentList *dl,
 				const struct ListOverride *lo);

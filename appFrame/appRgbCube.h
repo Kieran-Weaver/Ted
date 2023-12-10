@@ -69,28 +69,28 @@ typedef enum RgbCubeSplitColor {
 /*									*/
 /************************************************************************/
 
-extern void appInitRgbCube(RgbCube *rc);
+void appInitRgbCube(RgbCube *rc);
 
-extern void appCleanRgbCube(RgbCube *rc);
+void appCleanRgbCube(RgbCube *rc);
 
-extern void appRedrawRgbCube(RgbCube *rc, int wide, int high,
+void appRedrawRgbCube(RgbCube *rc, int wide, int high,
 			     const DocumentRectangle *drClip,
 			     struct DrawingSurface *ds);
 
-extern int appPrepareRgbCube(RgbCube *rc, struct DrawingSurface *ds, int redSteps,
+int appPrepareRgbCube(RgbCube *rc, struct DrawingSurface *ds, int redSteps,
 			     int greenSteps, int blueSteps);
 
-extern void appRotateRgbCube(RgbCube *rc, int mouseX, int mouseY, int wide,
+void appRotateRgbCube(RgbCube *rc, int mouseX, int mouseY, int wide,
 			     int high);
 
-extern int appRgbCubeFindColor(RGB8Color *rgb8, int *pOnOutside, RgbCube *rc,
+int appRgbCubeFindColor(RGB8Color *rgb8, int *pOnOutside, RgbCube *rc,
 			       int mouseX, int mouseY, int wide, int high);
 
-extern void appRgbCubeSetSplit(RgbCube *rc, int splitColor,
+void appRgbCubeSetSplit(RgbCube *rc, int splitColor,
 			       const RGB8Color *splitValues);
 
-extern void appRgbCubeSelectColor(RgbCube *rc, const RGB8Color *rgb8);
+void appRgbCubeSelectColor(RgbCube *rc, const RGB8Color *rgb8);
 
-extern void appRgbCubeRefreshSplit(RgbCube *rc, const RGB8Color *rgb8);
+void appRgbCubeRefreshSplit(RgbCube *rc, const RGB8Color *rgb8);
 
 #endif

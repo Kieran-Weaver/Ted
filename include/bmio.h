@@ -23,46 +23,46 @@ typedef int (*bmWriteBitmap)(const BitmapDescription *bd,
 /*									*/
 /************************************************************************/
 
-extern int bmRtfWriteRtf(const BitmapDescription *bd,
+int bmRtfWriteRtf(const BitmapDescription *bd,
 			 const unsigned char *buffer, SimpleOutputStream *sos);
 
-extern int bmPngWritePng(const BitmapDescription *bd,
+int bmPngWritePng(const BitmapDescription *bd,
 			 const unsigned char *buffer, SimpleOutputStream *sos);
 
-extern int bmRtfWritePngRtf(const BitmapDescription *bd,
+int bmRtfWritePngRtf(const BitmapDescription *bd,
 			    const unsigned char *buffer,
 			    SimpleOutputStream *sos);
 
-extern int bmJpegWriteJfif(const BitmapDescription *bd,
+int bmJpegWriteJfif(const BitmapDescription *bd,
 			   const unsigned char *buffer,
 			   SimpleOutputStream *sos);
 
-extern int bmRtfWriteJfifRtf(const BitmapDescription *bd,
+int bmRtfWriteJfifRtf(const BitmapDescription *bd,
 			     const unsigned char *buffer,
 			     SimpleOutputStream *sos);
 
-extern int bmGifWriteGif(const BitmapDescription *bd,
+int bmGifWriteGif(const BitmapDescription *bd,
 			 const unsigned char *buffer, SimpleOutputStream *sos);
 
-extern int bmBmpReadDib(BitmapDescription *bd, unsigned char **pBuffer,
+int bmBmpReadDib(BitmapDescription *bd, unsigned char **pBuffer,
 			SimpleInputStream *sis);
 
-extern int bmJpegReadJfif(BitmapDescription *bd, unsigned char **pBuffer,
+int bmJpegReadJfif(BitmapDescription *bd, unsigned char **pBuffer,
 			  SimpleInputStream *sis);
 
-extern int bmPngReadPng(BitmapDescription *bd, unsigned char **pBuffer,
+int bmPngReadPng(BitmapDescription *bd, unsigned char **pBuffer,
 			SimpleInputStream *sis);
 
-extern int bmGifReadGif(BitmapDescription *bd, unsigned char **pBuffer,
+int bmGifReadGif(BitmapDescription *bd, unsigned char **pBuffer,
 			SimpleInputStream *sis);
 
-extern int bmEpsTestJpegEmbeddable(unsigned int *pPixelsWide,
+int bmEpsTestJpegEmbeddable(unsigned int *pPixelsWide,
 				   unsigned int *pPixelsHigh,
 				   unsigned int *pComponentCount,
 				   unsigned int *pBitsPerCompunent,
 				   SimpleInputStream *sis);
 
-extern int bmPsPrintJpegImage(SimpleOutputStream *sos, double xscale,
+int bmPsPrintJpegImage(SimpleOutputStream *sos, double xscale,
 			      double yscale, int componentCount, int ox, int oy,
 			      int pixelsWide, int pixelsHigh,
 			      int bitsPerComponent, SimpleInputStream *sis);

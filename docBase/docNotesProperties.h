@@ -118,29 +118,29 @@ typedef struct FootEndNotesProperties {
 /*									*/
 /************************************************************************/
 
-extern int docUpdFootEndNotesProperties(PropertyMask *pDoneMask,
+int docUpdFootEndNotesProperties(PropertyMask *pDoneMask,
 					FootEndNotesProperties *fep,
 					const PropertyMask *setMask,
 					const FootEndNotesProperties *fepSet,
 					const int fepPropMap[FEPprop_COUNT]);
 
-extern int docFootEndNotesPropertyDifference(
+int docFootEndNotesPropertyDifference(
 	PropertyMask *pDifMask, const FootEndNotesProperties *fep1,
 	const PropertyMask *cmpMask, const FootEndNotesProperties *fep2,
 	const int fepPropMap[FEPprop_COUNT]);
 
-extern int docSetNotesProperty(NotesProperties *np, int prop, int val);
+int docSetNotesProperty(NotesProperties *np, int prop, int val);
 
-extern int docGetNotesProperty(const NotesProperties *np, int prop);
+int docGetNotesProperty(const NotesProperties *np, int prop);
 
-extern void docInitNotesProperties(NotesProperties *np);
-extern void docInitFootEndNotesProperties(FootEndNotesProperties *fep);
+void docInitNotesProperties(NotesProperties *np);
+void docInitFootEndNotesProperties(FootEndNotesProperties *fep);
 
-extern void docDefaultFootNotesProperties(NotesProperties *np);
-extern void docDefaultEndNotesProperties(NotesProperties *np);
-extern void docDefaultFootEndNotesProperties(FootEndNotesProperties *fep);
+void docDefaultFootNotesProperties(NotesProperties *np);
+void docDefaultEndNotesProperties(NotesProperties *np);
+void docDefaultFootEndNotesProperties(FootEndNotesProperties *fep);
 
-extern const char *docNotesJustificationStr(int val);
-extern const char *docNotesPlacementStr(int val);
+const char *docNotesJustificationStr(int val);
+const char *docNotesPlacementStr(int val);
 
 #endif /*  DOC_NOTES_PROPERTIES_H  */

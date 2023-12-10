@@ -16,10 +16,10 @@
 /*									*/
 /************************************************************************/
 
-extern int psFontCompareInfosIncludingFamily(const void *voidpafi1,
+int psFontCompareInfosIncludingFamily(const void *voidpafi1,
 					     const void *voidpafi2);
 
-extern int psFontCompareInfosExcludingFamily(const void *voidpafi1,
+int psFontCompareInfosExcludingFamily(const void *voidpafi1,
 					     const void *voidpafi2);
 
 #endif

@@ -27,11 +27,11 @@ typedef struct IntegerValueNode {
 /*									*/
 /************************************************************************/
 
-extern void utilInitIntegerValueNode(IntegerValueNode *tal);
+void utilInitIntegerValueNode(IntegerValueNode *tal);
 
-extern void utilCleanIntegerValueNode(IntegerValueNode *tal);
+void utilCleanIntegerValueNode(IntegerValueNode *tal);
 
-extern IntegerValueNode *utilChildIntegerValueNode(IntegerValueNode *ivn,
+IntegerValueNode *utilChildIntegerValueNode(IntegerValueNode *ivn,
 						   int make, int propval);
 
 #endif /*  UTIL_INTEGER_VALUE_NODE_H	*/

@@ -7,7 +7,7 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *sioInFlateOpen(SimpleInputStream *sisFlate);
+SimpleInputStream *sioInFlateOpen(SimpleInputStream *sisFlate);
 
-extern SimpleOutputStream *sioOutFlateOpen(SimpleOutputStream *sosFlate,
+SimpleOutputStream *sioOutFlateOpen(SimpleOutputStream *sosFlate,
 					   int gzipEmbedded);

@@ -24,7 +24,7 @@ typedef struct DocumentAttributeMap {
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentAttributeMap(DocumentAttributeMap *dam);
-extern void docCleanDocumentAttributeMap(DocumentAttributeMap *dam);
+void docInitDocumentAttributeMap(DocumentAttributeMap *dam);
+void docCleanDocumentAttributeMap(DocumentAttributeMap *dam);
 
 #endif /*	DOC_DOCUMENT_ATTRIBUTE_MAP_H	*/

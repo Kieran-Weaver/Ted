@@ -10,6 +10,6 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *sioInPushedOpen(SimpleInputStream *sisIn);
+SimpleInputStream *sioInPushedOpen(SimpleInputStream *sisIn);
 
-extern SimpleOutputStream *sioOutPushedOpen(SimpleOutputStream *sosOut);
+SimpleOutputStream *sioOutPushedOpen(SimpleOutputStream *sosOut);

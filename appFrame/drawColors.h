@@ -6,7 +6,7 @@
 #include <bmcolor.h>
 
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 /************************************************************************/
@@ -29,15 +29,15 @@ typedef struct AppColors {
 /*									*/
 /************************************************************************/
 
-extern void appInitColors(AppColors *ac);
+void appInitColors(AppColors *ac);
 
-extern int appColorRgb(APP_COLOR_RGB *xc, AppColors *ac, unsigned int r,
+int appColorRgb(APP_COLOR_RGB *xc, AppColors *ac, unsigned int r,
 		       unsigned int g, unsigned int b);
 
-extern int appColorFindRgb(APP_COLOR_RGB *xc, AppColors *ac, unsigned int r,
+int appColorFindRgb(APP_COLOR_RGB *xc, AppColors *ac, unsigned int r,
 			   unsigned int g, unsigned int b);
 
-extern int appColorNamed(APP_COLOR_RGB *xc, AppColors *ac, const char *name);
+int appColorNamed(APP_COLOR_RGB *xc, AppColors *ac, const char *name);
 
 #ifdef __cplusplus
 }

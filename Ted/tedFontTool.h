@@ -18,14 +18,14 @@
 /*									*/
 /************************************************************************/
 
-extern void tedRefreshFontTool(AppFontChooser *afc, int *pEnabled, int *pPref,
+void tedRefreshFontTool(AppFontChooser *afc, int *pEnabled, int *pPref,
 			       InspectorSubject *is,
 			       const DocumentSelection *ds,
 			       const SelectionDescription *sd,
 			       const BufferDocument *bd, int documentId,
 			       const unsigned char *cmdEnabled);
 
-extern void tedFontToolGetResourceTable(EditApplication *ea,
+void tedFontToolGetResourceTable(EditApplication *ea,
 					AppFontToolResources *aftr,
 					InspectorSubjectResources *isr);
 

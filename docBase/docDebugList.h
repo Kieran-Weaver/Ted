@@ -18,14 +18,14 @@
 /*									*/
 /************************************************************************/
 
-extern void docListDocumentList(int n, const DocumentList *dl);
+void docListDocumentList(int n, const DocumentList *dl);
 
-extern void docListListOverrideLevel(int n, const ListOverrideLevel *lol);
+void docListListOverrideLevel(int n, const ListOverrideLevel *lol);
 
-extern void docListListOverrideTable(int n, const ListOverrideTable *lot);
+void docListListOverrideTable(int n, const ListOverrideTable *lot);
 
-extern void docListListOverride(int n, const ListOverride *lo);
+void docListListOverride(int n, const ListOverride *lo);
 
-extern void docListDocumentListTable(const DocumentListTable *dlt);
+void docListDocumentListTable(const DocumentListTable *dlt);
 
 #endif /*	DOC_DEBUG_LIST_H	*/

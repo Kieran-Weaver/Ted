@@ -107,43 +107,43 @@ typedef struct RulerData {
 /*									*/
 /************************************************************************/
 
-extern void appRulerSetBackground(RulerData *rd, const RGB8Color *back);
+void appRulerSetBackground(RulerData *rd, const RGB8Color *back);
 
-extern void appInitRulerData(RulerData *rd);
+void appInitRulerData(RulerData *rd);
 
-extern void appCleanRulerData(RulerData *rd);
+void appCleanRulerData(RulerData *rd);
 
-extern void appRulerDrawBackground(RulerData *rd,
+void appRulerDrawBackground(RulerData *rd,
 				   const DocumentRectangle *drBck);
 
-extern void appRulerMakeDrawingSurface(RulerData *rd, int vertical,
+void appRulerMakeDrawingSurface(RulerData *rd, int vertical,
 				       int fontSizeHintPixels,
 				       double magnification, APP_WIDGET w);
 
-extern int appRulerTextWidth(RulerData *rd, const char *s, int len);
+int appRulerTextWidth(RulerData *rd, const char *s, int len);
 
-extern void appRulerCalculateIncrements(RulerData *rd,
+void appRulerCalculateIncrements(RulerData *rd,
 					double magnifiedPixelsPerTwip,
 					double magnification);
 
-extern void appRulerTagText(char *to, int *pWide, int *pLen, RulerData *rd,
+void appRulerTagText(char *to, int *pWide, int *pLen, RulerData *rd,
 			    double units);
 
-extern void appScrollHorizontalRuler(RulerData *rd, DocumentRectangle *drClip,
+void appScrollHorizontalRuler(RulerData *rd, DocumentRectangle *drClip,
 				     int d);
 
 void appScrollVerticalRuler(RulerData *rd, DocumentRectangle *drClip, int d);
 
-extern void appHorizontalRulerGetSizeFromConfigureEvent(RulerData *rd,
+void appHorizontalRulerGetSizeFromConfigureEvent(RulerData *rd,
 							APP_WIDGET w,
 							APP_EVENT *event);
 
-extern void appVerticalRulerGetSizeFromConfigureEvent(RulerData *rd,
+void appVerticalRulerGetSizeFromConfigureEvent(RulerData *rd,
 						      APP_WIDGET w,
 						      APP_EVENT *event);
 
-extern void appHorizontalRulerGetSizeFromWidget(RulerData *rd, APP_WIDGET w);
+void appHorizontalRulerGetSizeFromWidget(RulerData *rd, APP_WIDGET w);
 
-extern void appVerticalRulerGetSizeFromWidget(RulerData *rd, APP_WIDGET w);
+void appVerticalRulerGetSizeFromWidget(RulerData *rd, APP_WIDGET w);
 
 #endif

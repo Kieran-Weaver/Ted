@@ -42,21 +42,21 @@ typedef struct MarginToolResources {
 /*									*/
 /************************************************************************/
 
-extern void appMarginToolShowMargins(AppMarginTool *amt, int unitInt,
+void appMarginToolShowMargins(AppMarginTool *amt, int unitInt,
 				     const DocumentGeometry *dg);
 
-extern int appMarginToolGetMargins(PropertyMask *pUpdMask,
+int appMarginToolGetMargins(PropertyMask *pUpdMask,
 				   const PropertyMask *chgMask, int unitType,
 				   AppMarginTool *amt, DocumentGeometry *dg);
 
-extern int appMarginToolCheckMargins(const DocumentGeometry *dg);
+int appMarginToolCheckMargins(const DocumentGeometry *dg);
 
-extern void appMakeMarginToolWidgets(APP_WIDGET parent,
+void appMakeMarginToolWidgets(APP_WIDGET parent,
 				     const MarginToolResources *mtr,
 				     AppMarginTool *amt,
 				     APP_TXACTIVATE_CALLBACK_T gotValue,
 				     void *through);
 
-extern void appEnableMarginTool(AppMarginTool *amt, int enabled);
+void appEnableMarginTool(AppMarginTool *amt, int enabled);
 
 #endif /*  APP_MARGIN_TOOL_H  */

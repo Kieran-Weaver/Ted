@@ -18,7 +18,7 @@ struct BufferDocument;
 /*									*/
 /************************************************************************/
 
-extern void docCollectDocumentStatistics(DocumentStatistics *ds,
+void docCollectDocumentStatistics(DocumentStatistics *ds,
 					 const struct BufferDocument *bd);
 
 #endif

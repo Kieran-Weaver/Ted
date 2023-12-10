@@ -31,9 +31,9 @@ typedef struct DateField {
 /*									*/
 /************************************************************************/
 
-extern void docInitDateField(DateField *dtf);
-extern void docCleanDateField(DateField *dtf);
+void docInitDateField(DateField *dtf);
+void docCleanDateField(DateField *dtf);
 
-extern int docGetDateField(DateField *dtf, const struct DocumentField *df);
+int docGetDateField(DateField *dtf, const struct DocumentField *df);
 
 #endif /*  DOC_DATE_FIELD_H  */

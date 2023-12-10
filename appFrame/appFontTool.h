@@ -111,24 +111,24 @@ typedef struct AppFontChooser {
 /*									*/
 /************************************************************************/
 
-extern void appFontToolFillPage(AppFontChooser *afc,
+void appFontToolFillPage(AppFontChooser *afc,
 				const AppFontToolResources *aftr,
 				int subjectPage, InspectorSubject *is,
 				APP_WIDGET pageWidget,
 				const InspectorSubjectResources *isr);
 
-extern void appFontToolGetResourceTable(EditApplication *ea,
+void appFontToolGetResourceTable(EditApplication *ea,
 					AppFontToolResources *aftr);
 
-extern void appFontChooserCleanPage(AppFontChooser *afc);
+void appFontChooserCleanPage(AppFontChooser *afc);
 
-extern void appFontToolFillChoosers(AppFontChooser *afc,
+void appFontToolFillChoosers(AppFontChooser *afc,
 				    const AppFontToolResources *aftr);
 
-extern void appFontToolFinishPage(AppFontChooser *afc,
+void appFontToolFinishPage(AppFontChooser *afc,
 				  const AppFontToolResources *aftr);
 
-extern int appFontToolShowCurrentFont(AppFontChooser *afc,
+int appFontToolShowCurrentFont(AppFontChooser *afc,
 				      const PropertyMask *newMask,
 				      const TextAttribute *taNew,
 				      int documentId, int canChange,

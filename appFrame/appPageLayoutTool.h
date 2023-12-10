@@ -85,27 +85,27 @@ typedef struct PageLayoutTool {
 /*									*/
 /************************************************************************/
 
-extern void appPageLayoutPageGetResourceTable(EditApplication *ea,
+void appPageLayoutPageGetResourceTable(EditApplication *ea,
 					      PageLayoutPageResources *plpr,
 					      InspectorSubjectResources *isr);
 
-extern void appPageLayoutPageRefresh(PageLayoutTool *plt, InspectorSubject *is,
+void appPageLayoutPageRefresh(PageLayoutTool *plt, InspectorSubject *is,
 				     const DocumentGeometry *dgSelection,
 				     const DocumentGeometry *dgDoc);
 
-extern void appPageLayoutPageFillPage(PageLayoutTool *plt, int doHdFt,
+void appPageLayoutPageFillPage(PageLayoutTool *plt, int doHdFt,
 				      int doSelection,
 				      const PageLayoutPageResources *plpr,
 				      InspectorSubject *is,
 				      APP_WIDGET pageWidget,
 				      const InspectorSubjectResources *isr);
 
-extern void appPageLayoutPageFillChoosers(PageLayoutTool *plt,
+void appPageLayoutPageFillChoosers(PageLayoutTool *plt,
 					  const PageLayoutPageResources *plpr);
 
-extern void appPageLayoutPageFinishPage(PageLayoutTool *plt,
+void appPageLayoutPageFinishPage(PageLayoutTool *plt,
 					const PageLayoutPageResources *plpr);
 
-extern void appCleanPageLayoutTool(PageLayoutTool *plt);
+void appCleanPageLayoutTool(PageLayoutTool *plt);
 
 #endif /*  APP_PAGE_LAYOUT_TOOL_H */

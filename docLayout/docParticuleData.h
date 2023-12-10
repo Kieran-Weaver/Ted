@@ -48,8 +48,8 @@ typedef struct ParticuleData {
 /*									*/
 /************************************************************************/
 
-extern void docInitParticuleData(ParticuleData *pd);
+void docInitParticuleData(ParticuleData *pd);
 
-extern int docPsClaimParticuleData(int count, ParticuleData **pParticuleData);
+int docPsClaimParticuleData(int count, ParticuleData **pParticuleData);
 
 #endif /*  DOC_PARTICULE_DATA_H  */

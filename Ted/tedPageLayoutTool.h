@@ -17,19 +17,19 @@
 /*									*/
 /************************************************************************/
 
-extern void tedRefreshPageLayoutTool(PageLayoutTool *plt, int *pEnabled,
+void tedRefreshPageLayoutTool(PageLayoutTool *plt, int *pEnabled,
 				     int *pPref, InspectorSubject *is,
 				     const DocumentSelection *ds,
 				     const SelectionDescription *sd,
 				     const BufferDocument *bd,
 				     const unsigned char *cmdEnabled);
 
-extern void tedFormatCleanPageLayoutTool(PageLayoutTool *plt);
+void tedFormatCleanPageLayoutTool(PageLayoutTool *plt);
 
-extern void tedFormatFinishPageLayoutPage(PageLayoutTool *plt,
+void tedFormatFinishPageLayoutPage(PageLayoutTool *plt,
 					  const PageLayoutPageResources *plpr);
 
-extern void tedFormatFillPageLayoutPage(PageLayoutTool *plt,
+void tedFormatFillPageLayoutPage(PageLayoutTool *plt,
 					const PageLayoutPageResources *plpr,
 					InspectorSubject *is,
 					APP_WIDGET pageWidget,

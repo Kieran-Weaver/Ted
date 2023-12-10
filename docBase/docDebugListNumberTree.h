@@ -15,13 +15,13 @@
 /*									*/
 /************************************************************************/
 
-extern int docListListNumberNode(const ListNumberTreeNode *lntn);
-extern int docCheckListNumberNode(const ListNumberTreeNode *lntn);
+int docListListNumberNode(const ListNumberTreeNode *lntn);
+int docCheckListNumberNode(const ListNumberTreeNode *lntn);
 
-extern int docListNumberTreeLogPath(ListNumberTreeNode **path, int *nums,
+int docListNumberTreeLogPath(ListNumberTreeNode **path, int *nums,
 				    int level);
 
-extern int docListNumberTreeFindParagraph(int *pLevel,
+int docListNumberTreeFindParagraph(int *pLevel,
 					  ListNumberTreeNode **path, int *nums,
 					  ListNumberTreeNode *root, int paraNr);
 

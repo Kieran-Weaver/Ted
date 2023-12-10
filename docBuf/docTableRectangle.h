@@ -29,13 +29,13 @@ typedef struct TableRectangle {
 /*									*/
 /************************************************************************/
 
-extern void docInitTableRectangle(TableRectangle *tr);
+void docInitTableRectangle(TableRectangle *tr);
 
-extern int docIntersectTableRectangle(TableRectangle *tr,
+int docIntersectTableRectangle(TableRectangle *tr,
 				      const TableRectangle *tr1,
 				      const TableRectangle *tr2);
 
-extern void docExpandTableRectangleToWholeRows(TableRectangle *tr);
-extern void docExpandTableRectangleToWholeColumns(TableRectangle *tr);
+void docExpandTableRectangleToWholeRows(TableRectangle *tr);
+void docExpandTableRectangleToWholeColumns(TableRectangle *tr);
 
 #endif /*	DOC_TABLE_RECTANGLE_H	*/

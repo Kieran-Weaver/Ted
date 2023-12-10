@@ -157,97 +157,97 @@ typedef struct DrawingContext {
 /*									*/
 /************************************************************************/
 
-extern void docInitDrawTextLine(DrawTextLine *dtl);
-extern void docInitDrawingContext(DrawingContext *dc);
+void docInitDrawTextLine(DrawTextLine *dtl);
+void docInitDrawingContext(DrawingContext *dc);
 
-extern int docDrawNode(LayoutPosition *lpBelow, struct BufferItem *node,
+int docDrawNode(LayoutPosition *lpBelow, struct BufferItem *node,
 		       void *through, DrawingContext *dc);
 
-extern int docDrawPageRange(DrawingContext *dc, void *through);
+int docDrawPageRange(DrawingContext *dc, void *through);
 
-extern int docDrawPageHeader(struct BufferItem *sectNode, void *through,
+int docDrawPageHeader(struct BufferItem *sectNode, void *through,
 			     DrawingContext *dc, int page);
 
-extern int docDrawPageFooter(struct BufferItem *sectNode, void *through,
+int docDrawPageFooter(struct BufferItem *sectNode, void *through,
 			     DrawingContext *dc, int page);
 
-extern int docDrawShapesForPage(void *through, DrawingContext *dc,
+int docDrawShapesForPage(void *through, DrawingContext *dc,
 				int belowText, int page);
 
-extern int docDrawFootnotesForColumn(int page, int column, void *through,
+int docDrawFootnotesForColumn(int page, int column, void *through,
 				     DrawingContext *dc);
 
-extern int docDrawEndnotesForSection(LayoutPosition *lpBelow, int sect,
+int docDrawEndnotesForSection(LayoutPosition *lpBelow, int sect,
 				     void *through, DrawingContext *dc);
 
-extern int docDrawEndnotesForDocument(LayoutPosition *lpBelow, void *through,
+int docDrawEndnotesForDocument(LayoutPosition *lpBelow, void *through,
 				      DrawingContext *dc);
 
-extern int docDrawToColumnOfNode(struct BufferItem *prevBodyBi,
+int docDrawToColumnOfNode(struct BufferItem *prevBodyBi,
 				 struct BufferItem *thisBodyBi,
 				 struct BufferItem *thisBi, void *through,
 				 LayoutPosition *lpHere, DrawingContext *dc,
 				 const BlockOrigin *bo);
 
-extern void docDrawSetColorRgb(DrawingContext *dc, void *through,
+void docDrawSetColorRgb(DrawingContext *dc, void *through,
 			       const RGB8Color *rgb8);
 
-extern void docDrawSetColorNumber(DrawingContext *dc, void *through,
+void docDrawSetColorNumber(DrawingContext *dc, void *through,
 				  int colorNumber);
 
-extern void docDrawSetFont(DrawingContext *dc, void *through, int textAttrNr,
+void docDrawSetFont(DrawingContext *dc, void *through, int textAttrNr,
 			   const TextAttribute *ta);
 
-extern int docDrawShapeGetFill(int *pFill, RGB8Color *rgb8Fill,
+int docDrawShapeGetFill(int *pFill, RGB8Color *rgb8Fill,
 			       const struct DrawingShape *ds,
 			       DrawingContext *dc, void *through);
 
-extern int docDrawShapeGetLine(int *pLine, RGB8Color *rgb8Stroke,
+int docDrawShapeGetLine(int *pLine, RGB8Color *rgb8Stroke,
 			       const struct DrawingShape *ds,
 			       DrawingContext *dc, void *through);
 
-extern int docDrawShape(DrawingContext *dc, void *through,
+int docDrawShape(DrawingContext *dc, void *through,
 			const struct BufferItem *bodySectNode,
 			const InsertedObject *io);
 
-extern int docDrawRowNode(struct BufferItem *rowBi, void *through,
+int docDrawRowNode(struct BufferItem *rowBi, void *through,
 			  DrawingContext *dc, const BlockOrigin *bo);
 
-extern int docDrawTableHeader(int *pHigh, const struct BufferItem *rowBi,
+int docDrawTableHeader(int *pHigh, const struct BufferItem *rowBi,
 			      const BlockFrame *bfRef, void *through,
 			      DrawingContext *dc,
 			      const LayoutPosition *lpHeader);
 
-extern int docDrawParagraphStrip(void *through, ParagraphDrawingStrip *pds,
+int docDrawParagraphStrip(void *through, ParagraphDrawingStrip *pds,
 				 struct BufferItem *paraBi, int countAfter,
 				 const LayoutPosition *lpShadeTop, int lineFrom,
 				 const ParagraphFrame *pf, DrawingContext *dc,
 				 const LayoutPosition *lpThisFrame,
 				 const BlockOrigin *bo);
 
-extern int docDrawTextLines(void *through, const ParagraphDrawingStrip *pds,
+int docDrawTextLines(void *through, const ParagraphDrawingStrip *pds,
 			    struct BufferItem *paraBi, const ParagraphFrame *pf,
 			    DrawingContext *dc, const BlockOrigin *bo);
 
-extern int docDrawToNextColumn(struct BufferItem *thisBodyBi,
+int docDrawToNextColumn(struct BufferItem *thisBodyBi,
 			       struct BufferItem *nextBodyBi, void *through,
 			       LayoutPosition *lpHere, BlockFrame *bf,
 			       DrawingContext *dc);
 
-extern int docDrawParaNode(LayoutPosition *lpBelow, struct BufferItem *paraBi,
+int docDrawParaNode(LayoutPosition *lpBelow, struct BufferItem *paraBi,
 			   void *through, DrawingContext *dc,
 			   const BlockOrigin *bo);
 
-extern void docSetDrawTextLine(DrawTextLine *dtl, void *through,
+void docSetDrawTextLine(DrawTextLine *dtl, void *through,
 			       DrawingContext *dc, const struct TextLine *tl,
 			       const struct BufferItem *paraBi,
 			       const BlockOrigin *bo, const ParagraphFrame *pf,
 			       const DocumentRectangle *drLine);
 
-extern int docDrawLineParticules(const DrawTextLine *dtl, int *pXTwips,
+int docDrawLineParticules(const DrawTextLine *dtl, int *pXTwips,
 				 int part);
 
-extern int docDrawShapeText(const DocumentRectangle *drHere,
+int docDrawShapeText(const DocumentRectangle *drHere,
 			    const struct BufferItem *bodySectNode, int page,
 			    int column, struct DrawingShape *ds,
 			    DrawingContext *dc, void *through);

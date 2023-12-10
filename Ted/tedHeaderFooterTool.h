@@ -93,7 +93,7 @@ typedef struct HeaderFooterTool {
 /*									*/
 /************************************************************************/
 
-extern void tedRefreshHeaderFooterTool(HeaderFooterTool *hft, int *pEnabled,
+void tedRefreshHeaderFooterTool(HeaderFooterTool *hft, int *pEnabled,
 				       int *pPref, InspectorSubject *is,
 				       const DocumentSelection *ds,
 				       const SelectionDescription *sd,
@@ -101,18 +101,18 @@ extern void tedRefreshHeaderFooterTool(HeaderFooterTool *hft, int *pEnabled,
 				       BufferDocument *bd,
 				       const unsigned char *cmdEnabled);
 
-extern void
+void
 tedFormatToolGetHeaderFooterResourceTable(EditApplication *ea,
 					  HeaderFooterPageResources *hfpr,
 					  InspectorSubjectResources *isr);
 
-extern void tedFormatCleanHeaderFooterTool(HeaderFooterTool *hft);
+void tedFormatCleanHeaderFooterTool(HeaderFooterTool *hft);
 
-extern void
+void
 tedFormatFillHeaderFooterChoosers(HeaderFooterTool *hft,
 				  const HeaderFooterPageResources *hfpr);
 
-extern void tedFormatFillHeaderFooterPage(HeaderFooterTool *hft,
+void tedFormatFillHeaderFooterPage(HeaderFooterTool *hft,
 					  const HeaderFooterPageResources *hfpr,
 					  InspectorSubject *is,
 					  APP_WIDGET pageWidget,

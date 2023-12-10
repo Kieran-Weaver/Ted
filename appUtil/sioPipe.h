@@ -10,8 +10,8 @@
 #include "sioGeneral.h"
 #include "utilMemoryBuffer.h"
 
-extern SimpleInputStream *sioInPipeOpen(const MemoryBuffer *command);
+SimpleInputStream *sioInPipeOpen(const MemoryBuffer *command);
 
-extern SimpleOutputStream *sioOutPipeOpen(const MemoryBuffer *command);
+SimpleOutputStream *sioOutPipeOpen(const MemoryBuffer *command);
 
 #endif

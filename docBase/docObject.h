@@ -79,35 +79,35 @@ typedef void (*DOC_CLOSE_OBJECT)(const struct BufferDocument *bd,
 /*									*/
 /************************************************************************/
 
-extern int docObjectSetData(InsertedObject *io, const char *bytes, int size);
+int docObjectSetData(InsertedObject *io, const char *bytes, int size);
 
-extern int docSetResultData(InsertedObject *io, const char *bytes, int size);
+int docSetResultData(InsertedObject *io, const char *bytes, int size);
 
-extern int docSaveObjectTag(InsertedObject *io, const char *tag, int arg);
+int docSaveObjectTag(InsertedObject *io, const char *tag, int arg);
 
-extern int docSaveResultTag(InsertedObject *io, const char *tag, int arg);
+int docSaveResultTag(InsertedObject *io, const char *tag, int arg);
 
-extern int docSetObjectName(InsertedObject *io, const char *name, int len);
+int docSetObjectName(InsertedObject *io, const char *name, int len);
 
-extern int docSetObjectClass(InsertedObject *io, const char *name, int len);
+int docSetObjectClass(InsertedObject *io, const char *name, int len);
 
-extern void docInitInsertedObject(InsertedObject *io);
-extern void docCleanInsertedObject(InsertedObject *io);
+void docInitInsertedObject(InsertedObject *io);
+void docCleanInsertedObject(InsertedObject *io);
 
-extern void docObjectAdaptToPictureGeometry(InsertedObject *io,
+void docObjectAdaptToPictureGeometry(InsertedObject *io,
 					    const PictureProperties *pip);
 
-extern int docReadBitmapObject(InsertedObject *io,
+int docReadBitmapObject(InsertedObject *io,
 			       const MemoryBuffer *filename);
 
-extern int docReadEpsObject(const MemoryBuffer *fullName, InsertedObject *io);
+int docReadEpsObject(const MemoryBuffer *fullName, InsertedObject *io);
 
-extern int docReadFileObject(const MemoryBuffer *fullName, InsertedObject *io);
+int docReadFileObject(const MemoryBuffer *fullName, InsertedObject *io);
 
-extern void docObjectGetCropRect(DocumentRectangle *dr,
+void docObjectGetCropRect(DocumentRectangle *dr,
 				 const PictureProperties *pip,
 				 const BitmapDescription *bd);
 
-extern void docObjectSetPixelSize(InsertedObject *io, double pixelsPerTwip);
+void docObjectSetPixelSize(InsertedObject *io, double pixelsPerTwip);
 
 #endif /*  DOC_OBJECT_H	*/

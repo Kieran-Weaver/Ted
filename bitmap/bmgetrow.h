@@ -29,8 +29,8 @@ typedef void (*GetSourceRow)(ColorValue *cv, int col0Out,
 /*									*/
 /************************************************************************/
 
-extern void bmInitColorRow(ColorValue *cv, int wide);
+void bmInitColorRow(ColorValue *cv, int wide);
 
-extern int bmGetGetRow(GetSourceRow *pGetRow, const BitmapDescription *bdIn);
+int bmGetGetRow(GetSourceRow *pGetRow, const BitmapDescription *bdIn);
 
 #endif

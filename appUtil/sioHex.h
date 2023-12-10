@@ -7,9 +7,9 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *sioInHexOpen(SimpleInputStream *sisHex);
+SimpleInputStream *sioInHexOpen(SimpleInputStream *sisHex);
 
-extern SimpleOutputStream *sioOutHexOpenFolded(SimpleOutputStream *sosHex,
+SimpleOutputStream *sioOutHexOpenFolded(SimpleOutputStream *sosHex,
 					       int wide, int lastNl);
 
-extern SimpleOutputStream *sioOutHexOpen(SimpleOutputStream *sosHex);
+SimpleOutputStream *sioOutHexOpen(SimpleOutputStream *sosHex);

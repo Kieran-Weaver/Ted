@@ -26,15 +26,15 @@
 /*									*/
 /************************************************************************/
 
-extern SimpleOutputStream *sioOutFdOpen(int fd);
+SimpleOutputStream *sioOutFdOpen(int fd);
 
-extern SimpleInputStream *sioInFdOpen(int fd);
+SimpleInputStream *sioInFdOpen(int fd);
 
-extern int sioFdOpenFile(const MemoryBuffer *filename, int read, int write,
+int sioFdOpenFile(const MemoryBuffer *filename, int read, int write,
 			 int append, int create, int exclusive);
 
-extern int sioFdCloseFile(int fd);
+int sioFdCloseFile(int fd);
 
-extern SimpleOutputStream *sioOutFdOpenAt(int fd, long offset);
+SimpleOutputStream *sioOutFdOpenAt(int fd, long offset);
 
-extern SimpleInputStream *sioInFdOpenAt(int fd, long offset);
+SimpleInputStream *sioInFdOpenAt(int fd, long offset);

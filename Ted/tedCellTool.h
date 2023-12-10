@@ -95,27 +95,27 @@ typedef struct CellTool {
 /*									*/
 /************************************************************************/
 
-extern void tedRefreshCellTool(CellTool *ct, int *pEnabled, int *pPref,
+void tedRefreshCellTool(CellTool *ct, int *pEnabled, int *pPref,
 			       InspectorSubject *is,
 			       const DocumentSelection *ds,
 			       const SelectionDescription *sd,
 			       const BufferDocument *bd,
 			       const unsigned char *cmdEnabled);
 
-extern void tedCellToolFillChoosers(CellTool *ct, const CellPageResources *cpr);
+void tedCellToolFillChoosers(CellTool *ct, const CellPageResources *cpr);
 
-extern void tedFormatFillCellPage(CellTool *ct, const CellPageResources *cpr,
+void tedFormatFillCellPage(CellTool *ct, const CellPageResources *cpr,
 				  AppInspector *ai, int subjectPage,
 				  InspectorSubject *is, APP_WIDGET pageWidget,
 				  const InspectorSubjectResources *isr);
 
-extern void tedFormatToolGetCellResourceTable(EditApplication *ea,
+void tedFormatToolGetCellResourceTable(EditApplication *ea,
 					      CellPageResources *cpr,
 					      InspectorSubjectResources *isr);
 
-extern void tedInitCellTool(CellTool *ct);
-extern void tedCleanCellTool(CellTool *ct);
+void tedInitCellTool(CellTool *ct);
+void tedCleanCellTool(CellTool *ct);
 
-extern void tedFormatFinishCellPage(CellTool *ct, const CellPageResources *cpr);
+void tedFormatFinishCellPage(CellTool *ct, const CellPageResources *cpr);
 
 #endif /*  TED_CELL_TOOL_H */

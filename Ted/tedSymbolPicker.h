@@ -18,14 +18,14 @@
 /*									*/
 /************************************************************************/
 
-extern void tedRefreshSymbolPicker(SymbolPicker *sp, int *pEnabled, int *pPref,
+void tedRefreshSymbolPicker(SymbolPicker *sp, int *pEnabled, int *pPref,
 				   InspectorSubject *is,
 				   const DocumentSelection *ds,
 				   const SelectionDescription *sd,
 				   const BufferDocument *bd, int documentId,
 				   const unsigned char *cmdEnabled);
 
-extern void tedSymbolPickerInsert(void *voidea, const char *bytes, int size,
+void tedSymbolPickerInsert(void *voidea, const char *bytes, int size,
 				  const TextAttribute *taSet,
 				  const PropertyMask *taSetMask);
 

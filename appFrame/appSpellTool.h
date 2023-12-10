@@ -73,26 +73,26 @@ typedef struct SpellTool {
 /*									*/
 /************************************************************************/
 
-extern void appEnableSpellTool(void *voidast, int enabled);
+void appEnableSpellTool(void *voidast, int enabled);
 
-extern void appFillSpellTool(SpellChecker *sc, SpellTool *ast,
+void appFillSpellTool(SpellChecker *sc, SpellTool *ast,
 			     const SpellToolResources *astr, AppInspector *ai,
 			     int subjectPage, InspectorSubject *is,
 			     APP_WIDGET pageWidget,
 			     const InspectorSubjectResources *isr);
 
-extern void appSpellToolGetResourceTable(EditApplication *ea,
+void appSpellToolGetResourceTable(EditApplication *ea,
 					 SpellToolResources *astr,
 					 InspectorSubjectResources *isr);
 
-extern void appSpellToolSetReadOnly(SpellTool *ast, int readonly);
+void appSpellToolSetReadOnly(SpellTool *ast, int readonly);
 
-extern void appInitSpellTool(SpellTool *ast);
-extern void appCleanSpellTool(SpellTool *ast);
+void appInitSpellTool(SpellTool *ast);
+void appCleanSpellTool(SpellTool *ast);
 
-extern void appSpellToolFillChoosers(SpellTool *ast,
+void appSpellToolFillChoosers(SpellTool *ast,
 				     const SpellToolResources *astr);
 
-extern void appFinishSpellTool(SpellTool *ast, const SpellToolResources *astr);
+void appFinishSpellTool(SpellTool *ast, const SpellToolResources *astr);
 
 #endif /*	APP_SPELL_TOOL_H	*/

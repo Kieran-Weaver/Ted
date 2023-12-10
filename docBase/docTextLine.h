@@ -74,6 +74,6 @@ typedef struct TextLine {
 
 /************************************************************************/
 
-extern void docInitTextLine(TextLine *tl);
+void docInitTextLine(TextLine *tl);
 
 #endif

@@ -33,14 +33,14 @@ typedef struct AppDrawnPulldown {
 /*									*/
 /************************************************************************/
 
-extern void appMakeDrawnPulldownInColumn(AppDrawnPulldown *adp,
+void appMakeDrawnPulldownInColumn(AppDrawnPulldown *adp,
 					 APP_EVENT_HANDLER_T redrawInplace,
 					 APP_EVENT_HANDLER_T redrawPulldown,
 					 APP_EVENT_HANDLER_T clickHandler,
 					 AppDrawnPulldownPuldown pullDown,
 					 APP_WIDGET column, void *through);
 
-extern void appMakeDrawnPulldownInRow(AppDrawnPulldown *adp,
+void appMakeDrawnPulldownInRow(AppDrawnPulldown *adp,
 				      APP_EVENT_HANDLER_T redrawInplace,
 				      APP_EVENT_HANDLER_T redrawPulldown,
 				      APP_EVENT_HANDLER_T clickHandler,
@@ -48,24 +48,24 @@ extern void appMakeDrawnPulldownInRow(AppDrawnPulldown *adp,
 				      APP_WIDGET row, int column, int colspan,
 				      void *through);
 
-extern void appGuiEnableDrawnPulldown(AppDrawnPulldown *adp, int sensitive);
+void appGuiEnableDrawnPulldown(AppDrawnPulldown *adp, int sensitive);
 
-extern void appInitDrawnPulldown(AppDrawnPulldown *adp);
-extern void appCleanDrawnPulldown(AppDrawnPulldown *adp);
+void appInitDrawnPulldown(AppDrawnPulldown *adp);
+void appCleanDrawnPulldown(AppDrawnPulldown *adp);
 
-extern void appGuiSetDrawnPulldownHeight(AppDrawnPulldown *adp, int height);
+void appGuiSetDrawnPulldownHeight(AppDrawnPulldown *adp, int height);
 
-extern void appGuiSetDrawnPulldownStrips(AppDrawnPulldown *adp, int strips);
+void appGuiSetDrawnPulldownStrips(AppDrawnPulldown *adp, int strips);
 
-extern int appGuiDrawnPulldownGetStrip(int *pStrip, const AppDrawnPulldown *adp,
+int appGuiDrawnPulldownGetStrip(int *pStrip, const AppDrawnPulldown *adp,
 				       const APP_WIDGET w,
 				       const APP_EVENT *mouseEvent);
 
-extern void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip,
+void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip,
 				      int *pRestWide, int *pRestHigh,
 				      APP_WIDGET w, AppDrawnPulldown *adp);
 
-extern int appFinishDrawnPulldownInplace(AppDrawnPulldown *adp);
-extern int appFinishDrawnPulldownPulldown(AppDrawnPulldown *adp);
+int appFinishDrawnPulldownInplace(AppDrawnPulldown *adp);
+int appFinishDrawnPulldownPulldown(AppDrawnPulldown *adp);
 
-extern void appExposeDrawnPulldownInplace(AppDrawnPulldown *adp);
+void appExposeDrawnPulldownInplace(AppDrawnPulldown *adp);

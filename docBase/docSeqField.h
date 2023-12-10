@@ -29,9 +29,9 @@ typedef struct SeqField {
 /*									*/
 /************************************************************************/
 
-extern void docInitSeqField(SeqField *sf);
-extern void docCleanSeqField(SeqField *sf);
+void docInitSeqField(SeqField *sf);
+void docCleanSeqField(SeqField *sf);
 
-extern int docGetSeqField(SeqField *sf, const struct DocumentField *df);
+int docGetSeqField(SeqField *sf, const struct DocumentField *df);
 
 #endif /*  DOC_SEQ_FIELD_H  */

@@ -32,8 +32,8 @@ typedef struct DocumentPropertyLists {
 /*									*/
 /************************************************************************/
 
-extern DocumentPropertyLists *docMakeDocumentPropertyLists(void);
+DocumentPropertyLists *docMakeDocumentPropertyLists(void);
 
-extern void docFreeDocumentPropertyLists(DocumentPropertyLists *dpl);
+void docFreeDocumentPropertyLists(DocumentPropertyLists *dpl);
 
 #endif /*  DOC_PROPERTY_ADMIN_H	*/

@@ -44,52 +44,52 @@ typedef void (*APP_COMPLAIN)(void *through, int errorId,
 /*									*/
 /************************************************************************/
 
-extern int appHomeDirectory(MemoryBuffer *mb);
-extern int appCurrentDirectory(MemoryBuffer *mb);
+int appHomeDirectory(MemoryBuffer *mb);
+int appCurrentDirectory(MemoryBuffer *mb);
 
-extern int appTestDirectory(const MemoryBuffer *dir);
-extern int appTestFileWritable(const MemoryBuffer *file);
-extern int appTestFileExists(const MemoryBuffer *mb);
-extern int appTestFileReadable(const MemoryBuffer *file);
+int appTestDirectory(const MemoryBuffer *dir);
+int appTestFileWritable(const MemoryBuffer *file);
+int appTestFileExists(const MemoryBuffer *mb);
+int appTestFileReadable(const MemoryBuffer *file);
 
-extern int appMakeDirectory(const MemoryBuffer *dir);
-extern int appMakeDirectories(const MemoryBuffer *dir);
+int appMakeDirectory(const MemoryBuffer *dir);
+int appMakeDirectories(const MemoryBuffer *dir);
 
-extern long appGetTimestamp(void);
+long appGetTimestamp(void);
 
-extern int appMakeUniqueString(char *target, unsigned int maxlen);
+int appMakeUniqueString(char *target, unsigned int maxlen);
 
-extern int appFileNameIsAbsolute(const char *filename);
+int appFileNameIsAbsolute(const char *filename);
 
-extern int appAbsoluteName(MemoryBuffer *absolute, const MemoryBuffer *relative,
+int appAbsoluteName(MemoryBuffer *absolute, const MemoryBuffer *relative,
 			   int relativeIsFile,
 			   const MemoryBuffer *nameRelativeTo);
 
-extern int appRemoveFile(const MemoryBuffer *filename);
-extern int appRenameFile(const MemoryBuffer *newName,
+int appRemoveFile(const MemoryBuffer *filename);
+int appRenameFile(const MemoryBuffer *newName,
 			 const MemoryBuffer *oldName);
 
-extern int appCopyFile(const MemoryBuffer *newName,
+int appCopyFile(const MemoryBuffer *newName,
 		       const MemoryBuffer *oldName);
 
-extern int appForAllFiles(const MemoryBuffer *dir, const char *ext,
+int appForAllFiles(const MemoryBuffer *dir, const char *ext,
 			  void *through, FILE_CALLBACK callback);
 
-extern int appOpenSocket(const char *hostName, const char *portName,
+int appOpenSocket(const char *hostName, const char *portName,
 			 void *through, APP_COMPLAIN complain);
-extern int appListenSocket(const char *portName, unsigned int *pPort,
+int appListenSocket(const char *portName, unsigned int *pPort,
 			   void *through, APP_COMPLAIN complain);
-extern int appAcceptSocket(int lfd, void *through, APP_COMPLAIN complain);
+int appAcceptSocket(int lfd, void *through, APP_COMPLAIN complain);
 
-extern int appFileGetFileExtension(MemoryBuffer *extension,
+int appFileGetFileExtension(MemoryBuffer *extension,
 				   const MemoryBuffer *filename);
 
-extern int appFileGetRelativeName(MemoryBuffer *relative,
+int appFileGetRelativeName(MemoryBuffer *relative,
 				  const MemoryBuffer *filename);
 
-extern int appDirectoryOfFileName(MemoryBuffer *dir, const MemoryBuffer *name);
+int appDirectoryOfFileName(MemoryBuffer *dir, const MemoryBuffer *name);
 
-extern int appFileSetExtension(MemoryBuffer *filename, const char *extension);
-extern int appFileAddExtension(MemoryBuffer *filename, const char *extension);
+int appFileSetExtension(MemoryBuffer *filename, const char *extension);
+int appFileAddExtension(MemoryBuffer *filename, const char *extension);
 
 #endif /*  APP_SYSTEM_H	*/

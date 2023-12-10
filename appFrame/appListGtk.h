@@ -22,21 +22,21 @@ typedef struct ListAction {
 /*									*/
 /************************************************************************/
 
-extern GtkWidget *appListGtkMakeParent(GtkAdjustment **pVAdjustment,
+GtkWidget *appListGtkMakeParent(GtkAdjustment **pVAdjustment,
 				       GtkWidget *column);
 
-extern void appListGtkSetVisibleSize(GtkWidget *tree,
+void appListGtkSetVisibleSize(GtkWidget *tree,
 				     GtkWidget *scrolled_window,
 				     int visibleItems);
 
-extern ListAction *appListGtkSetCallbacks(GtkWidget *tree,
+ListAction *appListGtkSetCallbacks(GtkWidget *tree,
 					  GtkWidget *scrolled_window,
 					  GtkAdjustment *adjustment,
 					  APP_LIST_CALLBACK_T listCallback,
 					  APP_BUTTON_CALLBACK_T actionCallback,
 					  void *through);
 
-extern ListAction *appListGtkGetListAction(GtkWidget *widget);
+ListAction *appListGtkGetListAction(GtkWidget *widget);
 
-extern void appGuiGtkSetListAdjustment(ListAction *la, int position);
+void appGuiGtkSetListAdjustment(ListAction *la, int position);
 

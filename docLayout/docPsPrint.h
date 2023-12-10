@@ -19,7 +19,7 @@ struct PrintGeometry;
 /*									*/
 /************************************************************************/
 
-extern int docPsPrintDocument(SimpleOutputStream *sos, const char *title,
+int docPsPrintDocument(SimpleOutputStream *sos, const char *title,
 			      const char *applicationName,
 			      const char *applicationReference,
 			      const MemoryBuffer *fontDirectory,

@@ -25,13 +25,13 @@ typedef struct BitmapPrinter {
 	SimpleOutputStream *bpFlate;
 } BitmapPrinter;
 
-extern int bmPsOpenBitmapPrinter(BitmapPrinter *bp, SimpleOutputStream *sos,
+int bmPsOpenBitmapPrinter(BitmapPrinter *bp, SimpleOutputStream *sos,
 				 const BitmapDescription *bd, int useFilters,
 				 int indexedImages);
 
-extern void bmCloseBitmapPrinter(BitmapPrinter *bp);
+void bmCloseBitmapPrinter(BitmapPrinter *bp);
 
-extern void bmStartEpsFile(SimpleOutputStream *sos, const char *filename,
+void bmStartEpsFile(SimpleOutputStream *sos, const char *filename,
 			   const BitmapDescription *bd);
 
 /************************************************************************/
@@ -40,30 +40,30 @@ extern void bmStartEpsFile(SimpleOutputStream *sos, const char *filename,
 /*									*/
 /************************************************************************/
 
-extern int bmPsPrintBitmap(SimpleOutputStream *sos, int level, double xscale,
+int bmPsPrintBitmap(SimpleOutputStream *sos, int level, double xscale,
 			   double yscale, int ox, int oy,
 			   const DocumentRectangle *drSrc, int useFilters,
 			   int indexedImages, const BitmapDescription *bd,
 			   const unsigned char *buffer);
 
-extern int bmPsPrintBitmapImage(SimpleOutputStream *sos, int level,
+int bmPsPrintBitmapImage(SimpleOutputStream *sos, int level,
 				double xscale, double yscale, int ox, int oy,
 				const DocumentRectangle *drSrc, int onWhite,
 				int useFilters, int indexedImages,
 				const BitmapDescription *bd,
 				const unsigned char *buffer);
 
-extern void bmPsWriteImageInstructions(SimpleOutputStream *sos,
+void bmPsWriteImageInstructions(SimpleOutputStream *sos,
 				       const BitmapDescription *bd, int onWhite,
 				       int wide, int high, const char *source,
 				       int indexedImages);
 
-extern int bmPsWriteBitmapData(BitmapPrinter *bp,
+int bmPsWriteBitmapData(BitmapPrinter *bp,
 			       const DocumentRectangle *drSrc,
 			       const BitmapDescription *bd,
 			       const unsigned char *inputBuffer);
 
-extern int bmPsRowStringSize(const BitmapDescription *bd, int pixelsWide,
+int bmPsRowStringSize(const BitmapDescription *bd, int pixelsWide,
 			     int indexedImages);
 
 #endif

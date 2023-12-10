@@ -110,81 +110,81 @@ struct RtfWriter {
 /*									*/
 /************************************************************************/
 
-extern int docRtfWriteArgTag(RtfWriter *rwc, const char *tag, int arg);
+int docRtfWriteArgTag(RtfWriter *rwc, const char *tag, int arg);
 
-extern void docRtfWriteFlagTag(RtfWriter *rwc, const char *tag, int arg);
+void docRtfWriteFlagTag(RtfWriter *rwc, const char *tag, int arg);
 
-extern void docRtfWriteAltTag(RtfWriter *rwc, const char *yesTag,
+void docRtfWriteAltTag(RtfWriter *rwc, const char *yesTag,
 			      const char *noTag, int arg);
 
-extern void docRtfWriteEnumTag(RtfWriter *rwc, const char *const *tags, int arg,
+void docRtfWriteEnumTag(RtfWriter *rwc, const char *const *tags, int arg,
 			       int tagCount, int enumCount);
 
-extern int docRtfWriteTag(RtfWriter *rwc, const char *tag);
+int docRtfWriteTag(RtfWriter *rwc, const char *tag);
 
-extern void docRtfWriteDocEncodedString(RtfWriter *rwc, const char *s, int n);
+void docRtfWriteDocEncodedString(RtfWriter *rwc, const char *s, int n);
 
-extern void docRtfWriteFontEncodedString(RtfWriter *rwc, const char *s, int n);
+void docRtfWriteFontEncodedString(RtfWriter *rwc, const char *s, int n);
 
-extern void docRtfWriteRawBytes(RtfWriter *rwc, const char *s, int n);
+void docRtfWriteRawBytes(RtfWriter *rwc, const char *s, int n);
 
-extern void docRtfWriteDocEncodedStringDestination(RtfWriter *rwc,
+void docRtfWriteDocEncodedStringDestination(RtfWriter *rwc,
 						   const char *tag,
 						   const char *s, int n,
 						   int addSemicolon);
 
-extern void docRtfWriteRawBytesDestination(RtfWriter *rwc, const char *tag,
+void docRtfWriteRawBytesDestination(RtfWriter *rwc, const char *tag,
 					   const char *s, int n);
 
-extern void docRtfWriteNextLine(RtfWriter *rwc);
+void docRtfWriteNextLine(RtfWriter *rwc);
 
-extern void docRtfSaveBorderByNumber(RtfWriter *rwc, const char *tag, int num,
+void docRtfSaveBorderByNumber(RtfWriter *rwc, const char *tag, int num,
 				     int anywy);
 
-extern void docRtfSaveTextAttribute(RtfWriter *rwc, const PropertyMask *updMask,
+void docRtfSaveTextAttribute(RtfWriter *rwc, const PropertyMask *updMask,
 				    const TextAttribute *ta);
 
-extern void docRtfSaveParagraphProperties(RtfWriter *rwc,
+void docRtfSaveParagraphProperties(RtfWriter *rwc,
 					  const PropertyMask *updMask,
 					  const ParagraphProperties *pp);
 
-extern int docRtfWriteDestinationBegin(RtfWriter *rwc, const char *tag);
+int docRtfWriteDestinationBegin(RtfWriter *rwc, const char *tag);
 
-extern int docRtfWriteDestinationEnd(RtfWriter *rwc);
+int docRtfWriteDestinationEnd(RtfWriter *rwc);
 
-extern int docRtfSavePictureTags(RtfWriter *rwc, const PropertyMask *pipSetMask,
+int docRtfSavePictureTags(RtfWriter *rwc, const PropertyMask *pipSetMask,
 				 const PictureProperties *pipSet);
 
-extern int docRtfPicturePropertyMask(PropertyMask *pipSetMask,
+int docRtfPicturePropertyMask(PropertyMask *pipSetMask,
 				     const PictureProperties *pipSet);
 
-extern int docRtfWriteMemoryBuffer(RtfWriter *rwc, const MemoryBuffer *mb);
+int docRtfWriteMemoryBuffer(RtfWriter *rwc, const MemoryBuffer *mb);
 
-extern void docRtfSaveSectionProperties(RtfWriter *rwc,
+void docRtfSaveSectionProperties(RtfWriter *rwc,
 					const PropertyMask *updMask,
 					const SectionProperties *sp);
 
-extern int docRtfSaveSectionPropertiesOfNode(RtfWriter *rwc,
+int docRtfSaveSectionPropertiesOfNode(RtfWriter *rwc,
 					     const DocumentSelection *ds,
 					     const struct BufferItem *sectNode);
 
-extern int docRtfWriteGetDefaultFont(RtfWriter *rw, int deff);
+int docRtfWriteGetDefaultFont(RtfWriter *rw, int deff);
 
-extern void docRtfWriteFontTable(RtfWriter *rwc);
+void docRtfWriteFontTable(RtfWriter *rwc);
 
-extern int docRtfWriteColorTable(RtfWriter *rwc, const DocumentProperties *dp);
+int docRtfWriteColorTable(RtfWriter *rwc, const DocumentProperties *dp);
 
-extern void docRtfWriteStyleSheet(RtfWriter *rwc,
+void docRtfWriteStyleSheet(RtfWriter *rwc,
 				  const DocumentStyleSheet *dss);
 
-extern int docRtfWriteArgDestinationBegin(RtfWriter *rwc, const char *tag,
+int docRtfWriteArgDestinationBegin(RtfWriter *rwc, const char *tag,
 					  int arg);
 
-extern int docRtfSaveDocumentProperties(RtfWriter *rwc, int fet,
+int docRtfSaveDocumentProperties(RtfWriter *rwc, int fet,
 					const PropertyMask *dpMask,
 					const DocumentProperties *dp);
 
-extern int docRtfSaveNotesProperties(
+int docRtfSaveNotesProperties(
 	RtfWriter *rw, const PropertyMask *mask, const NotesProperties *np,
 	const int propMap[NOTESprop_COUNT], const char *startNrTag,
 	const char *const *justificationTags, int justificationTagCount,
@@ -192,90 +192,90 @@ extern int docRtfSaveNotesProperties(
 	const char *const *restartTags, int restartTagCount,
 	const char *const *styleTags, int styleTagCount);
 
-extern void docRtfSaveParaFrameProperties(RtfWriter *rwc,
+void docRtfSaveParaFrameProperties(RtfWriter *rwc,
 					  const FrameProperties *fp);
-extern void docRtfSaveRowFrameProperties(RtfWriter *rwc,
+void docRtfSaveRowFrameProperties(RtfWriter *rwc,
 					 const FrameProperties *fp);
 
-extern int docRtfSaveSectHeadersFooters(RtfWriter *rwc,
+int docRtfSaveSectHeadersFooters(RtfWriter *rwc,
 					const struct BufferItem *bi);
 
-extern int docRtfSaveHeaderFooter(RtfWriter *rwc, const DocumentTree *dt);
+int docRtfSaveHeaderFooter(RtfWriter *rwc, const DocumentTree *dt);
 
-extern int docRtfSaveDocumentTree(RtfWriter *rwc, const char *tag,
+int docRtfSaveDocumentTree(RtfWriter *rwc, const char *tag,
 				  const DocumentTree *dt, int evenIfAbsent,
 				  int forcePar);
 
-extern int docRtfSaveDocNotesSeparators(RtfWriter *rwc,
+int docRtfSaveDocNotesSeparators(RtfWriter *rwc,
 					const BufferDocument *bd);
 
-extern void docRtfSaveCellProperties(RtfWriter *rwc,
+void docRtfSaveCellProperties(RtfWriter *rwc,
 				     const PropertyMask *cpSetMask,
 				     const CellProperties *cpSet,
 				     int shiftLeft);
 
-extern void docRtfSaveRowProperties(RtfWriter *rwc,
+void docRtfSaveRowProperties(RtfWriter *rwc,
 				    const PropertyMask *rpSetMask,
 				    const RowProperties *rpSet, int col0,
 				    int col1);
 
-extern void docRtfSaveAutoSpace(RtfWriter *rwc, const char *unitTag, int unit,
+void docRtfSaveAutoSpace(RtfWriter *rwc, const char *unitTag, int unit,
 				const char *numberTag, int number);
 
-extern int docRtfWriteListProps(RtfWriter *rw, const struct DocumentList *dl);
+int docRtfWriteListProps(RtfWriter *rw, const struct DocumentList *dl);
 
-extern void docRtfWriteListTable(RtfWriter *rwc, const DocumentListTable *dlt);
+void docRtfWriteListTable(RtfWriter *rwc, const DocumentListTable *dlt);
 
-extern void docRtfWriteListOverrideTable(RtfWriter *rwc,
+void docRtfWriteListOverrideTable(RtfWriter *rwc,
 					 const ListOverrideTable *lot);
 
-extern void docRtfWriteListLevel(RtfWriter *rwc, const struct ListLevel *ll);
+void docRtfWriteListLevel(RtfWriter *rwc, const struct ListLevel *ll);
 
-extern void docRtfSaveTabStopList(RtfWriter *rwc,
+void docRtfSaveTabStopList(RtfWriter *rwc,
 				  const struct TabStopList *tsl);
 
-extern void docRtfSaveShadingByNumber(RtfWriter *rwc, int num,
+void docRtfSaveShadingByNumber(RtfWriter *rwc, int num,
 				      const char *const *patTags,
 				      int patTagCount, const char *foreTag,
 				      const char *backTag,
 				      const char *levelTag);
 
-extern void docRtfReserveColumns(RtfWriter *rwc, int cols);
+void docRtfReserveColumns(RtfWriter *rwc, int cols);
 
-extern int docRtfSaveParaNode(RtfWriter *rwc, const struct BufferItem *bi,
+int docRtfSaveParaNode(RtfWriter *rwc, const struct BufferItem *bi,
 			      const DocumentSelection *ds,
 			      const int flattenCell, const int firstInRow);
 
-extern void docRtfWriteSemicolon(RtfWriter *rwc);
+void docRtfWriteSemicolon(RtfWriter *rwc);
 
-extern void docRtfSaveParaTableNesting(RtfWriter *rwc, int nest);
+void docRtfSaveParaTableNesting(RtfWriter *rwc, int nest);
 
-extern int docRtfPushAttribute(RtfWriter *rwc);
-extern int docRtfPopAttribute(RtfWriter *rwc);
+int docRtfPushAttribute(RtfWriter *rwc);
+int docRtfPopAttribute(RtfWriter *rwc);
 
-extern void docRtfWriteSwitchTextAttributes(RtfWriter *rwc, int textAttrNr,
+void docRtfWriteSwitchTextAttributes(RtfWriter *rwc, int textAttrNr,
 					    const char *first);
 
-extern void docRtfWriteSwitchToPlain(RtfWriter *rwc);
+void docRtfWriteSwitchToPlain(RtfWriter *rwc);
 
-extern int docRtfWriteBuildFontAdmin(RtfWriter *rwc);
+int docRtfWriteBuildFontAdmin(RtfWriter *rwc);
 
-extern int docRtfWriteGetCharset(RtfWriter *rwc, int *pCharset,
+int docRtfWriteGetCharset(RtfWriter *rwc, int *pCharset,
 				 const DocumentFont *df, int symbol);
 
-extern int docRtfSaveFieldHead(RtfWriter *rwc,
+int docRtfSaveFieldHead(RtfWriter *rwc,
 			       const struct BufferItem *paraNode, int part);
 
-extern int docRtfSaveFieldTail(RtfWriter *rwc,
+int docRtfSaveFieldTail(RtfWriter *rwc,
 			       const struct BufferItem *paraNode, int part);
 
-extern int docRtfDocPropMask(PropertyMask *dpSaveMask,
+int docRtfDocPropMask(PropertyMask *dpSaveMask,
 			     const DocumentProperties *dpDoc);
 
-extern int docRtfWriteSelection(RtfWriter *rw, const DocumentSelection *ds);
+int docRtfWriteSelection(RtfWriter *rw, const DocumentSelection *ds);
 
-extern int docRtfSaveDate(RtfWriter *rw, const char *tag, const struct tm *tm);
+int docRtfSaveDate(RtfWriter *rw, const char *tag, const struct tm *tm);
 
-extern void docRtfWriteSetupTextConverters(RtfWriter *rw);
+void docRtfWriteSetupTextConverters(RtfWriter *rw);
 
 #endif /*	RTF_WRITER_IMPL_H	*/

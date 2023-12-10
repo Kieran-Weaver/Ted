@@ -99,24 +99,24 @@ typedef struct TocTool {
 /*									*/
 /************************************************************************/
 
-extern void tedFormatFillTocPage(TocTool *tt, const TocPageResources *tpr,
+void tedFormatFillTocPage(TocTool *tt, const TocPageResources *tpr,
 				 AppInspector *ai, int subjectPage,
 				 InspectorSubject *is, APP_WIDGET pageWidget,
 				 const InspectorSubjectResources *isr);
 
-extern void tedTocToolGetResourceTable(EditApplication *ea,
+void tedTocToolGetResourceTable(EditApplication *ea,
 				       TocPageResources *tpr,
 				       InspectorSubjectResources *isr);
 
-extern void tedRefreshTocTool(TocTool *tt, int *pEnabled, int *pPref,
+void tedRefreshTocTool(TocTool *tt, int *pEnabled, int *pPref,
 			      InspectorSubject *is, const DocumentSelection *ds,
 			      const SelectionDescription *sd,
 			      BufferDocument *bd,
 			      const unsigned char *cmdEnabled);
 
-extern void tedTocToolFillChoosers(TocTool *tt, const TocPageResources *fpr);
+void tedTocToolFillChoosers(TocTool *tt, const TocPageResources *fpr);
 
-extern void tedInitTocTool(TocTool *tt);
-extern void tedCleanTocTool(TocTool *tt);
+void tedInitTocTool(TocTool *tt);
+void tedCleanTocTool(TocTool *tt);
 
 #endif /*  TED_TOC_TOOL_H */

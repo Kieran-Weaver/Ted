@@ -20,28 +20,28 @@ typedef struct ListOverrideTable {
 /*									*/
 /************************************************************************/
 
-extern void docInitListOverrideTable(ListOverrideTable *lot);
-extern void docCleanListOverrideTable(ListOverrideTable *lot);
+void docInitListOverrideTable(ListOverrideTable *lot);
+void docCleanListOverrideTable(ListOverrideTable *lot);
 
-extern int docCopyListOverrideTable(ListOverrideTable *to,
+int docCopyListOverrideTable(ListOverrideTable *to,
 				    const ListOverrideTable *from);
 
-extern int docListOverrideTableAddOverride(struct ListOverride **pLo,
+int docListOverrideTableAddOverride(struct ListOverride **pLo,
 					   ListOverrideTable *lot, int ls,
 					   int listId, int listIndex);
 
-extern int docListOverrideTableSetOverride(ListOverrideTable *lot,
+int docListOverrideTableSetOverride(ListOverrideTable *lot,
 					   const struct ListOverride *lo,
 					   const int *fontMap,
 					   const int *colorMap,
 					   const int *rulerMap);
 
-extern int docMergeListOverrideIntoTable(ListOverrideTable *lot,
+int docMergeListOverrideIntoTable(ListOverrideTable *lot,
 					 const struct ListOverride *lo,
 					 const int *fontMap,
 					 const int *colorMap,
 					 const int *rulerMap);
 
-extern int docListOverrideTableDeleteOverride(ListOverrideTable *lot, int ls);
+int docListOverrideTableDeleteOverride(ListOverrideTable *lot, int ls);
 
 #endif

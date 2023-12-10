@@ -80,30 +80,30 @@ typedef enum ColorChooserChoice {
 /*									*/
 /************************************************************************/
 
-extern void appColorChooserSetColor(ColorChooser *cc, int colorExplicit,
+void appColorChooserSetColor(ColorChooser *cc, int colorExplicit,
 				    const RGB8Color *rgb8);
 
-extern void appColorChooserUnset(ColorChooser *cc);
+void appColorChooserUnset(ColorChooser *cc);
 
-extern void appColorChooserSuggestPalette(ColorChooser *cc, int avoidZero,
+void appColorChooserSuggestPalette(ColorChooser *cc, int avoidZero,
 					  const ColorPalette *cp);
 
-extern void appInitColorChooser(ColorChooser *cc);
-extern void appCleanColorChooser(ColorChooser *cc);
+void appInitColorChooser(ColorChooser *cc);
+void appCleanColorChooser(ColorChooser *cc);
 
-extern void appMakeColorChooserInRow(ColorChooser *cc, int hasAutomatic,
+void appMakeColorChooserInRow(ColorChooser *cc, int hasAutomatic,
 				     APP_WIDGET row, int col, int colspan,
 				     const ColorChooserResources *ccr,
 				     ColorChooserCallback colorCallback,
 				     int which, void *through);
 
-extern void appMakeToggleAndColorChooserRow(
+void appMakeToggleAndColorChooserRow(
 	APP_WIDGET *pRow, APP_WIDGET *pToggle, ColorChooser *cc,
 	int hasAutomatic, APP_WIDGET column, const char *toggleText,
 	const ColorChooserResources *ccr, APP_TOGGLE_CALLBACK_T toggleCallback,
 	ColorChooserCallback colorCallback, int which, void *through);
 
-extern void appMakeLabelAndColorChooserRow(APP_WIDGET *pRow, APP_WIDGET *pLabel,
+void appMakeLabelAndColorChooserRow(APP_WIDGET *pRow, APP_WIDGET *pLabel,
 					   ColorChooser *cc, int hasAutomatic,
 					   APP_WIDGET column,
 					   const char *labelText,
@@ -111,17 +111,17 @@ extern void appMakeLabelAndColorChooserRow(APP_WIDGET *pRow, APP_WIDGET *pLabel,
 					   ColorChooserCallback callback,
 					   int which, void *through);
 
-extern void appFinishColorChooser(ColorChooser *cc,
+void appFinishColorChooser(ColorChooser *cc,
 				  const PostScriptFontList *psfl,
 				  APP_WIDGET fontWidget);
 
-extern void appColorChooserColorChosen(PropertyMask *isSetMask, int *pChanged,
+void appColorChooserColorChosen(PropertyMask *isSetMask, int *pChanged,
 				       RGB8Color *rgb8To, int *pExplicit,
 				       const RGB8Color *rgb8Set,
 				       int colorExplicit, int which);
 
-extern void appEnableColorChooser(ColorChooser *cc, int enabled);
+void appEnableColorChooser(ColorChooser *cc, int enabled);
 
-extern void appShowColorChooser(ColorChooser *cc, int visible);
+void appShowColorChooser(ColorChooser *cc, int visible);
 
 #endif /*  APP_COLOR_CHOOSER_H */

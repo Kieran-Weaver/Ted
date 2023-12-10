@@ -45,15 +45,15 @@ typedef int (*PutScreenRow)(unsigned char *to, const FillJob *fj,
 /*									*/
 /************************************************************************/
 
-extern int bmGetPutRow(PutScreenRow *pPutRow, int *pScratchSize,
+int bmGetPutRow(PutScreenRow *pPutRow, int *pScratchSize,
 		       const ColorAllocator *ca, int swapBitmapUnit,
 		       int swapBitmapBytes, int swapBitmapBits,
 		       const BitmapDescription *bdOut);
 
-extern void bmInitFillJob(FillJob *fj);
-extern void bmCleanFillJob(FillJob *fj);
+void bmInitFillJob(FillJob *fj);
+void bmCleanFillJob(FillJob *fj);
 
-extern int bmSetFillJob(FillJob *fj, ColorAllocator *ca, int frWide, int toWide,
+int bmSetFillJob(FillJob *fj, ColorAllocator *ca, int frWide, int toWide,
 			int scratchSize, int dither);
 
 #endif /*  BM_PUT_ROW_H	*/

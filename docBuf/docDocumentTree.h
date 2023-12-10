@@ -81,12 +81,12 @@ typedef struct DocumentTree {
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentTree(DocumentTree *dt);
+void docInitDocumentTree(DocumentTree *dt);
 
-extern void docCleanDocumentTree(struct BufferDocument *bd, DocumentTree *dt);
+void docCleanDocumentTree(struct BufferDocument *bd, DocumentTree *dt);
 
-extern void docInvalidateTreeLayout(DocumentTree *dt);
+void docInvalidateTreeLayout(DocumentTree *dt);
 
-extern int docAddRootFieldToTree(DocumentTree *dt, DocumentField *dfCh);
+int docAddRootFieldToTree(DocumentTree *dt, DocumentField *dfCh);
 
 #endif

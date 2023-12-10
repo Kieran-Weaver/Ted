@@ -35,36 +35,36 @@ typedef int (*IndexSetForOne)(int val, void *through);
 /*									*/
 /************************************************************************/
 
-extern void utilInitIndexSet(IndexSet *is);
-extern void utilCleanIndexSet(IndexSet *is);
+void utilInitIndexSet(IndexSet *is);
+void utilCleanIndexSet(IndexSet *is);
 
-extern int utilCopyIndexSet(IndexSet *to, const IndexSet *from);
+int utilCopyIndexSet(IndexSet *to, const IndexSet *from);
 
-extern int utilIndexSetAdd(IndexSet *is, int v);
+int utilIndexSetAdd(IndexSet *is, int v);
 
-extern void utilIndexSetRemove(IndexSet *is, int v);
+void utilIndexSetRemove(IndexSet *is, int v);
 
-extern int utilIndexSetIntersect(IndexSet *res, const IndexSet *is1,
+int utilIndexSetIntersect(IndexSet *res, const IndexSet *is1,
 				 const IndexSet *is2);
 
-extern int utilIndexSetUnion(IndexSet *res, const IndexSet *is1,
+int utilIndexSetUnion(IndexSet *res, const IndexSet *is1,
 			     const IndexSet *is2);
 
-extern int utilIndexSetRemoveAll(IndexSet *res, const IndexSet *is1,
+int utilIndexSetRemoveAll(IndexSet *res, const IndexSet *is1,
 				 const IndexSet *is2);
 
-extern int utilIndexSetForAll(const IndexSet *is, IndexSetForOne forOne,
+int utilIndexSetForAll(const IndexSet *is, IndexSetForOne forOne,
 			      void *through);
 
-extern int utilIndexSetGetNext(const IndexSet *is, int n);
+int utilIndexSetGetNext(const IndexSet *is, int n);
 #define utilIndexSetGetFirst(is) utilIndexSetGetNext((is), -1)
 
-extern int utilIndexSetGetNextHole(const IndexSet *is, int n);
+int utilIndexSetGetNextHole(const IndexSet *is, int n);
 
-extern int utilIndexSetGetPrev(const IndexSet *is, int n);
+int utilIndexSetGetPrev(const IndexSet *is, int n);
 #define utilIndexSetGetLast(is) utilIndexSetGetPrev((is), -1)
 
-extern int utilIndexSetAddArray(IndexSet *is, const int *indexes,
+int utilIndexSetAddArray(IndexSet *is, const int *indexes,
 				int indexCount);
 
 #endif /*	UTIL_INTEGER_SET_H	*/

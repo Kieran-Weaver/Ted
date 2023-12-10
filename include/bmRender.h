@@ -16,12 +16,12 @@
 /*									*/
 /************************************************************************/
 
-extern int bmFillImage(ColorAllocator *ca, int bitmapUnit, int swapBitmapBytes,
+int bmFillImage(ColorAllocator *ca, int bitmapUnit, int swapBitmapBytes,
 		       int swapBitmapBits, int dither, unsigned char *bufferOut,
 		       const BitmapDescription *bdOut, const RasterImage *riIn,
 		       const DocumentRectangle *drSel);
 
-extern int bmTextureMap(ColorAllocator *ca, int swapBitmapUnit,
+int bmTextureMap(ColorAllocator *ca, int swapBitmapUnit,
 			int swapBitmapBytes, int swapBitmapBits, int dither,
 			unsigned char *bufferOut, const unsigned char *bufferIn,
 			const BitmapDescription *bdOut,
@@ -30,7 +30,7 @@ extern int bmTextureMap(ColorAllocator *ca, int swapBitmapUnit,
 			double N_x, double N_y, double N_z, double M_x,
 			double M_y, double M_z);
 
-extern int bmTextureMapInverse(ColorAllocator *ca, int swapBitmapUnit,
+int bmTextureMapInverse(ColorAllocator *ca, int swapBitmapUnit,
 			       int swapBitmapBytes, int swapBitmapBits,
 			       int dither, unsigned char *bufferOut,
 			       const unsigned char *bufferIn,
@@ -40,16 +40,16 @@ extern int bmTextureMapInverse(ColorAllocator *ca, int swapBitmapUnit,
 			       double P_z, double N_x, double N_y, double N_z,
 			       double M_x, double M_y, double M_z);
 
-extern int bmSetColorAllocatorForImage(ColorAllocator *ca,
+int bmSetColorAllocatorForImage(ColorAllocator *ca,
 				       const BitmapDescription *bd);
 
-extern int bmSetColorAllocatorForPaletteImage(ColorAllocator *ca,
+int bmSetColorAllocatorForPaletteImage(ColorAllocator *ca,
 					      const BitmapDescription *bd);
 
-extern int bmSetColorAllocatorForBWImage(ColorAllocator *ca,
+int bmSetColorAllocatorForBWImage(ColorAllocator *ca,
 					 const BitmapDescription *bd);
 
-extern int bmSetColorAllocatorForWBImage(ColorAllocator *ca,
+int bmSetColorAllocatorForWBImage(ColorAllocator *ca,
 					 const BitmapDescription *bd);
 
 #endif

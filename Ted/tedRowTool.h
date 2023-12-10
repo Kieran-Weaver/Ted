@@ -90,27 +90,27 @@ typedef struct RowTool {
 /*									*/
 /************************************************************************/
 
-extern void tedFormatFillRowPage(RowTool *rt, const RowPageResources *rpr,
+void tedFormatFillRowPage(RowTool *rt, const RowPageResources *rpr,
 				 AppInspector *ai, int subjectPage,
 				 InspectorSubject *is, APP_WIDGET pageWidget,
 				 const InspectorSubjectResources *isr);
 
-extern void tedRowToolFillChoosers(RowTool *rt, const RowPageResources *rpr);
+void tedRowToolFillChoosers(RowTool *rt, const RowPageResources *rpr);
 
-extern void tedFormatFinishRowPage(RowTool *rt, const RowPageResources *rpr);
+void tedFormatFinishRowPage(RowTool *rt, const RowPageResources *rpr);
 
-extern void tedFormatToolGetRowResourceTable(EditApplication *ea,
+void tedFormatToolGetRowResourceTable(EditApplication *ea,
 					     RowPageResources *spr,
 					     InspectorSubjectResources *isr);
 
-extern void tedRefreshRowTool(RowTool *rt, int *pEnabled, int *pPref,
+void tedRefreshRowTool(RowTool *rt, int *pEnabled, int *pPref,
 			      InspectorSubject *is, const DocumentSelection *ds,
 			      const SelectionGeometry *sg,
 			      const SelectionDescription *sd,
 			      BufferDocument *bd,
 			      const unsigned char *cmdEnabled);
 
-extern void tedInitRowTool(RowTool *rt);
-extern void tedCleanRowTool(RowTool *rt);
+void tedInitRowTool(RowTool *rt);
+void tedCleanRowTool(RowTool *rt);
 
 #endif /*  TED_ROW_TOOL_H */

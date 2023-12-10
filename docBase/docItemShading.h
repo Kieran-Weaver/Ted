@@ -68,29 +68,29 @@ typedef struct ExpandedItemShading {
 /*									*/
 /************************************************************************/
 
-extern void docInitItemShading(ItemShading *is);
-extern void docInitExpandedItemShading(ExpandedItemShading *eis);
+void docInitItemShading(ItemShading *is);
+void docInitExpandedItemShading(ExpandedItemShading *eis);
 
-extern void docUpdateItemShading(PropertyMask *pIsDoneMask, ItemShading *isTo,
+void docUpdateItemShading(PropertyMask *pIsDoneMask, ItemShading *isTo,
 				 const PropertyMask *isSetMask,
 				 const ItemShading *isFrom,
 				 const int *colorMap);
 
-extern void docUpdateExpandedItemShading(PropertyMask *pIsDoneMask,
+void docUpdateExpandedItemShading(PropertyMask *pIsDoneMask,
 					 ExpandedItemShading *eisTo,
 					 const PropertyMask *isSetMask,
 					 const ExpandedItemShading *eisFrom);
 
-extern void docExpandItemShading(ExpandedItemShading *eis,
+void docExpandItemShading(ExpandedItemShading *eis,
 				 const ItemShading *is, const ColorPalette *cp);
 
-extern int docIndirectItemShading(PropertyMask *pDoneMask, ItemShading *is,
+int docIndirectItemShading(PropertyMask *pDoneMask, ItemShading *is,
 				  const PropertyMask *setMask,
 				  const ExpandedItemShading *eis,
 				  ColorPalette *cp);
 
-extern int docSetShadingProperty(ItemShading *is, int prop, int arg);
+int docSetShadingProperty(ItemShading *is, int prop, int arg);
 
-extern int docGetShadingProperty(const ItemShading *is, int prop);
+int docGetShadingProperty(const ItemShading *is, int prop);
 
 #endif /*  DOC_ITEM_SHADING_H  */

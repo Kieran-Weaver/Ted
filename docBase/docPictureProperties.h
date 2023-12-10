@@ -104,20 +104,20 @@ typedef enum PictureProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitPictureProperties(PictureProperties *pip);
+void docInitPictureProperties(PictureProperties *pip);
 
-extern int docUpdPictureProperties(PropertyMask *pDoneMask,
+int docUpdPictureProperties(PropertyMask *pDoneMask,
 				   PictureProperties *pipTo,
 				   const PropertyMask *pipUpdMask,
 				   const PictureProperties *pipFrom);
 
-extern void docPicturePropertyDifference(PropertyMask *pDifMask,
+void docPicturePropertyDifference(PropertyMask *pDifMask,
 					 const PictureProperties *pip1,
 					 const PropertyMask *cmpMask,
 					 const PictureProperties *pip2);
 
-extern int docSetPictureProperty(PictureProperties *pip, int prop, int val);
+int docSetPictureProperty(PictureProperties *pip, int prop, int val);
 
-extern int docGetPictureProperty(const PictureProperties *pip, int prop);
+int docGetPictureProperty(const PictureProperties *pip, int prop);
 
 #endif /*  DOC_PICTURE_PROPERTIES_H	*/

@@ -91,9 +91,9 @@ typedef struct SectNode {
 /*									*/
 /************************************************************************/
 
-extern void docCleanSectHeadersFooters(struct BufferDocument *bd,
+void docCleanSectHeadersFooters(struct BufferDocument *bd,
 				       SectHeadersFooters *shf);
 
-extern void docInitSectHeadersFooters(SectHeadersFooters *shf);
+void docInitSectHeadersFooters(SectHeadersFooters *shf);
 
 #endif

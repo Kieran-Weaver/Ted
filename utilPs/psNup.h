@@ -63,31 +63,31 @@ typedef struct PrintGeometry {
 /*									*/
 /************************************************************************/
 
-extern void psInitPrintGeometry(PrintGeometry *pg);
-extern void psCleanPrintGeometry(PrintGeometry *pg);
+void psInitPrintGeometry(PrintGeometry *pg);
+void psCleanPrintGeometry(PrintGeometry *pg);
 
-extern void psInitNupSchema(NupSchema *ns);
-extern void psCleanNupSchema(NupSchema *ns);
+void psInitNupSchema(NupSchema *ns);
+void psCleanNupSchema(NupSchema *ns);
 
-extern int psNupFitPagesToSheet(int *pFitWithoutRot, int *pFitWithRot,
+int psNupFitPagesToSheet(int *pFitWithoutRot, int *pFitWithRot,
 				const PrintGeometry *pg,
 				const DocumentGeometry *dgPage);
 
-extern int utilNupGetBaseTranform(AffineTransform2D *pAt1Page,
+int utilNupGetBaseTranform(AffineTransform2D *pAt1Page,
 				  int *pRotatePages, const PrintGeometry *pg,
 				  const DocumentGeometry *dgPage, double fac);
 
-extern void psNupSheetBoundingBox(DocumentRectangle *sheetBBox,
+void psNupSheetBoundingBox(DocumentRectangle *sheetBBox,
 				  const NupSchema *ns,
 				  const DocumentGeometry *dgPage,
 				  int hasPageHeader, int hasPageFooter);
 
-extern int utilNupSetSchema(NupSchema *ns, int rotateSheetGrid,
+int utilNupSetSchema(NupSchema *ns, int rotateSheetGrid,
 			    const AffineTransform2D *at1Page,
 			    const PrintGeometry *pg, double fac,
 			    const DocumentGeometry *dgPage);
 
-extern void utilNupGetPageTranform(AffineTransform2D *at, const NupSchema *ns,
+void utilNupGetPageTranform(AffineTransform2D *at, const NupSchema *ns,
 				   int page);
 
 #endif /*  UTIL_NUP_H  */

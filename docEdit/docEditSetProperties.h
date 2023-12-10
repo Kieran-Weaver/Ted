@@ -50,23 +50,23 @@ typedef struct SetProperties {
 /*									*/
 /************************************************************************/
 
-extern int docEditChangeParaProperties(SetProperties *setProps,
+int docEditChangeParaProperties(SetProperties *setProps,
 				       const DocumentSelection *ds,
 				       struct BufferItem *paraNode,
 				       const TextAttribute *taSet,
 				       const ParagraphProperties *ppSet);
 
-extern int docEditChangeCellProperties(SetProperties *setProps,
+int docEditChangeCellProperties(SetProperties *setProps,
 				       const DocumentSelection *ds,
 				       struct BufferItem *cellNode,
 				       const CellProperties *cpSet);
 
-extern int docEditChangeRowProperties(SetProperties *setProps,
+int docEditChangeRowProperties(SetProperties *setProps,
 				      const DocumentSelection *ds,
 				      struct BufferItem *rowNode,
 				      const RowProperties *rpSet);
 
-extern int docChangeDocumentProperties(EditOperation *eo,
+int docChangeDocumentProperties(EditOperation *eo,
 				       PropertyMask *docDpDoneMask,
 				       const PropertyMask *dpSetMask,
 				       const DocumentProperties *dpSet,

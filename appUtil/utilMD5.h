@@ -45,18 +45,18 @@ typedef struct MD5Context {
 	unsigned char md5cBuffer[64]; /*  input buffer	*/
 } MD5Context;
 
-extern void utilMD5Init(MD5Context *md5c);
+void utilMD5Init(MD5Context *md5c);
 
-extern void utilMD5Update(MD5Context *md5c, const unsigned char *bytes,
+void utilMD5Update(MD5Context *md5c, const unsigned char *bytes,
 			  unsigned int count);
 
-extern void utilMD5Final(unsigned char digest[MD5_DIGEST_SIZE_BYTES],
+void utilMD5Final(unsigned char digest[MD5_DIGEST_SIZE_BYTES],
 			 MD5Context *md5c);
 
-extern void utilMD5ToBase64(char digestBase64[MD5_DIGEST_SIZE_BASE64],
+void utilMD5ToBase64(char digestBase64[MD5_DIGEST_SIZE_BASE64],
 			    const unsigned char digest[MD5_DIGEST_SIZE_BYTES]);
 
-extern int utilMD5FromBase64(unsigned char digest[MD5_DIGEST_SIZE_BYTES],
+int utilMD5FromBase64(unsigned char digest[MD5_DIGEST_SIZE_BYTES],
 			     const char digestBase64[MD5_DIGEST_SIZE_BASE64]);
 
 #endif /*  UTIL_MD5_H  */

@@ -18,31 +18,31 @@ struct SelectionScope;
 struct EditPosition;
 struct MemoryBuffer;
 
-extern struct DocumentField *docGetFieldByNumber(const DocumentFieldList *dfl,
+struct DocumentField *docGetFieldByNumber(const DocumentFieldList *dfl,
 						 int n);
 
-extern void docDeleteFieldFromList(DocumentFieldList *dfl,
+void docDeleteFieldFromList(DocumentFieldList *dfl,
 				   struct DocumentField *df);
 
-extern int docGetFieldKindByNumber(const DocumentFieldList *dfl, int n);
+int docGetFieldKindByNumber(const DocumentFieldList *dfl, int n);
 
-extern void docCleanFieldList(DocumentFieldList *dfl);
-extern void docInitFieldList(DocumentFieldList *dfl);
+void docCleanFieldList(DocumentFieldList *dfl);
+void docInitFieldList(DocumentFieldList *dfl);
 
-extern int docSetPageOfField(DocumentFieldList *dfl, int n, int page);
+int docSetPageOfField(DocumentFieldList *dfl, int n, int page);
 
-extern struct DocumentField *docClaimField(DocumentFieldList *dfl);
+struct DocumentField *docClaimField(DocumentFieldList *dfl);
 
-extern struct DocumentField *
+struct DocumentField *
 docClaimFieldCopy(DocumentFieldList *dfl, const struct DocumentField *dfFrom,
 		  const struct SelectionScope *ss,
 		  const struct EditPosition *epStart);
 
-extern int docFindBookmarkField(struct DocumentField **pDf,
+int docFindBookmarkField(struct DocumentField **pDf,
 				const DocumentFieldList *dfl,
 				const struct MemoryBuffer *markName);
 
-extern int docMakeBookmarkList(char ***pBookmarks, int *pBookmarkCount,
+int docMakeBookmarkList(char ***pBookmarks, int *pBookmarkCount,
 			       int includeTocMarks,
 			       const DocumentFieldList *dfl);
 

@@ -48,23 +48,23 @@ typedef struct BlockOrigin {
 /*									*/
 /************************************************************************/
 
-extern void docInitLayoutPosition(LayoutPosition *lp);
-extern void docInitBlockOrigin(BlockOrigin *bo);
+void docInitLayoutPosition(LayoutPosition *lp);
+void docInitBlockOrigin(BlockOrigin *bo);
 
-extern void docLayoutPushBottomDown(LayoutPosition *lpRowBottom,
+void docLayoutPushBottomDown(LayoutPosition *lpRowBottom,
 				    const LayoutPosition *lpColBottom);
 
-extern void docLayoutPushBottomDownShifted(LayoutPosition *lpRowBottom,
+void docLayoutPushBottomDownShifted(LayoutPosition *lpRowBottom,
 					   const LayoutPosition *lpColBottom,
 					   const BlockOrigin *bo);
 
-extern void docShiftPosition(LayoutPosition *to, const BlockOrigin *bo,
+void docShiftPosition(LayoutPosition *to, const BlockOrigin *bo,
 			     const LayoutPosition *from);
 
-extern int docCompareLayoutPositions(const LayoutPosition *lp1,
+int docCompareLayoutPositions(const LayoutPosition *lp1,
 				     const LayoutPosition *lp2);
 
-extern void docShiftRectangle(DocumentRectangle *to, const BlockOrigin *bo,
+void docShiftRectangle(DocumentRectangle *to, const BlockOrigin *bo,
 			      const DocumentRectangle *from);
 
 #endif /*	DOC_LAYOUT_POSITION_H	*/

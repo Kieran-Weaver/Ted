@@ -34,7 +34,7 @@ typedef struct SelectionGeometry {
 /*									*/
 /************************************************************************/
 
-extern void docInitPositionGeometry(PositionGeometry *pg);
-extern void docInitSelectionGeometry(SelectionGeometry *sg);
+void docInitPositionGeometry(PositionGeometry *pg);
+void docInitSelectionGeometry(SelectionGeometry *sg);
 
 #endif /*	DOC_SELECTION_GEOMETRY_H	*/

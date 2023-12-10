@@ -50,15 +50,15 @@ typedef struct ClusterSegments {
 /*									*/
 /************************************************************************/
 
-extern void geoInitClusterSegments(ClusterSegments *cs);
-extern void geoCleanClusterSegments(ClusterSegments *cs);
+void geoInitClusterSegments(ClusterSegments *cs);
+void geoCleanClusterSegments(ClusterSegments *cs);
 
-extern int geoClusterSegmentsAddSegment(ClusterSegments *cs, int x0, int y0,
+int geoClusterSegmentsAddSegment(ClusterSegments *cs, int x0, int y0,
 					int x1, int y1);
 
-extern int geoClusterSegmentsAllocateTree(ClusterSegments *cs,
+int geoClusterSegmentsAllocateTree(ClusterSegments *cs,
 					  const DocumentRectangle *dr);
 
-extern int geoClusterSegmentsSetFile(ClusterSegments *cs, const char *fileName);
+int geoClusterSegmentsSetFile(ClusterSegments *cs, const char *fileName);
 
-extern int geoRunClusterSegments(ClusterSegments *cs);
+int geoRunClusterSegments(ClusterSegments *cs);

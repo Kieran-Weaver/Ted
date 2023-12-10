@@ -26,11 +26,11 @@ typedef struct RefField {
 /*									*/
 /************************************************************************/
 
-extern void docInitRefField(RefField *rf);
-extern void docCleanRefField(RefField *rf);
+void docInitRefField(RefField *rf);
+void docCleanRefField(RefField *rf);
 
-extern int docGetRefField(RefField *rf, const struct DocumentField *df);
+int docGetRefField(RefField *rf, const struct DocumentField *df);
 
-extern int docSetRefField(struct DocumentField *df, const RefField *rf);
+int docSetRefField(struct DocumentField *df, const RefField *rf);
 
 #endif /*  DOC_REF_FIELD_H  */

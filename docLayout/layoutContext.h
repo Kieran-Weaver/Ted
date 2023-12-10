@@ -29,11 +29,11 @@ typedef struct LayoutContext {
 /*									*/
 /************************************************************************/
 
-extern void layoutInitContext(LayoutContext *lc);
+void layoutInitContext(LayoutContext *lc);
 
-extern int docLayoutYPixels(const LayoutContext *lc, const LayoutPosition *lp);
+int docLayoutYPixels(const LayoutContext *lc, const LayoutPosition *lp);
 
-extern int docLayoutXPixels(const LayoutContext *lc, int xTwips);
+int docLayoutXPixels(const LayoutContext *lc, int xTwips);
 
 int docGetPageForYPixels(const LayoutContext *lc, int yPixels);
 

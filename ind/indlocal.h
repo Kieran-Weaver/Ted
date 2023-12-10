@@ -85,55 +85,55 @@ typedef struct IND {
 /*									*/
 /************************************************************************/
 
-extern IND *indINDmake(int readOnly);
-extern IND *indINDread(const char *filename, int readOnly);
+IND *indINDmake(int readOnly);
+IND *indINDread(const char *filename, int readOnly);
 
-extern int indINDputUtf8(IND *ind, int tn, const char *key);
+int indINDputUtf8(IND *ind, int tn, const char *key);
 
-extern int indINDputUtf16(IND *ind, int tn, const unsigned short *key);
+int indINDputUtf16(IND *ind, int tn, const unsigned short *key);
 
-extern int indINDforall(IND *ind, int tn, void *through, IndForAllFun fun);
+int indINDforall(IND *ind, int tn, void *through, IndForAllFun fun);
 
-extern int indINDforget(IND *ind, const char *key);
+int indINDforget(IND *ind, const char *key);
 
-extern void indINDfree(IND *ind);
+void indINDfree(IND *ind);
 
-extern int indINDwrite(IND *ind, const char *filename);
+int indINDwrite(IND *ind, const char *filename);
 
-extern int indTNmake(IND *ind);
-extern void indTNfree(IND *ind, int tn);
-extern int indTLalloc(IND *ind, int old, int n);
-extern void indTLfree(IND *ind, int tl);
-extern IND *indINDmini(IND *ind);
-extern void indTLprint(IND *, int);
-extern void indTNprint(IND *, int);
-extern void indINDprint(IND *);
+int indTNmake(IND *ind);
+void indTNfree(IND *ind, int tn);
+int indTLalloc(IND *ind, int old, int n);
+void indTLfree(IND *ind, int tl);
+IND *indINDmini(IND *ind);
+void indTLprint(IND *, int);
+void indTNprint(IND *, int);
+void indINDprint(IND *);
 
-extern void indTLprint2(IND *ind, int from, int upto);
+void indTLprint2(IND *ind, int from, int upto);
 
-extern int indINDgetUtf8(int *paccept, IND *ind, int tn, const char *key);
+int indINDgetUtf8(int *paccept, IND *ind, int tn, const char *key);
 
-extern int indINDgetUtf16(int *paccept, IND *ind, int tn,
+int indINDgetUtf16(int *paccept, IND *ind, int tn,
 			  const unsigned short *key);
 
-extern int indINDstep(int *pTrans, IND *ind, int tn, int sym);
+int indINDstep(int *pTrans, IND *ind, int tn, int sym);
 
-extern int indINDguess(IND *ind, const unsigned short *ucods, int len,
+int indINDguess(IND *ind, const unsigned short *ucods, int len,
 		       SpellGuessContext *sgc, int how);
 
-extern int indWRDget(IND *ind, int *pWhatWasShifted, const char *word,
+int indWRDget(IND *ind, int *pWhatWasShifted, const char *word,
 		     int asPrefix);
 
-extern int indWRDguess(IND *ind, unsigned short *ucods, int ulen,
+int indWRDguess(IND *ind, unsigned short *ucods, int ulen,
 		       SpellGuessContext *sgc);
 
-extern IND *indINDrenumber(IND *ind);
+IND *indINDrenumber(IND *ind);
 
-extern void indINDcount(IND *ind);
-extern int indITwalk(IND *ind);
-extern int indTLwalk(IND *ind);
+void indINDcount(IND *ind);
+int indITwalk(IND *ind);
+int indTLwalk(IND *ind);
 
-extern int indShiftWord(char *target, const unsigned short *ucods, int ulen,
+int indShiftWord(char *target, const unsigned short *ucods, int ulen,
 			int how);
 
-extern int indINDaddSuffix(IND *ind, int tnTo, int tnSuf);
+int indINDaddSuffix(IND *ind, int tnTo, int tnSuf);

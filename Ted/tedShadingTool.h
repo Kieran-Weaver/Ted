@@ -67,12 +67,12 @@ typedef struct ShadingToolResources {
 /*									*/
 /************************************************************************/
 
-extern void tedEnableShadingTool(ShadingTool *st, int enabled);
+void tedEnableShadingTool(ShadingTool *st, int enabled);
 
-extern void tedSetShadingToolByNumber(ShadingTool *st, const BufferDocument *bd,
+void tedSetShadingToolByNumber(ShadingTool *st, const BufferDocument *bd,
 				      int num);
 
-extern void tedFormatMakeShadingTool(ShadingTool *st, AppInspector *ai,
+void tedFormatMakeShadingTool(ShadingTool *st, AppInspector *ai,
 				     APP_WIDGET pageWidget, const char *title,
 				     const ShadingToolResources *str,
 				     int subjectPage, int foreWhich,
@@ -80,20 +80,20 @@ extern void tedFormatMakeShadingTool(ShadingTool *st, AppInspector *ai,
 				     TedShadingToolCallback callback,
 				     void *through);
 
-extern void tedShadeSetExplicitColorChoice(ShadingTool *st, int which,
+void tedShadeSetExplicitColorChoice(ShadingTool *st, int which,
 					   const RGB8Color *rgb8Set);
 
-extern void tedInitShadingTool(ShadingTool *st);
-extern void tedCleanShadingTool(ShadingTool *st);
+void tedInitShadingTool(ShadingTool *st);
+void tedCleanShadingTool(ShadingTool *st);
 
-extern void tedFinishShadingTool(ShadingTool *st,
+void tedFinishShadingTool(ShadingTool *st,
 				 const PostScriptFontList *psfl);
 
-extern int tedShadingToolGetShadingNumber(int *pNum, PropertyMask *isSetMask,
+int tedShadingToolGetShadingNumber(int *pNum, PropertyMask *isSetMask,
 					  const ShadingTool *st,
 					  BufferDocument *bd);
 
-extern int tedFormatToolGetCellShading(CellProperties *cp, BufferDocument *bd,
+int tedFormatToolGetCellShading(CellProperties *cp, BufferDocument *bd,
 				       ShadingTool *st);
 
 #endif /*  TED_SHADING_TOOL_H */

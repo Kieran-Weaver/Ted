@@ -23,19 +23,19 @@ typedef struct TabStopList {
 void docInitTabStopList(TabStopList *tsl);
 void docCleanTabStopList(TabStopList *tsl);
 
-extern int docAddTabToListTwips(TabStopList *tsl, const TabStop *tsNew);
+int docAddTabToListTwips(TabStopList *tsl, const TabStop *tsNew);
 
-extern int docAddTabToListPixels(TabStopList *tsl, const TabStop *tsNew);
+int docAddTabToListPixels(TabStopList *tsl, const TabStop *tsNew);
 
-extern void docDeleteTabFromList(TabStopList *tsl, int n);
+void docDeleteTabFromList(TabStopList *tsl, int n);
 
-extern int docCopyTabStopList(TabStopList *to, const TabStopList *from);
+int docCopyTabStopList(TabStopList *to, const TabStopList *from);
 
-extern int docNextTabStop(TabStop *pTs, int *pX, int *pTab,
+int docNextTabStop(TabStop *pTs, int *pX, int *pTab,
 			  const TabStopList *tsl, int x0Geometry,
 			  int x0TextLines, int tabInterval, int xPosition);
 
-extern int docRulerMergeTabs(TabStopList *tslTo, int x0GeometryPixels,
+int docRulerMergeTabs(TabStopList *tslTo, int x0GeometryPixels,
 			     double xfac, const TabStopList *tslFrom);
 
 #endif /*  DOC_TAB_STOP_LIST_H	*/

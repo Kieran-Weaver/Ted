@@ -19,16 +19,16 @@ typedef int (*TextAttributeFunction)(int n, const TextAttribute *ta,
 /*									*/
 /************************************************************************/
 
-extern void utilInitTextAttributeList(NumberedPropertiesList *tal);
+void utilInitTextAttributeList(NumberedPropertiesList *tal);
 
-extern int utilTextAttributeNumber(NumberedPropertiesList *tal,
+int utilTextAttributeNumber(NumberedPropertiesList *tal,
 				   const TextAttribute *ta);
 
-extern void utilGetTextAttributeByNumber(TextAttribute *ta,
+void utilGetTextAttributeByNumber(TextAttribute *ta,
 					 const NumberedPropertiesList *tal,
 					 int n);
 
-extern int textForAllAttributesInList(const NumberedPropertiesList *tal,
+int textForAllAttributesInList(const NumberedPropertiesList *tal,
 				      const IndexSet *filter,
 				      TextAttributeFunction f, void *through);
 

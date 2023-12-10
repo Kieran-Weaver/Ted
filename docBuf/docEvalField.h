@@ -20,105 +20,105 @@ struct RecalculateFields;
 /*									*/
 /************************************************************************/
 
-extern int docCalculateChftnFieldString(int *pCalculated,
+int docCalculateChftnFieldString(int *pCalculated,
 					MemoryBuffer *mbResult,
 					const struct DocumentField *df,
 					const struct RecalculateFields *rf);
 
-extern int docCalculateSymbolFieldString(int *pCalculated,
+int docCalculateSymbolFieldString(int *pCalculated,
 					 MemoryBuffer *mbResult,
 					 const struct DocumentField *df,
 					 const struct RecalculateFields *rf);
 
-extern int docCalculatePagerefFieldString(int *pCalculated,
+int docCalculatePagerefFieldString(int *pCalculated,
 					  MemoryBuffer *mbResult,
 					  const struct DocumentField *df,
 					  const struct RecalculateFields *rf);
 
-extern int docCalculateSectionFieldString(int *pCalculated,
+int docCalculateSectionFieldString(int *pCalculated,
 					  MemoryBuffer *mbResult,
 					  const struct DocumentField *df,
 					  const struct RecalculateFields *rf);
 
-extern int docCalculateSeqFieldString(int *pCalculated, MemoryBuffer *mbResult,
+int docCalculateSeqFieldString(int *pCalculated, MemoryBuffer *mbResult,
 				      const struct DocumentField *df,
 				      const struct RecalculateFields *rf);
 
-extern int
+int
 docCalculateSectionPagesFieldString(int *pCalculated, MemoryBuffer *mbResult,
 				    const struct DocumentField *df,
 				    const struct RecalculateFields *rf);
 
-extern int docCalculatePageFieldString(int *pCalculated, MemoryBuffer *mbResult,
+int docCalculatePageFieldString(int *pCalculated, MemoryBuffer *mbResult,
 				       const struct DocumentField *df,
 				       const struct RecalculateFields *rf);
 
-extern int docCalculateNumpagesFieldString(int *pCalculated,
+int docCalculateNumpagesFieldString(int *pCalculated,
 					   MemoryBuffer *mbResult,
 					   const struct DocumentField *df,
 					   const struct RecalculateFields *rf);
 
-extern int docCalculateDocDateFieldString(int *pCalculated,
+int docCalculateDocDateFieldString(int *pCalculated,
 					  MemoryBuffer *mbResult,
 					  const struct DocumentField *df,
 					  const struct RecalculateFields *rf);
 
-extern int docCalculateDocStringFieldString(int *pCalculated,
+int docCalculateDocStringFieldString(int *pCalculated,
 					    MemoryBuffer *mbResult,
 					    const struct DocumentField *df,
 					    const struct RecalculateFields *rf);
 
-extern int docCalculateFilenameFieldString(int *pCalculated,
+int docCalculateFilenameFieldString(int *pCalculated,
 					   MemoryBuffer *mbResult,
 					   const struct DocumentField *df,
 					   const struct RecalculateFields *rf);
 
-extern int docCalculateRefFieldString(int *pCalculated, MemoryBuffer *mbResult,
+int docCalculateRefFieldString(int *pCalculated, MemoryBuffer *mbResult,
 				      const struct DocumentField *df,
 				      const struct RecalculateFields *rf);
 
-extern int docRecalculateHyperlinkField(int *pCalculated, int *pPartShift,
+int docRecalculateHyperlinkField(int *pCalculated, int *pPartShift,
 					int *pStroffShift,
 					struct BufferItem *paraNode, int part,
 					int partCount, struct DocumentField *df,
 					const struct RecalculateFields *rf);
 
-extern int docRecalculateMergeField(int *pCalculated, int *pPartShift,
+int docRecalculateMergeField(int *pCalculated, int *pPartShift,
 				    int *pStroffShift,
 				    struct BufferItem *paraNode, int part,
 				    int partCount, struct DocumentField *df,
 				    const struct RecalculateFields *rf);
 
-extern int docRecalculateIncludePictureField(
+int docRecalculateIncludePictureField(
 	int *pCalculated, int *pPartShift, int *pStroffShift,
 	struct BufferItem *paraNode, int part, int partCount,
 	struct DocumentField *df, const struct RecalculateFields *rf);
 
-extern int docRecalculateParaStringTextParticules(
+int docRecalculateParaStringTextParticules(
 	int *pCalculated, int *pPartShift, int *pStroffShift,
 	struct BufferItem *paraNode, int part, int partCount,
 	struct DocumentField *df, const struct RecalculateFields *rf);
 
-extern int docRecalculateParaChftnTextParticules(
+int docRecalculateParaChftnTextParticules(
 	int *pCalculated, int *pPartShift, int *pStroffShift,
 	struct BufferItem *paraNode, int part, int partCount,
 	struct DocumentField *df, const struct RecalculateFields *rf);
 
-extern int docRecalculateParaListtextTextParticules(
+int docRecalculateParaListtextTextParticules(
 	int *pCalculated, int *pPartShift, int *pStroffShift,
 	struct BufferItem *paraNode, int part, int partCount,
 	struct DocumentField *df, const struct RecalculateFields *rf);
 
-extern int docRecalculateParaSymbolTextParticules(
+int docRecalculateParaSymbolTextParticules(
 	int *pCalculated, int *pPartShift, int *pStroffShift,
 	struct BufferItem *paraNode, int part, int partCount,
 	struct DocumentField *df, const struct RecalculateFields *rf);
 
-extern int docCalculateRefFieldValue(MemoryBuffer *mbResult,
+int docCalculateRefFieldValue(MemoryBuffer *mbResult,
 				     const MemoryBuffer *markName,
 				     const struct BufferDocument *bd);
 
-extern int docFormatChftnField(MemoryBuffer *mbResult,
+int docFormatChftnField(MemoryBuffer *mbResult,
 			       const FootEndNotesProperties *fep,
 			       const NoteProperties *np, int noteNumber);
 

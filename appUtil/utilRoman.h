@@ -7,6 +7,6 @@
 /*									*/
 /************************************************************************/
 
-extern int utilRomanString(char *to, int maxlen, int n, int upper);
+int utilRomanString(char *to, int maxlen, int n, int upper);
 
 #endif /*  UTIL_ROMAN_H  */

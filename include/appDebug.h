@@ -14,18 +14,18 @@
 #endif
 
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 #ifdef __GNUC__
-extern int appDebug(const char *format, ...)
+int appDebug(const char *format, ...)
 	__attribute__((format(printf, 1, 2)));
 #else
-extern int appDebug(const char *format, ...);
+int appDebug(const char *format, ...);
 #endif
 
 extern const int appDebugZero;
-extern int appDebugSetFile(const char *filename, const char *mode);
+int appDebugSetFile(const char *filename, const char *mode);
 
 #ifdef APP_DEBUG
 #include <ctype.h>

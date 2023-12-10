@@ -80,38 +80,38 @@ typedef struct IcoDirectoryEntry {
 /*  Routine declarations.						*/
 /************************************************************************/
 
-extern int bmCollectDib(const BitmapDescription *bd,
+int bmCollectDib(const BitmapDescription *bd,
 			const unsigned char *buffer, BmpImageHeader *bih,
 			MemoryBuffer *bmpBytes, RGB8Color **pPalette,
 			int privateFormat, int fileHeader);
 
-extern int bmpWriteImageHeader(const BmpImageHeader *bih,
+int bmpWriteImageHeader(const BmpImageHeader *bih,
 			       SimpleOutputStream *sos,
 			       const RGB8Color *palette);
 
-extern int bmpReadImageHeader(BmpImageHeader *bih, SimpleInputStream *sis,
+int bmpReadImageHeader(BmpImageHeader *bih, SimpleInputStream *sis,
 			      RGB8Color **pPalette);
 
-extern int bmpHeaderToDescription(BitmapDescription *bd, int *pBytesPerRow,
+int bmpHeaderToDescription(BitmapDescription *bd, int *pBytesPerRow,
 				  const BmpImageHeader *bih,
 				  const RGB8Color *palette, int assumeAlpha);
 
-extern int bmBmpReadImageBytes(unsigned char **pBuffer, SimpleInputStream *sis,
+int bmBmpReadImageBytes(unsigned char **pBuffer, SimpleInputStream *sis,
 			       int compression, int bytesPerRowF,
 			       int bitsPerPixelFile,
 			       const BitmapDescription *bd);
 
-extern int bmBmpReadDibX(BitmapDescription *pBd, unsigned char **pBuffer,
+int bmBmpReadDibX(BitmapDescription *pBd, unsigned char **pBuffer,
 			 BmpImageHeader *bih, const RGB8Color *palette,
 			 SimpleInputStream *sis);
 
-extern int bmbmpDescriptionToHeader(BmpImageHeader *bih, RGB8Color **pPalette,
+int bmbmpDescriptionToHeader(BmpImageHeader *bih, RGB8Color **pPalette,
 				    int privateFormat, int hasAlpha,
 				    const BitmapDescription *bd);
 
-extern int bmpSizeImageHeader(const BmpImageHeader *bih, RGB8Color *palette);
+int bmpSizeImageHeader(const BmpImageHeader *bih, RGB8Color *palette);
 
-extern int bmBmpSaveImageBytes(MemoryBuffer *bmpBytes,
+int bmBmpSaveImageBytes(MemoryBuffer *bmpBytes,
 			       const BitmapDescription *bd,
 			       const unsigned char *buffer, int compression);
 

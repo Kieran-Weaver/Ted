@@ -29,34 +29,34 @@ typedef struct DocumentFontList {
 /*									*/
 /************************************************************************/
 
-extern DocumentFont *docFontListGetFontByNumber(const DocumentFontList *dfl,
+DocumentFont *docFontListGetFontByNumber(const DocumentFontList *dfl,
 						int n);
 
-extern void docInitFontList(DocumentFontList *dfl);
+void docInitFontList(DocumentFontList *dfl);
 
-extern void docCleanFontList(DocumentFontList *dfl);
+void docCleanFontList(DocumentFontList *dfl);
 
-extern int docCopyFontList(DocumentFontList *to, const DocumentFontList *from);
+int docCopyFontList(DocumentFontList *to, const DocumentFontList *from);
 
-extern DocumentFont *utilDocFontListInsertFont(DocumentFontList *dfl,
+DocumentFont *utilDocFontListInsertFont(DocumentFontList *dfl,
 					       const DocumentFont *df);
 
-extern int docGetFontByName(DocumentFontList *dfl, const char *fontName);
+int docGetFontByName(DocumentFontList *dfl, const char *fontName);
 
-extern int docMergeFontIntoFontlist(DocumentFontList *dflTo,
+int docMergeFontIntoFontlist(DocumentFontList *dflTo,
 				    const DocumentFont *dfFrom);
 
-extern const DocumentFont *
+const DocumentFont *
 utilDocumentFontListGetFontBySortIndex(DocumentFontList *dfl, int idx);
 
-extern int utilDocumentFontListGetSortIndex(DocumentFontList *dfl, int aidx);
+int utilDocumentFontListGetSortIndex(DocumentFontList *dfl, int aidx);
 
-extern int utilDocumentFontListGetArrayIndex(DocumentFontList *dfl, int sidx);
+int utilDocumentFontListGetArrayIndex(DocumentFontList *dfl, int sidx);
 
-extern DocumentFont *utilAddFontToDocList(DocumentFontList *dfl,
+DocumentFont *utilAddFontToDocList(DocumentFontList *dfl,
 					  const char *name, int styleInt,
 					  int pitch);
 
-extern void utilDocFontListClearCharsUsed(DocumentFontList *dfl);
+void utilDocFontListClearCharsUsed(DocumentFontList *dfl);
 
 #endif /*  DOC_FONT_LIST_H	*/

@@ -108,7 +108,7 @@ struct qstuff {
 };
 typedef struct qstuff qstuff;
 
-extern int utilJenkinsPerfectHash(const unsigned char **keyStrings,
+int utilJenkinsPerfectHash(const unsigned char **keyStrings,
 				  int keyStringCount, const char *cOutput,
 				  const char *cInclude, const char *procName,
 				  const char *indexName);

@@ -107,34 +107,34 @@ extern const int DOC_FieldKindCount;
 /*									*/
 /************************************************************************/
 
-extern int docSuggestNewBookmarkName(MemoryBuffer *markName,
+int docSuggestNewBookmarkName(MemoryBuffer *markName,
 				     const struct BufferDocument *bd,
 				     const struct DocumentSelection *ds);
 
-extern int docMakeBookmarkUnique(const struct BufferDocument *bd,
+int docMakeBookmarkUnique(const struct BufferDocument *bd,
 				 MemoryBuffer *markName);
 
-extern int docFieldKindFromInstructions(const DocumentField *df);
+int docFieldKindFromInstructions(const DocumentField *df);
 
-extern DocumentField *
+DocumentField *
 docFindFieldForPosition(struct BufferDocument *bd,
 			const struct DocumentPosition *dp);
 
-extern DocumentField *
+DocumentField *
 docFindTypedFieldForPosition(struct BufferDocument *bd,
 			     const struct DocumentPosition *dp, int kind,
 			     int lastOne);
 
-extern DocumentField *
+DocumentField *
 docFindTypedFieldInSelection(struct BufferDocument *bd,
 			     const struct DocumentSelection *ds, int kind,
 			     int lastOne);
 
-extern int docSetHyperlinkAttribute(TextAttribute *taSet,
+int docSetHyperlinkAttribute(TextAttribute *taSet,
 				    PropertyMask *taSetMask,
 				    struct BufferDocument *bd);
 
-extern int docRemoveHyperlinkAttribute(TextAttribute *taSet,
+int docRemoveHyperlinkAttribute(TextAttribute *taSet,
 				       PropertyMask *taSetMask,
 				       struct BufferDocument *bd);
 

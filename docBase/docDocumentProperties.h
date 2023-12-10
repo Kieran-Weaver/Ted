@@ -196,47 +196,47 @@ extern const int *const DOCdocENDNOTE_PROP_MAP;
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentProperties(DocumentProperties *dp);
+void docInitDocumentProperties(DocumentProperties *dp);
 
-extern void docCleanDocumentProperties(DocumentProperties *dp);
+void docCleanDocumentProperties(DocumentProperties *dp);
 
-extern int docCopyDocumentProperties(DocumentProperties *to,
+int docCopyDocumentProperties(DocumentProperties *to,
 				     const DocumentProperties *from);
 
-extern int docUpdDocumentProperties(PropertyMask *pDoneMask,
+int docUpdDocumentProperties(PropertyMask *pDoneMask,
 				    DocumentProperties *dpTo,
 				    const PropertyMask *dpSetMask,
 				    const DocumentProperties *dpFrom,
 				    const DocumentAttributeMap *dam);
 
-extern void docDocumentPropertyDifference(PropertyMask *pDifMask,
+void docDocumentPropertyDifference(PropertyMask *pDifMask,
 					  const DocumentProperties *dp1,
 					  const PropertyMask *cmpMask,
 					  const DocumentProperties *dp2);
 
-extern int docPropertiesSetFilename(DocumentProperties *dp,
+int docPropertiesSetFilename(DocumentProperties *dp,
 				    const MemoryBuffer *filename);
 
-extern int docAllocateDocumentColor(DocumentProperties *dp,
+int docAllocateDocumentColor(DocumentProperties *dp,
 				    const RGB8Color *rgb8);
 
-extern int docSetDocumentProperty(DocumentProperties *dp, int prop, int arg);
+int docSetDocumentProperty(DocumentProperties *dp, int prop, int arg);
 
-extern int docGetDocumentProperty(const DocumentProperties *dp, int prop);
+int docGetDocumentProperty(const DocumentProperties *dp, int prop);
 
-extern struct tm *docGetDocumentPropertyTime(DocumentProperties *dp, int prop);
+struct tm *docGetDocumentPropertyTime(DocumentProperties *dp, int prop);
 
-extern MemoryBuffer *docGetDocumentPropertyBuffer(DocumentProperties *dp,
+MemoryBuffer *docGetDocumentPropertyBuffer(DocumentProperties *dp,
 						  int prop);
 
-extern int docSetDocumentPropertyString(DocumentProperties *dp, int prop,
+int docSetDocumentPropertyString(DocumentProperties *dp, int prop,
 					const char *val, int vallen);
 
-extern int docSetDocumentPropertyTime(DocumentProperties *dp, int prop,
+int docSetDocumentPropertyTime(DocumentProperties *dp, int prop,
 				      const struct tm *val);
 
-extern void docFillDocFootnoteMask(PropertyMask *dpMask);
-extern void docFillDocEndnoteMask(PropertyMask *dpMask);
-extern void docFillDocNotesMask(PropertyMask *dpMask);
+void docFillDocFootnoteMask(PropertyMask *dpMask);
+void docFillDocEndnoteMask(PropertyMask *dpMask);
+void docFillDocNotesMask(PropertyMask *dpMask);
 
 #endif /*  DOC_DOCUMENT_PROPERTIES_H  */

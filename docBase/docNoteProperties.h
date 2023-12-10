@@ -30,18 +30,18 @@ typedef enum NoteProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitNoteProperties(NoteProperties *np);
-extern void docCleanNoteProperties(NoteProperties *np);
+void docInitNoteProperties(NoteProperties *np);
+void docCleanNoteProperties(NoteProperties *np);
 
-extern int docCopyNoteProperties(NoteProperties *to,
+int docCopyNoteProperties(NoteProperties *to,
 				 const NoteProperties *from);
 
-extern int docNotePropertyDifference(PropertyMask *pDifMask,
+int docNotePropertyDifference(PropertyMask *pDifMask,
 				     const NoteProperties *np1,
 				     const PropertyMask *cmpMask,
 				     const NoteProperties *np2);
 
-extern int docUpdNoteProperties(PropertyMask *npDoneMask, NoteProperties *npTo,
+int docUpdNoteProperties(PropertyMask *npDoneMask, NoteProperties *npTo,
 				const PropertyMask *npSetMask,
 				const NoteProperties *npSet);
 

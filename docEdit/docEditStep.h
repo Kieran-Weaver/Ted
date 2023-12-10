@@ -120,10 +120,10 @@ typedef struct EditStep {
 /*									*/
 /************************************************************************/
 
-extern void docInitEditStep(EditStep *es);
-extern void docCleanEditStep(EditStep *es);
+void docInitEditStep(EditStep *es);
+void docCleanEditStep(EditStep *es);
 
-extern BufferDocument *
+BufferDocument *
 docEditStepMakeSourceDocument(EditStep *es, const BufferDocument *bdRef);
 
 #endif /*  DOC_EDIT_STEP_H	*/

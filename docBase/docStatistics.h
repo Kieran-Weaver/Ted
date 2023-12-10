@@ -28,6 +28,6 @@ typedef struct DocumentStatistics {
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentStatistics(DocumentStatistics *ds);
+void docInitDocumentStatistics(DocumentStatistics *ds);
 
 #endif /*	DOC_STATISTICS_H	*/

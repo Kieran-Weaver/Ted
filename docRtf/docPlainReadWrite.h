@@ -16,10 +16,10 @@
 /*									*/
 /************************************************************************/
 
-extern BufferDocument *docPlainReadFile(SimpleInputStream *sis, int *pMxL,
+BufferDocument *docPlainReadFile(SimpleInputStream *sis, int *pMxL,
 					const DocumentGeometry *dg);
 
-extern int docPlainSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
+int docPlainSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
 				const DocumentSelection *ds, int fold);
 
 #endif /*	DOC_PLAIN_RW_H	*/

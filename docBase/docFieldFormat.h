@@ -50,8 +50,8 @@ typedef enum FieldFormat {
 /*									*/
 /************************************************************************/
 
-extern int docFieldFormatInt(const InstructionsComponent *ic);
+int docFieldFormatInt(const InstructionsComponent *ic);
 
-extern int docFieldInstructionsAddFormat(FieldInstructions *fi, int format);
+int docFieldInstructionsAddFormat(FieldInstructions *fi, int format);
 
 #endif /*  DOC_FIELD_FORMAT_H  */

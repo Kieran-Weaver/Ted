@@ -93,6 +93,6 @@ typedef struct TedAppResources {
 /*									*/
 /************************************************************************/
 
-extern void tedDetermineDefaultSettings(TedAppResources *tar);
+void tedDetermineDefaultSettings(TedAppResources *tar);
 
 #endif /*  TED_APP_RESOURCES_H	*/

@@ -77,30 +77,30 @@ typedef struct DocumentCopyJob {
 /*									*/
 /************************************************************************/
 
-extern int docMapTextAttributeNumber(DocumentCopyJob *dcj,
+int docMapTextAttributeNumber(DocumentCopyJob *dcj,
 				     int attributeNumberFrom);
 
-extern int docMapTextAttributeNumberFromTo(BufferDocument *bdTo,
+int docMapTextAttributeNumberFromTo(BufferDocument *bdTo,
 					   const BufferDocument *bdFrom,
 					   int attributeNumberFrom);
 
-extern void docInitDocumentCopyJob(DocumentCopyJob *dcj);
-extern void docCleanDocumentCopyJob(DocumentCopyJob *dcj);
+void docInitDocumentCopyJob(DocumentCopyJob *dcj);
+void docCleanDocumentCopyJob(DocumentCopyJob *dcj);
 
-extern int docSet1DocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
+int docSet1DocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
 				  int copyFields);
 
-extern int docSetTraceDocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
+int docSetTraceDocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
 				      BufferDocument *bdFrom);
 
-extern int docSet2DocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
+int docSet2DocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
 				  BufferDocument *bdFrom, DocumentTree *eiFrom,
 				  const MemoryBuffer *refFileName,
 				  int forceAttributeTo);
 
-extern int docPushFieldOnCopyStack(DocumentCopyJob *dcj, DocumentField *df);
+int docPushFieldOnCopyStack(DocumentCopyJob *dcj, DocumentField *df);
 
-extern void docMapTextAttribute(TextAttribute *taTo,
+void docMapTextAttribute(TextAttribute *taTo,
 				const TextAttribute *taFrom,
 				const DocumentCopyJob *dcj);
 

@@ -86,12 +86,12 @@ typedef enum DocumentStyleProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentStyle(DocumentStyle *ds);
-extern void docCleanDocumentStyle(DocumentStyle *ds);
+void docInitDocumentStyle(DocumentStyle *ds);
+void docCleanDocumentStyle(DocumentStyle *ds);
 
-extern int docCopyStyle(DocumentStyle *to, const DocumentStyle *from,
+int docCopyStyle(DocumentStyle *to, const DocumentStyle *from,
 			const DocumentAttributeMap *dam);
 
-extern int docSetStyleProperty(DocumentStyle *ds, int prop, int arg);
+int docSetStyleProperty(DocumentStyle *ds, int prop, int arg);
 
 #endif /*  DOC_STYLE_H  */

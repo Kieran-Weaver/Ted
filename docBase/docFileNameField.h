@@ -19,10 +19,10 @@ typedef struct FileNameField {
 /*									*/
 /************************************************************************/
 
-extern void docInitFileNameField(FileNameField *fnf);
-extern void docCleanFileNameField(FileNameField *fnf);
+void docInitFileNameField(FileNameField *fnf);
+void docCleanFileNameField(FileNameField *fnf);
 
-extern int docGetFileNameField(FileNameField *fnf,
+int docGetFileNameField(FileNameField *fnf,
 			       const struct DocumentField *df);
 
 #endif /*  DOC_FILENAME_FIELD_H  */

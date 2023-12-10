@@ -62,22 +62,22 @@ typedef struct ParagraphOrnamentsTool {
 /*									*/
 /************************************************************************/
 
-extern void tedFormatToolGetParaOrnamentsResourceTable(
+void tedFormatToolGetParaOrnamentsResourceTable(
 	EditApplication *ea, ParagraphOrnamentsPageResources *plpr,
 	InspectorSubjectResources *isr);
 
-extern void
+void
 tedParaOrnamentsToolFillChoosers(ParagraphOrnamentsTool *pot,
 				 const ParagraphOrnamentsPageResources *popr);
 
-extern void
+void
 tedFormatFillParagraphOrnamentsPage(ParagraphOrnamentsTool *pot,
 				    const ParagraphOrnamentsPageResources *popr,
 				    AppInspector *ai, int subjectPage,
 				    InspectorSubject *is, APP_WIDGET pgW,
 				    const InspectorSubjectResources *isr);
 
-extern void tedRefreshParaOrnamentsTool(ParagraphOrnamentsTool *pot,
+void tedRefreshParaOrnamentsTool(ParagraphOrnamentsTool *pot,
 					int *pEnabled, int *pPref,
 					InspectorSubject *is,
 					const DocumentSelection *ds,
@@ -85,10 +85,10 @@ extern void tedRefreshParaOrnamentsTool(ParagraphOrnamentsTool *pot,
 					const SelectionDescription *sd,
 					const unsigned char *cmdEnabled);
 
-extern void tedInitParaOrnamentsTool(ParagraphOrnamentsTool *pot);
-extern void tedCleanParaOrnamentsTool(ParagraphOrnamentsTool *pot);
+void tedInitParaOrnamentsTool(ParagraphOrnamentsTool *pot);
+void tedCleanParaOrnamentsTool(ParagraphOrnamentsTool *pot);
 
-extern void
+void
 tedFormatFinishParaOrnamentsPage(ParagraphOrnamentsTool *pot,
 				 const ParagraphOrnamentsPageResources *popr);
 

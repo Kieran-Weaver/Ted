@@ -179,64 +179,64 @@ typedef enum FieldProperty {
 /*									*/
 /************************************************************************/
 
-extern DocumentField *docGetFirstField(const ChildFields *rootFields);
-extern DocumentField *docGetLastField(const ChildFields *rootFields);
+DocumentField *docGetFirstField(const ChildFields *rootFields);
+DocumentField *docGetLastField(const ChildFields *rootFields);
 
-extern DocumentField *docGetNextField(const ChildFields *rootFields,
+DocumentField *docGetNextField(const ChildFields *rootFields,
 				      DocumentField *df);
 
-extern DocumentField *docGetPrevField(const ChildFields *rootFields,
+DocumentField *docGetPrevField(const ChildFields *rootFields,
 				      DocumentField *df);
 
 DocumentField *docGetFirstFieldOfSection(const ChildFields *rootFields,
 					 int sect);
 
-extern DocumentField *docGetNextFieldInSection(const ChildFields *rootFields,
+DocumentField *docGetNextFieldInSection(const ChildFields *rootFields,
 					       int sect, DocumentField *df);
 
-extern void docInitDocumentField(DocumentField *df);
-extern void docInitChildFields(ChildFields *cf);
-extern void docCleanChildFields(ChildFields *cf);
+void docInitDocumentField(DocumentField *df);
+void docInitChildFields(ChildFields *cf);
+void docCleanChildFields(ChildFields *cf);
 
-extern void docCleanDocumentField(DocumentField *df);
+void docCleanDocumentField(DocumentField *df);
 
-extern int docSetFieldInst(DocumentField *df, const char *bytes, int size);
+int docSetFieldInst(DocumentField *df, const char *bytes, int size);
 
-extern int docAddToFieldData(DocumentField *df, const char *bytes, int size);
+int docAddToFieldData(DocumentField *df, const char *bytes, int size);
 
-extern int docFieldGetTc(const DocumentField *df, char *pFlag, int *pLevel,
+int docFieldGetTc(const DocumentField *df, char *pFlag, int *pLevel,
 			 int *pNumbered);
 
-extern int docInsertChildField(DocumentField *parent, ChildFields *cf,
+int docInsertChildField(DocumentField *parent, ChildFields *cf,
 			       DocumentField *df);
 
-extern int docDeleteChildField(ChildFields *cf, DocumentField *df);
+int docDeleteChildField(ChildFields *cf, DocumentField *df);
 
-extern DocumentField *docFindChildField(const ChildFields *cf,
+DocumentField *docFindChildField(const ChildFields *cf,
 					const EditPosition *ep, int lastOne);
 
-extern DocumentField *docFindTypedChildField(const ChildFields *cf,
+DocumentField *docFindTypedChildField(const ChildFields *cf,
 					     const EditPosition *ep, int type);
 
-extern void docSetFieldTail(DocumentField *dfPa, const EditPosition *epTail);
+void docSetFieldTail(DocumentField *dfPa, const EditPosition *epTail);
 
-extern int docAddChildToField(DocumentField *dfCh, DocumentField *dfPa);
+int docAddChildToField(DocumentField *dfCh, DocumentField *dfPa);
 
-extern int docInsertFieldInTree(ChildFields *cf, DocumentField *df);
+int docInsertFieldInTree(ChildFields *cf, DocumentField *df);
 
-extern DocumentField *docFieldGetCommonParent(DocumentField *dfLeft,
+DocumentField *docFieldGetCommonParent(DocumentField *dfLeft,
 					      DocumentField *dfRight);
 
-extern int docFieldFormatInteger(MemoryBuffer *mbResult, int format, int value);
+int docFieldFormatInteger(MemoryBuffer *mbResult, int format, int value);
 
-extern int docCopyFieldProperties(DocumentField *dfTo,
+int docCopyFieldProperties(DocumentField *dfTo,
 				  const DocumentField *dfFrom);
 
-extern int docSetFieldProperty(DocumentField *df, int prop, int val);
+int docSetFieldProperty(DocumentField *df, int prop, int val);
 
-extern int docAllocateInstructionComponents(DocumentField *df, int n);
+int docAllocateInstructionComponents(DocumentField *df, int n);
 
-extern DocumentField *docFindFieldInRange(const EditRange *er,
+DocumentField *docFindFieldInRange(const EditRange *er,
 					  const ChildFields *cf, int lastOne,
 					  int kind);
 

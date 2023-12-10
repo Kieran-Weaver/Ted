@@ -81,7 +81,7 @@ typedef struct ParagraphNumber {
 /*									*/
 /************************************************************************/
 
-extern void docInitParagraphNumber(ParagraphNumber *pn);
-extern void docCleanParagraphNumber(ParagraphNumber *pn);
+void docInitParagraphNumber(ParagraphNumber *pn);
+void docCleanParagraphNumber(ParagraphNumber *pn);
 
 #endif /*  DOC_PARA_NUMBER_H	*/

@@ -36,21 +36,21 @@ typedef enum ListOverrideProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitListOverride(ListOverride *lo);
-extern void docCleanListOverride(ListOverride *lo);
+void docInitListOverride(ListOverride *lo);
+void docCleanListOverride(ListOverride *lo);
 
-extern int docCopyListOverride(ListOverride *to, const ListOverride *from,
+int docCopyListOverride(ListOverride *to, const ListOverride *from,
 			       const int *fontMap, const int *colorMap,
 			       const int *rulerMap);
 
-extern int docCopyListOverrideSameDocument(ListOverride *to,
+int docCopyListOverrideSameDocument(ListOverride *to,
 					   const ListOverride *from);
 
-extern int docListOverrideAddLevel(ListOverride *lo,
+int docListOverrideAddLevel(ListOverride *lo,
 				   const ListOverrideLevel *lol,
 				   const int *fontMap, const int *colorMap,
 				   const int *rulerMap);
 
-extern int docSetListOverrideProperty(ListOverride *lo, int prop, int value);
+int docSetListOverrideProperty(ListOverride *lo, int prop, int value);
 
 #endif

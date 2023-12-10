@@ -16,7 +16,7 @@
 /*									*/
 /************************************************************************/
 
-extern void docGetParaOrnaments(BlockOrnaments *ornaments,
+void docGetParaOrnaments(BlockOrnaments *ornaments,
 				DocumentRectangle *drOutside,
 				DocumentRectangle *drInside,
 				const DocumentRectangle *drPara,

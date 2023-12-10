@@ -15,8 +15,8 @@ extern const unsigned char UTIL_Base85Digits[];
 /*									*/
 /************************************************************************/
 
-extern const int *utilBase85GetIndexArray(void);
+const int *utilBase85GetIndexArray(void);
 
-extern int utilBase85Make(int *d, const unsigned char *b, int last);
+int utilBase85Make(int *d, const unsigned char *b, int last);
 
 #endif /*	UTIL_BASE85_H	*/

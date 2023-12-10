@@ -66,19 +66,19 @@ typedef struct ParagraphLayoutJob {
 /*									*/
 /************************************************************************/
 
-extern void docInitParagraphLayoutPosition(ParagraphLayoutPosition *plp);
+void docInitParagraphLayoutPosition(ParagraphLayoutPosition *plp);
 
-extern void docInitParagraphLayoutJob(ParagraphLayoutJob *plj);
-extern void docCleanParagraphLayoutJob(ParagraphLayoutJob *plj);
+void docInitParagraphLayoutJob(ParagraphLayoutJob *plj);
+void docCleanParagraphLayoutJob(ParagraphLayoutJob *plj);
 
-extern int docParagraphLayoutPosClaimChildren(ParagraphLayoutPosition *plj,
+int docParagraphLayoutPosClaimChildren(ParagraphLayoutPosition *plj,
 					      int count);
 
-extern void docBeginParagraphLayoutProgress(ParagraphLayoutJob *plj, int child,
+void docBeginParagraphLayoutProgress(ParagraphLayoutJob *plj, int child,
 					    int line, int part, int pUpto,
 					    const LayoutPosition *lp);
 
-extern void docStripLayoutStartChild(ParagraphLayoutPosition *plp, int child);
-extern void docStripLayoutNextChild(ParagraphLayoutPosition *plp);
+void docStripLayoutStartChild(ParagraphLayoutPosition *plp, int child);
+void docStripLayoutNextChild(ParagraphLayoutPosition *plp);
 
 #endif /*	DOC_STRIP_LAYOUT_JOB_H */

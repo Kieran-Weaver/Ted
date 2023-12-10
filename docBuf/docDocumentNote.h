@@ -47,6 +47,6 @@ typedef struct DocumentNote {
 /*									*/
 /************************************************************************/
 
-extern void docInitNote(DocumentNote *dn);
+void docInitNote(DocumentNote *dn);
 
 #endif

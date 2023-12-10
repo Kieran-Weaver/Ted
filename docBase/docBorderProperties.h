@@ -103,40 +103,40 @@ typedef enum BorderProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitBorderProperties(BorderProperties *bp);
+void docInitBorderProperties(BorderProperties *bp);
 
-extern void docUpdateBorderProperties(PropertyMask *pBpDoneMask,
+void docUpdateBorderProperties(PropertyMask *pBpDoneMask,
 				      BorderProperties *bpTo,
 				      const PropertyMask *bpSetMask,
 				      const BorderProperties *bpFrom);
 
-extern void docCopyBorderProperties(BorderProperties *bpTo,
+void docCopyBorderProperties(BorderProperties *bpTo,
 				    const BorderProperties *bpFrom,
 				    const int *colorMap);
 
-extern int docBordersDiffer(const BorderProperties *bp1,
+int docBordersDiffer(const BorderProperties *bp1,
 			    const BorderProperties *bp2, const int *colorMap);
 
-extern void docExpandBorderProperties(ExpandedBorderProperties *ebp,
+void docExpandBorderProperties(ExpandedBorderProperties *ebp,
 				      const BorderProperties *bp,
 				      const ColorPalette *cp);
 
-extern int docIndirectBorderProperties(PropertyMask *pBpDoneMask,
+int docIndirectBorderProperties(PropertyMask *pBpDoneMask,
 				       BorderProperties *bp,
 				       const PropertyMask *bpSetMask,
 				       const ExpandedBorderProperties *ebp,
 				       ColorPalette *cp);
 
-extern void docInitExpandedBorderProperties(ExpandedBorderProperties *ebp);
+void docInitExpandedBorderProperties(ExpandedBorderProperties *ebp);
 
-extern int docBorderThick(int *pWide, const BorderProperties *bp);
+int docBorderThick(int *pWide, const BorderProperties *bp);
 
-extern void docStretchInsetForBorder(int *pInset, const BorderProperties *bp);
+void docStretchInsetForBorder(int *pInset, const BorderProperties *bp);
 
-extern void docAddBorderToInset(int *pInset, const BorderProperties *bp);
+void docAddBorderToInset(int *pInset, const BorderProperties *bp);
 
-extern int docSetBorderProperty(BorderProperties *bp, int prop, int arg);
+int docSetBorderProperty(BorderProperties *bp, int prop, int arg);
 
-extern int docGetBorderProperty(const BorderProperties *bp, int prop);
+int docGetBorderProperty(const BorderProperties *bp, int prop);
 
 #endif /*  DOC_BORDER_PROP_H  */

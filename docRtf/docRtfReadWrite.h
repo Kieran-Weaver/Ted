@@ -19,13 +19,13 @@
 /*									*/
 /************************************************************************/
 
-extern int docWriteRtfMail(SimpleOutputStream *sos, const char *mimeBoundary,
+int docWriteRtfMail(SimpleOutputStream *sos, const char *mimeBoundary,
 			   BufferDocument *bd);
 
-extern int docRtfSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
+int docRtfSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
 			      const DocumentSelection *bs, int flags);
 
-extern BufferDocument *docRtfReadFile(SimpleInputStream *sis,
+BufferDocument *docRtfReadFile(SimpleInputStream *sis,
 				      unsigned int flags);
 
 #endif /*  DOC_RTF_RW_H	*/

@@ -48,6 +48,6 @@ typedef struct BlockOrnaments {
 /*									*/
 /************************************************************************/
 
-extern void docInitBlockOrnaments(BlockOrnaments *bo);
+void docInitBlockOrnaments(BlockOrnaments *bo);
 
 #endif /*  DOC_BLOCK_ORNAMENTS_H  */

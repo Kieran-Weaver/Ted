@@ -201,29 +201,29 @@ typedef struct AfmFontInfo {
 /*									*/
 /************************************************************************/
 
-extern int psGetUnicodesFromGlyphNames(AfmFontInfo *afi);
-extern int psGetAlternateGlyphs(AfmFontInfo *afi);
-extern int psResolveFallbackGlyph(AfmFontInfo *afi);
+int psGetUnicodesFromGlyphNames(AfmFontInfo *afi);
+int psGetAlternateGlyphs(AfmFontInfo *afi);
+int psResolveFallbackGlyph(AfmFontInfo *afi);
 
-extern void psInitAfmFontInfo(AfmFontInfo *afi);
-extern void psCleanAfmFontInfo(AfmFontInfo *afi);
-extern void psFreeAfmFontInfo(AfmFontInfo *afi);
-extern void psRemoveMetricsFromInfo(AfmFontInfo *afi);
+void psInitAfmFontInfo(AfmFontInfo *afi);
+void psCleanAfmFontInfo(AfmFontInfo *afi);
+void psFreeAfmFontInfo(AfmFontInfo *afi);
+void psRemoveMetricsFromInfo(AfmFontInfo *afi);
 
-extern int psFontInfoAddMetric(AfmFontInfo *afi, int C, int WX, const char *N,
+int psFontInfoAddMetric(AfmFontInfo *afi, int C, int WX, const char *N,
 			       const DocumentRectangle *abb);
 
-extern int psFontInfoGetGlyphIndex(const AfmFontInfo *afi,
+int psFontInfoGetGlyphIndex(const AfmFontInfo *afi,
 				   const char *glyphName);
 
-extern int psFontInfoSetGlyphName(AfmFontInfo *afi, int glyphIndex,
+int psFontInfoSetGlyphName(AfmFontInfo *afi, int glyphIndex,
 				  const char *glyphName);
 
-extern const char *psFontInfoGetGlyphName(const AfmFontInfo *afi,
+const char *psFontInfoGetGlyphName(const AfmFontInfo *afi,
 					  int glyphIndex);
 
-extern int psFontInfoSetGlyphCode(AfmFontInfo *afi, int glyphIndex, int c);
+int psFontInfoSetGlyphCode(AfmFontInfo *afi, int glyphIndex, int c);
 
-extern int psFontInfoSetGlyphUnicode(AfmFontInfo *afi, int glyphIndex, int c);
+int psFontInfoSetGlyphUnicode(AfmFontInfo *afi, int glyphIndex, int c);
 
 #endif

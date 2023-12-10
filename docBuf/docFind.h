@@ -20,25 +20,25 @@ typedef int (*PARA_FIND_STRING)(DocumentSelection *ds,
 /*									*/
 /************************************************************************/
 
-extern int docFindParaFindNext(DocumentSelection *ds,
+int docFindParaFindNext(DocumentSelection *ds,
 			       struct BufferItem *paraNode, BufferDocument *bd,
 			       const DocumentPosition *dpFrom, void *through);
 
-extern int docFindParaFindPrev(DocumentSelection *ds,
+int docFindParaFindPrev(DocumentSelection *ds,
 			       struct BufferItem *paraNode, BufferDocument *bd,
 			       const DocumentPosition *dpFrom, void *through);
 
-extern int docFindFindNextInDocument(DocumentSelection *ds,
+int docFindFindNextInDocument(DocumentSelection *ds,
 				     const DocumentPosition *dpFrom,
 				     BufferDocument *bd,
 				     PARA_FIND_STRING findNext, void *through);
 
-extern int docFindFindPrevInDocument(DocumentSelection *ds,
+int docFindFindPrevInDocument(DocumentSelection *ds,
 				     const DocumentPosition *dpFrom,
 				     BufferDocument *bd,
 				     PARA_FIND_STRING findPrev, void *through);
 
-extern int docFindFindNextInCurrentTree(DocumentSelection *ds,
+int docFindFindNextInCurrentTree(DocumentSelection *ds,
 					const DocumentPosition *dpFrom,
 					BufferDocument *bd,
 					PARA_FIND_STRING findNext,

@@ -26,18 +26,18 @@ typedef struct BookmarkList {
 /*									*/
 /************************************************************************/
 
-extern void tedInitBookmarkList(BookmarkList *bl);
+void tedInitBookmarkList(BookmarkList *bl);
 
-extern void tedFillBookmarkList(BookmarkList *bl, int includeTocMarks,
+void tedFillBookmarkList(BookmarkList *bl, int includeTocMarks,
 				const BufferDocument *bd);
 
-extern void tedBookmarkFindChosen(BookmarkList *bl, EditApplication *ea,
+void tedBookmarkFindChosen(BookmarkList *bl, EditApplication *ea,
 				  const MemoryBuffer *mbChosen);
 
-extern void tedBookmarkUpdateSelectionInList(BookmarkList *bl,
+void tedBookmarkUpdateSelectionInList(BookmarkList *bl,
 					     const MemoryBuffer *mbChosen);
 
-extern void tedBookmarkListToText(BookmarkList *bl, MemoryBuffer *mbChosen,
+void tedBookmarkListToText(BookmarkList *bl, MemoryBuffer *mbChosen,
 				  void *voidlcs, APP_WIDGET w);
 
 #endif /*  TED_BOOKMARK_LIST_H  */

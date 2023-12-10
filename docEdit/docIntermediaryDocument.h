@@ -16,9 +16,9 @@
 /*									*/
 /************************************************************************/
 
-extern BufferDocument *docIntermediaryDocument(struct BufferItem **pSectBi,
+BufferDocument *docIntermediaryDocument(struct BufferItem **pSectBi,
 					       const BufferDocument *bdFrom);
 
-extern void docFreeIntermediaryDocument(BufferDocument *bd);
+void docFreeIntermediaryDocument(BufferDocument *bd);
 
 #endif /*	DOC_ITERMEDIATE_DOC_H	*/

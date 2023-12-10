@@ -146,62 +146,62 @@ typedef enum ListLevelProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentListLevel(ListLevel *ll);
-extern void docCleanDocumentListLevel(ListLevel *ll);
+void docInitDocumentListLevel(ListLevel *ll);
+void docCleanDocumentListLevel(ListLevel *ll);
 
-extern int docCopyDocumentListLevel(ListLevel *to, const ListLevel *from,
+int docCopyDocumentListLevel(ListLevel *to, const ListLevel *from,
 				    int copyIds, const int *fontMap,
 				    const int *colorMap, const int *rulerMap);
 
-extern int docListLevelSetStyle(ListLevel *ll, const PropertyMask *paraMask,
+int docListLevelSetStyle(ListLevel *ll, const PropertyMask *paraMask,
 				const ParagraphProperties *pp,
 				const PropertyMask *textMask,
 				const TextAttribute *ta);
 
-extern int docListLevelSetText(int *pChanged, ListLevel *ll, const char *text,
+int docListLevelSetText(int *pChanged, ListLevel *ll, const char *text,
 			       int idx);
 
-extern int docListLevelGetText(char *to, int maxsize, const ListLevel *ll,
+int docListLevelGetText(char *to, int maxsize, const ListLevel *ll,
 			       int idx);
 
-extern int docListLevelSetNumber(int *pChanged, ListLevel *ll, int number,
+int docListLevelSetNumber(int *pChanged, ListLevel *ll, int number,
 				 int idx);
 
-extern int docListLevelInsertNumber(ListLevel *ll, int number, int idx);
+int docListLevelInsertNumber(ListLevel *ll, int number, int idx);
 
-extern int docListLevelDeleteNumber(ListLevel *ll, int idx);
+int docListLevelDeleteNumber(ListLevel *ll, int idx);
 
-extern int docListLevelFormatParagraphNumber(char *to, int maxsize,
+int docListLevelFormatParagraphNumber(char *to, int maxsize,
 					     int *offsets, int maxoffsets,
 					     int ilvl, const int *numberPath,
 					     const int *startPath,
 					     const int *formatPath,
 					     const ListLevel *ll);
 
-extern int docListLevelFormatLevelNumber(char *target, int maxsize, int val,
+int docListLevelFormatLevelNumber(char *target, int maxsize, int val,
 					 int format);
 
-extern int docDefaultListLevel(ListLevel *llTo, int level, int deftab,
+int docDefaultListLevel(ListLevel *llTo, int level, int deftab,
 			       int levelTemplateID,
 			       const PropertyMask *taSetMask,
 			       const TextAttribute *taSet);
 
-extern int docListLevelGetField(int *pConstOff, int *pConstLen,
+int docListLevelGetField(int *pConstOff, int *pConstLen,
 				int *pConstChars, int *pLevel,
 				const ListLevel *ll, int field);
 
-extern int docListLevelToRtfStrings(MemoryBuffer *mbtext,
+int docListLevelToRtfStrings(MemoryBuffer *mbtext,
 				    MemoryBuffer *mbnumbers,
 				    const ListLevel *ll);
 
-extern int docListLevelFromRtfStrings(ListLevel *ll, const MemoryBuffer *mbtext,
+int docListLevelFromRtfStrings(ListLevel *ll, const MemoryBuffer *mbtext,
 				      const MemoryBuffer *mbnumbers);
 
-extern void docListDocumentListLevel(int n, const ListLevel *ll);
+void docListDocumentListLevel(int n, const ListLevel *ll);
 
-extern int docSetListLevelProperty(ListLevel *ll, int prop, int val);
+int docSetListLevelProperty(ListLevel *ll, int prop, int val);
 
-extern int docListLevelApplyTextAttribute(ListLevel *ll,
+int docListLevelApplyTextAttribute(ListLevel *ll,
 					  const PropertyMask *taSetMask,
 					  const TextAttribute *taSet);
 

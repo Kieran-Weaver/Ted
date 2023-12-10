@@ -81,20 +81,20 @@ typedef enum RGBAColorComponent {
 /*									*/
 /************************************************************************/
 
-extern void utilInitRGB8Color(RGB8Color *rgb8);
+void utilInitRGB8Color(RGB8Color *rgb8);
 
-extern int utilRGB8LumaChromaHue(int *pLuma, int *pChroma, int *pHue,
+int utilRGB8LumaChromaHue(int *pLuma, int *pChroma, int *pHue,
 				 const RGB8Color *rgb8);
 
-extern int utilRGB8FromLumaChromaHue(RGB8Color *rgb8, int luma, int chroma,
+int utilRGB8FromLumaChromaHue(RGB8Color *rgb8, int luma, int chroma,
 				     int hue);
 
-extern int utilRGB8GetComponent(const RGB8Color *rgb8, int prop);
+int utilRGB8GetComponent(const RGB8Color *rgb8, int prop);
 
-extern void utilGetTopShadowColor(RGB8Color *top, const RGB8Color *back);
+void utilGetTopShadowColor(RGB8Color *top, const RGB8Color *back);
 
-extern void utilGetBottomShadowColor(RGB8Color *top, const RGB8Color *back);
+void utilGetBottomShadowColor(RGB8Color *top, const RGB8Color *back);
 
-extern void utilGetForegroundColor(RGB8Color *bottom, const RGB8Color *back);
+void utilGetForegroundColor(RGB8Color *bottom, const RGB8Color *back);
 
 #endif /*  UTIL_COLOR_H  */

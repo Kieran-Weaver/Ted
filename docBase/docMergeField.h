@@ -26,9 +26,9 @@ typedef struct MergeField {
 /*									*/
 /************************************************************************/
 
-extern void docInitMergeField(MergeField *mf);
-extern void docCleanMergeField(MergeField *mf);
+void docInitMergeField(MergeField *mf);
+void docCleanMergeField(MergeField *mf);
 
-extern int docGetMergeField(MergeField *mf, const struct DocumentField *df);
+int docGetMergeField(MergeField *mf, const struct DocumentField *df);
 
 #endif /*  DOC_MERGE_FIELD_H  */

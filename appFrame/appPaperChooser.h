@@ -49,28 +49,28 @@ typedef struct PaperChooser {
 /*									*/
 /************************************************************************/
 
-extern void appPaperChooserShowSize(PaperChooser *pc, int sizeChosen);
+void appPaperChooserShowSize(PaperChooser *pc, int sizeChosen);
 
-extern int appPaperChooserGetSize(PropertyMask *pUpdMask, PaperChooser *pc,
+int appPaperChooserGetSize(PropertyMask *pUpdMask, PaperChooser *pc,
 				  DocumentGeometry *dg);
 
-extern void appPaperChooserFillMenu(PaperChooser *pc, const char *customLabel);
+void appPaperChooserFillMenu(PaperChooser *pc, const char *customLabel);
 
-extern void appPaperChooserAdaptToGeometry(PaperChooser *pc,
+void appPaperChooserAdaptToGeometry(PaperChooser *pc,
 					   const DocumentGeometry *dg);
 
-extern void appMakePaperChooserWidgets(APP_WIDGET parent, const char *title,
+void appMakePaperChooserWidgets(APP_WIDGET parent, const char *title,
 				       int unitType, PaperChooser *pc,
 				       PaperChooserCallback callback,
 				       void *through);
 
-extern void appPaperChooserAddOrientationToggles(PaperChooser *pc,
+void appPaperChooserAddOrientationToggles(PaperChooser *pc,
 						 const char *portrait,
 						 const char *landscape);
 
-extern void appInitPaperChooser(PaperChooser *pc);
-extern void appCleanPaperChooser(PaperChooser *pc);
+void appInitPaperChooser(PaperChooser *pc);
+void appCleanPaperChooser(PaperChooser *pc);
 
-extern void appEnablePaperChooser(PaperChooser *pc, int enabled);
+void appEnablePaperChooser(PaperChooser *pc, int enabled);
 
 #endif /*  APP_PAPER_CHOOSER_H  */

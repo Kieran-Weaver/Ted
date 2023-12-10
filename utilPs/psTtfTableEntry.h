@@ -13,10 +13,10 @@ typedef struct TrueTypeTableEntry {
 	unsigned long ttteSaveOffset;
 } TrueTypeTableEntry;
 
-extern void utilInitTrueTypeTableEntry(TrueTypeTableEntry *ttte);
-extern void utilCleanTrueTypeTableEntry(TrueTypeTableEntry *ttte);
+void utilInitTrueTypeTableEntry(TrueTypeTableEntry *ttte);
+void utilCleanTrueTypeTableEntry(TrueTypeTableEntry *ttte);
 
-extern TrueTypeTableEntry *psTtfReadTableEntries(SimpleInputStream *sisTtf,
+TrueTypeTableEntry *psTtfReadTableEntries(SimpleInputStream *sisTtf,
 						 int tableCount, int filePos);
 
 #endif /*	PSTTF_TABLE_ENTRY_H	*/

@@ -20,13 +20,13 @@
 /*									*/
 /************************************************************************/
 
-extern int tedFormatValidateDimension(int *pNewValue, int *pChanged,
+int tedFormatValidateDimension(int *pNewValue, int *pChanged,
 				      APP_WIDGET w, int oldValue);
 
-extern BufferDocument *tedFormatCurDoc(EditDocument **pEd, int *pTraced,
+BufferDocument *tedFormatCurDoc(EditDocument **pEd, int *pTraced,
 				       EditApplication *ea);
 
-extern void tedRefreshParaSubjectControls(InspectorSubject *is,
+void tedRefreshParaSubjectControls(InspectorSubject *is,
 					  const DocumentSelection *ds,
 					  const SelectionGeometry *sg,
 					  const SelectionDescription *sd,

@@ -77,11 +77,11 @@ typedef struct BlockFrame {
 /*									*/
 /************************************************************************/
 
-extern void docLayoutInitBlockFrame(BlockFrame *bf);
-extern void docLayoutCleanBlockFrame(BlockFrame *bf);
-extern void docInitNotesReservation(NotesReservation *nr);
+void docLayoutInitBlockFrame(BlockFrame *bf);
+void docLayoutCleanBlockFrame(BlockFrame *bf);
+void docInitNotesReservation(NotesReservation *nr);
 
-extern void docLayoutReserveNoteHeight(BlockFrame *bf,
+void docLayoutReserveNoteHeight(BlockFrame *bf,
 				       const NotesReservation *nrLine);
 
 #endif /*  DOC_BLOCK_FRAME_H  */

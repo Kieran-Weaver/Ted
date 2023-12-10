@@ -6,4 +6,4 @@
 
 #include "sioGeneral.h"
 
-extern SimpleOutputStream *sioOutStdoutOpen(void);
+SimpleOutputStream *sioOutStdoutOpen(void);

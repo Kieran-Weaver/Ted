@@ -21,17 +21,17 @@ struct tm;
 /*									*/
 /************************************************************************/
 
-extern int appUnitTypeInt(const char *unitTypeString);
+int appUnitTypeInt(const char *unitTypeString);
 
-extern const char *appUnitTypeString(int unitTypeInt);
+const char *appUnitTypeString(int unitTypeInt);
 
-extern double appUnitFromTwips(int twips, int unitTypeInt);
+double appUnitFromTwips(int twips, int unitTypeInt);
 
-extern double appUnitToTwips(double units, int unitTypeInt);
+double appUnitToTwips(double units, int unitTypeInt);
 
-extern int appWordFormatDate(char *target, int maxlen, const struct tm *tm,
+int appWordFormatDate(char *target, int maxlen, const struct tm *tm,
 			     const char *wordPicture);
 
-extern void utilInvalidateTime(struct tm *tm);
+void utilInvalidateTime(struct tm *tm);
 
 #endif /*  APP_UNIT_H  */

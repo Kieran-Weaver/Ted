@@ -27,6 +27,6 @@ extern const char UTIL_Base64Digits[];
 /*									*/
 /************************************************************************/
 
-extern const int *utilBase64GetIndexArray(void);
+const int *utilBase64GetIndexArray(void);
 
 #endif /*	UTIL_BASE64_H	*/

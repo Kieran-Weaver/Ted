@@ -10,12 +10,12 @@
 #include "sioGeneral.h"
 #include "utilMemoryBuffer.h"
 
-extern SimpleInputStream *sioInMemoryOpen(const MemoryBuffer *mb);
+SimpleInputStream *sioInMemoryOpen(const MemoryBuffer *mb);
 
-extern SimpleInputStream *sioInMemoryOpenFrom(const MemoryBuffer *mb, int from);
+SimpleInputStream *sioInMemoryOpenFrom(const MemoryBuffer *mb, int from);
 
-extern SimpleOutputStream *sioOutMemoryOpen(MemoryBuffer *mb);
+SimpleOutputStream *sioOutMemoryOpen(MemoryBuffer *mb);
 
-extern SimpleOutputStream *sioOutMemoryOpenTo(MemoryBuffer *mb, int to);
+SimpleOutputStream *sioOutMemoryOpenTo(MemoryBuffer *mb, int to);
 
 #endif

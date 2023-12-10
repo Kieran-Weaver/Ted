@@ -121,45 +121,45 @@ extern const int *const DOCsectENDNOTE_PROP_MAP;
 /*									*/
 /************************************************************************/
 
-extern void docInitSectionProperties(SectionProperties *sp);
-extern void docCleanSectionProperties(SectionProperties *sp);
+void docInitSectionProperties(SectionProperties *sp);
+void docCleanSectionProperties(SectionProperties *sp);
 
-extern int docCopySectionProperties(SectionProperties *to,
+int docCopySectionProperties(SectionProperties *to,
 				    const SectionProperties *from);
 
-extern int docSectionPropertiesSetColumnCount(SectionProperties *sp, int count);
+int docSectionPropertiesSetColumnCount(SectionProperties *sp, int count);
 
-extern void docSectPropertyDifference(PropertyMask *pDiffMask,
+void docSectPropertyDifference(PropertyMask *pDiffMask,
 				      const SectionProperties *sp1,
 				      const PropertyMask *cmpMask,
 				      const SectionProperties *sp2);
 
-extern int docUpdSectProperties(PropertyMask *pSpDoneMask,
+int docUpdSectProperties(PropertyMask *pSpDoneMask,
 				SectionProperties *spTo,
 				const PropertyMask *spSetMask,
 				const SectionProperties *spSet);
 
-extern int docSectSetEqualColumnWidth(SectionProperties *sp);
-extern int docSectSetExplicitColumnWidth(SectionProperties *sp);
+int docSectSetEqualColumnWidth(SectionProperties *sp);
+int docSectSetExplicitColumnWidth(SectionProperties *sp);
 
-extern void docSectGetColumnX(int *pXLine, int *pX0, int *pX1,
+void docSectGetColumnX(int *pXLine, int *pX0, int *pX1,
 			      const SectionProperties *sp,
 			      const DocumentGeometry *dgPage, int column);
 
-extern int docSetSectionProperty(SectionProperties *sp, int prop, int arg);
+int docSetSectionProperty(SectionProperties *sp, int prop, int arg);
 
-extern int docGetSectionProperty(const SectionProperties *sp, int prop);
+int docGetSectionProperty(const SectionProperties *sp, int prop);
 
-extern void docFillSectNotesMask(PropertyMask *spMask);
+void docFillSectNotesMask(PropertyMask *spMask);
 
-extern int docSectGetColumnSpacing(int *pMinValue, int *pMaxValue,
+int docSectGetColumnSpacing(int *pMinValue, int *pMaxValue,
 				   const SectionProperties *sp, int col);
 
-extern int docSectSetColumnSpacing(SectionProperties *sp, int col, int value);
+int docSectSetColumnSpacing(SectionProperties *sp, int col, int value);
 
-extern int docSectGetColumnWidth(int *pMinValue, int *pMaxValue,
+int docSectGetColumnWidth(int *pMinValue, int *pMaxValue,
 				 const SectionProperties *sp, int col);
 
-extern int docSectSetColumnWidth(SectionProperties *sp, int col, int value);
+int docSectSetColumnWidth(SectionProperties *sp, int col, int value);
 
 #endif /*  DOC_SECT_PROP_H  */

@@ -20,21 +20,21 @@ typedef void (*FramePropertiesFunction)(const FrameProperties *fp, int n,
 /*									*/
 /************************************************************************/
 
-extern void docInitFramePropertyList(NumberedPropertiesList *fpl);
+void docInitFramePropertyList(NumberedPropertiesList *fpl);
 
-extern int docFramePropertiesNumberImpl(NumberedPropertiesList *fpl,
+int docFramePropertiesNumberImpl(NumberedPropertiesList *fpl,
 					const FrameProperties *fp);
 
-extern void docForAllFrameProperties(const NumberedPropertiesList *fpl,
+void docForAllFrameProperties(const NumberedPropertiesList *fpl,
 				     FramePropertiesFunction f, void *through);
 
-extern void docGetFramePropertiesByNumberImpl(FrameProperties *fp,
+void docGetFramePropertiesByNumberImpl(FrameProperties *fp,
 					      const NumberedPropertiesList *fpl,
 					      int n);
 
-extern int docFrameNumberIsFrameImpl(const NumberedPropertiesList *fpl, int n);
+int docFrameNumberIsFrameImpl(const NumberedPropertiesList *fpl, int n);
 
-extern int docMergeFramePropertyLists(int **pFrameMap,
+int docMergeFramePropertyLists(int **pFrameMap,
 				      NumberedPropertiesList *fplTo,
 				      const NumberedPropertiesList *fplFrom);
 

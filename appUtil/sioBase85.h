@@ -7,6 +7,6 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *sioInBase85Open(SimpleInputStream *sisBase85);
+SimpleInputStream *sioInBase85Open(SimpleInputStream *sisBase85);
 
-extern SimpleOutputStream *sioOutBase85Open(SimpleOutputStream *sosBase85);
+SimpleOutputStream *sioOutBase85Open(SimpleOutputStream *sosBase85);

@@ -43,18 +43,18 @@ typedef int (*IndexMappingForOne)(int from, int to, void *through);
 /*									*/
 /************************************************************************/
 
-extern void utilInitIndexMapping(IndexMapping *im);
-extern void utilCleanIndexMapping(IndexMapping *im);
-extern void utilClearIndexMapping(IndexMapping *im);
+void utilInitIndexMapping(IndexMapping *im);
+void utilCleanIndexMapping(IndexMapping *im);
+void utilClearIndexMapping(IndexMapping *im);
 
-extern int utilIndexMappingBuildBackward(IndexMapping *im, const int *forward,
+int utilIndexMappingBuildBackward(IndexMapping *im, const int *forward,
 					 int forwardCount);
 
-extern int utilIndexMappingPut(IndexMapping *im, int from, int to);
+int utilIndexMappingPut(IndexMapping *im, int from, int to);
 
-extern int utilIndexMappingAppend(IndexMapping *im, int *pFrom, int to);
+int utilIndexMappingAppend(IndexMapping *im, int *pFrom, int to);
 
-extern int utilIndexMappingForAll(const IndexMapping *im,
+int utilIndexMappingForAll(const IndexMapping *im,
 				  IndexMappingForOne forOne, void *through);
 
 #endif /*	PS_TO_GLYPH_MAPPING_H	*/

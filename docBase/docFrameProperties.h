@@ -105,10 +105,10 @@ extern const unsigned char docFrameYAllowed[FYpos_COUNT][FYref_COUNT];
 #define docCopyFrameProperties(to, from) (*(to) = *(from))
 #define docCleanFrameProperties(fp) /* nothing */
 
-extern void docInitFrameProperties(FrameProperties *fp);
+void docInitFrameProperties(FrameProperties *fp);
 
-extern int docSetFrameProperty(FrameProperties *fp, int prop, int arg);
+int docSetFrameProperty(FrameProperties *fp, int prop, int arg);
 
-extern int docGetFrameProperty(const FrameProperties *fp, int prop);
+int docGetFrameProperty(const FrameProperties *fp, int prop);
 
 #endif /*  DOC_FRAME_PROPERTIES_H	*/

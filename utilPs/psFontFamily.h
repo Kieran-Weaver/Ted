@@ -38,10 +38,10 @@ typedef struct PsFontFamily {
 /*									*/
 /************************************************************************/
 
-extern void psInitFontFamily(PsFontFamily *psf);
-extern void psFreeFontFamily(PsFontFamily *psf);
+void psInitFontFamily(PsFontFamily *psf);
+void psFreeFontFamily(PsFontFamily *psf);
 
-extern PsFontFamily *psFontFamilyFromFaces(AfmFontInfo **afis, int *pConsumed,
+PsFontFamily *psFontFamilyFromFaces(AfmFontInfo **afis, int *pConsumed,
 					   int count);
 
 #endif

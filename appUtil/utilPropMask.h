@@ -20,18 +20,18 @@ typedef struct PropertyMask {
 
 #define PROPmaskISSET(pm, v) ((pm)->pmBits[(v) / 8] & (1 << ((v) % 8))) != 0
 
-extern void utilPropMaskClear(PropertyMask *pm);
+void utilPropMaskClear(PropertyMask *pm);
 
-extern void utilPropMaskFill(PropertyMask *pm, int c);
+void utilPropMaskFill(PropertyMask *pm, int c);
 
-extern int utilPropMaskIsEmpty(const PropertyMask *pm);
+int utilPropMaskIsEmpty(const PropertyMask *pm);
 
-extern void utilPropMaskAnd(PropertyMask *pm0, const PropertyMask *pm1,
+void utilPropMaskAnd(PropertyMask *pm0, const PropertyMask *pm1,
 			    const PropertyMask *pm2);
 
-extern void utilPropMaskOr(PropertyMask *pm0, const PropertyMask *pm1,
+void utilPropMaskOr(PropertyMask *pm0, const PropertyMask *pm1,
 			   const PropertyMask *pm2);
 
-extern void utilPropMaskNot(PropertyMask *pm0, const PropertyMask *pm1);
+void utilPropMaskNot(PropertyMask *pm0, const PropertyMask *pm1);
 
 #endif /*  UTIL_PROP_MASK_H  */

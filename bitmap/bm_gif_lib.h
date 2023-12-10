@@ -117,7 +117,7 @@ typedef enum GifRecordType {
 	TERMINATE_RECORD_TYPE /* Begin with ';' */
 } GifRecordType;
 
-extern void bmGifInitGifColorMap(GifColorMap *gcm);
+void bmGifInitGifColorMap(GifColorMap *gcm);
 
 /******************************************************************************
 *  GIF89 extension function codes                                             *
@@ -133,9 +133,9 @@ extern void bmGifInitGifColorMap(GifColorMap *gcm);
 * (GIF_LIB file EGIF_LIB.C).						      *
 ******************************************************************************/
 
-extern GifFileType *EGifOpenFileHandle(SimpleOutputStream *sos);
+GifFileType *EGifOpenFileHandle(SimpleOutputStream *sos);
 
-extern void bmGifSetVersion(GifFileType *gft, const char *version);
+void bmGifSetVersion(GifFileType *gft, const char *version);
 
 int EGifPutScreenDesc(GifFileType *GifFile, int GifWidth, int GifHeight,
 		      int GifColorRes, int GifBackGround,
@@ -143,7 +143,7 @@ int EGifPutScreenDesc(GifFileType *GifFile, int GifWidth, int GifHeight,
 int EGifPutImageDesc(GifFileType *GifFile, int GifLeft, int GifTop, int Width,
 		     int GifHeight, int GifInterlace, const GifColorMap *gcm);
 
-extern int bmGifPutPixels(GifFileType *GifFile, const unsigned char *buffer,
+int bmGifPutPixels(GifFileType *GifFile, const unsigned char *buffer,
 			  int count);
 
 int EGifPutComment(GifFileType *GifFile, const char *GifComment);
@@ -181,14 +181,14 @@ int DGifGetImageDesc(GifFileType *GifFile);
 int DGifGetComment(GifFileType *GifFile, char *GifComment);
 int DGifCloseFile(GifFileType *GifFile);
 
-extern int bmGifGetPixels(GifFileType *gft, int *pFoundTransparent,
+int bmGifGetPixels(GifFileType *gft, int *pFoundTransparent,
 			  unsigned char *buffer, int count,
 			  int transparentColor);
 
-extern int DGifGetExtension(GifFileType *GifFile, int *ExtCode,
+int DGifGetExtension(GifFileType *GifFile, int *ExtCode,
 			    GifByteType Extension[256]);
 
-extern int DGifGetExtensionNext(GifFileType *GifFile, int *pGot,
+int DGifGetExtensionNext(GifFileType *GifFile, int *pGot,
 				GifByteType Extension[256]);
 
 #define D_GIF_ERR_OPEN_FAILED 101 /* And DGif possible errors. */
@@ -205,6 +205,6 @@ extern int DGifGetExtensionNext(GifFileType *GifFile, int *pGot,
 #define D_GIF_ERR_IMAGE_DEFECT 112
 #define D_GIF_ERR_EOF_TOO_SOON 113
 
-extern int _GifError;
+int _GifError;
 
 #endif /* _GIF_LIB_H */

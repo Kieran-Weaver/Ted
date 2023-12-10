@@ -8,6 +8,6 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *sioInBlockedOpen(SimpleInputStream *sisBlocks);
+SimpleInputStream *sioInBlockedOpen(SimpleInputStream *sisBlocks);
 
-extern SimpleOutputStream *sioOutBlockedOpen(SimpleOutputStream *sosBlocks);
+SimpleOutputStream *sioOutBlockedOpen(SimpleOutputStream *sosBlocks);

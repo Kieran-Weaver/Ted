@@ -73,21 +73,21 @@ typedef struct DrawScreenFont {
 /*									*/
 /************************************************************************/
 
-extern void drawCleanScreenFont(DrawScreenFont *dsf);
-extern void drawInitScreenFont(DrawScreenFont *dsf);
+void drawCleanScreenFont(DrawScreenFont *dsf);
+void drawInitScreenFont(DrawScreenFont *dsf);
 
-extern int drawGetScreenFontKey(const DrawScreenFont *dsf, int prop);
+int drawGetScreenFontKey(const DrawScreenFont *dsf, int prop);
 
-extern void drawCleanEncodedScreenFont(DrawScreenFont *dsf,
+void drawCleanEncodedScreenFont(DrawScreenFont *dsf,
 				       EncodedScreenFont *esf);
 
-extern void drawInitEncodedScreenFont(EncodedScreenFont *esf);
+void drawInitEncodedScreenFont(EncodedScreenFont *esf);
 
-extern int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig);
+int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig);
 
-extern XftFont *drawOpenXftFont(DrawScreenFont *dsf);
+XftFont *drawOpenXftFont(DrawScreenFont *dsf);
 
-extern int drawTextExtentsXft(DocumentRectangle *drText, int x, int y,
+int drawTextExtentsXft(DocumentRectangle *drText, int x, int y,
 			      const DrawScreenFont *hDsf,
 			      const DrawScreenFont *vDsf, const char *s,
 			      int len);

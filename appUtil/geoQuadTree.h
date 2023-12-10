@@ -64,27 +64,27 @@ typedef int (*QuadForAllCall)(int *pDelete, int x, int y, void *data,
 /*									*/
 /************************************************************************/
 
-extern QuadTree *qtMakeTree(const DocumentRectangle *dr);
+QuadTree *qtMakeTree(const DocumentRectangle *dr);
 
-extern void qtFreeTree(QuadTree *qt, QuadForAllCall freefun, void *through);
+void qtFreeTree(QuadTree *qt, QuadForAllCall freefun, void *through);
 
-extern int qtFreeData(int x, int y, void *data, void *through);
+int qtFreeData(int x, int y, void *data, void *through);
 
-extern int qtPut(QuadTree *qt, int x, int y, void *data);
+int qtPut(QuadTree *qt, int x, int y, void *data);
 
-extern int qtGetExact(QuadTree *qt, int x, int y, void ***const pvals,
+int qtGetExact(QuadTree *qt, int x, int y, void ***const pvals,
 		      int *pnval);
 
-extern int qtGetNearest(QuadTree *qt, int x, int y, const void *data, int *pX,
+int qtGetNearest(QuadTree *qt, int x, int y, const void *data, int *pX,
 			int *pY, void *const **pvals, int *pnval);
 
-extern const char *qtQuadrantStr(int q);
-extern const char *qtOctantStr(int q);
+const char *qtQuadrantStr(int q);
+const char *qtOctantStr(int q);
 
-extern int qtForAllInRectangle(const QuadTree *qt, const DocumentRectangle *dr,
+int qtForAllInRectangle(const QuadTree *qt, const DocumentRectangle *dr,
 			       QuadForAllCall fun, void *through);
 
-extern int qtForAll(const QuadTree *qt, QuadForAllFilter filter,
+int qtForAll(const QuadTree *qt, QuadForAllFilter filter,
 		    QuadForAllCall fun, void *through);
 
 #endif /* GEO_QUAD_TREE_H */

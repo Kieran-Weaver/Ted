@@ -24,11 +24,11 @@ typedef struct PagerefField {
 /*									*/
 /************************************************************************/
 
-extern void docInitPagerefField(PagerefField *pf);
-extern void docCleanPagerefField(PagerefField *pf);
+void docInitPagerefField(PagerefField *pf);
+void docCleanPagerefField(PagerefField *pf);
 
-extern int docGetPagerefField(PagerefField *pf, const struct DocumentField *df);
+int docGetPagerefField(PagerefField *pf, const struct DocumentField *df);
 
-extern int docSetPagerefField(struct DocumentField *df, const PagerefField *pf);
+int docSetPagerefField(struct DocumentField *df, const PagerefField *pf);
 
 #endif /*  DOC_PAGEREF_FIELD_H  */

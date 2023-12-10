@@ -31,29 +31,29 @@ typedef struct PostScriptFontList {
 /*									*/
 /************************************************************************/
 
-extern void psInitPostScriptFontList(PostScriptFontList *psfl);
-extern void psCleanPostScriptFontList(PostScriptFontList *psfl);
+void psInitPostScriptFontList(PostScriptFontList *psfl);
+void psCleanPostScriptFontList(PostScriptFontList *psfl);
 
-extern int psPostScriptFontListAddInfo(PostScriptFontList *psfl,
+int psPostScriptFontListAddInfo(PostScriptFontList *psfl,
 				       AfmFontInfo *afi);
 
-extern int psPostScriptFontListAddFamily(PostScriptFontList *psfl,
+int psPostScriptFontListAddFamily(PostScriptFontList *psfl,
 					 PsFontFamily *aff);
 
-extern int psPostScriptFontListInfosToFamilies(PostScriptFontList *psfl);
+int psPostScriptFontListInfosToFamilies(PostScriptFontList *psfl);
 
-extern int psPostScriptFontListGetFamilyByName(const PostScriptFontList *psfl,
+int psPostScriptFontListGetFamilyByName(const PostScriptFontList *psfl,
 					       const char *name);
 
-extern AfmFontInfo *
+AfmFontInfo *
 psPostScriptFontListGetFontInfoByFaceFile(const PostScriptFontList *psfl,
 					  const char *file);
 
-extern int psPostScriptFontListSetFontInfoForFaceFile(PostScriptFontList *psfl,
+int psPostScriptFontListSetFontInfoForFaceFile(PostScriptFontList *psfl,
 						      AfmFontInfo *afi,
 						      const char *file);
 
-extern AfmFontInfo *
+AfmFontInfo *
 psPostScriptFontListGetFontInfoByFontName(const PostScriptFontList *psfl,
 					  const char *name);
 

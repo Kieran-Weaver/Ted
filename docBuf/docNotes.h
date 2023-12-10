@@ -27,64 +27,64 @@ struct DocumentSelection;
 /*									*/
 /************************************************************************/
 
-extern int docInsertNote(struct DocumentNote **pDn, struct BufferDocument *bd,
+int docInsertNote(struct DocumentNote **pDn, struct BufferDocument *bd,
 			 struct DocumentField *dfNote, int autoNumber);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetSelectedNote(struct DocumentNote **pDn, int *pSelInNote,
 		   struct BufferDocument *bd,
 		   const struct DocumentSelection *ds);
 
-extern void docCleanNote(struct BufferDocument *bd, struct DocumentNote *dn);
+void docCleanNote(struct BufferDocument *bd, struct DocumentNote *dn);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetFirstNoteFromColumn(struct DocumentNote **pDn,
 			  const struct BufferDocument *bd, int page, int column,
 			  int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetFirstNoteInColumn(struct DocumentNote **pDn,
 			const struct BufferDocument *bd, int page, int column,
 			int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetLastNoteInColumn(struct DocumentNote **pDn,
 		       const struct BufferDocument *bd, int page, int column,
 		       int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetFirstNoteOnPage(struct DocumentNote **pDn,
 		      const struct BufferDocument *bd, int page, int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetFirstNoteOfSection(struct DocumentNote **pDn,
 			 const struct BufferDocument *bd, int sect,
 			 int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetFirstNoteOfDocument(struct DocumentNote **pDn,
 			  const struct BufferDocument *bd, int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetLastNoteOfDocument(struct DocumentNote **pDn,
 			 const struct BufferDocument *bd, int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetNextNoteInSection(struct DocumentNote **pDn,
 			const struct BufferDocument *bd, int sect,
 			struct DocumentField *df, int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetNextNoteInDocument(struct DocumentNote **pDn,
 			 const struct BufferDocument *bd,
 			 struct DocumentField *df, int treeType);
 
-extern struct DocumentField *
+struct DocumentField *
 docGetPrevNoteInDocument(struct DocumentNote **pDn,
 			 const struct BufferDocument *bd,
 			 struct DocumentField *df, int treeType);
 
-extern struct DocumentNote *
+struct DocumentNote *
 docGetNoteOfField(const struct DocumentField *dfNote,
 		  const struct BufferDocument *bd);
 

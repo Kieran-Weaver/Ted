@@ -22,16 +22,16 @@ typedef void (*TabStopListFunction)(const TabStopList *tsl, int n,
 /*									*/
 /************************************************************************/
 
-extern void docInitTabStopListList(NumberedPropertiesList *tsll);
+void docInitTabStopListList(NumberedPropertiesList *tsll);
 
-extern int docTabStopListNumberImpl(NumberedPropertiesList *tsll,
+int docTabStopListNumberImpl(NumberedPropertiesList *tsll,
 				    const TabStopList *tsl);
 
-extern void docGetTabStopListByNumberImpl(TabStopList *tsl,
+void docGetTabStopListByNumberImpl(TabStopList *tsl,
 					  const NumberedPropertiesList *tsll,
 					  int n);
 
-extern int docMergeTabstopListLists(int **pRulerMap,
+int docMergeTabstopListLists(int **pRulerMap,
 				    NumberedPropertiesList *tsllTo,
 				    const NumberedPropertiesList *tsllFrom);
 

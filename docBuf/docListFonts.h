@@ -37,11 +37,11 @@ typedef struct ScanDocumentFonts {
 /*									*/
 /************************************************************************/
 
-extern void docInitScanDocumentFonts(ScanDocumentFonts *sdf);
+void docInitScanDocumentFonts(ScanDocumentFonts *sdf);
 
-extern int docListDocumentFonts(BufferDocument *bd, ScanDocumentFonts *sdf);
+int docListDocumentFonts(BufferDocument *bd, ScanDocumentFonts *sdf);
 
-extern int docListTreeFonts(BufferDocument *bd, const DocumentTree *dt,
+int docListTreeFonts(BufferDocument *bd, const DocumentTree *dt,
 			    ScanDocumentFonts *sdf);
 
 #endif /*  DOC_LIST_FONTS_H	*/

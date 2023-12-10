@@ -25,10 +25,10 @@ typedef struct ZipOutput {
 /*									*/
 /************************************************************************/
 
-extern void sioZipInitOutput(ZipOutput *zo);
-extern void sioZipCleanOutput(ZipOutput *zo);
+void sioZipInitOutput(ZipOutput *zo);
+void sioZipCleanOutput(ZipOutput *zo);
 
-extern int sioZipFlushOutput(ZipOutput *zo);
+int sioZipFlushOutput(ZipOutput *zo);
 
-extern SimpleOutputStream *sioOutZipOpen(ZipOutput *zipOutput,
+SimpleOutputStream *sioOutZipOpen(ZipOutput *zipOutput,
 					 const char *fileName, int compressed);

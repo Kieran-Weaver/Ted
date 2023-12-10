@@ -19,14 +19,14 @@ struct DocumentSelection;
 /*									*/
 /************************************************************************/
 
-extern void docRemoveUnbalancedTocBookmarks(struct BufferDocument *bdDoc);
+void docRemoveUnbalancedTocBookmarks(struct BufferDocument *bdDoc);
 
-extern int docSetTocBookmarks(struct BufferDocument *bd);
+int docSetTocBookmarks(struct BufferDocument *bd);
 
-extern const struct DocumentField *
+const struct DocumentField *
 docGetParaTocBookmark(struct BufferDocument *bd, struct DocumentTree *dt,
 		      struct BufferItem *paraNode);
 
-extern int docTocSetOutlineBookmarks(struct BufferDocument *bd);
+int docTocSetOutlineBookmarks(struct BufferDocument *bd);
 
 #endif /*	DOC_TOC_BOOKMARKS_H	*/

@@ -15,9 +15,9 @@
 /*									*/
 /************************************************************************/
 
-extern int docRecalculateTocFields(RecalculateFields *rf);
+int docRecalculateTocFields(RecalculateFields *rf);
 
-extern int docRecalculateOneTocField(BufferDocument *bdDoc,
+int docRecalculateOneTocField(BufferDocument *bdDoc,
 				     const DocumentField *df);
 
 #endif /*	DOC_CALCULATE_TOC_FIELD_H	*/

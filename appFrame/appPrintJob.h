@@ -10,7 +10,7 @@
 #include <drawDrawingSurface.h>
 
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 struct PrintGeometry;

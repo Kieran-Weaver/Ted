@@ -16,17 +16,17 @@
 /*									*/
 /************************************************************************/
 
-extern int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
+int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 				AppColors *ac, const RasterImage *abi,
 				const DocumentRectangle *drSrc);
 
-extern XftDraw *appGtkXftDrawCreate(GdkDrawable *drawable,
+XftDraw *appGtkXftDrawCreate(GdkDrawable *drawable,
 				    AppXftColorList *axcl);
 
-extern AppColors *guiGetColorsGtk(void);
+AppColors *guiGetColorsGtk(void);
 
-extern void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
+void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
 				   APP_EVENT *event);
 
-extern void appDrawGtkSetXFillRule(GdkGC *gc, int rule);
+void appDrawGtkSetXFillRule(GdkGC *gc, int rule);
 

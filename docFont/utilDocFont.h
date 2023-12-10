@@ -102,26 +102,26 @@ typedef enum DocumentFontProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentFont(DocumentFont *df);
+void docInitDocumentFont(DocumentFont *df);
 
-extern void docCleanDocumentFont(DocumentFont *df);
+void docCleanDocumentFont(DocumentFont *df);
 
-extern int docCopyDocumentFont(DocumentFont *to, const DocumentFont *from);
+int docCopyDocumentFont(DocumentFont *to, const DocumentFont *from);
 
-extern int docFontSetFamilyStyle(DocumentFont *df, int style);
+int docFontSetFamilyStyle(DocumentFont *df, int style);
 
-extern int docFontSetFamilyName(DocumentFont *df, const char *name);
+int docFontSetFamilyName(DocumentFont *df, const char *name);
 
-extern int docFontSetAltName(DocumentFont *df, const char *name);
+int docFontSetAltName(DocumentFont *df, const char *name);
 
-extern void utilCopyFontFaceMatches(DocumentFont *dfTo,
+void utilCopyFontFaceMatches(DocumentFont *dfTo,
 				    const DocumentFont *dfFrom);
 
-extern int docFontFindLegacyEncodings(DocumentFont *df);
+int docFontFindLegacyEncodings(DocumentFont *df);
 
-extern int utilRemoveCharsetFromFontName(DocumentFont *df, int charset);
+int utilRemoveCharsetFromFontName(DocumentFont *df, int charset);
 
-extern int cssFontFamilyIndicator(char *target, int maxSize, int styleInt,
+int cssFontFamilyIndicator(char *target, int maxSize, int styleInt,
 				  const char *familyName);
 
 #endif /*  DOC_FONT_H	*/

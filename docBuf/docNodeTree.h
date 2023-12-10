@@ -24,60 +24,60 @@ struct RowProperties;
 /*									*/
 /************************************************************************/
 
-extern void docFreeNode(struct BufferDocument *bd, struct DocumentTree *dt,
+void docFreeNode(struct BufferDocument *bd, struct DocumentTree *dt,
 			struct BufferItem *bi);
 
-extern struct BufferItem *docInsertNode(const struct BufferDocument *bd,
+struct BufferItem *docInsertNode(const struct BufferDocument *bd,
 					struct BufferItem *parent, int n,
 					int level);
 
-extern void docDeleteNodes(struct BufferDocument *bd, struct DocumentTree *dt,
+void docDeleteNodes(struct BufferDocument *bd, struct DocumentTree *dt,
 			   struct BufferItem *bi, int first, int count);
 
-extern int docSplitGroupNode(struct BufferDocument *bd,
+int docSplitGroupNode(struct BufferDocument *bd,
 			     struct BufferItem **pNewBi,
 			     struct BufferItem *oldBi, int n);
 
-extern int docSplitGroupNodeAtLevel(struct BufferDocument *bd,
+int docSplitGroupNodeAtLevel(struct BufferDocument *bd,
 				    struct BufferItem **pBeforeNode,
 				    struct BufferItem **pAfterNode,
 				    struct BufferItem *splitNode, int n,
 				    int level);
 
-extern int docMergeGroupNodes(struct BufferItem *to, struct BufferItem *from);
+int docMergeGroupNodes(struct BufferItem *to, struct BufferItem *from);
 
-extern struct BufferItem *docNextParagraph(struct BufferItem *bi);
-extern struct BufferItem *docPrevParagraph(struct BufferItem *bi);
+struct BufferItem *docNextParagraph(struct BufferItem *bi);
+struct BufferItem *docPrevParagraph(struct BufferItem *bi);
 
-extern struct BufferItem *docNextSection(struct BufferItem *bi);
-extern struct BufferItem *docPrevSection(struct BufferItem *bi);
+struct BufferItem *docNextSection(struct BufferItem *bi);
+struct BufferItem *docPrevSection(struct BufferItem *bi);
 
-extern void docDeleteNode(struct BufferDocument *bd, struct DocumentTree *dt,
+void docDeleteNode(struct BufferDocument *bd, struct DocumentTree *dt,
 			  struct BufferItem *bi);
 
-extern void docInitNode(struct BufferItem *bi, struct BufferItem *parent,
+void docInitNode(struct BufferItem *bi, struct BufferItem *parent,
 			const struct BufferDocument *bd, int numberInParent,
 			int level, int treeType);
 
-extern struct BufferItem *docInsertRowNode(struct BufferDocument *bd,
+struct BufferItem *docInsertRowNode(struct BufferDocument *bd,
 					   struct BufferItem *sectBi, int n,
 					   const struct RowProperties *rp,
 					   int textAttrNr);
 
-extern struct BufferItem *docGetCellNode(struct BufferItem *bi);
-extern struct BufferItem *docGetRowNode(struct BufferItem *bi);
-extern struct BufferItem *docGetRowLevelNode(struct BufferItem *bi);
-extern struct BufferItem *docGetSectNode(struct BufferItem *bi);
+struct BufferItem *docGetCellNode(struct BufferItem *bi);
+struct BufferItem *docGetRowNode(struct BufferItem *bi);
+struct BufferItem *docGetRowLevelNode(struct BufferItem *bi);
+struct BufferItem *docGetSectNode(struct BufferItem *bi);
 
-extern int docRowNesting(const struct BufferItem *bi);
-extern int docTableNesting(const struct BufferItem *bi);
-extern void docSetParaTableNesting(struct BufferItem *paraNode);
+int docRowNesting(const struct BufferItem *bi);
+int docTableNesting(const struct BufferItem *bi);
+void docSetParaTableNesting(struct BufferItem *paraNode);
 
-extern int docValidChildLevel(int parentLevel, int childLevel);
+int docValidChildLevel(int parentLevel, int childLevel);
 
-extern struct BufferItem *docMakeNode(void);
+struct BufferItem *docMakeNode(void);
 
-extern struct BufferItem *docGetBodySectNode(struct BufferItem *bi,
+struct BufferItem *docGetBodySectNode(struct BufferItem *bi,
 					     const struct BufferDocument *bd);
 
 #endif

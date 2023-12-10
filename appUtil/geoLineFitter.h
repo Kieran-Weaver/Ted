@@ -32,14 +32,14 @@ typedef struct LineFitter {
 /*									*/
 /************************************************************************/
 
-extern void geoInitLineFitter(LineFitter *lf);
+void geoInitLineFitter(LineFitter *lf);
 
-extern int geoLineFitterFitLine(double *pA, double *pB, double *pC,
+int geoLineFitterFitLine(double *pA, double *pB, double *pC,
 				const LineFitter *lf);
 
-extern double geoLineFitterMeanSquareDistance(const LineFitter *lf, double a,
+double geoLineFitterMeanSquareDistance(const LineFitter *lf, double a,
 					      double b, double c);
 
-extern void geoAddLineFitters(LineFitter *to, LineFitter *fr1, LineFitter *fr2);
+void geoAddLineFitters(LineFitter *to, LineFitter *fr1, LineFitter *fr2);
 
 #endif /*	GEO_LINE_FITTER_H	*/

@@ -16,7 +16,7 @@
 /*									*/
 /************************************************************************/
 
-extern AfmFontInfo *psGetPsFontInfoForAttribute(const char *familyName,
+AfmFontInfo *psGetPsFontInfoForAttribute(const char *familyName,
 						int styleInt,
 						const IndexSet *unicodesUsed,
 						const TextAttribute *ta,

@@ -26,6 +26,6 @@ typedef enum DocumentFontStyle {
 /*									*/
 /************************************************************************/
 
-extern int psFontFamilyStyle(const char *fontFamilyName);
+int psFontFamilyStyle(const char *fontFamilyName);
 
 #endif /*  PS_DOCUMENT_FONT_STYLE_H	*/

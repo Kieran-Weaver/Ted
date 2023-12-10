@@ -42,9 +42,9 @@ typedef enum SelectionScopeProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitSelectionScope(SelectionScope *ss);
+void docInitSelectionScope(SelectionScope *ss);
 
-extern int docSelectionSameScope(const SelectionScope *ssFrom,
+int docSelectionSameScope(const SelectionScope *ssFrom,
 				 const SelectionScope *ssTo);
 
 #endif /*	DOC_SELECTION_SCOPE_H	*/

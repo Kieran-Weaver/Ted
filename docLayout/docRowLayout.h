@@ -16,18 +16,18 @@
 /*									*/
 /************************************************************************/
 
-extern void
+void
 docGetCellOrnaments(BlockOrnaments *cellOrnaments, DocumentRectangle *drOutside,
 		    DocumentRectangle *drInside,
 		    const DocumentRectangle *drCell, const BufferDocument *bd,
 		    const struct BufferItem *rowBi, int col, int atRowTop,
 		    int atRowBottom, int drawTableGrid);
 
-extern void docLayoutCalculateRowTopInset(int *pInset, const BufferDocument *bd,
+void docLayoutCalculateRowTopInset(int *pInset, const BufferDocument *bd,
 					  const struct BufferItem *rowBi,
 					  int atRowTop);
 
-extern void docGetCellBottomBorder(BorderProperties *pBpBottom,
+void docGetCellBottomBorder(BorderProperties *pBpBottom,
 				   int *pBpBottomNr, int *pUseBelow,
 				   const BufferDocument *bd,
 				   const struct BufferItem *rowBi, int col,

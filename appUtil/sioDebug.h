@@ -9,8 +9,8 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *sioInDebugOpen(SimpleInputStream *sisIn);
+SimpleInputStream *sioInDebugOpen(SimpleInputStream *sisIn);
 
-extern SimpleOutputStream *sioOutDebugOpen(SimpleOutputStream *sosOut);
+SimpleOutputStream *sioOutDebugOpen(SimpleOutputStream *sosOut);
 
-extern SimpleOutputStream *sioOutAppDebugOpen(void);
+SimpleOutputStream *sioOutAppDebugOpen(void);

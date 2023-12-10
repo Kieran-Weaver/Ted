@@ -235,7 +235,7 @@ extern const char TedTraceExtension[];
 /*									*/
 /************************************************************************/
 
-extern int tedFirstRecalculateFields(RecalculateFields *rf,
+int tedFirstRecalculateFields(RecalculateFields *rf,
 				     DOC_CLOSE_OBJECT closeObject,
 				     BufferDocument *bd);
 

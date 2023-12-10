@@ -145,35 +145,35 @@ typedef struct EditOperation {
 /*									*/
 /************************************************************************/
 
-extern void docInitEditOperation(EditOperation *eo);
-extern void docCleanEditOperation(EditOperation *eo);
+void docInitEditOperation(EditOperation *eo);
+void docCleanEditOperation(EditOperation *eo);
 
-extern void docEditOperationGetSelection(DocumentSelection *dsNew,
+void docEditOperationGetSelection(DocumentSelection *dsNew,
 					 const EditOperation *eo);
 
-extern int docStartEditOperation(EditOperation *eo, const DocumentSelection *ds,
+int docStartEditOperation(EditOperation *eo, const DocumentSelection *ds,
 				 BufferDocument *bd);
 
-extern void docEditIncludeNodeInReformatRange(EditOperation *eo,
+void docEditIncludeNodeInReformatRange(EditOperation *eo,
 					      struct BufferItem *bi);
 
-extern void docEditIncludeRowsInReformatRange(EditOperation *eo,
+void docEditIncludeRowsInReformatRange(EditOperation *eo,
 					      struct BufferItem *sectBi,
 					      int row0, int row1);
 
-extern void docSetParagraphAdjust(EditOperation *eo, struct BufferItem *paraBi,
+void docSetParagraphAdjust(EditOperation *eo, struct BufferItem *paraBi,
 				  int stroffShift, int stroffUpto);
 
-extern void docExtendParagraphAdjust(EditOperation *eo,
+void docExtendParagraphAdjust(EditOperation *eo,
 				     struct BufferItem *paraBi,
 				     int stroffShift);
 
-extern void docEditFinishStep(EditOperation *eo);
+void docEditFinishStep(EditOperation *eo);
 
-extern int docMoveEditOperationToBodySect(EditOperation *eo,
+int docMoveEditOperationToBodySect(EditOperation *eo,
 					  struct BufferItem *bodySectNode);
 
-extern DocumentField *docEditOperationGetSelectedNote(struct DocumentNote **pDn,
+DocumentField *docEditOperationGetSelectedNote(struct DocumentNote **pDn,
 						      int *pSelInNote,
 						      const EditOperation *eo);
 

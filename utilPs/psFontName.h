@@ -15,21 +15,21 @@
 /*									*/
 /************************************************************************/
 
-extern int utilFontWeightFromString(int *pWeight, int *pStart, int *pLength,
+int utilFontWeightFromString(int *pWeight, int *pStart, int *pLength,
 				    const char *name);
 
-extern int utilFontWidthFromString(int *pWidth, int *pStart, int *pLength,
+int utilFontWidthFromString(int *pWidth, int *pStart, int *pLength,
 				   const char *name);
 
-extern int psRemoveWidthFromName(char *target, int maxlen, int *pWidth,
+int psRemoveWidthFromName(char *target, int maxlen, int *pWidth,
 				 const char *name);
 
-extern int psFontInfoMoveWidthToFamilyName(AfmFontInfo *afi);
+int psFontInfoMoveWidthToFamilyName(AfmFontInfo *afi);
 
-extern const char *psWidthStr(int width);
-extern const char *psWeightStr(int weight);
+const char *psWidthStr(int width);
+const char *psWeightStr(int weight);
 
-extern int psFontGetWeight(unsigned char *pWeight, const char *weight);
-extern int psFontGetWidth(int *pWidth, const char *swdth);
+int psFontGetWeight(unsigned char *pWeight, const char *weight);
+int psFontGetWidth(int *pWidth, const char *swdth);
 
 #endif

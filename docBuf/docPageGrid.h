@@ -29,42 +29,42 @@
 /*									*/
 /************************************************************************/
 
-extern void docBlockFrameTwips(BlockFrame *bf, struct BufferItem *bi,
+void docBlockFrameTwips(BlockFrame *bf, struct BufferItem *bi,
 			       BufferDocument *bd, int page, int column);
 
-extern void docCellFrameTwips(ParagraphFrame *pf, const BlockFrame *bf,
+void docCellFrameTwips(ParagraphFrame *pf, const BlockFrame *bf,
 			      const struct BufferItem *cellNode);
 
-extern void docCellRectangleTwips(DocumentRectangle *drCell,
+void docCellRectangleTwips(DocumentRectangle *drCell,
 				  const BlockFrame *bf,
 				  const struct BufferItem *cellNode);
 
-extern void docLayoutSectColumnTop(LayoutPosition *lpTop, BlockFrame *bf,
+void docLayoutSectColumnTop(LayoutPosition *lpTop, BlockFrame *bf,
 				   struct BufferItem *bodySectNode,
 				   BufferDocument *bd);
 
-extern void docParaBlockFrameRectangle(DocumentRectangle *dr,
+void docParaBlockFrameRectangle(DocumentRectangle *dr,
 				       struct BufferItem *paraBi,
 				       BufferDocument *bd, int page,
 				       int column);
 
-extern void docParaBlockFrameTwips(BlockFrame *bf, struct BufferItem *paraBi,
+void docParaBlockFrameTwips(BlockFrame *bf, struct BufferItem *paraBi,
 				   BufferDocument *bd, int page, int column);
 
-extern void docParagraphFrameTwips(ParagraphFrame *pf, const BlockFrame *bf,
+void docParagraphFrameTwips(ParagraphFrame *pf, const BlockFrame *bf,
 				   const struct BufferItem *paraBi);
 
-extern void docLayoutSetTextFrame(BlockFrame *bfTextFrame,
+void docLayoutSetTextFrame(BlockFrame *bfTextFrame,
 				  const LayoutPosition *lpRef,
 				  const BlockFrame *bfRef,
 				  const FrameProperties *fp, int frameHighVal);
 
-extern void docLayoutFrameX(BlockFrame *bfTextFrame, int xRefProp, int xPosProp,
+void docLayoutFrameX(BlockFrame *bfTextFrame, int xRefProp, int xPosProp,
 			    int xPosVal, int layoutInCell,
 			    const ParagraphFrame *pfRef,
 			    const BlockFrame *bfRef, int xChar, int frameWide);
 
-extern void docLayoutFrameY(BlockFrame *bfTextFrame, int yRefProp, int yPosProp,
+void docLayoutFrameY(BlockFrame *bfTextFrame, int yRefProp, int yPosProp,
 			    int yPosVal, const LayoutPosition *lpLineTop,
 			    const LayoutPosition *lpParaTop,
 			    const BlockFrame *bfRef, int frameHighProp,

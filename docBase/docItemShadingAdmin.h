@@ -20,22 +20,22 @@ typedef void (*ItemShadingFunction)(const ItemShading *is, int n,
 /*									*/
 /************************************************************************/
 
-extern void docInitItemShadingList(NumberedPropertiesList *isl);
+void docInitItemShadingList(NumberedPropertiesList *isl);
 
-extern int docItemShadingNumberImpl(NumberedPropertiesList *isl,
+int docItemShadingNumberImpl(NumberedPropertiesList *isl,
 				    const ItemShading *is);
 
-extern int docShadingNumberIsShadingImpl(const NumberedPropertiesList *isl,
+int docShadingNumberIsShadingImpl(const NumberedPropertiesList *isl,
 					 int n);
 
-extern void docForAllItemShadings(const NumberedPropertiesList *isl,
+void docForAllItemShadings(const NumberedPropertiesList *isl,
 				  ItemShadingFunction f, void *through);
 
-extern void docGetItemShadingByNumberImpl(ItemShading *is,
+void docGetItemShadingByNumberImpl(ItemShading *is,
 					  const NumberedPropertiesList *isl,
 					  int n);
 
-extern int docMergeItemShadingLists(int **pShadingMap, const int *colorMap,
+int docMergeItemShadingLists(int **pShadingMap, const int *colorMap,
 				    NumberedPropertiesList *islTo,
 				    const NumberedPropertiesList *islFrom);
 

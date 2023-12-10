@@ -23,11 +23,11 @@ typedef const AfmFontInfo *(*GetFontForAttribute)(
 /*									*/
 /************************************************************************/
 
-extern int utilAddPsFontsToDocList(DocumentFontList *dfl,
+int utilAddPsFontsToDocList(DocumentFontList *dfl,
 				   const PostScriptFontList *psfl);
 
-extern int utilAddBase35FontsToDocList(DocumentFontList *dfl);
+int utilAddBase35FontsToDocList(DocumentFontList *dfl);
 
-extern const char *utilGetEncodingName(const char *fontName, int charset);
+const char *utilGetEncodingName(const char *fontName, int charset);
 
 #endif

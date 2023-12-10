@@ -12,7 +12,7 @@
 #include "appGuiBase.h"
 
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 /************************************************************************/
@@ -71,94 +71,94 @@ typedef struct DocumentWidget {
 /*									*/
 /************************************************************************/
 
-extern void appMakeButtonInRow(APP_WIDGET *pButton, APP_WIDGET buttonRow,
+void appMakeButtonInRow(APP_WIDGET *pButton, APP_WIDGET buttonRow,
 			       const char *text, APP_BUTTON_CALLBACK_T callback,
 			       void *through, int position, int colspan,
 			       int showAsDefault);
 
-extern void appMakeButtonInColumn(APP_WIDGET *pButton, APP_WIDGET column,
+void appMakeButtonInColumn(APP_WIDGET *pButton, APP_WIDGET column,
 				  const char *buttonText,
 				  APP_BUTTON_CALLBACK_T callback, void *through,
 				  int showAsDefault);
 
-extern void appMakeLabelInRow(APP_WIDGET *pLabel, APP_WIDGET row, int column,
+void appMakeLabelInRow(APP_WIDGET *pLabel, APP_WIDGET row, int column,
 			      int colspan, const char *labelText);
 
-extern void appMakeLabelInHBox(APP_WIDGET *pLabel, APP_WIDGET hbox,
+void appMakeLabelInHBox(APP_WIDGET *pLabel, APP_WIDGET hbox,
 			       const char *labelText);
 
-extern void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
+void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
 			     int colspan, int textColumns, int textEnabled);
 
-extern void appMakeTextInHBox(APP_WIDGET *pText, APP_WIDGET hbox,
+void appMakeTextInHBox(APP_WIDGET *pText, APP_WIDGET hbox,
 			      int textColumns, int textEnabled);
 
-extern APP_WIDGET appMakeToggleInRow(APP_WIDGET buttonRow, const char *text,
+APP_WIDGET appMakeToggleInRow(APP_WIDGET buttonRow, const char *text,
 				     APP_TOGGLE_CALLBACK_T callback,
 				     void *through, int col, int colspan);
 
-extern void appMakeColumnFrameInColumn(APP_WIDGET *pFrame, APP_WIDGET *pPaned,
+void appMakeColumnFrameInColumn(APP_WIDGET *pFrame, APP_WIDGET *pPaned,
 				       APP_WIDGET parent, const char *title);
 
-extern void appMakeLabelInColumn(APP_WIDGET *pLabel, APP_WIDGET row,
+void appMakeLabelInColumn(APP_WIDGET *pLabel, APP_WIDGET row,
 				 const char *labelText);
 
-extern void appMakeTextInColumn(APP_WIDGET *pText, APP_WIDGET column,
+void appMakeTextInColumn(APP_WIDGET *pText, APP_WIDGET column,
 				int textColumns, int textEnabled);
 
-extern void appMakeColumnToggle(APP_WIDGET *pToggle, APP_WIDGET column,
+void appMakeColumnToggle(APP_WIDGET *pToggle, APP_WIDGET column,
 				APP_TOGGLE_CALLBACK_T callback, void *through,
 				const char *labelText, int set);
 
-extern void appMakeColumnDrawing(APP_WIDGET *pButton, APP_WIDGET column,
+void appMakeColumnDrawing(APP_WIDGET *pButton, APP_WIDGET column,
 				 APP_DRAW_BUTTON_CALLBACK exposeCallback,
 				 APP_BUTTON_CALLBACK_T pushedCallback,
 				 void *through, int width);
 
-extern char *appWidgetName(char *file, int line);
+char *appWidgetName(char *file, int line);
 
-extern void guiEnableText(APP_WIDGET text, int enabled);
+void guiEnableText(APP_WIDGET text, int enabled);
 
-extern char *appGetStringFromTextWidget(APP_WIDGET w);
-extern void appFreeStringFromTextWidget(char *s);
+char *appGetStringFromTextWidget(APP_WIDGET w);
+void appFreeStringFromTextWidget(char *s);
 
-extern char *appGetTextFromMenuOption(APP_WIDGET w);
-extern void appFreeTextFromMenuOption(char *s);
+char *appGetTextFromMenuOption(APP_WIDGET w);
+void appFreeTextFromMenuOption(char *s);
 
-extern void appStringToTextWidget(APP_WIDGET w, const char *s);
+void appStringToTextWidget(APP_WIDGET w, const char *s);
 
-extern void appGuiChangeButtonText(APP_WIDGET button, const char *label);
+void appGuiChangeButtonText(APP_WIDGET button, const char *label);
 
-extern APP_WIDGET appMakeRowInColumn(APP_WIDGET parent, int columnCount,
+APP_WIDGET appMakeRowInColumn(APP_WIDGET parent, int columnCount,
 				     int heightResizable);
 
-extern void appMakeColumnInRow(APP_WIDGET *pColumn, APP_WIDGET row,
+void appMakeColumnInRow(APP_WIDGET *pColumn, APP_WIDGET row,
 			       int position, int colspan);
 
-extern void appMakeHBoxInRow(APP_WIDGET *pHbox, APP_WIDGET row, int position,
+void appMakeHBoxInRow(APP_WIDGET *pHbox, APP_WIDGET row, int position,
 			     int colspan);
 
-extern void appMakeRowFrameInColumn(APP_WIDGET *pFrame, APP_WIDGET *pRow,
+void appMakeRowFrameInColumn(APP_WIDGET *pFrame, APP_WIDGET *pRow,
 				    APP_WIDGET parent, int columnCount,
 				    const char *title);
 
-extern void appTextSelectContents(APP_WIDGET w, int from, int upto);
+void appTextSelectContents(APP_WIDGET w, int from, int upto);
 
-extern void appGuiMakeDrawingAreaInColumn(APP_WIDGET *pDrawing,
+void appGuiMakeDrawingAreaInColumn(APP_WIDGET *pDrawing,
 					  APP_WIDGET column, int wide, int high,
 					  int heightResizable,
 					  APP_EVENT_HANDLER_T redraw,
 					  void *through);
 
-extern void appGuiChangeLabelText(APP_WIDGET w, const char *labelt);
+void appGuiChangeLabelText(APP_WIDGET w, const char *labelt);
 
-extern void appDocumentSetInputContext(APP_INPUT_METHOD im, DocumentWidget *dw);
+void appDocumentSetInputContext(APP_INPUT_METHOD im, DocumentWidget *dw);
 
-extern int appGuiGetMenuToggleStateFromCallbackGtk(APP_WIDGET toggle);
+int appGuiGetMenuToggleStateFromCallbackGtk(APP_WIDGET toggle);
 #define appGuiGetMenuToggleStateFromCallback(t, e) \
 	appGuiGetMenuToggleStateFromCallbackGtk((t))
 
-extern int appGuiGetScrollbarValueFromCallbackGtk(APP_WIDGET scrollbar);
+int appGuiGetScrollbarValueFromCallbackGtk(APP_WIDGET scrollbar);
 
 #define appGuiGetScrollbarValueFromCallback(bar, e) \
 	appGuiGetScrollbarValueFromCallbackGtk((bar))
@@ -175,90 +175,90 @@ extern int appGuiGetScrollbarValueFromCallbackGtk(APP_WIDGET scrollbar);
  *	if visibleItems < 0: Resize with the number of itemsd in the list.
  *
  */
-extern void appGuiMakeListInColumn(APP_WIDGET *pList, APP_WIDGET column,
+void appGuiMakeListInColumn(APP_WIDGET *pList, APP_WIDGET column,
 				   int visibleItems,
 				   APP_LIST_CALLBACK_T listCallback,
 				   APP_BUTTON_CALLBACK_T actionCallback,
 				   void *through);
 
-extern void appGuiSetTypingCallbackForText(APP_WIDGET text,
+void appGuiSetTypingCallbackForText(APP_WIDGET text,
 					   APP_TXTYPING_CALLBACK_T callBack,
 					   void *through);
 
-extern void appGuiSetGotValueCallbackForText(APP_WIDGET text,
+void appGuiSetGotValueCallbackForText(APP_WIDGET text,
 					     APP_TXACTIVATE_CALLBACK_T callBack,
 					     void *through);
 
-extern void appGuiGetScrollbarValues(int *pValue, int *pSliderSize,
+void appGuiGetScrollbarValues(int *pValue, int *pSliderSize,
 				     APP_WIDGET scrollbar);
 
-extern void appGuiSetScrollbarValues(APP_WIDGET scrollbar, int value,
+void appGuiSetScrollbarValues(APP_WIDGET scrollbar, int value,
 				     int sliderSize);
 
-extern void appGuiEmptyListWidget(APP_WIDGET list);
+void appGuiEmptyListWidget(APP_WIDGET list);
 
-extern void appGuiAddValueToListWidget(APP_WIDGET list, int pos,
+void appGuiAddValueToListWidget(APP_WIDGET list, int pos,
 				       const char *value);
 
-extern void appGuiReplaceValueInListWidget(APP_WIDGET list, int pos,
+void appGuiReplaceValueInListWidget(APP_WIDGET list, int pos,
 					   const char *value);
 
-extern void appGuiDeletePositionFromListWidget(APP_WIDGET list, int pos);
+void appGuiDeletePositionFromListWidget(APP_WIDGET list, int pos);
 
-extern void appGuiSelectPositionInListWidget(APP_WIDGET list, int position);
-extern void appGuiSelectValueInListWidget(APP_WIDGET list, const char *value);
+void appGuiSelectPositionInListWidget(APP_WIDGET list, int position);
+void appGuiSelectValueInListWidget(APP_WIDGET list, const char *value);
 
-extern void appGuiRemoveSelectionFromListWidget(APP_WIDGET list);
+void appGuiRemoveSelectionFromListWidget(APP_WIDGET list);
 
-extern void appGuiMakeSliderInRow(APP_WIDGET *pSlider, APP_WIDGET row,
+void appGuiMakeSliderInRow(APP_WIDGET *pSlider, APP_WIDGET row,
 				  int column, int colspan,
 				  APP_BUTTON_CALLBACK_T callback,
 				  void *through);
 
-extern void appGuiSetSlider(APP_WIDGET slider, int minVal, int maxVal,
+void appGuiSetSlider(APP_WIDGET slider, int minVal, int maxVal,
 			    int curVal);
 
-extern void appGuiSetSliderValue(APP_WIDGET slider, int curVal);
+void appGuiSetSliderValue(APP_WIDGET slider, int curVal);
 
-extern int appGuiGetValueFromSliderCallback(int *pValue, APP_WIDGET w,
+int appGuiGetValueFromSliderCallback(int *pValue, APP_WIDGET w,
 					    void *voidscs);
 
-extern int appGuiGetPositionFromListCallback(APP_WIDGET list,
+int appGuiGetPositionFromListCallback(APP_WIDGET list,
 					     APP_LIST_CHOICE *voidlcs);
 
-extern char *appGuiGetStringFromListCallback(APP_WIDGET list,
+char *appGuiGetStringFromListCallback(APP_WIDGET list,
 					     APP_LIST_CHOICE *voidlcs);
 
-extern void appFreeStringFromListCallback(char *s);
+void appFreeStringFromListCallback(char *s);
 
-extern void appGuiInsertSeparatorInColumn(APP_WIDGET *pSeparator,
+void appGuiInsertSeparatorInColumn(APP_WIDGET *pSeparator,
 					  APP_WIDGET parent);
 
-extern void appSetShellTitle(APP_WIDGET shell, APP_WIDGET option,
+void appSetShellTitle(APP_WIDGET shell, APP_WIDGET option,
 			     const char *title);
 
-extern void appGuiInsertColumnInWindow(APP_WIDGET *pColumn, APP_WIDGET parent);
+void appGuiInsertColumnInWindow(APP_WIDGET *pColumn, APP_WIDGET parent);
 
-extern void appGuiInsertMenubarInColumn(APP_WIDGET *pMenubar,
+void appGuiInsertMenubarInColumn(APP_WIDGET *pMenubar,
 					APP_WIDGET parent);
 
-extern void appMakeImageInColumn(APP_WIDGET *pLabel, APP_WIDGET column,
+void appMakeImageInColumn(APP_WIDGET *pLabel, APP_WIDGET column,
 				 APP_BITMAP_IMAGE pixmap, APP_BITMAP_MASK mask);
 
-extern void appGuiSetToggleLabel(APP_WIDGET toggle, const char *text);
+void appGuiSetToggleLabel(APP_WIDGET toggle, const char *text);
 
-extern void appGuiSetToggleState(APP_WIDGET toggle, int set);
+void appGuiSetToggleState(APP_WIDGET toggle, int set);
 
-extern int appGuiGetToggleState(APP_WIDGET toggle);
+int appGuiGetToggleState(APP_WIDGET toggle);
 
-extern void guiEnableWidget(APP_WIDGET w, int on_off);
+void guiEnableWidget(APP_WIDGET w, int on_off);
 
-extern void appGuiSetWidgetVisible(APP_WIDGET w, int on_off);
+void appGuiSetWidgetVisible(APP_WIDGET w, int on_off);
 
-extern void appHideShellWidget(APP_WIDGET shell);
-extern void appDestroyShellWidget(APP_WIDGET shell);
+void appHideShellWidget(APP_WIDGET shell);
+void appDestroyShellWidget(APP_WIDGET shell);
 
-extern void appRefuseTextValue(APP_WIDGET w);
+void appRefuseTextValue(APP_WIDGET w);
 
 #ifdef __cplusplus
 }

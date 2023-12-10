@@ -93,15 +93,15 @@ typedef struct SelectionDescription {
 /*									*/
 /************************************************************************/
 
-extern void docInitSelectionDescription(SelectionDescription *sd);
+void docInitSelectionDescription(SelectionDescription *sd);
 
-extern void docDescribeSelection(SelectionDescription *sd,
+void docDescribeSelection(SelectionDescription *sd,
 				 const DocumentSelection *ds,
 				 struct BufferDocument *bd, int headPage,
 				 int tailPage, unsigned int documentId,
 				 int documentRo);
 
-extern void docEnableEditCommands(unsigned char *cmdEnabled,
+void docEnableEditCommands(unsigned char *cmdEnabled,
 				  const SelectionDescription *sd);
 
 #endif /*	DOC_SELECTION_DESCRIPTION_H	*/

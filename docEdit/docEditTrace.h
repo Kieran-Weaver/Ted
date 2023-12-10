@@ -114,33 +114,33 @@ typedef int (*HandleEditStep)(const TraceStep *ts, const struct EditStep *es,
 /*									*/
 /************************************************************************/
 
-extern void docInitTraceStep(TraceStep *ts);
+void docInitTraceStep(TraceStep *ts);
 
-extern void docInitEditTrace(EditTrace *et);
-extern void docCleanEditTrace(EditTrace *et);
+void docInitEditTrace(EditTrace *et);
+void docCleanEditTrace(EditTrace *et);
 
-extern int docEditTraceSetTempName(EditTrace *et, const char *extension);
+int docEditTraceSetTempName(EditTrace *et, const char *extension);
 
-extern int docEditTraceSetDocumentName(EditTrace *et,
+int docEditTraceSetDocumentName(EditTrace *et,
 				       const MemoryBuffer *documentName,
 				       const char *extension);
 
-extern int docEditTraceOpenTrace(EditTrace *et, int restart, int exclusive);
+int docEditTraceOpenTrace(EditTrace *et, int restart, int exclusive);
 
-extern int docEditGetTraceStep(const TraceStep **pTs, int *pIsRepeat,
+int docEditGetTraceStep(const TraceStep **pTs, int *pIsRepeat,
 			       int direction, const EditTrace *et, int from);
 
-extern int docRtfScanEditTrace(const EditTrace *et, SimpleInputStream *sis,
+int docRtfScanEditTrace(const EditTrace *et, SimpleInputStream *sis,
 			       HandleEditStep handleStep, void *through,
 			       int readOld, int readNew,
 			       const struct BufferDocument *bdRef);
 
-extern int docEditTraceTryRelative(EditTrace *et,
+int docEditTraceTryRelative(EditTrace *et,
 				   const MemoryBuffer *documentName,
 				   const char *extension);
 
-extern int docEditTraceTryTemp(EditTrace *et, const char *extension);
+int docEditTraceTryTemp(EditTrace *et, const char *extension);
 
-extern int docEditTraceTryAnon(EditTrace *et, const char *extension);
+int docEditTraceTryAnon(EditTrace *et, const char *extension);
 
 #endif /*  DOC_EDIT_TRACE_H	*/

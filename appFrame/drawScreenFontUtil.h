@@ -4,7 +4,7 @@
 #include <drawDrawingSurface.h>
 
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 /************************************************************************/
@@ -13,18 +13,18 @@ extern "C" {
 /*									*/
 /************************************************************************/
 
-extern void drawFontUnderlineGeometry(int *pThick, int *pY,
+void drawFontUnderlineGeometry(int *pThick, int *pY,
 				      const struct DrawingSurface* ds, int screenFont,
 				      int baselinePixels);
 
-extern void drawFontStrikethroughGeometry(int *pThick, int *pY,
+void drawFontStrikethroughGeometry(int *pThick, int *pY,
 					  const struct DrawingSurface* ds,
 					  int screenFont, int baselinePixels);
 
-extern void drawFontGetSuperBaseline(int *pSuperBaseline, int baselinePixels,
+void drawFontGetSuperBaseline(int *pSuperBaseline, int baselinePixels,
 				     const struct DrawingSurface* ds, int screenFont);
 
-extern void drawFontGetSubBaseline(int *pSubBaseline, int baselinePixels,
+void drawFontGetSubBaseline(int *pSubBaseline, int baselinePixels,
 				   const struct DrawingSurface* ds, int screenFont);
 
 #ifdef __cplusplus

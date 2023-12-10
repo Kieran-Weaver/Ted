@@ -206,55 +206,55 @@ typedef enum RowProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitRowProperties(RowProperties *rp);
-extern void docCleanRowProperties(RowProperties *rp);
+void docInitRowProperties(RowProperties *rp);
+void docCleanRowProperties(RowProperties *rp);
 
-extern int docCopyRowProperties(RowProperties *to, const RowProperties *from,
+int docCopyRowProperties(RowProperties *to, const RowProperties *from,
 				const DocumentAttributeMap *dam);
 
-extern int docInsertRowColumn(RowProperties *rp, int n, int shiftTail,
+int docInsertRowColumn(RowProperties *rp, int n, int shiftTail,
 			      const CellProperties *cp,
 			      const DocumentAttributeMap *dam);
 
-extern int docApproximatelyAlignedColumns(const RowProperties *rp1,
+int docApproximatelyAlignedColumns(const RowProperties *rp1,
 					  const RowProperties *rp2);
 
-extern int docUpdRowProperties(PropertyMask *pRpDonePask, RowProperties *rp,
+int docUpdRowProperties(PropertyMask *pRpDonePask, RowProperties *rp,
 			       const PropertyMask *rpSetMask,
 			       const RowProperties *rpSet,
 			       const DocumentAttributeMap *dam);
 
-extern int docDeleteColumnsFromRow(RowProperties *rp, int col0, int count,
+int docDeleteColumnsFromRow(RowProperties *rp, int col0, int count,
 				   int shiftTail);
 
-extern void docRowPropertiesSetWidth(RowProperties *rp, int col0, int col1,
+void docRowPropertiesSetWidth(RowProperties *rp, int col0, int col1,
 				     int wide, int victim, int victimWide);
 
-extern int docSetRowProperty(RowProperties *rp, int prop, int arg);
+int docSetRowProperty(RowProperties *rp, int prop, int arg);
 
-extern int docGetRowProperty(const RowProperties *rp, int prop);
+int docGetRowProperty(const RowProperties *rp, int prop);
 
-extern int docEqualWidthColumns(RowProperties *rp, int columns, int wide,
+int docEqualWidthColumns(RowProperties *rp, int columns, int wide,
 				int fsHalfPoints);
 
-extern int docColumnWidth(const RowProperties *rp, int col);
-extern int docColumnLeft(const RowProperties *rp, int col);
-extern int docColumnRight(const RowProperties *rp, int col);
+int docColumnWidth(const RowProperties *rp, int col);
+int docColumnLeft(const RowProperties *rp, int col);
+int docColumnRight(const RowProperties *rp, int col);
 
-extern int docRowPropertiesMakeColWider(RowProperties *rp, int col, int wider);
+int docRowPropertiesMakeColWider(RowProperties *rp, int col, int wider);
 
-extern void docRowPropertyDifference(PropertyMask *pRpDifPask,
+void docRowPropertyDifference(PropertyMask *pRpDifPask,
 				     const RowProperties *rp1,
 				     const PropertyMask *rpCmpMask,
 				     const RowProperties *rp2,
 				     const DocumentAttributeMap *dam);
 
-extern int docCellRight(int *pColspan, const RowProperties *rp, int col);
+int docCellRight(int *pColspan, const RowProperties *rp, int col);
 
-extern void docRowMaskToCellMask(PropertyMask *cellMask,
+void docRowMaskToCellMask(PropertyMask *cellMask,
 				 const PropertyMask *rowMask);
 
-extern void docRowMaskApplyCellMask(PropertyMask *rowMask,
+void docRowMaskApplyCellMask(PropertyMask *rowMask,
 				    const PropertyMask *cellMask);
 
 #endif /*  DOC_ROW_PROPS_H  */

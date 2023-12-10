@@ -10,7 +10,7 @@
 /*									*/
 /************************************************************************/
 
-extern int indScanStream(SimpleInputStream *sis, SpellCheckContext *ssc,
+int indScanStream(SimpleInputStream *sis, SpellCheckContext *ssc,
 			 void *through);
 
 #endif /*	IND_SCAN_STREAM_H				    }}	*/

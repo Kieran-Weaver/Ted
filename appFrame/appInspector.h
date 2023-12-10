@@ -110,46 +110,46 @@ typedef struct InspectorSubjectResources {
 /*									*/
 /************************************************************************/
 
-extern void appInspectorSelectSubject(AppInspector *ai, int subject);
+void appInspectorSelectSubject(AppInspector *ai, int subject);
 
-extern void appFinishInspector(AppInspector *ai);
+void appFinishInspector(AppInspector *ai);
 
-extern void appEnableInspector(AppInspector *ai, int enabled);
+void appEnableInspector(AppInspector *ai, int enabled);
 
-extern void appEnableInspectorSubject(AppInspector *ai, int subject,
+void appEnableInspectorSubject(AppInspector *ai, int subject,
 				      int enabled);
 
-extern void appInspectorGotColor(AppInspector *ai, int subjectPage,
+void appInspectorGotColor(AppInspector *ai, int subjectPage,
 				 int property, const RGB8Color *rgb8);
 
-extern void appInspectorShowRgbPage(AppInspector *ai, int fromSubject,
+void appInspectorShowRgbPage(AppInspector *ai, int fromSubject,
 				    int fromProperty, const RGB8Color *rgb8);
 
-extern void appInspectorSetRgbPage(AppInspector *ai, void *vrcp, int subject);
+void appInspectorSetRgbPage(AppInspector *ai, void *vrcp, int subject);
 
-extern int appInspectorAddSubject(AppInspector *ai,
+int appInspectorAddSubject(AppInspector *ai,
 				  const InspectorSubjectResources *isr);
 
-extern void appInspectorDeleteSubject(AppInspector *ai, int subject);
+void appInspectorDeleteSubject(AppInspector *ai, int subject);
 
-extern void appInspectorPageChosen(int subject, void *vai);
+void appInspectorPageChosen(int subject, void *vai);
 
-extern void appInspectorChoosePage(AppInspector *ai, int andMenu,
+void appInspectorChoosePage(AppInspector *ai, int andMenu,
 				   int pageNumber);
 
-extern AppInspector *appMakeInspector(EditApplication *ea, APP_WIDGET option,
+AppInspector *appMakeInspector(EditApplication *ea, APP_WIDGET option,
 				      InspectorSubjectResources *isr,
 				      int subjectCount,
 				      AppToolDestroy closeInspector,
 				      void *through);
 
-extern void appInspectorMakePageParent(AppInspector *ai);
+void appInspectorMakePageParent(AppInspector *ai);
 
-extern int appMakeVerticalInspectorPage(APP_WIDGET *pPage,
+int appMakeVerticalInspectorPage(APP_WIDGET *pPage,
 					APP_WIDGET *pMenuitem, AppInspector *ai,
 					const char *label);
 
-extern void appInspectorEnablePage(AppInspector *ai, int pageNumber,
+void appInspectorEnablePage(AppInspector *ai, int pageNumber,
 				   int enabled);
 
 #endif

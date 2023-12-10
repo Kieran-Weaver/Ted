@@ -55,25 +55,25 @@ typedef struct BorderToolResources {
 /*									*/
 /************************************************************************/
 
-extern void tedEnableBorderTool(BorderTool *bt, int enabled);
+void tedEnableBorderTool(BorderTool *bt, int enabled);
 
-extern void tedInitBorderTool(BorderTool *bt);
-extern void tedCleanBorderTool(BorderTool *bt);
+void tedInitBorderTool(BorderTool *bt);
+void tedCleanBorderTool(BorderTool *bt);
 
-extern void tedBorderToolSetPropertiesByNumber(BorderTool *bt,
+void tedBorderToolSetPropertiesByNumber(BorderTool *bt,
 					       const BufferDocument *bd,
 					       int num);
 
-extern int tedBorderToolGetNumber(int *pNum, int *pChanged,
+int tedBorderToolGetNumber(int *pNum, int *pChanged,
 				  const BorderTool *bt, BufferDocument *bd);
 
-extern void tedMakeBorderTool(BorderTool *bt, AppInspector *ai, APP_WIDGET page,
+void tedMakeBorderTool(BorderTool *bt, AppInspector *ai, APP_WIDGET page,
 			      const char *label, const BorderToolResources *btr,
 			      int subjectPage, int which);
 
-extern void tedFinishBorderTool(BorderTool *bt, const PostScriptFontList *psfl);
+void tedFinishBorderTool(BorderTool *bt, const PostScriptFontList *psfl);
 
-extern void tedBorderSetExplicitColorChoice(BorderTool *bt,
+void tedBorderSetExplicitColorChoice(BorderTool *bt,
 					    const RGB8Color *rgb8Set);
 
 #endif /*  TED_BORDER_TOOL_H */

@@ -13,10 +13,10 @@
 
 #ifdef USE_XFT
 
-extern int drawStringXft(const DrawScreenFont *dsf, AppXftColorList *axcl,
+int drawStringXft(const DrawScreenFont *dsf, AppXftColorList *axcl,
 			 int x, int y, const char *s, int len);
 
-extern int drawFillRectangleXft(XftDraw *draw, AppXftColorList *axcl,
+int drawFillRectangleXft(XftDraw *draw, AppXftColorList *axcl,
 				const DocumentRectangle *dr);
 #endif
 

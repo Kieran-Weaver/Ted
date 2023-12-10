@@ -27,27 +27,27 @@ typedef struct ExpandedTextAttribute {
 /*									*/
 /************************************************************************/
 
-extern void docInitExpandedTextAttribute(ExpandedTextAttribute *eta);
-extern void docCleanExpandedTextAttribute(ExpandedTextAttribute *eta);
+void docInitExpandedTextAttribute(ExpandedTextAttribute *eta);
+void docCleanExpandedTextAttribute(ExpandedTextAttribute *eta);
 
-extern int docExpandedTextAttributeSetFontName(ExpandedTextAttribute *etaTo,
+int docExpandedTextAttributeSetFontName(ExpandedTextAttribute *etaTo,
 					       int *pChanged,
 					       const char *fontName);
 
-extern int docUpdateExpandedTextAttribute(PropertyMask *pDoneMask,
+int docUpdateExpandedTextAttribute(PropertyMask *pDoneMask,
 					  ExpandedTextAttribute *etaTo,
 					  const ExpandedTextAttribute *etaFrom,
 					  const PropertyMask *setMask);
 
-extern int docCopyExpandedTextAttribute(ExpandedTextAttribute *etaTo,
+int docCopyExpandedTextAttribute(ExpandedTextAttribute *etaTo,
 					const ExpandedTextAttribute *etaFrom);
 
-extern int
+int
 docExpandTextAttribute(PropertyMask *pDoneMask, ExpandedTextAttribute *etaTo,
 		       const TextAttribute *taFrom, const PropertyMask *setMask,
 		       const DocumentFontList *dfl, const ColorPalette *cp);
 
-extern void docIndirectTextAttribute(PropertyMask *pDoneMask,
+void docIndirectTextAttribute(PropertyMask *pDoneMask,
 				     TextAttribute *taTo,
 				     const ExpandedTextAttribute *etaFrom,
 				     const PropertyMask *setMask,

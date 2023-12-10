@@ -11,7 +11,7 @@
 /*									*/
 /************************************************************************/
 
-extern void psDrawRoundRectPath(SimpleOutputStream *sos,
+void psDrawRoundRectPath(SimpleOutputStream *sos,
 				const DocumentRectangle *drAround, int r,
 				const char *psOperator);
 

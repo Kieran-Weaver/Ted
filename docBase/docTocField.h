@@ -71,14 +71,14 @@ typedef struct TocField {
 /*									*/
 /************************************************************************/
 
-extern void docInitTocField(TocField *tf);
-extern void docCleanTocField(TocField *tf);
+void docInitTocField(TocField *tf);
+void docCleanTocField(TocField *tf);
 
-extern int docCopyTocField(TocField *to, const TocField *from);
+int docCopyTocField(TocField *to, const TocField *from);
 
-extern int docFieldGetToc(TocField *tf, const struct DocumentField *df);
+int docFieldGetToc(TocField *tf, const struct DocumentField *df);
 
-extern int docTocFieldSetTocInstructions(struct FieldInstructions *fi,
+int docTocFieldSetTocInstructions(struct FieldInstructions *fi,
 					 const TocField *tf);
 
 #endif

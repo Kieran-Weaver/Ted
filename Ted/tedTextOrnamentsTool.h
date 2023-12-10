@@ -68,21 +68,21 @@ typedef struct TextOrnamentsTool {
 /*									*/
 /************************************************************************/
 
-extern void
+void
 tedFormatToolGetTextOrnamentsResourceTable(EditApplication *ea,
 					   TextOrnamentsPageResources *plpr,
 					   InspectorSubjectResources *isr);
 
-extern void
+void
 tedFormatFillTextOrnamentsChoosers(TextOrnamentsTool *tot,
 				   const TextOrnamentsPageResources *totr);
 
-extern void tedFormatFillTextOrnamentsPage(
+void tedFormatFillTextOrnamentsPage(
 	TextOrnamentsTool *tot, const TextOrnamentsPageResources *totr,
 	AppInspector *ai, int subjectPage, InspectorSubject *is, APP_WIDGET pgW,
 	const InspectorSubjectResources *isr);
 
-extern void tedRefreshTextOrnamentsTool(TextOrnamentsTool *tot, int *pEnabled,
+void tedRefreshTextOrnamentsTool(TextOrnamentsTool *tot, int *pEnabled,
 					int *pPref, InspectorSubject *is,
 					EditDocument *ed,
 					const DocumentSelection *ds,
@@ -90,10 +90,10 @@ extern void tedRefreshTextOrnamentsTool(TextOrnamentsTool *tot, int *pEnabled,
 					const SelectionDescription *sd,
 					const unsigned char *cmdEnabled);
 
-extern void tedInitTextOrnamentsTool(TextOrnamentsTool *tot);
-extern void tedCleanTextOrnamentsTool(TextOrnamentsTool *tot);
+void tedInitTextOrnamentsTool(TextOrnamentsTool *tot);
+void tedCleanTextOrnamentsTool(TextOrnamentsTool *tot);
 
-extern void tedFinishTextOrnamentsPage(TextOrnamentsTool *pot,
+void tedFinishTextOrnamentsPage(TextOrnamentsTool *pot,
 				       const TextOrnamentsPageResources *popr);
 
 #endif /*  TED_PARA_ORNAMENTS_TOOL_H */

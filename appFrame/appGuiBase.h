@@ -18,7 +18,7 @@
 /*									*/
 /************************************************************************/
 
-extern int appKeysymX11ToUnicode(unsigned int keysym);
+int appKeysymX11ToUnicode(unsigned int keysym);
 
 #define KEY_CONTROL_MASK GDK_CONTROL_MASK
 #define KEY_SHIFT_MASK GDK_SHIFT_MASK
@@ -104,7 +104,7 @@ typedef APP_MENU_CALLBACK_H((*APP_MENU_CALLBACK_T), w, t, e);
 #define appGuiGetToggleStateFromCallback(w, e) \
 	appGuiGetToggleStateFromCallbackGtk((w))
 
-extern int appGuiGetToggleStateFromCallbackGtk(GtkWidget *w);
+int appGuiGetToggleStateFromCallbackGtk(GtkWidget *w);
 
 /****/
 #define APP_BUTTON_CALLBACK_H(n, w, t) void n(GtkWidget *w, void *t)

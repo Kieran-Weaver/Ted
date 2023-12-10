@@ -97,27 +97,27 @@ void tedImageToolGetImageResourceTable(EditApplication *ea,
 				       ImagePageResources *ipr,
 				       InspectorSubjectResources *isr);
 
-extern void tedImagePageFillChoosers(ImageTool *it,
+void tedImagePageFillChoosers(ImageTool *it,
 				     const ImagePageResources *ipr);
 
-extern void tedImageFinishImagePage(ImageTool *it,
+void tedImageFinishImagePage(ImageTool *it,
 				    const ImagePageResources *ipr);
 
-extern void tedFormatFillImagePage(ImageTool *it, const ImagePageResources *ipr,
+void tedFormatFillImagePage(ImageTool *it, const ImagePageResources *ipr,
 				   InspectorSubject *is, APP_WIDGET pageWidget,
 				   const InspectorSubjectResources *isr);
 
-extern void tedRefreshImageTool(ImageTool *it, int *pEnabled, int *pPref,
+void tedRefreshImageTool(ImageTool *it, int *pEnabled, int *pPref,
 				InspectorSubject *is,
 				const DocumentSelection *ds,
 				const SelectionDescription *sd,
 				BufferDocument *bd,
 				const unsigned char *cmdEnabled);
 
-extern void tedCleanImageTool(ImageTool *it);
-extern void tedInitImageTool(ImageTool *it);
+void tedCleanImageTool(ImageTool *it);
+void tedInitImageTool(ImageTool *it);
 
-extern void tedImageToolGetResourceTable(EditApplication *ea,
+void tedImageToolGetResourceTable(EditApplication *ea,
 					 ImagePageResources *ipr,
 					 InspectorSubjectResources *isr);
 

@@ -318,13 +318,13 @@ typedef struct TrueTypeFont {
 /*									*/
 /************************************************************************/
 
-extern int psTtfLoadFont(TrueTypeFont *ttf, SimpleInputStream *sisTtf,
+int psTtfLoadFont(TrueTypeFont *ttf, SimpleInputStream *sisTtf,
 			 long filePos);
 
-extern int psTtcLoadFont(TrueTypeFont *ttf, SimpleInputStream *sisTtf,
+int psTtcLoadFont(TrueTypeFont *ttf, SimpleInputStream *sisTtf,
 			 int fontIndex);
 
-extern void psTtfInitTrueTypeFont(TrueTypeFont *ttf);
-extern void psTtfCleanTrueTypeFont(TrueTypeFont *ttf);
+void psTtfInitTrueTypeFont(TrueTypeFont *ttf);
+void psTtfCleanTrueTypeFont(TrueTypeFont *ttf);
 
-extern int psTtfFontInfo(AfmFontInfo *afi, const TrueTypeFont *ttf);
+int psTtfFontInfo(AfmFontInfo *afi, const TrueTypeFont *ttf);

@@ -41,26 +41,26 @@ typedef struct HeightChooser {
 /*									*/
 /************************************************************************/
 
-extern void tedInitHeightChooser(HeightChooser *hc);
+void tedInitHeightChooser(HeightChooser *hc);
 
-extern void tedFormatMakeHeightRow(void *through, APP_WIDGET parent,
+void tedFormatMakeHeightRow(void *through, APP_WIDGET parent,
 				   HeightChooser *hc,
 				   APP_TXACTIVATE_CALLBACK_T textCallback,
 				   OptionmenuCallback menuCallback);
 
-extern void tedFormatRefreshHeightChooser(HeightChooser *hc, int height);
+void tedFormatRefreshHeightChooser(HeightChooser *hc, int height);
 
-extern void tedFormatEnableHeightChooser(HeightChooser *hc, int enabled);
+void tedFormatEnableHeightChooser(HeightChooser *hc, int enabled);
 
-extern void tedFormatHeightChosen(int how, HeightChooser *hc, int defaultValue);
+void tedFormatHeightChosen(int how, HeightChooser *hc, int defaultValue);
 
-extern void tedFormatFillHeightChooser(HeightChooser *hc, const char *freeText,
+void tedFormatFillHeightChooser(HeightChooser *hc, const char *freeText,
 				       const char *atLeastText,
 				       const char *exactlyText);
 
-extern int tedFormatToolGetHeight(int *pHeight, HeightChooser *hc);
+int tedFormatToolGetHeight(int *pHeight, HeightChooser *hc);
 
-extern int tedHeightToolValidateDimension(int *pValue, int *pChanged,
+int tedHeightToolValidateDimension(int *pValue, int *pChanged,
 					  const HeightChooser *hc, int orig);
 
 #endif /*  TED_HEIGHT_TOOL_H */

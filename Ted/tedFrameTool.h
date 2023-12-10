@@ -83,25 +83,25 @@ typedef struct FrameTool {
 /*									*/
 /************************************************************************/
 
-extern void tedFormatFillFramePage(FrameTool *ft, const FramePageResources *fpr,
+void tedFormatFillFramePage(FrameTool *ft, const FramePageResources *fpr,
 				   AppInspector *ai, int subjectPage,
 				   InspectorSubject *is, APP_WIDGET pageWidget,
 				   const InspectorSubjectResources *isr);
 
-extern void tedFrameToolGetResourceTable(EditApplication *ea,
+void tedFrameToolGetResourceTable(EditApplication *ea,
 					 FramePageResources *spr,
 					 InspectorSubjectResources *isr);
 
-extern void tedRefreshFrameTool(FrameTool *ft, int *pEnabled, int *pPref,
+void tedRefreshFrameTool(FrameTool *ft, int *pEnabled, int *pPref,
 				InspectorSubject *is,
 				const DocumentSelection *bs,
 				const SelectionDescription *sd,
 				BufferDocument *bd);
 
-extern void tedFrameToolFillChoosers(FrameTool *ft,
+void tedFrameToolFillChoosers(FrameTool *ft,
 				     const FramePageResources *fpr);
 
-extern void tedInitFrameTool(FrameTool *ft);
-extern void tedCleanFrameTool(FrameTool *ft);
+void tedInitFrameTool(FrameTool *ft);
+void tedCleanFrameTool(FrameTool *ft);
 
 #endif /*  TED_FRAME_TOOL_H */

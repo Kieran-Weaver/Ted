@@ -19,9 +19,9 @@ typedef struct RtfWriter RtfWriter;
 /*									*/
 /************************************************************************/
 
-extern RtfWriter *docRtfOpenWriter(SimpleOutputStream *sos, BufferDocument *bd,
+RtfWriter *docRtfOpenWriter(SimpleOutputStream *sos, BufferDocument *bd,
 				   int flags);
 
-extern void docRtfCloseWriter(RtfWriter *rw);
+void docRtfCloseWriter(RtfWriter *rw);
 
 #endif /*	RTF_WRITER_H	*/

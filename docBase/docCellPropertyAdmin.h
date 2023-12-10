@@ -20,19 +20,19 @@ typedef void (*CellPropertiesFunction)(const CellProperties *cp, int n,
 /*									*/
 /************************************************************************/
 
-extern void docInitCellPropertyList(NumberedPropertiesList *cpl);
+void docInitCellPropertyList(NumberedPropertiesList *cpl);
 
-extern int docCellPropertiesNumber(NumberedPropertiesList *cpl,
+int docCellPropertiesNumber(NumberedPropertiesList *cpl,
 				   const CellProperties *cp);
 
-extern void docForAllCellProperties(const NumberedPropertiesList *cpl,
+void docForAllCellProperties(const NumberedPropertiesList *cpl,
 				    CellPropertiesFunction f, void *through);
 
-extern void docGetCellPropertiesByNumber(CellProperties *cp,
+void docGetCellPropertiesByNumber(CellProperties *cp,
 					 const NumberedPropertiesList *cpl,
 					 int n);
 
-extern int docMergeCellPropertiesLists(int **pCellMap, const int *borderMap,
+int docMergeCellPropertiesLists(int **pCellMap, const int *borderMap,
 				       const int *shadingMap,
 				       NumberedPropertiesList *cplTo,
 				       const NumberedPropertiesList *cplFrom);

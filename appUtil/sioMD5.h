@@ -10,8 +10,8 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *sioInMD5Open(unsigned char *digest,
+SimpleInputStream *sioInMD5Open(unsigned char *digest,
 				       SimpleInputStream *sisIn);
 
-extern SimpleOutputStream *sioOutMD5Open(unsigned char *digest,
+SimpleOutputStream *sioOutMD5Open(unsigned char *digest,
 					 SimpleOutputStream *sosOut);

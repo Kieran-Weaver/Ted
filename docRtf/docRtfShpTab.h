@@ -15,14 +15,14 @@
 /*									*/
 /************************************************************************/
 
-extern int docRtfShpArray(const RtfControlWord *rcw, int arg, RtfReader *rr);
+int docRtfShpArray(const RtfControlWord *rcw, int arg, RtfReader *rr);
 
-extern int docRtfShpString(const RtfControlWord *rcw, int arg, RtfReader *rr);
+int docRtfShpString(const RtfControlWord *rcw, int arg, RtfReader *rr);
 
-extern int docRtfShpPicture(const RtfControlWord *rcw, int arg, RtfReader *rr);
+int docRtfShpPicture(const RtfControlWord *rcw, int arg, RtfReader *rr);
 
-extern int docRtfShapeNumber(const RtfControlWord *rcw, int arg, RtfReader *rr);
+int docRtfShapeNumber(const RtfControlWord *rcw, int arg, RtfReader *rr);
 
-extern int docRtfShpColor(const RtfControlWord *rcw, int arg, RtfReader *rr);
+int docRtfShpColor(const RtfControlWord *rcw, int arg, RtfReader *rr);
 
 #endif /*	RTF_SHP_TAB_H	*/

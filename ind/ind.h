@@ -55,82 +55,82 @@ typedef int (*IndForAllFun)(void *through, int dir, int tnFrom, int tnTo,
 /*									*/
 /************************************************************************/
 
-extern void *indMake(void);
-extern void *indRead(const char *filename, int readOnly);
+void *indMake(void);
+void *indRead(const char *filename, int readOnly);
 
-extern int indPutUtf8(void *ind, const char *key);
+int indPutUtf8(void *ind, const char *key);
 
-extern int indPutUtf16(void *ind, const unsigned short *key);
+int indPutUtf16(void *ind, const unsigned short *key);
 
-extern int indPutSuffixUtf16(void *voidind, const unsigned short *key);
+int indPutSuffixUtf16(void *voidind, const unsigned short *key);
 
-extern int indForget(void *ind, const char *key);
-extern int indGetUtf8(int *, void *ind, const char *key);
-extern int indGetUtf16(int *, void *ind, const unsigned short *key);
-extern void indFree(void *ind);
-extern int indWrite(void *ind, const char *filename);
-extern void *indMini(void *ind);
-extern void *indRenumber(void *ind);
+int indForget(void *ind, const char *key);
+int indGetUtf8(int *, void *ind, const char *key);
+int indGetUtf16(int *, void *ind, const unsigned short *key);
+void indFree(void *ind);
+int indWrite(void *ind, const char *filename);
+void *indMini(void *ind);
+void *indRenumber(void *ind);
 
-extern int indGuess(void *voidind, const char *word, SpellGuessContext *sgc,
+int indGuess(void *voidind, const char *word, SpellGuessContext *sgc,
 		    int how);
 
-extern int indGetWord(int *pWhatWasShifted, void *voidind, const char *word,
+int indGetWord(int *pWhatWasShifted, void *voidind, const char *word,
 		      int asPrefix);
 
-extern int indGuessWord(void *voidind, const char *word,
+int indGuessWord(void *voidind, const char *word,
 			SpellGuessContext *sgc);
 
-extern void indLogPossibilities(SpellScanJob *ssj);
+void indLogPossibilities(SpellScanJob *ssj);
 
-extern int indNewPossibility(SpellScanJob *ssj, int position);
+int indNewPossibility(SpellScanJob *ssj, int position);
 
-extern void indAddCharacterToPossibilities(SpellScanJob *ssj, int c);
+void indAddCharacterToPossibilities(SpellScanJob *ssj, int c);
 
-extern int indCountPossibilities(SpellScanJob *ssj, SpellCheckContext *scc,
+int indCountPossibilities(SpellScanJob *ssj, SpellCheckContext *scc,
 				 int position, int rejectPrefices);
 
-extern void indRejectPossibilities(int *pAcceptedPos, int acceptedPos,
+void indRejectPossibilities(int *pAcceptedPos, int acceptedPos,
 				   SpellScanJob *ssj);
 
-extern PossibleWord *indMaximalPossibility(SpellScanJob *ssj);
+PossibleWord *indMaximalPossibility(SpellScanJob *ssj);
 
-extern int indMoveWord(void *fromInd, void *toInd, const char *word);
+int indMoveWord(void *fromInd, void *toInd, const char *word);
 
-extern int indReadPrivateDictionary(SimpleInputStream *sis, void **pLearntInd,
+int indReadPrivateDictionary(SimpleInputStream *sis, void **pLearntInd,
 				    void **pForgotInd);
 
-extern int indLearnWord(SimpleOutputStream *sos, void *learntInd,
+int indLearnWord(SimpleOutputStream *sos, void *learntInd,
 			void *forgotInd, const char *word);
 
-extern int indForgetWord(SimpleOutputStream *sos, void *learntInd,
+int indForgetWord(SimpleOutputStream *sos, void *learntInd,
 			 void *forgotInd, const char *word);
 
-extern void indInitSpellScanJob(SpellScanJob *ssj);
-extern void indCleanSpellScanJob(SpellScanJob *ssj);
+void indInitSpellScanJob(SpellScanJob *ssj);
+void indCleanSpellScanJob(SpellScanJob *ssj);
 
-extern void indInitSpellGuessContext(SpellGuessContext *sgc, IndGuessList *igl,
+void indInitSpellGuessContext(SpellGuessContext *sgc, IndGuessList *igl,
 				     SpellCheckContext *scc);
-extern void indCleanSpellGuessContext(SpellGuessContext *sgc);
+void indCleanSpellGuessContext(SpellGuessContext *sgc);
 
-extern void indInitSpellCheckContext(SpellCheckContext *scc);
-extern void indCleanSpellCheckContext(SpellCheckContext *scc);
+void indInitSpellCheckContext(SpellCheckContext *scc);
+void indCleanSpellCheckContext(SpellCheckContext *scc);
 
-extern void indSpellIso1CharacterKinds(SpellCheckContext *scc);
-extern void indSpellIso2CharacterKinds(SpellCheckContext *scc);
-extern void indSpellIso7CharacterKinds(SpellCheckContext *scc);
-extern void indSpellIso5CharacterKinds(SpellCheckContext *scc);
-extern void indSpellKoi8rCharacterKinds(SpellCheckContext *scc);
+void indSpellIso1CharacterKinds(SpellCheckContext *scc);
+void indSpellIso2CharacterKinds(SpellCheckContext *scc);
+void indSpellIso7CharacterKinds(SpellCheckContext *scc);
+void indSpellIso5CharacterKinds(SpellCheckContext *scc);
+void indSpellKoi8rCharacterKinds(SpellCheckContext *scc);
 
-extern int indCollectGuesses(IndGuessList *igl, SpellCheckContext *scc,
+int indCollectGuesses(IndGuessList *igl, SpellCheckContext *scc,
 			     const char *word);
 
-extern int indSpellSetup(SpellChecker *sc, SpellComplain complain,
+int indSpellSetup(SpellChecker *sc, SpellComplain complain,
 			 void *through);
 
-extern void indDump(void *voidind);
+void indDump(void *voidind);
 
-extern int indAddSuffixUtf16(void *voidind, const unsigned short *prefix,
+int indAddSuffixUtf16(void *voidind, const unsigned short *prefix,
 			     int suffixNumber);
 
 #endif /*	IND_H						    }}	*/

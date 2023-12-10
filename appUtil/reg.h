@@ -18,14 +18,14 @@ int regGetMatch(int *pFrom, int *pPast, const ExpressionMatch *em, int n);
 
 int regGetFullMatch(int *pFrom, int *pPast, const ExpressionMatch *em);
 
-extern regProg *regCompile(const char *, int options);
+regProg *regCompile(const char *, int options);
 
-extern void regFree(regProg *prog);
+void regFree(regProg *prog);
 
-extern int regFindLeftToRight(ExpressionMatch *em, const regProg *prog,
+int regFindLeftToRight(ExpressionMatch *em, const regProg *prog,
 			      const char *string, int fromByte, int byteLength);
 
-extern int regFindRightToLeft(ExpressionMatch *em, const regProg *prog,
+int regFindRightToLeft(ExpressionMatch *em, const regProg *prog,
 			      const char *string, int fromByte, int byteLength);
 
 #endif

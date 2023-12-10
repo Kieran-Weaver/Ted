@@ -69,29 +69,29 @@
 /*									*/
 /************************************************************************/
 
-extern int utilGetLeInt16(FILE *);
-extern long utilGetLeInt32(FILE *);
-extern unsigned int utilGetLeUint16(FILE *);
-extern unsigned long utilGetLeUint32(FILE *);
-extern double utilGetLeDouble64(FILE *);
-extern float utilGetLeFloat32(FILE *);
+int utilGetLeInt16(FILE *);
+long utilGetLeInt32(FILE *);
+unsigned int utilGetLeUint16(FILE *);
+unsigned long utilGetLeUint32(FILE *);
+double utilGetLeDouble64(FILE *);
+float utilGetLeFloat32(FILE *);
 
-extern int utilGetBeInt16(FILE *);
-extern long utilGetBeInt32(FILE *);
-extern unsigned int utilGetBeUint16(FILE *);
-extern unsigned long utilGetBeUint32(FILE *);
-extern double utilGetBeDouble64(FILE *);
-extern float utilGetBeFloat32(FILE *);
+int utilGetBeInt16(FILE *);
+long utilGetBeInt32(FILE *);
+unsigned int utilGetBeUint16(FILE *);
+unsigned long utilGetBeUint32(FILE *);
+double utilGetBeDouble64(FILE *);
+float utilGetBeFloat32(FILE *);
 
-extern void utilPutLeInt16(int, FILE *);
-extern void utilPutLeInt32(long, FILE *);
-extern void utilPutLeUint16(unsigned int, FILE *);
-extern void utilPutLeUint32(unsigned long, FILE *);
+void utilPutLeInt16(int, FILE *);
+void utilPutLeInt32(long, FILE *);
+void utilPutLeUint16(unsigned int, FILE *);
+void utilPutLeUint32(unsigned long, FILE *);
 
-extern void utilPutBeInt16(int, FILE *);
-extern void utilPutBeInt32(long, FILE *);
-extern void utilPutBeUint16(unsigned int, FILE *);
-extern void utilPutBeUint32(unsigned long, FILE *);
+void utilPutBeInt16(int, FILE *);
+void utilPutBeInt32(long, FILE *);
+void utilPutBeUint16(unsigned int, FILE *);
+void utilPutBeUint32(unsigned long, FILE *);
 
 long utilEndianExtractLeInt32(const unsigned char *s);
 int utilEndianExtractLeInt16(const unsigned char *s);
@@ -103,14 +103,14 @@ unsigned int utilEndianExtractLeUint16(const unsigned char *s);
 unsigned long utilEndianExtractBeUint32(const unsigned char *s);
 unsigned int utilEndianExtractBeUint16(const unsigned char *s);
 
-extern void utilEndianStoreBeInt32(long l, unsigned char *b);
-extern void utilEndianStoreLeInt32(long l, unsigned char *b);
-extern void utilEndianStoreBeInt16(int i, unsigned char *b);
-extern void utilEndianStoreLeInt16(int i, unsigned char *b);
+void utilEndianStoreBeInt32(long l, unsigned char *b);
+void utilEndianStoreLeInt32(long l, unsigned char *b);
+void utilEndianStoreBeInt16(int i, unsigned char *b);
+void utilEndianStoreLeInt16(int i, unsigned char *b);
 
-extern void utilEndianStoreBeUint32(unsigned long l, unsigned char *b);
-extern void utilEndianStoreLeUint32(unsigned long l, unsigned char *b);
-extern void utilEndianStoreBeUint16(unsigned int i, unsigned char *b);
-extern void utilEndianStoreLeUint16(unsigned int i, unsigned char *b);
+void utilEndianStoreBeUint32(unsigned long l, unsigned char *b);
+void utilEndianStoreLeUint32(unsigned long l, unsigned char *b);
+void utilEndianStoreBeUint16(unsigned int i, unsigned char *b);
+void utilEndianStoreLeUint16(unsigned int i, unsigned char *b);
 
 #endif /* UTIL_ENDIAN_H */

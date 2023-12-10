@@ -39,6 +39,6 @@ typedef enum TraceEditRangeProperty {
 /*									*/
 /************************************************************************/
 
-extern const char *docRtfGetTraceTag(int command);
+const char *docRtfGetTraceTag(int command);
 
 #endif /*  DOC_RTF_TRACE_IMPL_H	*/

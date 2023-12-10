@@ -23,9 +23,9 @@ typedef struct qt_s {
 	int qt_y1;
 } QuadTree;
 
-extern QuadTree *qtmake(int x0, int x1, int y0, int y1);
-extern int qtput(QuadTree *qt, int x, int y, void *data);
-extern int qtget(QuadTree *qt, int x, int y, void **pvals, int *pnval);
-extern int qtall(QuadTree *qt, int x0, int x1, int y0, int y1,
+QuadTree *qtmake(int x0, int x1, int y0, int y1);
+int qtput(QuadTree *qt, int x, int y, void *data);
+int qtget(QuadTree *qt, int x, int y, void **pvals, int *pnval);
+int qtall(QuadTree *qt, int x0, int x1, int y0, int y1,
 		 int (*fun)(void *, void *), void *);
-extern void qtclose(QuadTree *qt);
+void qtclose(QuadTree *qt);

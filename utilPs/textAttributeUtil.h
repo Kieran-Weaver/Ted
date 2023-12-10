@@ -15,6 +15,6 @@
 /*									*/
 /************************************************************************/
 
-extern int textGetPixelSize(double pixelsPerTwip, const TextAttribute *ta);
+int textGetPixelSize(double pixelsPerTwip, const TextAttribute *ta);
 
 #endif /*  UTIL_TEXT_ATTRIBUTE_UTIL_H	*/

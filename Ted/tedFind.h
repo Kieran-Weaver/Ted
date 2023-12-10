@@ -20,13 +20,13 @@ struct DocumentPosition;
 /*									*/
 /************************************************************************/
 
-extern int tedFindToolSetPattern(void *voidea, const char *pattern,
+int tedFindToolSetPattern(void *voidea, const char *pattern,
 				 int useRegex);
 
-extern int tedSpellFindNext(void *voidea, MemoryBuffer *mbGuess,
+int tedSpellFindNext(void *voidea, MemoryBuffer *mbGuess,
 			    const SpellChecker *spc, SpellDictionary *spd);
 
-extern int docSpellParaFindNext(struct DocumentSelection *ds,
+int docSpellParaFindNext(struct DocumentSelection *ds,
 				struct BufferItem *paraNode,
 				struct BufferDocument *bd,
 				const struct DocumentPosition *dpFrom,

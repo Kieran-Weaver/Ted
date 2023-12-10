@@ -98,7 +98,7 @@ typedef enum TextProperty {
 /*									*/
 /************************************************************************/
 
-extern TextAttribute DocDefaultAttributes;
+TextAttribute DocDefaultAttributes;
 
 /************************************************************************/
 /*									*/
@@ -106,19 +106,19 @@ extern TextAttribute DocDefaultAttributes;
 /*									*/
 /************************************************************************/
 
-extern void utilInitTextAttribute(TextAttribute *ta);
+void utilInitTextAttribute(TextAttribute *ta);
 
-extern void utilUpdateTextAttribute(PropertyMask *pDoneMask, TextAttribute *ta,
+void utilUpdateTextAttribute(PropertyMask *pDoneMask, TextAttribute *ta,
 				    const PropertyMask *taSetMask,
 				    const TextAttribute *taSet);
 
-extern void utilAttributeDifference(PropertyMask *pDifMask,
+void utilAttributeDifference(PropertyMask *pDifMask,
 				    const TextAttribute *ta1,
 				    const PropertyMask *cmpMask,
 				    const TextAttribute *ta2);
 
-extern int utilSetTextProperty(TextAttribute *ta, int prop, int arg);
+int utilSetTextProperty(TextAttribute *ta, int prop, int arg);
 
-extern int utilGetTextProperty(const TextAttribute *ta, int prop);
+int utilGetTextProperty(const TextAttribute *ta, int prop);
 
 #endif /*  UTIL_TEXT_ATTRIBUTE_H	*/

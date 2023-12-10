@@ -11,7 +11,7 @@
 
 
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 /************************************************************************/
@@ -20,11 +20,11 @@ extern "C" {
 /*									*/
 /************************************************************************/
 
-extern int appGuiGtkGetChildLabel(char **pLabel, APP_WIDGET w);
+int appGuiGtkGetChildLabel(char **pLabel, APP_WIDGET w);
 
-extern int appGuiGtkSetChildLabel(APP_WIDGET w, const char *s);
+int appGuiGtkSetChildLabel(APP_WIDGET w, const char *s);
 
-extern void appGuiGtkListTree(int indent, APP_WIDGET w);
+void appGuiGtkListTree(int indent, APP_WIDGET w);
 
 #ifdef __cplusplus
 }

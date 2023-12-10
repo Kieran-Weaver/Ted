@@ -96,26 +96,26 @@ typedef struct SectionTool {
 /*									*/
 /************************************************************************/
 
-extern void tedFormatToolGetSectResourceTable(EditApplication *ea,
+void tedFormatToolGetSectResourceTable(EditApplication *ea,
 					      SectionPageResources *spr,
 					      InspectorSubjectResources *isr);
 
-extern void tedRefreshSectionTool(SectionTool *st, int *pEnabled, int *pPref,
+void tedRefreshSectionTool(SectionTool *st, int *pEnabled, int *pPref,
 				  InspectorSubject *is,
 				  const DocumentSelection *ds,
 				  const SelectionDescription *sd,
 				  const BufferDocument *bd,
 				  const unsigned char *cmdEnabled);
 
-extern void tedFormatCleanSectionTool(SectionTool *st);
+void tedFormatCleanSectionTool(SectionTool *st);
 
-extern void tedFormatFillSectionPage(SectionTool *st,
+void tedFormatFillSectionPage(SectionTool *st,
 				     const SectionPageResources *spr,
 				     InspectorSubject *is,
 				     APP_WIDGET pageWidget,
 				     const InspectorSubjectResources *isr);
 
-extern void tedFormatFillSectionChoosers(SectionTool *st,
+void tedFormatFillSectionChoosers(SectionTool *st,
 					 const SectionPageResources *spr);
 
 #endif /*  TED_SECTION_TOOL_H */

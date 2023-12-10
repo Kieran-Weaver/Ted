@@ -33,9 +33,9 @@ typedef struct SymbolField {
 /*									*/
 /************************************************************************/
 
-extern void docInitSymbolField(SymbolField *sf);
-extern void docCleanSymbolField(SymbolField *sf);
+void docInitSymbolField(SymbolField *sf);
+void docCleanSymbolField(SymbolField *sf);
 
-extern int docFieldGetSymbol(SymbolField *sf, const struct DocumentField *df);
+int docFieldGetSymbol(SymbolField *sf, const struct DocumentField *df);
 
 #endif /*  DOC_SYMBOL_FIELD_H  */

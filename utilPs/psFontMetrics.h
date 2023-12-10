@@ -15,26 +15,26 @@
 /*									*/
 /************************************************************************/
 
-extern int psCalculateStringExtents(DocumentRectangle *dr, const char *ss,
+int psCalculateStringExtents(DocumentRectangle *dr, const char *ss,
 				    int len, int twipsSize, int withKerning,
 				    int vswap, const AfmFontInfo *afi);
 
-extern void psUnderlineGeometry(int *pPos, int *pThick, int baseline,
+void psUnderlineGeometry(int *pPos, int *pThick, int baseline,
 				int twipsSize, const AfmFontInfo *afi);
 
-extern void psStrikethroughGeometry(int *pPos, int *pThick, int baseline,
+void psStrikethroughGeometry(int *pPos, int *pThick, int baseline,
 				    int twipsSize, const AfmFontInfo *afi);
 
-extern int psFontBBox(DocumentRectangle *drBBox, DocumentRectangle *drAscDesc,
+int psFontBBox(DocumentRectangle *drBBox, DocumentRectangle *drAscDesc,
 		      int twipsSize, int vswap, const AfmFontInfo *afi);
 
-extern int psGetSuperBaseline(int *pSuperBaseline, int baseline,
+int psGetSuperBaseline(int *pSuperBaseline, int baseline,
 			      int fontSizeTwips, const AfmFontInfo *afi);
 
-extern int psGetSubBaseline(int *pSubBaseline, int baseline, int fontSizeTwips,
+int psGetSubBaseline(int *pSubBaseline, int baseline, int fontSizeTwips,
 			    const AfmFontInfo *afi);
 
-extern int psGetSmallcapsSize(int *pSmallcapsSize, int fontSizeTwips,
+int psGetSmallcapsSize(int *pSmallcapsSize, int fontSizeTwips,
 			      const AfmFontInfo *afi);
 
 #endif

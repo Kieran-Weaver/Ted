@@ -20,23 +20,23 @@ typedef void (*BorderPropertiesFunction)(const BorderProperties *bp, int n,
 /*									*/
 /************************************************************************/
 
-extern void docInitBorderPropertyList(NumberedPropertiesList *bpl);
+void docInitBorderPropertyList(NumberedPropertiesList *bpl);
 
-extern int docBorderPropertiesNumberImpl(NumberedPropertiesList *bpl,
+int docBorderPropertiesNumberImpl(NumberedPropertiesList *bpl,
 					 const BorderProperties *bp);
 
-extern void docForAllBorderProperties(const NumberedPropertiesList *bpl,
+void docForAllBorderProperties(const NumberedPropertiesList *bpl,
 				      BorderPropertiesFunction f,
 				      void *through);
 
-extern void
+void
 docGetBorderPropertiesByNumberImpl(BorderProperties *bp,
 				   const NumberedPropertiesList *bpl, int n);
 
-extern int docBorderNumberIsBorderImpl(const NumberedPropertiesList *bpl,
+int docBorderNumberIsBorderImpl(const NumberedPropertiesList *bpl,
 				       int n);
 
-extern int docMergeBorderPropertiesLists(int **pBorderMap, const int *colorMap,
+int docMergeBorderPropertiesLists(int **pBorderMap, const int *colorMap,
 					 NumberedPropertiesList *bplTo,
 					 const NumberedPropertiesList *bplFrom);
 

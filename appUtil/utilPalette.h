@@ -20,20 +20,20 @@ typedef struct ColorPalette {
 /*									*/
 /************************************************************************/
 
-extern void utilInitColorPalette(ColorPalette *cp);
-extern void utilCleanColorPalette(ColorPalette *cp);
+void utilInitColorPalette(ColorPalette *cp);
+void utilCleanColorPalette(ColorPalette *cp);
 
-extern int utilCopyColorPalette(ColorPalette *to, const ColorPalette *from);
+int utilCopyColorPalette(ColorPalette *to, const ColorPalette *from);
 
-extern int utilPaletteSetCount(ColorPalette *cp, int colorCount);
+int utilPaletteSetCount(ColorPalette *cp, int colorCount);
 
-extern int utilPaletteColorIndex(ColorPalette *cp, int maxCount, int r, int g,
+int utilPaletteColorIndex(ColorPalette *cp, int maxCount, int r, int g,
 				 int b, int a);
 
-extern int utilPaletteInsertColor(ColorPalette *cp, int avoidZero,
+int utilPaletteInsertColor(ColorPalette *cp, int avoidZero,
 				  int maxColors, const RGB8Color *rgb8);
 
-extern int utilMergeColorPalettes(int **pColorMap, ColorPalette *cpTo,
+int utilMergeColorPalettes(int **pColorMap, ColorPalette *cpTo,
 				  const ColorPalette *cpFrom, int avoidZero,
 				  int maxColors);
 

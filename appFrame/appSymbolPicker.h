@@ -102,31 +102,31 @@ typedef struct SymbolPicker {
 /*									*/
 /************************************************************************/
 
-extern void appFillSymbolPicker(SymbolPicker *sp,
+void appFillSymbolPicker(SymbolPicker *sp,
 				const SymbolPickerResources *spr,
 				AppInspector *ai, int subjectPage,
 				InspectorSubject *is, APP_WIDGET pageWidget,
 				const InspectorSubjectResources *isr);
 
-extern int appAdaptSymbolPickerToFontFamily(void *voidasp,
+int appAdaptSymbolPickerToFontFamily(void *voidasp,
 					    unsigned int documentId,
 					    const DocumentFontList *dfl,
 					    const PropertyMask *taSetMask,
 					    const TextAttribute *taSet);
 
-extern void appSymbolPickerGetResourceTable(EditApplication *ea,
+void appSymbolPickerGetResourceTable(EditApplication *ea,
 					    SymbolPickerResources *spr,
 					    InspectorSubjectResources *isr);
 
-extern void appInitSymbolPicker(SymbolPicker *sp);
-extern void appCleanSymbolPicker(SymbolPicker *sp);
+void appInitSymbolPicker(SymbolPicker *sp);
+void appCleanSymbolPicker(SymbolPicker *sp);
 
-extern void appSymbolPickerFillChoosers(SymbolPicker *sp,
+void appSymbolPickerFillChoosers(SymbolPicker *sp,
 					const SymbolPickerResources *spr);
 
-extern void appFinishSymbolPicker(SymbolPicker *sp,
+void appFinishSymbolPicker(SymbolPicker *sp,
 				  const SymbolPickerResources *spr);
 
-extern void appEnableSymbolPicker(SymbolPicker *sp, int enabled);
+void appEnableSymbolPicker(SymbolPicker *sp, int enabled);
 
 #endif /*	APP_SYMBL_PICKER_H	*/

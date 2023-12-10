@@ -32,29 +32,29 @@ typedef struct PagedList {
 /*									*/
 /************************************************************************/
 
-extern void *utilPagedListGetItemByNumber(const PagedList *pl, int n);
+void *utilPagedListGetItemByNumber(const PagedList *pl, int n);
 
-extern void utilPagedListDeleteItemByNumber(PagedList *pl, int n);
+void utilPagedListDeleteItemByNumber(PagedList *pl, int n);
 
-extern void *utilPagedListClaimItem(PagedList *pl, int n);
+void *utilPagedListClaimItem(PagedList *pl, int n);
 
-extern int utilPagedListSetSize(PagedList *pl, int n);
+int utilPagedListSetSize(PagedList *pl, int n);
 
-extern void utilInitPagedList(PagedList *pl);
-extern void utilCleanPagedList(PagedList *pl);
+void utilInitPagedList(PagedList *pl);
+void utilCleanPagedList(PagedList *pl);
 
-extern void utilStartPagedList(PagedList *pl, int sizeofItem,
+void utilStartPagedList(PagedList *pl, int sizeofItem,
 			       InitPagedListItem initItem,
 			       CleanPagedListItem cleanItem);
 
-extern void *utilPagedListClaimItemAtEnd(int *pN, PagedList *pl);
+void *utilPagedListClaimItemAtEnd(int *pN, PagedList *pl);
 
-extern void *utilPagedListClaimNewItem(int *pN, PagedList *pl);
+void *utilPagedListClaimNewItem(int *pN, PagedList *pl);
 
-extern int utilPagedListForAll(const PagedList *pl, PagedListForAllFun fun,
+int utilPagedListForAll(const PagedList *pl, PagedListForAllFun fun,
 			       void *through);
 
-extern void *utilPagedListGetNext(int *pN, const PagedList *pl, int n);
+void *utilPagedListGetNext(int *pN, const PagedList *pl, int n);
 
 #define utilPagedListGetFirst(pN, is) utilPagedListGetNext((pN), (is), -1)
 

@@ -10,6 +10,6 @@
 
 #include "utilMemoryBuffer.h"
 
-extern int utilPropertiesReadFile(void *tree, const MemoryBuffer *filename);
+int utilPropertiesReadFile(void *tree, const MemoryBuffer *filename);
 
 #endif /*	UTIL_PROPERTIES_H	*/

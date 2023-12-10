@@ -47,20 +47,20 @@ typedef enum DocumentListProperty {
 /*									*/
 /************************************************************************/
 
-extern void docInitDocumentList(DocumentList *dl);
-extern void docCleanDocumentList(DocumentList *dl);
+void docInitDocumentList(DocumentList *dl);
+void docCleanDocumentList(DocumentList *dl);
 
-extern int docCopyDocumentList(DocumentList *to, const DocumentList *from,
+int docCopyDocumentList(DocumentList *to, const DocumentList *from,
 			       int copyIds, const int *fontMap,
 			       const int *colorMap, const int *rulerMap);
 
-extern int docDocumentListAddLevel(DocumentList *dl, const ListLevel *ll,
+int docDocumentListAddLevel(DocumentList *dl, const ListLevel *ll,
 				   int copyIds, const int *fontMap,
 				   const int *colorMap, const int *rulerMap);
 
-extern int docCopyDocumentListSameDocument(DocumentList *to,
+int docCopyDocumentListSameDocument(DocumentList *to,
 					   const DocumentList *from);
 
-extern int docSetListProperty(DocumentList *dl, int prop, int val);
+int docSetListProperty(DocumentList *dl, int prop, int val);
 
 #endif

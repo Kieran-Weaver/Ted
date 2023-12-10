@@ -26,15 +26,15 @@ typedef enum TreeScanAdvice {
 /*									*/
 /************************************************************************/
 
-extern int docScanTree(BufferDocument *bd, const DocumentTree *dt,
+int docScanTree(BufferDocument *bd, const DocumentTree *dt,
 		       NodeVisitor enterNode, NodeVisitor leaveNode, int flags,
 		       void *through);
 
-extern int docScanSelection(BufferDocument *bd, const DocumentSelection *ds,
+int docScanSelection(BufferDocument *bd, const DocumentSelection *ds,
 			    NodeVisitor enterNode, NodeVisitor leaveNode,
 			    int flags, void *through);
 
-extern int docScanTreeNode(BufferDocument *bd, struct BufferItem *node,
+int docScanTreeNode(BufferDocument *bd, struct BufferItem *node,
 			   NodeVisitor enterNode, NodeVisitor leaveNode,
 			   int flags, void *through);
 

@@ -21,7 +21,7 @@ typedef struct PrintDestination {
 /*  Routine declarations.						*/
 /************************************************************************/
 
-extern int utilPrinterGetPrinters(int *pPrinterCount, int *pDefaultPrinter,
+int utilPrinterGetPrinters(int *pPrinterCount, int *pDefaultPrinter,
 				  PrintDestination **pDestinations,
 				  const char *customCommand,
 				  const char *customName,

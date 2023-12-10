@@ -24,12 +24,12 @@ typedef struct EditRange {
 /*									*/
 /************************************************************************/
 
-extern void docInitEditRange(EditRange *er);
+void docInitEditRange(EditRange *er);
 
-extern void docShiftEditRange(EditRange *er, int paraFrom, int stroffFrom,
+void docShiftEditRange(EditRange *er, int paraFrom, int stroffFrom,
 			      int paraShift, int stroffShift);
 
-extern void docUnionEditRanges(EditRange *erTo, const EditRange *er1,
+void docUnionEditRanges(EditRange *erTo, const EditRange *er1,
 			       const EditRange *er2);
 
 #endif /*	DOC_EDIT_RANGE_H	*/

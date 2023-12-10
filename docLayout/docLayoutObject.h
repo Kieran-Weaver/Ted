@@ -15,19 +15,19 @@
 /*									*/
 /************************************************************************/
 
-extern int docGetBitmapForObject(InsertedObject *io);
+int docGetBitmapForObject(InsertedObject *io);
 
-extern int docCheckObjectLayout(int *pFixed, InsertedObject *io);
+int docCheckObjectLayout(int *pFixed, InsertedObject *io);
 
-extern int docGetBitmapForObjectData(int kind, RasterImage *ri,
+int docGetBitmapForObjectData(int kind, RasterImage *ri,
 				     const MemoryBuffer *mb);
 
-extern void
+void
 docLayoutScaleObjectToFitParagraphFrame(int *pChanged, InsertedObject *io,
 					int pageHigh,
 					const DocumentRectangle *drParaFrame);
 
-extern void docScaleObjectToParagraph(BufferDocument *bd,
+void docScaleObjectToParagraph(BufferDocument *bd,
 				      struct BufferItem *paraBi, double xfac,
 				      InsertedObject *io);
 

@@ -12,7 +12,7 @@
 #include "appGuiBase.h"
 
 #ifdef __cplusplus
-extern "C" {
+"C" {
 #endif
 
 /************************************************************************/
@@ -21,7 +21,7 @@ extern "C" {
 /*									*/
 /************************************************************************/
 
-extern void appEmptyParentWidget(APP_WIDGET parent);
+void appEmptyParentWidget(APP_WIDGET parent);
 
 /************************************************************************/
 /*									*/
@@ -29,7 +29,7 @@ extern void appEmptyParentWidget(APP_WIDGET parent);
 /*									*/
 /************************************************************************/
 
-extern APP_EVENT_HANDLER_H(appSetSizeAsMinimum, w, through, event);
+APP_EVENT_HANDLER_H(appSetSizeAsMinimum, w, through, event);
 
 #ifdef __cplusplus
 }

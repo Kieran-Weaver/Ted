@@ -70,29 +70,29 @@ typedef struct ColumnTool {
 /*									*/
 /************************************************************************/
 
-extern void tedFormatFillColumnPage(ColumnTool *ct,
+void tedFormatFillColumnPage(ColumnTool *ct,
 				    const ColumnPageResources *cpr,
 				    AppInspector *ai, int subjectPage,
 				    InspectorSubject *is, APP_WIDGET pageWidget,
 				    const InspectorSubjectResources *isr);
 
-extern void tedRefreshColumnTool(ColumnTool *ct, int *pEnabled, int *pPref,
+void tedRefreshColumnTool(ColumnTool *ct, int *pEnabled, int *pPref,
 				 InspectorSubject *is,
 				 const DocumentSelection *ds,
 				 const SelectionGeometry *sg,
 				 const SelectionDescription *sd,
 				 const unsigned char *cmdEnabled);
 
-extern void tedInitColumnTool(ColumnTool *ct);
-extern void tedCleanColumnTool(ColumnTool *ct);
+void tedInitColumnTool(ColumnTool *ct);
+void tedCleanColumnTool(ColumnTool *ct);
 
-extern void tedFormatFinishColumnPage(ColumnTool *ct,
+void tedFormatFinishColumnPage(ColumnTool *ct,
 				      const ColumnPageResources *cpr);
 
-extern void tedColumnToolFillChoosers(ColumnTool *ct,
+void tedColumnToolFillChoosers(ColumnTool *ct,
 				      const ColumnPageResources *cpr);
 
-extern void tedFormatToolGetColumnResourceTable(EditApplication *ea,
+void tedFormatToolGetColumnResourceTable(EditApplication *ea,
 						ColumnPageResources *cpr,
 						InspectorSubjectResources *isr);
 

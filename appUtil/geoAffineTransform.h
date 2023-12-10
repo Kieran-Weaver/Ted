@@ -74,46 +74,46 @@ typedef struct AffineTransform3D {
 /*									*/
 /************************************************************************/
 
-extern int geoAffineTransformForTriangles(AffineTransform2D *atRes, double x_1,
+int geoAffineTransformForTriangles(AffineTransform2D *atRes, double x_1,
 					  double x_2, double y_1, double y_2,
 					  double z_1, double z_2, double p_1,
 					  double p_2, double q_1, double q_2,
 					  double r_1, double r_2);
 
-extern void geoInitAffineTransform2D(AffineTransform2D *at2);
-extern void geoIdentityAffineTransform2D(AffineTransform2D *at2);
-extern void geoRotationAffineTransform2D(AffineTransform2D *at2, double a);
-extern void geoRotationAffineTransform2DAtan(AffineTransform2D *at2, double y,
+void geoInitAffineTransform2D(AffineTransform2D *at2);
+void geoIdentityAffineTransform2D(AffineTransform2D *at2);
+void geoRotationAffineTransform2D(AffineTransform2D *at2, double a);
+void geoRotationAffineTransform2DAtan(AffineTransform2D *at2, double y,
 					     double x);
-extern void geoTranslationAffineTransform2D(AffineTransform2D *at2, double x,
+void geoTranslationAffineTransform2D(AffineTransform2D *at2, double x,
 					    double y);
-extern void geoScaleAffineTransform2D(AffineTransform2D *at2, double xs,
+void geoScaleAffineTransform2D(AffineTransform2D *at2, double xs,
 				      double ys);
 
-extern void geoAffineTransform2DProduct(AffineTransform2D *ba,
+void geoAffineTransform2DProduct(AffineTransform2D *ba,
 					const AffineTransform2D *b,
 					const AffineTransform2D *a);
-extern int geoInvertAffineTransform2D(AffineTransform2D *atR,
+int geoInvertAffineTransform2D(AffineTransform2D *atR,
 				      const AffineTransform2D *atF);
 
-extern double geoAffineTransformDeterminant2D(const AffineTransform2D *at2);
+double geoAffineTransformDeterminant2D(const AffineTransform2D *at2);
 
-extern void geoInitAffineTransform3D(AffineTransform3D *at3);
-extern void geoIdentityAffineTransform3D(AffineTransform3D *at3);
-extern void geoXYRotationAffineTransform3D(AffineTransform3D *at3, double a);
-extern void geoXZRotationAffineTransform3D(AffineTransform3D *at3, double a);
-extern void geoYZRotationAffineTransform3D(AffineTransform3D *at3, double a);
+void geoInitAffineTransform3D(AffineTransform3D *at3);
+void geoIdentityAffineTransform3D(AffineTransform3D *at3);
+void geoXYRotationAffineTransform3D(AffineTransform3D *at3, double a);
+void geoXZRotationAffineTransform3D(AffineTransform3D *at3, double a);
+void geoYZRotationAffineTransform3D(AffineTransform3D *at3, double a);
 
-extern void geoAffineTransform3DProduct(AffineTransform3D *ba,
+void geoAffineTransform3DProduct(AffineTransform3D *ba,
 					const AffineTransform3D *b,
 					const AffineTransform3D *a);
 
-extern double geoAffineTransformDeterminant3D(const AffineTransform3D *at3);
+double geoAffineTransformDeterminant3D(const AffineTransform3D *at3);
 
-extern void geoLineAffineTransform2D(AffineTransform2D *at, double a, double b,
+void geoLineAffineTransform2D(AffineTransform2D *at, double a, double b,
 				     double c);
 
-extern int geoLineConstants(double *pA, double *pB, double *pC, double x_x0,
+int geoLineConstants(double *pA, double *pB, double *pC, double x_x0,
 			    double x_y0, double x_x1, double x_y1);
 
 #endif /*  UTIL_AFFINE_TRANSFORM_H	*/

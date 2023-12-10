@@ -9,4 +9,4 @@
 
 #include "sioGeneral.h"
 
-extern SimpleInputStream *sioInStdinOpen(void);
+SimpleInputStream *sioInStdinOpen(void);

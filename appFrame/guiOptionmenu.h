@@ -28,26 +28,26 @@ typedef struct AppOptionmenu {
 /*									*/
 /************************************************************************/
 
-extern void appMakeOptionmenuInColumn(AppOptionmenu *aom, APP_WIDGET parent,
+void appMakeOptionmenuInColumn(AppOptionmenu *aom, APP_WIDGET parent,
 				      OptionmenuCallback callBack,
 				      void *through);
 
-extern void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row,
+void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row,
 				   int column, int colspan,
 				   OptionmenuCallback callBack, void *through);
 
-extern void appEmptyOptionmenu(AppOptionmenu *aom);
+void appEmptyOptionmenu(AppOptionmenu *aom);
 
-extern void appGuiEnableOptionmenu(AppOptionmenu *aom, int sensitive);
+void appGuiEnableOptionmenu(AppOptionmenu *aom, int sensitive);
 
-extern APP_WIDGET appAddItemToOptionmenu(AppOptionmenu *aom, const char *label);
+APP_WIDGET appAddItemToOptionmenu(AppOptionmenu *aom, const char *label);
 
-extern void appDeleteItemFromOptionmenu(AppOptionmenu *aom, APP_WIDGET item);
+void appDeleteItemFromOptionmenu(AppOptionmenu *aom, APP_WIDGET item);
 
-extern void appSetOptionmenu(AppOptionmenu *aom, int num);
+void appSetOptionmenu(AppOptionmenu *aom, int num);
 
-extern void appInitOptionmenu(AppOptionmenu *aom);
+void appInitOptionmenu(AppOptionmenu *aom);
 
-extern void appOptionmenuItemSetVisibility(APP_WIDGET w, int visible);
+void appOptionmenuItemSetVisibility(APP_WIDGET w, int visible);
 
 #endif /* GUI_OPTMENU_H */

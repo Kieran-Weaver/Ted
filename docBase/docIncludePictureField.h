@@ -23,10 +23,10 @@ typedef struct IncludePictureField {
 /*									*/
 /************************************************************************/
 
-extern void docInitIncludePictureField(IncludePictureField *ipf);
-extern void docCleanIncludePictureField(IncludePictureField *ipf);
+void docInitIncludePictureField(IncludePictureField *ipf);
+void docCleanIncludePictureField(IncludePictureField *ipf);
 
-extern int docGetIncludePictureField(IncludePictureField *ipf,
+int docGetIncludePictureField(IncludePictureField *ipf,
 				     const struct DocumentField *df);
 
 #endif /*  DOC_INCLUDEPICTURE_FIELD_H  */

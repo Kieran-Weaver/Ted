@@ -58,43 +58,43 @@ typedef struct SimpleOutputStream {
 
 /*  in  */
 
-extern int sioInFillBuffer(SimpleInputStream *sis);
+int sioInFillBuffer(SimpleInputStream *sis);
 
-extern int sioInUngetLastRead(SimpleInputStream *sis);
+int sioInUngetLastRead(SimpleInputStream *sis);
 
-extern SimpleInputStream *sioInOpen(void *specific, SIOinREADBYTES readBytes,
+SimpleInputStream *sioInOpen(void *specific, SIOinREADBYTES readBytes,
 				    SIOinCLOSE closeIt);
 
-extern long sioInGetBytesRead(SimpleInputStream *sis);
+long sioInGetBytesRead(SimpleInputStream *sis);
 
-extern int sioInClose(SimpleInputStream *sis);
+int sioInClose(SimpleInputStream *sis);
 
-extern char *sioInGetString(char *s, int size, SimpleInputStream *sis);
+char *sioInGetString(char *s, int size, SimpleInputStream *sis);
 
-extern int sioInReadBytes(SimpleInputStream *sis, unsigned char *buf,
+int sioInReadBytes(SimpleInputStream *sis, unsigned char *buf,
 			  int count);
 
 /*  out  */
 
-extern int sioOutFlushBuffer(SimpleOutputStream *sos);
+int sioOutFlushBuffer(SimpleOutputStream *sos);
 
-extern SimpleOutputStream *
+SimpleOutputStream *
 sioOutOpen(void *specific, SIOoutWRITEBYTES writeBytes, SIOoutCLOSE closeIt);
 
-extern int sioOutClose(SimpleOutputStream *sos);
+int sioOutClose(SimpleOutputStream *sos);
 
-extern long sioOutGetBytesWritten(SimpleOutputStream *sos);
+long sioOutGetBytesWritten(SimpleOutputStream *sos);
 
-extern int sioOutPutString(const char *s, SimpleOutputStream *sos);
+int sioOutPutString(const char *s, SimpleOutputStream *sos);
 
-extern int sioOutWriteBytes(SimpleOutputStream *sos, const unsigned char *buf,
+int sioOutWriteBytes(SimpleOutputStream *sos, const unsigned char *buf,
 			    int count);
 
 #ifdef __GNUC__
-extern int sioOutPrintf(SimpleOutputStream *sos, const char *format, ...)
+int sioOutPrintf(SimpleOutputStream *sos, const char *format, ...)
 	__attribute__((format(printf, 2, 3)));
 #else
-extern int sioOutPrintf(SimpleOutputStream *sos, const char *format, ...);
+int sioOutPrintf(SimpleOutputStream *sos, const char *format, ...);
 #endif
 
 #endif

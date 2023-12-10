@@ -23,11 +23,11 @@ typedef struct IndGuessList {
 /*									*/
 /************************************************************************/
 
-extern int indAddGuess(IndGuessList *igl, const char *word, int score);
+int indAddGuess(IndGuessList *igl, const char *word, int score);
 
-extern void indCleanGuessList(IndGuessList *igl);
-extern void indEmptyGuessList(IndGuessList *igl);
-extern void indInitGuessList(IndGuessList *igl);
-extern void indSortGuesses(IndGuessList *igl);
+void indCleanGuessList(IndGuessList *igl);
+void indEmptyGuessList(IndGuessList *igl);
+void indInitGuessList(IndGuessList *igl);
+void indSortGuesses(IndGuessList *igl);
 
 #endif /*	IND_GUESSS_LIST_H	    }}	*/

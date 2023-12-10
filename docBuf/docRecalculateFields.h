@@ -56,30 +56,30 @@ typedef struct RecalculateFields {
 /*									*/
 /************************************************************************/
 
-extern void docInitRecalculateFields(RecalculateFields *rf);
+void docInitRecalculateFields(RecalculateFields *rf);
 
-extern void docRenumberNotes(int *pChanged, BufferDocument *bd);
+void docRenumberNotes(int *pChanged, BufferDocument *bd);
 
-extern int docRenumberSeqFields(int *pChanged, DocumentTree *dt,
+int docRenumberSeqFields(int *pChanged, DocumentTree *dt,
 				BufferDocument *bd);
 
-extern int docRenumberSeqField(int *pChanged, DocumentField *df,
+int docRenumberSeqField(int *pChanged, DocumentField *df,
 			       BufferDocument *bd);
 
-extern int docFieldReplaceContents(int *pStroff, int *pStroffShift,
+int docFieldReplaceContents(int *pStroff, int *pStroffShift,
 				   int *pTextAttrNr, struct BufferItem *paraBi,
 				   int part, int partCount, int stroffShift,
 				   const char *addedString, int addedStrlen,
 				   const RecalculateFields *rf);
 
-extern int docRecalculateTextLevelFields(RecalculateFields *rf,
+int docRecalculateTextLevelFields(RecalculateFields *rf,
 					 struct BufferItem *bi);
 
-extern int docRecalculateTextLevelFieldsInDocumentTree(
+int docRecalculateTextLevelFieldsInDocumentTree(
 	RecalculateFields *rf, DocumentTree *dt,
 	const struct BufferItem *sectBi, int page);
 
-extern int docRecalculateFieldParticulesFromString(
+int docRecalculateFieldParticulesFromString(
 	int *pCalculated, int *pPartShift, int *pStroffShift,
 	struct BufferItem *paraBi, int part, int partCount,
 	const MemoryBuffer *mbResult, const RecalculateFields *rf);
