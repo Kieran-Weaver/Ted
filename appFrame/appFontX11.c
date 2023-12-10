@@ -19,7 +19,7 @@ typedef struct XFontFaceSize {
 	short int xffsListIndex;
 } XFontFaceSize;
 
-int guiSystemFont(DrawingSurface *ds, APP_FONT *xfs)
+int guiSystemFont(struct DrawingSurface *ds, APP_FONT *xfs)
 {
 	NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
 	DrawScreenFont *dsf = (DrawScreenFont *)0;

@@ -63,7 +63,7 @@ typedef struct PageLayoutTool {
 	APP_WIDGET pltPageDrawing;
 	PaperChooser pltPaperChooser;
 	AppMarginTool pltMarginTool;
-	DrawingSurface *pltDrawingSurface;
+	struct DrawingSurface *pltDrawingSurface;
 	RGB8Color pltBackgroundColor;
 
 	APP_WIDGET pltHeaderFooterFrame;

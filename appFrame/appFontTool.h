@@ -95,7 +95,7 @@ typedef struct AppFontChooser {
 	DocumentFontList afcDocumentFontList;
 
 	double afcPixelsPerTwip;
-	DrawingSurface *afcDrawingSurface;
+	struct DrawingSurface *afcDrawingSurface;
 	const PostScriptFontList *afcPostScriptFontList;
 	int afcScreenFont;
 	char afcChoiceText[120 + 1];

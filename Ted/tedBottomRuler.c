@@ -221,7 +221,7 @@ static void tedDrawBottomRuler(APP_WIDGET w, TedBottomRuler *tbr,
 			       DocumentRectangle *drClip)
 {
 	RulerData *rd = &(tbr->tbrRulerData);
-	DrawingSurface *ds = rd->rdDrawingSurface;
+	struct DrawingSurface *ds = rd->rdDrawingSurface;
 	int x;
 	int y;
 

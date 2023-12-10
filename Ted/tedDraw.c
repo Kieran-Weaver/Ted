@@ -458,7 +458,7 @@ void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
 		      int oy)
 {
 	TedDocument *td = (TedDocument *)ed->edPrivateData;
-	DrawingSurface *drsf = ed->edDrawingSurface;
+	struct DrawingSurface *drsf = ed->edDrawingSurface;
 
 	BufferDocument *bd = td->tdDocument;
 	BufferItem *const rootNode = bd->bdBody.dtRoot;

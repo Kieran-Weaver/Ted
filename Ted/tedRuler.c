@@ -118,7 +118,7 @@ static void tedDrawTopRuler(APP_WIDGET w, TedTopRuler *ttr,
 			    const DocumentRectangle *drClip)
 {
 	RulerData *rd = &(ttr->ttrRulerData);
-	DrawingSurface *ds = rd->rdDrawingSurface;
+	struct DrawingSurface *ds = rd->rdDrawingSurface;
 	int sizeAcross = rd->rdSizeAcross;
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 	int maxUsed;
@@ -327,7 +327,7 @@ void tedTopRulerSetBackground(void *voidttr, const RGB8Color *back)
 
 #if SHOW_SCROLLS
 
-static void tedShowClip(DrawingSurface *ds, const DocumentRectangle *dr)
+static void tedShowClip(struct DrawingSurface *ds, const DocumentRectangle *dr)
 {
 	RGB8Color red;
 	DocumentRectangle drCopy = *dr;

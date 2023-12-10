@@ -21,8 +21,8 @@ typedef struct AppDrawnPulldown {
 	int adpMouseY;
 	unsigned char adpEnabled;
 
-	DrawingSurface* adpInplaceDrawingSurface;
-	DrawingSurface* adpPulldownDrawingSurface;
+	struct DrawingSurface* adpInplaceDrawingSurface;
+	struct DrawingSurface* adpPulldownDrawingSurface;
 	RGB8Color adpInplaceBackgroundColor;
 
 } AppDrawnPulldown;

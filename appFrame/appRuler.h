@@ -55,7 +55,7 @@ typedef struct RulerData {
 	int rdVisibleC1;
 
 	int rdScreenFont;
-	DrawingSurface* rdDrawingSurface;
+	struct DrawingSurface* rdDrawingSurface;
 	const PostScriptFontList *rdPostScriptFontList;
 
 	int rdBackgroundExplicit;

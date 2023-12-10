@@ -153,7 +153,7 @@ void tedBorderToolSetPropertiesByNumber(BorderTool *bt,
 /*									*/
 /************************************************************************/
 
-static void tedDrawBorderStyle(DrawingSurface *ds, BorderTool *bt, int style,
+static void tedDrawBorderStyle(struct DrawingSurface *ds, BorderTool *bt, int style,
 			       const DocumentRectangle *drI)
 {
 	if (style != DOCbsNONE) {
@@ -177,7 +177,7 @@ static void tedDrawBorderStyle(DrawingSurface *ds, BorderTool *bt, int style,
 static APP_EVENT_HANDLER_H(tedBorderToolRedrawInplace, w, voidbt, exposeEvent)
 {
 	BorderTool *bt = (BorderTool *)voidbt;
-	DrawingSurface *dsI = bt->btStylePulldown.adpInplaceDrawingSurface;
+	struct DrawingSurface *dsI = bt->btStylePulldown.adpInplaceDrawingSurface;
 
 	int wide;
 	int high;
@@ -215,7 +215,7 @@ static APP_EVENT_HANDLER_H(tedBorderToolRedrawInplace, w, voidbt, exposeEvent)
 static APP_EVENT_HANDLER_H(tedBorderToolRedrawPulldown, w, voidbt, exposeEvent)
 {
 	BorderTool *bt = (BorderTool *)voidbt;
-	DrawingSurface *dsP;
+	struct DrawingSurface *dsP;
 
 	int inplaceWide;
 	int inplaceHigh;

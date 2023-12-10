@@ -44,7 +44,7 @@ void appInitRulerData(RulerData *rd)
 	rd->rdVisibleC1 = 0;
 
 	rd->rdScreenFont = -1;
-	rd->rdDrawingSurface = (DrawingSurface*)0;
+	rd->rdDrawingSurface = (struct DrawingSurface*)0;
 	rd->rdPostScriptFontList = (const PostScriptFontList *)0;
 
 	rd->rdBackgroundExplicit = 0;
@@ -139,7 +139,7 @@ void appVerticalRulerGetSizeFromWidget(RulerData *rd, APP_WIDGET w)
 
 void appRulerDrawBackground(RulerData *rd, const DocumentRectangle *drBack)
 {
-	DrawingSurface *ds = rd->rdDrawingSurface;
+	struct DrawingSurface *ds = rd->rdDrawingSurface;
 
 	drawSetForegroundColor(ds, &(rd->rdBackgroundColor));
 
@@ -317,7 +317,7 @@ void appRulerTagText(char *to, int *pWide, int *pLen, RulerData *rd,
 }
 
 #if SHOW_SCROLLS
-static void appShowCopy(DrawingSurface *ds, int x, int y,
+static void appShowCopy(struct DrawingSurface *ds, int x, int y,
 			const DocumentRectangle *drSrc)
 {
 	RGB8Color blue;
@@ -344,7 +344,7 @@ void appScrollHorizontalRuler(RulerData *rd, DocumentRectangle *drClip,
 			      int srcolledX)
 {
 	int maxUsed = rd->rdSizeAlong - rd->rdExtraAfterMaxUsed;
-	DrawingSurface *ds = rd->rdDrawingSurface;
+	struct DrawingSurface *ds = rd->rdDrawingSurface;
 
 	DocumentRectangle drAll;
 	DocumentRectangle drSrc;
@@ -394,7 +394,7 @@ void appScrollVerticalRuler(RulerData *rd, DocumentRectangle *drClip,
 	int high = maxUsed + 1;
 	int wide = rd->rdSizeAcross;
 
-	DrawingSurface *ds = rd->rdDrawingSurface;
+	struct DrawingSurface *ds = rd->rdDrawingSurface;
 
 	int y0;
 

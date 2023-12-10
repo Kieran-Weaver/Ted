@@ -108,7 +108,7 @@ void appHorizontalRulerDrawMark(RulerData *rd, int fontBottom, int tagY0,
 				int tagY1, int tickY0, int tickY1, int iitem,
 				int tick, double units, int ox)
 {
-	DrawingSurface *ds = rd->rdDrawingSurface;
+	struct DrawingSurface *ds = rd->rdDrawingSurface;
 	DocumentRectangle drMark;
 	int maxUsed = rd->rdSizeAlong - rd->rdExtraAfterMaxUsed;
 
@@ -176,7 +176,7 @@ static void appDrawHorizontalRuler(APP_WIDGET w, MetricRuler *mr,
 
 	DocumentRectangle drMark;
 
-	DrawingSurface *ds = rd->rdDrawingSurface;
+	struct DrawingSurface *ds = rd->rdDrawingSurface;
 	DocumentRectangle drBack;
 
 	if (rd->rdSizeAlong == 0) {
@@ -322,7 +322,7 @@ static void appDrawVerticalRuler(APP_WIDGET w, MetricRuler *mr,
 
 	DocumentRectangle drMark;
 
-	DrawingSurface *ds = rd->rdDrawingSurface;
+	struct DrawingSurface *ds = rd->rdDrawingSurface;
 
 	/*  2  */
 	drawSetForegroundColor(ds, &(rd->rdBackgroundColor));

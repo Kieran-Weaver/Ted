@@ -70,7 +70,7 @@ extern void appDocSetMetricLeftRuler(EditDocument *ed, int topRulerHeight,
 
 extern void appDrawRectangleSelection(DocumentRectangle *drClip,
 				      DocumentRectangle *drSelected,
-				      DrawingSurface* ds,
+				      struct DrawingSurface* ds,
 				      const DocumentRectangle *drScreen, int ox,
 				      int oy);
 

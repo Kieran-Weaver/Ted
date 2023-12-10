@@ -13,7 +13,7 @@
 #include "drawScreenFontAdmin.h"
 #include <appDebugon.h>
 
-int drawGetUnderlineGeometry(int *pThick, int *pY, const DrawingSurface *ds,
+int drawGetUnderlineGeometry(int *pThick, int *pY, const struct DrawingSurface *ds,
 			     int screenFont, int baselinePixels)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
@@ -31,7 +31,7 @@ int drawGetUnderlineGeometry(int *pThick, int *pY, const DrawingSurface *ds,
 	return 0;
 }
 
-int drawGetStrikethroughGeometry(int *pThick, int *pY, const DrawingSurface *ds,
+int drawGetStrikethroughGeometry(int *pThick, int *pY, const struct DrawingSurface *ds,
 				 int screenFont, int baselinePixels)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
@@ -49,7 +49,7 @@ int drawGetStrikethroughGeometry(int *pThick, int *pY, const DrawingSurface *ds,
 	return 0;
 }
 
-int drawGetSuperBaseline(int *pSuperBaseline, const DrawingSurface *ds,
+int drawGetSuperBaseline(int *pSuperBaseline, const struct DrawingSurface *ds,
 			 int screenFont, int baselinePixels)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
@@ -66,7 +66,7 @@ int drawGetSuperBaseline(int *pSuperBaseline, const DrawingSurface *ds,
 	return 0;
 }
 
-int drawGetSubBaseline(int *pSubBaseline, const DrawingSurface *ds,
+int drawGetSubBaseline(int *pSubBaseline, const struct DrawingSurface *ds,
 		       int screenFont, int baselinePixels)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
@@ -82,7 +82,7 @@ int drawGetSubBaseline(int *pSubBaseline, const DrawingSurface *ds,
 	return 0;
 }
 
-int drawGetTextExtents(DocumentRectangle *drText, const DrawingSurface *ds,
+int drawGetTextExtents(DocumentRectangle *drText, const struct DrawingSurface *ds,
 		       int x0, int y0, int screenFont, const char *s, int len)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);

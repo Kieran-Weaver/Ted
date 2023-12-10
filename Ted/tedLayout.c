@@ -79,7 +79,7 @@ int tedAdjustParagraphLayout(TedEditOperation *teo, DocumentTree *dt)
 
 /************************************************************************/
 
-void tedSetDocumentLayoutContext(LayoutContext *lc, DrawingSurface *ds,
+void tedSetDocumentLayoutContext(LayoutContext *lc, struct DrawingSurface *ds,
 				 const PostScriptFontList *psfl,
 				 struct TedDocument *td)
 {

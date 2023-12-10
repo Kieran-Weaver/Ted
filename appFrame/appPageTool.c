@@ -52,7 +52,7 @@ typedef struct AppPageToolResources {
 typedef struct AppPageTool {
 	EditApplication *aptApplication;
 
-	DrawingSurface *aptDrawingSurface;
+	struct DrawingSurface *aptDrawingSurface;
 	RGB8Color aptBackgroundColor;
 
 	APP_WIDGET aptTopWidget;
@@ -133,7 +133,7 @@ static AppConfigurableResource APP_PageToolresourceTable[] = {
 static APP_EVENT_HANDLER_H(appPageToolDrawPage, w, voidapt, exposeEvent)
 {
 	AppPageTool *apt = (AppPageTool *)voidapt;
-	DrawingSurface *ds = apt->aptDrawingSurface;
+	struct DrawingSurface *ds = apt->aptDrawingSurface;
 
 	appDrawPageDiagram(apt->aptPageDrawing, ds, &(apt->aptBackgroundColor),
 			   apt->aptPixelsPerTwip, &(apt->aptGeometryChosen));
@@ -449,7 +449,7 @@ void *appMakePageTool(EditApplication *ea, APP_WIDGET pageOption,
 	apt->aptCustomPaperSize = -1;
 
 	appInitPaperChooser(&(apt->aptPaperChooser));
-	apt->aptDrawingSurface = (DrawingSurface*)0;
+	apt->aptDrawingSurface = (struct DrawingSurface*)0;
 
 	appMakeVerticalTool(&(apt->aptTopWidget), &(apt->aptMainWidget), ea,
 			    iconPixmap, iconMask, userResizable, pageOption,

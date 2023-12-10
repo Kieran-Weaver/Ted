@@ -326,7 +326,7 @@ static void appSymbolPickerClear(SymbolPicker *sp)
 
 static int appSymbolAdaptDrawingToFont(SymbolPicker *sp)
 {
-	DrawingSurface *ds = sp->spDrawingSurface;
+	struct DrawingSurface *ds = sp->spDrawingSurface;
 	DocumentFontList *dfl = &(sp->spDocumentFontList);
 	TextAttribute *ta = &(sp->spTextAttribute);
 	int pixelSize;
@@ -596,7 +596,7 @@ static APP_EVENT_HANDLER_H(appSymbolPickerConfigure, w, voidsp, event)
 
 static void appSymbolDrawSymbol(SymbolPicker *sp, int sym, int x0, int y0)
 {
-	DrawingSurface *ds = sp->spDrawingSurface;
+	struct DrawingSurface *ds = sp->spDrawingSurface;
 
 	int x = 0;
 	int y = 0;
@@ -670,7 +670,7 @@ static void appSymbolRedrawSymbols(SymbolPicker *sp,
 static void appSymbolRedrawGrid(SymbolPicker *sp,
 				const DocumentRectangle *drClip)
 {
-	DrawingSurface *ds = sp->spDrawingSurface;
+	struct DrawingSurface *ds = sp->spDrawingSurface;
 
 	DocumentRectangle drSym;
 	DocumentRectangle drIgn;
@@ -790,7 +790,7 @@ static void appSymbolRedrawGrid(SymbolPicker *sp,
 static APP_EVENT_HANDLER_H(appSymbolRedraw, w, voidsp, exposeEvent)
 {
 	SymbolPicker *sp = (SymbolPicker *)voidsp;
-	DrawingSurface *ds = sp->spDrawingSurface;
+	struct DrawingSurface *ds = sp->spDrawingSurface;
 
 	DocumentRectangle drClip;
 
@@ -1165,7 +1165,7 @@ void appInitSymbolPicker(SymbolPicker *sp)
 	sp->spFontInfo = (AfmFontInfo *)0;
 
 	sp->spPixelsPerTwip = 0;
-	sp->spDrawingSurface = (DrawingSurface*)0;
+	sp->spDrawingSurface = (struct DrawingSurface*)0;
 	sp->spScreenFont = -1;
 	sp->spCellSizePixels = 0;
 	sp->spCellsWide = 0;

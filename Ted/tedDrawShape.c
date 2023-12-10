@@ -27,7 +27,7 @@ static int tedShapeDrawArrowHead(const LayoutContext *lc, int widthPixels,
 				 const DrawShapeArrow *dsa)
 {
 	const ShapeArrow *sa = &(dsa->dsaArrow);
-	DrawingSurface *ds = lc->lcDrawingSurface;
+	struct DrawingSurface *ds = lc->lcDrawingSurface;
 	Point2DI points[7];
 	Arc2DI arc;
 
@@ -435,7 +435,7 @@ static int tedDrawOnlineStorage(DrawingShape *ds, DrawingContext *dc,
 				const DocumentRectangle *drPixels)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
-	DrawingSurface *drsf = lc->lcDrawingSurface;
+	struct DrawingSurface *drsf = lc->lcDrawingSurface;
 
 	const ShapePath *sp = &SP_RECTANGLE;
 	int np = sp->spVertexCount;
@@ -502,7 +502,7 @@ static int tedDrawCan(DrawingShape *ds, DrawingContext *dc,
 		      ScreenDrawingData *sdd, const DocumentRectangle *drPixels)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
-	DrawingSurface *drsf = lc->lcDrawingSurface;
+	struct DrawingSurface *drsf = lc->lcDrawingSurface;
 
 	Arc2DI topArc;
 	Arc2DI botArc;
@@ -563,7 +563,7 @@ static int tedDrawCallout(DrawingShape *ds, DrawingContext *dc,
 {
 	const ShapeDrawing *sd = &(ds->dsDrawing);
 	const LayoutContext *lc = &(dc->dcLayoutContext);
-	DrawingSurface *drsf = lc->lcDrawingSurface;
+	struct DrawingSurface *drsf = lc->lcDrawingSurface;
 
 	const ShapePath *sp = &SP_RECTANGLE;
 	int np = sp->spVertexCount;
@@ -630,7 +630,7 @@ int tedDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 {
 	const ShapeDrawing *sd = &(ds->dsDrawing);
 	const LayoutContext *lc = &(dc->dcLayoutContext);
-	DrawingSurface *drsf = lc->lcDrawingSurface;
+	struct DrawingSurface *drsf = lc->lcDrawingSurface;
 	ScreenDrawingData *sdd = (ScreenDrawingData *)vsdd;
 
 	int rval = 0;

@@ -25,11 +25,11 @@ extern "C" {
 /*									*/
 /************************************************************************/
 
-extern void appDrawPageDiagram(APP_WIDGET w, DrawingSurface *ds,
+extern void appDrawPageDiagram(APP_WIDGET w, struct DrawingSurface *ds,
 			       const RGB8Color *backColor, double pixelsPerTwip,
 			       const DocumentGeometry *dg);
 
-extern void appDrawNupDiagram(APP_WIDGET w, DrawingSurface *ds,
+extern void appDrawNupDiagram(APP_WIDGET w, struct DrawingSurface *ds,
 			      const RGB8Color *backColor, int screenFont,
 			      double pixelsPerTwip,
 			      const DocumentGeometry *dgPage,

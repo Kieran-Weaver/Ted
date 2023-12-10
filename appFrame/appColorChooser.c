@@ -80,7 +80,7 @@ void appColorChooserUnset(ColorChooser *cc)
 static APP_EVENT_HANDLER_H(appColorChooserRedrawInplace, w, voidcc, exposeEvent)
 {
 	ColorChooser *cc = (ColorChooser *)voidcc;
-	DrawingSurface *dsI = cc->ccPulldown.adpInplaceDrawingSurface;
+	struct DrawingSurface *dsI = cc->ccPulldown.adpInplaceDrawingSurface;
 
 	int wide;
 	int high;
@@ -206,7 +206,7 @@ static APP_EVENT_HANDLER_H(appColorChooserRedrawPulldown, w, voidcc,
 			   exposeEvent)
 {
 	ColorChooser *cc = (ColorChooser *)voidcc;
-	DrawingSurface *dsP;
+	struct DrawingSurface *dsP;
 
 	int inplaceWide;
 	int inplaceHigh;

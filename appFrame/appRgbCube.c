@@ -139,7 +139,7 @@ static void appDrawRgbColorFace(RgbCube *rc, RgbColorBlock *rcb, void *through,
 				const double yo[8], int canSplit,
 				const int nodes[4])
 {
-	DrawingSurface *ds = (DrawingSurface*)through;
+	struct DrawingSurface *ds = (struct DrawingSurface*)through;
 	int linewidth;
 
 	Point2DI points[5];
@@ -381,7 +381,7 @@ static void appHandleRgbColorBlock(double k, int square, double scale,
 /************************************************************************/
 
 void appRedrawRgbCube(RgbCube *rc, int wide, int high,
-		      const DocumentRectangle *drClip, DrawingSurface *ds)
+		      const DocumentRectangle *drClip, struct DrawingSurface *ds)
 {
 	double k = RGB_K;
 
@@ -786,7 +786,7 @@ void appRgbCubeSelectColor(RgbCube *rc, const RGB8Color *rgb8)
 /*									*/
 /************************************************************************/
 
-int appPrepareRgbCube(RgbCube *rc, DrawingSurface *ds, int redSteps,
+int appPrepareRgbCube(RgbCube *rc, struct DrawingSurface *ds, int redSteps,
 		      int greenSteps, int blueSteps)
 {
 	int rr;

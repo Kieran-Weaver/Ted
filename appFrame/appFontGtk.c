@@ -30,7 +30,7 @@
 /*									*/
 /************************************************************************/
 
-int drawOpenDefaultFont(DrawingSurface *ds, const PostScriptFontList *psfl,
+int drawOpenDefaultFont(struct DrawingSurface *ds, const PostScriptFontList *psfl,
 			APP_WIDGET w, int fontSizeHintPixels)
 {
 	const char *fontFamilyName = "Sans";

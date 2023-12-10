@@ -243,7 +243,7 @@ int appFileConvert(EditApplication *ea, const MemoryBuffer *fromName,
 	}
 
 	{
-		if ((*ea->eaSaveDocument)(ea, (DrawingSurface*)0, privateData,
+		if ((*ea->eaSaveDocument)(ea, (struct DrawingSurface*)0, privateData,
 					  toFormat, toName, suggestStdout,
 					  toName, isNewDocName)) {
 			if (interactive) {

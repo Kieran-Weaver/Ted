@@ -77,7 +77,7 @@ extern void tedDocumentFirstVisible(EditDocument *ed);
 
 extern int tedLayoutDocument(DocumentRectangle *drScreen,
 			     DocumentRectangle *drVisible, void *privateData,
-			     int format, DrawingSurface *ds,
+			     int format, struct DrawingSurface *ds,
 			     const PostScriptFontList *psfl,
 			     const DocumentGeometry *defDg);
 
@@ -89,7 +89,7 @@ extern int tedRunPropertyDialog(EditDocument *ed,
 				const struct DocumentStatistics *ds,
 				APP_WIDGET option, const char *pixmapName);
 
-extern int tedSaveDocument(EditApplication *ea, DrawingSurface *ds,
+extern int tedSaveDocument(EditApplication *ea, struct DrawingSurface *ds,
 			   const void *privateData, int format,
 			   const MemoryBuffer *documentTitle, int suggestStdout,
 			   const MemoryBuffer *filename, int isDocName);

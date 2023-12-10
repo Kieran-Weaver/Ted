@@ -420,7 +420,7 @@ static void appInitEditDocument(EditApplication *ea, EditDocument *ed)
 	ed->edHorizontalScrollbar = (APP_WIDGET)0;
 	ed->edWorkWidget = (APP_WIDGET)0;
 	appInitDocumentWidget(&(ed->edDocumentWidget));
-	ed->edDrawingSurface = (DrawingSurface*)0;
+	ed->edDrawingSurface = (struct DrawingSurface*)0;
 
 	ed->edLeftRulerWidget = (APP_WIDGET)0;
 	ed->edTopRulerWidget = (APP_WIDGET)0;

@@ -312,13 +312,13 @@ typedef struct EditApplication {
 	int (*eaNewDocument)(EditDocument *ed, const MemoryBuffer *filename);
 	int (*eaLayoutDocument)(DocumentRectangle *drScreen,
 				DocumentRectangle *drVisible, void *privateData,
-				int format, DrawingSurface *ds,
+				int format, struct DrawingSurface *ds,
 				const PostScriptFontList *psfl,
 				const DocumentGeometry *defDg);
 	int (*eaFinishDocumentSetup)(EditDocument *ed);
 	void (*eaDocumentFirstVisible)(EditDocument *ed);
 	int (*eaCanSaveDocument)(const void *privateData, int format);
-	int (*eaSaveDocument)(struct EditApplication *ea, DrawingSurface *ds,
+	int (*eaSaveDocument)(struct EditApplication *ea, struct DrawingSurface *ds,
 			      const void *privateData, int format,
 			      const MemoryBuffer *documentTitle,
 			      int suggestStdout, const MemoryBuffer *filename,
@@ -860,7 +860,7 @@ extern void appInitSelectRectangle(SelectRectangle *sr);
 
 extern void guiShowMenuOption(APP_WIDGET w, int visible);
 
-extern int appSaveToPs(EditApplication *ea, DrawingSurface *ds,
+extern int appSaveToPs(EditApplication *ea, struct DrawingSurface *ds,
 		       SimpleOutputStream *sos, void *privateData,
 		       const MemoryBuffer *documentTitle, int format);
 

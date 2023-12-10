@@ -506,7 +506,7 @@ int tedFirstRecalculateFields(RecalculateFields *rf,
 }
 
 int tedLayoutDocument(DocumentRectangle *drScreen, DocumentRectangle *drVisible,
-		      void *privateData, int format, DrawingSurface *ds,
+		      void *privateData, int format, struct DrawingSurface *ds,
 		      const PostScriptFontList *psfl,
 		      const DocumentGeometry *dgDef)
 {

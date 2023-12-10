@@ -10,6 +10,6 @@
 /*									*/
 /************************************************************************/
 
-extern int guiSystemFont(DrawingSurface *ds, APP_FONT *xfs);
+extern int guiSystemFont(struct DrawingSurface *ds, APP_FONT *xfs);
 
 #endif
