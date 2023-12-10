@@ -26,8 +26,8 @@ static int docDrawLineLeftOfColumn(BufferItem *nextBodyNode, void *through,
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	const SectionProperties *sp = &(nextBodyNode->biSectProperties);
 
-	DocumentRectangle drLLine;
-	DocumentRectangle drRLine;
+	rect drLLine;
+	rect drRLine;
 	int x0;
 	int x1;
 
@@ -316,7 +316,7 @@ ready:
 	return rval;
 }
 
-static void docTableHeaderRectangle(DocumentRectangle *drPixels,
+static void docTableHeaderRectangle(rect *drPixels,
 				    const BlockFrame *bf, BufferItem *node,
 				    DrawingContext *dc)
 {
@@ -340,7 +340,7 @@ static int docDrawHeaderForClippedRow(BufferItem *childNode, void *through,
 	int rval = 0;
 	BlockFrame bf;
 
-	DocumentRectangle drChild;
+	rect drChild;
 
 	docLayoutInitBlockFrame(&bf);
 
@@ -398,7 +398,7 @@ static int docDrawGroupNode(LayoutPosition *lpBelow, const BufferItem *node,
 		BufferItem *childNode = node->biChildren[i];
 
 		if (dc->dcClipRect) {
-			DocumentRectangle drChild;
+			rect drChild;
 
 			docNodeRectangle(&drChild, childNode,
 					 &(dc->dcLayoutContext), bo);
@@ -561,7 +561,7 @@ int docDrawNode(LayoutPosition *lpBelow, BufferItem *node, void *through,
 
 	/*  2  */
 	if (dc->dcClipRect) {
-		DocumentRectangle drNode;
+		rect drNode;
 
 		docNodeRectangle(&drNode, node, &(dc->dcLayoutContext), &bo);
 

@@ -42,13 +42,13 @@ void bmStartEpsFile(SimpleOutputStream *sos, const char *filename,
 
 int bmPsPrintBitmap(SimpleOutputStream *sos, int level, double xscale,
 			   double yscale, int ox, int oy,
-			   const DocumentRectangle *drSrc, int useFilters,
+			   const rect *drSrc, int useFilters,
 			   int indexedImages, const BitmapDescription *bd,
 			   const unsigned char *buffer);
 
 int bmPsPrintBitmapImage(SimpleOutputStream *sos, int level,
 				double xscale, double yscale, int ox, int oy,
-				const DocumentRectangle *drSrc, int onWhite,
+				const rect *drSrc, int onWhite,
 				int useFilters, int indexedImages,
 				const BitmapDescription *bd,
 				const unsigned char *buffer);
@@ -59,7 +59,7 @@ void bmPsWriteImageInstructions(SimpleOutputStream *sos,
 				       int indexedImages);
 
 int bmPsWriteBitmapData(BitmapPrinter *bp,
-			       const DocumentRectangle *drSrc,
+			       const rect *drSrc,
 			       const BitmapDescription *bd,
 			       const unsigned char *inputBuffer);
 

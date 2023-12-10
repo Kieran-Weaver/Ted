@@ -48,9 +48,9 @@ static int docDrawCellOrnamentsForRow(const BufferItem *rowNode,
 		BufferItem *cellNode = rowNode->biChildren[col];
 
 		BlockOrnaments cellOrnaments;
-		DocumentRectangle drCell;
-		DocumentRectangle drOutside;
-		DocumentRectangle drInside;
+		rect drCell;
+		rect drOutside;
+		rect drInside;
 
 		docInitBlockOrnaments(&cellOrnaments);
 

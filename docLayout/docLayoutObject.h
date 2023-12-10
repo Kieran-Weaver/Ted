@@ -25,7 +25,7 @@ int docGetBitmapForObjectData(int kind, RasterImage *ri,
 void
 docLayoutScaleObjectToFitParagraphFrame(int *pChanged, InsertedObject *io,
 					int pageHigh,
-					const DocumentRectangle *drParaFrame);
+					const rect *drParaFrame);
 
 void docScaleObjectToParagraph(BufferDocument *bd,
 				      struct BufferItem *paraBi, double xfac,

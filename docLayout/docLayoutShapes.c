@@ -48,7 +48,7 @@ void docShapePageY(LayoutPosition *lpShapeTop, LayoutPosition *lpBelowShape,
 	const ShapeProperties *sp = &(ds->dsShapeProperties);
 	int yRefProp = sp->spYReference;
 
-	DocumentRectangle drShape;
+	rect drShape;
 	int shapeHigh;
 
 	docPlaceRootShapeRect(&drShape, &(ds->dsShapeProperties), 0, 0);
@@ -82,7 +82,7 @@ void docShapePageRectangle(LayoutPosition *lpShapeTop,
 	const ShapeProperties *sp = &(ds->dsShapeProperties);
 	int xRefProp = sp->spXReference;
 
-	DocumentRectangle drShape;
+	rect drShape;
 	int shapeWide;
 	BlockFrame bfShape;
 
@@ -118,8 +118,8 @@ void docShapePageRectangle(LayoutPosition *lpShapeTop,
 /*									*/
 /************************************************************************/
 
-int docShapeCheckTextLayout(DrawingShape *ds, const DocumentRectangle *drTwips,
-			    DocumentRectangle *drChanged,
+int docShapeCheckTextLayout(DrawingShape *ds, const rect *drTwips,
+			    rect *drChanged,
 			    const BufferItem *bodySectNode, int page,
 			    int column, const LayoutContext *lc,
 			    INIT_LAYOUT_EXTERNAL initLayoutExternal)

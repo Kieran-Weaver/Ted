@@ -89,7 +89,7 @@ int docSetShapeProperty(ShapeProperties *sp, int prop, int value)
 /*									*/
 /************************************************************************/
 
-void docPlaceRootShapeRect(DocumentRectangle *drTwips,
+void docPlaceRootShapeRect(rect *drTwips,
 			   const ShapeProperties *sp, int x0, int y0)
 {
 	drTwips->drX0 = x0;

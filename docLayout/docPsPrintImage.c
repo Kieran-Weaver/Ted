@@ -28,8 +28,8 @@ static int psPrintIncludeEpsObject(PrintingState *ps, InsertedObject *io,
 	SimpleInputStream *sisMem = (SimpleInputStream *)0;
 	SimpleInputStream *sisHex = (SimpleInputStream *)0;
 
-	DocumentRectangle drTo;
-	DocumentRectangle drBBox;
+	rect drTo;
+	rect drBBox;
 
 	sisMem = sioInMemoryOpen(&(io->ioResultData));
 	if (!sisMem) {
@@ -124,7 +124,7 @@ static int docPsPrintBitmapObject(PrintingState *ps, int x0, int baseLine,
 	int imageWideTwips;
 	int imageHighTwips;
 
-	DocumentRectangle drSel;
+	rect drSel;
 
 	bd = &(abi->riDescription);
 
@@ -141,7 +141,7 @@ static int docPsPrintBitmapObject(PrintingState *ps, int x0, int baseLine,
 
 	if (bmPsPrintBitmap(
 		    ps->psSos, 1, 20.0 * scaleX, -20.0 * scaleY, x0, baseLine,
-		    (const DocumentRectangle *)0, ps->psUsePostScriptFilters,
+		    (const rect *)0, ps->psUsePostScriptFilters,
 		    ps->psUsePostScriptIndexedImages, bd, abi->riBytes)) {
 		LDEB(1);
 		return -1;
@@ -152,7 +152,7 @@ static int docPsPrintBitmapObject(PrintingState *ps, int x0, int baseLine,
 }
 
 static int docPsPrintShapeBitmap(int kind, PrintingState *ps, DrawingShape *ds,
-				 const DocumentRectangle *drTwips,
+				 const rect *drTwips,
 				 const AffineTransform2D *at)
 {
 	const PictureProperties *pip = &(ds->dsPictureProperties);
@@ -169,7 +169,7 @@ static int docPsPrintShapeBitmap(int kind, PrintingState *ps, DrawingShape *ds,
 	if (ds->dsRasterImage.riBytes) {
 		AffineTransform2D atLocal;
 
-		DocumentRectangle drSel;
+		rect drSel;
 
 		double xs;
 		double ys;
@@ -203,7 +203,7 @@ static int docPsPrintShapeBitmap(int kind, PrintingState *ps, DrawingShape *ds,
 }
 
 int docPsPrintShapeImage(PrintingState *ps, DrawingContext *dc,
-			 DrawingShape *ds, const DocumentRectangle *drTwips,
+			 DrawingShape *ds, const rect *drTwips,
 			 const AffineTransform2D *at)
 {
 	const PictureProperties *pip = &(ds->dsPictureProperties);

@@ -3,13 +3,13 @@
 #include <limits.h>
 #include "geo2DInteger.h"
 
-void geoInitRectangle(DocumentRectangle *dr)
+void geoInitRectangle(rect *dr)
 {
 	dr->drX0 = dr->drY0 = dr->drX1 = dr->drY1 = 0;
 	return;
 }
 
-void geoInvalidateRectangle(DocumentRectangle *dr)
+void geoInvalidateRectangle(rect *dr)
 {
 	dr->drX0 = dr->drY0 = INT_MAX;
 	dr->drX1 = dr->drY1 = INT_MIN;
@@ -24,10 +24,10 @@ void geoInvalidateRectangle(DocumentRectangle *dr)
 /*									*/
 /************************************************************************/
 
-void geoNormalizeRectangle(DocumentRectangle *drTo,
-			   const DocumentRectangle *drFrom)
+void geoNormalizeRectangle(rect *drTo,
+			   const rect *drFrom)
 {
-	DocumentRectangle dr;
+	rect dr;
 	int swap;
 
 	dr = *drFrom;
@@ -49,8 +49,8 @@ void geoNormalizeRectangle(DocumentRectangle *drTo,
 	return;
 }
 
-void geoUnionRectangle(DocumentRectangle *dr, const DocumentRectangle *dr1,
-		       const DocumentRectangle *dr2)
+void geoUnionRectangle(rect *dr, const rect *dr1,
+		       const rect *dr2)
 {
 	if (dr1->drX0 < dr2->drX0) {
 		dr->drX0 = dr1->drX0;
@@ -77,10 +77,10 @@ void geoUnionRectangle(DocumentRectangle *dr, const DocumentRectangle *dr1,
 	}
 }
 
-int geoIntersectRectangle(DocumentRectangle *dr, const DocumentRectangle *dr1,
-			  const DocumentRectangle *dr2)
+int geoIntersectRectangle(rect *dr, const rect *dr1,
+			  const rect *dr2)
 {
-	DocumentRectangle res = *dr1;
+	rect res = *dr1;
 
 	if (dr1->drX1 < dr2->drX0) {
 		return 0;

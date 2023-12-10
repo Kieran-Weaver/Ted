@@ -35,9 +35,9 @@ static int docDrawParaOrnaments(void *through, const ParagraphDrawingStrip *pds,
 	LayoutPosition lpBelow;
 
 	BlockOrnaments ornaments;
-	DocumentRectangle drPara;
-	DocumentRectangle drOutside;
-	DocumentRectangle drInside;
+	rect drPara;
+	rect drOutside;
+	rect drInside;
 
 	docInitBlockOrnaments(&ornaments);
 

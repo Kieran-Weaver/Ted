@@ -24,7 +24,7 @@ int docFindHeaderFooterForY(DocumentTree **pTree,
 	int isEmpty;
 	DocumentTree *dt;
 
-	DocumentRectangle drExtern;
+	rect drExtern;
 	const int justUsed = 0;
 
 	/*  4  */

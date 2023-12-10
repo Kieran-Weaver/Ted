@@ -82,7 +82,7 @@ int drawGetSubBaseline(int *pSubBaseline, const struct DrawingSurface *ds,
 	return 0;
 }
 
-int drawGetTextExtents(DocumentRectangle *drText, const struct DrawingSurface *ds,
+int drawGetTextExtents(rect *drText, const struct DrawingSurface *ds,
 		       int x0, int y0, int screenFont, const char *s, int len)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);

@@ -28,7 +28,7 @@ typedef struct ShapePath {
 	short int spYSize;
 	short int spClosed;
 	short int spVertexCount;
-	Point2DI *spVertices;
+	vec2 *spVertices;
 } ShapePath;
 
 /************************************************************************/
@@ -167,12 +167,12 @@ typedef struct ShapeDrawing {
 	/*  are given by shpleft,shpright,		*/
 	/*  shptop,shpbottom in a root shape.		*/
 	/************************************************/
-	DocumentRectangle sdRelRect;
+	rect sdRelRect;
 
 	int sdRelRotation;
 	long sdRegroupID;
 
-	DocumentRectangle sdGroupRect;
+	rect sdGroupRect;
 
 	unsigned int sd_fRelChangePage : 1;
 	unsigned int sd_fRelFlipH : 1;
@@ -181,7 +181,7 @@ typedef struct ShapeDrawing {
 	/********************************************/
 	/*  Geometry				*/
 	/********************************************/
-	DocumentRectangle sdGeoRect;
+	rect sdGeoRect;
 	long sdAdjustValue;
 	long sdAdjust2Value;
 	long sdAdjust3Value;
@@ -193,9 +193,9 @@ typedef struct ShapeDrawing {
 	long sdAdjust9Value;
 	long sdAdjust10Value;
 
-	Point2DI *sdVertices;
+	vec2 *sdVertices;
 	int sdVertexCount;
-	Point2DI *sdWrapPolygonVertices;
+	vec2 *sdWrapPolygonVertices;
 	int sdWrapPolygonVertexCount;
 	int *sdSegmentInfos;
 	int sdSegmentInfoCount;

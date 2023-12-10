@@ -298,7 +298,7 @@ void docParaBlockFrameTwips(BlockFrame *bf, BufferItem *paraNode,
 	docBlockFrameTwips(bf, paraNode, bd, page, column);
 }
 
-void docParaBlockFrameRectangle(DocumentRectangle *dr, BufferItem *paraNode,
+void docParaBlockFrameRectangle(rect *dr, BufferItem *paraNode,
 				BufferDocument *bd, int page, int column)
 {
 	BlockFrame bf;
@@ -354,7 +354,7 @@ static void docShiftCellFrame(ParagraphFrame *pf, const BufferItem *rowNode)
 
 /************************************************************************/
 
-static void docGetCellWidth(DocumentRectangle *drCell, int *pLeftMargin,
+static void docGetCellWidth(rect *drCell, int *pLeftMargin,
 			    int *pRightMargin, const BufferItem *cellNode,
 			    const RowProperties *rp, const BlockFrame *bf)
 {
@@ -523,7 +523,7 @@ void docParagraphFrameTwips(ParagraphFrame *pf, const BlockFrame *bf,
 /*									*/
 /************************************************************************/
 
-void docCellRectangleTwips(DocumentRectangle *drCell, const BlockFrame *bf,
+void docCellRectangleTwips(rect *drCell, const BlockFrame *bf,
 			   const BufferItem *cellNode)
 {
 	ParagraphFrame pf;

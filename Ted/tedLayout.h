@@ -55,7 +55,7 @@ int tedArrowUp(DocumentPosition *bp, const PositionGeometry *pg,
 
 int tedLayoutDocumentBody(int *pReachedBottom, const LayoutContext *lc);
 
-void tedGetObjectRectangle(DocumentRectangle *drObject, Point2DI *xp,
+void tedGetObjectRectangle(rect *drObject, vec2 *xp,
 				  const InsertedObject *io,
 				  const PositionGeometry *pg,
 				  const LayoutContext *lc,

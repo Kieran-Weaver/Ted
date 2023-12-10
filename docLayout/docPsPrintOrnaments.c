@@ -180,7 +180,7 @@ void psDefineBorderProcs(SimpleOutputStream *sos)
 /************************************************************************/
 
 static int docPsPrintVerticalBorder(const BorderProperties *bpVert,
-				    const DocumentRectangle *dr,
+				    const rect *dr,
 				    PrintingState *ps,
 				    struct DrawingContext *dc)
 {
@@ -226,7 +226,7 @@ static int docPsPrintVerticalBorder(const BorderProperties *bpVert,
 /************************************************************************/
 
 static int docPsPrintHorizontalBorder(const BorderProperties *bpHor,
-				      const DocumentRectangle *dr,
+				      const rect *dr,
 				      PrintingState *ps,
 				      struct DrawingContext *dc)
 {
@@ -272,8 +272,8 @@ static int docPsPrintHorizontalBorder(const BorderProperties *bpHor,
 /************************************************************************/
 
 int docPsPrintOrnaments(const BlockOrnaments *bo, int page,
-			const DocumentRectangle *drOutside,
-			const DocumentRectangle *drInside, void *through,
+			const rect *drOutside,
+			const rect *drInside, void *through,
 			struct DrawingContext *dc)
 {
 	PrintingState *ps = (PrintingState *)through;
@@ -328,7 +328,7 @@ int docPsPrintOrnaments(const BlockOrnaments *bo, int page,
 	}
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawTOP_BORDER)) {
-		DocumentRectangle drBorder = *drOutside;
+		rect drBorder = *drOutside;
 
 		drBorder.drY1 = drInside->drY0 - 1;
 
@@ -338,7 +338,7 @@ int docPsPrintOrnaments(const BlockOrnaments *bo, int page,
 	}
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawLEFT_BORDER)) {
-		DocumentRectangle drBorder = *drOutside;
+		rect drBorder = *drOutside;
 
 		drBorder.drY0 = drInside->drY0;
 		drBorder.drY1 = drInside->drY1;
@@ -350,7 +350,7 @@ int docPsPrintOrnaments(const BlockOrnaments *bo, int page,
 	}
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawRIGHT_BORDER)) {
-		DocumentRectangle drBorder = *drOutside;
+		rect drBorder = *drOutside;
 
 		drBorder.drY0 = drInside->drY0;
 		drBorder.drY1 = drInside->drY1;
@@ -362,7 +362,7 @@ int docPsPrintOrnaments(const BlockOrnaments *bo, int page,
 	}
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawBOTTOM_BORDER)) {
-		DocumentRectangle drBorder = *drOutside;
+		rect drBorder = *drOutside;
 
 		drBorder.drY0 = drInside->drY1 + 1;
 

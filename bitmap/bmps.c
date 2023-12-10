@@ -100,7 +100,7 @@ int bmPsRowStringSize(const BitmapDescription *bd, int pixelsWide,
 
 int bmPsPrintBitmap(SimpleOutputStream *sos, int level, double xscale,
 		    double yscale, int ox, int oy,
-		    const DocumentRectangle *drSel, int useFilters,
+		    const rect *drSel, int useFilters,
 		    int indexedImages, const BitmapDescription *bd,
 		    const unsigned char *buffer)
 {
@@ -108,7 +108,7 @@ int bmPsPrintBitmap(SimpleOutputStream *sos, int level, double xscale,
 	int rectangleHighTwips;
 	const int onWhite = 0;
 
-	DocumentRectangle drAll;
+	rect drAll;
 	drAll.drX0 = 0;
 	drAll.drY0 = 0;
 	drAll.drX1 = bd->bdPixelsWide - 1;
@@ -329,7 +329,7 @@ void bmPsWriteImageInstructions(SimpleOutputStream *sos,
 
 int bmPsPrintBitmapImage(SimpleOutputStream *sos, int level, double xscale,
 			 double yscale, int ox, int oy,
-			 const DocumentRectangle *drSel, int onWhite,
+			 const rect *drSel, int onWhite,
 			 int useFilters, int indexedImages,
 			 const BitmapDescription *bd,
 			 const unsigned char *buffer)

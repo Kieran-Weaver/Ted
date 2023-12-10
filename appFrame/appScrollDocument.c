@@ -36,8 +36,8 @@ static void appDocScrollVertically(EditDocument *ed, int scrolledY)
 	int high;
 	int wide;
 
-	DocumentRectangle drClip;
-	DocumentRectangle drScreen;
+	rect drClip;
+	rect drScreen;
 
 	drawNoClipping(ds);
 
@@ -48,7 +48,7 @@ static void appDocScrollVertically(EditDocument *ed, int scrolledY)
 
 	if (scrolledY > 0) {
 		if (high > scrolledY) {
-			DocumentRectangle drSrc;
+			rect drSrc;
 
 			drSrc.drX0 = 0;
 			drSrc.drX1 = wide - 1;
@@ -68,7 +68,7 @@ static void appDocScrollVertically(EditDocument *ed, int scrolledY)
 		}
 	} else {
 		if (high + scrolledY > 0) {
-			DocumentRectangle drSrc;
+			rect drSrc;
 
 			drSrc.drX0 = 0;
 			drSrc.drX1 = wide - 1;
@@ -131,8 +131,8 @@ static void appDocScrollHorizontally(EditDocument *ed, int scrolledX)
 	int high;
 	int wide;
 
-	DocumentRectangle drClip;
-	DocumentRectangle drScreen;
+	rect drClip;
+	rect drScreen;
 
 	drawNoClipping(ds);
 
@@ -143,7 +143,7 @@ static void appDocScrollHorizontally(EditDocument *ed, int scrolledX)
 
 	if (scrolledX > 0) {
 		if (wide > scrolledX) {
-			DocumentRectangle drSrc;
+			rect drSrc;
 
 			drSrc.drX0 = scrolledX;
 			drSrc.drX1 = wide - 1;
@@ -160,7 +160,7 @@ static void appDocScrollHorizontally(EditDocument *ed, int scrolledX)
 		}
 	} else {
 		if (wide + scrolledX > 0) {
-			DocumentRectangle drSrc;
+			rect drSrc;
 
 			drSrc.drX0 = 0;
 			drSrc.drX1 = wide + scrolledX - 1;
@@ -261,7 +261,7 @@ APP_SCROLLBAR_CALLBACK_H(appDocHorizontalScrollbarCallback, w, voided, e)
 /*									*/
 /************************************************************************/
 
-void appScrollToRectangle(EditDocument *ed, const DocumentRectangle *dr,
+void appScrollToRectangle(EditDocument *ed, const rect *dr,
 			  int *pScrolledX, int *pScrolledY)
 {
 	int sliderSize;

@@ -23,7 +23,7 @@
 typedef struct FindColor {
 	int fcFound;
 	int fcSplitCandidate;
-	Point2DI fcPoint;
+	vec2 fcPoint;
 	RGB8Color fcRgbColor;
 } FindColor;
 
@@ -105,7 +105,7 @@ static void appTryRgbColorFace(RgbCube *rc, RgbColorBlock *rcb, void *through,
 {
 	FindColor *fc = (FindColor *)through;
 
-	Point2DI points[5];
+	vec2 points[5];
 
 	points[0].x = scale * xo[nodes[0]] + square / 2;
 	points[1].x = scale * xo[nodes[1]] + square / 2;
@@ -142,7 +142,7 @@ static void appDrawRgbColorFace(RgbCube *rc, RgbColorBlock *rcb, void *through,
 	struct DrawingSurface *ds = (struct DrawingSurface*)through;
 	int linewidth;
 
-	Point2DI points[5];
+	vec2 points[5];
 	RGB8Color colX;
 
 	points[0].x = scale * xo[nodes[0]] + square / 2;
@@ -381,7 +381,7 @@ static void appHandleRgbColorBlock(double k, int square, double scale,
 /************************************************************************/
 
 void appRedrawRgbCube(RgbCube *rc, int wide, int high,
-		      const DocumentRectangle *drClip, struct DrawingSurface *ds)
+		      const rect *drClip, struct DrawingSurface *ds)
 {
 	double k = RGB_K;
 
@@ -398,7 +398,7 @@ void appRedrawRgbCube(RgbCube *rc, int wide, int high,
 	drawFillRectangle(ds, drClip);
 
 	if (rc->rcColorSelected >= 0) {
-		DocumentRectangle drSel;
+		rect drSel;
 
 		drSel.drX0 = (5 * wide) / 6;
 		drSel.drY0 = (5 * high) / 6;

@@ -31,7 +31,7 @@
 
 static void docPsEmitVertices(SimpleOutputStream *sos,
 			      const AffineTransform2D *at, double *pX,
-			      double *pY, const Point2DI *sv, int nv, double x0,
+			      double *pY, const vec2 *sv, int nv, double x0,
 			      double y0, double xm, double ym)
 {
 	int i;
@@ -66,7 +66,7 @@ static void docPsEmitVertices(SimpleOutputStream *sos,
 
 static void docPsEmitFirstVertex(SimpleOutputStream *sos,
 				 const AffineTransform2D *at, double *pX,
-				 double *pY, const Point2DI *sv, double xm,
+				 double *pY, const vec2 *sv, double xm,
 				 double ym)
 {
 	double x;
@@ -166,7 +166,7 @@ static int docPsPrintArrowHead(PrintingState *ps, int lineWidth,
 /************************************************************************/
 
 static void docPsCanPath(SimpleOutputStream *sos,
-			 const DocumentRectangle *drCan, const char *oper)
+			 const rect *drCan, const char *oper)
 {
 	int w = drCan->drX1 - drCan->drX0;
 	int h = drCan->drY1 - drCan->drY0;
@@ -195,7 +195,7 @@ static void docPsCanPath(SimpleOutputStream *sos,
 /************************************************************************/
 
 static void docPsCubePath(SimpleOutputStream *sos,
-			  const DocumentRectangle *drCube, const char *oper)
+			  const rect *drCube, const char *oper)
 {
 	int w = drCube->drX1 - drCube->drX0;
 	int h = drCube->drY1 - drCube->drY0;
@@ -300,7 +300,7 @@ static void docPsPrintGetLine(int *pLine, int *pLineWidth,
 /************************************************************************/
 
 static int docPsPrintShapePath(const DrawingShape *ds, const ShapePath *sp,
-			       const DocumentRectangle *dr, DrawingContext *dc,
+			       const rect *dr, DrawingContext *dc,
 			       PrintingState *ps)
 {
 	SimpleOutputStream *sos = ps->psSos;
@@ -319,7 +319,7 @@ static int docPsPrintShapePath(const DrawingShape *ds, const ShapePath *sp,
 	DrawShapeArrow dsaTail;
 	Point2DD shaftTail[2];
 
-	const Point2DI *sv = sp->spVertices;
+	const vec2 *sv = sp->spVertices;
 	int nv = sp->spVertexCount;
 	double xm = 0.5 * sp->spXSize;
 	double ym = 0.5 * sp->spYSize;
@@ -425,7 +425,7 @@ static int docPsPrintShapePath(const DrawingShape *ds, const ShapePath *sp,
 /*									*/
 /************************************************************************/
 
-int docPsPrintDrawDrawingShape(const DocumentRectangle *drTwips, int page,
+int docPsPrintDrawDrawingShape(const rect *drTwips, int page,
 			       DrawingShape *ds, DrawingContext *dc, void *vps)
 {
 	const ShapeDrawing *sd = &(ds->dsDrawing);
@@ -804,7 +804,7 @@ int docPsPrintDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 
 	case SHPtyELLIPSE:
 	case SHPtyFLOW_CHART_CONNECTOR: {
-		DocumentRectangle drEllipse;
+		rect drEllipse;
 		int w;
 		int h;
 		int r;
@@ -866,7 +866,7 @@ int docPsPrintDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 
 	case SHPtyROUND_RECTANGLE:
 	case SHPtyFLOW_CHART_ALTERNATE_PROCESS: {
-		DocumentRectangle drRRect;
+		rect drRRect;
 		int w;
 		int h;
 		int r;
@@ -895,7 +895,7 @@ int docPsPrintDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 
 	case SHPtyCAN:
 	case SHPtyFLOW_CHART_MAGNETIC_DISK: {
-		DocumentRectangle drCan;
+		rect drCan;
 
 		docShapeStartShapeTransform(&at, ds, drTwips, 1, 1);
 
@@ -915,7 +915,7 @@ int docPsPrintDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 	} break;
 
 	case SHPtyCUBE: {
-		DocumentRectangle drCube;
+		rect drCube;
 
 		docShapeStartShapeTransform(&at, ds, drTwips, 1, 1);
 

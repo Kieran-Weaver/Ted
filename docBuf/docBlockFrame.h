@@ -38,12 +38,12 @@ typedef struct BlockFrame {
 	/*  Page and (newspaper) column number of	*/
 	/*  the frame.				*/
 	/********************************************/
-	DocumentRectangle bfFlowRect;
+	rect bfFlowRect;
 	/********************************************/
 	/*  Is consumed by the formatter: footnotes	*/
 	/*  are subtracted from the bottom.		*/
 	/********************************************/
-	DocumentRectangle bfContentRect;
+	rect bfContentRect;
 	/********************************************/
 	/*  Is set at the beginning and is not	*/
 	/*  changed on the way.			*/

@@ -42,16 +42,16 @@ static void tedDrawSetBorderColor(DrawingContext *dc, ScreenDrawingData *sdd,
 /************************************************************************/
 
 int tedDrawOrnaments(const BlockOrnaments *bo, int page,
-		     const DocumentRectangle *drOutside,
-		     const DocumentRectangle *drInside, void *through,
+		     const rect *drOutside,
+		     const rect *drInside, void *through,
 		     struct DrawingContext *dc)
 {
 	ScreenDrawingData *sdd = (ScreenDrawingData *)through;
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	const BufferDocument *bd = lc->lcDocument;
 
-	DocumentRectangle drOutPixels;
-	DocumentRectangle drInPixels;
+	rect drOutPixels;
+	rect drInPixels;
 
 	int topAsGrid = 0;
 	int leftAsGrid = 0;
@@ -62,7 +62,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 	drInPixels = drOutPixels;
 
 	if (dc->dcClipRect &&
-	    !geoIntersectRectangle((DocumentRectangle *)0, &drOutPixels,
+	    !geoIntersectRectangle((rect *)0, &drOutPixels,
 				   dc->dcClipRect)) {
 		return 0;
 	}
@@ -129,7 +129,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 	}
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawSHADE)) {
-		DocumentRectangle drShade = drInPixels;
+		rect drShade = drInPixels;
 
 		if (!dc->dcClipRect ||
 		    geoIntersectRectangle(&drShade, &drInPixels,
@@ -215,7 +215,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 			}
 
 			if (isFilled) {
-				DocumentRectangle drFill = drShade;
+				rect drFill = drShade;
 
 				docDrawSetColorRgb(dc, (void *)sdd, &rgb8);
 
@@ -229,7 +229,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawTOP_BORDER) ||
 	    PROPmaskISSET(&(bo->boPropMask), ORNdrawTOP_GRID)) {
-		DocumentRectangle drBorder = drOutPixels;
+		rect drBorder = drOutPixels;
 
 		drBorder.drY1 = drInPixels.drY0;
 		drBorder.drY1 = drInPixels.drY0 - 1;
@@ -250,7 +250,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawLEFT_BORDER) ||
 	    PROPmaskISSET(&(bo->boPropMask), ORNdrawLEFT_GRID)) {
-		DocumentRectangle drBorder = drOutPixels;
+		rect drBorder = drOutPixels;
 
 		drBorder.drY0 = drInPixels.drY0;
 		drBorder.drY1 = drInPixels.drY1;
@@ -273,7 +273,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawRIGHT_BORDER) ||
 	    PROPmaskISSET(&(bo->boPropMask), ORNdrawRIGHT_GRID)) {
-		DocumentRectangle drBorder = drOutPixels;
+		rect drBorder = drOutPixels;
 
 		drBorder.drY0 = drInPixels.drY0;
 		drBorder.drY1 = drInPixels.drY1;
@@ -302,7 +302,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 
 	if (PROPmaskISSET(&(bo->boPropMask), ORNdrawBOTTOM_BORDER) ||
 	    PROPmaskISSET(&(bo->boPropMask), ORNdrawBOTTOM_GRID)) {
-		DocumentRectangle drBorder = drOutPixels;
+		rect drBorder = drOutPixels;
 
 		drBorder.drY0 = drInPixels.drY1 + 1;
 
@@ -338,7 +338,7 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 
 void tedDrawShadedRectangle(const LayoutContext *lc,
 			    struct DrawingSurface **shadingPixmaps,
-			    int pattern, const DocumentRectangle *drShade)
+			    int pattern, const rect *drShade)
 {
 	if (!shadingPixmaps[pattern]) {
 		const int wide = 8;
@@ -347,7 +347,7 @@ void tedDrawShadedRectangle(const LayoutContext *lc,
 		int t;
 		int s = 0;
 
-		DocumentRectangle drFill;
+		rect drFill;
 
 		int x;
 		int y;

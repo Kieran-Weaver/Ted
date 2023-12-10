@@ -37,8 +37,8 @@ void tedSetObjectWindows(EditDocument *ed, const PositionGeometry *pg,
 	int i;
 	gint attributesMask;
 
-	DocumentRectangle drObj;
-	Point2DI xp[RESIZE_COUNT];
+	rect drObj;
+	vec2 xp[RESIZE_COUNT];
 
 	static const int font_cursors[RESIZE_COUNT] = {
 		GDK_BOTTOM_LEFT_CORNER,	 GDK_BOTTOM_SIDE,
@@ -149,7 +149,7 @@ static int tedShowIBar(void *voided)
 	DocumentSelection ds;
 	SelectionGeometry sg;
 	SelectionDescription sd;
-	DocumentRectangle drPixels;
+	rect drPixels;
 
 	LayoutContext lc;
 
@@ -208,7 +208,7 @@ void tedStopCursorBlink(EditDocument *ed)
 		DocumentSelection ds;
 		SelectionGeometry sg;
 		SelectionDescription sd;
-		DocumentRectangle drPixels;
+		rect drPixels;
 
 		LayoutContext lc;
 

@@ -143,7 +143,7 @@ ready:
 	return rval;
 }
 
-static int docRtfShpCollectVertices(Point2DI *vertices, int count, char *from)
+static int docRtfShpCollectVertices(vec2 *vertices, int count, char *from)
 {
 	int rval = 0;
 	int i;
@@ -248,7 +248,7 @@ int docRtfShpArray(const RtfControlWord *rcw, int arg, RtfReader *rr)
 
 	long val;
 
-	Point2DI *vertices = (Point2DI *)0;
+	vec2 *vertices = (vec2 *)0;
 	int *numbers = (int *)0;
 
 	if (docRtfStoreSavedText(&text, &size, rr, removeSemicolon)) {
@@ -297,7 +297,7 @@ int docRtfShpArray(const RtfControlWord *rcw, int arg, RtfReader *rr)
 
 	switch (unitSize) {
 	case 8:
-		vertices = (Point2DI *)malloc((count + 1) * sizeof(Point2DI));
+		vertices = (vec2 *)malloc((count + 1) * sizeof(vec2));
 		if (!vertices) {
 			LXDEB(count, vertices);
 			rval = -1;
@@ -342,13 +342,13 @@ int docRtfShpArray(const RtfControlWord *rcw, int arg, RtfReader *rr)
 	switch (rcw->rcwID) {
 	case DSHPprop_pVerticies:
 		sd->sdVertices = vertices;
-		vertices = (Point2DI *)0; /* steal */
+		vertices = (vec2 *)0; /* steal */
 		sd->sdVertexCount = count;
 		break;
 
 	case DSHPprop_pWrapPolygonVertices:
 		sd->sdWrapPolygonVertices = vertices;
-		vertices = (Point2DI *)0; /* steal */
+		vertices = (vec2 *)0; /* steal */
 		sd->sdWrapPolygonVertexCount = count;
 		break;
 

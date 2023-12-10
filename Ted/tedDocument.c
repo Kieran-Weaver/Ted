@@ -391,7 +391,7 @@ int tedFinishDocumentSetup(EditDocument *ed)
 void tedDocumentFirstVisible(EditDocument *ed)
 {
 	TedDocument *td = (TedDocument *)ed->edPrivateData;
-	DocumentRectangle dr = ed->edVisibleRect;
+	rect dr = ed->edVisibleRect;
 
 	if (td->tdSelectionGeometry.sgRectangle.drX1 > dr.drX1) {
 		int sh = td->tdSelectionGeometry.sgRectangle.drX1 - dr.drX1;
@@ -505,7 +505,7 @@ int tedFirstRecalculateFields(RecalculateFields *rf,
 	return 0;
 }
 
-int tedLayoutDocument(DocumentRectangle *drScreen, DocumentRectangle *drVisible,
+int tedLayoutDocument(rect *drScreen, rect *drVisible,
 		      void *privateData, int format, struct DrawingSurface *ds,
 		      const PostScriptFontList *psfl,
 		      const DocumentGeometry *dgDef)
@@ -520,8 +520,8 @@ int tedLayoutDocument(DocumentRectangle *drScreen, DocumentRectangle *drVisible,
 	RecalculateFields rf;
 	LayoutContext lc;
 
-	DocumentRectangle drOutside;
-	DocumentRectangle drInside;
+	rect drOutside;
+	rect drInside;
 
 	BufferItem *rootNode = bd->bdBody.dtRoot;
 

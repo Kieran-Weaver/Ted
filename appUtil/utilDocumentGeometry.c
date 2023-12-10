@@ -123,7 +123,7 @@ void utilUpdDocumentGeometry(PropertyMask *dpDoneMask, DocumentGeometry *dgTo,
 	return;
 }
 
-void utilDocumentGeometryGetBodyRect(DocumentRectangle *dr,
+void utilDocumentGeometryGetBodyRect(rect *dr,
 				     const DocumentGeometry *dg)
 {
 	dr->drX0 = dg->dgLeftMarginTwips;
@@ -132,7 +132,7 @@ void utilDocumentGeometryGetBodyRect(DocumentRectangle *dr,
 	dr->drY1 = dg->dgPageHighTwips - dg->dgBottomMarginTwips;
 }
 
-void utilDocumentGeometryGetHeaderRect(DocumentRectangle *dr,
+void utilDocumentGeometryGetHeaderRect(rect *dr,
 				       const DocumentGeometry *dg)
 {
 	dr->drX0 = dg->dgLeftMarginTwips;
@@ -141,7 +141,7 @@ void utilDocumentGeometryGetHeaderRect(DocumentRectangle *dr,
 	dr->drY1 = dg->dgTopMarginTwips;
 }
 
-void utilDocumentGeometryGetFooterRect(DocumentRectangle *dr,
+void utilDocumentGeometryGetFooterRect(rect *dr,
 				       const DocumentGeometry *dg)
 {
 	dr->drX0 = dg->dgLeftMarginTwips;
@@ -150,21 +150,21 @@ void utilDocumentGeometryGetFooterRect(DocumentRectangle *dr,
 	dr->drY1 = dg->dgPageHighTwips - dg->dgFooterPositionTwips;
 }
 
-void utilDocumentGeometryGetPageBoundingBox(DocumentRectangle *dr,
+void utilDocumentGeometryGetPageBoundingBox(rect *dr,
 					    const DocumentGeometry *dg,
 					    int hasHeader, int hasFooter)
 {
 	utilDocumentGeometryGetBodyRect(dr, dg);
 
 	if (hasHeader) {
-		DocumentRectangle drHead;
+		rect drHead;
 
 		utilDocumentGeometryGetHeaderRect(&drHead, dg);
 		geoUnionRectangle(dr, dr, &drHead);
 	}
 
 	if (hasFooter) {
-		DocumentRectangle drFoot;
+		rect drFoot;
 
 		utilDocumentGeometryGetFooterRect(&drFoot, dg);
 		geoUnionRectangle(dr, dr, &drFoot);

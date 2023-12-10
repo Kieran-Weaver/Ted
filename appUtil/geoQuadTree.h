@@ -48,12 +48,12 @@ typedef struct QuadNode {
 } QuadNode;
 
 typedef struct QuadTree {
-	DocumentRectangle qtRectangle;
+	rect qtRectangle;
 	int qtDiameter;
 	QuadNode *qtRootNode;
 } QuadTree;
 
-typedef int (*QuadForAllFilter)(const DocumentRectangle *dr, void *through);
+typedef int (*QuadForAllFilter)(const rect *dr, void *through);
 
 typedef int (*QuadForAllCall)(int *pDelete, int x, int y, void *data,
 			      void *through);
@@ -64,7 +64,7 @@ typedef int (*QuadForAllCall)(int *pDelete, int x, int y, void *data,
 /*									*/
 /************************************************************************/
 
-QuadTree *qtMakeTree(const DocumentRectangle *dr);
+QuadTree *qtMakeTree(const rect *dr);
 
 void qtFreeTree(QuadTree *qt, QuadForAllCall freefun, void *through);
 
@@ -81,7 +81,7 @@ int qtGetNearest(QuadTree *qt, int x, int y, const void *data, int *pX,
 const char *qtQuadrantStr(int q);
 const char *qtOctantStr(int q);
 
-int qtForAllInRectangle(const QuadTree *qt, const DocumentRectangle *dr,
+int qtForAllInRectangle(const QuadTree *qt, const rect *dr,
 			       QuadForAllCall fun, void *through);
 
 int qtForAll(const QuadTree *qt, QuadForAllFilter filter,

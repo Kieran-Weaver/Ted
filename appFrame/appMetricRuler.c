@@ -109,7 +109,7 @@ void appHorizontalRulerDrawMark(RulerData *rd, int fontBottom, int tagY0,
 				int tick, double units, int ox)
 {
 	struct DrawingSurface *ds = rd->rdDrawingSurface;
-	DocumentRectangle drMark;
+	rect drMark;
 	int maxUsed = rd->rdSizeAlong - rd->rdExtraAfterMaxUsed;
 
 	drMark.drX0 = drMark.drX1 = iitem - ox;
@@ -157,7 +157,7 @@ void appHorizontalRulerDrawMark(RulerData *rd, int fontBottom, int tagY0,
 /************************************************************************/
 
 static void appDrawHorizontalRuler(APP_WIDGET w, MetricRuler *mr,
-				   DocumentRectangle *drClip, int ox)
+				   rect *drClip, int ox)
 {
 	RulerData *rd = &(mr->mrRulerData);
 	int sizeAcross = rd->rdSizeAcross;
@@ -174,10 +174,10 @@ static void appDrawHorizontalRuler(APP_WIDGET w, MetricRuler *mr,
 
 	int fontBottom = FONT_BOTTOM(sizeAcross);
 
-	DocumentRectangle drMark;
+	rect drMark;
 
 	struct DrawingSurface *ds = rd->rdDrawingSurface;
-	DocumentRectangle drBack;
+	rect drBack;
 
 	if (rd->rdSizeAlong == 0) {
 		appHorizontalRulerGetSizeFromWidget(rd, w);
@@ -191,7 +191,7 @@ static void appDrawHorizontalRuler(APP_WIDGET w, MetricRuler *mr,
 	appRulerDrawBackground(rd, &drBack);
 
 	if (mr->mrV0Pixels >= 0 || mr->mrV1Pixels >= 0) {
-		DocumentRectangle drSel;
+		rect drSel;
 
 		drSel.drX0 = 0;
 		drSel.drX1 = maxUsed;
@@ -303,7 +303,7 @@ static void appDrawHorizontalRuler(APP_WIDGET w, MetricRuler *mr,
 /************************************************************************/
 
 static void appDrawVerticalRuler(APP_WIDGET w, MetricRuler *mr,
-				 DocumentRectangle *drClip, int oy)
+				 rect *drClip, int oy)
 {
 	RulerData *rd = &(mr->mrRulerData);
 	int sizeAcross = rd->rdSizeAcross;
@@ -320,7 +320,7 @@ static void appDrawVerticalRuler(APP_WIDGET w, MetricRuler *mr,
 
 	int fontBottom = FONT_BOTTOM(sizeAcross);
 
-	DocumentRectangle drMark;
+	rect drMark;
 
 	struct DrawingSurface *ds = rd->rdDrawingSurface;
 
@@ -340,7 +340,7 @@ static void appDrawVerticalRuler(APP_WIDGET w, MetricRuler *mr,
 	drawFillRectangle(ds, &drMark);
 
 	if (mr->mrV0Pixels >= 0 || mr->mrV1Pixels >= 0) {
-		DocumentRectangle drSel;
+		rect drSel;
 
 		drSel.drX0 = 0;
 		drSel.drX1 = sizeAcross;
@@ -491,7 +491,7 @@ APP_EVENT_HANDLER_H(appRedrawHorizontalMetricRuler, w, voidmr, event)
 
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	if (!rd->rdDrawingSurface) {
 		const int vertical = 0;
@@ -513,7 +513,7 @@ APP_EVENT_HANDLER_H(appRedrawVerticalMetricRuler, w, voidmr, event)
 
 	int oy = rd->rdVisibleC0 - rd->rdMinUsed;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	if (!rd->rdDrawingSurface) {
 		const int vertical = 1;
@@ -559,7 +559,7 @@ void appScrollHorMetricRuler(void *voidmr, APP_WIDGET w, int d)
 	MetricRuler *mr = (MetricRuler *)voidmr;
 	RulerData *rd = &(mr->mrRulerData);
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	int ox;
 
@@ -575,7 +575,7 @@ void appScrollVertMetricRuler(void *voidmr, APP_WIDGET w, int d)
 	MetricRuler *mr = (MetricRuler *)voidmr;
 	RulerData *rd = &(mr->mrRulerData);
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	int oy;
 
@@ -610,8 +610,8 @@ void appSetMetricRulerRange(void *voidmr, APP_WIDGET w, int docFullV1,
 void appMetricRulerDrawHair(EditDocument *ed)
 {
 	const SelectRectangle *sr = &(ed->edSelectRectangle);
-	DocumentRectangle drWhite;
-	DocumentRectangle drBlack;
+	rect drWhite;
+	rect drBlack;
 	int ox = ed->edVisibleRect.drX0;
 	int oy = ed->edVisibleRect.drY0;
 
@@ -676,7 +676,7 @@ void appMetricRulerDrawHair(EditDocument *ed)
 void appMetricRulerExposeValue(EditDocument *ed)
 {
 	const SelectRectangle *sr = &(ed->edSelectRectangle);
-	DocumentRectangle drExpose;
+	rect drExpose;
 	int ox = ed->edVisibleRect.drX0;
 	int oy = ed->edVisibleRect.drY0;
 
@@ -776,7 +776,7 @@ static void appHorizontalRulerSetValue(MetricRulerDrag *mrd, APP_WIDGET w,
 
 	int oldValue = *(mrd->mrdValuePointer);
 
-	DocumentRectangle drExpose;
+	rect drExpose;
 
 	if (newValue == oldValue) {
 		return;
@@ -1087,7 +1087,7 @@ static void appVerticalRulerSetValue(MetricRulerDrag *mrd, APP_WIDGET w,
 
 	int oldValue = *(mrd->mrdValuePointer);
 
-	DocumentRectangle drExpose;
+	rect drExpose;
 
 	if (newValue < rd->rdDocumentC0) {
 		newValue = rd->rdDocumentC0;

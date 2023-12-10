@@ -166,7 +166,7 @@ int drawGetScreenFont(DrawScreenFont **pApf, int *pFresh,
 	return screenFont;
 }
 
-int drawTextExtentsImpl(DocumentRectangle *drText, int x, int y,
+int drawTextExtentsImpl(rect *drText, int x, int y,
 			const NumberedPropertiesList *npl, int screenFont,
 			const char *s, int len)
 {
@@ -188,7 +188,7 @@ int drawTextExtentsImpl(DocumentRectangle *drText, int x, int y,
 	return -1;
 }
 
-int drawScapsTextExtentsImpl(DocumentRectangle *drText, int x, int y,
+int drawScapsTextExtentsImpl(rect *drText, int x, int y,
 			     const NumberedPropertiesList *npl,
 			     int fullScreenFont, int scapsScreenFont,
 			     const char *s, int len)

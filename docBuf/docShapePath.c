@@ -11,16 +11,16 @@
 
 /************************************************************************/
 
-#define sva(x) sizeof(x) / sizeof(Point2DI), x
+#define sva(x) sizeof(x) / sizeof(vec2), x
 
-static Point2DI SV_33[] = {
+static vec2 SV_33[] = {
 	{ 0, 0 },
 	{ 1, 0 },
 	{ 1, 1 },
 };
 const ShapePath SP_33 = { "SP_33", 1, 1, 0, sva(SV_33) };
 
-static Point2DI SV_34[] = {
+static vec2 SV_34[] = {
 	{ 0, 0 },
 	{ 1, 0 },
 	{ 1, 1 },
@@ -28,13 +28,13 @@ static Point2DI SV_34[] = {
 };
 const ShapePath SP_34 = { "SP_34", 2, 1, 0, sva(SV_34) };
 
-static Point2DI SV_LINE[] = {
+static vec2 SV_LINE[] = {
 	{ 0, 0 },
 	{ 1, 1 },
 };
 const ShapePath SP_LINE = { "SP_LINE", 1, 1, 0, sva(SV_LINE) };
 
-static Point2DI SV_DIAMOND[] = {
+static vec2 SV_DIAMOND[] = {
 	{ 1, 0 },
 	{ 2, 1 },
 	{ 1, 2 },
@@ -42,7 +42,7 @@ static Point2DI SV_DIAMOND[] = {
 };
 const ShapePath SP_DIAMOND = { "SP_DIAMOND", 2, 2, 1, sva(SV_DIAMOND) };
 
-static Point2DI SV_RECTANGLE[] = {
+static vec2 SV_RECTANGLE[] = {
 	{ 0, 0 },
 	{ 1, 0 },
 	{ 1, 1 },
@@ -50,7 +50,7 @@ static Point2DI SV_RECTANGLE[] = {
 };
 const ShapePath SP_RECTANGLE = { "SP_RECTANGLE", 1, 1, 1, sva(SV_RECTANGLE) };
 
-static Point2DI SV_ISOSCELES_TRIANGLE[] = {
+static vec2 SV_ISOSCELES_TRIANGLE[] = {
 	{ 1, 0 },
 	{ 2, 2 },
 	{ 0, 2 },
@@ -58,7 +58,7 @@ static Point2DI SV_ISOSCELES_TRIANGLE[] = {
 const ShapePath SP_ISOSCELES_TRIANGLE = { "SP_ISOSCELES_TRIANGLE", 2, 2, 1,
 					  sva(SV_ISOSCELES_TRIANGLE) };
 
-static Point2DI SV_FLOW_CHART_MERGE[] = {
+static vec2 SV_FLOW_CHART_MERGE[] = {
 	{ 0, 0 },
 	{ 2, 0 },
 	{ 1, 2 },
@@ -66,7 +66,7 @@ static Point2DI SV_FLOW_CHART_MERGE[] = {
 const ShapePath SP_FLOW_CHART_MERGE = { "SP_FLOW_CHART_MERGE", 2, 2, 1,
 					sva(SV_FLOW_CHART_MERGE) };
 
-static Point2DI SV_RIGHT_TRIANGLE[] = {
+static vec2 SV_RIGHT_TRIANGLE[] = {
 	{ 0, 0 },
 	{ 1, 1 },
 	{ 0, 1 },
@@ -74,7 +74,7 @@ static Point2DI SV_RIGHT_TRIANGLE[] = {
 const ShapePath SP_RIGHT_TRIANGLE = { "SP_RIGHT_TRIANGLE", 1, 1, 1,
 				      sva(SV_RIGHT_TRIANGLE) };
 
-static Point2DI SV_PARALLELOGRAM[] = {
+static vec2 SV_PARALLELOGRAM[] = {
 	{ 1, 0 },
 	{ 4, 0 },
 	{ 3, 1 },
@@ -83,7 +83,7 @@ static Point2DI SV_PARALLELOGRAM[] = {
 const ShapePath SP_PARALLELOGRAM = { "SP_PARALLELOGRAM", 4, 1, 1,
 				     sva(SV_PARALLELOGRAM) };
 
-static Point2DI SV_TRAPEZOID[] = {
+static vec2 SV_TRAPEZOID[] = {
 	{ 0, 0 },
 	{ 4, 0 },
 	{ 3, 1 },
@@ -91,7 +91,7 @@ static Point2DI SV_TRAPEZOID[] = {
 };
 const ShapePath SP_TRAPEZOID = { "SP_TRAPEZOID", 4, 1, 1, sva(SV_TRAPEZOID) };
 
-static Point2DI SV_HEXAGON[] = {
+static vec2 SV_HEXAGON[] = {
 	{ 1, 0 }, /*  0  */
 	{ 3, 0 }, /*  1  */
 	{ 4, 1 }, /*  2  */
@@ -101,7 +101,7 @@ static Point2DI SV_HEXAGON[] = {
 };
 const ShapePath SP_HEXAGON = { "SP_HEXAGON", 4, 2, 1, sva(SV_HEXAGON) };
 
-static Point2DI SV_OCTAGON[] = {
+static vec2 SV_OCTAGON[] = {
 	{ 1, 0 }, /*  0  */
 	{ 3, 0 }, /*  1  */
 	{ 4, 1 }, /*  2  */
@@ -113,7 +113,7 @@ static Point2DI SV_OCTAGON[] = {
 };
 const ShapePath SP_OCTAGON = { "SP_OCTAGON", 4, 4, 1, sva(SV_OCTAGON) };
 
-static Point2DI SV_PLUS_SIGN[] = {
+static vec2 SV_PLUS_SIGN[] = {
 	{ 1, 0 }, /*  0  */
 	{ 3, 0 }, /*  1  */
 	{ 3, 1 }, /*  2  */
@@ -129,7 +129,7 @@ static Point2DI SV_PLUS_SIGN[] = {
 };
 const ShapePath SP_PLUS_SIGN = { "SP_PLUS_SIGN", 4, 4, 1, sva(SV_PLUS_SIGN) };
 
-static Point2DI SV_PENTAGON[] = {
+static vec2 SV_PENTAGON[] = {
 	{ 5, 0 }, /*  0  */
 	{ 10, 1 }, /*  1  */
 	{ 8, 3 }, /*  2  */
@@ -138,7 +138,7 @@ static Point2DI SV_PENTAGON[] = {
 };
 const ShapePath SP_PENTAGON = { "SP_PENTAGON", 10, 3, 1, sva(SV_PENTAGON) };
 
-static Point2DI SV_STAR[] = {
+static vec2 SV_STAR[] = {
 	{ 5, 0 }, /*  0  */
 	{ 6, 4 }, /*  1  */
 	{ 10, 4 }, /*  2  */
@@ -152,7 +152,7 @@ static Point2DI SV_STAR[] = {
 };
 const ShapePath SP_STAR = { "SP_STAR", 10, 10, 1, sva(SV_STAR) };
 
-static Point2DI SV_SEAL4[] = {
+static vec2 SV_SEAL4[] = {
 	{ 5, 0 }, /*  0  */
 	{ 6, 4 }, /*  1  */
 	{ 10, 5 }, /*  2  */
@@ -164,7 +164,7 @@ static Point2DI SV_SEAL4[] = {
 };
 const ShapePath SP_SEAL4 = { "SP_SEAL4", 10, 10, 1, sva(SV_SEAL4) };
 
-static Point2DI SV_ARROW[] = {
+static vec2 SV_ARROW[] = {
 	{ 0, 1 }, /*  0  */
 	{ 3, 1 }, /*  1  */
 	{ 3, 0 }, /*  2  */
@@ -175,7 +175,7 @@ static Point2DI SV_ARROW[] = {
 };
 const ShapePath SP_ARROW = { "SP_ARROW", 4, 4, 1, sva(SV_ARROW) };
 
-static Point2DI SV_NOTCHED_RIGHT_ARROW[] = {
+static vec2 SV_NOTCHED_RIGHT_ARROW[] = {
 	{ 0, 1 }, /*  0  */
 	{ 6, 1 }, /*  1  */
 	{ 6, 0 }, /*  2  */
@@ -188,7 +188,7 @@ static Point2DI SV_NOTCHED_RIGHT_ARROW[] = {
 const ShapePath SP_NOTCHED_RIGHT_ARROW = { "SP_NOTCHED_RIGHT_ARROW", 8, 4, 1,
 					   sva(SV_NOTCHED_RIGHT_ARROW) };
 
-static Point2DI SV_HOME_PLATE[] = {
+static vec2 SV_HOME_PLATE[] = {
 	{ 0, 0 }, /*  0  */
 	{ 3, 0 }, /*  1  */
 	{ 4, 1 }, /*  2  */
@@ -198,7 +198,7 @@ static Point2DI SV_HOME_PLATE[] = {
 const ShapePath SP_HOME_PLATE = { "SP_HOME_PLATE", 4, 2, 1,
 				  sva(SV_HOME_PLATE) };
 
-static Point2DI SV_CHEVRON[] = {
+static vec2 SV_CHEVRON[] = {
 	{ 0, 0 }, /*  0  */
 	{ 3, 0 }, /*  1  */
 	{ 4, 2 }, /*  2  */
@@ -208,7 +208,7 @@ static Point2DI SV_CHEVRON[] = {
 };
 const ShapePath SP_CHEVRON = { "SP_CHEVRON", 4, 4, 1, sva(SV_CHEVRON) };
 
-static Point2DI SV_LEFT_ARROW[] = {
+static vec2 SV_LEFT_ARROW[] = {
 	{ 1, 0 }, /*  0  */
 	{ 1, 1 }, /*  1  */
 	{ 4, 1 }, /*  2  */
@@ -220,7 +220,7 @@ static Point2DI SV_LEFT_ARROW[] = {
 const ShapePath SP_LEFT_ARROW = { "SP_LEFT_ARROW", 4, 4, 1,
 				  sva(SV_LEFT_ARROW) };
 
-static Point2DI SV_RIGHT_ARROW_CALLOUT[] = {
+static vec2 SV_RIGHT_ARROW_CALLOUT[] = {
 	{ 0, 0 }, /*  0  */
 	{ 10, 0 }, /*  1  */
 	{ 10, 12 }, /*  2  */
@@ -236,7 +236,7 @@ static Point2DI SV_RIGHT_ARROW_CALLOUT[] = {
 const ShapePath SP_RIGHT_ARROW_CALLOUT = { "SP_RIGHT_ARROW_CALLOUT", 15, 30, 1,
 					   sva(SV_RIGHT_ARROW_CALLOUT) };
 
-static Point2DI SV_LEFT_ARROW_CALLOUT[] = {
+static vec2 SV_LEFT_ARROW_CALLOUT[] = {
 	{ 5, 0 }, /*  0  */
 	{ 15, 0 }, /*  1  */
 	{ 15, 30 }, /*  2  */
@@ -252,7 +252,7 @@ static Point2DI SV_LEFT_ARROW_CALLOUT[] = {
 const ShapePath SP_LEFT_ARROW_CALLOUT = { "SP_LEFT_ARROW_CALLOUT", 15, 30, 1,
 					  sva(SV_LEFT_ARROW_CALLOUT) };
 
-static Point2DI SV_UP_ARROW_CALLOUT[] = {
+static vec2 SV_UP_ARROW_CALLOUT[] = {
 	{ 15, 0 }, /*  0  */
 	{ 20, 3 }, /*  1  */
 	{ 18, 3 }, /*  2  */
@@ -268,7 +268,7 @@ static Point2DI SV_UP_ARROW_CALLOUT[] = {
 const ShapePath SP_UP_ARROW_CALLOUT = { "SP_UP_ARROW_CALLOUT", 30, 15, 1,
 					sva(SV_UP_ARROW_CALLOUT) };
 
-static Point2DI SV_DOWN_ARROW_CALLOUT[] = {
+static vec2 SV_DOWN_ARROW_CALLOUT[] = {
 	{ 0, 0 }, /*  0  */
 	{ 30, 0 }, /*  1  */
 	{ 30, 10 }, /*  2  */
@@ -284,7 +284,7 @@ static Point2DI SV_DOWN_ARROW_CALLOUT[] = {
 const ShapePath SP_DOWN_ARROW_CALLOUT = { "SP_DOWN_ARROW_CALLOUT", 30, 15, 1,
 					  sva(SV_DOWN_ARROW_CALLOUT) };
 
-static Point2DI SV_LEFT_RIGHT_ARROW_CALLOUT[] = {
+static vec2 SV_LEFT_RIGHT_ARROW_CALLOUT[] = {
 	{ 15, 0 }, /*  0  */
 	{ 45, 0 }, /*  1  */
 	{ 45, 12 }, /*  2  */
@@ -309,7 +309,7 @@ const ShapePath SP_LEFT_RIGHT_ARROW_CALLOUT = {
 	sva(SV_LEFT_RIGHT_ARROW_CALLOUT)
 };
 
-static Point2DI SV_UP_DOWN_ARROW_CALLOUT[] = {
+static vec2 SV_UP_DOWN_ARROW_CALLOUT[] = {
 	{ 15, 0 }, /*  0  */
 	{ 20, 12 }, /*  1  */
 	{ 18, 12 }, /*  2  */
@@ -332,7 +332,7 @@ static Point2DI SV_UP_DOWN_ARROW_CALLOUT[] = {
 const ShapePath SP_UP_DOWN_ARROW_CALLOUT = { "SP_UP_DOWN_ARROW_CALLOUT", 30, 60,
 					     1, sva(SV_UP_DOWN_ARROW_CALLOUT) };
 
-static Point2DI SV_QUAD_ARROW_CALLOUT[] = {
+static vec2 SV_QUAD_ARROW_CALLOUT[] = {
 	{ 8, 0 }, /*  0  */
 	{ 10, 2 }, /*  1  */
 	{ 9, 2 }, /*  2  */
@@ -369,7 +369,7 @@ static Point2DI SV_QUAD_ARROW_CALLOUT[] = {
 const ShapePath SP_QUAD_ARROW_CALLOUT = { "SP_QUAD_ARROW_CALLOUT", 16, 16, 1,
 					  sva(SV_QUAD_ARROW_CALLOUT) };
 
-static Point2DI SV_LEFT_RIGHT_ARROW[] = {
+static vec2 SV_LEFT_RIGHT_ARROW[] = {
 	{ 1, 1 }, /*  0  */
 	{ 3, 1 }, /*  1  */
 	{ 3, 0 }, /*  2  */
@@ -384,7 +384,7 @@ static Point2DI SV_LEFT_RIGHT_ARROW[] = {
 const ShapePath SP_LEFT_RIGHT_ARROW = { "SP_LEFT_RIGHT_ARROW", 4, 4, 1,
 					sva(SV_LEFT_RIGHT_ARROW) };
 
-static Point2DI SV_UP_ARROW[] = {
+static vec2 SV_UP_ARROW[] = {
 	{ 2, 0 }, /*  0  */
 	{ 4, 1 }, /*  1  */
 	{ 3, 1 }, /*  2  */
@@ -395,7 +395,7 @@ static Point2DI SV_UP_ARROW[] = {
 };
 const ShapePath SP_UP_ARROW = { "SP_UP_ARROW", 4, 4, 1, sva(SV_UP_ARROW) };
 
-static Point2DI SV_DOWN_ARROW[] = {
+static vec2 SV_DOWN_ARROW[] = {
 	{ 1, 0 }, /*  0  */
 	{ 3, 0 }, /*  1  */
 	{ 3, 3 }, /*  2  */
@@ -407,7 +407,7 @@ static Point2DI SV_DOWN_ARROW[] = {
 const ShapePath SP_DOWN_ARROW = { "SP_DOWN_ARROW", 4, 4, 1,
 				  sva(SV_DOWN_ARROW) };
 
-static Point2DI SV_UP_DOWN_ARROW[] = {
+static vec2 SV_UP_DOWN_ARROW[] = {
 	{ 2, 0 }, /*  0  */
 	{ 4, 1 }, /*  1  */
 	{ 3, 1 }, /*  2  */
@@ -422,7 +422,7 @@ static Point2DI SV_UP_DOWN_ARROW[] = {
 const ShapePath SP_UP_DOWN_ARROW = { "SP_UP_DOWN_ARROW", 4, 4, 1,
 				     sva(SV_UP_DOWN_ARROW) };
 
-static Point2DI SV_QUAD_ARROW[] = {
+static vec2 SV_QUAD_ARROW[] = {
 	{ 15, 0 }, /*  0  */
 	{ 20, 6 }, /*  1  */
 	{ 18, 6 }, /*  2  */
@@ -451,7 +451,7 @@ static Point2DI SV_QUAD_ARROW[] = {
 const ShapePath SP_QUAD_ARROW = { "SP_QUAD_ARROW", 30, 30, 1,
 				  sva(SV_QUAD_ARROW) };
 
-static Point2DI SV_LEFT_RIGHT_UP_ARROW[] = {
+static vec2 SV_LEFT_RIGHT_UP_ARROW[] = {
 	{ 15, 0 }, /*  0  */
 	{ 20, 3 }, /*  1  */
 	{ 18, 3 }, /*  2  */
@@ -473,7 +473,7 @@ static Point2DI SV_LEFT_RIGHT_UP_ARROW[] = {
 const ShapePath SP_LEFT_RIGHT_UP_ARROW = { "SP_LEFT_RIGHT_UP_ARROW", 30, 8, 1,
 					   sva(SV_LEFT_RIGHT_UP_ARROW) };
 
-static Point2DI SV_LEFT_UP_ARROW[] = {
+static vec2 SV_LEFT_UP_ARROW[] = {
 	{ 6, 0 }, /*  0  */
 	{ 8, 3 }, /*  1  */
 	{ 7, 3 }, /*  2  */
@@ -490,7 +490,7 @@ static Point2DI SV_LEFT_UP_ARROW[] = {
 const ShapePath SP_LEFT_UP_ARROW = { "SP_LEFT_UP_ARROW", 8, 8, 1,
 				     sva(SV_LEFT_UP_ARROW) };
 
-static Point2DI SV_BENT_UP_ARROW[] = {
+static vec2 SV_BENT_UP_ARROW[] = {
 	{ 6, 0 }, /*  0  */
 	{ 8, 1 }, /*  1  */
 	{ 7, 1 }, /*  2  */
@@ -504,14 +504,14 @@ static Point2DI SV_BENT_UP_ARROW[] = {
 const ShapePath SP_BENT_UP_ARROW = { "SP_BENT_UP_ARROW", 8, 3, 1,
 				     sva(SV_BENT_UP_ARROW) };
 
-static Point2DI SV_FLOW_CHART_PUNCHED_CARD[] = {
+static vec2 SV_FLOW_CHART_PUNCHED_CARD[] = {
 	{ 1, 0 }, { 4, 0 }, { 4, 4 }, { 0, 4 }, { 0, 1 },
 };
 const ShapePath SP_FLOW_CHART_PUNCHED_CARD = {
 	"SP_FLOW_CHART_PUNCHED_CARD", 4, 4, 1, sva(SV_FLOW_CHART_PUNCHED_CARD)
 };
 
-static Point2DI SV_FLOW_CHART_MANUAL_INPUT[] = {
+static vec2 SV_FLOW_CHART_MANUAL_INPUT[] = {
 	{ 4, 0 },
 	{ 4, 4 },
 	{ 0, 4 },
@@ -521,7 +521,7 @@ const ShapePath SP_FLOW_CHART_MANUAL_INPUT = {
 	"SP_FLOW_CHART_MANUAL_INPUT", 4, 4, 1, sva(SV_FLOW_CHART_MANUAL_INPUT)
 };
 
-static Point2DI SV_FLOW_CHART_OFF_PAGE_CONNECTOR[] = {
+static vec2 SV_FLOW_CHART_OFF_PAGE_CONNECTOR[] = {
 	{ 0, 0 }, { 4, 0 }, { 4, 3 }, { 2, 4 }, { 0, 3 },
 };
 const ShapePath SP_FLOW_CHART_OFF_PAGE_CONNECTOR = {
@@ -529,7 +529,7 @@ const ShapePath SP_FLOW_CHART_OFF_PAGE_CONNECTOR = {
 	sva(SV_FLOW_CHART_OFF_PAGE_CONNECTOR)
 };
 
-static Point2DI SV_WEDGE_RECT_CALLOUT[] = {
+static vec2 SV_WEDGE_RECT_CALLOUT[] = {
 	{ 0, 0 }, { 4, 0 }, { 4, 4 }, { 2, 4 }, { 0, 5 }, { 1, 4 }, { 0, 4 },
 };
 const ShapePath SP_WEDGE_RECT_CALLOUT = { "SP_WEDGE_RECT_CALLOUT", 4, 4, 1,

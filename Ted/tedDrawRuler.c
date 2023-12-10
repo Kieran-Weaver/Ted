@@ -68,7 +68,7 @@
 /*									*/
 /************************************************************************/
 
-void tedHangingButtonRect(DocumentRectangle *drButton, int value,
+void tedHangingButtonRect(rect *drButton, int value,
 			  const RulerData *rd)
 {
 	int sizeAcross = rd->rdSizeAcross;
@@ -87,7 +87,7 @@ void tedRulerDrawHangingButton(int value, const RulerData *rd)
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 	struct DrawingSurface* ds = rd->rdDrawingSurface;
 	int sizeAcross = rd->rdSizeAcross;
-	Point2DI points[6];
+	vec2 points[6];
 	int w = BUTTON_MARG;
 
 	value -= ox;
@@ -152,7 +152,7 @@ void tedRulerDrawHangingButton(int value, const RulerData *rd)
 /*									*/
 /************************************************************************/
 
-void tedStandingButtonRect(DocumentRectangle *drButton, int value,
+void tedStandingButtonRect(rect *drButton, int value,
 			   const RulerData *rd)
 {
 	int sizeAcross = rd->rdSizeAcross;
@@ -171,7 +171,7 @@ void tedRulerDrawStandingButton(int value, const RulerData *rd)
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 	struct DrawingSurface* ds = rd->rdDrawingSurface;
 	int sizeAcross = rd->rdSizeAcross;
-	Point2DI points[6];
+	vec2 points[6];
 	int w = BUTTON_MARG;
 
 	value -= ox;
@@ -233,7 +233,7 @@ void tedRulerDrawStandingButton(int value, const RulerData *rd)
 /*									*/
 /************************************************************************/
 
-void tedRulerColumnControlRect(DocumentRectangle *drButton, int x0, int x1,
+void tedRulerColumnControlRect(rect *drButton, int x0, int x1,
 			       const RulerData *rd)
 {
 	int sizeAcross = rd->rdSizeAcross;
@@ -258,7 +258,7 @@ void tedRulerDrawColumnControl(int x0, int x1, int ox, const RulerData *rd)
 {
 	int sizeAcross = rd->rdSizeAcross;
 	struct DrawingSurface* ds = rd->rdDrawingSurface;
-	Point2DI points[5];
+	vec2 points[5];
 	int w = BUTTON_MARG;
 
 	x0 -= ox;
@@ -317,7 +317,7 @@ void tedRulerDrawColumnControl(int x0, int x1, int ox, const RulerData *rd)
 /*									*/
 /************************************************************************/
 
-static void tedTabSymbolRectY(DocumentRectangle *drButton, int tabX, int tabY,
+static void tedTabSymbolRectY(rect *drButton, int tabX, int tabY,
 			      const RulerData *rd)
 {
 	int sizeAcross = rd->rdSizeAcross;
@@ -334,7 +334,7 @@ static void tedTabSymbolRectY(DocumentRectangle *drButton, int tabX, int tabY,
 	return;
 }
 
-void tedTabSymbolRect(DocumentRectangle *drButton, int tabX,
+void tedTabSymbolRect(rect *drButton, int tabX,
 		      const RulerData *rd)
 {
 	int sizeAcross = rd->rdSizeAcross;
@@ -356,7 +356,7 @@ static void tedDrawTabSymbol(struct DrawingSurface *ds, int tabX, int ox, int ta
 	int tabWidth = TAB_WIDTH(sizeAcross);
 	int tabHeight = TAB_HEIGHT(sizeAcross);
 
-	DocumentRectangle dr;
+	rect dr;
 
 	/*  standing  */
 	dr.drX0 = tabX - thick / 2;
@@ -417,7 +417,7 @@ void tedRulerDrawTab(const RulerData *rd, int tabX, int kind)
 	tedDrawTabSymbol(ds, tabX, ox, whiteY + whiteH, rd, kind);
 }
 
-void tedTabButtonRectangle(DocumentRectangle *drButton, int x,
+void tedTabButtonRectangle(rect *drButton, int x,
 			   const RulerData *rd)
 {
 	int sizeAcross = rd->rdSizeAcross;
@@ -440,8 +440,8 @@ void tedDrawTabButton(const RulerData *rd, int kind)
 	int sizeAcross = rd->rdSizeAcross;
 	int whiteY = WHITE_TOP(sizeAcross);
 	int tw = TAB_WIDTH(sizeAcross);
-	DocumentRectangle drButton;
-	DocumentRectangle drDraw;
+	rect drButton;
+	rect drDraw;
 	int ox = 0;
 
 	int x = rd->rdMinUsed;
@@ -514,7 +514,7 @@ void tedDrawTabButton(const RulerData *rd, int kind)
 	tedDrawTabSymbol(ds, x, ox, whiteY - tw / 2 + 1, rd, kind);
 }
 
-void tedRulerActiveRect(DocumentRectangle *drActive, const TedTopRuler *ttr)
+void tedRulerActiveRect(rect *drActive, const TedTopRuler *ttr)
 {
 	const RulerData *rd = &(ttr->ttrRulerData);
 	int sizeAcross = rd->rdSizeAcross;

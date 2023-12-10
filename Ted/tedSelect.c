@@ -53,7 +53,7 @@ static void tedScrollToPositions(EditDocument *ed, const PositionGeometry *pgB,
 				 const LayoutContext *lc, int *pScrolledX,
 				 int *pScrolledY)
 {
-	DocumentRectangle drPixels;
+	rect drPixels;
 
 	docPixelRectangleForPositions(&drPixels, pgB, pgE, lc);
 
@@ -205,7 +205,7 @@ static int tedExtendSelectionFromTable(EditDocument *ed,
 
 static void tedSetExtendedSelection(
 	EditDocument *ed, int exposeSelection,
-	const DocumentRectangle *drOldSel, int direction,
+	const rect *drOldSel, int direction,
 	const BufferItem *bodySectNode, const DocumentPosition *dpExposeBegin,
 	const DocumentPosition *dpExposeEnd, const DocumentPosition *dpTo,
 	const DocumentPosition *dpBegin, const DocumentPosition *dpEnd)
@@ -625,11 +625,11 @@ void tedSetSelectionLow(EditDocument *ed, const DocumentSelection *dsSet,
 
 	int balanced = 0;
 
-	DocumentRectangle drExpose;
+	rect drExpose;
 	DocumentTree *treeSet = (DocumentTree *)0;
 	BufferItem *bodySectBiSet = (BufferItem *)0;
 
-	DocumentRectangle drExternalSet;
+	rect drExternalSet;
 	int bodySectNr = -1;
 
 	int redrawTreeOld = 0;

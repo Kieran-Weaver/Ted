@@ -26,7 +26,7 @@
 /*									*/
 /************************************************************************/
 
-static int docNoteSeparatorBox(DocumentRectangle *dr, int noteItKind,
+static int docNoteSeparatorBox(rect *dr, int noteItKind,
 			       int noteSepKind, int page, int column,
 			       const LayoutContext *lc)
 {
@@ -52,7 +52,7 @@ static int docNoteSeparatorBox(DocumentRectangle *dr, int noteItKind,
 	return 0;
 }
 
-int docGetBoxAroundTree(DocumentRectangle *dr, const BufferItem *bodySectNode,
+int docGetBoxAroundTree(rect *dr, const BufferItem *bodySectNode,
 			const DocumentTree *tree, int justUsed, int page,
 			int column, const LayoutContext *lc)
 {
@@ -60,8 +60,8 @@ int docGetBoxAroundTree(DocumentRectangle *dr, const BufferItem *bodySectNode,
 	BufferItem *treeRoot = tree->dtRoot;
 
 	BlockFrame bf;
-	DocumentRectangle drTwips;
-	DocumentRectangle drBox;
+	rect drTwips;
+	rect drBox;
 
 	docLayoutInitBlockFrame(&bf);
 
@@ -279,7 +279,7 @@ int docTreePrelayout(DocumentTree *tree, const BufferItem *bodySectNode,
 	treeLp.lpAtTopOfColumn = 1; /* not really */
 
 	treeLj = *lj;
-	treeLj.ljChangedRectanglePixels = (DocumentRectangle *)0;
+	treeLj.ljChangedRectanglePixels = (rect *)0;
 
 	treeLj.ljBodySectNode = bodySectNode;
 	treeLj.ljChangedNode = lj->ljChangedNode;
@@ -396,7 +396,7 @@ int docSectHeaderFooterPrelayout(BufferItem *bodySectNode, LayoutJob *lj)
 	}
 
 	if (redraw) {
-		DocumentRectangle drPixels;
+		rect drPixels;
 
 		docGetPixelRectangleForPages(
 			&drPixels, &(lj->ljContext),
@@ -456,7 +456,7 @@ static int docGetY0ForSelectedNoteSeparator(int *pY0Twips,
 	DocumentTree *eiNoteSep;
 	int y0Twips;
 
-	DocumentRectangle drExtern;
+	rect drExtern;
 
 	DocumentField *dfNote;
 	BufferItem *bodySectNode;
@@ -488,7 +488,7 @@ static int docGetY0ForSelectedNoteSeparator(int *pY0Twips,
 }
 
 int docCheckPageOfSelectedTree(int *pChanged, BufferItem **pBodySectNode,
-			       DocumentRectangle *drChanged,
+			       rect *drChanged,
 			       DocumentTree *selTree, const LayoutContext *lc,
 			       INIT_LAYOUT_EXTERNAL initLayoutExternal)
 {
@@ -614,7 +614,7 @@ int docCheckPageOfSelectedTree(int *pChanged, BufferItem **pBodySectNode,
 /*									*/
 /************************************************************************/
 
-int docLayoutDocumentTree(DocumentTree *tree, DocumentRectangle *drChanged,
+int docLayoutDocumentTree(DocumentTree *tree, rect *drChanged,
 			  int page, int column, int y0Twips,
 			  const BufferItem *bodySectNode,
 			  const LayoutContext *lc,

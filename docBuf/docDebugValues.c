@@ -230,7 +230,7 @@ const char *docParticuleFlagsStr(int flags)
 	return scratch;
 }
 
-void docLogRectangle(const char *label, const DocumentRectangle *dr)
+void docLogRectangle(const char *label, const rect *dr)
 {
 	appDebug("%s: [%4d+%4d=%4d]x[%4d+%4d=%4d]\n", label, dr->drX0,
 		 dr->drX1 - dr->drX0 + 1, dr->drX1, dr->drY0,
@@ -239,8 +239,8 @@ void docLogRectangle(const char *label, const DocumentRectangle *dr)
 	return;
 }
 
-void docLogRectangles(const char *label1, const DocumentRectangle *dr1,
-		      const char *label2, const DocumentRectangle *dr2)
+void docLogRectangles(const char *label1, const rect *dr1,
+		      const char *label2, const rect *dr2)
 {
 	appDebug("%s: [%4d+%4d]x[%4d+%4d] %s [%4d+%4d]x[%4d+%4d]\n", label1,
 		 dr1->drX0, dr1->drX1 - dr1->drX0 + 1, dr1->drY0,

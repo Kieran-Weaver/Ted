@@ -17,7 +17,7 @@ void appZoomChangeFactor(APP_WIDGET option, APP_WIDGET menu,
 				APP_WIDGET *options, int optionCount,
 				int *pLogSqrt2Magnification,
 				double *pMagnification,
-				DocumentRectangle *drSelected);
+				rect *drSelected);
 
 void appUpdateZoomMenu(APP_WIDGET menu, APP_WIDGET *options,
 			      int optionCount, int logs2mag);

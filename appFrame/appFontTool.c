@@ -94,15 +94,15 @@ static APP_EVENT_HANDLER_H(appFontRedraw, w, voidafc, exposeEvent)
 	AppFontChooser *afc = (AppFontChooser *)voidafc;
 	struct DrawingSurface *ds = afc->afcDrawingSurface;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	int x;
 	int y;
 	int wide;
 	int high;
 
-	DocumentRectangle drWidget;
-	DocumentRectangle drText;
+	rect drWidget;
+	rect drText;
 
 	int l = strlen(afc->afcChoiceText);
 

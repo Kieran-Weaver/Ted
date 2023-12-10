@@ -463,7 +463,7 @@ InsertedObject *tedObjectMakeRasterObject(int *pObjectNumber, EditDocument *ed,
 
 	io->ioDrawingSurface = drawMakeDrawingSurfaceForImageAndParent(
 		lc->lcDrawingSurface, &(io->ioRasterImage),
-		(const DocumentRectangle *)0, io->ioPixelsWide,
+		(const rect *)0, io->ioPixelsWide,
 		io->ioPixelsHigh);
 	if (!io->ioDrawingSurface) {
 		PDEB(io->ioDrawingSurface); /* return (InsertedObject *)0; */

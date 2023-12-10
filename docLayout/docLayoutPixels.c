@@ -20,7 +20,7 @@
 
 int docLayoutYPixels(const LayoutContext *lc, const LayoutPosition *lp)
 {
-	DocumentRectangle drPixels;
+	rect drPixels;
 
 	docGetPageRectPixels(&drPixels, lc, lp->lpPage);
 
@@ -38,8 +38,8 @@ int docLayoutXPixels(const LayoutContext *lc, int xTwips)
 /*									*/
 /************************************************************************/
 
-void docGetPixelRect(DocumentRectangle *drPixels, const LayoutContext *lc,
-		     const DocumentRectangle *drTwips, int page)
+void docGetPixelRect(rect *drPixels, const LayoutContext *lc,
+		     const rect *drTwips, int page)
 {
 	LayoutPosition lp0;
 	LayoutPosition lp1;
@@ -56,7 +56,7 @@ void docGetPixelRect(DocumentRectangle *drPixels, const LayoutContext *lc,
 	return;
 }
 
-void docGetPixelRectForPos(DocumentRectangle *drPixels, const LayoutContext *lc,
+void docGetPixelRectForPos(rect *drPixels, const LayoutContext *lc,
 			   int x0Twips, int x1Twips,
 			   const LayoutPosition *lpTop,
 			   const LayoutPosition *lpBottom)
@@ -83,7 +83,7 @@ void docGetPixelRectForPos(DocumentRectangle *drPixels, const LayoutContext *lc,
 /*									*/
 /************************************************************************/
 
-void docGetPixelRectangleForPages(DocumentRectangle *drPixels,
+void docGetPixelRectangleForPages(rect *drPixels,
 				  const LayoutContext *lc, int page0, int page1)
 {
 	int sectNr;
@@ -100,8 +100,8 @@ void docGetPixelRectangleForPages(DocumentRectangle *drPixels,
 
 		if (sectNr == 0 || (sectNode->biSectBreakKind != DOCibkNONE &&
 				    sectNode->biSectBreakKind != DOCibkCOL)) {
-			DocumentRectangle drOutside;
-			DocumentRectangle drInside;
+			rect drOutside;
+			rect drInside;
 			int step;
 			int topPage = sectNode->biTopPosition.lpPage;
 
@@ -140,19 +140,19 @@ void docGetPixelRectangleForPages(DocumentRectangle *drPixels,
 	return;
 }
 
-void docGetPageRectPixels(DocumentRectangle *drPixels, const LayoutContext *lc,
+void docGetPageRectPixels(rect *drPixels, const LayoutContext *lc,
 			  int page)
 {
 	docGetPixelRectangleForPages(drPixels, lc, page, page);
 }
 
-void docPixelRectangleForPositions(DocumentRectangle *drPixels,
+void docPixelRectangleForPositions(rect *drPixels,
 				   const PositionGeometry *pgB,
 				   const PositionGeometry *pgE,
 				   const LayoutContext *lc)
 {
-	DocumentRectangle drPixelsB;
-	DocumentRectangle drPixelsE;
+	rect drPixelsB;
+	rect drPixelsE;
 
 	docGetPixelRectForPos(&drPixelsB, lc, pgB->pgXTwips, pgB->pgXTwips,
 			      &(pgB->pgTopPosition), &(pgB->pgBottomPosition));
@@ -176,12 +176,12 @@ void docPixelRectangleForPositions(DocumentRectangle *drPixels,
 /*									*/
 /************************************************************************/
 
-void docPageRectsPixels(DocumentRectangle *drOut, DocumentRectangle *drIn,
+void docPageRectsPixels(rect *drOut, rect *drIn,
 			double xfac, const BufferItem *bodySectBi,
 			const BufferDocument *bd)
 {
 	const DocumentGeometry *dg = &(bd->bdProperties.dpGeometry);
-	DocumentRectangle drPage;
+	rect drPage;
 
 	if (bodySectBi) {
 		if (bodySectBi->biLevel != DOClevSECT) {
@@ -227,8 +227,8 @@ int docGetPageForYPixels(const LayoutContext *lc, int yPixels)
 	const BufferItem *bodyNode = lc->lcDocument->bdBody.dtRoot;
 	int candidate = 0;
 
-	DocumentRectangle drOutside;
-	DocumentRectangle drInside;
+	rect drOutside;
+	rect drInside;
 	int step;
 
 	int pagesBefore = 0;

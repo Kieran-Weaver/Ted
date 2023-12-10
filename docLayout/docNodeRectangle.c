@@ -11,7 +11,7 @@
 
 /************************************************************************/
 
-static void docRowRectangleTwips(DocumentRectangle *drRow,
+static void docRowRectangleTwips(rect *drRow,
 				 const BufferItem *rowNode,
 				 const BlockFrame *bf)
 {
@@ -21,7 +21,7 @@ static void docRowRectangleTwips(DocumentRectangle *drRow,
 	docCellRectangleTwips(drRow, bf, rowNode->biChildren[col]);
 
 	for (col = 1; col < rowNode->biChildCount; col++) {
-		DocumentRectangle drCell;
+		rect drCell;
 
 		docCellRectangleTwips(&drCell, bf, rowNode->biChildren[col]);
 		geoUnionRectangle(drRow, drRow, &drCell);
@@ -38,7 +38,7 @@ static void docRowRectangleTwips(DocumentRectangle *drRow,
 /*									*/
 /************************************************************************/
 
-void docNodeRectangle(DocumentRectangle *drPixels, BufferItem *node,
+void docNodeRectangle(rect *drPixels, BufferItem *node,
 		      const LayoutContext *lc, const BlockOrigin *bo)
 {
 	BlockFrame bf;
@@ -48,7 +48,7 @@ void docNodeRectangle(DocumentRectangle *drPixels, BufferItem *node,
 	LayoutPosition lpBelow;
 
 	BlockOrnaments ornaments;
-	DocumentRectangle drTwips;
+	rect drTwips;
 
 	docLayoutInitBlockFrame(&bf);
 	docInitBlockOrnaments(&ornaments);
@@ -88,7 +88,7 @@ void docNodeRectangle(DocumentRectangle *drPixels, BufferItem *node,
 
 	case DOClevROW:
 		if (docIsRowNode(node)) {
-			DocumentRectangle drRow;
+			rect drRow;
 
 			docRowRectangleTwips(&drRow, node, &bf);
 
@@ -108,7 +108,7 @@ void docNodeRectangle(DocumentRectangle *drPixels, BufferItem *node,
 
 	case DOClevCELL:
 		if (docIsRowNode(node->biParent)) {
-			DocumentRectangle drCell;
+			rect drCell;
 
 			docCellRectangleTwips(&drCell, &bf, node);
 

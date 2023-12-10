@@ -34,10 +34,10 @@ void docListFields(const ChildFields *cf, const BufferDocument *bd);
 
 void docListFontList(const DocumentFontList *dfl);
 
-void docLogRectangle(const char *label, const DocumentRectangle *dr);
+void docLogRectangle(const char *label, const rect *dr);
 
-void docLogRectangles(const char *label1, const DocumentRectangle *dr1,
-			     const char *label2, const DocumentRectangle *dr2);
+void docLogRectangles(const char *label1, const rect *dr1,
+			     const char *label2, const rect *dr2);
 
 void docListNode(int indent, const struct BufferItem *bi,
 			int checkGeometry);

@@ -56,7 +56,7 @@ static void appSymbolPickerCalculateGridSize(SymbolPicker *sp, int pixelsWide,
 	return;
 }
 
-static void appSymbolRectangle(DocumentRectangle *drSym, const SymbolPicker *sp,
+static void appSymbolRectangle(rect *drSym, const SymbolPicker *sp,
 			       int row, int col)
 {
 	drSym->drX0 = col * (sp->spCellSizePixels + 1) + 1;
@@ -68,7 +68,7 @@ static void appSymbolRectangle(DocumentRectangle *drSym, const SymbolPicker *sp,
 	return;
 }
 
-static void appSymbolStringRectangle(DocumentRectangle *drString,
+static void appSymbolStringRectangle(rect *drString,
 				     SymbolPicker *sp)
 {
 	int pixelsWide;
@@ -89,7 +89,7 @@ static void appSymbolStringRectangle(DocumentRectangle *drString,
 }
 
 static void appSymbolGetStringOrigin(int *pX, int *pY,
-				     const DocumentRectangle *drString,
+				     const rect *drString,
 				     const SymbolPicker *sp)
 {
 	*pX = drString->drX0 + sp->spCellSizePixels / 2;
@@ -299,7 +299,7 @@ static void appSymbolPickerClear(SymbolPicker *sp)
 
 	sym = sp->spSymbolSelected;
 	if (sym >= 0 && !appSymbolGetRowCol(&row, &col, sp, sym)) {
-		DocumentRectangle drSym;
+		rect drSym;
 
 		appSymbolRectangle(&drSym, sp, row, col);
 		guiExposeDrawingWidgetRectangle(sp->spSymbolDrawing, &drSym);
@@ -477,7 +477,7 @@ static int appSymbolAdaptToFamily(SymbolPicker *sp)
 
 static void appSymbolPickerExposeString(SymbolPicker *sp)
 {
-	DocumentRectangle drExpose;
+	rect drExpose;
 
 	appSymbolStringRectangle(&drExpose, sp);
 	guiExposeDrawingWidgetRectangle(sp->spSymbolDrawing, &drExpose);
@@ -601,8 +601,8 @@ static void appSymbolDrawSymbol(SymbolPicker *sp, int sym, int x0, int y0)
 	int x = 0;
 	int y = 0;
 
-	DocumentRectangle drCell;
-	DocumentRectangle drText;
+	rect drCell;
+	rect drText;
 
 	drCell.drX0 = x0;
 	drCell.drX1 = x0 + sp->spCellSizePixels - 1;
@@ -623,7 +623,7 @@ static void appSymbolDrawSymbol(SymbolPicker *sp, int sym, int x0, int y0)
 }
 
 static void appSymbolRedrawSymbols(SymbolPicker *sp,
-				   const DocumentRectangle *drClip)
+				   const rect *drClip)
 {
 	const IndexSet *is;
 	int sym;
@@ -641,8 +641,8 @@ static void appSymbolRedrawSymbols(SymbolPicker *sp,
 
 	for (row = 0; row < sp->spCellsHigh; row++) {
 		for (col = 0; col < sp->spCellsWide; col++) {
-			DocumentRectangle drSym;
-			DocumentRectangle drIgn;
+			rect drSym;
+			rect drIgn;
 
 			appSymbolRectangle(&drSym, sp, row, col);
 
@@ -668,12 +668,12 @@ static void appSymbolRedrawSymbols(SymbolPicker *sp,
 }
 
 static void appSymbolRedrawGrid(SymbolPicker *sp,
-				const DocumentRectangle *drClip)
+				const rect *drClip)
 {
 	struct DrawingSurface *ds = sp->spDrawingSurface;
 
-	DocumentRectangle drSym;
-	DocumentRectangle drIgn;
+	rect drSym;
+	rect drIgn;
 
 	int col;
 	int row;
@@ -684,7 +684,7 @@ static void appSymbolRedrawGrid(SymbolPicker *sp,
 
 	RGB8Color disabledColor;
 
-	DocumentRectangle drLine;
+	rect drLine;
 
 	disabledColor.rgb8Red = 127;
 	disabledColor.rgb8Green = 127;
@@ -792,7 +792,7 @@ static APP_EVENT_HANDLER_H(appSymbolRedraw, w, voidsp, exposeEvent)
 	SymbolPicker *sp = (SymbolPicker *)voidsp;
 	struct DrawingSurface *ds = sp->spDrawingSurface;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	if (sp->spCellsWide == 0 || sp->spCellsHigh == 0) {
 		int pixelsWide;
@@ -846,7 +846,7 @@ static APP_EVENT_HANDLER_H(appSymbolMousePress, w, voidsp, downEvent)
 	int seq;
 	unsigned int keyState;
 
-	DocumentRectangle drExpose;
+	rect drExpose;
 
 	if (!sp->spEnabled) {
 		return;

@@ -820,7 +820,7 @@ APP_EVENT_HANDLER_H(appDocExposeHandler, w, voided, exposeEvent)
 	int ox = ed->edVisibleRect.drX0;
 	int oy = ed->edVisibleRect.drY0;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	if (ed->edNotYetDrawn && ea->eaDocumentFirstVisible) {
 		(*ea->eaDocumentFirstVisible)(ed);
@@ -856,13 +856,13 @@ APP_EVENT_HANDLER_H(appDocExposeHandler, w, voided, exposeEvent)
 /************************************************************************/
 
 void appDocExposeRectangle(const EditDocument *ed,
-			   const DocumentRectangle *drChanged, int scrolledX,
+			   const rect *drChanged, int scrolledX,
 			   int scrolledY)
 {
-	DocumentRectangle drExpose;
-	DocumentRectangle drScrolled;
+	rect drExpose;
+	rect drScrolled;
 
-	const DocumentRectangle *drVisible = &(ed->edVisibleRect);
+	const rect *drVisible = &(ed->edVisibleRect);
 
 	if (!drChanged) {
 		guiExposeDrawingWidget(ed->edDocumentWidget.dwWidget);

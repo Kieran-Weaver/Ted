@@ -25,12 +25,12 @@
 /*									*/
 /************************************************************************/
 
-void appDrawRectangleSelection(DocumentRectangle *drClip,
-			       DocumentRectangle *drSelected, struct DrawingSurface *ds,
-			       const DocumentRectangle *drScreen, int ox,
+void appDrawRectangleSelection(rect *drClip,
+			       rect *drSelected, struct DrawingSurface *ds,
+			       const rect *drScreen, int ox,
 			       int oy)
 {
-	DocumentRectangle drMark;
+	rect drMark;
 
 	if (drSelected->drX0 < 0 && drSelected->drX1 < 0 &&
 	    drSelected->drY0 < 0 && drSelected->drY1 < 0) {
@@ -115,13 +115,13 @@ void appDrawRectangleSelection(DocumentRectangle *drClip,
 /*									*/
 /************************************************************************/
 
-static void appMetricRulerExposeX0(const DocumentRectangle *drVisible, int x0,
+static void appMetricRulerExposeX0(const rect *drVisible, int x0,
 				   APP_WIDGET w)
 {
 	int ox = drVisible->drX0;
 	int high = drVisible->drY1 - drVisible->drY0;
 
-	DocumentRectangle drExpose;
+	rect drExpose;
 
 	drExpose.drX0 = x0 - ox - 2;
 	drExpose.drX1 = x0 + 1;
@@ -131,13 +131,13 @@ static void appMetricRulerExposeX0(const DocumentRectangle *drVisible, int x0,
 	guiExposeDrawingWidgetRectangle(w, &drExpose);
 }
 
-static void appMetricRulerExposeY0(const DocumentRectangle *drVisible, int y0,
+static void appMetricRulerExposeY0(const rect *drVisible, int y0,
 				   APP_WIDGET w)
 {
 	int oy = drVisible->drY0;
 	int wide = drVisible->drX1 - drVisible->drX0;
 
-	DocumentRectangle drExpose;
+	rect drExpose;
 
 	drExpose.drX0 = 0;
 	drExpose.drX1 = wide - 1;
@@ -147,13 +147,13 @@ static void appMetricRulerExposeY0(const DocumentRectangle *drVisible, int y0,
 	guiExposeDrawingWidgetRectangle(w, &drExpose);
 }
 
-static void appMetricRulerExposeX1(const DocumentRectangle *drVisible, int x1,
+static void appMetricRulerExposeX1(const rect *drVisible, int x1,
 				   APP_WIDGET w)
 {
 	int ox = drVisible->drX0;
 	int high = drVisible->drY1 - drVisible->drY0;
 
-	DocumentRectangle drExpose;
+	rect drExpose;
 
 	drExpose.drX0 = x1 - ox;
 	drExpose.drX1 = x1 + 1;
@@ -163,13 +163,13 @@ static void appMetricRulerExposeX1(const DocumentRectangle *drVisible, int x1,
 	guiExposeDrawingWidgetRectangle(w, &drExpose);
 }
 
-static void appMetricRulerExposeY1(const DocumentRectangle *drVisible, int y1,
+static void appMetricRulerExposeY1(const rect *drVisible, int y1,
 				   APP_WIDGET w)
 {
 	int oy = drVisible->drY0;
 	int wide = drVisible->drX1 - drVisible->drX0;
 
-	DocumentRectangle drExpose;
+	rect drExpose;
 
 	drExpose.drX0 = 0;
 	drExpose.drX1 = wide - 1;
@@ -179,8 +179,8 @@ static void appMetricRulerExposeY1(const DocumentRectangle *drVisible, int y1,
 	guiExposeDrawingWidgetRectangle(w, &drExpose);
 }
 
-void appRemoveRectangleSelection(const DocumentRectangle *drVisible,
-				 DocumentRectangle *drSelected, APP_WIDGET w)
+void appRemoveRectangleSelection(const rect *drVisible,
+				 rect *drSelected, APP_WIDGET w)
 {
 	if (drSelected->drX0 >= 0) {
 		appMetricRulerExposeX0(drVisible, drSelected->drX0, w);
@@ -205,8 +205,8 @@ void appRemoveRectangleSelection(const DocumentRectangle *drVisible,
 	return;
 }
 
-void appSetHorRectangleSelection(DocumentRectangle *drVisible,
-				 DocumentRectangle *drSelected, int x0Screen,
+void appSetHorRectangleSelection(rect *drVisible,
+				 rect *drSelected, int x0Screen,
 				 int x1Screen, APP_WIDGET w)
 {
 	if (drSelected->drX0 != x0Screen) {
@@ -236,8 +236,8 @@ void appSetHorRectangleSelection(DocumentRectangle *drVisible,
 	return;
 }
 
-void appSetVertRectangleSelection(DocumentRectangle *drVisible,
-				  DocumentRectangle *drSelected, int y0Screen,
+void appSetVertRectangleSelection(rect *drVisible,
+				  rect *drSelected, int y0Screen,
 				  int y1Screen, APP_WIDGET w)
 {
 	if (drSelected->drY0 != y0Screen) {

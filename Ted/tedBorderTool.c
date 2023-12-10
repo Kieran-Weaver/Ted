@@ -154,7 +154,7 @@ void tedBorderToolSetPropertiesByNumber(BorderTool *bt,
 /************************************************************************/
 
 static void tedDrawBorderStyle(struct DrawingSurface *ds, BorderTool *bt, int style,
-			       const DocumentRectangle *drI)
+			       const rect *drI)
 {
 	if (style != DOCbsNONE) {
 		const int minThick = 1;
@@ -182,8 +182,8 @@ static APP_EVENT_HANDLER_H(tedBorderToolRedrawInplace, w, voidbt, exposeEvent)
 	int wide;
 	int high;
 
-	DocumentRectangle drClip;
-	DocumentRectangle drI;
+	rect drClip;
+	rect drI;
 
 	guiCollectExposures(&drClip, bt->btStylePulldown.adpInplaceDrawing,
 			    exposeEvent);
@@ -222,8 +222,8 @@ static APP_EVENT_HANDLER_H(tedBorderToolRedrawPulldown, w, voidbt, exposeEvent)
 	int pulldownWide;
 	int pulldownHigh;
 
-	DocumentRectangle drClip;
-	DocumentRectangle drBox;
+	rect drClip;
+	rect drBox;
 
 	int i;
 
@@ -253,8 +253,8 @@ static APP_EVENT_HANDLER_H(tedBorderToolRedrawPulldown, w, voidbt, exposeEvent)
 	drawRectangle(dsP, &drBox);
 
 	for (i = DOCbsNONE + 1; i < DOCbs_COUNT; i++) {
-		DocumentRectangle drI;
-		DocumentRectangle drX;
+		rect drI;
+		rect drX;
 
 		drI.drX0 = 3;
 		drI.drX1 = pulldownWide - 3;

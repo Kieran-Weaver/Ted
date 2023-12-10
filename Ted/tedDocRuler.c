@@ -292,7 +292,7 @@ static APP_EVENT_HANDLER_H(tedTopRulerButtonDown, w, voided, downEvent)
 	SelectionDescription sd;
 	const TextLine *tl;
 
-	DocumentRectangle *drParaContent = &(pf.pfParaContentRect);
+	rect *drParaContent = &(pf.pfParaContentRect);
 
 	LayoutContext lc;
 	double xfac;
@@ -479,8 +479,8 @@ void tedDocAdaptTopRuler(EditDocument *ed, const DocumentSelection *ds,
 	int pfX0Pixels;
 	int pfX1Pixels;
 
-	DocumentRectangle drOutside;
-	DocumentRectangle drInside;
+	rect drOutside;
+	rect drInside;
 
 	BufferItem *paraNode = ds->dsHead.dpNode;
 	const TextLine *tl;
@@ -584,8 +584,8 @@ int tedDocSetTopRuler(EditDocument *ed)
 	int topRulerHeight = ed->edTopRulerHighPixels;
 	int unitInt = ea->eaUnitInt;
 
-	DocumentRectangle drOutside;
-	DocumentRectangle drInside;
+	rect drOutside;
+	rect drInside;
 
 	const BufferItem *bodySectNode = bd->bdBody.dtRoot->biChildren[0];
 

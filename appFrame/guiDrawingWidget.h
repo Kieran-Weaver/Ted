@@ -16,9 +16,9 @@
 
 void guiExposeDrawingWidget(APP_WIDGET nativeWidget);
 void guiExposeDrawingWidgetRectangle(APP_WIDGET nativeWidget,
-					    const DocumentRectangle *dr);
+					    const rect *dr);
 
-void guiCollectExposures(DocumentRectangle *drClip,
+void guiCollectExposures(rect *drClip,
 				APP_WIDGET nativeWidget,
 				APP_EVENT *exposeEvent);
 

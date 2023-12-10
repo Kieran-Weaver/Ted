@@ -115,7 +115,7 @@ void tedFreeTopRuler(void *voidttr)
 /************************************************************************/
 
 static void tedDrawTopRuler(APP_WIDGET w, TedTopRuler *ttr,
-			    const DocumentRectangle *drClip)
+			    const rect *drClip)
 {
 	RulerData *rd = &(ttr->ttrRulerData);
 	struct DrawingSurface *ds = rd->rdDrawingSurface;
@@ -123,10 +123,10 @@ static void tedDrawTopRuler(APP_WIDGET w, TedTopRuler *ttr,
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 	int maxUsed;
 
-	DocumentRectangle drActive;
-	DocumentRectangle drWhite;
-	DocumentRectangle drButton;
-	DocumentRectangle drBack;
+	rect drActive;
+	rect drWhite;
+	rect drButton;
+	rect drBack;
 
 	if (rd->rdSizeAlong == 0) {
 		appHorizontalRulerGetSizeFromWidget(rd, w);
@@ -285,7 +285,7 @@ APP_EVENT_HANDLER_H(tedRedrawTopRuler, w, voidttr, event)
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 	const int oy = 0;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	if (!rd->rdDrawingSurface) {
 		tedRulerMakeDrawingSurface(ttr, w);
@@ -327,10 +327,10 @@ void tedTopRulerSetBackground(void *voidttr, const RGB8Color *back)
 
 #if SHOW_SCROLLS
 
-static void tedShowClip(struct DrawingSurface *ds, const DocumentRectangle *dr)
+static void tedShowClip(struct DrawingSurface *ds, const rect *dr)
 {
 	RGB8Color red;
-	DocumentRectangle drCopy = *dr;
+	rect drCopy = *dr;
 
 	drCopy.drX1--;
 	drCopy.drY1--;
@@ -350,9 +350,9 @@ void tedScrollTopRuler(void *voidttr, APP_WIDGET w, int d)
 	TedTopRuler *ttr = (TedTopRuler *)voidttr;
 	RulerData *rd = &(ttr->ttrRulerData);
 
-	DocumentRectangle drClip;
-	DocumentRectangle drRedraw;
-	DocumentRectangle drTabButton;
+	rect drClip;
+	rect drRedraw;
+	rect drTabButton;
 
 	const int oy = 0;
 	int ox; /* Set after shift */
@@ -449,8 +449,8 @@ static void tedTopRulerSetValue(TopRulerDrag *trd, int newValue)
 	int nv0;
 	int nv1;
 
-	DocumentRectangle drExpose;
-	DocumentRectangle drButton;
+	rect drExpose;
+	rect drButton;
 
 	if (newValue == oldValue) {
 		return;
@@ -655,7 +655,7 @@ static int tedTopRulerDragTab(APP_WIDGET w, APP_EVENT *downEvent,
 	int x0 = ts->tsPixels;
 	int x1;
 	int dxAbs;
-	DocumentRectangle drActive;
+	rect drActive;
 
 	int prop;
 
@@ -769,8 +769,8 @@ int tedTopRulerFindMouse(int *pIndex, APP_WIDGET w, int mouseX, int mouseY,
 
 	int ox = rd->rdVisibleC0 - rd->rdMinUsed;
 
-	DocumentRectangle drActive;
-	DocumentRectangle drButton;
+	rect drActive;
+	rect drButton;
 
 	const TabStopList *rtsl = &(ttr->ttrTabStopList);
 
@@ -840,7 +840,7 @@ int tedTopRulerFindMouse(int *pIndex, APP_WIDGET w, int mouseX, int mouseY,
 
 	/*  9  */
 	{
-		DocumentRectangle dr;
+		rect dr;
 
 		tedTabButtonRectangle(&dr, rd->rdMinUsed, rd);
 		if (geo2DIXYInBox(mouseX, mouseY, &dr)) {
@@ -965,7 +965,7 @@ int tedTopRulerTrackMouse(int *pFirstIndent, int *pLeftIndent,
 	case PPprop_TAB_KIND_BUTTON:
 		/*  9  */
 		{
-			DocumentRectangle dr;
+			rect dr;
 
 			tedTabButtonRectangle(&dr, rd->rdMinUsed, rd);
 

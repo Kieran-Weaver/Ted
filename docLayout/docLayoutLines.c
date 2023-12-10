@@ -383,14 +383,14 @@ static int docLayout_Line(int *pStopCode, TextLine *resTl,
 /*									*/
 /************************************************************************/
 
-static void docLayoutAddLineToExpose(DocumentRectangle *drChanged,
+static void docLayoutAddLineToExpose(rect *drChanged,
 				     const LayoutJob *lj,
 				     const ParagraphFrame *pf,
 				     const TextLine *boxLine,
 				     const TextLine *tlLine)
 {
 	const LayoutContext *lc = &(lj->ljContext);
-	DocumentRectangle drBox;
+	rect drBox;
 
 	LayoutPosition lpTop;
 	LayoutPosition lpBottom;
@@ -405,7 +405,7 @@ static void docLayoutAddLineToExpose(DocumentRectangle *drChanged,
 	geoUnionRectangle(drChanged, drChanged, &drBox);
 
 	if (tlLine) {
-		DocumentRectangle drTl;
+		rect drTl;
 
 		lpTop = tlLine->tlTopPosition;
 		lpBottom = lpTop;
@@ -486,7 +486,7 @@ int docLayoutParaLines(int *pStopCode, int isRedo, const ParagraphFrame *pf,
 
 		NotesReservation nrLine;
 
-		DocumentRectangle *drChanged = lj->ljChangedRectanglePixels;
+		rect *drChanged = lj->ljChangedRectanglePixels;
 
 		int flowWidth;
 

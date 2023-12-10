@@ -209,23 +209,23 @@ extern int bmRead(const MemoryBuffer *filename, unsigned char **pBuffer,
 		  BitmapDescription *bd, int *pFileFormat);
 
 extern int bmSelect(RasterImage *riOut, const RasterImage *riIn,
-		    const DocumentRectangle *drSrc);
+		    const rect *drSrc);
 
 extern int bmComponents(void ***pComponents, int *pCount,
 			const unsigned char *buffer,
 			const BitmapDescription *bd);
 
 extern int bmComponentBitmap(unsigned char **buffer, BitmapDescription *bdout,
-			     DocumentRectangle *dr,
+			     rect *dr,
 			     const BitmapDescription *bdin,
 			     const void *component);
 
 extern int bmGroupBitmap(unsigned char **buffer, BitmapDescription *bdout,
-			 DocumentRectangle *dr, const BitmapDescription *bdin,
+			 rect *dr, const BitmapDescription *bdin,
 			 const void *vbc);
 
 int bmgGroupBitmap(unsigned char **pBuffer, BitmapDescription *bdout,
-		   DocumentRectangle *dr, const BitmapDescription *bdin,
+		   rect *dr, const BitmapDescription *bdin,
 		   const void *vcg);
 
 extern int bmGroups(void ***pGroups, void **comps, int ncomp,

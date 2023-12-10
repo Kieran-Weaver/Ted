@@ -19,7 +19,7 @@
 /*									*/
 /************************************************************************/
 
-void docObjectGetPageRect(DocumentRectangle *drDest, const InsertedObject *io,
+void docObjectGetPageRect(rect *drDest, const InsertedObject *io,
 			  int x0Twips, int baselineTwips)
 {
 	const PictureProperties *pip = &(io->ioPictureProperties);
@@ -48,7 +48,7 @@ void docObjectGetPageRect(DocumentRectangle *drDest, const InsertedObject *io,
 /*									*/
 /************************************************************************/
 
-void docObjectGetSourceRect(DocumentRectangle *drSrc,
+void docObjectGetSourceRect(rect *drSrc,
 			    const PictureProperties *pip)
 {
 	drSrc->drX0 = 0;

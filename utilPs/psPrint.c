@@ -457,7 +457,7 @@ void psFlushLink(PrintingState *ps, int x0, int wide, int lineTop,
 		 int lineHeight)
 {
 	if (ps->psLinkParticulesDone > 0) {
-		DocumentRectangle drLink;
+		rect drLink;
 
 		drLink.drX0 = ps->psLinkRectLeft;
 		drLink.drY0 = lineTop + lineHeight;

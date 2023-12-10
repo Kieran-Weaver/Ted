@@ -7,21 +7,21 @@
 #ifndef GEO_2D_INTEGER_H
 #define GEO_2D_INTEGER_H
 
-typedef struct DocumentRectangle {
+struct rect {
 	int drX0;
 	int drY0;
 	int drX1;
 	int drY1;
-} DocumentRectangle;
+};
 
 #define RECTDEB(dr)                                                          \
 	appDebug("%s(%3d) %s= [%d..%d x %d..%d]\n", __FILE__, __LINE__, #dr, \
 		 (dr)->drX0, (dr)->drX1, (dr)->drY0, (dr)->drY1)
 
-typedef struct Point2DI {
+struct vec2 {
 	int x;
 	int y;
-} Point2DI;
+};
 
 /**
   * A two dimensional arc
@@ -30,7 +30,7 @@ typedef struct Arc2DI {
 	/**
 			  * The rectangle that holds the full ellipse
 			  */
-	DocumentRectangle a2diRect;
+	rect a2diRect;
 	/**
 			 * The start angle relative to the 3-o-clock angle 
 			 * in 64th of a degree counter clock wise.
@@ -86,35 +86,35 @@ typedef struct LineSegment2DI {
 /*									*/
 /************************************************************************/
 
-void geoInitRectangle(DocumentRectangle *dr);
-void geoInvalidateRectangle(DocumentRectangle *dr);
+void geoInitRectangle(rect *dr);
+void geoInvalidateRectangle(rect *dr);
 
-void geoUnionRectangle(DocumentRectangle *dr,
-			      const DocumentRectangle *dr1,
-			      const DocumentRectangle *dr2);
+void geoUnionRectangle(rect *dr,
+			      const rect *dr1,
+			      const rect *dr2);
 
-void geoNormalizeRectangle(DocumentRectangle *drTo,
-				  const DocumentRectangle *drFrom);
+void geoNormalizeRectangle(rect *drTo,
+				  const rect *drFrom);
 
-int geoIntersectRectangle(DocumentRectangle *dr,
-				 const DocumentRectangle *dr1,
-				 const DocumentRectangle *dr2);
+int geoIntersectRectangle(rect *dr,
+				 const rect *dr1,
+				 const rect *dr2);
 
-int geo2DIIntersectSegments(Point2DI *p1, Point2DI *p2, double *pXab1,
+int geo2DIIntersectSegments(vec2 *p1, vec2 *p2, double *pXab1,
 				   double *pXab2, double *pXcd1, double *pXcd2,
-				   const Point2DI *ab, const Point2DI *cd);
+				   const vec2 *ab, const vec2 *cd);
 
-double geo2DIDistanceToLine(const Point2DI *ab, const Point2DI *c);
+double geo2DIDistanceToLine(const vec2 *ab, const vec2 *c);
 
-double geo2DIProjectionOnLine(const Point2DI *ab, const Point2DI *c);
+double geo2DIProjectionOnLine(const vec2 *ab, const vec2 *c);
 
-int geo2DIPointInPolygon(const Point2DI *p, const Point2DI *points,
+int geo2DIPointInPolygon(const vec2 *p, const vec2 *points,
 				int pointCount);
 
-int geo2DIClipSegmentToRectangle(Point2DI vpChanged[2], double *pXp0,
-					double *pXp1, const Point2DI vp[2],
-					const DocumentRectangle *dr);
+int geo2DIClipSegmentToRectangle(vec2 vpChanged[2], double *pXp0,
+					double *pXp1, const vec2 vp[2],
+					const rect *dr);
 
-int geo2DISurface(Point2DI *points, int n);
+int geo2DISurface(vec2 *points, int n);
 
 #endif /*	GEO_2D_INTEGER_H */

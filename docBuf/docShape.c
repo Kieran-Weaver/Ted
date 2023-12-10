@@ -21,8 +21,8 @@
 /*									*/
 /************************************************************************/
 
-void docShapeGetRects(DocumentRectangle *drHere, DocumentRectangle *drNorm,
-		      const DocumentRectangle *drTwips, const DrawingShape *ds)
+void docShapeGetRects(rect *drHere, rect *drNorm,
+		      const rect *drTwips, const DrawingShape *ds)
 {
 	*drHere = *drTwips;
 
@@ -49,9 +49,9 @@ void docShapeGetRects(DocumentRectangle *drHere, DocumentRectangle *drNorm,
 /*									*/
 /************************************************************************/
 
-void docShapeGetChildRect(DocumentRectangle *drChild,
+void docShapeGetChildRect(rect *drChild,
 			  const DrawingShape *dsChild,
-			  const DocumentRectangle *dr, const DrawingShape *ds)
+			  const rect *dr, const DrawingShape *ds)
 {
 	const ShapeDrawing *sd = &(ds->dsDrawing);
 	const ShapeDrawing *sdChild = &(dsChild->dsDrawing);
@@ -83,7 +83,7 @@ void docShapeGetChildRect(DocumentRectangle *drChild,
 /************************************************************************/
 
 void docShapeStartShapeTransform(AffineTransform2D *at, const DrawingShape *ds,
-				 const DocumentRectangle *dr, int xSize,
+				 const rect *dr, int xSize,
 				 int ySize)
 {
 	double xs = 1.0;

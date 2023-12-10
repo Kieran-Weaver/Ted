@@ -68,23 +68,23 @@ void appDocSetMetricLeftRuler(EditDocument *ed, int topRulerHeight,
 				     double magnification, int unitInt,
 				     APP_EVENT_HANDLER_T mouseDown);
 
-void appDrawRectangleSelection(DocumentRectangle *drClip,
-				      DocumentRectangle *drSelected,
+void appDrawRectangleSelection(rect *drClip,
+				      rect *drSelected,
 				      struct DrawingSurface* ds,
-				      const DocumentRectangle *drScreen, int ox,
+				      const rect *drScreen, int ox,
 				      int oy);
 
-void appRemoveRectangleSelection(const DocumentRectangle *drVisible,
-					DocumentRectangle *drSelected,
+void appRemoveRectangleSelection(const rect *drVisible,
+					rect *drSelected,
 					APP_WIDGET w);
 
-void appSetHorRectangleSelection(DocumentRectangle *drVisible,
-					DocumentRectangle *drSelected,
+void appSetHorRectangleSelection(rect *drVisible,
+					rect *drSelected,
 					int x0Screen, int x1Screen,
 					APP_WIDGET w);
 
-void appSetVertRectangleSelection(DocumentRectangle *drVisible,
-					 DocumentRectangle *drSelected,
+void appSetVertRectangleSelection(rect *drVisible,
+					 rect *drSelected,
 					 int y0Screen, int y1Screen,
 					 APP_WIDGET w);
 

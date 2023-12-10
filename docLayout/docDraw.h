@@ -32,7 +32,7 @@ typedef struct DrawTextLine {
 	struct DrawingContext *dtlDrawingContext;
 
 	LayoutPosition dtlShiftedTop;
-	DocumentRectangle dtlLineRectangle;
+	rect dtlLineRectangle;
 	LayoutPosition dtlBaselinePosition;
 	LayoutPosition dtlShiftedBaselinePosition;
 	int dtlXShift;
@@ -53,13 +53,13 @@ typedef struct DrawTextLine {
 
 typedef int (*DRAW_TEXT_LINE)(struct BufferItem *paraBi, int line,
 			      const struct ParagraphFrame *pf,
-			      const DocumentRectangle *drLinePixels,
+			      const rect *drLinePixels,
 			      void *through, struct DrawingContext *dc,
 			      const BlockOrigin *bo);
 
 typedef int (*DRAW_ORNAMENTS)(const BlockOrnaments *ornaments, int page,
-			      const DocumentRectangle *drOutside,
-			      const DocumentRectangle *drInside, void *through,
+			      const rect *drOutside,
+			      const rect *drInside, void *through,
 			      struct DrawingContext *dc);
 
 typedef int (*FINISH_PAGE)(void *through, struct DrawingContext *dc,
@@ -75,7 +75,7 @@ typedef int (*SET_COLOR_RGB)(struct DrawingContext *dc, void *through,
 typedef int (*SET_FONT)(struct DrawingContext *dc, void *through,
 			int textAttrNr, const TextAttribute *ta);
 
-typedef int (*DRAW_SHAPE)(const DocumentRectangle *drTwips, int page,
+typedef int (*DRAW_SHAPE)(const rect *drTwips, int page,
 			  struct DrawingShape *ds, struct DrawingContext *dc,
 			  void *through);
 
@@ -119,7 +119,7 @@ typedef struct DrawingContext {
 	RGB8Color dcCurrentColor;
 
 	LayoutContext dcLayoutContext;
-	const DocumentRectangle *dcClipRect;
+	const rect *dcClipRect;
 	const DocumentSelection *dcSelection;
 	const SelectionGeometry *dcSelectionGeometry;
 	int dcFirstPage;
@@ -242,12 +242,12 @@ void docSetDrawTextLine(DrawTextLine *dtl, void *through,
 			       DrawingContext *dc, const struct TextLine *tl,
 			       const struct BufferItem *paraBi,
 			       const BlockOrigin *bo, const ParagraphFrame *pf,
-			       const DocumentRectangle *drLine);
+			       const rect *drLine);
 
 int docDrawLineParticules(const DrawTextLine *dtl, int *pXTwips,
 				 int part);
 
-int docDrawShapeText(const DocumentRectangle *drHere,
+int docDrawShapeText(const rect *drHere,
 			    const struct BufferItem *bodySectNode, int page,
 			    int column, struct DrawingShape *ds,
 			    DrawingContext *dc, void *through);

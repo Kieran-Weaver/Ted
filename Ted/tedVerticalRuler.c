@@ -43,7 +43,7 @@ void tedFreeVerticalRuler(void *voidrd)
 /************************************************************************/
 
 static void tedDrawVerticalRuler(APP_WIDGET w, RulerData *rd,
-				 DocumentRectangle *drClip)
+				 rect *drClip)
 {
 	struct DrawingSurface *ds = rd->rdDrawingSurface;
 
@@ -69,7 +69,7 @@ static APP_EVENT_HANDLER_H(tedRedrawVerticalRuler, w, voidrd, event)
 {
 	RulerData *rd = (RulerData *)voidrd;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	if (!rd->rdDrawingSurface) {
 		const int vertical = 0;

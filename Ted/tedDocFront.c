@@ -318,7 +318,7 @@ APP_MENU_CALLBACK_H(tedDocTableDrawGrid, option, voided, e)
 		td->tdDrawTableGrid = -1;
 	}
 
-	appDocExposeRectangle(ed, (const DocumentRectangle *)0, 0, 0);
+	appDocExposeRectangle(ed, (const rect *)0, 0, 0);
 
 	return;
 }

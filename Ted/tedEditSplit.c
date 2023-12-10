@@ -42,7 +42,7 @@ static int tedSplitParaNode(TedEditOperation *teo, int splitLevel,
 	BufferItem *newParaNode;
 	const LayoutContext *lc = &(teo->teoLayoutContext);
 
-	DocumentRectangle drPara;
+	rect drPara;
 
 	docNodeRectangle(&drPara, eo->eoTailDp.dpNode, lc,
 			 (const BlockOrigin *)0);

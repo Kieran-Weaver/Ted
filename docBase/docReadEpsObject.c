@@ -30,7 +30,7 @@ int docReadEpsObject(const MemoryBuffer *fullName, InsertedObject *io)
 	int rval = 0;
 	int res = 0;
 
-	DocumentRectangle drBBox;
+	rect drBBox;
 
 	SimpleOutputStream *sosBuffer = (SimpleOutputStream *)0;
 	SimpleOutputStream *sosHex = (SimpleOutputStream *)0;

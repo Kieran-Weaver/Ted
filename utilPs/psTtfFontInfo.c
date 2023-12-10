@@ -498,7 +498,7 @@ static int utilTtfSetCharMetrics(const TrueTypeFont *ttf, AfmFontInfo *afi)
 	hm = ttf->ttfHorizontalMetrics;
 	for (glyphno = 0; glyphno < ttf->ttfGlyphCount;
 	     ttg++, hm++, glyphno++) {
-		DocumentRectangle bbox;
+		rect bbox;
 		int WX;
 		int C = -1;
 		const char *N = (const char *)0;

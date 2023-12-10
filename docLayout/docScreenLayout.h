@@ -30,7 +30,7 @@ int docScreenLayoutOpenParaFonts(const LayoutContext *lc,
 
 int docScreenLayoutNode(int *pReachedBottom, struct BufferItem *node,
 			       const LayoutContext *lc,
-			       DocumentRectangle *drChanged);
+			       rect *drChanged);
 
 int docScreenLayoutDocumentBody(int *pReachedBottom, BufferDocument *bd,
 				       const LayoutContext *lc);

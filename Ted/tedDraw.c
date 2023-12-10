@@ -116,7 +116,7 @@ static void tedDrawPageRect(ScreenDrawingData *sdd, DrawingContext *dc,
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-	DocumentRectangle drPage;
+	rect drPage;
 
 	docGetPageRectPixels(&drPage, lc, page);
 
@@ -142,7 +142,7 @@ void tedOriginalClipping(DrawingContext *dc, ScreenDrawingData *sdd)
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 
 	if (dc->dcClipRect) {
-		DocumentRectangle drRestore;
+		rect drRestore;
 
 		drRestore = *(dc->dcClipRect);
 		geoShiftRectangle(&drRestore, -lc->lcOx, -lc->lcOy);
@@ -159,7 +159,7 @@ void tedOriginalClipping(DrawingContext *dc, ScreenDrawingData *sdd)
 /*									*/
 /************************************************************************/
 
-void tedGetIBarRect(DocumentRectangle *drPixels, const PositionGeometry *pg,
+void tedGetIBarRect(rect *drPixels, const PositionGeometry *pg,
 		    const LayoutContext *lc)
 {
 	docGetPixelRectForPos(drPixels, lc, pg->pgXTwips, pg->pgXTwips,
@@ -171,9 +171,9 @@ void tedGetIBarRect(DocumentRectangle *drPixels, const PositionGeometry *pg,
 	return;
 }
 
-int tedDrawIBar(const DocumentRectangle *drPixels, const LayoutContext *lc)
+int tedDrawIBar(const rect *drPixels, const LayoutContext *lc)
 {
-	DocumentRectangle drShifted = *drPixels;
+	rect drShifted = *drPixels;
 
 	geoShiftRectangle(&drShifted, -lc->lcOx, -lc->lcOy);
 
@@ -188,15 +188,15 @@ int tedDrawIBar(const DocumentRectangle *drPixels, const LayoutContext *lc)
 /*									*/
 /************************************************************************/
 
-static void tedDrawObjectBlocks(const DocumentRectangle *drObj,
-				const Point2DI *xp, DrawingContext *dc,
+static void tedDrawObjectBlocks(const rect *drObj,
+				const vec2 *xp, DrawingContext *dc,
 				ScreenDrawingData *sdd)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 
 	int i;
 
-	DocumentRectangle drBox;
+	rect drBox;
 
 	docDrawSetColorRgb(dc, (void *)sdd, &(sdd->sddBehindColor));
 
@@ -237,7 +237,7 @@ static void tedDrawObjectBlocks(const DocumentRectangle *drObj,
 /************************************************************************/
 
 static void tedDrawTreeBox(ScreenDrawingData *sdd, DrawingContext *dc,
-			   const DocumentRectangle *drBox)
+			   const rect *drBox)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	static unsigned char dot[] = { 1, 2 };
@@ -267,12 +267,12 @@ static void tedDrawTreeBox(ScreenDrawingData *sdd, DrawingContext *dc,
 static int tedDrawBoxAroundTree(const BufferItem *bodySectNode,
 				const DocumentTree *tree,
 				ScreenDrawingData *sdd, DrawingContext *dc,
-				const DocumentRectangle *drClip)
+				const rect *drClip)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 
-	DocumentRectangle drIntersect;
-	DocumentRectangle drBox;
+	rect drIntersect;
+	rect drBox;
 
 	const int justUsed = 0;
 
@@ -304,7 +304,7 @@ static int tedDrawCheckPageOfSelectedTree(SelectionGeometry *sg,
 					  const LayoutContext *lc)
 {
 	int changed = 0;
-	DocumentRectangle drChanged;
+	rect drChanged;
 
 	BufferItem *bodySectNode;
 
@@ -398,8 +398,8 @@ static int tedDrawStartPage(void *vsdd, const DocumentGeometry *dgPage,
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 
 	const int justUsed = 0;
-	DocumentRectangle drBox;
-	DocumentRectangle drIntersect;
+	rect drBox;
+	rect drIntersect;
 
 	/*  1  */
 	if (!selRootTree || !selRootNode) {
@@ -444,7 +444,7 @@ static int tedDrawStartPage(void *vsdd, const DocumentGeometry *dgPage,
 /*									*/
 /************************************************************************/
 
-void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
+void tedDrawRectangle(EditDocument *ed, rect *drClipPixels, int ox,
 		      int oy)
 {
 	TedDocument *td = (TedDocument *)ed->edPrivateData;
@@ -511,7 +511,7 @@ void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
 	docDrawSetColorRgb(&dc, (void *)&sdd, &(ed->edBackgroundColor));
 
 	{
-		DocumentRectangle drFill = *drClipPixels;
+		rect drFill = *drClipPixels;
 
 		geoShiftRectangle(&drFill, -ox, -oy);
 		drawFillRectangle(drsf, &drFill);
@@ -630,7 +630,7 @@ void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
 	/*  5  */
 	if (selRootNode) {
 		if (sd.sdIsIBarSelection) {
-			DocumentRectangle drIBarPixels;
+			rect drIBarPixels;
 
 			tedGetIBarRect(&drIBarPixels, &(sg.sgHead),
 				       &(dc.dcLayoutContext));
@@ -653,8 +653,8 @@ void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
 						   &io)) {
 				PositionGeometry pgO;
 
-				Point2DI xp[RESIZE_COUNT];
-				DocumentRectangle drObject;
+				vec2 xp[RESIZE_COUNT];
+				rect drObject;
 
 				if (selRootNode->biTreeType != DOCinBODY &&
 				    selRootNode->biTreeType != DOCinSHPTXT &&
@@ -682,7 +682,7 @@ void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
 						      ed);
 
 				if (geoIntersectRectangle(
-					    (DocumentRectangle *)0, &drObject,
+					    (rect *)0, &drObject,
 					    drClipPixels)) {
 					tedDrawObjectBlocks(&drObject, xp, &dc,
 							    &sdd);
@@ -692,7 +692,7 @@ void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClipPixels, int ox,
 	}
 
 	if (ed->edSelectRectangle.srDirection != DOCselNONE) {
-		DocumentRectangle drHair;
+		rect drHair;
 		int blackSet = 0;
 
 		drHair = ed->edVisibleRect;

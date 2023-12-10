@@ -34,7 +34,7 @@ int drawSetForegroundColorBlack(struct DrawingSurface *ds)
 /*									*/
 /************************************************************************/
 
-int drawGetSymbolExtents(DocumentRectangle *drText, struct DrawingSurface *ds, int x0,
+int drawGetSymbolExtents(rect *drText, struct DrawingSurface *ds, int x0,
 			 int y0, int screenFont, int symbol)
 {
 	int step;

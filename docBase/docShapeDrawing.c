@@ -52,10 +52,10 @@ void docCleanShapeDrawing(ShapeDrawing *sd)
 void docInitShapeDrawingAllocated(ShapeDrawing *sd)
 {
 	sd->sdVertexCount = 0;
-	sd->sdVertices = (Point2DI *)0;
+	sd->sdVertices = (vec2 *)0;
 
 	sd->sdWrapPolygonVertexCount = 0;
-	sd->sdWrapPolygonVertices = (Point2DI *)0;
+	sd->sdWrapPolygonVertices = (vec2 *)0;
 
 	sd->sdSegmentInfoCount = 0;
 	sd->sdSegmentInfos = (int *)0;
@@ -372,7 +372,7 @@ int docCopyShapeDrawing(ShapeDrawing *to, const ShapeDrawing *from)
 
 	/*  2  */
 	to->sdVertices =
-		(Point2DI *)malloc(from->sdVertexCount * sizeof(Point2DI));
+		(vec2 *)malloc(from->sdVertexCount * sizeof(vec2));
 	if (!to->sdVertices) {
 		LXDEB(from->sdVertexCount, to->sdVertices);
 		rval = -1;
@@ -380,8 +380,8 @@ int docCopyShapeDrawing(ShapeDrawing *to, const ShapeDrawing *from)
 	}
 
 	/*  3  */
-	to->sdWrapPolygonVertices = (Point2DI *)malloc(
-		from->sdWrapPolygonVertexCount * sizeof(Point2DI));
+	to->sdWrapPolygonVertices = (vec2 *)malloc(
+		from->sdWrapPolygonVertexCount * sizeof(vec2));
 	if (!to->sdWrapPolygonVertices) {
 		LXDEB(from->sdWrapPolygonVertexCount,
 		      to->sdWrapPolygonVertices);

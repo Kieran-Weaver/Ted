@@ -26,7 +26,7 @@
 
 void docInitLayoutJob(LayoutJob *lj)
 {
-	lj->ljChangedRectanglePixels = (DocumentRectangle *)0;
+	lj->ljChangedRectanglePixels = (rect *)0;
 	layoutInitContext(&(lj->ljContext));
 	lj->ljChangedNode = (struct BufferItem *)0;
 	lj->ljReachedDocumentBottom = 0;
@@ -193,7 +193,7 @@ int docLayoutGetInitialFrame(BlockFrame *bf, const LayoutJob *lj,
 void docLayoutSetBottomPosition(int *pChanged, LayoutPosition *lpBelow,
 				const LayoutPosition *lp,
 				const LayoutContext *lc,
-				DocumentRectangle *drChanged)
+				rect *drChanged)
 {
 	int changed = 0;
 
@@ -231,7 +231,7 @@ void docLayoutSetBottomPosition(int *pChanged, LayoutPosition *lpBelow,
 
 void docLayoutSetNodeBottom(int *pChanged, BufferItem *node,
 			    const LayoutPosition *lp, const LayoutContext *lc,
-			    DocumentRectangle *drChanged)
+			    rect *drChanged)
 {
 	docLayoutSetBottomPosition(pChanged, &(node->biBelowPosition), lp, lc,
 				   drChanged);
@@ -248,7 +248,7 @@ void docLayoutStartNodeLayout(BufferItem *node, const LayoutJob *lj,
 			      const LayoutPosition *lpHere)
 {
 	const LayoutContext *lc = &(lj->ljContext);
-	DocumentRectangle *drChanged = lj->ljChangedRectanglePixels;
+	rect *drChanged = lj->ljChangedRectanglePixels;
 	int y0;
 	int y1;
 

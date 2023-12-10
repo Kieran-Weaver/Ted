@@ -23,7 +23,7 @@ typedef struct ScreenDrawingData {
 	int sddBoxFirstPage;
 	int sddBoxLastPage;
 
-	const DocumentRectangle *sddFullRect;
+	const rect *sddFullRect;
 } ScreenDrawingData;
 
 /************************************************************************/
@@ -32,33 +32,33 @@ typedef struct ScreenDrawingData {
 /*									*/
 /************************************************************************/
 
-int tedDrawDrawingShape(const DocumentRectangle *drTwips, int page,
+int tedDrawDrawingShape(const rect *drTwips, int page,
 			       struct DrawingShape *ds, DrawingContext *dc,
 			       void *vsdd);
 
 int tedDrawTextReverse(struct BufferItem *paraBi, int line,
 			      const ParagraphFrame *pf,
-			      const DocumentRectangle *drLine, void *vsdd,
+			      const rect *drLine, void *vsdd,
 			      DrawingContext *dc, const BlockOrigin *bo);
 
 int tedDrawTextSelected(struct BufferItem *paraBi, int line,
 			       const ParagraphFrame *pf,
-			       const DocumentRectangle *drLine, void *vsdd,
+			       const rect *drLine, void *vsdd,
 			       DrawingContext *dc, const BlockOrigin *bo);
 
 int tedDrawTextLine(struct BufferItem *paraBi, int line,
 			   const ParagraphFrame *pf,
-			   const DocumentRectangle *drLine, void *vsdd,
+			   const rect *drLine, void *vsdd,
 			   DrawingContext *dc, const BlockOrigin *bo);
 
 void tedOriginalClipping(DrawingContext *dc, ScreenDrawingData *sdd);
 
 void tedDrawFreePixmap(struct DrawingSurface *sp);
 
-int tedDrawIBar(const DocumentRectangle *drPixels,
+int tedDrawIBar(const rect *drPixels,
 		       const LayoutContext *lc);
 
-void tedGetIBarRect(DocumentRectangle *drPixels,
+void tedGetIBarRect(rect *drPixels,
 			   const PositionGeometry *pg, const LayoutContext *lc);
 
 int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
@@ -67,7 +67,7 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 
 void tedDrawShadedRectangle(const LayoutContext *lc,
 			    struct DrawingSurface **shadingPixmaps, int pattern,
-			    const DocumentRectangle *drShade);
+			    const rect *drShade);
 
 void tedDrawHorizontalBorderLine(struct DrawingSurface *ds, int style,
 					int minThick, int x0, int x1, int y);
@@ -96,8 +96,8 @@ int tedDrawRunStrikethrough(const DrawTextLine *dtl, int part, int upto,
 				   const LayoutPosition *baseLine);
 
 int tedDrawOrnaments(const BlockOrnaments *bo, int page,
-			    const DocumentRectangle *drOutside,
-			    const DocumentRectangle *drInside, void *through,
+			    const rect *drOutside,
+			    const rect *drInside, void *through,
 			    struct DrawingContext *dc);
 
 int tedDrawSetColorRgb(DrawingContext *dc, void *vsdd,

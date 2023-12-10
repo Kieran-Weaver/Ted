@@ -60,33 +60,33 @@ typedef struct TedTopRuler {
 
 void tedTopRulerDrawTicks(TedTopRuler *ttr, int ox, int c0, int c1);
 
-void tedHangingButtonRect(DocumentRectangle *drButton, int value,
+void tedHangingButtonRect(rect *drButton, int value,
 				 const RulerData *rd);
 
 void tedRulerDrawHangingButton(int value, const RulerData *rd);
 
-void tedStandingButtonRect(DocumentRectangle *drButton, int value,
+void tedStandingButtonRect(rect *drButton, int value,
 				  const RulerData *rd);
 
 void tedRulerDrawStandingButton(int value, const RulerData *rd);
 
-void tedRulerColumnControlRect(DocumentRectangle *drButton, int x0,
+void tedRulerColumnControlRect(rect *drButton, int x0,
 				      int x1, const RulerData *rd);
 
 void tedRulerDrawColumnControl(int x0, int x1, int ox,
 				      const RulerData *rd);
 
-void tedTabSymbolRect(DocumentRectangle *drButton, int tabX,
+void tedTabSymbolRect(rect *drButton, int tabX,
 			     const RulerData *rd);
 
 void tedRulerDrawTab(const RulerData *rd, int tabX, int kind);
 
-void tedTabButtonRectangle(DocumentRectangle *drButton, int x,
+void tedTabButtonRectangle(rect *drButton, int x,
 				  const RulerData *rd);
 
 void tedDrawTabButton(const RulerData *rd, int kind);
 
-void tedRulerActiveRect(DocumentRectangle *drActive,
+void tedRulerActiveRect(rect *drActive,
 			       const TedTopRuler *ttr);
 
 int tedRulerMakeDrawingSurface(TedTopRuler *ttr, APP_WIDGET w);

@@ -228,11 +228,11 @@ int utilNupGetBaseTranform(AffineTransform2D *pAt1Page, int *pRotatePages,
 /*									*/
 /************************************************************************/
 
-void psNupSheetBoundingBox(DocumentRectangle *sheetBBox, const NupSchema *ns,
+void psNupSheetBoundingBox(rect *sheetBBox, const NupSchema *ns,
 			   const DocumentGeometry *dgPage, int hasPageHeader,
 			   int hasPageFooter)
 {
-	DocumentRectangle drBBox;
+	rect drBBox;
 
 	int i;
 
@@ -250,7 +250,7 @@ void psNupSheetBoundingBox(DocumentRectangle *sheetBBox, const NupSchema *ns,
 					       hasPageFooter);
 
 	for (i = 0; i < ns->nsNup; at++, i++) {
-		DocumentRectangle dr;
+		rect dr;
 
 		dr.drX0 = AT2_X(drBBox.drX0, drBBox.drY0, at);
 		dr.drY0 = AT2_Y(drBBox.drX0, drBBox.drY0, at);

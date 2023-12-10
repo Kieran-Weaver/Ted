@@ -73,7 +73,7 @@ static int docScreenSegmentedWidth(struct DrawingSurface *ds, int fullScreenFont
 	int x = 0;
 	int y = 0;
 
-	DocumentRectangle drText;
+	rect drText;
 
 	for (seg = 0; seg < segmentCount; seg++) {
 		if (segments[2 * seg + 0] > 0) {
@@ -134,7 +134,7 @@ int docScreenTextWidth(int fullScreenFont, const TextAttribute *ta,
 					       printString, segments,
 					       segmentCount);
 	} else {
-		DocumentRectangle drText;
+		rect drText;
 		int x = 0;
 		int y = 0;
 
@@ -511,7 +511,7 @@ static int docScreenLayoutScreenLine(const TextLine *tl,
 				     const ParagraphFrame *pf,
 				     ParticuleData *pdFrom)
 {
-	const DocumentRectangle *drParaContent = &(pf->pfParaContentRect);
+	const rect *drParaContent = &(pf->pfParaContentRect);
 
 	int x0Frame = docLayoutXPixels(lc, drParaContent->drX0);
 	int x1Frame = docLayoutXPixels(lc, drParaContent->drX1);
@@ -695,7 +695,7 @@ void docSetScreenLayoutFunctions(LayoutJob *lj)
 }
 
 int docScreenLayoutNode(int *pReachedBottom, BufferItem *node,
-			const LayoutContext *lc, DocumentRectangle *drChanged)
+			const LayoutContext *lc, rect *drChanged)
 {
 	LayoutJob lj;
 
@@ -759,7 +759,7 @@ int docScreenLayoutDocumentBody(int *pReachedBottom, BufferDocument *bd,
 {
 	DocumentProperties *dp = &(bd->bdProperties);
 
-	DocumentRectangle drChanged;
+	rect drChanged;
 
 	geoInitRectangle(&drChanged);
 

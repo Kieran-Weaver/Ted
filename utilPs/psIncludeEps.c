@@ -70,8 +70,8 @@ void psDefineEpsProcs(SimpleOutputStream *sos)
 	return;
 }
 
-void psBeginEpsObject(SimpleOutputStream *sos, const DocumentRectangle *drTo,
-		      const DocumentRectangle *drBBox, const char *file)
+void psBeginEpsObject(SimpleOutputStream *sos, const rect *drTo,
+		      const rect *drBBox, const char *file)
 {
 	const int sevenBits = 1;
 	AffineTransform2D at;
@@ -124,7 +124,7 @@ void psEndEpsObject(SimpleOutputStream *sos)
 /*									*/
 /************************************************************************/
 
-int psSaveEpsFile(SimpleOutputStream *sos, DocumentRectangle *drBBox,
+int psSaveEpsFile(SimpleOutputStream *sos, rect *drBBox,
 		  const MemoryBuffer *filename)
 {
 	int gotBBox = 0;

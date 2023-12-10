@@ -825,7 +825,7 @@ static void bmShearCol8Bit(unsigned char *imgBufOut,
 }
 
 static int bmShearRows(unsigned char *bufOut, const BitmapDescription *bdOut,
-		       int shear, const DocumentRectangle *drOut,
+		       int shear, const rect *drOut,
 		       const RasterImage *riIn, ShearRow shearRow)
 {
 	const BitmapDescription *bdIn = &(riIn->riDescription);
@@ -865,7 +865,7 @@ static int bmShearRows(unsigned char *bufOut, const BitmapDescription *bdOut,
 }
 
 static int bmShearCols(unsigned char *bufOut, const BitmapDescription *bdOut,
-		       int shear, const DocumentRectangle *drOut,
+		       int shear, const rect *drOut,
 		       const RasterImage *riIn, ShearCol shearCol)
 {
 	const BitmapDescription *bdIn = &(riIn->riDescription);
@@ -908,11 +908,11 @@ static int bmShearCols(unsigned char *bufOut, const BitmapDescription *bdOut,
 /*									*/
 /************************************************************************/
 
-static void bmTransformRectangle(BitmapDescription *bd, Point2DI to[4],
-				 DocumentRectangle *drTo,
+static void bmTransformRectangle(BitmapDescription *bd, vec2 to[4],
+				 rect *drTo,
 				 const AffineTransform2D *at,
-				 const Point2DI from[4],
-				 const DocumentRectangle *drFrom)
+				 const vec2 from[4],
+				 const rect *drFrom)
 {
 	int i;
 
@@ -1000,15 +1000,15 @@ int bmRotate(RasterImage *riOut, const RasterImage *riIn, double theta)
 	AffineTransform2D B;
 	AffineTransform2D A;
 
-	Point2DI rectIn[4];
-	Point2DI rectC[4];
-	Point2DI rectB[4];
-	Point2DI rectA[4];
+	vec2 rectIn[4];
+	vec2 rectC[4];
+	vec2 rectB[4];
+	vec2 rectA[4];
 
-	DocumentRectangle drIn;
-	DocumentRectangle drC;
-	DocumentRectangle drB;
-	DocumentRectangle drA;
+	rect drIn;
+	rect drC;
+	rect drB;
+	rect drA;
 
 	int shearC;
 	int shearB;

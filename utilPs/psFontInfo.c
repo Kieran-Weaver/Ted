@@ -317,7 +317,7 @@ static int psFontMetricAddCode(AfmCharMetric *acm, AfmFontInfo *afi, int C)
 /************************************************************************/
 
 int psFontInfoAddMetric(AfmFontInfo *afi, int C, int WX, const char *N,
-			const DocumentRectangle *abb)
+			const rect *abb)
 {
 	AfmCharMetric **fresh;
 	AfmCharMetric *acm;

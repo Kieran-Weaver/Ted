@@ -239,9 +239,9 @@ void docGetCellBottomBorder(BorderProperties *pBpBottom, int *pBpBottomNr,
 /************************************************************************/
 
 static int docCellLeftBorderDrawn(BorderProperties *bpLeft, int *bpLeftNr,
-				  int *pProp, DocumentRectangle *drOutside,
-				  DocumentRectangle *drInside,
-				  const DocumentRectangle *drCell,
+				  int *pProp, rect *drOutside,
+				  rect *drInside,
+				  const rect *drCell,
 				  const BufferDocument *bd,
 				  const BufferItem *rowNode, int col,
 				  int drawTableGrid)
@@ -299,9 +299,9 @@ static int docCellLeftBorderDrawn(BorderProperties *bpLeft, int *bpLeftNr,
 }
 
 static int docCellRightBorderDrawn(BorderProperties *bpRight, int *bpRightNr,
-				   int *pProp, DocumentRectangle *drOutside,
-				   DocumentRectangle *drInside,
-				   const DocumentRectangle *drCell,
+				   int *pProp, rect *drOutside,
+				   rect *drInside,
+				   const rect *drCell,
 				   const BufferDocument *bd,
 				   const BufferItem *rowNode, int col,
 				   int drawTableGrid)
@@ -360,9 +360,9 @@ static int docCellRightBorderDrawn(BorderProperties *bpRight, int *bpRightNr,
 }
 
 static int docCellTopBorderDrawn(BorderProperties *bpTop, int *bpTopNr,
-				 int *pProp, DocumentRectangle *drOutside,
-				 DocumentRectangle *drInside,
-				 const DocumentRectangle *drCell,
+				 int *pProp, rect *drOutside,
+				 rect *drInside,
+				 const rect *drCell,
 				 const BufferDocument *bd,
 				 const BufferItem *rowNode, int col,
 				 int atRowTop, int drawTableGrid)
@@ -409,9 +409,9 @@ static int docCellTopBorderDrawn(BorderProperties *bpTop, int *bpTopNr,
 }
 
 static int docCellBottomBorderDrawn(BorderProperties *bpBottom, int *bpBottomNr,
-				    int *pProp, DocumentRectangle *drOutside,
-				    DocumentRectangle *drInside,
-				    const DocumentRectangle *drCell,
+				    int *pProp, rect *drOutside,
+				    rect *drInside,
+				    const rect *drCell,
 				    const BufferDocument *bd,
 				    const BufferItem *rowNode, int col,
 				    int atRowBottom, int drawTableGrid)
@@ -453,9 +453,9 @@ static int docCellBottomBorderDrawn(BorderProperties *bpBottom, int *bpBottomNr,
 /************************************************************************/
 
 void docGetCellOrnaments(BlockOrnaments *cellOrnaments,
-			 DocumentRectangle *drOutside,
-			 DocumentRectangle *drInside,
-			 const DocumentRectangle *drCell,
+			 rect *drOutside,
+			 rect *drInside,
+			 const rect *drCell,
 			 const BufferDocument *bd, const BufferItem *rowNode,
 			 int col, int atRowTop, int atRowBottom,
 			 int drawTableGrid)

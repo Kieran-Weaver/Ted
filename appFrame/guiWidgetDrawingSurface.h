@@ -21,4 +21,4 @@ int guiGetLabelFont(struct DrawingSurface *ds, const PostScriptFontList *psfl,
 			   APP_WIDGET nativeLabel);
 
 void drawMoveArea(struct DrawingSurface *ds, int xDest, int yDest,
-			 const DocumentRectangle *drSrc);
+			 const rect *drSrc);

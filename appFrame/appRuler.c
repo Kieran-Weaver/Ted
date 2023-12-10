@@ -137,7 +137,7 @@ void appVerticalRulerGetSizeFromWidget(RulerData *rd, APP_WIDGET w)
 	return;
 }
 
-void appRulerDrawBackground(RulerData *rd, const DocumentRectangle *drBack)
+void appRulerDrawBackground(RulerData *rd, const rect *drBack)
 {
 	struct DrawingSurface *ds = rd->rdDrawingSurface;
 
@@ -194,7 +194,7 @@ void appRulerSetBackground(RulerData *rd, const RGB8Color *back)
 int appRulerTextWidth(RulerData *rd, const char *s, int len)
 {
 	if (rd->rdScreenFont >= 0) {
-		DocumentRectangle drText;
+		rect drText;
 
 		const int x = 0;
 		const int y = 0;
@@ -318,10 +318,10 @@ void appRulerTagText(char *to, int *pWide, int *pLen, RulerData *rd,
 
 #if SHOW_SCROLLS
 static void appShowCopy(struct DrawingSurface *ds, int x, int y,
-			const DocumentRectangle *drSrc)
+			const rect *drSrc)
 {
 	RGB8Color blue;
-	DocumentRectangle drTarget;
+	rect drTarget;
 
 	blue.rgb8Red = 0;
 	blue.rgb8Green = 0;
@@ -340,14 +340,14 @@ static void appShowCopy(struct DrawingSurface *ds, int x, int y,
 }
 #endif
 
-void appScrollHorizontalRuler(RulerData *rd, DocumentRectangle *drClip,
+void appScrollHorizontalRuler(RulerData *rd, rect *drClip,
 			      int srcolledX)
 {
 	int maxUsed = rd->rdSizeAlong - rd->rdExtraAfterMaxUsed;
 	struct DrawingSurface *ds = rd->rdDrawingSurface;
 
-	DocumentRectangle drAll;
-	DocumentRectangle drSrc;
+	rect drAll;
+	rect drSrc;
 
 	rd->rdVisibleC0 += srcolledX;
 	rd->rdVisibleC1 += srcolledX;
@@ -387,7 +387,7 @@ void appScrollHorizontalRuler(RulerData *rd, DocumentRectangle *drClip,
 	return;
 }
 
-void appScrollVerticalRuler(RulerData *rd, DocumentRectangle *drClip,
+void appScrollVerticalRuler(RulerData *rd, rect *drClip,
 			    int scrolledY)
 {
 	int maxUsed = rd->rdSizeAlong - rd->rdExtraAfterMaxUsed;
@@ -408,7 +408,7 @@ void appScrollVerticalRuler(RulerData *rd, DocumentRectangle *drClip,
 
 	if (scrolledY > 0) {
 		if (high > scrolledY) {
-			DocumentRectangle drSrc;
+			rect drSrc;
 
 			drSrc.drX0 = 0;
 			drSrc.drX1 = rd->rdSizeAcross - 1;
@@ -425,7 +425,7 @@ void appScrollVerticalRuler(RulerData *rd, DocumentRectangle *drClip,
 		}
 	} else {
 		if (high + scrolledY > 0) {
-			DocumentRectangle drSrc;
+			rect drSrc;
 
 			drSrc.drX0 = 0;
 			drSrc.drX1 = rd->rdSizeAcross - 1;

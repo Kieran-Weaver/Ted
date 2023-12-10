@@ -35,7 +35,7 @@ void docBlockFrameTwips(BlockFrame *bf, struct BufferItem *bi,
 void docCellFrameTwips(ParagraphFrame *pf, const BlockFrame *bf,
 			      const struct BufferItem *cellNode);
 
-void docCellRectangleTwips(DocumentRectangle *drCell,
+void docCellRectangleTwips(rect *drCell,
 				  const BlockFrame *bf,
 				  const struct BufferItem *cellNode);
 
@@ -43,7 +43,7 @@ void docLayoutSectColumnTop(LayoutPosition *lpTop, BlockFrame *bf,
 				   struct BufferItem *bodySectNode,
 				   BufferDocument *bd);
 
-void docParaBlockFrameRectangle(DocumentRectangle *dr,
+void docParaBlockFrameRectangle(rect *dr,
 				       struct BufferItem *paraBi,
 				       BufferDocument *bd, int page,
 				       int column);

@@ -18,14 +18,14 @@
 
 int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 				AppColors *ac, const RasterImage *abi,
-				const DocumentRectangle *drSrc);
+				const rect *drSrc);
 
 XftDraw *appGtkXftDrawCreate(GdkDrawable *drawable,
 				    AppXftColorList *axcl);
 
 AppColors *guiGetColorsGtk(void);
 
-void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
+void guiCollectExposuresGtk(rect *drClip, GdkWindow *window,
 				   APP_EVENT *event);
 
 void appDrawGtkSetXFillRule(GdkGC *gc, int rule);

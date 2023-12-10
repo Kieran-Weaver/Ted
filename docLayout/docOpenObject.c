@@ -146,7 +146,7 @@ int docCheckObjectLayout(int *pFixed, InsertedObject *io)
 		if (!ds) {
 			LXDEB(io->ioKind, io->ioDrawingShape);
 		} else {
-			DocumentRectangle drTwips;
+			rect drTwips;
 
 			docPlaceRootShapeRect(
 				&drTwips,
@@ -208,7 +208,7 @@ int docCheckObjectLayout(int *pFixed, InsertedObject *io)
 
 void docLayoutScaleObjectToFitParagraphFrame(
 	int *pChanged, InsertedObject *io, int pageHigh,
-	const DocumentRectangle *drParaContent)
+	const rect *drParaContent)
 {
 	int textWideTwips = drParaContent->drX1 - drParaContent->drX0;
 

@@ -61,7 +61,7 @@ int docDrawShapeGetLine(int *pLine, RGB8Color *rgb8, const DrawingShape *ds,
 /*									*/
 /************************************************************************/
 
-static int docDrawDrawingShape(const DocumentRectangle *drTwips,
+static int docDrawDrawingShape(const rect *drTwips,
 			       const struct BufferItem *bodySectNode, int page,
 			       int column, DrawingShape *ds, DrawingContext *dc,
 			       void *through)
@@ -69,8 +69,8 @@ static int docDrawDrawingShape(const DocumentRectangle *drTwips,
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	int rval = 0;
 
-	DocumentRectangle drHere;
-	DocumentRectangle drNorm;
+	rect drHere;
+	rect drNorm;
 
 	docShapeGetRects(&drHere, &drNorm, drTwips, ds);
 
@@ -79,7 +79,7 @@ static int docDrawDrawingShape(const DocumentRectangle *drTwips,
 
 		for (child = 0; child < ds->dsChildCount; child++) {
 			DrawingShape *dsChild = ds->dsChildren[child];
-			DocumentRectangle drChild;
+			rect drChild;
 
 			docShapeGetChildRect(&drChild, dsChild, &drHere, ds);
 
@@ -91,12 +91,12 @@ static int docDrawDrawingShape(const DocumentRectangle *drTwips,
 		}
 	} else {
 		if (dc->dcClipRect) {
-			DocumentRectangle drPixels;
+			rect drPixels;
 
 			docGetPixelRect(&drPixels, lc, drTwips, page);
 			geoNormalizeRectangle(&drPixels, &drPixels);
 
-			if (!geoIntersectRectangle((DocumentRectangle *)0,
+			if (!geoIntersectRectangle((rect *)0,
 						   dc->dcClipRect, &drPixels)) {
 				return 0;
 			}
@@ -132,7 +132,7 @@ static int docDrawDrawingShape(const DocumentRectangle *drTwips,
 /*									*/
 /************************************************************************/
 
-int docDrawShapeText(const DocumentRectangle *drHere,
+int docDrawShapeText(const rect *drHere,
 		     const struct BufferItem *bodySectNode, int page,
 		     int column, DrawingShape *ds, DrawingContext *dc,
 		     void *through)
@@ -145,7 +145,7 @@ int docDrawShapeText(const DocumentRectangle *drHere,
 
 	if (page != ds->dsDocumentTree.dtPageFormattedFor ||
 	    column != ds->dsDocumentTree.dtColumnFormattedFor) {
-		if (docShapeCheckTextLayout(ds, drHere, (DocumentRectangle *)0,
+		if (docShapeCheckTextLayout(ds, drHere, (rect *)0,
 					    bodySectNode, page, column, lc,
 					    dc->dcInitLayoutExternal)) {
 			LDEB(page);
@@ -178,7 +178,7 @@ int docDrawShape(DrawingContext *dc, void *through,
 	int page = io->ioY0Position.lpPage;
 	int column = io->ioY0Position.lpColumn;
 
-	DocumentRectangle drTwips;
+	rect drTwips;
 
 	if (!ds) {
 		XDEB(ds);
@@ -190,12 +190,12 @@ int docDrawShape(DrawingContext *dc, void *through,
 			      io->ioX0Twips, io->ioY0Position.lpPageYTwips);
 
 	if (dc->dcClipRect) {
-		DocumentRectangle drPixels;
+		rect drPixels;
 
 		docGetPixelRect(&drPixels, lc, &drTwips, page);
 		geoNormalizeRectangle(&drPixels, &drPixels);
 
-		if (!geoIntersectRectangle((DocumentRectangle *)0, &drPixels,
+		if (!geoIntersectRectangle((rect *)0, &drPixels,
 					   dc->dcClipRect)) {
 			return 0;
 		}

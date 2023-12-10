@@ -87,7 +87,7 @@ int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig);
 
 XftFont *drawOpenXftFont(DrawScreenFont *dsf);
 
-int drawTextExtentsXft(DocumentRectangle *drText, int x, int y,
+int drawTextExtentsXft(rect *drText, int x, int y,
 			      const DrawScreenFont *hDsf,
 			      const DrawScreenFont *vDsf, const char *s,
 			      int len);

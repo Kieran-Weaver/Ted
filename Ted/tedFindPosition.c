@@ -30,7 +30,7 @@
 typedef struct PositionFindJob {
 	DocumentPosition pfjDocumentPosition;
 	PositionGeometry pfjPositionGeometry;
-	DocumentRectangle pfjPageRect;
+	rect pfjPageRect;
 	DrawingContext pfjDrawingContext;
 	int pfjPageFound;
 	int pfjColumnFound;
@@ -72,7 +72,7 @@ static void tedSetPositionFound(PositionFindJob *pfj, const TextLine *tl,
 
 static int tedFindPositionInTextLine(BufferItem *paraBi, int line,
 				     const ParagraphFrame *pf,
-				     const DocumentRectangle *drLinePixels,
+				     const rect *drLinePixels,
 				     void *vpfj, DrawingContext *dc,
 				     const BlockOrigin *bo)
 {
@@ -107,7 +107,7 @@ static int tedFindPositionInTextLine(BufferItem *paraBi, int line,
 		int dy;
 		int d;
 
-		DocumentRectangle drTry;
+		rect drTry;
 
 		if (pfj->pfjDocY > yc) {
 			dy = pfj->pfjDocY - drLinePixels->drY0;

@@ -18,7 +18,7 @@
 
 int docDescribeSetSelection(DocumentTree **pTreeSet,
 			    BufferItem **pBodySectNodeSet,
-			    DocumentRectangle *drExternalSet,
+			    rect *drExternalSet,
 			    int *pRedrawOldTree, int *pRedrawNewTree,
 			    LayoutContext *lc, BufferDocument *bd,
 			    const DocumentSelection *dsOld,
@@ -136,7 +136,7 @@ int docDescribeSetSelection(DocumentTree **pTreeSet,
 	    */
 
 		if (docCheckPageOfSelectedTree(
-			    &changed, &bodySectNodeSet, (DocumentRectangle *)0,
+			    &changed, &bodySectNodeSet, (rect *)0,
 			    treeSet, lc, docStartScreenLayoutForTree)) {
 			LDEB(1);
 		}

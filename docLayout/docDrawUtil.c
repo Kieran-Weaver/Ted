@@ -27,7 +27,7 @@ void docInitDrawingContext(DrawingContext *dc)
 
 	layoutInitContext(&(dc->dcLayoutContext));
 
-	dc->dcClipRect = (DocumentRectangle *)0;
+	dc->dcClipRect = (rect *)0;
 	dc->dcSelection = (DocumentSelection *)0;
 	dc->dcSelectionGeometry = (SelectionGeometry *)0;
 	dc->dcFirstPage = -1;
@@ -85,7 +85,7 @@ void docInitDrawTextLine(DrawTextLine *dtl)
 void docSetDrawTextLine(DrawTextLine *dtl, void *through, DrawingContext *dc,
 			const TextLine *tl, const struct BufferItem *paraBi,
 			const BlockOrigin *bo, const ParagraphFrame *pf,
-			const DocumentRectangle *drLine)
+			const rect *drLine)
 {
 	dtl->dtlThrough = through;
 	dtl->dtlDrawingContext = dc;

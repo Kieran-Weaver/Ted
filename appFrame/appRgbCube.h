@@ -74,7 +74,7 @@ void appInitRgbCube(RgbCube *rc);
 void appCleanRgbCube(RgbCube *rc);
 
 void appRedrawRgbCube(RgbCube *rc, int wide, int high,
-			     const DocumentRectangle *drClip,
+			     const rect *drClip,
 			     struct DrawingSurface *ds);
 
 int appPrepareRgbCube(RgbCube *rc, struct DrawingSurface *ds, int redSteps,

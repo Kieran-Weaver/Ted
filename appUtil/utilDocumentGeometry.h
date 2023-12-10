@@ -66,16 +66,16 @@ void utilUpdDocumentGeometry(PropertyMask *dpDoneMask,
 				    const PropertyMask *dgSetMask,
 				    const DocumentGeometry *dgSet);
 
-void utilDocumentGeometryGetBodyRect(DocumentRectangle *dr,
+void utilDocumentGeometryGetBodyRect(rect *dr,
 					    const DocumentGeometry *dg);
 
-void utilDocumentGeometryGetHeaderRect(DocumentRectangle *dr,
+void utilDocumentGeometryGetHeaderRect(rect *dr,
 					      const DocumentGeometry *dg);
 
-void utilDocumentGeometryGetFooterRect(DocumentRectangle *dr,
+void utilDocumentGeometryGetFooterRect(rect *dr,
 					      const DocumentGeometry *dg);
 
-void utilDocumentGeometryGetPageBoundingBox(DocumentRectangle *dr,
+void utilDocumentGeometryGetPageBoundingBox(rect *dr,
 						   const DocumentGeometry *dg,
 						   int hasHeader,
 						   int hasFooter);

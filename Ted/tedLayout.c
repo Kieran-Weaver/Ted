@@ -117,7 +117,7 @@ void tedSetScreenLayoutContext(LayoutContext *lc, EditDocument *ed)
 /*									*/
 /************************************************************************/
 
-void tedGetObjectRectangle(DocumentRectangle *drObject, Point2DI *xp,
+void tedGetObjectRectangle(rect *drObject, vec2 *xp,
 			   const InsertedObject *io, const PositionGeometry *pg,
 			   const LayoutContext *lc, const EditDocument *ed)
 {

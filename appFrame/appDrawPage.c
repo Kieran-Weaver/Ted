@@ -26,11 +26,11 @@
 /************************************************************************/
 
 static void appDrawTextPattern(struct DrawingSurface *ds,
-			       const DocumentRectangle *drNum,
-			       const DocumentRectangle *drText)
+			       const rect *drNum,
+			       const rect *drText)
 {
 	double wide = drText->drX1 - drText->drX0 + 1;
-	DocumentRectangle drWord;
+	rect drWord;
 
 	drWord.drY0 = drWord.drY1 = drText->drY0 + 2;
 
@@ -87,9 +87,9 @@ static void appDrawTextPattern(struct DrawingSurface *ds,
 /************************************************************************/
 
 static void appDrawTextPage(struct DrawingSurface *ds, const RGB8Color *backColor,
-			    const DocumentRectangle *drText)
+			    const rect *drText)
 {
-	DocumentRectangle drAround = *drText;
+	rect drAround = *drText;
 
 	drAround.drX0--;
 	drAround.drY0--;
@@ -100,19 +100,19 @@ static void appDrawTextPage(struct DrawingSurface *ds, const RGB8Color *backColo
 	drawRectangle(ds, &drAround);
 
 	drawSetForegroundColorBlack(ds);
-	appDrawTextPattern(ds, (const DocumentRectangle *)0, drText);
+	appDrawTextPattern(ds, (const rect *)0, drText);
 
 	return;
 }
 
 static void appDrawNupTextPage(struct DrawingSurface *ds, const RGB8Color *backColor,
 			       int screenFont, const char *label,
-			       const DocumentRectangle *drText)
+			       const rect *drText)
 {
 	if (screenFont >= 0) {
 		int l = strlen(label);
-		DocumentRectangle drLabel;
-		DocumentRectangle drAround = *drText;
+		rect drLabel;
+		rect drAround = *drText;
 		int shift;
 		int desc;
 
@@ -152,10 +152,10 @@ static void appDrawNupTextPage(struct DrawingSurface *ds, const RGB8Color *backC
 /*									*/
 /************************************************************************/
 
-static void appDrawPageSheet(const DocumentRectangle *drSheet,
+static void appDrawPageSheet(const rect *drSheet,
 			     struct DrawingSurface *ds)
 {
-	DocumentRectangle drAround = *drSheet;
+	rect drAround = *drSheet;
 
 	drawSetForegroundColorWhite(ds);
 	drawFillRectangle(ds, drSheet);
@@ -193,9 +193,9 @@ void appDrawPageDiagram(APP_WIDGET w, struct DrawingSurface *ds,
 	int sheetWidePixels;
 	int sheetHighPixels;
 
-	DocumentRectangle drAll;
-	DocumentRectangle drSheet;
-	DocumentRectangle drText;
+	rect drAll;
+	rect drSheet;
+	rect drText;
 
 	guiDrawGetSizeOfWidget(&wide, &high, w);
 	drAll.drX0 = 0;
@@ -247,7 +247,7 @@ void appDrawPageDiagram(APP_WIDGET w, struct DrawingSurface *ds,
 
 static void appDrawDirectionArrow(struct DrawingSurface *ds, int rotate, int x0, int y0)
 {
-	static Point2DI offsets[8] = {
+	static vec2 offsets[8] = {
 		{
 			-STEMW,
 			+STEML,
@@ -282,7 +282,7 @@ static void appDrawDirectionArrow(struct DrawingSurface *ds, int rotate, int x0,
 		},
 	};
 
-	Point2DI points[8];
+	vec2 points[8];
 	int i;
 
 	if (rotate) {
@@ -307,7 +307,7 @@ static void appDrawDirectionArrow(struct DrawingSurface *ds, int rotate, int x0,
 }
 
 static void appDrawDirectionArrows(struct DrawingSurface *ds, int rotate,
-				   const DocumentRectangle *drSheet)
+				   const rect *drSheet)
 {
 	if (rotate) {
 		appDrawDirectionArrow(ds, rotate,
@@ -361,9 +361,9 @@ void appDrawNupDiagram(APP_WIDGET w, struct DrawingSurface *ds,
 	int rotatePages;
 	int rotateSheet;
 
-	DocumentRectangle drAll;
-	DocumentRectangle drSheet;
-	DocumentRectangle drText;
+	rect drAll;
+	rect drSheet;
+	rect drText;
 
 	const DocumentGeometry *dgSheet = &(pg->pgSheetGeometry);
 

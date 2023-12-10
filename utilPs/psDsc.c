@@ -204,7 +204,7 @@ int psStartPage(PrintingState *ps, int documentPage)
 #if 0
     if  ( firstOnSheet )
 	{
-	const DocumentRectangle *	dr= &(ps->psSheetBoundingBox);
+	const rect *	dr= &(ps->psSheetBoundingBox);
 
 	sioOutPrintf( ps->psSos, "newpath" );
 	sioOutPrintf( ps->psSos, " %d %d moveto", dr->drX0, dr->drY0 );

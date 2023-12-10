@@ -114,7 +114,7 @@ void appInitRulerData(RulerData *rd);
 void appCleanRulerData(RulerData *rd);
 
 void appRulerDrawBackground(RulerData *rd,
-				   const DocumentRectangle *drBck);
+				   const rect *drBck);
 
 void appRulerMakeDrawingSurface(RulerData *rd, int vertical,
 				       int fontSizeHintPixels,
@@ -129,10 +129,10 @@ void appRulerCalculateIncrements(RulerData *rd,
 void appRulerTagText(char *to, int *pWide, int *pLen, RulerData *rd,
 			    double units);
 
-void appScrollHorizontalRuler(RulerData *rd, DocumentRectangle *drClip,
+void appScrollHorizontalRuler(RulerData *rd, rect *drClip,
 				     int d);
 
-void appScrollVerticalRuler(RulerData *rd, DocumentRectangle *drClip, int d);
+void appScrollVerticalRuler(RulerData *rd, rect *drClip, int d);
 
 void appHorizontalRulerGetSizeFromConfigureEvent(RulerData *rd,
 							APP_WIDGET w,

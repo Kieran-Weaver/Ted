@@ -148,7 +148,7 @@ int docSetObjectClass(InsertedObject *io, const char *name, int len)
 /*									*/
 /************************************************************************/
 
-void docObjectGetCropRect(DocumentRectangle *drSrc,
+void docObjectGetCropRect(rect *drSrc,
 			  const PictureProperties *pip,
 			  const BitmapDescription *bd)
 {

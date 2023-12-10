@@ -160,7 +160,7 @@ static APP_EVENT_HANDLER_H(appRGBDrawChooser, w, voidrcp, exposeEvent)
 
 	int wide;
 	int high;
-	DocumentRectangle drClip;
+	rect drClip;
 
 	guiCollectExposures(&drClip, rcp->rcpDrawing, exposeEvent);
 

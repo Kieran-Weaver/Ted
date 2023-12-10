@@ -98,7 +98,7 @@ static void docLayoutAddSlantToPrevious(int *pX, ParticuleData *pd,
 /************************************************************************/
 
 static int docLayoutWord(LineLayoutJob *llj, int part,
-			 DocumentRectangle *drWord, int *pAddRBorder,
+			 rect *drWord, int *pAddRBorder,
 			 int *pRightBThick, int *pFattestWordB, int *pVisibleX1,
 			 unsigned char *pLineFlags, ParticuleData *pd,
 			 int particuleUpto, int x0Word)
@@ -197,7 +197,7 @@ static int docLayoutWord(LineLayoutJob *llj, int part,
 		/*  5  */
 		while (part < particuleUpto && textAttrNr == textAttrNr0 &&
 		       tp->tpKind == DOCkindSPAN) {
-			DocumentRectangle drPart;
+			rect drPart;
 			int sizeTwips;
 			TextAttribute taTmp;
 
@@ -364,7 +364,7 @@ static int docLayoutShowOptionalHyphen(LineLayoutJob *llj, int part,
 	int width;
 	int decWidth;
 
-	DocumentRectangle drPart;
+	rect drPart;
 
 	const char *from;
 	int len;
@@ -409,7 +409,7 @@ static int docLayoutInsertOptionalHyphen(LineLayoutJob *llj, int part, int done,
 
 	int inserted = 0;
 	const ParagraphFrame *pf = llj->lljParagraphFrame;
-	const DocumentRectangle *drParaContent = &(pf->pfParaContentRect);
+	const rect *drParaContent = &(pf->pfParaContentRect);
 	BufferItem *paraNode = llj->lljParaNode;
 
 	int i;
@@ -448,7 +448,7 @@ static int docLayoutInsertOptionalHyphen(LineLayoutJob *llj, int part, int done,
 		     l++) {
 			int width;
 			int decWidth;
-			DocumentRectangle drPart;
+			rect drPart;
 
 			if (docLayoutStringExtents(
 				    &width, &decWidth, &drPart, &ta, sizeTwips,
@@ -517,7 +517,7 @@ static int docLayoutInsertOptionalHyphen(LineLayoutJob *llj, int part, int done,
 #define PSfoundBULLET_END 5
 
 static int docPsLayoutText(LineLayoutJob *llj, int part, int *pFound,
-			   int *pWordCount, DocumentRectangle *drText,
+			   int *pWordCount, rect *drText,
 			   int *pFattestTextB, unsigned char *pLineFlags,
 			   ParticuleData *pd, int particuleUpto,
 			   int acceptAtLeast, int x0)
@@ -525,7 +525,7 @@ static int docPsLayoutText(LineLayoutJob *llj, int part, int *pFound,
 	BufferDocument *bd = llj->lljLayoutContext->lcDocument;
 
 	const ParagraphFrame *pf = llj->lljParagraphFrame;
-	const DocumentRectangle *drParaContent = &(pf->pfParaContentRect);
+	const rect *drParaContent = &(pf->pfParaContentRect);
 	BufferItem *paraNode = llj->lljParaNode;
 
 	int accepted;
@@ -549,7 +549,7 @@ static int docPsLayoutText(LineLayoutJob *llj, int part, int *pFound,
 
 		switch (paraNode->biParaParticules[part].tpKind) {
 			int visibleX1;
-			DocumentRectangle drWord;
+			rect drWord;
 
 		case DOCkindSPAN:
 textCase:
@@ -829,7 +829,7 @@ textCase:
 			int width;
 			int decWidth;
 
-			DocumentRectangle drPart;
+			rect drPart;
 
 			int from;
 			int len;
@@ -926,7 +926,7 @@ textCase:
 static int docLayoutAlignTextToTab(ParticuleData *pdd, const TextParticule *tpp,
 				   int part, int done, ParticuleData *pdTab,
 				   const TextParticule *tpTab, int tabKind,
-				   DocumentRectangle *drText, const int tabX0,
+				   rect *drText, const int tabX0,
 				   const int tabX1)
 {
 	int visibleSinceTab = 0;
@@ -1076,7 +1076,7 @@ static int docLayoutBulletAsTab(int *pParticuleUpto, int *pX0, int *pTabX0,
 				const BufferItem *paraNode,
 				const BufferDocument *bd)
 {
-	const DocumentRectangle *drParaContent = &(pf->pfParaContentRect);
+	const rect *drParaContent = &(pf->pfParaContentRect);
 	struct ListOverride *lo;
 	struct DocumentList *dl;
 	const ListLevel *ll;
@@ -1171,14 +1171,14 @@ static int docLayoutBulletAsTab(int *pParticuleUpto, int *pX0, int *pTabX0,
 /************************************************************************/
 
 static int docLayoutParticules(LineLayoutJob *llj, int part, int *pFound,
-			       int *pWordCount, DocumentRectangle *drLine,
+			       int *pWordCount, rect *drLine,
 			       int *pFattestLineB, unsigned char *pLineFlags,
 			       ParticuleData *pdFrom, int acceptAtLeast, int x0)
 {
 	BufferDocument *bd = llj->lljLayoutContext->lcDocument;
 
 	const ParagraphFrame *pf = llj->lljParagraphFrame;
-	const DocumentRectangle *drParaContent = &(pf->pfParaContentRect);
+	const rect *drParaContent = &(pf->pfParaContentRect);
 	const DocumentProperties *dp = &(bd->bdProperties);
 	BufferItem *paraNode = llj->lljParaNode;
 	unsigned char xflags = 0x0;
@@ -1226,7 +1226,7 @@ static int docLayoutParticules(LineLayoutJob *llj, int part, int *pFound,
 		int tab;
 		int nextTabX1;
 
-		DocumentRectangle drText;
+		rect drText;
 		int fattestTextBorder = 0;
 
 		ParticuleData *pdTab = (ParticuleData *)0;
@@ -1571,10 +1571,10 @@ int docLayoutLineBox(TextLine *tl, BufferItem *paraNode, int part,
 
 	int p;
 
-	DocumentRectangle drLine;
+	rect drLine;
 	int fattestBorder = 0;
 
-	DocumentRectangle drTypicalLine;
+	rect drTypicalLine;
 
 	LineLayoutJob llj;
 

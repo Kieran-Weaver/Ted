@@ -23,9 +23,9 @@
 /*									*/
 /************************************************************************/
 
-int geo2DIIntersectSegments(Point2DI *p1, Point2DI *p2, double *pXab1,
+int geo2DIIntersectSegments(vec2 *p1, vec2 *p2, double *pXab1,
 			    double *pXab2, double *pXcd1, double *pXcd2,
-			    const Point2DI *ab, const Point2DI *cd)
+			    const vec2 *ab, const vec2 *cd)
 {
 	double numXab;
 	double xab;
@@ -200,7 +200,7 @@ int geo2DIIntersectSegments(Point2DI *p1, Point2DI *p2, double *pXab1,
 /*									*/
 /************************************************************************/
 
-double geo2DIDistanceToLine(const Point2DI *ab, const Point2DI *c)
+double geo2DIDistanceToLine(const vec2 *ab, const vec2 *c)
 {
 	double Ax = ab[0].x;
 	double Ay = ab[0].y;
@@ -239,7 +239,7 @@ double geo2DIDistanceToLine(const Point2DI *ab, const Point2DI *c)
 /*									*/
 /************************************************************************/
 
-double geo2DIProjectionOnLine(const Point2DI *ab, const Point2DI *c)
+double geo2DIProjectionOnLine(const vec2 *ab, const vec2 *c)
 {
 	double Ax = ab[0].x;
 	double Ay = ab[0].y;
@@ -284,13 +284,13 @@ double geo2DIProjectionOnLine(const Point2DI *ab, const Point2DI *c)
 /*									*/
 /************************************************************************/
 
-int geo2DIPointInPolygon(const Point2DI *p, const Point2DI *points,
+int geo2DIPointInPolygon(const vec2 *p, const vec2 *points,
 			 int pointCount)
 {
-	Point2DI ab[2];
+	vec2 ab[2];
 
-	Point2DI p1;
-	Point2DI p2;
+	vec2 p1;
+	vec2 p2;
 
 	int attempts = 0;
 
@@ -301,7 +301,7 @@ int geo2DIPointInPolygon(const Point2DI *p, const Point2DI *points,
 	for (;;) {
 		int i;
 		int res;
-		const Point2DI *vp;
+		const vec2 *vp;
 		int crossings = 0;
 
 		double xab1;
@@ -381,22 +381,22 @@ int geo2DIPointInPolygon(const Point2DI *p, const Point2DI *points,
 /*									*/
 /************************************************************************/
 
-static int geo2DIFirstBorderIntersection(Point2DI *pP, double *pXp, Point2DI p0,
-					 Point2DI p1,
-					 const DocumentRectangle *dr)
+static int geo2DIFirstBorderIntersection(vec2 *pP, double *pXp, vec2 p0,
+					 vec2 p1,
+					 const rect *dr)
 {
-	Point2DI pa;
-	Point2DI pb;
+	vec2 pa;
+	vec2 pb;
 	double xpa;
 	double xpb;
 	double xsa;
 	double xsb;
 
-	Point2DI p;
+	vec2 p;
 	double xp = 2;
 
-	Point2DI vp[2];
-	Point2DI side[2];
+	vec2 vp[2];
+	vec2 side[2];
 
 	p = p0; /* Make gcc happy */
 	vp[0] = p0;
@@ -455,22 +455,22 @@ static int geo2DIFirstBorderIntersection(Point2DI *pP, double *pXp, Point2DI p0,
 	return 0;
 }
 
-static int geo2DILastBorderIntersection(Point2DI *pP, double *pXp, Point2DI p0,
-					Point2DI p1,
-					const DocumentRectangle *dr)
+static int geo2DILastBorderIntersection(vec2 *pP, double *pXp, vec2 p0,
+					vec2 p1,
+					const rect *dr)
 {
-	Point2DI pa;
-	Point2DI pb;
+	vec2 pa;
+	vec2 pb;
 	double xpa;
 	double xpb;
 	double xsa;
 	double xsb;
 
-	Point2DI p;
+	vec2 p;
 	double xp = -1;
 
-	Point2DI vp[2];
-	Point2DI side[2];
+	vec2 vp[2];
+	vec2 side[2];
 
 	p = p0; /* Make gcc happy */
 	vp[0] = p0;
@@ -529,15 +529,15 @@ static int geo2DILastBorderIntersection(Point2DI *pP, double *pXp, Point2DI p0,
 	return 0;
 }
 
-int geo2DIClipSegmentToRectangle(Point2DI vpChanged[2], double *pXp0,
-				 double *pXp1, const Point2DI vp[2],
-				 const DocumentRectangle *dr)
+int geo2DIClipSegmentToRectangle(vec2 vpChanged[2], double *pXp0,
+				 double *pXp1, const vec2 vp[2],
+				 const rect *dr)
 {
 	double xp0 = 0.0;
 	double xp1 = 1.0;
 
-	Point2DI p0 = vp[0];
-	Point2DI p1 = vp[1];
+	vec2 p0 = vp[0];
+	vec2 p1 = vp[1];
 
 	if (!geo2DIPointInBox(&(vp[0]), dr)) {
 		if (geo2DIFirstBorderIntersection(&p0, &xp0, vp[0], vp[1],
@@ -560,7 +560,7 @@ int geo2DIClipSegmentToRectangle(Point2DI vpChanged[2], double *pXp0,
 	return 0;
 }
 
-int geo2DISurface(Point2DI *points, int n)
+int geo2DISurface(vec2 *points, int n)
 {
 	int s = 0;
 	int i;

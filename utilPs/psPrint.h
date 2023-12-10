@@ -34,7 +34,7 @@ typedef struct PrintingState {
 	AffineTransform2D psCurrentTransform;
 	const char *psOrientation;
 
-	DocumentRectangle psSheetBoundingBox;
+	rect psSheetBoundingBox;
 
 	int psInsideLink;
 	int psLinkParticulesDone;
@@ -125,8 +125,8 @@ void psDefineProcedure(SimpleOutputStream *sos, const char **lines,
 void psDefineEpsProcs(SimpleOutputStream *sos);
 
 void psBeginEpsObject(SimpleOutputStream *sos,
-			     const DocumentRectangle *drTo,
-			     const DocumentRectangle *drBBox, const char *file);
+			     const rect *drTo,
+			     const rect *drBBox, const char *file);
 
 void psEndEpsObject(SimpleOutputStream *sos);
 
@@ -150,13 +150,13 @@ void psFlushLink(PrintingState *ps, int x0, int wide, int lineTop,
 			int lineHeight);
 
 void psSourcePdfmark(SimpleOutputStream *sos,
-			    const DocumentRectangle *drLink,
+			    const rect *drLink,
 			    const MemoryBuffer *fileName,
 			    const MemoryBuffer *markName);
 
 int psPageModePdfmark(SimpleOutputStream *sos, const char *pageMode);
 
-int psSaveEpsFile(SimpleOutputStream *sos, DocumentRectangle *drBBox,
+int psSaveEpsFile(SimpleOutputStream *sos, rect *drBBox,
 			 const MemoryBuffer *filename);
 
 int psIncludeEpsFile(SimpleOutputStream *sos, SimpleInputStream *sis);

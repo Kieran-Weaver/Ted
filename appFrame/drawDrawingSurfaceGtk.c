@@ -64,7 +64,7 @@ struct DrawingSurface *drawMakeDrawingSurfaceForParent(struct DrawingSurface *pa
 
 struct DrawingSurface *drawMakeDrawingSurfaceForImageAndParent(
 	struct DrawingSurface *parent, const RasterImage *abi,
-	const DocumentRectangle *drSrc, int wide, int high)
+	const rect *drSrc, int wide, int high)
 {
 	struct DrawingSurface *ds;
 	APP_IMAGE *xim = (APP_IMAGE *)0;
@@ -89,8 +89,8 @@ struct DrawingSurface *drawMakeDrawingSurfaceForImageAndParent(
 
 /************************************************************************/
 
-int drawRasterImage(struct DrawingSurface *ds, const DocumentRectangle *drDest,
-		    const RasterImage *abi, const DocumentRectangle *drSrc)
+int drawRasterImage(struct DrawingSurface *ds, const rect *drDest,
+		    const RasterImage *abi, const rect *drSrc)
 {
 	APP_IMAGE *xim = (APP_IMAGE *)0;
 	int pixelsWide = drDest->drX1 - drDest->drX0 + 1;
@@ -177,7 +177,7 @@ void drawFreeDrawingSurface(struct DrawingSurface *ds)
 /*									*/
 /************************************************************************/
 
-void drawFillRectangle(struct DrawingSurface *ds, const DocumentRectangle *dr)
+void drawFillRectangle(struct DrawingSurface *ds, const rect *dr)
 {
 #ifdef USE_XFT
 	if (!drawFillRectangleXft(ds->dsXftDrawable, &(ds->dsXftColorList),
@@ -190,7 +190,7 @@ void drawFillRectangle(struct DrawingSurface *ds, const DocumentRectangle *dr)
 			   dr->drX1 - dr->drX0 + 1, dr->drY1 - dr->drY0 + 1);
 }
 
-void drawRectangle(struct DrawingSurface *ds, const DocumentRectangle *dr)
+void drawRectangle(struct DrawingSurface *ds, const rect *dr)
 {
 	gdk_draw_rectangle(ds->dsDrawable, ds->dsGc, FALSE, dr->drX0, dr->drY0,
 			   dr->drX1 - dr->drX0 + 1, dr->drY1 - dr->drY0 + 1);
@@ -214,7 +214,7 @@ int drawLine(struct DrawingSurface *ds, int x0, int y0, int x1, int y1)
 /*									*/
 /************************************************************************/
 
-static int drawSetPoints(struct DrawingSurface *ds, const Point2DI *points,
+static int drawSetPoints(struct DrawingSurface *ds, const vec2 *points,
 			 int pointCount)
 {
 	int i;
@@ -245,7 +245,7 @@ static int drawSetPoints(struct DrawingSurface *ds, const Point2DI *points,
 /*									*/
 /************************************************************************/
 
-int drawLines(struct DrawingSurface *ds, const Point2DI *points, int pointCount,
+int drawLines(struct DrawingSurface *ds, const vec2 *points, int pointCount,
 	      int close)
 {
 	int i;
@@ -278,7 +278,7 @@ int drawLines(struct DrawingSurface *ds, const Point2DI *points, int pointCount,
 /*									*/
 /************************************************************************/
 
-int drawFillPolygon(struct DrawingSurface *ds, const Point2DI *points, int pointCount)
+int drawFillPolygon(struct DrawingSurface *ds, const vec2 *points, int pointCount)
 {
 	if (drawSetPoints(ds, points, pointCount)) {
 		LDEB(pointCount);
@@ -453,7 +453,7 @@ void drawNoClipping(struct DrawingSurface *ds)
 	return;
 }
 
-void drawSetClipRect(struct DrawingSurface *ds, const DocumentRectangle *drClip)
+void drawSetClipRect(struct DrawingSurface *ds, const rect *drClip)
 {
 	GdkRectangle gRect;
 
@@ -483,7 +483,7 @@ void drawSetClipRect(struct DrawingSurface *ds, const DocumentRectangle *drClip)
 /************************************************************************/
 
 void drawChildSurface(struct DrawingSurface *ds, const struct DrawingSurface *child, int xDest,
-		      int yDest, const DocumentRectangle *drChild)
+		      int yDest, const rect *drChild)
 {
 	if (!child) {
 		XDEB(child);
@@ -501,7 +501,7 @@ void drawChildSurface(struct DrawingSurface *ds, const struct DrawingSurface *ch
 /************************************************************************/
 
 void drawMoveArea(struct DrawingSurface *ds, int xDest, int yDest,
-		  const DocumentRectangle *drSrc)
+		  const rect *drSrc)
 {
 	gdk_window_copy_area(ds->dsDrawable, ds->dsGc, xDest, yDest,
 			     ds->dsDrawable, drSrc->drX0, drSrc->drY0,

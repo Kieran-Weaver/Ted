@@ -682,7 +682,7 @@ int docLayoutEndnotesForDocument(LayoutPosition *lpBelow,
 /*									*/
 /************************************************************************/
 
-int docNoteSeparatorRectangle(DocumentRectangle *drExtern,
+int docNoteSeparatorRectangle(rect *drExtern,
 			      DocumentTree **pEiNoteSep, int *pY0Twips,
 			      const DocumentNote *dnFirstNote, int treeType,
 			      const LayoutContext *lc)
@@ -699,7 +699,7 @@ int docNoteSeparatorRectangle(DocumentRectangle *drExtern,
 	int high;
 
 	BlockFrame bfNoteSep;
-	DocumentRectangle drTwips;
+	rect drTwips;
 
 	eiNoteSep = docDocumentNoteSeparator(lc->lcDocument, treeType);
 	if (!eiNoteSep) {

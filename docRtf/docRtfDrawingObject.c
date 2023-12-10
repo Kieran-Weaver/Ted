@@ -20,9 +20,9 @@
 static int docRtfDrawingObjectAllocatePoints(DrawingShape *ds, int n)
 {
 	ShapeDrawing *sd = &(ds->dsDrawing);
-	Point2DI *fresh;
+	vec2 *fresh;
 
-	fresh = (Point2DI *)realloc(sd->sdVertices, n * sizeof(Point2DI));
+	fresh = (vec2 *)realloc(sd->sdVertices, n * sizeof(vec2));
 	if (!fresh) {
 		LXDEB(n, fresh);
 		return -1;

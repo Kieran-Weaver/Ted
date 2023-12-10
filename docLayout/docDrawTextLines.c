@@ -108,7 +108,7 @@ static void docDrawRunStrikethrough(const DrawTextLine *dtl, int part, int upto,
 /************************************************************************/
 
 static int docDrawShadingStretch(int *pNext, int *pXTwips,
-				 DocumentRectangle *drText, int baseline,
+				 rect *drText, int baseline,
 				 int skip, DrawingContext *dc,
 				 const BufferItem *paraNode, int part,
 				 int partUpto)
@@ -145,7 +145,7 @@ static int docDrawShadingStretch(int *pNext, int *pXTwips,
 }
 
 static int docDrawBorderStretch(int *pNext, int *pXTwips,
-				DocumentRectangle *drText, int baseline,
+				rect *drText, int baseline,
 				int skip, DrawingContext *dc,
 				const BufferItem *paraNode, int part,
 				int partUpto)
@@ -184,7 +184,7 @@ static int docDrawBorderStretch(int *pNext, int *pXTwips,
 /************************************************************************/
 
 static int docDrawTextBorders(const BufferItem *paraNode, const TextLine *tl,
-			      int baseline, const DocumentRectangle *drLine,
+			      int baseline, const rect *drLine,
 			      int page, int xTwips, void *through,
 			      DrawingContext *dc)
 {
@@ -205,10 +205,10 @@ static int docDrawTextBorders(const BufferItem *paraNode, const TextLine *tl,
 		int ignored;
 		int next;
 
-		DocumentRectangle drText;
+		rect drText;
 
 		part = docDrawBorderStretch(&borderNumber, &xTwips,
-					    (DocumentRectangle *)0, baseline, 0,
+					    (rect *)0, baseline, 0,
 					    dc, paraNode, part, partUpto);
 
 		if (part >= partUpto) {
@@ -229,7 +229,7 @@ static int docDrawTextBorders(const BufferItem *paraNode, const TextLine *tl,
 			if (DOCisBORDER(&(ornaments.boTopBorder))) {
 				int thick;
 				int space;
-				DocumentRectangle drInside;
+				rect drInside;
 
 				PROPmaskADD(&(ornaments.boPropMask),
 					    ORNdrawTOP_BORDER);
@@ -281,7 +281,7 @@ static int docDrawTextBorders(const BufferItem *paraNode, const TextLine *tl,
 /************************************************************************/
 
 static int docDrawTextShading(const BufferItem *paraNode, const TextLine *tl,
-			      int baseline, const DocumentRectangle *drLine,
+			      int baseline, const rect *drLine,
 			      int page, int xTwips, void *through,
 			      DrawingContext *dc)
 {
@@ -302,10 +302,10 @@ static int docDrawTextShading(const BufferItem *paraNode, const TextLine *tl,
 		int shadingNumber;
 		int ignored;
 		int next;
-		DocumentRectangle drText;
+		rect drText;
 
 		part = docDrawShadingStretch(&shadingNumber, &xTwips,
-					     (DocumentRectangle *)0, baseline,
+					     (rect *)0, baseline,
 					     0, dc, paraNode, part, partUpto);
 
 		if (part >= partUpto) {
@@ -355,7 +355,7 @@ static int docDrawLineBackground(const BufferItem *paraNode, const TextLine *tl,
 {
 	int page;
 
-	DocumentRectangle drLine;
+	rect drLine;
 	int lineHeight = tl->tlLineStride;
 	int xTwips;
 	int baseline;
@@ -432,7 +432,7 @@ int docDrawTextLines(void *through, const ParagraphDrawingStrip *pds,
 
 		LayoutPosition lpTop;
 		LayoutPosition lpBottom;
-		DocumentRectangle drLinePixels;
+		rect drLinePixels;
 
 		docShiftPosition(&lpTop, bo, &(tl->tlTopPosition));
 		lpBottom = lpTop;

@@ -13,7 +13,7 @@
 typedef struct SegmentCluster {
 	LineSegment2DI *scSegments;
 	int scSegmentCount;
-	DocumentRectangle scRectangle;
+	rect scRectangle;
 	int scX0;
 	int scY0;
 	int scX1;
@@ -30,7 +30,7 @@ typedef struct ClusterSegments {
 	FILE *csFile;
 	QuadTree *csClusterTree;
 	SegmentCluster *csCurrentCluster;
-	DocumentRectangle csCurrentRectangle;
+	rect csCurrentRectangle;
 	int csMerged;
 	double csDiagonal;
 	int csSegmentCount;
@@ -57,7 +57,7 @@ int geoClusterSegmentsAddSegment(ClusterSegments *cs, int x0, int y0,
 					int x1, int y1);
 
 int geoClusterSegmentsAllocateTree(ClusterSegments *cs,
-					  const DocumentRectangle *dr);
+					  const rect *dr);
 
 int geoClusterSegmentsSetFile(ClusterSegments *cs, const char *fileName);
 

@@ -72,13 +72,13 @@ static void tedObjectHandleMove(TedObjectDrag *tod, int mouseX, int mouseY)
 
 	int moved = 0;
 
-	DocumentRectangle drFrom;
+	rect drFrom;
 
 	int mouseXc = mouseX;
 	int mouseYc = mouseY;
 
 	/*  1  */
-	tedGetObjectRectangle(&drFrom, (Point2DI *)0, tod->todIo, &(tod->todPg),
+	tedGetObjectRectangle(&drFrom, (vec2 *)0, tod->todIo, &(tod->todPg),
 			      &(tod->todLayoutContext), ed);
 
 	if (mouseXc < tod->todMouseX0 - ox) {
@@ -131,10 +131,10 @@ static void tedObjectHandleMove(TedObjectDrag *tod, int mouseX, int mouseY)
 
 	/*  4  */
 	if (moved) {
-		DocumentRectangle drTo;
-		DocumentRectangle drExp;
+		rect drTo;
+		rect drExp;
 
-		tedGetObjectRectangle(&drTo, (Point2DI *)0, tod->todIo,
+		tedGetObjectRectangle(&drTo, (vec2 *)0, tod->todIo,
 				      &(tod->todPg), &(tod->todLayoutContext),
 				      ed);
 
@@ -239,8 +239,8 @@ int tedObjectDrag(APP_WIDGET w, EditDocument *ed, APP_EVENT *downEvent)
 
 	TedObjectDrag tod;
 
-	DocumentRectangle drObj;
-	Point2DI xp[RESIZE_COUNT];
+	rect drObj;
+	vec2 xp[RESIZE_COUNT];
 
 	tod.todEd = ed;
 	layoutInitContext(&(tod.todLayoutContext));
@@ -373,7 +373,7 @@ int tedObjectDrag(APP_WIDGET w, EditDocument *ed, APP_EVENT *downEvent)
 	/*  7  */
 	if (td->tdScaleChangedX != 0 || td->tdScaleChangedY != 0) {
 		double xfac = td->tdPixelsPerTwip;
-		DocumentRectangle drResized;
+		rect drResized;
 		InsertedObject *io = tod.todIo;
 
 		PropertyMask pipSetMask;
@@ -381,7 +381,7 @@ int tedObjectDrag(APP_WIDGET w, EditDocument *ed, APP_EVENT *downEvent)
 
 		utilPropMaskClear(&pipSetMask);
 
-		tedGetObjectRectangle(&drResized, (Point2DI *)0, io,
+		tedGetObjectRectangle(&drResized, (vec2 *)0, io,
 				      &(tod.todPg), &(tod.todLayoutContext),
 				      ed);
 
@@ -432,7 +432,7 @@ int tedObjectDrag(APP_WIDGET w, EditDocument *ed, APP_EVENT *downEvent)
 		/*  10  */
 		if (td->tdObjectCornerMovedX != 0 ||
 		    td->tdObjectCornerMovedY != 0) {
-			DocumentRectangle drExp = drResized;
+			rect drExp = drResized;
 
 			geoShiftRectangle(&drExp, -ox, -oy);
 			if (drExp.drX0 < 0) {

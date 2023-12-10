@@ -82,10 +82,10 @@ static void docPsPageBoxes(DrawingContext *dc, void *vps,
 {
 	PrintingState *ps = (PrintingState *)vps;
 
-	DocumentRectangle drBBox;
-	DocumentRectangle drBody;
-	DocumentRectangle drHead;
-	DocumentRectangle drFoot;
+	rect drBBox;
+	rect drBody;
+	rect drHead;
+	rect drFoot;
 
 	RGB8Color rgb8;
 

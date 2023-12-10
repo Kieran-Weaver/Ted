@@ -230,7 +230,7 @@ static void psFileLinkDestMark(SimpleOutputStream *sos,
 /*									*/
 /************************************************************************/
 
-void psSourcePdfmark(SimpleOutputStream *sos, const DocumentRectangle *drLink,
+void psSourcePdfmark(SimpleOutputStream *sos, const rect *drLink,
 		     const MemoryBuffer *fileName, const MemoryBuffer *markName)
 {
 	sioOutPrintf(sos, "[ /Rect [ %d %d %d %d ]\n", drLink->drX0,

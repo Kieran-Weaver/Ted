@@ -13,7 +13,7 @@
 
 static int bmBuildImage(FillJob *fj, unsigned char *bufferOut,
 			const BitmapDescription *bdOut, const RasterImage *riIn,
-			const DocumentRectangle *drSel, GetSourceRow getSource,
+			const rect *drSel, GetSourceRow getSource,
 			PutScreenRow putRow)
 {
 	int rval = 0;
@@ -33,7 +33,7 @@ static int bmBuildImage(FillJob *fj, unsigned char *bufferOut,
 	int d2;
 	int e2;
 
-	DocumentRectangle drAll;
+	rect drAll;
 	RasterImage riSel;
 
 	bmInitRasterImage(&riSel);
@@ -138,7 +138,7 @@ ready:
 int bmFillImage(ColorAllocator *ca, int swapBitmapUnit, int swapBitmapBytes,
 		int swapBitmapBits, int dither, unsigned char *bufferOut,
 		const BitmapDescription *bdOut, const RasterImage *riIn,
-		const DocumentRectangle *drSel)
+		const rect *drSel)
 {
 	const BitmapDescription *bdIn = &(riIn->riDescription);
 	int rval = 0;

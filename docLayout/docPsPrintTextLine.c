@@ -403,7 +403,7 @@ int docPsPrintFinishField(const DrawTextLine *dtl, int part,
 /************************************************************************/
 
 int docPsPrintTextLine(BufferItem *paraNode, int line, const ParagraphFrame *pf,
-		       const DocumentRectangle *drLine, void *vps,
+		       const rect *drLine, void *vps,
 		       DrawingContext *dc, const BlockOrigin *bo)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);

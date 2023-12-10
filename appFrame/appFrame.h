@@ -106,9 +106,9 @@ typedef struct SelectRectangle {
 #define DOCselS 3
 #define DOCselW 4
 
-	DocumentRectangle srSelected;
-	DocumentRectangle srLTM; /* left/top margins */
-	DocumentRectangle srRBM; /* right/bottom margins */
+	rect srSelected;
+	rect srLTM; /* left/top margins */
+	rect srRBM; /* right/bottom margins */
 } SelectRectangle;
 
 typedef struct EditDocument {
@@ -174,14 +174,14 @@ typedef struct EditDocument {
 				     *  scrollbars. X0 and X0 are 0 by 
 				     *  definition.
 				     */
-	DocumentRectangle edFullRect;
+	rect edFullRect;
 	/**
 				     *  The (pixel) rectangle of the document
 				     *  that is visible ob screen. Together 
 				     *  with edFullRect, it determines the 
 				     *  positions of the scrollbars.
 				     */
-	DocumentRectangle edVisibleRect;
+	rect edVisibleRect;
 
 	/**
 				     *  The color to draw where the window is
@@ -310,8 +310,8 @@ typedef struct EditApplication {
 			      APP_WIDGET option, int readOnly, int suggestStdin,
 			      int formatHint, const MemoryBuffer *filename);
 	int (*eaNewDocument)(EditDocument *ed, const MemoryBuffer *filename);
-	int (*eaLayoutDocument)(DocumentRectangle *drScreen,
-				DocumentRectangle *drVisible, void *privateData,
+	int (*eaLayoutDocument)(rect *drScreen,
+				rect *drVisible, void *privateData,
 				int format, struct DrawingSurface *ds,
 				const PostScriptFontList *psfl,
 				const DocumentGeometry *defDg);
@@ -329,7 +329,7 @@ typedef struct EditApplication {
 	int (*eaPrintDocument)(SimpleOutputStream *sos,
 			       const struct PrintJob *pj,
 			       const struct PrintGeometry *pg);
-	void (*eaDrawRectangle)(EditDocument *ed, DocumentRectangle *drClip,
+	void (*eaDrawRectangle)(EditDocument *ed, rect *drClip,
 				int ox, int oy);
 
 	void (*eaVisibleDocumentCountChanged)(struct EditApplication *ea,
@@ -701,7 +701,7 @@ int appPrintToPrinter(EditApplication *ea, const char *fromName,
 
 APP_DESTROY_CALLBACK_H(appDestroyEditDocument, w, voided);
 
-void appScrollToRectangle(EditDocument *ed, const DocumentRectangle *dr,
+void appScrollToRectangle(EditDocument *ed, const rect *dr,
 				 int *pScrolledX, int *pScrolledY);
 
 void
@@ -809,7 +809,7 @@ void appCopyPixmapValue(APP_SELECTION_EVENT *event,
 void appGetApplicationResourceValues(EditApplication *ea);
 
 void appDocExposeRectangle(const EditDocument *ed,
-				  const DocumentRectangle *drChanged,
+				  const rect *drChanged,
 				  int scrolledX, int scrolledY);
 
 void appPrintJobForEditDocument(struct PrintJob *pj, EditDocument *ed,

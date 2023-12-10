@@ -69,14 +69,14 @@ void tedMoveObjectWindows(EditDocument *ed);
 
 int tedSaveObjectPicture(RasterImage *abiTo, const InsertedObject *io);
 
-void tedDrawRectangle(EditDocument *ed, DocumentRectangle *drClip,
+void tedDrawRectangle(EditDocument *ed, rect *drClip,
 			     int ox, int oy);
 
 int tedFinishDocumentSetup(EditDocument *ed);
 void tedDocumentFirstVisible(EditDocument *ed);
 
-int tedLayoutDocument(DocumentRectangle *drScreen,
-			     DocumentRectangle *drVisible, void *privateData,
+int tedLayoutDocument(rect *drScreen,
+			     rect *drVisible, void *privateData,
 			     int format, struct DrawingSurface *ds,
 			     const PostScriptFontList *psfl,
 			     const DocumentGeometry *defDg);

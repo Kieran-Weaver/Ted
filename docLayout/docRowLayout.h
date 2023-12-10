@@ -17,9 +17,9 @@
 /************************************************************************/
 
 void
-docGetCellOrnaments(BlockOrnaments *cellOrnaments, DocumentRectangle *drOutside,
-		    DocumentRectangle *drInside,
-		    const DocumentRectangle *drCell, const BufferDocument *bd,
+docGetCellOrnaments(BlockOrnaments *cellOrnaments, rect *drOutside,
+		    rect *drInside,
+		    const rect *drCell, const BufferDocument *bd,
 		    const struct BufferItem *rowBi, int col, int atRowTop,
 		    int atRowBottom, int drawTableGrid);
 

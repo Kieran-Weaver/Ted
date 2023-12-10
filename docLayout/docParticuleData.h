@@ -23,7 +23,7 @@ typedef struct ParticuleData {
 	/*  Origin is in ( 0, 0 )		*/
 	/*  representing ( pdX0, baseline )	*/
 	/************************************/
-	DocumentRectangle pdVisibleBBox;
+	rect pdVisibleBBox;
 	/************************************/
 	/*  Borders: Are inside the visible	*/
 	/*  bounding box.			*/

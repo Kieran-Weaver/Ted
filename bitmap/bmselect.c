@@ -7,7 +7,7 @@
 #include <appDebugon.h>
 
 int bmSelect(RasterImage *riOut, const RasterImage *riIn,
-	     const DocumentRectangle *drSel)
+	     const rect *drSel)
 {
 	const BitmapDescription *bdIn = &(riIn->riDescription);
 	int rval = 0;
@@ -146,7 +146,7 @@ void bmSelectTest( void )
 	{
 	BitmapDescription	bdOut;
 	unsigned char *		bufOut= (unsigned char *)0;
-	DocumentRectangle	drSel;
+	rect	drSel;
 
 	drSel.drX0= i;
 	drSel.drY0= i;

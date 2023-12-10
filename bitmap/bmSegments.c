@@ -1190,7 +1190,7 @@ int bmcDrawComponent(const BitmapSegment *bs, unsigned char *buffer, int col0,
 /************************************************************************/
 
 int bmComponentBitmap(unsigned char **pBuffer, BitmapDescription *bdout,
-		      DocumentRectangle *drSel, const BitmapDescription *bdin,
+		      rect *drSel, const BitmapDescription *bdin,
 		      const void *voidbs)
 {
 	const BitmapSegment *bs = (const BitmapSegment *)voidbs;

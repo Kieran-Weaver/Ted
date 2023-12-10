@@ -96,7 +96,7 @@ int tedInsertTable(EditDocument *ed, int rows, int columns, int traced)
 	}
 
 	{
-		DocumentRectangle dr;
+		rect dr;
 
 		docParaBlockFrameRectangle(
 			&dr, eo->eoHeadDp.dpNode, eo->eoDocument,

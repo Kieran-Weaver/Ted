@@ -68,13 +68,13 @@ const AfmFontInfo *docLayoutGetAfi(int *pTextAttrNr, TextAttribute *ta,
 /************************************************************************/
 
 int docLayoutFontAscDesc(const BufferItem *paraNode, TextAttribute *ta,
-			 DocumentRectangle *drAscDesc, int *pBorder,
+			 rect *drAscDesc, int *pBorder,
 			 const LayoutContext *lc, int part)
 {
 	BufferDocument *bd = lc->lcDocument;
 
 	int rval;
-	DocumentRectangle drBBox;
+	rect drBBox;
 
 	const AfmFontInfo *afi;
 	BorderProperties bp;
@@ -116,7 +116,7 @@ int docLayoutFontAscDesc(const BufferItem *paraNode, TextAttribute *ta,
 /*									*/
 /************************************************************************/
 
-static int docLayoutSegmentedStringExtents(DocumentRectangle *drRet,
+static int docLayoutSegmentedStringExtents(rect *drRet,
 					   const char *printString,
 					   const int *segments,
 					   int segmentCount, int sizeTwips,
@@ -129,7 +129,7 @@ static int docLayoutSegmentedStringExtents(DocumentRectangle *drRet,
 	int x = 0;
 	int wide;
 
-	DocumentRectangle dr;
+	rect dr;
 	int done = 0;
 
 	const int withKerning = 0;
@@ -178,7 +178,7 @@ static int docLayoutSegmentedStringExtents(DocumentRectangle *drRet,
 	return x;
 }
 
-int docLayoutStringExtents(int *pWidth, int *pDecWidth, DocumentRectangle *dr,
+int docLayoutStringExtents(int *pWidth, int *pDecWidth, rect *dr,
 			   const TextAttribute *ta, int sizeTwips,
 			   const BufferDocument *bd, const AfmFontInfo *afi,
 			   const char *printString, int len)
@@ -198,8 +198,8 @@ int docLayoutStringExtents(int *pWidth, int *pDecWidth, DocumentRectangle *dr,
 	int fontHigh;
 	int decWidth;
 
-	DocumentRectangle drFontBBox;
-	DocumentRectangle drFontAscDesc;
+	rect drFontBBox;
+	rect drFontAscDesc;
 
 	if (!printString) {
 		printString = "";
@@ -257,7 +257,7 @@ int docLayoutStringExtents(int *pWidth, int *pDecWidth, DocumentRectangle *dr,
 	}
 
 	if (dec >= 0) {
-		DocumentRectangle drDec;
+		rect drDec;
 
 		decWidth = psCalculateStringExtents(&drDec, printString, dec,
 						    sizeTwips, withKerning,
@@ -286,7 +286,7 @@ int docLayoutStringExtents(int *pWidth, int *pDecWidth, DocumentRectangle *dr,
 
 int docLayoutInlineObject(TextAttribute *ta, BufferDocument *bd,
 			  const struct BufferItem *paraNode, int part,
-			  InsertedObject *io, DocumentRectangle *drWord,
+			  InsertedObject *io, rect *drWord,
 			  int *pWordBorder, int *pX1, int x0)
 {
 	const int accepted = 1;

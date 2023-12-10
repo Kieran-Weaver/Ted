@@ -57,7 +57,7 @@ typedef struct AfmCharMetric {
 	/************************************/
 
 	short int acmWX;
-	DocumentRectangle acmBBox;
+	rect acmBBox;
 	char *acmN;
 	short int acmGlyphIndex;
 	/************************************/
@@ -101,7 +101,7 @@ typedef struct AfmFontInfo {
 	/*  soon as text is formatted.		*/
 	/********************************************/
 	int afiUnitsPerEm;
-	DocumentRectangle afiFontBBox;
+	rect afiFontBBox;
 	int afiUnderlinePosition;
 	int afiUnderlineThickness;
 	int afiCapHeight;
@@ -211,7 +211,7 @@ void psFreeAfmFontInfo(AfmFontInfo *afi);
 void psRemoveMetricsFromInfo(AfmFontInfo *afi);
 
 int psFontInfoAddMetric(AfmFontInfo *afi, int C, int WX, const char *N,
-			       const DocumentRectangle *abb);
+			       const rect *abb);
 
 int psFontInfoGetGlyphIndex(const AfmFontInfo *afi,
 				   const char *glyphName);

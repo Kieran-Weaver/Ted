@@ -30,9 +30,9 @@
 /************************************************************************/
 
 typedef struct ParagraphFrame {
-	DocumentRectangle pfParaContentRect;
-	DocumentRectangle pfCellContentRect;
-	DocumentRectangle pfCellRect;
+	rect pfParaContentRect;
+	rect pfCellContentRect;
+	rect pfCellRect;
 
 	int pfRedrawX0Twips;
 	int pfRedrawX1Twips;

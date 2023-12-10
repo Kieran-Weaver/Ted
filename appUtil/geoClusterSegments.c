@@ -132,8 +132,8 @@ ready:
 
 static void geoClusterSegmentsSetCurrentRectangle(ClusterSegments *cs)
 {
-	const DocumentRectangle *lcDr = &(cs->csCurrentCluster->scRectangle);
-	DocumentRectangle *curDr = &(cs->csCurrentRectangle);
+	const rect *lcDr = &(cs->csCurrentCluster->scRectangle);
+	rect *curDr = &(cs->csCurrentRectangle);
 
 	const int p0 = -cs->csRectPaddingPercent;
 	const int p1 = 100 + cs->csRectPaddingPercent;
@@ -234,7 +234,7 @@ static void geoClusterSegmentsCalculateXY01(SegmentCluster *sc)
 /*									*/
 /************************************************************************/
 
-static int bmCurrentFilter(const DocumentRectangle *dr, void *voidcs)
+static int bmCurrentFilter(const rect *dr, void *voidcs)
 {
 	const ClusterSegments *cs = (ClusterSegments *)voidcs;
 	SegmentCluster *curSc = cs->csCurrentCluster;
@@ -243,7 +243,7 @@ static int bmCurrentFilter(const DocumentRectangle *dr, void *voidcs)
 	double c0;
 	double c1;
 
-	if (!geoIntersectRectangle((DocumentRectangle *)0,
+	if (!geoIntersectRectangle((rect *)0,
 				   &(cs->csCurrentRectangle), dr)) {
 		return 0;
 	}
@@ -483,7 +483,7 @@ void geoCleanClusterSegments(ClusterSegments *cs)
 }
 
 int geoClusterSegmentsAllocateTree(ClusterSegments *cs,
-				   const DocumentRectangle *dr)
+				   const rect *dr)
 {
 	double dx, dy;
 
@@ -551,9 +551,9 @@ static int geoFinishClusterSegments(ClusterSegments *cs)
 		int ni;
 		int j;
 		const SegmentCluster *sci;
-		DocumentRectangle dri;
+		rect dri;
 
-		const DocumentRectangle *drX;
+		const rect *drX;
 		const int p0 = -5;
 		const int p1 = 100 + 5;
 		const int p = (p0 + p1);
@@ -575,7 +575,7 @@ static int geoFinishClusterSegments(ClusterSegments *cs)
 		for (j = 0; j < 100; j++) {
 			int nj;
 			const SegmentCluster *scj;
-			DocumentRectangle drj;
+			rect drj;
 
 			if (j >= cs->csLongClusterCount) {
 				break;
@@ -591,7 +591,7 @@ static int geoFinishClusterSegments(ClusterSegments *cs)
 			drj.drX1 = (p0 * drX->drX0 + p1 * drX->drX1) / p + d;
 			drj.drY1 = (p0 * drX->drY0 + p1 * drX->drY1) / p + d;
 
-			if (!geoIntersectRectangle((DocumentRectangle *)0, &dri,
+			if (!geoIntersectRectangle((rect *)0, &dri,
 						   &drj)) {
 				continue;
 			}

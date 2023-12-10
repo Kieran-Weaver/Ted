@@ -114,8 +114,8 @@ void docShiftPosition(LayoutPosition *to, const BlockOrigin *bo,
 	to->lpPageYTwips += bo->boYShift;
 }
 
-void docShiftRectangle(DocumentRectangle *to, const BlockOrigin *bo,
-		       const DocumentRectangle *from)
+void docShiftRectangle(rect *to, const BlockOrigin *bo,
+		       const rect *from)
 {
 	*to = *from;
 

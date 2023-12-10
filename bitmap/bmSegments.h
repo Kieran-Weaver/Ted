@@ -35,7 +35,7 @@ typedef struct SegmentNode {
 /************************************************************************/
 
 typedef struct BitmapSegment {
-	DocumentRectangle bsRect;
+	rect bsRect;
 	short int bsNodeCount;
 	short int bsEdgeCount;
 	SegmentNode **bsNodes;

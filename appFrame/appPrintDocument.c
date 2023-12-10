@@ -331,8 +331,8 @@ static int appPrintStartCommandRun(EditApplication *ea, PrintJob *pj,
 				   PrintGeometry *pg, const char *paperString,
 				   const char *fromName)
 {
-	DocumentRectangle drScreenIgnored;
-	DocumentRectangle drVisibleIgnored;
+	rect drScreenIgnored;
+	rect drVisibleIgnored;
 	const int sheetSize = 0;
 
 	pg->pgSheetGeometry = ea->eaDefaultDocumentGeometry;
@@ -437,8 +437,8 @@ int appSaveToPs(EditApplication *ea, struct DrawingSurface *ds, SimpleOutputStre
 		void *privateData, const MemoryBuffer *documentTitle,
 		int format)
 {
-	DocumentRectangle drScreenIgnored;
-	DocumentRectangle drVisibleIgnored;
+	rect drScreenIgnored;
+	rect drVisibleIgnored;
 	const int sheetSize = 1;
 
 	int rval = 0;

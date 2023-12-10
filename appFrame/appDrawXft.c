@@ -43,7 +43,7 @@ int drawStringXft(const DrawScreenFont *dsf, AppXftColorList *axcl, int x,
 }
 
 int drawFillRectangleXft(XftDraw *draw, AppXftColorList *axcl,
-			 const DocumentRectangle *dr)
+			 const rect *dr)
 {
 	AppXftColor *axc = &(axcl->axclCurrentColor);
 
@@ -64,7 +64,7 @@ int drawFillRectangleXft(XftDraw *draw, AppXftColorList *axcl,
 	return 0;
 }
 
-int drawTextExtentsXft(DocumentRectangle *drText, int x, int y,
+int drawTextExtentsXft(rect *drText, int x, int y,
 		       const DrawScreenFont *hDsf, const DrawScreenFont *vDsf,
 		       const char *s, int len)
 {

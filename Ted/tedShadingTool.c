@@ -126,7 +126,7 @@ void tedSetShadingToolByNumber(ShadingTool *st, const BufferDocument *bd,
 #if SHOW_PATTERN
 
 static void tedDrawShadedBox(AppDrawingData *add, ShadingTool *st, int pattern,
-			     const DocumentRectangle *drI)
+			     const rect *drI)
 {
 	if (pattern != DOCspSOLID) {
 		tedDrawShadedRectangle(add, st->stPatternPixmaps, pattern, drI);
@@ -148,7 +148,7 @@ static APP_EVENT_HANDLER_H(tedShadingRedrawInplace, w, voidst, exposeEvent)
 	int wide;
 	int high;
 
-	DocumentRectangle drI;
+	rect drI;
 
 	appDrawnPulldownDrawArrow(&wide, &high, w, &(xx));
 
@@ -180,7 +180,7 @@ static APP_EVENT_HANDLER_H(tedShadingRedrawPulldown, w, voidst, exposeEvent)
 
 	const int ox = 0;
 	const int oy = 0;
-	DocumentRectangle drClip;
+	rect drClip;
 
 	int i;
 
@@ -208,8 +208,8 @@ static APP_EVENT_HANDLER_H(tedShadingRedrawPulldown, w, voidst, exposeEvent)
 	drawRectangle(add, 0, 0, pulldownWide - 1, pulldownHigh - 1);
 
 	for (i = DOCspSOLID + 1; i < PSshd_COUNT; i++) {
-		DocumentRectangle drI;
-		DocumentRectangle drX;
+		rect drI;
+		rect drX;
 
 		drI.drX0 = 3;
 		drI.drX1 = pulldownWide - 3;

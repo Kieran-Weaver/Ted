@@ -89,7 +89,7 @@ typedef int (*START_SCREEN_PARAGRAPH)(struct BufferItem *node,
 /************************************************************************/
 
 typedef struct LayoutJob {
-	DocumentRectangle *ljChangedRectanglePixels; /*  A	*/
+	rect *ljChangedRectanglePixels; /*  A	*/
 	struct BufferItem *ljChangedNode; /*  D	*/
 	LayoutContext ljContext;
 	int ljReachedDocumentBottom;
@@ -130,7 +130,7 @@ void docLayoutColumnTop(LayoutPosition *lpTop, BlockFrame *bf,
 			       struct BufferItem *bodySectNode,
 			       const LayoutJob *lj);
 
-int docLayoutDocumentTree(DocumentTree *ei, DocumentRectangle *drChanged,
+int docLayoutDocumentTree(DocumentTree *ei, rect *drChanged,
 				 int page, int column, int y0Twips,
 				 const struct BufferItem *bodySectNode,
 				 const LayoutContext *lc,
@@ -179,12 +179,12 @@ int docCollectFootnotesFromColumn(BlockFrame *bf,
 					 int referringPage,
 					 int referringColumn);
 
-int docNoteSeparatorRectangle(DocumentRectangle *drExtern,
+int docNoteSeparatorRectangle(rect *drExtern,
 				     DocumentTree **pEiNoteSep, int *pY0Twips,
 				     const struct DocumentNote *dnFirstNote,
 				     int treeType, const LayoutContext *lc);
 
-int docGetBoxAroundTree(DocumentRectangle *dr,
+int docGetBoxAroundTree(rect *dr,
 			       const struct BufferItem *bodySectNode,
 			       const DocumentTree *ei, int justUsed, int page,
 			       int column, const LayoutContext *lc);
@@ -249,8 +249,8 @@ void docShapePageRectangle(LayoutPosition *lpShapeTop,
 				  const BlockFrame *bfRef, int xChar);
 
 int docShapeCheckTextLayout(struct DrawingShape *ds,
-				   const DocumentRectangle *drTwips,
-				   DocumentRectangle *drChanged,
+				   const rect *drTwips,
+				   rect *drChanged,
 				   const struct BufferItem *bodySectNode,
 				   int page, int column,
 				   const LayoutContext *lc,
@@ -267,7 +267,7 @@ void docRedoParaStripLayout(const LayoutJob *lj, BlockFrame *bf,
 
 int docCheckPageOfSelectedTree(int *pChanged,
 				      struct BufferItem **pBodySectNode,
-				      DocumentRectangle *drChanged,
+				      rect *drChanged,
 				      DocumentTree *selRootEi,
 				      const LayoutContext *lc,
 				      INIT_LAYOUT_EXTERNAL initLayoutExternal);
@@ -279,12 +279,12 @@ int docSectNotesPrelayout(int sect,
 void docLayoutSetNodeBottom(int *pChanged, struct BufferItem *node,
 				   const LayoutPosition *lp,
 				   const LayoutContext *lc,
-				   DocumentRectangle *drChanged);
+				   rect *drChanged);
 
 void docLayoutSetBottomPosition(int *pChanged, LayoutPosition *lpBelow,
 				       const LayoutPosition *lp,
 				       const LayoutContext *lc,
-				       DocumentRectangle *drChanged);
+				       rect *drChanged);
 
 int docLayoutGetInitialFrame(BlockFrame *bf, const LayoutJob *lj,
 				    const LayoutPosition *lpHere,
@@ -316,12 +316,12 @@ const AfmFontInfo *docLayoutGetAfi(int *pTextAttrNr, TextAttribute *ta,
 					  int part);
 
 int docLayoutFontAscDesc(const struct BufferItem *paraNode,
-				TextAttribute *ta, DocumentRectangle *drAscDesc,
+				TextAttribute *ta, rect *drAscDesc,
 				int *pBorder, const LayoutContext *lc,
 				int part);
 
 int docLayoutStringExtents(int *pWidth, int *pDecWidth,
-				  DocumentRectangle *dr,
+				  rect *dr,
 				  const TextAttribute *ta, int sizeTwips,
 				  const BufferDocument *bd,
 				  const AfmFontInfo *afi,
@@ -329,7 +329,7 @@ int docLayoutStringExtents(int *pWidth, int *pDecWidth,
 
 int docLayoutInlineObject(TextAttribute *ta, BufferDocument *bd,
 				 const struct BufferItem *paraNode, int part,
-				 InsertedObject *io, DocumentRectangle *drWord,
+				 InsertedObject *io, rect *drWord,
 				 int *pWordBorder, int *pX1, int x0);
 
 void docLayoutCalculateAfterRowTopInset(struct BufferItem *belowBi,
@@ -375,23 +375,23 @@ void docRowLayoutRowspanAdmin(struct BufferItem *cellNode,
 void docCellStripFrame(struct BufferItem *cellNode, const BlockFrame *bf,
 			      ParagraphLayoutJob *plj);
 
-void docGetPixelRect(DocumentRectangle *drPixels,
+void docGetPixelRect(rect *drPixels,
 			    const LayoutContext *lc,
-			    const DocumentRectangle *drTwips, int page);
+			    const rect *drTwips, int page);
 
-void docGetPixelRectForPos(DocumentRectangle *drPixels,
+void docGetPixelRectForPos(rect *drPixels,
 				  const LayoutContext *lc, int x0Twips,
 				  int x1Twips, const LayoutPosition *lpTop,
 				  const LayoutPosition *lpBottom);
 
-void docGetPageRectPixels(DocumentRectangle *drPixels,
+void docGetPageRectPixels(rect *drPixels,
 				 const LayoutContext *lc, int page);
 
-void docGetPixelRectangleForPages(DocumentRectangle *drPixels,
+void docGetPixelRectangleForPages(rect *drPixels,
 					 const LayoutContext *lc, int page0,
 					 int page1);
 
-void docPixelRectangleForPositions(DocumentRectangle *drPixels,
+void docPixelRectangleForPositions(rect *drPixels,
 					  const PositionGeometry *pgB,
 					  const PositionGeometry *pgE,
 					  const LayoutContext *lc);
@@ -399,7 +399,7 @@ void docPixelRectangleForPositions(DocumentRectangle *drPixels,
 int docLayoutScapsScreenFont(const LayoutContext *lc,
 				    const TextAttribute *ta);
 
-void docNodeRectangle(DocumentRectangle *drPixels,
+void docNodeRectangle(rect *drPixels,
 			     struct BufferItem *node, const LayoutContext *lc,
 			     const BlockOrigin *bo);
 
@@ -411,8 +411,8 @@ int docFindHeaderFooterForY(DocumentTree **pTree,
 				   struct BufferItem *bodySectNode,
 				   BufferDocument *bd, int page, int docY);
 
-void docPageRectsPixels(DocumentRectangle *drOutside,
-			       DocumentRectangle *drInside, double xfac,
+void docPageRectsPixels(rect *drOutside,
+			       rect *drInside, double xfac,
 			       const struct BufferItem *bodySectNode,
 			       const BufferDocument *bd);
 

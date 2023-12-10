@@ -36,7 +36,7 @@
 
 int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 			 AppColors *ac, const RasterImage *abiIn,
-			 const DocumentRectangle *drSrc)
+			 const rect *drSrc)
 {
 	int rval = 0;
 	GdkVisual *vis = gdk_visual_get_system();

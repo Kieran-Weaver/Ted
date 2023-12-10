@@ -34,7 +34,7 @@ static void tedDrawParticuleLine(DrawingContext *dc, ScreenDrawingData *sdd,
 	DocumentPosition dpTail;
 	PositionGeometry pgTail;
 
-	DocumentRectangle drFill;
+	rect drFill;
 
 	docSetDocumentPosition(&dpTail, (BufferItem *)paraNode,
 			       tp[past - 1].tpStroff + tp[past - 1].tpStrlen);
@@ -154,7 +154,7 @@ int tedDrawTab(const DrawTextLine *dtl, int part, int textAttrNr,
 	int baselinePixels;
 	int x0FrameShifted;
 
-	DocumentRectangle drSpan = dtl->dtlLineRectangle;
+	rect drSpan = dtl->dtlLineRectangle;
 
 	baselinePixels = docLayoutYPixels(lc, baseLine);
 	x0FrameShifted = docLayoutXPixels(
@@ -165,7 +165,7 @@ int tedDrawTab(const DrawTextLine *dtl, int part, int textAttrNr,
 	drSpan.drX0 = x0FrameShifted + tp->tpXContentXPixels;
 	drSpan.drX1 = x0FrameShifted + tp->tpXContentXPixels + pixelsWide - 1;
 
-	if (dc->dcClipRect && !geoIntersectRectangle((DocumentRectangle *)0,
+	if (dc->dcClipRect && !geoIntersectRectangle((rect *)0,
 						     dc->dcClipRect, &drSpan)) {
 		return 0;
 	}
@@ -326,7 +326,7 @@ int tedDrawChftnsep(const DrawTextLine *dtl, int part, int textAttrNr,
 
 	int screenFont;
 	int x0FrameShifted;
-	DocumentRectangle drSpan = dtl->dtlLineRectangle;
+	rect drSpan = dtl->dtlLineRectangle;
 
 	baselinePixels = docLayoutYPixels(lc, baseLine);
 	x0FrameShifted = docLayoutXPixels(
@@ -337,7 +337,7 @@ int tedDrawChftnsep(const DrawTextLine *dtl, int part, int textAttrNr,
 	drSpan.drX0 = x0FrameShifted + tp->tpXContentXPixels;
 	drSpan.drX1 = x0FrameShifted + tp->tpXContentXPixels + pixelsWide - 1;
 
-	if (dc->dcClipRect && !geoIntersectRectangle((DocumentRectangle *)0,
+	if (dc->dcClipRect && !geoIntersectRectangle((rect *)0,
 						     dc->dcClipRect, &drSpan)) {
 		return 0;
 	}
@@ -383,7 +383,7 @@ static void tedDrawSegments(DrawingContext *dc, int x, int y,
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	int seg;
 
-	DocumentRectangle drText;
+	rect drText;
 
 	for (seg = 0; seg < segmentCount; seg++) {
 		if (segments[2 * seg + 0] > 0) {
@@ -452,12 +452,12 @@ int tedDrawSpan(const DrawTextLine *dtl, int part, int count,
 	    part + count < tl->tlFirstParticule + tl->tlParticuleCount) {
 		const TextParticule *tpp =
 			paraNode->biParaParticules + part + count;
-		DocumentRectangle drSpan = dtl->dtlLineRectangle;
+		rect drSpan = dtl->dtlLineRectangle;
 
 		drSpan.drX0 = spanX0;
 		drSpan.drX1 = x0FrameShifted + tpp->tpXContentXPixels;
 
-		if (!geoIntersectRectangle((DocumentRectangle *)0,
+		if (!geoIntersectRectangle((rect *)0,
 					   dc->dcClipRect, &drSpan)) {
 			return 0;
 		}
@@ -538,7 +538,7 @@ ready:
 }
 
 int tedDrawTextLine(BufferItem *paraNode, int line, const ParagraphFrame *pf,
-		    const DocumentRectangle *drLine, void *vsdd,
+		    const rect *drLine, void *vsdd,
 		    DrawingContext *dc, const BlockOrigin *bo)
 {
 	const TextLine *tl = paraNode->biParaLines + line;
@@ -550,7 +550,7 @@ int tedDrawTextLine(BufferItem *paraNode, int line, const ParagraphFrame *pf,
 
 	docInitDrawTextLine(&dtl);
 
-	if (dc->dcClipRect && !geoIntersectRectangle((DocumentRectangle *)0,
+	if (dc->dcClipRect && !geoIntersectRectangle((rect *)0,
 						     dc->dcClipRect, drLine)) {
 		return tl->tlParticuleCount;
 	}
@@ -596,10 +596,10 @@ int tedDrawTextLine(BufferItem *paraNode, int line, const ParagraphFrame *pf,
 /*									*/
 /************************************************************************/
 
-static int tedLineRectangle(DocumentRectangle *drRedraw, int *pInSelection,
+static int tedLineRectangle(rect *drRedraw, int *pInSelection,
 			    BufferItem *paraNode, DrawingContext *dc,
 			    ScreenDrawingData *sdd, int line,
-			    const DocumentRectangle *drParaContent)
+			    const rect *drParaContent)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	const DocumentSelection *ds = dc->dcSelection;
@@ -609,7 +609,7 @@ static int tedLineRectangle(DocumentRectangle *drRedraw, int *pInSelection,
 	SelectionGeometry sgLine;
 
 	const int lastLine = 0;
-	DocumentRectangle drLine;
+	rect drLine;
 
 	int tableRectangle;
 	int cmp_ShLh;
@@ -722,13 +722,13 @@ static int tedLineRectangle(DocumentRectangle *drRedraw, int *pInSelection,
 }
 
 int tedDrawTextReverse(BufferItem *paraNode, int line, const ParagraphFrame *pf,
-		       const DocumentRectangle *drLine, void *vsdd,
+		       const rect *drLine, void *vsdd,
 		       DrawingContext *dc, const BlockOrigin *bo)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	ScreenDrawingData *sdd = (ScreenDrawingData *)vsdd;
 
-	DocumentRectangle drRedraw;
+	rect drRedraw;
 	int done;
 	int inSelection;
 
@@ -752,13 +752,13 @@ int tedDrawTextReverse(BufferItem *paraNode, int line, const ParagraphFrame *pf,
 
 int tedDrawTextSelected(BufferItem *paraNode, int line,
 			const ParagraphFrame *pf,
-			const DocumentRectangle *drLine, void *vsdd,
+			const rect *drLine, void *vsdd,
 			DrawingContext *dc, const BlockOrigin *bo)
 {
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	ScreenDrawingData *sdd = (ScreenDrawingData *)vsdd;
 
-	DocumentRectangle drRedraw;
+	rect drRedraw;
 	int done;
 	int inSelection;
 

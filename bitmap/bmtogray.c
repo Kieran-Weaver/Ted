@@ -252,7 +252,7 @@ int bmToGrayscale(RasterImage *riOut, const RasterImage *riIn, int ignoredInt)
 	/*  5  */
 	if (bmFillImage(&ca, bitmapUnit, swapBitmapBytes, swapBitmapBits,
 			dither, ri.riBytes, &(ri.riDescription), riIn,
-			(const DocumentRectangle *)0)) {
+			(const rect *)0)) {
 		LDEB(1);
 		rval = -1;
 		goto ready;

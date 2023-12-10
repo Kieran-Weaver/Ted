@@ -37,7 +37,7 @@ static int docReLayoutStackedChildren(LayoutPosition *lpBelow,
 	const LayoutContext *lc = &(lj->ljContext);
 	int i;
 	int changed;
-	DocumentRectangle *drChanged = lj->ljChangedRectanglePixels;
+	rect *drChanged = lj->ljChangedRectanglePixels;
 
 	LayoutPosition lpHere = *lpTop;
 
@@ -379,7 +379,7 @@ int docAdjustParentLayout(const LayoutPosition *lpTop, BufferItem *node,
 	const NotesProperties *npEndnotes =
 		&(dp->dpNotesProps.fepEndnotesProps);
 
-	DocumentRectangle *drChanged = lj->ljChangedRectanglePixels;
+	rect *drChanged = lj->ljChangedRectanglePixels;
 	BufferItem *parentNode = node->biParent;
 	int from;
 

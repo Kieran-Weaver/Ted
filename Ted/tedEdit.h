@@ -22,9 +22,9 @@ typedef struct TedEditOperation {
 	EditOperation teoEo;
 	LayoutContext teoLayoutContext;
 
-	DocumentRectangle teoChangedRect;
+	rect teoChangedRect;
 	int teoChangedRectSet;
-	DocumentRectangle teoOldScreenRectangle;
+	rect teoOldScreenRectangle;
 	int teoRefreshScreenRectangle;
 
 	/**/
@@ -89,7 +89,7 @@ int tedChangeParticuleAttributes(PropertyMask *pTaAllMask,
 					const PropertyMask *taSetMask);
 
 void tedIncludeRectangleInChange(TedEditOperation *teo,
-					const DocumentRectangle *dr);
+					const rect *dr);
 
 int tedDocReplaceSelectionWithField(
 	TedEditOperation *teo, DocumentField **pDf, int *pHeadPart,

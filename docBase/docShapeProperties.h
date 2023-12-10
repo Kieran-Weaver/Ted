@@ -70,7 +70,7 @@ typedef enum ShapeWrapSide {
 } ShapeWrapSide;
 
 typedef struct ShapeProperties {
-	DocumentRectangle spRect;
+	rect spRect;
 	long spID;
 	int spZ;
 
@@ -128,7 +128,7 @@ void docInitShapeProperties(ShapeProperties *sp);
 
 int docSetShapeProperty(ShapeProperties *sp, int prop, int value);
 
-void docPlaceRootShapeRect(DocumentRectangle *drTwips,
+void docPlaceRootShapeRect(rect *drTwips,
 				  const ShapeProperties *sp, int x0, int y0);
 
 #endif /*  DOC_SHAPE_PROPERTIES_H	*/

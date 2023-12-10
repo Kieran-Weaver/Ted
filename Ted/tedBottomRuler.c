@@ -218,7 +218,7 @@ void tedSetBottomRulerValues(void *voidtbr, APP_WIDGET w, int page, int pages,
 /************************************************************************/
 
 static void tedDrawBottomRuler(APP_WIDGET w, TedBottomRuler *tbr,
-			       DocumentRectangle *drClip)
+			       rect *drClip)
 {
 	RulerData *rd = &(tbr->tbrRulerData);
 	struct DrawingSurface *ds = rd->rdDrawingSurface;
@@ -258,7 +258,7 @@ APP_EVENT_HANDLER_H(tedRedrawBottomRuler, w, voidtbr, event)
 	int ox = 0;
 	int oy = 0;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	if (!rd->rdDrawingSurface) {
 		const int vertical = 0;

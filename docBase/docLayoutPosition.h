@@ -64,7 +64,7 @@ void docShiftPosition(LayoutPosition *to, const BlockOrigin *bo,
 int docCompareLayoutPositions(const LayoutPosition *lp1,
 				     const LayoutPosition *lp2);
 
-void docShiftRectangle(DocumentRectangle *to, const BlockOrigin *bo,
-			      const DocumentRectangle *from);
+void docShiftRectangle(rect *to, const BlockOrigin *bo,
+			      const rect *from);
 
 #endif /*	DOC_LAYOUT_POSITION_H	*/

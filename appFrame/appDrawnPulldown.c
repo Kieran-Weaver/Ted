@@ -9,7 +9,7 @@
 
 #include <appDebugon.h>
 
-void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip, int *pRestWide,
+void appDrawnPulldownDrawArrow(const rect *drClip, int *pRestWide,
 			       int *pRestHigh, APP_WIDGET w,
 			       AppDrawnPulldown *adp)
 {
@@ -34,7 +34,7 @@ void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip, int *pRestWide,
 	drawFillRectangle(ds, drClip);
 
 	if (adp->adpEnabled) {
-		Point2DI points[4];
+		vec2 points[4];
 
 		points[0].x = m - d;
 		points[0].y = high / 3;

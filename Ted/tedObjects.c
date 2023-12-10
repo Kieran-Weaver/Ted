@@ -53,10 +53,10 @@
 /************************************************************************/
 
 static void tedDrawObjectPixmap(const InsertedObject *io, int x0, int y0,
-				const DocumentRectangle *drClip,
+				const rect *drClip,
 				const LayoutContext *lc)
 {
-	DocumentRectangle drSrc;
+	rect drSrc;
 	int destX0;
 	int destY0;
 
@@ -68,7 +68,7 @@ static void tedDrawObjectPixmap(const InsertedObject *io, int x0, int y0,
 
 	/*  2  */
 	if (drClip) {
-		DocumentRectangle drClipSrc = *drClip;
+		rect drClipSrc = *drClip;
 
 		geoShiftRectangle(&drClipSrc, -x0, -y0);
 
@@ -95,7 +95,7 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 		  int x0Twips, int x1Twips, const LayoutPosition *baseLine)
 {
 	DrawingContext *dc = dtl->dtlDrawingContext;
-	const DocumentRectangle *drClip = dc->dcClipRect;
+	const rect *drClip = dc->dcClipRect;
 	const LayoutContext *lc = &(dc->dcLayoutContext);
 	int x0;
 	int y0;
@@ -104,7 +104,7 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 	const BufferItem *paraBi = dtl->dtlParaNode;
 	const TextParticule *tp = paraBi->biParaParticules + part;
 
-	DocumentRectangle drObject;
+	rect drObject;
 
 	baselinePixels = docLayoutYPixels(lc, baseLine);
 	x0FrameShifted = docLayoutXPixels(
@@ -192,7 +192,7 @@ static int docOpenBitmapObject(struct DrawingSurface **pSp, RasterImage *ri,
 	}
 
 	ds = drawMakeDrawingSurfaceForImageAndParent(
-		lc->lcDrawingSurface, ri, (const DocumentRectangle *)0,
+		lc->lcDrawingSurface, ri, (const rect *)0,
 		pixelsWide, pixelsHigh);
 	if (!ds) {
 		LLPDEB(pixelsWide, pixelsHigh, ds);
@@ -325,7 +325,7 @@ static int tedOpenEpsfObject(const LayoutContext *lc, InsertedObject *io,
 }
 
 static int tedOpenShapePixmaps(DrawingShape *ds,
-			       const DocumentRectangle *drTwips,
+			       const rect *drTwips,
 			       const LayoutContext *lc)
 {
 	double xfac = lc->lcPixelsPerTwip;
@@ -343,14 +343,14 @@ static int tedOpenShapePixmaps(DrawingShape *ds,
 	if (ds->dsChildCount > 0) {
 		int child;
 
-		DocumentRectangle drHere;
-		DocumentRectangle drNorm;
+		rect drHere;
+		rect drNorm;
 
 		docShapeGetRects(&drHere, &drNorm, drTwips, ds);
 
 		for (child = 0; child < ds->dsChildCount; child++) {
 			DrawingShape *dsChild = ds->dsChildren[child];
-			DocumentRectangle drChild;
+			rect drChild;
 
 			docShapeGetChildRect(&drChild, dsChild, &drHere, ds);
 

@@ -104,7 +104,7 @@ int docReadEpsObject(const MemoryBuffer *fullName, InsertedObject *io);
 
 int docReadFileObject(const MemoryBuffer *fullName, InsertedObject *io);
 
-void docObjectGetCropRect(DocumentRectangle *dr,
+void docObjectGetCropRect(rect *dr,
 				 const PictureProperties *pip,
 				 const BitmapDescription *bd);
 

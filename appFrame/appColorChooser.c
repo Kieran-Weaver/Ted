@@ -85,8 +85,8 @@ static APP_EVENT_HANDLER_H(appColorChooserRedrawInplace, w, voidcc, exposeEvent)
 	int wide;
 	int high;
 
-	DocumentRectangle drClip;
-	DocumentRectangle drI;
+	rect drClip;
+	rect drI;
 
 	guiCollectExposures(&drClip, cc->ccPulldown.adpInplaceDrawing,
 			    exposeEvent);
@@ -213,7 +213,7 @@ static APP_EVENT_HANDLER_H(appColorChooserRedrawPulldown, w, voidcc,
 	int pulldownWide;
 	int pulldownHigh;
 
-	DocumentRectangle drClip;
+	rect drClip;
 
 	int row;
 	int col;
@@ -221,8 +221,8 @@ static APP_EVENT_HANDLER_H(appColorChooserRedrawPulldown, w, voidcc,
 	int currCol = -1;
 	int currRow = -1;
 
-	DocumentRectangle drPulldown;
-	DocumentRectangle drBox;
+	rect drPulldown;
+	rect drBox;
 
 	if (appColorChooserAllocatePullDownDrawingData(cc)) {
 		LDEB(1);

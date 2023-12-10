@@ -37,7 +37,7 @@ static const char *appFtErrorStr(int e);
 static int APP_FreeTypeInitialized = 0;
 static FT_Library APP_FT_Library;
 
-static void appFcScaleRect(DocumentRectangle *abb, int upm)
+static void appFcScaleRect(rect *abb, int upm)
 {
 	abb->drX0 = (1000 * abb->drX0) / upm;
 	abb->drX1 = (1000 * abb->drX1) / upm;
@@ -270,7 +270,7 @@ int appFcGetFontMetrics(AfmFontInfo *afi)
 
 	/*  4  */
 	for (glyphIdx = 0; glyphIdx < ftFace->num_glyphs; glyphIdx++) {
-		DocumentRectangle abb;
+		rect abb;
 		int C = -1;
 		int WX;
 		char *N = (char *)0;

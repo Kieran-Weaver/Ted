@@ -94,7 +94,7 @@ static int tedLayoutSelectedRoot(const LayoutContext *lc,
 {
 	DocumentPosition dp;
 	int inHeadFoot;
-	DocumentRectangle drChanged;
+	rect drChanged;
 
 	docInitDocumentPosition(&dp);
 
@@ -160,7 +160,7 @@ static int tedLayoutSelectedRoot(const LayoutContext *lc,
 			return 1;
 		} else {
 			int changed = 0;
-			DocumentRectangle drExternalSetX;
+			rect drExternalSetX;
 			BufferItem *bodySectBiSetX;
 
 			treeFound->dtPageSelectedUpon = page;
@@ -249,14 +249,14 @@ static int tedSelectObject(EditDocument *ed, const LayoutContext *lc,
 	InsertedObject *io;
 
 	if (!docGetObjectSelection(dsWord, bd, &partObject, &dpObject, &io)) {
-		DocumentRectangle drObject;
+		rect drObject;
 		PositionGeometry pgObject;
 		int marg = 0;
 		int wide;
 
 		tedPositionGeometry(&pgObject, &dpObject, PARAfindLAST, lc);
 
-		tedGetObjectRectangle(&drObject, (Point2DI *)0, io, &pgObject,
+		tedGetObjectRectangle(&drObject, (vec2 *)0, io, &pgObject,
 				      lc, ed);
 
 		wide = drObject.drX1 - drObject.drX0 + 1;
@@ -583,7 +583,7 @@ static APP_TIMER_HANDLER(tedTick, voiddc)
 	int scrolledX = 0;
 	int scrolledY = 0;
 
-	DocumentRectangle drMouse;
+	rect drMouse;
 
 	guiGetCoordinatesRelativeToWidget(&mouseX, &mouseY,
 					  ed->edDocumentWidget.dwWidget);

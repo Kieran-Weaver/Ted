@@ -13,7 +13,7 @@
 
 int docDescribeSetSelection(DocumentTree **pTreeSet,
 				   struct BufferItem **pBodySectNodeSet,
-				   DocumentRectangle *drExternalSet,
+				   rect *drExternalSet,
 				   int *pRedrawOldTree, int *pRedrawNewTree,
 				   LayoutContext *lc, BufferDocument *bd,
 				   const DocumentSelection *dsOld,

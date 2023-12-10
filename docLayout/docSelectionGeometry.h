@@ -21,7 +21,7 @@ typedef struct PositionGeometry {
 } PositionGeometry;
 
 typedef struct SelectionGeometry {
-	DocumentRectangle sgRectangle;
+	rect sgRectangle;
 
 	PositionGeometry sgHead;
 	PositionGeometry sgTail;

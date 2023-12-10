@@ -61,7 +61,7 @@ int appGuiDrawnPulldownGetStrip(int *pStrip, const AppDrawnPulldown *adp,
 				       const APP_WIDGET w,
 				       const APP_EVENT *mouseEvent);
 
-void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip,
+void appDrawnPulldownDrawArrow(const rect *drClip,
 				      int *pRestWide, int *pRestHigh,
 				      APP_WIDGET w, AppDrawnPulldown *adp);
 

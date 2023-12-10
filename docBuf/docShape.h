@@ -84,7 +84,7 @@ void docDeleteDrawingShape(struct BufferDocument *bd, DrawingShape *ds);
 
 void docShapeStartShapeTransform(AffineTransform2D *at,
 					const DrawingShape *ds,
-					const DocumentRectangle *dr, int xSize,
+					const rect *dr, int xSize,
 					int ySize);
 
 void docShapeInternalTransform(AffineTransform2D *at,
@@ -94,14 +94,14 @@ int docShapeGetFill(int *pFill, RGB8Color *rgb8, const DrawingShape *ds);
 
 int docShapeGetLine(int *pFill, RGB8Color *rgb8, const DrawingShape *ds);
 
-void docShapeGetRects(DocumentRectangle *drHere,
-			     DocumentRectangle *drNorm,
-			     const DocumentRectangle *drTwips,
+void docShapeGetRects(rect *drHere,
+			     rect *drNorm,
+			     const rect *drTwips,
 			     const DrawingShape *ds);
 
-void docShapeGetChildRect(DocumentRectangle *drChild,
+void docShapeGetChildRect(rect *drChild,
 				 const DrawingShape *dsChild,
-				 const DocumentRectangle *dr,
+				 const rect *dr,
 				 const DrawingShape *ds);
 
 #endif /*  DOC_SHAPE_H	*/

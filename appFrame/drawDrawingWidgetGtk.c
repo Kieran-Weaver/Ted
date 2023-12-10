@@ -41,7 +41,7 @@ void guiExposeDrawingWidget(APP_WIDGET nativeWidget)
 }
 
 void guiExposeDrawingWidgetRectangle(APP_WIDGET nativeWidget,
-				     const DocumentRectangle *drExpose)
+				     const rect *drExpose)
 {
 	int x = drExpose->drX0;
 	int y = drExpose->drY0;
@@ -68,7 +68,7 @@ void guiExposeDrawingWidgetRectangle(APP_WIDGET nativeWidget,
 	return;
 }
 
-void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
+void guiCollectExposuresGtk(rect *drClip, GdkWindow *window,
 			    APP_EVENT *event)
 {
 	drClip->drX0 = event->expose.area.x;
@@ -84,7 +84,7 @@ void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
 
 	while (TRUE) {
 		GdkEvent *nxEvent;
-		DocumentRectangle drMore;
+		rect drMore;
 
 		nxEvent = gdk_event_peek();
 		if (!nxEvent) {
@@ -132,7 +132,7 @@ void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
 	return;
 }
 
-void guiCollectExposures(DocumentRectangle *drClip, APP_WIDGET nativeWidget,
+void guiCollectExposures(rect *drClip, APP_WIDGET nativeWidget,
 			 APP_EVENT *event)
 {
 	guiCollectExposuresGtk(drClip, nativeWidget->window, event);

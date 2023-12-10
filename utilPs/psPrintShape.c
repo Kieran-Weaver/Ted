@@ -22,7 +22,7 @@
 /************************************************************************/
 
 void psDrawRoundRectPath(SimpleOutputStream *sos,
-			 const DocumentRectangle *drAround, int r,
+			 const rect *drAround, int r,
 			 const char *psOperator)
 {
 	sioOutPrintf(sos, "%d %d bp\n", drAround->drX0 + r, drAround->drY0);

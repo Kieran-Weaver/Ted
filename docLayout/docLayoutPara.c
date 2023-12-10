@@ -342,8 +342,8 @@ int docLayoutParagraphLineExtents(int *pFontSizeTwips, const LayoutContext *lc,
 		const IndexSet *unicodesWanted;
 
 		const int vswap = 1;
-		DocumentRectangle drFontBBox;
-		DocumentRectangle drFontAscDesc;
+		rect drFontBBox;
+		rect drFontAscDesc;
 		int fontHigh;
 		int sizeTwips;
 
@@ -491,9 +491,9 @@ void docLayoutCalculateAfterRowTopInset(BufferItem *belowBi,
 /************************************************************************/
 
 void docGetParaOrnaments(BlockOrnaments *ornaments,
-			 DocumentRectangle *drOutside,
-			 DocumentRectangle *drInside,
-			 const DocumentRectangle *drParaIn,
+			 rect *drOutside,
+			 rect *drInside,
+			 const rect *drParaIn,
 			 const BufferDocument *bd, const BufferItem *paraNode,
 			 int atParaTop, int atParaBottom)
 {
@@ -505,7 +505,7 @@ void docGetParaOrnaments(BlockOrnaments *ornaments,
 	int nrBelow = -1;
 	BorderProperties bpBottom;
 
-	DocumentRectangle drPara = *drParaIn;
+	rect drPara = *drParaIn;
 
 	if (atParaTop) {
 		int fillBefore = 0;

@@ -15,7 +15,7 @@
 /*									*/
 /************************************************************************/
 
-int psCalculateStringExtents(DocumentRectangle *dr, const char *ss,
+int psCalculateStringExtents(rect *dr, const char *ss,
 				    int len, int twipsSize, int withKerning,
 				    int vswap, const AfmFontInfo *afi);
 
@@ -25,7 +25,7 @@ void psUnderlineGeometry(int *pPos, int *pThick, int baseline,
 void psStrikethroughGeometry(int *pPos, int *pThick, int baseline,
 				    int twipsSize, const AfmFontInfo *afi);
 
-int psFontBBox(DocumentRectangle *drBBox, DocumentRectangle *drAscDesc,
+int psFontBBox(rect *drBBox, rect *drAscDesc,
 		      int twipsSize, int vswap, const AfmFontInfo *afi);
 
 int psGetSuperBaseline(int *pSuperBaseline, int baseline,

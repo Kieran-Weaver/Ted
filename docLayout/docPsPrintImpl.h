@@ -25,7 +25,7 @@ int docPsPrintTab(const DrawTextLine *dtl, int part, int textAttrNr,
 
 void docPsSaveTabLeaderProcedures(SimpleOutputStream *sos);
 
-int docPsPrintDrawDrawingShape(const DocumentRectangle *drTwips,
+int docPsPrintDrawDrawingShape(const rect *drTwips,
 				      int page, struct DrawingShape *ds,
 				      DrawingContext *dc, void *vps);
 
@@ -35,12 +35,12 @@ int docPsPrintObject(const DrawTextLine *dtl, int part,
 
 int docPsPrintShapeImage(PrintingState *ps, DrawingContext *dc,
 				struct DrawingShape *ds,
-				const DocumentRectangle *drTwips,
+				const rect *drTwips,
 				const AffineTransform2D *at);
 
 int docPsPrintTextLine(struct BufferItem *paraBi, int line,
 			      const ParagraphFrame *pf,
-			      const DocumentRectangle *drLine, void *vps,
+			      const rect *drLine, void *vps,
 			      DrawingContext *dc, const BlockOrigin *bo);
 
 int docPsPrintStartField(const DrawTextLine *dtl, int part,
@@ -72,8 +72,8 @@ int docPsPrintRunStrikethrough(const DrawTextLine *dtl, int part,
 void psDefineBorderProcs(SimpleOutputStream *sos);
 
 int docPsPrintOrnaments(const BlockOrnaments *bo, int page,
-			       const DocumentRectangle *drOutside,
-			       const DocumentRectangle *drInside, void *through,
+			       const rect *drOutside,
+			       const rect *drInside, void *through,
 			       struct DrawingContext *dc);
 
 int docPsDocinfoPdfmark(PrintingState *ps, const char *applicationName,

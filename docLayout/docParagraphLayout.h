@@ -17,9 +17,9 @@
 /************************************************************************/
 
 void docGetParaOrnaments(BlockOrnaments *ornaments,
-				DocumentRectangle *drOutside,
-				DocumentRectangle *drInside,
-				const DocumentRectangle *drPara,
+				rect *drOutside,
+				rect *drInside,
+				const rect *drPara,
 				const BufferDocument *bd,
 				const struct BufferItem *paraBi, int atParaTop,
 				int atParaBottom);

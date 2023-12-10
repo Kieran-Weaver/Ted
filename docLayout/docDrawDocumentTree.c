@@ -34,7 +34,7 @@ static int docDrawHeaderFooter(BufferItem *bodySectBi, void *through,
 
 	if (dc->dcClipRect) {
 		const int justUsed = 1;
-		DocumentRectangle drExtern;
+		rect drExtern;
 
 		if (docGetBoxAroundTree(&drExtern, bodySectBi, tree, justUsed,
 					page, column, lc)) {
@@ -54,7 +54,7 @@ static int docDrawHeaderFooter(BufferItem *bodySectBi, void *through,
 
 		/*  We do not expect the tree to change height here	*/
 		if (docLayoutDocumentTree(
-			    tree, (DocumentRectangle *)0, page, column,
+			    tree, (rect *)0, page, column,
 			    tree->dtY0UsedTwips, bodySectBi, lc,
 			    dc->dcInitLayoutExternal, adjustDocument)) {
 			LLDEB(page, column);
@@ -138,7 +138,7 @@ static int docDrawNoteSeparator(LayoutPosition *lpBelow, void *through,
 
 	int ret;
 
-	DocumentRectangle drExtern;
+	rect drExtern;
 	int page;
 	int column;
 
@@ -173,7 +173,7 @@ static int docDrawNoteSeparator(LayoutPosition *lpBelow, void *through,
 	if (page != eiNoteSep->dtPageFormattedFor ||
 	    column != eiNoteSep->dtColumnFormattedFor) {
 		/*  We do not expect the tree to change height here	*/
-		if (docLayoutDocumentTree(eiNoteSep, (DocumentRectangle *)0,
+		if (docLayoutDocumentTree(eiNoteSep, (rect *)0,
 					  page, column, y0Twips, bodySectNode,
 					  lc, dc->dcInitLayoutExternal,
 					  adjustDocument)) {

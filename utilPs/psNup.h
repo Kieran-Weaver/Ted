@@ -77,7 +77,7 @@ int utilNupGetBaseTranform(AffineTransform2D *pAt1Page,
 				  int *pRotatePages, const PrintGeometry *pg,
 				  const DocumentGeometry *dgPage, double fac);
 
-void psNupSheetBoundingBox(DocumentRectangle *sheetBBox,
+void psNupSheetBoundingBox(rect *sheetBBox,
 				  const NupSchema *ns,
 				  const DocumentGeometry *dgPage,
 				  int hasPageHeader, int hasPageFooter);

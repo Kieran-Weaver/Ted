@@ -129,7 +129,7 @@ static void qnFree(QuadNode *qn, QuadForAllCall freefun, void *trough)
 /*									*/
 /************************************************************************/
 
-QuadTree *qtMakeTree(const DocumentRectangle *dr)
+QuadTree *qtMakeTree(const rect *dr)
 {
 	int d;
 	QuadTree *rval;
@@ -615,7 +615,7 @@ int qtGetNearest(QuadTree *qt, int x, int y, const void *data, int *pX, int *pY,
 /*									*/
 /************************************************************************/
 
-static int qnForAllInRectangle(QuadNode *qn, const DocumentRectangle *dr,
+static int qnForAllInRectangle(QuadNode *qn, const rect *dr,
 			       QuadForAllCall fun, void *through)
 {
 	int res;
@@ -683,12 +683,12 @@ static int qnForAllInRectangle(QuadNode *qn, const DocumentRectangle *dr,
 	return rval;
 }
 
-int qtForAllInRectangle(const QuadTree *qt, const DocumentRectangle *dr,
+int qtForAllInRectangle(const QuadTree *qt, const rect *dr,
 			QuadForAllCall fun, void *through)
 {
 	int rval = 0;
 
-	if (qt->qtRootNode && geoIntersectRectangle((DocumentRectangle *)0,
+	if (qt->qtRootNode && geoIntersectRectangle((rect *)0,
 						    &(qt->qtRectangle), dr)) {
 		rval = qnForAllInRectangle(qt->qtRootNode, dr, fun, through);
 	}
@@ -704,7 +704,7 @@ int qtForAllInRectangle(const QuadTree *qt, const DocumentRectangle *dr,
 /*									*/
 /************************************************************************/
 
-static int qnForAll(QuadNode *qn, const DocumentRectangle *drParent,
+static int qnForAll(QuadNode *qn, const rect *drParent,
 		    QuadForAllFilter filter, QuadForAllCall fun, void *through)
 {
 	int i;
@@ -712,14 +712,14 @@ static int qnForAll(QuadNode *qn, const DocumentRectangle *drParent,
 	int rval = 0;
 	int someDeleted = 0;
 
-	DocumentRectangle drHere;
+	rect drHere;
 
 	if (rval == 0 && qn->qnChildren[QTquadNE]) {
 		drHere = *drParent;
 		drHere.drX0 = qn->qnX;
 		drHere.drY0 = qn->qnY;
 
-		if (geoIntersectRectangle((DocumentRectangle *)0, drParent,
+		if (geoIntersectRectangle((rect *)0, drParent,
 					  &drHere) &&
 		    (!filter || (*filter)(&drHere, through))) {
 			res = qnForAll(qn->qnChildren[QTquadNE], &drHere,
@@ -739,7 +739,7 @@ static int qnForAll(QuadNode *qn, const DocumentRectangle *drParent,
 		drHere.drX1 = qn->qnX;
 		drHere.drY0 = qn->qnY;
 
-		if (geoIntersectRectangle((DocumentRectangle *)0, drParent,
+		if (geoIntersectRectangle((rect *)0, drParent,
 					  &drHere) &&
 		    (!filter || (*filter)(&drHere, through))) {
 			res = qnForAll(qn->qnChildren[QTquadNW], &drHere,
@@ -759,7 +759,7 @@ static int qnForAll(QuadNode *qn, const DocumentRectangle *drParent,
 		drHere.drX1 = qn->qnX;
 		drHere.drY1 = qn->qnY;
 
-		if (geoIntersectRectangle((DocumentRectangle *)0, drParent,
+		if (geoIntersectRectangle((rect *)0, drParent,
 					  &drHere) &&
 		    (!filter || (*filter)(&drHere, through))) {
 			res = qnForAll(qn->qnChildren[QTquadSW], &drHere,
@@ -779,7 +779,7 @@ static int qnForAll(QuadNode *qn, const DocumentRectangle *drParent,
 		drHere.drX0 = qn->qnX;
 		drHere.drY1 = qn->qnY;
 
-		if (geoIntersectRectangle((DocumentRectangle *)0, drParent,
+		if (geoIntersectRectangle((rect *)0, drParent,
 					  &drHere) &&
 		    (!filter || (*filter)(&drHere, through))) {
 			res = qnForAll(qn->qnChildren[QTquadSE], &drHere,

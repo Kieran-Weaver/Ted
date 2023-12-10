@@ -451,7 +451,7 @@ static int bmPsWritePal1Row0(SimpleOutputStream *sos,
 	return 0;
 }
 
-int bmPsWriteBitmapData(BitmapPrinter *bp, const DocumentRectangle *drSel,
+int bmPsWriteBitmapData(BitmapPrinter *bp, const rect *drSel,
 			const BitmapDescription *bd,
 			const unsigned char *inputBuffer)
 {

@@ -404,7 +404,7 @@ static void tedEditRefreshScreenRectangle(TedEditOperation *teo)
 	const LayoutContext *lc = &(teo->teoLayoutContext);
 	BufferDocument *bd = lc->lcDocument;
 
-	DocumentRectangle drFull;
+	rect drFull;
 	BufferItem *rootNode = bd->bdBody.dtRoot;
 
 	docGetPixelRectangleForPages(&drFull, &(teo->teoLayoutContext),
@@ -413,8 +413,8 @@ static void tedEditRefreshScreenRectangle(TedEditOperation *teo)
 
 	if (drFull.drX1 != ed->edFullRect.drX1 ||
 	    drFull.drY1 != ed->edFullRect.drY1) {
-		DocumentRectangle drAround;
-		DocumentRectangle drExtra;
+		rect drAround;
+		rect drExtra;
 
 		drAround = drFull;
 
@@ -846,7 +846,7 @@ int tedEditIncludeNodeInRedraw(TedEditOperation *teo, const BufferItem *bi)
 {
 	EditDocument *ed = teo->teoEditDocument;
 	const LayoutContext *lc = &(teo->teoLayoutContext);
-	DocumentRectangle drLocal;
+	rect drLocal;
 
 	drLocal.drX0 = ed->edFullRect.drX0;
 	drLocal.drX1 = ed->edFullRect.drX1;
@@ -870,7 +870,7 @@ int tedEditIncludeRowsInRedraw(TedEditOperation *teo,
 	EditDocument *ed = teo->teoEditDocument;
 	const LayoutContext *lc = &(teo->teoLayoutContext);
 	const BufferItem *rowNode;
-	DocumentRectangle drLocal;
+	rect drLocal;
 
 	drLocal.drX0 = ed->edFullRect.drX0;
 	drLocal.drX1 = ed->edFullRect.drX1;
@@ -889,7 +889,7 @@ int tedEditIncludeRowsInRedraw(TedEditOperation *teo,
 }
 
 void tedIncludeRectangleInChange(TedEditOperation *teo,
-				 const DocumentRectangle *dr)
+				 const rect *dr)
 {
 	if (teo->teoChangedRectSet) {
 		geoUnionRectangle(&(teo->teoChangedRect),

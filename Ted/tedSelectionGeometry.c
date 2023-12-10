@@ -130,11 +130,11 @@ static void tedSelectionRectangle(SelectionGeometry *sg,
 				  const DocumentSelection *ds,
 				  const BufferItem *bodySectNode)
 {
-	DocumentRectangle *drSel = &(sg->sgRectangle);
+	rect *drSel = &(sg->sgRectangle);
 
 	BlockFrame bf;
 	ParagraphFrame pf;
-	DocumentRectangle *drParaContent = &(pf.pfParaContentRect);
+	rect *drParaContent = &(pf.pfParaContentRect);
 
 	const TextLine *tlBegin;
 	const TextLine *tlEnd;
@@ -158,7 +158,7 @@ static void tedSelectionRectangle(SelectionGeometry *sg,
 	if (tlBegin->tlTopPosition.lpPage != tlEnd->tlTopPosition.lpPage ||
 	    tlBegin->tlTopPosition.lpColumn != tlEnd->tlTopPosition.lpColumn) {
 		LayoutPosition lp;
-		DocumentRectangle dr;
+		rect dr;
 
 		int useColumns;
 
@@ -245,7 +245,7 @@ static void tedSelectionRectangle(SelectionGeometry *sg,
 		if (!parentNode) {
 			XDEB(parentNode);
 		} else {
-			DocumentRectangle parentRect;
+			rect parentRect;
 
 			docNodeRectangle(&parentRect, parentNode, lc,
 					 (const BlockOrigin *)0);
@@ -258,7 +258,7 @@ static void tedSelectionRectangle(SelectionGeometry *sg,
 	/*  3  */
 	if (ds->dsHead.dpNode->biParaTableNesting > 0) {
 		BufferItem *paraNode = ds->dsHead.dpNode;
-		DocumentRectangle dr;
+		rect dr;
 
 		docBlockFrameTwips(&bf, paraNode, lc->lcDocument,
 				   paraNode->biTopPosition.lpPage,
@@ -294,7 +294,7 @@ static void tedSelectionRectangle(SelectionGeometry *sg,
 	/*  3  */
 	if (ds->dsTail.dpNode->biParaTableNesting > 0) {
 		BufferItem *paraNode = ds->dsTail.dpNode;
-		DocumentRectangle dr;
+		rect dr;
 
 		docBlockFrameTwips(&bf, paraNode, lc->lcDocument,
 				   paraNode->biTopPosition.lpPage,
