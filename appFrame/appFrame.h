@@ -803,9 +803,6 @@ void appAllocateCopyPasteTargetAtoms(EditApplication *ea);
 
 APP_GIVE_COPY(appDocReplyToCopyRequest, w, gsd, voided);
 
-void appCopyPixmapValue(APP_SELECTION_EVENT *event,
-			       APP_BITMAP_IMAGE pixmapCopied);
-
 void appGetApplicationResourceValues(EditApplication *ea);
 
 void appDocExposeRectangle(const EditDocument *ed,

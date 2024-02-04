@@ -163,39 +163,6 @@ int indINDgetUtf8(int *paccept, IND *ind, int tn, const char *key)
 	}
 }
 
-int indINDgetUtf16(int *paccept, IND *ind, int tn, const unsigned short *key)
-{
-	int m;
-
-	if (tn < 0 || tn >= ind->indNodeCount) {
-		LLDEB(tn, ind->indNodeCount);
-		return -1;
-	}
-
-	for (;;) {
-		unsigned short symbol;
-
-		if (!*key) {
-			if (NODE(ind, tn)->tn_flags & TNfACCEPTS) {
-				*paccept = 1;
-			} else {
-				*paccept = 0;
-			}
-
-			return tn;
-		}
-
-		symbol = *key;
-		key += 1;
-
-		tn = indINDstep(&m, ind, tn, symbol);
-
-		if (tn < 0) {
-			return tn;
-		}
-	}
-}
-
 /************************************************************************/
 /*									*/
 /*  Remove a word from the automaton.					*/
@@ -335,46 +302,6 @@ int indINDputUtf8(IND *ind, int tn, const char *key)
 			return -1;
 		}
 		key += step;
-
-		tn = indINDstep(&m, ind, tn, symbol);
-		if (tn < 0) {
-			tn = indAddNodeToNode(ind, node, m, symbol);
-			if (tn < 0) {
-				LDEB(tn);
-				return -1;
-			}
-		}
-	}
-}
-
-int indINDputUtf16(IND *ind, int tn, const unsigned short *key)
-{
-	for (;;) {
-		TrieNode *node;
-		int m;
-
-		unsigned short symbol;
-
-		if (tn < 0 || tn >= ind->indNodeCount) {
-			LLDEB(tn, ind->indNodeCount);
-			return -1;
-		}
-		node = NODE(ind, tn);
-
-		/*indTLwalk(ind);*/
-
-		if (!*key) {
-			if (node->tn_flags & TNfREAD_ONLY) {
-				XXDEB(node->tn_flags, TNfREAD_ONLY);
-				return -1;
-			}
-
-			node->tn_flags |= TNfACCEPTS;
-			return tn;
-		}
-
-		symbol = *key;
-		key += 1;
 
 		tn = indINDstep(&m, ind, tn, symbol);
 		if (tn < 0) {

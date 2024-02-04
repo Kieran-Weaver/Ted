@@ -60,13 +60,8 @@ void *indRead(const char *filename, int readOnly);
 
 int indPutUtf8(void *ind, const char *key);
 
-int indPutUtf16(void *ind, const unsigned short *key);
-
-int indPutSuffixUtf16(void *voidind, const unsigned short *key);
-
 int indForget(void *ind, const char *key);
 int indGetUtf8(int *, void *ind, const char *key);
-int indGetUtf16(int *, void *ind, const unsigned short *key);
 void indFree(void *ind);
 int indWrite(void *ind, const char *filename);
 void *indMini(void *ind);
@@ -116,12 +111,6 @@ void indCleanSpellGuessContext(SpellGuessContext *sgc);
 void indInitSpellCheckContext(SpellCheckContext *scc);
 void indCleanSpellCheckContext(SpellCheckContext *scc);
 
-void indSpellIso1CharacterKinds(SpellCheckContext *scc);
-void indSpellIso2CharacterKinds(SpellCheckContext *scc);
-void indSpellIso7CharacterKinds(SpellCheckContext *scc);
-void indSpellIso5CharacterKinds(SpellCheckContext *scc);
-void indSpellKoi8rCharacterKinds(SpellCheckContext *scc);
-
 int indCollectGuesses(IndGuessList *igl, SpellCheckContext *scc,
 			     const char *word);
 
@@ -129,8 +118,5 @@ int indSpellSetup(SpellChecker *sc, SpellComplain complain,
 			 void *through);
 
 void indDump(void *voidind);
-
-int indAddSuffixUtf16(void *voidind, const unsigned short *prefix,
-			     int suffixNumber);
 
 #endif /*	IND_H						    }}	*/

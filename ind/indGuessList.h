@@ -26,7 +26,6 @@ typedef struct IndGuessList {
 int indAddGuess(IndGuessList *igl, const char *word, int score);
 
 void indCleanGuessList(IndGuessList *igl);
-void indEmptyGuessList(IndGuessList *igl);
 void indInitGuessList(IndGuessList *igl);
 void indSortGuesses(IndGuessList *igl);
 

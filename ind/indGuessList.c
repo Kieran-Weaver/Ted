@@ -78,21 +78,6 @@ void indCleanGuessList(IndGuessList *igl)
 	igl->iglGuesses = (IndGuessScore *)0;
 }
 
-void indEmptyGuessList(IndGuessList *igl)
-{
-	int i;
-
-	for (i = 0; i < igl->iglGuessCount; i++) {
-		if (igl->iglGuesses[i].igsWord) {
-			free(igl->iglGuesses[i].igsWord);
-		}
-	}
-
-	igl->iglGuessCount = 0;
-
-	return;
-}
-
 /************************************************************************/
 /*  Sort a guess list.							*/
 /************************************************************************/

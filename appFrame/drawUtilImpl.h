@@ -28,5 +28,3 @@ AppColors *guiGetColorsGtk(void);
 void guiCollectExposuresGtk(DocumentRectangle *drClip, GdkWindow *window,
 				   APP_EVENT *event);
 
-void appDrawGtkSetXFillRule(GdkGC *gc, int rule);
-

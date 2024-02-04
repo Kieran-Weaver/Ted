@@ -103,51 +103,6 @@ int indPutUtf8(void *voidind, const char *key)
 	return indINDputUtf8(ind, tnStart, key);
 }
 
-int indPutUtf16(void *voidind, const unsigned short *key)
-{
-	IND *ind = (IND *)voidind;
-	int tnStart;
-
-	if (ind->ind_magic != INDMAGIC) {
-		LDEB(ind->ind_magic);
-		return -1;
-	}
-
-	if ((tnStart = ind->ind_start) < 0) {
-		tnStart = ind->ind_start = indTNmake(ind);
-		if (tnStart < 0) {
-			LDEB(tnStart);
-			return -1;
-		}
-	}
-
-	return indINDputUtf16(ind, tnStart, key);
-}
-
-int indPutSuffixUtf16(void *voidind, const unsigned short *key)
-{
-	IND *ind = (IND *)voidind;
-	int tnStart;
-
-	if (ind->ind_magic != INDMAGIC) {
-		LDEB(ind->ind_magic);
-		return -1;
-	}
-
-	tnStart = ind->ind_start = indTNmake(ind);
-	if (tnStart < 0) {
-		LDEB(tnStart);
-		return -1;
-	}
-
-	if (indINDputUtf16(ind, tnStart, key) < 0) {
-		LDEB(tnStart);
-		return -1;
-	}
-
-	return tnStart;
-}
-
 /************************************************************************/
 /*									*/
 /*  Tell automaton voidind to no longer accept the word key. This is	*/
@@ -188,45 +143,6 @@ int indGetUtf8(int *paccept, void *voidind, const char *key)
 	}
 
 	return indINDgetUtf8(paccept, ind, ind->ind_start, key);
-}
-
-int indGetUtf16(int *paccept, void *voidind, const unsigned short *key)
-{
-	IND *ind = (IND *)voidind;
-
-	if (ind->ind_magic != INDMAGIC) {
-		LDEB(ind->ind_magic);
-		return -1;
-	}
-
-	if (ind->ind_start < 0) {
-		return -1;
-	}
-
-	return indINDgetUtf16(paccept, ind, ind->ind_start, key);
-}
-
-int indAddSuffixUtf16(void *voidind, const unsigned short *prefix, int tnSuf)
-{
-	IND *ind = (IND *)voidind;
-
-	int accepts = 0;
-	int tnTo;
-
-	SDEB("Does not work");
-	return -1;
-	if (ind->ind_magic != INDMAGIC) {
-		LDEB(ind->ind_magic);
-		return -1;
-	}
-
-	tnTo = indINDgetUtf16(&accepts, ind, ind->ind_start, prefix);
-	if (tnTo < 0) {
-		LDEB(tnTo);
-		return -1;
-	}
-
-	return indINDaddSuffix(ind, tnTo, tnSuf);
 }
 
 /************************************************************************/

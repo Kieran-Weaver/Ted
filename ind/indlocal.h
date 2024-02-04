@@ -90,8 +90,6 @@ IND *indINDread(const char *filename, int readOnly);
 
 int indINDputUtf8(IND *ind, int tn, const char *key);
 
-int indINDputUtf16(IND *ind, int tn, const unsigned short *key);
-
 int indINDforall(IND *ind, int tn, void *through, IndForAllFun fun);
 
 int indINDforget(IND *ind, const char *key);
@@ -112,9 +110,6 @@ void indINDprint(IND *);
 void indTLprint2(IND *ind, int from, int upto);
 
 int indINDgetUtf8(int *paccept, IND *ind, int tn, const char *key);
-
-int indINDgetUtf16(int *paccept, IND *ind, int tn,
-			  const unsigned short *key);
 
 int indINDstep(int *pTrans, IND *ind, int tn, int sym);
 

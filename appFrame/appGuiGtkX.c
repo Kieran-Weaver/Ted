@@ -23,36 +23,6 @@
 #include <gdk/gdkx.h>
 #include "appFrame.h"
 
-void appCopyPixmapValue(APP_SELECTION_EVENT *gsd, APP_BITMAP_IMAGE pixmapCopied)
-{
-	Pixmap pixmap = GDK_WINDOW_XWINDOW(pixmapCopied);
-
-	gtk_selection_data_set(gsd, gsd->target, 8 * sizeof(Pixmap),
-			       (unsigned char *)&pixmap, sizeof(Pixmap));
-
-	return;
-}
-
-void appDrawGtkSetXFillRule(GdkGC *gc, int rule)
-{
-	GC xgc = gdk_x11_gc_get_xgc(gc);
-
-	switch (rule) {
-	case GDK_EVEN_ODD_RULE:
-		rule = EvenOddRule;
-		break;
-	case GDK_WINDING_RULE:
-		rule = WindingRule;
-		break;
-	default:
-		LDEB(rule);
-		rule = EvenOddRule;
-		break;
-	}
-
-	XSetFillRule(GDK_DISPLAY(), xgc, rule);
-}
-
 #ifdef USE_XFT
 
 XftDraw *appGtkXftDrawCreate(GdkDrawable *drawable, AppXftColorList *axcl)
