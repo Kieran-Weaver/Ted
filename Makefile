@@ -17,7 +17,7 @@ $(TARGET): $(OBJS)
 	$(CC) $^ -o $(TARGET) $(LDFLAGS)
 
 ./build/%.o : ./%.c
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c -o $@ $<
 
 clean:
