@@ -162,11 +162,6 @@ int appDirectoryOfFileName(MemoryBuffer *dir, const MemoryBuffer *name)
 	return 0;
 }
 
-int appFileNameIsAbsolute(const char *filename)
-{
-	return filename[0] == '/';
-}
-
 /************************************************************************/
 /*									*/
 /*  Translate a file name to an absolute name.				*/

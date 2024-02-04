@@ -33,10 +33,6 @@
 #include <libc.h>
 #endif
 
-#define USE_STAT 1
-#define USE_ACCESS 1
-#define USE_GETCWD 1
-
 #ifndef PATH_MAX
 #define PATH_MAX 1000
 #endif
@@ -79,38 +75,10 @@ int appCurrentDirectory(MemoryBuffer *mb)
 {
 	char scratch[PATH_MAX + 1];
 
-#if USE_GETCWD
 	if (!getcwd(scratch, sizeof(scratch) - 1)) {
 		SDEB(strerror(errno));
 		return -1;
 	}
-
-#else
-	{
-		FILE *f = popen("pwd", "r");
-		int len;
-
-		if (!f) {
-			XDEB(f);
-			return -1;
-		}
-
-		if (!fgets(pwd, sizeof(scratch) - 1, f)) {
-			LDEB(1);
-			pclose(f);
-			return -1;
-		}
-		pclose(f);
-
-		len = strlen(scratch);
-		if (len < 1 || scratch[len - 1] != '\n') {
-			SDEB(scratch);
-			return -1;
-		}
-
-		scratch[len--] = '\0';
-	}
-#endif
 
 	if (utilMemoryBufferSetString(mb, scratch)) {
 		LDEB(1);
@@ -126,7 +94,6 @@ int appCurrentDirectory(MemoryBuffer *mb)
 /*									*/
 /************************************************************************/
 
-#if USE_STAT
 int appTestDirectory(const MemoryBuffer *dir)
 {
 	struct stat st;
@@ -145,22 +112,7 @@ int appTestDirectory(const MemoryBuffer *dir)
 
 	return 0;
 }
-#else
-int appTestDirectory(const MemoryBuffer *dir)
-{
-	char scratch[1001];
 
-	sprintf(scratch, "test -d '%s'", utilMemoryBufferGetString(dir));
-
-	if (system(scratch)) {
-		return -1;
-	}
-
-	return 0;
-}
-#endif
-
-#if USE_ACCESS
 int appTestFileWritable(const MemoryBuffer *file)
 {
 	if (access(utilMemoryBufferGetString(file), W_OK)) {
@@ -169,22 +121,7 @@ int appTestFileWritable(const MemoryBuffer *file)
 
 	return 0;
 }
-#else
-int appTestFileWritable(const MemoryBuffer *file)
-{
-	char scratch[1001];
 
-	sprintf(scratch, "test -w '%s'", utilMemoryBufferGetString(file));
-
-	if (system(scratch)) {
-		return -1;
-	}
-
-	return 0;
-}
-#endif
-
-#if USE_ACCESS
 int appTestFileReadable(const MemoryBuffer *file)
 {
 	if (access(utilMemoryBufferGetString(file), R_OK)) {
@@ -193,22 +130,7 @@ int appTestFileReadable(const MemoryBuffer *file)
 
 	return 0;
 }
-#else
-int appTestFileReadable(const MemoryBuffer *file)
-{
-	char scratch[1001];
 
-	sprintf(scratch, "test -w '%s'", utilMemoryBufferGetString(file));
-
-	if (system(scratch)) {
-		return -1;
-	}
-
-	return 0;
-}
-#endif
-
-#if USE_STAT
 int appTestFileExists(const MemoryBuffer *mb)
 {
 	struct stat st;
@@ -227,171 +149,58 @@ int appTestFileExists(const MemoryBuffer *mb)
 
 	return 0;
 }
-#else
-int appTestFileExists(const MemoryBuffer *mb)
-{
-	char scratch[1001];
-
-	sprintf(scratch, "test -f '%s'", utilMemoryBufferGetString(mb));
-
-	if (system(scratch)) {
-		return -1;
-	}
-
-	return 0;
-}
-#endif
 
 /************************************************************************/
 /*									*/
 /*  Make a Directory.							*/
 /*									*/
 /************************************************************************/
+static int maybe_mkdir(const char* path)
+{
+	struct stat st;
+	errno = 0;
+
+	if (mkdir(path, S_IRWXU) == 0)
+		return 0;
+
+	if (errno != EEXIST) {
+		return -errno;
+	}
+
+	/* File creation failed, check for dir */
+	if (stat(path, &st) != 0)
+		return -1;
+
+	if (!S_ISDIR(st.st_mode))
+		return -ENOTDIR;
+
+	return 0;
+}
 
 int appMakeDirectory(const MemoryBuffer *dir)
 {
-	if (mkdir(utilMemoryBufferGetString(dir), 0777)) {
-		SSDEB(utilMemoryBufferGetString(dir), strerror(errno));
+	const char* cpath = utilMemoryBufferGetString(dir);
+	char* path = strdup(cpath);
+	char* p;
+	int err = 0;
+
+	if (path == NULL)
 		return -1;
-	}
 
-	return 0;
-}
-
-static int appMakeDirectoriesX(const char *dir)
-{
-	if (mkdir(dir, 0777)) {
-		if (errno == ENOENT) {
-			char *scratch = strdup(dir);
-			char *slash;
-			int rval = 0;
-			;
-
-			if (!scratch) {
-				XDEB(scratch);
-				return -1;
-			}
-
-			slash = strrchr(scratch, '/');
-			if (!slash) {
-				SXDEB(dir, slash);
-			} else {
-				*slash = '\0';
-
-				if (appMakeDirectoriesX(scratch)) {
-					SDEB(scratch);
-					rval = -1;
-				} else {
-					if (mkdir(dir, 0777)) {
-						SSDEB(dir, strerror(errno));
-						rval = -1;
-					}
-				}
-			}
-
-			free(scratch);
-			return rval;
-		} else {
-			SSDEB(dir, strerror(errno));
-			return -1;
+	for (p = path + 1; *p; p++) {
+		if (*p == '/') {
+			*p = '\0';
+			err = maybe_mkdir(path);
+			if (err < 0) goto out;
+			*p = '/';
 		}
 	}
 
-	return 0;
-}
+	err = maybe_mkdir(path);
 
-int appMakeDirectories(const MemoryBuffer *dir)
-{
-	return appMakeDirectoriesX(utilMemoryBufferGetString(dir));
-}
-
-/************************************************************************/
-/*									*/
-/*  Make a string that is as unique as possible.			*/
-/*									*/
-/************************************************************************/
-
-long appGetTimestamp(void)
-{
-	static time_t now;
-
-	if (now == 0) {
-		now = time((time_t *)0);
-	} else {
-		now++;
-	}
-
-	return now;
-}
-
-int appMakeUniqueString(char *target, unsigned int maxlen)
-{
-	int pid = getpid();
-	time_t now = time((time_t *)0);
-	unsigned int needed;
-	static time_t prevNow;
-	static unsigned long count;
-	char node_scratch[256 + 1];
-
-	if (now == prevNow) {
-		needed = 26;
-		count++;
-	} else {
-		needed = 17;
-		count = 0;
-	}
-
-	prevNow = now;
-
-	if (maxlen < needed) {
-		LLDEB(maxlen, needed);
-		return -1;
-	}
-
-	if (needed == 26) {
-		sprintf(target, "%08lx.%08lx.%08lx", (unsigned long)now,
-			(unsigned long)pid, (unsigned long)count);
-	} else {
-		sprintf(target, "%08lx.%08lx", (unsigned long)now,
-			(unsigned long)pid);
-	}
-
-	maxlen -= needed;
-	target += needed;
-
-	if (maxlen > 10) {
-		char *nodename = NULL;
-		struct hostent *hp;
-
-		if (gethostname(node_scratch, sizeof(node_scratch) - 1)) {
-			LDEB(1);
-			return 0;
-		}
-
-		node_scratch[sizeof(node_scratch) - 1] = '\0';
-		nodename = node_scratch;
-
-		if (!nodename) {
-			XDEB(nodename);
-			return -1;
-		}
-
-		if (!strchr(nodename, '.')) {
-			hp = gethostbyname(nodename);
-			if (hp) {
-				nodename = hp->h_name;
-			}
-		}
-
-		if (strlen(nodename) < maxlen) {
-			*target = '@';
-			maxlen -= 1;
-			target += 1;
-			strcpy(target, nodename);
-		}
-	}
-
-	return 0;
+out:
+	free(path);
+	return err;
 }
 
 /************************************************************************/
@@ -539,34 +348,6 @@ ready:
 
 /************************************************************************/
 /*									*/
-/*  Copy a file.							*/
-/*									*/
-/************************************************************************/
-
-int appCopyFile(const MemoryBuffer *newName, const MemoryBuffer *oldName)
-{
-	int rval = 0;
-
-	const char *fn = utilMemoryBufferGetString(newName);
-	const char *fo = utilMemoryBufferGetString(oldName);
-	int res;
-
-	const int removeSource = 0;
-
-	res = appMoveFileContents(fn, fo, removeSource);
-	if (res) {
-		SSLSDEB(fo, fn, errno, strerror(errno));
-		rval = -1;
-		goto ready;
-	}
-
-ready:
-
-	return rval;
-}
-
-/************************************************************************/
-/*									*/
 /*  Call a function for all files matching a certain criterion.		*/
 /*									*/
 /************************************************************************/
@@ -650,161 +431,4 @@ ready:
 	}
 
 	return rval;
-}
-
-/************************************************************************/
-/*									*/
-/*  Open a socket							*/
-/*									*/
-/************************************************************************/
-
-int appOpenSocket(const char *hostName, const char *portName, void *through,
-		  APP_COMPLAIN complain)
-{
-	struct sockaddr_in sina;
-
-	int port;
-	char c;
-	int b0, b1, b2, b3;
-	unsigned char *mach = (unsigned char *)&(sina.sin_addr.s_addr);
-
-	int attempt;
-	int secondsBetweenRetries = 1;
-	const int retryCount = 5;
-
-	memset(&sina, 0, sizeof(sina));
-
-	if (sscanf(hostName, "%d.%d.%d.%d%c", &b0, &b1, &b2, &b3, &c) == 4) {
-		mach[0] = b0;
-		mach[1] = b1;
-		mach[2] = b2;
-		mach[3] = b3;
-		sina.sin_family = AF_INET;
-	} else {
-		struct hostent *host = gethostbyname(hostName);
-
-		if (!host) {
-			SDEB(strerror(errno));
-			(*complain)(through, APP_SYSTEMeHOST, hostName);
-			return -1;
-		}
-
-		memcpy(&sina.sin_addr, host->h_addr, host->h_length);
-		sina.sin_family = host->h_addrtype;
-	}
-
-	c = 0;
-	if (sscanf(portName, "%d%c", &port, &c) == 1 && c == 0) {
-		sina.sin_port = htons(port);
-	} else {
-		struct servent *serv = getservbyname(portName, "tcp");
-
-		if (!serv) {
-			SDEB(strerror(errno));
-			(*complain)(through, APP_SYSTEMeSERV, portName);
-			return -1;
-		}
-
-		sina.sin_port = serv->s_port;
-	}
-
-	for (attempt = 0; attempt < retryCount; attempt++) {
-		int fd = socket(AF_INET, SOCK_STREAM, 0);
-
-		if (fd < 0) {
-			SDEB(strerror(errno));
-			(*complain)(through, APP_SYSTEMeSOCK, strerror(errno));
-			return -1;
-		}
-
-		if (connect(fd, (struct sockaddr *)&sina, sizeof(sina))) {
-			SDEB(strerror(errno));
-			(*complain)(through, APP_SYSTEMeCONN, hostName);
-
-			close(fd);
-
-			sleep(secondsBetweenRetries);
-			continue;
-		}
-
-		return fd;
-	}
-
-	return -1;
-}
-
-int appListenSocket(const char *portName, unsigned int *pPort, void *through,
-		    APP_COMPLAIN complain)
-{
-	struct sockaddr_in si;
-	unsigned int sinlen = sizeof(struct sockaddr_in);
-	int fd;
-	unsigned int port;
-	char c;
-
-	memset(&si, 0, sinlen);
-
-	c = 0;
-	if (sscanf(portName, "%u%c", &port, &c) == 1 && c == 0) {
-		si.sin_port = htons(port);
-	} else {
-		struct servent *serv = getservbyname(portName, "tcp");
-
-		if (!serv) {
-			SDEB(strerror(errno));
-			(*complain)(through, APP_SYSTEMeSERV, portName);
-			return -1;
-		}
-
-		si.sin_port = serv->s_port;
-	}
-
-	if ((fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-		SDEB(strerror(errno));
-		(*complain)(through, APP_SYSTEMeSOCK, strerror(errno));
-		return -1;
-	}
-
-	si.sin_family = AF_INET;
-	si.sin_addr.s_addr = INADDR_ANY;
-
-	if (bind(fd, (struct sockaddr *)&si, sinlen) < 0) {
-		SDEB(strerror(errno));
-		(*complain)(through, APP_SYSTEMeBIND, strerror(errno));
-		close(fd);
-		return -1;
-	}
-
-	if (getsockname(fd, (struct sockaddr *)&si, &sinlen) < 0) {
-		(*complain)(through, APP_SYSTEMeBIND, strerror(errno));
-		close(fd);
-		return -1;
-	}
-
-	if (listen(fd, 5) < 0) {
-		SDEB(strerror(errno));
-		(*complain)(through, APP_SYSTEMeLISTEN, strerror(errno));
-		close(fd);
-		return -1;
-	}
-
-	if (pPort) {
-		*pPort = ntohs(si.sin_port);
-	}
-
-	return fd;
-}
-
-int appAcceptSocket(int lfd, void *through, APP_COMPLAIN complain)
-{
-	struct sockaddr_in si;
-	unsigned int sinlen = sizeof(struct sockaddr_in);
-	int fd;
-
-	if ((fd = accept(lfd, (struct sockaddr *)&si, &sinlen)) < 0) {
-		SDEB(strerror(errno));
-		(*complain)(through, APP_SYSTEMeACCEPT, strerror(errno));
-	}
-
-	return fd;
 }

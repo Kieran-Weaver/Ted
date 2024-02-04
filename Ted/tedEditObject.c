@@ -341,10 +341,6 @@ int tedObjectOpenImage(EditApplication *ea, void *voided, APP_WIDGET relative,
 
 	tedScaleObjectToSelectedParagraph(ed, &(teo.teoLayoutContext), io);
 
-	/*  9
-    io->ioBliptag= appGetTimestamp();
-    */
-
 	if (tedOpenObject(io, &(teo.teoLayoutContext))) {
 		LDEB(1);
 	}
@@ -468,10 +464,6 @@ InsertedObject *tedObjectMakeRasterObject(int *pObjectNumber, EditDocument *ed,
 	if (!io->ioDrawingSurface) {
 		PDEB(io->ioDrawingSurface); /* return (InsertedObject *)0; */
 	}
-
-	/*  9
-    io->ioBliptag= appGetTimestamp();
-    */
 
 	*pObjectNumber = objectNumber;
 	return io;

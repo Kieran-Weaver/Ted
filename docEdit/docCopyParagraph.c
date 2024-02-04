@@ -242,10 +242,6 @@ static int docCopyParticuleData(DocumentCopyJob *dcj, BufferItem *biTo,
 			}
 		}
 
-		/*  9
-	    if  ( ioTo->ioBliptag == 0 )
-		{ ioTo->ioBliptag= appGetTimestamp();	}
-	    */
 	} break;
 
 	case DOCkindFIELDTAIL: {

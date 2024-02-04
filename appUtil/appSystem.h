@@ -53,14 +53,6 @@ int appTestFileExists(const MemoryBuffer *mb);
 int appTestFileReadable(const MemoryBuffer *file);
 
 int appMakeDirectory(const MemoryBuffer *dir);
-int appMakeDirectories(const MemoryBuffer *dir);
-
-long appGetTimestamp(void);
-
-int appMakeUniqueString(char *target, unsigned int maxlen);
-
-int appFileNameIsAbsolute(const char *filename);
-
 int appAbsoluteName(MemoryBuffer *absolute, const MemoryBuffer *relative,
 			   int relativeIsFile,
 			   const MemoryBuffer *nameRelativeTo);
@@ -69,17 +61,8 @@ int appRemoveFile(const MemoryBuffer *filename);
 int appRenameFile(const MemoryBuffer *newName,
 			 const MemoryBuffer *oldName);
 
-int appCopyFile(const MemoryBuffer *newName,
-		       const MemoryBuffer *oldName);
-
 int appForAllFiles(const MemoryBuffer *dir, const char *ext,
 			  void *through, FILE_CALLBACK callback);
-
-int appOpenSocket(const char *hostName, const char *portName,
-			 void *through, APP_COMPLAIN complain);
-int appListenSocket(const char *portName, unsigned int *pPort,
-			   void *through, APP_COMPLAIN complain);
-int appAcceptSocket(int lfd, void *through, APP_COMPLAIN complain);
 
 int appFileGetFileExtension(MemoryBuffer *extension,
 				   const MemoryBuffer *filename);

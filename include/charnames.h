@@ -1,3 +1,6 @@
+#ifndef CHARNAMES_H
+#define CHARNAMES_H
+
 /************************************************************************/
 /*									*/
 /*  ASCII, Names are the Postscript Glyph names, For the Control	*/
@@ -6277,3 +6280,5 @@
 #define WIN1252_yacute 0xfd /*  253		*/
 #define WIN1252_thorn 0xfe /*  254		*/
 #define WIN1252_ydieresis 0xff /*  255		*/
+
+#endif
