@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include <ctype.h>
 #include <charnames.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include "docRtfTags.h"
 #include "docRtfFlags.h"

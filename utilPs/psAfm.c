@@ -2,7 +2,7 @@
 
 
 #include <string.h>
-#include <ctype.h>
+
 
 #include <sioGeneral.h>
 #include "psFontInfo.h"

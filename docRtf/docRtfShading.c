@@ -7,7 +7,7 @@
 #include <config.h>
 
 
-#include <ctype.h>
+
 
 #include <psShading.h>
 #include <appDebugon.h>

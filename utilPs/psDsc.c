@@ -21,16 +21,13 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <stddef.h>
-
 #include <string.h>
 #include <time.h>
-
 #include "psPrint.h"
 #include <geo2DInteger.h>
 #include <sioGeneral.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

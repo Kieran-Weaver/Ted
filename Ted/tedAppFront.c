@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 
-#include <ctype.h>
+
 #include <sioGeneral.h>
 
 #include "tedAppFront.h"

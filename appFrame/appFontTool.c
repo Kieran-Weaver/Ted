@@ -5,23 +5,19 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
 #include <limits.h>
-
 #include <appDebugon.h>
-
 #include <appUnit.h>
 #include <geoString.h>
 #include <utilPropMask.h>
 #include <textAttributeUtil.h>
-
 #include "appFrame.h"
 #include "guiToolUtil.h"
 #include "appMatchFont.h"
-
 #include "appFontTool.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"

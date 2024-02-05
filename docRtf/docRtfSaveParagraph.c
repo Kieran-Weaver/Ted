@@ -8,7 +8,7 @@
 
 #include <string.h>
 
-#include <ctype.h>
+
 
 #include <bitmap.h>
 

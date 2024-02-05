@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
+
 
 #include "psPostScriptFontList.h"
 #include "psCompareFontInfo.h"

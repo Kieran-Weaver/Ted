@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
-#include <stdlib.h>
-
 #include <ctype.h>
-
+#include <stdlib.h>
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include "docRtfTags.h"
 #include "docRtfShpTab.h"

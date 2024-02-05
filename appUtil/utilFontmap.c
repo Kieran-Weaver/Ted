@@ -6,16 +6,13 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-
 #include "appSystem.h"
 #include "utilFontmap.h"
-
 #include <appDebugon.h>
 
 typedef struct FontmapEntry {

@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 
-#include <ctype.h>
+
 
 #include "guiWidgets.h"
 #include "appMetricRuler.h"

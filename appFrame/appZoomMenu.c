@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <ctype.h>
+
 
 #define y0 math_y0
 #define y1 math_y1

@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 
-#include <ctype.h>
+
 
 #include <uniUtf8.h>
 #include <ucdGeneralCategory.h>

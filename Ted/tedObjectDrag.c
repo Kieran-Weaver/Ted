@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 
-#include <ctype.h>
+
 #include <limits.h>
 
 #include "tedApp.h"

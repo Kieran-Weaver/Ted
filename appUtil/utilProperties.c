@@ -6,17 +6,13 @@
 /************************************************************************/
 
 #include <config.h>
-
-
+#include <ctype.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-
 #include "sioFileio.h"
 #include "utilTree.h"
 #include "utilProperties.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

@@ -5,9 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <string.h>
-
 #include "utilRoman.h"
 #include <appDebugon.h>
 

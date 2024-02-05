@@ -5,18 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
-
 #include <ctype.h>
 #include <stdint.h>
-
 #include <appDebugon.h>
-
 #include <utilMatchFont.h>
 #include <uniUtf8.h>
 #include <textConverter.h>
 #include <textConverterImpl.h>
-
 #include "docRtfWriterImpl.h"
 #include "docRtfFlags.h"
 #include "docRtfTextConverter.h"

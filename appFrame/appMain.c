@@ -5,16 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <locale.h>
 #include <signal.h>
-
 #include <appSystem.h>
-
 #include "appFrame.h"
 #include "appQuestion.h"
 #include "appFileChooser.h"

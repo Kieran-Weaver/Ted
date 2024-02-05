@@ -7,7 +7,7 @@
 #include <config.h>
 
 #include <string.h>
-#include <ctype.h>
+
 #include <stdlib.h>
 #include <uniUtf8.h>
 #include <ucdGeneralCategory.h>

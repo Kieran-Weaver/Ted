@@ -5,7 +5,7 @@
 /************************************************************************/
 #include <config.h>
 
-#include <ctype.h>
+
 
 #include "psFontMetrics.h"
 #include <uniUtf8.h>

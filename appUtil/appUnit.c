@@ -5,10 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <string.h>
 #include <time.h>
-
 #include "appUnit.h"
 #include <appDebugon.h>
 

@@ -9,7 +9,7 @@
 
 #include <stddef.h>
 
-#include <ctype.h>
+
 
 #include "docEdit.h"
 #include "docEditImpl.h"

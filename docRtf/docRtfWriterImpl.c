@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <ctype.h>
+
 #include <textConverter.h>
 #include <textConverterImpl.h>
 

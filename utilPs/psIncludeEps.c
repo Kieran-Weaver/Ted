@@ -5,15 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <stddef.h>
-
 #include <string.h>
-
 #include "psPrint.h"
 #include <geo2DInteger.h>
 #include <sioFileio.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

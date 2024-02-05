@@ -5,13 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
 #include <appDebugon.h>
-
 #include "docBuf.h"
 #include "docTreeNode.h"
 #include "docField.h"

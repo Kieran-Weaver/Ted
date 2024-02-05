@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include "utilBase26.h"
 #include <appDebugon.h>
 
@@ -71,44 +69,4 @@ int utilBase26String(char *target, int maxlen, int n, int upper)
 	}
 
 	return 0;
-}
-
-int utilBase26Int(const char *from)
-{
-	int rval = 0;
-	const char *dig;
-
-	while (isspace(*from)) {
-		from++;
-	}
-
-	if (!*from) {
-		SDEB(from);
-		return -1;
-	}
-
-	while (*from) {
-		if (isupper(*from)) {
-			dig = strchr(UTIL_Base26UpperDigits, *from);
-			if (!dig) {
-				SDEB(from);
-				return -1;
-			}
-
-			rval = 26 * rval + (dig - UTIL_Base26UpperDigits);
-		} else {
-			dig = strchr(UTIL_Base26LowerDigits, *from);
-			if (!dig) {
-				SDEB(from);
-				return -1;
-			}
-
-			rval = 26 * rval + (dig - UTIL_Base26LowerDigits);
-		}
-
-		rval++;
-		from++;
-	}
-
-	return rval;
 }

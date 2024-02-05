@@ -11,6 +11,4 @@
 
 int utilBase26String(char *to, int maxlen, int n, int upper);
 
-int utilBase26Int(const char *from);
-
 #endif /*  UTIL_BASE26_H  */

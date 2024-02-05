@@ -5,15 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #if USE_LIBPAPER
 #include <paper.h>
 #endif
-
 #include <string.h>
-
 #include <stdlib.h>
-
 #include "appSystem.h"
 #include "appPaper.h"
 #include "geoString.h"

@@ -8,7 +8,7 @@
 
 #include <string.h>
 #include <stdio.h>
-#include <ctype.h>
+
 
 #include <utilBase26.h>
 #include <utilRoman.h>

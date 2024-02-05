@@ -7,7 +7,7 @@
 #include <config.h>
 
 
-#include <ctype.h>
+
 
 #include "docRtfWriterImpl.h"
 #include "docRtfReaderImpl.h"

@@ -1,17 +1,13 @@
 #include <config.h>
-
+#include <ctype.h>
 #include <stddef.h>
 #include <stdlib.h>
-
 #include <string.h>
-#include <ctype.h>
-
 #include <sioMemory.h>
 #include <appSystem.h>
 #include "tedApp.h"
 #include "tedDocFront.h"
 #include "tedDocument.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

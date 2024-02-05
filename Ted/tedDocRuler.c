@@ -9,7 +9,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include <ctype.h>
+
 
 #include <docPageGrid.h>
 #include <docParaRulerAdmin.h>

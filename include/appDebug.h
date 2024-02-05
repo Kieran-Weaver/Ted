@@ -28,7 +28,6 @@ extern const int appDebugZero;
 int appDebugSetFile(const char *filename, const char *mode);
 
 #ifdef APP_DEBUG
-#include <ctype.h>
 #define APP_DEB(x) (x)
 #else
 #define APP_DEB(x)
@@ -45,7 +44,7 @@ int appDebugSetFile(const char *filename, const char *mode);
 #define DEBL(lo) ((long)(lo))
 #define DEBD(do) ((double)(do))
 #define DEBC(ch) \
-	(ch) & 0xff, isprint((ch)) ? '=' : ' ', isprint((ch)) ? (ch) : ' '
+	(ch) & 0xff, '=', (ch) 
 
 #define DFMS " %s=%s%s%s"
 #define DFMX " %s=0x%lx"

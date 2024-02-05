@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 
-#include <ctype.h>
+
 #include <bitmap.h>
 
 #include <docDrawingObject.h>

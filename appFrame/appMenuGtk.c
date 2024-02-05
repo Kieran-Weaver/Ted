@@ -7,16 +7,12 @@
 /************************************************************************/
 
 #include <config.h>
-
+#include <ctype.h>
 #include <stddef.h>
-
 #include <string.h>
-
 #include "guiWidgetsGtk.h"
 #include "appFrame.h"
 #include <appDebugon.h>
-
-
 #include <gdk/gdkkeysyms.h>
 
 static int appMenuParseKey(const char *key, unsigned int *pKeyMask,
