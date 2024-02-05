@@ -124,8 +124,6 @@ int docRtfWriteTag(RtfWriter *rwc, const char *tag);
 
 void docRtfWriteDocEncodedString(RtfWriter *rwc, const char *s, int n);
 
-void docRtfWriteFontEncodedString(RtfWriter *rwc, const char *s, int n);
-
 void docRtfWriteRawBytes(RtfWriter *rwc, const char *s, int n);
 
 void docRtfWriteDocEncodedStringDestination(RtfWriter *rwc,

@@ -205,7 +205,7 @@ static int docRtfSaveNoteField(RtfWriter *rw, int *pCount,
 			rw->rwTextAttribute.taSuperSub = TEXTvaREGULAR;
 		}
 	} else {
-		docRtfWriteFontEncodedString(
+		docRtfWriteDocEncodedString(
 			rw, (const char *)np->npFixedText.mbBytes,
 			np->npFixedText.mbSize);
 	}

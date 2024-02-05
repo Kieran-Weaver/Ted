@@ -406,7 +406,7 @@ int docRtfSaveParaNode(RtfWriter *rwc, const BufferItem *paraNode,
 					docRtfWriteNextLine(rwc);
 				}
 
-				docRtfWriteFontEncodedString(
+				docRtfWriteDocEncodedString(
 					rwc,
 					(char *)docParaString(paraNode, stroff),
 					n);
@@ -467,7 +467,7 @@ int docRtfSaveParaNode(RtfWriter *rwc, const BufferItem *paraNode,
 		}
 
 		if (saveSpace) {
-			docRtfWriteFontEncodedString(rwc, " ", 1);
+			docRtfWriteDocEncodedString(rwc, " ", 1);
 		}
 	}
 

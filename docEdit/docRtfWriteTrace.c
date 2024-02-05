@@ -250,7 +250,7 @@ static int docRtfTraceNoteProperties(EditOperation *eo, const char *textTag,
 	if (npSet->npAutoNumber) {
 		docRtfWriteTag(rw, "chftn");
 	} else {
-		docRtfWriteFontEncodedString(
+		docRtfWriteDocEncodedString(
 			rw, (const char *)npSet->npFixedText.mbBytes,
 			npSet->npFixedText.mbSize);
 	}
@@ -266,7 +266,7 @@ static int docRtfTraceNoteProperties(EditOperation *eo, const char *textTag,
 				  npSet->npTreeType == DOCinENDNOTE);
 	}
 
-	docRtfWriteFontEncodedString(rw, "?", 1);
+	docRtfWriteDocEncodedString(rw, "?", 1);
 
 	docRtfWriteDestinationEnd(rw);
 	docRtfWriteDestinationEnd(rw);

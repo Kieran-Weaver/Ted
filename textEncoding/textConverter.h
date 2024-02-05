@@ -37,10 +37,6 @@ extern int textConverterConvertToUtf8(struct TextConverter *tc, void *through,
 				      int *pConsumed, int produced,
 				      const char *text, int len);
 
-extern int textConverterConvertFromUtf8(struct TextConverter *tc, void *through,
-					int *pConsumed, int produced,
-					const char *text, int len);
-
 extern void textConverterSetProduce(struct TextConverter *tc,
 				    TextConverterProduce produce);
 

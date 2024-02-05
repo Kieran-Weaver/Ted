@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdint.h>
 
 #include <appDebugon.h>
 
@@ -26,13 +27,64 @@
 /*									*/
 /************************************************************************/
 
+static int docRtfEscapeChar(RtfWriter *rw, int c)
+{
+	SimpleOutputStream *sos = rw->rwSosOut;
+	switch (c) {
+	case '{':
+	case '\\':
+	case '}':
+		if (sioOutPutByte('\\', sos) < 0) {
+			LDEB(1);
+			return -1;
+		}
+		if (sioOutPutByte(c, sos) < 0) {
+			LDEB(1);
+			return -1;
+		}
+		rw->rwCol += 2;
+		break;
+	default:
+		if (c < 32 || c > 127) {
+			static const char xdigs[] = "0123456789abcdef";
+
+			if (sioOutPutByte('\\', sos) < 0) {
+				LDEB(1);
+				return -1;
+			}
+			if (sioOutPutByte('\'', sos) < 0) {
+				LDEB(1);
+				return -1;
+			}
+			if (sioOutPutByte(xdigs[(c >> 4) & 0x0f], sos) < 0) {
+				LDEB(1);
+				return -1;
+			}
+			if (sioOutPutByte(xdigs[(c >> 0) & 0x0f], sos) < 0) {
+				LDEB(1);
+				return -1;
+			}
+			rw->rwCol += 4;
+		} else {
+			if (sioOutPutByte(c, sos) < 0) {
+				LDEB(1);
+				return -1;
+			}
+			rw->rwCol += 1;
+		}
+		break;
+	}
+
+	return 0;
+}
+
 static int docRtfEscapeString(void *vrw, int produced, /* ignored */
 			      const char *ss, int n)
 {
-	RtfWriter *rw = (RtfWriter *)vrw;
+	RtfWriter* rw = (RtfWriter*)vrw;
 	const unsigned char *us = (const unsigned char *)ss;
-	SimpleOutputStream *sos = rw->rwSosOut;
 	int i;
+	int err;
 	int addSpace = 0;
 
 	if (n == 0) {
@@ -73,55 +125,8 @@ static int docRtfEscapeString(void *vrw, int produced, /* ignored */
 
 	i = 0;
 	while (i < n) {
-		int c = *us;
-
-		switch (c) {
-		case '{':
-		case '\\':
-		case '}':
-			if (sioOutPutByte('\\', sos) < 0) {
-				LDEB(1);
-				return -1;
-			}
-			if (sioOutPutByte(c, sos) < 0) {
-				LDEB(1);
-				return -1;
-			}
-			rw->rwCol += 2;
-			break;
-		default:
-			if (c < 32 || c > 127) {
-				static const char xdigs[] = "0123456789abcdef";
-
-				if (sioOutPutByte('\\', sos) < 0) {
-					LDEB(1);
-					return -1;
-				}
-				if (sioOutPutByte('\'', sos) < 0) {
-					LDEB(1);
-					return -1;
-				}
-				if (sioOutPutByte(xdigs[(c >> 4) & 0x0f], sos) <
-				    0) {
-					LDEB(1);
-					return -1;
-				}
-				if (sioOutPutByte(xdigs[(c >> 0) & 0x0f], sos) <
-				    0) {
-					LDEB(1);
-					return -1;
-				}
-				rw->rwCol += 4;
-			} else {
-				if (sioOutPutByte(c, sos) < 0) {
-					LDEB(1);
-					return -1;
-				}
-				rw->rwCol += 1;
-			}
-			break;
-		}
-
+		err = docRtfEscapeChar(rw, *us);
+		if (err < 0) return err;
 		i++;
 		us++;
 	}
@@ -135,7 +140,7 @@ static int docRtfEscapeString(void *vrw, int produced, /* ignored */
 /*									*/
 /************************************************************************/
 
-static int docRtfEmitUnicode(RtfWriter *rw, int symbol)
+static int docRtfEmitU16(RtfWriter *rw, int symbol)
 {
 	if (symbol > 32767 && symbol < 65536) {
 		symbol -= 65536;
@@ -143,6 +148,27 @@ static int docRtfEmitUnicode(RtfWriter *rw, int symbol)
 
 	docRtfWriteArgTag(rw, "u", symbol);
 	docRtfEscapeString((void *)rw, 0, "?", 1);
+
+	return 0;
+}
+
+static int docRtfEmitU32(RtfWriter *rw, uint32_t symbol)
+{
+	int surrogate;
+	char chr;
+	if (symbol < 0x80) {
+		chr = symbol & 0x7F;
+		docRtfEscapeString(rw, 0, &chr, 1);
+		return 0;
+	} else if (symbol > 0x10000) {
+		symbol -= 0x10000;
+		surrogate = 0xD800 + symbol >> 10;
+		symbol = 0xDC00 + symbol & 0x3FF;
+
+		docRtfEmitU16(rw, surrogate);
+	}
+
+	docRtfEmitU16(rw, symbol);
 
 	return 0;
 }
@@ -159,66 +185,21 @@ static int docRtfEmitUnicode(RtfWriter *rw, int symbol)
 static int docRtfWriteEncodedString(RtfWriter *rw, TextConverter *tc,
 				    int fontEncoded, const char *ss, int n)
 {
-	int produced = 0;
+	int consumed = 0;
 
 	while (n > 0) {
-		int consumed = 0;
+		unsigned short symbol;
 
-		produced = textConverterConvertFromUtf8(
-			tc, (void *)rw, &consumed, produced, ss, n);
-		if (produced < 0) {
-			LDEB(produced);
+		consumed = uniGetUtf8(&symbol, ss);
+		if (consumed < 1) {
+			LDEB(consumed);
 			return -1;
 		}
 
+		docRtfEmitU32(rw, symbol);
+
 		ss += consumed;
 		n -= consumed;
-
-		if (n > 0) {
-			unsigned short symbol;
-
-			consumed = uniGetUtf8(&symbol, ss);
-			if (consumed < 1) {
-				LDEB(consumed);
-				return -1;
-			}
-
-			if (fontEncoded) {
-				BufferDocument *bd = rw->rwDocument;
-				const DocumentFont *df;
-				TextAttribute *ta = &(rw->rwTextAttribute);
-
-				df = docRtfGetCurrentFont(bd, ta);
-				if (df) {
-					int fontNumber;
-					int charset = FONTcharsetDEFAULT;
-					const char *encodingName;
-
-					fontNumber = docRtfWriteGetCharset(
-						rw, &charset, df, symbol);
-					if (fontNumber >= 0 &&
-					    rw->rwTextCharset != charset) {
-						docRtfWriteArgTag(rw, "f",
-								  fontNumber);
-
-						encodingName =
-							utilGetEncodingName(
-								df->dfName,
-								charset);
-						textConverterSetNativeEncodingName(
-							rw->rwTextTextConverter,
-							encodingName);
-						rw->rwTextCharset = charset;
-						continue;
-					}
-				}
-			}
-
-			docRtfEmitUnicode(rw, symbol);
-
-			ss += consumed;
-			n -= consumed;
-		}
 	}
 
 	return 0;
@@ -229,29 +210,6 @@ void docRtfWriteDocEncodedString(RtfWriter *rw, const char *ss, int n)
 	const int fontEncoded = 0;
 
 	docRtfWriteEncodedString(rw, rw->rwRtfTextConverter, fontEncoded, ss,
-				 n);
-}
-
-void docRtfWriteFontEncodedString(RtfWriter *rw, const char *ss, int n)
-{
-	const int fontEncoded = 1;
-	const char *encodingName = (const char *)0;
-
-	if (rw->rwSaveFlags & RTFflagUNENCODED) {
-		docRtfWriteDocEncodedString(rw, ss, n);
-		return;
-	}
-
-	encodingName = docGetEncodingName(
-		rw->rwDocument, &(rw->rwTextAttribute), rw->rwTextCharset);
-	if (!encodingName) {
-		encodingName = rw->rwRtfTextConverter->tcNativeEncodingName;
-	}
-
-	textConverterSetNativeEncodingName(rw->rwTextTextConverter,
-					   encodingName);
-
-	docRtfWriteEncodedString(rw, rw->rwTextTextConverter, fontEncoded, ss,
 				 n);
 }
 
