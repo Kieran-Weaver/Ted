@@ -7,7 +7,7 @@
 #include <config.h>
 
 #include <stddef.h>
-#include <stdio.h>
+
 
 #include "psPrintShape.h"
 #include <geo2DInteger.h>

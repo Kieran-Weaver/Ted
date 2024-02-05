@@ -1,7 +1,7 @@
 #include <config.h>
 
 #include <stdlib.h>
-#include <stdio.h>
+
 #include <sioFileio.h>
 #include "bmintern.h"
 #include "bmio.h"

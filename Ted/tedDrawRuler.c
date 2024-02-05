@@ -1,6 +1,6 @@
 #include <config.h>
 
-#include <stdio.h>
+
 
 #include <appMetricRuler.h>
 #include <appFrame.h>

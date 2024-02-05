@@ -1,7 +1,7 @@
 #include <config.h>
 
 #include <stdlib.h>
-#include <stdio.h>
+
 
 #include "tedRuler.h"
 #include <appFrame.h>

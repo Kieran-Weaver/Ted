@@ -7,7 +7,7 @@
 #include <config.h>
 
 #include <stddef.h>
-#include <stdio.h>
+
 
 #include <sioGeneral.h>
 #include "docDraw.h"

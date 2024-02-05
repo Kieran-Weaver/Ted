@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-#include <stdio.h>
+
 
 #include "drawImpl.h"
 #include "drawScreenFontImpl.h"

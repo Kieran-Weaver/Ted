@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-#include <stdio.h>
+
 
 #include <geo2DInteger.h>
 #include "drawScreenFontUtil.h"

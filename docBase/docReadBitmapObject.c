@@ -7,7 +7,7 @@
 #include <config.h>
 
 #include <string.h>
-#include <stdio.h>
+
 
 #include <bmio.h>
 #include <sioMemory.h>

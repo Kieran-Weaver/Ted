@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 #include <stddef.h>
-#include <stdio.h>
+
 
 #include "appFrame.h"
 #include "appInspector.h"

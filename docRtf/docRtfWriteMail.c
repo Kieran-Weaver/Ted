@@ -7,7 +7,7 @@
 #include <config.h>
 
 #include <string.h>
-#include <stdio.h>
+
 #include <ctype.h>
 
 #include <appDebugon.h>

@@ -11,7 +11,7 @@
 #endif
 
 #include <string.h>
-#include <stdio.h>
+
 #include <stdlib.h>
 
 #include "appSystem.h"

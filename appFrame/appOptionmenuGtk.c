@@ -1,5 +1,5 @@
 #include <config.h>
-#include <stdio.h>
+
 #include "guiWidgets.h"
 #include "guiOptionmenu.h"
 #include "guiWidgetsImpl.h"

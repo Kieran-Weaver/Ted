@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdio.h>
+
 
 #include <sioHex.h>
 #include <sioBase85.h>

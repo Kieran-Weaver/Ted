@@ -11,7 +11,7 @@
 /************************************************************************/
 
 #include <stdlib.h>
-#include <stdio.h>
+
 #include <string.h>
 #include "bm_gif_lib.h"
 

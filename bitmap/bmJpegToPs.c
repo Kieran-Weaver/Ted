@@ -9,7 +9,7 @@
 
 #include <config.h>
 
-#include <stdio.h>
+
 
 #include <sioGeneral.h>
 #include <sioBase85.h>
