@@ -343,17 +343,6 @@ const FieldKindInformation DOC_FieldKinds[] = {
 		SINGLE_PARAGRAPH,
 	},
 	{
-		"SYMBOL",
-		DOClevSPAN,
-		FIELD_IN_RTF,
-		NO_DEST,
-		docRecalculateParaSymbolTextParticules,
-		docCalculateSymbolFieldString,
-		FIELDdoDOC_COMPLETE,
-		RESULT_READONLY,
-		SINGLE_PARAGRAPH,
-	},
-	{
 		"-CHFTN",
 		DOClevSPAN,
 		NOT_IN_RTF,

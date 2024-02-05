@@ -46,7 +46,6 @@ typedef enum FieldKind {
 	DOCfkFORMTEXT,
 	DOCfkFORMCHECKBOX,
 
-	DOCfkSYMBOL,
 	/**
 	      *  A note reference in the body of the document, or the 
 	      *  note number at the head of the note.
