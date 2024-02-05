@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include "docDraw.h"
 #include "docPsPrintImpl.h"
 #include <psShading.h>

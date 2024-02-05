@@ -6,9 +6,6 @@
 
 #include <config.h>
 
-
-
-
 #include <bitmap.h>
 
 #include <appDebugon.h>

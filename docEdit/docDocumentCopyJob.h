@@ -77,31 +77,29 @@ typedef struct DocumentCopyJob {
 /*									*/
 /************************************************************************/
 
-int docMapTextAttributeNumber(DocumentCopyJob *dcj,
-				     int attributeNumberFrom);
+int docMapTextAttributeNumber(DocumentCopyJob *dcj, int attributeNumberFrom);
 
 int docMapTextAttributeNumberFromTo(BufferDocument *bdTo,
-					   const BufferDocument *bdFrom,
-					   int attributeNumberFrom);
+				    const BufferDocument *bdFrom,
+				    int attributeNumberFrom);
 
 void docInitDocumentCopyJob(DocumentCopyJob *dcj);
 void docCleanDocumentCopyJob(DocumentCopyJob *dcj);
 
 int docSet1DocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
-				  int copyFields);
+			   int copyFields);
 
 int docSetTraceDocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
-				      BufferDocument *bdFrom);
+			       BufferDocument *bdFrom);
 
 int docSet2DocumentCopyJob(DocumentCopyJob *dcj, EditOperation *eo,
-				  BufferDocument *bdFrom, DocumentTree *eiFrom,
-				  const MemoryBuffer *refFileName,
-				  int forceAttributeTo);
+			   BufferDocument *bdFrom, DocumentTree *eiFrom,
+			   const MemoryBuffer *refFileName,
+			   int forceAttributeTo);
 
 int docPushFieldOnCopyStack(DocumentCopyJob *dcj, DocumentField *df);
 
-void docMapTextAttribute(TextAttribute *taTo,
-				const TextAttribute *taFrom,
-				const DocumentCopyJob *dcj);
+void docMapTextAttribute(TextAttribute *taTo, const TextAttribute *taFrom,
+			 const DocumentCopyJob *dcj);
 
 #endif /*	DOC_DOCUMENT_COPY_JOB_H	*/

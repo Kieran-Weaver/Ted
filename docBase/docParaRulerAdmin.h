@@ -25,14 +25,12 @@ typedef void (*TabStopListFunction)(const TabStopList *tsl, int n,
 void docInitTabStopListList(NumberedPropertiesList *tsll);
 
 int docTabStopListNumberImpl(NumberedPropertiesList *tsll,
-				    const TabStopList *tsl);
+			     const TabStopList *tsl);
 
 void docGetTabStopListByNumberImpl(TabStopList *tsl,
-					  const NumberedPropertiesList *tsll,
-					  int n);
+				   const NumberedPropertiesList *tsll, int n);
 
-int docMergeTabstopListLists(int **pRulerMap,
-				    NumberedPropertiesList *tsllTo,
-				    const NumberedPropertiesList *tsllFrom);
+int docMergeTabstopListLists(int **pRulerMap, NumberedPropertiesList *tsllTo,
+			     const NumberedPropertiesList *tsllFrom);
 
 #endif /*  DOC_PARA_RULER_ADMIN_H	*/

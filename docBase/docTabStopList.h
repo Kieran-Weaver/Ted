@@ -31,11 +31,11 @@ void docDeleteTabFromList(TabStopList *tsl, int n);
 
 int docCopyTabStopList(TabStopList *to, const TabStopList *from);
 
-int docNextTabStop(TabStop *pTs, int *pX, int *pTab,
-			  const TabStopList *tsl, int x0Geometry,
-			  int x0TextLines, int tabInterval, int xPosition);
+int docNextTabStop(TabStop *pTs, int *pX, int *pTab, const TabStopList *tsl,
+		   int x0Geometry, int x0TextLines, int tabInterval,
+		   int xPosition);
 
-int docRulerMergeTabs(TabStopList *tslTo, int x0GeometryPixels,
-			     double xfac, const TabStopList *tslFrom);
+int docRulerMergeTabs(TabStopList *tslTo, int x0GeometryPixels, double xfac,
+		      const TabStopList *tslFrom);
 
 #endif /*  DOC_TAB_STOP_LIST_H	*/

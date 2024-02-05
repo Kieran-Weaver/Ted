@@ -17,12 +17,10 @@
 /*									*/
 /************************************************************************/
 
-int psTtfToPt42(SimpleOutputStream *sosPf42,
-		       const MemoryBuffer *fontFileName,
-		       SimpleInputStream *sisTtf);
+int psTtfToPt42(SimpleOutputStream *sosPf42, const MemoryBuffer *fontFileName,
+		SimpleInputStream *sisTtf);
 
-int psTtcToPt42(SimpleOutputStream *sosPf42,
-		       const MemoryBuffer *fontFileName, int fontFileIndex,
-		       SimpleInputStream *sisTtf);
+int psTtcToPt42(SimpleOutputStream *sosPf42, const MemoryBuffer *fontFileName,
+		int fontFileIndex, SimpleInputStream *sisTtf);
 
 #endif

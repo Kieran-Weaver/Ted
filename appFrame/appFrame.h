@@ -22,7 +22,7 @@
 #include <psPostScriptFontList.h>
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
 struct PrintGeometry;
@@ -318,7 +318,8 @@ typedef struct EditApplication {
 	int (*eaFinishDocumentSetup)(EditDocument *ed);
 	void (*eaDocumentFirstVisible)(EditDocument *ed);
 	int (*eaCanSaveDocument)(const void *privateData, int format);
-	int (*eaSaveDocument)(struct EditApplication *ea, struct DrawingSurface *ds,
+	int (*eaSaveDocument)(struct EditApplication *ea,
+			      struct DrawingSurface *ds,
 			      const void *privateData, int format,
 			      const MemoryBuffer *documentTitle,
 			      int suggestStdout, const MemoryBuffer *filename,
@@ -541,19 +542,18 @@ typedef struct AppSelectionType {
 /************************************************************************/
 
 APP_WIDGET appMakeMenu(APP_WIDGET *pButton, AppToplevel *at,
-			      EditApplication *ea, APP_WIDGET parent,
-			      const char *itemText, int isHelp,
-			      AppMenuItem *items, int itemCount, void *through);
+		       EditApplication *ea, APP_WIDGET parent,
+		       const char *itemText, int isHelp, AppMenuItem *items,
+		       int itemCount, void *through);
 
-EditDocument *appOpenDocumentFile(EditApplication *ea,
-					 APP_WIDGET relative, APP_WIDGET option,
-					 int readOnly, int suggestStdin,
-					 int formatHint,
-					 const MemoryBuffer *filename);
+EditDocument *appOpenDocumentFile(EditApplication *ea, APP_WIDGET relative,
+				  APP_WIDGET option, int readOnly,
+				  int suggestStdin, int formatHint,
+				  const MemoryBuffer *filename);
 
 EditDocument *appOpenDocument(EditApplication *ea, APP_WIDGET relative,
-				     APP_WIDGET option, int readOnly,
-				     const MemoryBuffer *filename);
+			      APP_WIDGET option, int readOnly,
+			      const MemoryBuffer *filename);
 
 int appNewDocument(EditApplication *ea, const MemoryBuffer *filename);
 
@@ -604,19 +604,18 @@ APP_CLOSE_CALLBACK_H(appAppWmClose, w, voidea);
 void appRunReallyCloseDialog(APP_WIDGET option, EditDocument *ed);
 
 int appRunReallyQuitDialog(APP_WIDGET option, APP_WIDGET relative,
-				  EditApplication *ea);
+			   EditApplication *ea);
 
 void appMakeDocVisible(EditApplication *ea, EditDocument *ed);
 
 void appShowDefaultsEditor(APP_WIDGET prefOption, void *voidea);
 
 int appGetImagePixmap(EditApplication *ea, const char *name,
-			     APP_BITMAP_IMAGE *pImage, APP_BITMAP_MASK *pMask);
+		      APP_BITMAP_IMAGE *pImage, APP_BITMAP_MASK *pMask);
 
 void appDiscardImagePixmaps(EditApplication *ea);
 
-int appSetDocumentFilename(EditDocument *ed,
-				  const MemoryBuffer *filename);
+int appSetDocumentFilename(EditDocument *ed, const MemoryBuffer *filename);
 
 int appSetDocumentTitle(EditDocument *ed, const MemoryBuffer *title);
 
@@ -625,10 +624,10 @@ int appFinishDocumentSetup(EditDocument *ed);
 int appSetupDocument(EditApplication *ea, EditDocument *ed);
 
 void appRenameDocumentOptions(EditApplication *ea, EditDocument *ed,
-				     const MemoryBuffer *title);
+			      const MemoryBuffer *title);
 
 void *appMakePageTool(EditApplication *ea, APP_WIDGET printOption,
-			     const char *pixmapName);
+		      const char *pixmapName);
 
 void appShowPageTool(EditApplication *ea);
 
@@ -636,32 +635,30 @@ void appPageToolSetProperties(void *voidapt, const DocumentGeometry *dg);
 
 void appEnablePageTool(void *voidapt, int enabled);
 
-void appRunPrintDialog(EditDocument *ed,
-			      const DocumentGeometry *dgDocument, int pageCount,
-			      int firstSelected, int lastSelected,
-			      APP_WIDGET printOption, const char *pixmapName);
+void appRunPrintDialog(EditDocument *ed, const DocumentGeometry *dgDocument,
+		       int pageCount, int firstSelected, int lastSelected,
+		       APP_WIDGET printOption, const char *pixmapName);
 
 int appPrintDocument(int printer, const struct PrintJob *pj);
 
-void appDocPrintToFile(APP_WIDGET option, APP_WIDGET panel,
-			      EditDocument *ed, const struct PrintGeometry *pg);
+void appDocPrintToFile(APP_WIDGET option, APP_WIDGET panel, EditDocument *ed,
+		       const struct PrintGeometry *pg);
 
 APP_MENU_CALLBACK_H(appDocAbout, option, voided, e);
 
 APP_EVENT_HANDLER_H(appDocCopyPasteHandler, w, voided, event);
 APP_EVENT_HANDLER_H(appAppGotPasteCall, w, voided, event);
 
+void appDocGotPasteReplyGtk(GtkWidget *w, GtkSelectionData *gsd, guint time,
+			    void *voided);
 
-void appDocGotPasteReplyGtk(GtkWidget *w, GtkSelectionData *gsd,
-				   guint time, void *voided);
-
-void appAppGotPasteReplyGtk(GtkWidget *w, GtkSelectionData *gsd,
-				   guint time, void *voidea);
+void appAppGotPasteReplyGtk(GtkWidget *w, GtkSelectionData *gsd, guint time,
+			    void *voidea);
 
 int appDocReleaseSelection(EditDocument *ed, const char *selection);
 
 int appDocOwnSelection(EditDocument *ed, const char *selection,
-			      AppSelectionTargetType *targets, int targetCount);
+		       AppSelectionTargetType *targets, int targetCount);
 
 int appDocAskForPaste(EditDocument *ed, const char *selection);
 
@@ -671,54 +668,50 @@ APP_SCROLLBAR_CALLBACK_H(appDocHorizontalScrollbarCallback, bar, voided, e);
 APP_SCROLLBAR_CALLBACK_H(appDocVerticalScrollbarCallback, bar, voided, e);
 
 void appReportSaveFailure(EditApplication *ea, APP_WIDGET option,
-				 APP_WIDGET relative,
-				 const MemoryBuffer *filename);
+			  APP_WIDGET relative, const MemoryBuffer *filename);
 
 void appMakeVerticalDialog(AppDialog *ad, APP_WIDGET *pPaned,
-				  EditApplication *ea,
-				  APP_CLOSE_CALLBACK_T closeCallback,
-				  APP_DESTROY_CALLBACK_T destroyCallback,
-				  void *through);
+			   EditApplication *ea,
+			   APP_CLOSE_CALLBACK_T closeCallback,
+			   APP_DESTROY_CALLBACK_T destroyCallback,
+			   void *through);
 
-int appCallPrintFunction(SimpleOutputStream *sos,
-				const struct PrintJob *pj);
+int appCallPrintFunction(SimpleOutputStream *sos, const struct PrintJob *pj);
 
-int appImgMakeFileExtensions(AppFileExtension **pAfeList,
-				    int *pAfeCount);
+int appImgMakeFileExtensions(AppFileExtension **pAfeList, int *pAfeCount);
 
 int appMakeDocumentWidget(EditApplication *ea, EditDocument *ed);
 
 APP_EVENT_HANDLER_H(appDocExposeHandler, w, d, exposeEvent);
 
 int appFileConvert(EditApplication *ea, const MemoryBuffer *fromName,
-			  const MemoryBuffer *toName);
+		   const MemoryBuffer *toName);
 
 int appPrintToFile(EditApplication *ea, const char *fromName,
-			  const char *toName, const char *paperString);
+		   const char *toName, const char *paperString);
 
 int appPrintToPrinter(EditApplication *ea, const char *fromName,
-			     const char *toName, const char *paperString);
+		      const char *toName, const char *paperString);
 
 APP_DESTROY_CALLBACK_H(appDestroyEditDocument, w, voided);
 
 void appScrollToRectangle(EditDocument *ed, const DocumentRectangle *dr,
-				 int *pScrolledX, int *pScrolledY);
+			  int *pScrolledX, int *pScrolledY);
 
-void
-appMakeVerticalTool(APP_WIDGET *pShell, APP_WIDGET *pPaned, EditApplication *ea,
-		    APP_BITMAP_IMAGE iconPixmap, APP_BITMAP_MASK iconMask,
-		    int userResizable, APP_WIDGET option,
-		    APP_CLOSE_CALLBACK_T closeCallback, void *through);
+void appMakeVerticalTool(APP_WIDGET *pShell, APP_WIDGET *pPaned,
+			 EditApplication *ea, APP_BITMAP_IMAGE iconPixmap,
+			 APP_BITMAP_MASK iconMask, int userResizable,
+			 APP_WIDGET option, APP_CLOSE_CALLBACK_T closeCallback,
+			 void *through);
 
 void appGuiGetResourceValues(int *pGotResources, EditApplication *ea,
-				    void *pValues, AppConfigurableResource *acr,
-				    int acrCount);
+			     void *pValues, AppConfigurableResource *acr,
+			     int acrCount);
 
-void appSetResourceDefaults(EditApplication *ea,
-				   AppConfigurableResource *acr, int acrCount);
+void appSetResourceDefaults(EditApplication *ea, AppConfigurableResource *acr,
+			    int acrCount);
 
-int appGuiInitApplication(EditApplication *ea, int *pArgc,
-				 char ***pArgv);
+int appGuiInitApplication(EditApplication *ea, int *pArgc, char ***pArgv);
 
 void appShowShellWidget(EditApplication *ea, APP_WIDGET shell);
 
@@ -736,18 +729,18 @@ void appGuiSetShellTitle(APP_WIDGET shell, const MemoryBuffer *title);
 
 void appGuiSetIconTitle(APP_WIDGET shell, const MemoryBuffer *title);
 
-APP_WIDGET appSetMenuItem(APP_WIDGET menu, AppToplevel *at,
-				 AppMenuItem *ami, void *target);
+APP_WIDGET appSetMenuItem(APP_WIDGET menu, AppToplevel *at, AppMenuItem *ami,
+			  void *target);
 
 APP_WIDGET appSetMenuSeparator(APP_WIDGET menu, AppToplevel *at,
-				      AppMenuItem *ami, void *target);
+			       AppMenuItem *ami, void *target);
 
 APP_WIDGET appSetToggleMenuItem(APP_WIDGET menu, AppToplevel *at,
-				       AppMenuItem *ami, void *target);
+				AppMenuItem *ami, void *target);
 
 APP_WIDGET appMakeMenuInParent(APP_WIDGET *pButton, AppToplevel *at,
-				      APP_WIDGET menuBar, const char *itemText,
-				      int isHelp);
+			       APP_WIDGET menuBar, const char *itemText,
+			       int isHelp);
 
 void appGuiRunDialog(AppDialog *ad, int initial, EditApplication *ea);
 
@@ -757,47 +750,42 @@ void appGuiSetDefaultButtonForDialog(AppDialog *ad, APP_WIDGET button);
 
 void appGuiSetCancelButtonForDialog(AppDialog *ad, APP_WIDGET button);
 
-void appGuiShowDialog(EditApplication *ea, AppDialog *ad,
-			     APP_WIDGET relative);
+void appGuiShowDialog(EditApplication *ea, AppDialog *ad, APP_WIDGET relative);
 
 void appGuiHideDialog(AppDialog *ad);
 
 void appDocFillMenu(EditDocument *ed);
 
-void appRunDragLoop(APP_WIDGET w, EditApplication *ea,
-			   APP_EVENT *downEvent, APP_EVENT_HANDLER_T upHandler,
-			   APP_EVENT_HANDLER_T moveHandler, int timerInterval,
-			   APP_TIMER_CALLBACK timerHandler, void *through);
+void appRunDragLoop(APP_WIDGET w, EditApplication *ea, APP_EVENT *downEvent,
+		    APP_EVENT_HANDLER_T upHandler,
+		    APP_EVENT_HANDLER_T moveHandler, int timerInterval,
+		    APP_TIMER_CALLBACK timerHandler, void *through);
 
-void appGuiSetFocusChangeHandler(APP_WIDGET shell,
-					APP_EVENT_HANDLER_T handler,
-					void *through);
+void appGuiSetFocusChangeHandler(APP_WIDGET shell, APP_EVENT_HANDLER_T handler,
+				 void *through);
 
 void appGuiSetToggleItemState(APP_WIDGET toggle, int set);
 
 void appSetDestroyCallback(APP_WIDGET shell,
-				  APP_DESTROY_CALLBACK_T destroyCallback,
-				  void *through);
+			   APP_DESTROY_CALLBACK_T destroyCallback,
+			   void *through);
 
 void appSetCloseCallback(APP_WIDGET shell, EditApplication *ea,
-				APP_CLOSE_CALLBACK_T closeCallback,
-				void *through);
+			 APP_CLOSE_CALLBACK_T closeCallback, void *through);
 
 void appGuiSetToggleItemLabel(APP_WIDGET toggle, const char *label);
 
-int appFormatDocumentTitle(MemoryBuffer *windowTitle,
-				  MemoryBuffer *iconTitle, EditApplication *ea,
-				  const MemoryBuffer *title);
+int appFormatDocumentTitle(MemoryBuffer *windowTitle, MemoryBuffer *iconTitle,
+			   EditApplication *ea, const MemoryBuffer *title);
 
 APP_EVENT_HANDLER_H(appDocConfigure, w, voided, event);
 
-void appSetWindowsItemState(APP_WIDGET menu, EditDocument *ed,
-				   int changed);
+void appSetWindowsItemState(APP_WIDGET menu, EditDocument *ed, int changed);
 
 void appRemoveWindowsOption(APP_WIDGET menu, EditDocument *oldEd);
 
 void appRenameWindowsOption(APP_WIDGET menu, EditDocument *ed,
-				   const MemoryBuffer *title);
+			    const MemoryBuffer *title);
 
 void appAllocateCopyPasteTargetAtoms(EditApplication *ea);
 
@@ -806,24 +794,22 @@ APP_GIVE_COPY(appDocReplyToCopyRequest, w, gsd, voided);
 void appGetApplicationResourceValues(EditApplication *ea);
 
 void appDocExposeRectangle(const EditDocument *ed,
-				  const DocumentRectangle *drChanged,
-				  int scrolledX, int scrolledY);
+			   const DocumentRectangle *drChanged, int scrolledX,
+			   int scrolledY);
 
 void appPrintJobForEditDocument(struct PrintJob *pj, EditDocument *ed,
-				       const struct PrintGeometry *pg);
+				const struct PrintGeometry *pg);
 
 void appApplicationSettingsToPrintGeometry(struct PrintGeometry *pg,
-						  EditApplication *ea);
+					   EditApplication *ea);
 
-int appDocumentTestCanSave(EditApplication *ea,
-				  const AppFileExtension *afe,
-				  void *privateData, unsigned int useFlags,
-				  int format);
+int appDocumentTestCanSave(EditApplication *ea, const AppFileExtension *afe,
+			   void *privateData, unsigned int useFlags,
+			   int format);
 
 int appDocumentGetSaveFormat(int *pSuggestStdout, EditApplication *ea,
-				    const MemoryBuffer *filename,
-				    void *privateData, unsigned int useFlags,
-				    int format);
+			     const MemoryBuffer *filename, void *privateData,
+			     unsigned int useFlags, int format);
 
 int appFileCanOpen(const EditApplication *ea, int format);
 
@@ -838,10 +824,10 @@ int appGetPrintDestinations(EditApplication *ea);
 int appReadSystemProperties(EditApplication *ea);
 int appReadUserProperties(EditApplication *ea);
 int appSetUserProperty(EditApplication *ea, const char *name,
-			      const char *value);
+		       const char *value);
 
 int appSetSystemProperty(EditApplication *ea, const char *name,
-				const char *value);
+			 const char *value);
 
 int appGuiSetFrameTitle(APP_WIDGET w, const char *title);
 
@@ -851,25 +837,25 @@ void appDocScrollToX(EditDocument *ed, int x);
 void appGuiFocusToWidget(APP_WIDGET w);
 
 const AppSelectionType *appDocGetSelectionType(const EditApplication *ea,
-						      const char *selection);
+					       const char *selection);
 
 void appInitSelectRectangle(SelectRectangle *sr);
 
 void guiShowMenuOption(APP_WIDGET w, int visible);
 
 int appSaveToPs(EditApplication *ea, struct DrawingSurface *ds,
-		       SimpleOutputStream *sos, void *privateData,
-		       const MemoryBuffer *documentTitle, int format);
+		SimpleOutputStream *sos, void *privateData,
+		const MemoryBuffer *documentTitle, int format);
 
-int appMakeDocumentWindow(EditDocument **pEd, EditApplication *ea,
-				 int readOnly, const MemoryBuffer *title,
-				 const MemoryBuffer *filename);
+int appMakeDocumentWindow(EditDocument **pEd, EditApplication *ea, int readOnly,
+			  const MemoryBuffer *title,
+			  const MemoryBuffer *filename);
 
 void appGetPixelsPerTwip(EditApplication *ea);
 
-int appDocSaveDocument(EditDocument *ed, void *through,
-			      APP_WIDGET relative, APP_WIDGET option,
-			      int format, const MemoryBuffer *filename);
+int appDocSaveDocument(EditDocument *ed, void *through, APP_WIDGET relative,
+		       APP_WIDGET option, int format,
+		       const MemoryBuffer *filename);
 
 int appDetermineBoolean(int *pIval, const char *sVal);
 

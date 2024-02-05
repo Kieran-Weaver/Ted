@@ -8,7 +8,6 @@
 
 typedef GdkFont(APP_FONT);
 
-
 /************************************************************************/
 /*									*/
 /*  For the administration of the relation between PostScript fonts and	*/
@@ -78,8 +77,7 @@ void drawInitScreenFont(DrawScreenFont *dsf);
 
 int drawGetScreenFontKey(const DrawScreenFont *dsf, int prop);
 
-void drawCleanEncodedScreenFont(DrawScreenFont *dsf,
-				       EncodedScreenFont *esf);
+void drawCleanEncodedScreenFont(DrawScreenFont *dsf, EncodedScreenFont *esf);
 
 void drawInitEncodedScreenFont(EncodedScreenFont *esf);
 
@@ -88,9 +86,7 @@ int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig);
 XftFont *drawOpenXftFont(DrawScreenFont *dsf);
 
 int drawTextExtentsXft(DocumentRectangle *drText, int x, int y,
-			      const DrawScreenFont *hDsf,
-			      const DrawScreenFont *vDsf, const char *s,
-			      int len);
-
+		       const DrawScreenFont *hDsf, const DrawScreenFont *vDsf,
+		       const char *s, int len);
 
 #endif

@@ -100,6 +100,6 @@ void indInitSpellChecker(SpellChecker *sc);
 void indCleanSpellChecker(SpellChecker *sc);
 
 int indSpellDictionarySetLocaleLabel(SpellDictionary *sd,
-					    const char *localeLabel);
+				     const char *localeLabel);
 
 #endif /* IND_SPELL_CHECHER_H */

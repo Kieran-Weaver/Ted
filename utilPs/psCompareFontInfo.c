@@ -2,7 +2,6 @@
 
 #include <string.h>
 
-
 #include <math.h>
 
 #include "psCompareFontInfo.h"
@@ -97,4 +96,3 @@ int psFontCompareInfosExcludingFamily(const void *voidpafi1,
 
 	return psCompareFontInfos(afi1, afi2, includeFamily);
 }
-

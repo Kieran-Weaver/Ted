@@ -12,7 +12,7 @@ int utilParseRanges(unsigned char *pages, int count, const char *str);
 int utilParseRange(int *pPage0, int *pPage1, const char *str);
 
 int utilRangesString(char *str, int maxSize, const unsigned char *pages,
-			    int size);
+		     int size);
 
 int utilRangesGetFirst(const unsigned char *pages, int count);
 

@@ -55,7 +55,7 @@ typedef struct RulerData {
 	int rdVisibleC1;
 
 	int rdScreenFont;
-	struct DrawingSurface* rdDrawingSurface;
+	struct DrawingSurface *rdDrawingSurface;
 	const PostScriptFontList *rdPostScriptFontList;
 
 	int rdBackgroundExplicit;
@@ -113,34 +113,29 @@ void appInitRulerData(RulerData *rd);
 
 void appCleanRulerData(RulerData *rd);
 
-void appRulerDrawBackground(RulerData *rd,
-				   const DocumentRectangle *drBck);
+void appRulerDrawBackground(RulerData *rd, const DocumentRectangle *drBck);
 
 void appRulerMakeDrawingSurface(RulerData *rd, int vertical,
-				       int fontSizeHintPixels,
-				       double magnification, APP_WIDGET w);
+				int fontSizeHintPixels, double magnification,
+				APP_WIDGET w);
 
 int appRulerTextWidth(RulerData *rd, const char *s, int len);
 
-void appRulerCalculateIncrements(RulerData *rd,
-					double magnifiedPixelsPerTwip,
-					double magnification);
+void appRulerCalculateIncrements(RulerData *rd, double magnifiedPixelsPerTwip,
+				 double magnification);
 
 void appRulerTagText(char *to, int *pWide, int *pLen, RulerData *rd,
-			    double units);
+		     double units);
 
-void appScrollHorizontalRuler(RulerData *rd, DocumentRectangle *drClip,
-				     int d);
+void appScrollHorizontalRuler(RulerData *rd, DocumentRectangle *drClip, int d);
 
 void appScrollVerticalRuler(RulerData *rd, DocumentRectangle *drClip, int d);
 
-void appHorizontalRulerGetSizeFromConfigureEvent(RulerData *rd,
-							APP_WIDGET w,
-							APP_EVENT *event);
+void appHorizontalRulerGetSizeFromConfigureEvent(RulerData *rd, APP_WIDGET w,
+						 APP_EVENT *event);
 
-void appVerticalRulerGetSizeFromConfigureEvent(RulerData *rd,
-						      APP_WIDGET w,
-						      APP_EVENT *event);
+void appVerticalRulerGetSizeFromConfigureEvent(RulerData *rd, APP_WIDGET w,
+					       APP_EVENT *event);
 
 void appHorizontalRulerGetSizeFromWidget(RulerData *rd, APP_WIDGET w);
 

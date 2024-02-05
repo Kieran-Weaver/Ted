@@ -5,17 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
-
 #include <bmio.h>
 #include <sioMemory.h>
 #include <sioFileio.h>
 #include <sioHex.h>
-
 #include <appDebugon.h>
-
 #include "docObject.h"
 #include "docObjectProperties.h"
 

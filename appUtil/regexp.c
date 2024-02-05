@@ -1,13 +1,10 @@
 /* Regular expressions via PCRE */
 
 #include <config.h>
-
 #include <string.h>
 #include <reg.h>
-
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
-
 #include <appDebugon.h>
 
 static char *regEscape(const char *pattern)
@@ -21,7 +18,7 @@ static char *regEscape(const char *pattern)
 		char *to = escaped;
 
 		while (*from) {
-			if ( memchr( escape, *from, sizeof( escape ) ) ) {
+			if (memchr(escape, *from, sizeof(escape))) {
 				*(to++) = '\\';
 			}
 
@@ -51,11 +48,12 @@ regProg *regCompile(const char *pattern, int options)
 		pattern = escaped;
 	}
 
-	re = pcre2_compile( (PCRE2_SPTR8)pattern, PCRE2_ZERO_TERMINATED, PCRE2_UTF, &error, &erroffset, NULL );
+	re = pcre2_compile((PCRE2_SPTR8)pattern, PCRE2_ZERO_TERMINATED,
+			   PCRE2_UTF, &error, &erroffset, NULL);
 
 	if (!re) {
-		pcre2_get_error_message( error, errormsg, sizeof( errormsg ) );
-		XSSDEB(re, (char*)errormsg, pattern + erroffset);
+		pcre2_get_error_message(error, errormsg, sizeof(errormsg));
+		XSSDEB(re, (char *)errormsg, pattern + erroffset);
 	}
 
 	if (escaped) {
@@ -69,31 +67,30 @@ int regFindLeftToRight(ExpressionMatch *em, const regProg *prog,
 		       const char *string, int fromByte, int byteLength)
 {
 	pcre2_match_data *match_data;
-	PCRE2_SIZE* ovector;
+	PCRE2_SIZE *ovector;
 	int res;
 	int i;
 
-	match_data = pcre2_match_data_create_from_pattern( (pcre2_code*) prog, NULL );
+	match_data =
+		pcre2_match_data_create_from_pattern((pcre2_code *)prog, NULL);
 
-	res = pcre2_match(
-		(pcre2_code*) prog, (PCRE2_SPTR8)string,
-		byteLength, fromByte, PCRE2_NO_UTF_CHECK,
-		match_data, NULL );
+	res = pcre2_match((pcre2_code *)prog, (PCRE2_SPTR8)string, byteLength,
+			  fromByte, PCRE2_NO_UTF_CHECK, match_data, NULL);
 
-	ovector = pcre2_get_ovector_pointer( match_data );
+	ovector = pcre2_get_ovector_pointer(match_data);
 
-	if ( res <= 0 ) {
-		pcre2_match_data_free( match_data );
+	if (res <= 0) {
+		pcre2_match_data_free(match_data);
 		return 0;
 	}
 
-	memset( em->emMatches, 0, sizeof( em->emMatches ) );
+	memset(em->emMatches, 0, sizeof(em->emMatches));
 
-	for ( i = 0; i < ( res * 2 ); i++ ) {
-		em->emMatches[ i ] = ovector[ i ];
+	for (i = 0; i < (res * 2); i++) {
+		em->emMatches[i] = ovector[i];
 	}
 
-	pcre2_match_data_free( match_data );
+	pcre2_match_data_free(match_data);
 
 	return 1;
 }
@@ -104,39 +101,41 @@ int regFindRightToLeft(ExpressionMatch *em, const regProg *prog,
 	int res;
 
 	pcre2_match_data *match_data;
-	PCRE2_SIZE* ovector;
+	PCRE2_SIZE *ovector;
 
-	match_data = pcre2_match_data_create_from_pattern( (pcre2_code*) prog, NULL );
+	match_data =
+		pcre2_match_data_create_from_pattern((pcre2_code *)prog, NULL);
 
 	int cur = fromByte;
 	int i;
 
-	while ( cur > 0 ) {
-		res = pcre2_match(
-			(pcre2_code*) prog, (PCRE2_SPTR8)string,
-			fromByte, cur, PCRE2_NO_UTF_CHECK | PCRE2_ANCHORED,
-			match_data, NULL );
+	while (cur > 0) {
+		res = pcre2_match((pcre2_code *)prog, (PCRE2_SPTR8)string,
+				  fromByte, cur,
+				  PCRE2_NO_UTF_CHECK | PCRE2_ANCHORED,
+				  match_data, NULL);
 
-		if ( res > 0 ) break;
+		if (res > 0)
+			break;
 
 		cur--;
 	}
 
-	if ( ( res <= 0 ) || ( cur <= 0 ) ) {
+	if ((res <= 0) || (cur <= 0)) {
 		/* Error */
-		pcre2_match_data_free( match_data );
+		pcre2_match_data_free(match_data);
 		return 0;
 	}
 
-	ovector = pcre2_get_ovector_pointer( match_data );
-	memset( em->emMatches, 0, sizeof( em->emMatches ) );
+	ovector = pcre2_get_ovector_pointer(match_data);
+	memset(em->emMatches, 0, sizeof(em->emMatches));
 
-	for ( i = 0; i < ( res * 2 ); i++ ) {
-		em->emMatches[ i ] = ovector[ i ];
+	for (i = 0; i < (res * 2); i++) {
+		em->emMatches[i] = ovector[i];
 	}
 
-	pcre2_match_data_free( match_data );
-	
+	pcre2_match_data_free(match_data);
+
 	return 1;
 }
 
@@ -169,5 +168,5 @@ int regGetFullMatch(int *pFrom, int *pPast, const ExpressionMatch *em)
 
 void regFree(regProg *prog)
 {
-	pcre2_code_free( (pcre2_code_8*)prog );
+	pcre2_code_free((pcre2_code_8 *)prog);
 }

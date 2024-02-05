@@ -75,26 +75,25 @@ typedef struct AffineTransform3D {
 /************************************************************************/
 
 int geoAffineTransformForTriangles(AffineTransform2D *atRes, double x_1,
-					  double x_2, double y_1, double y_2,
-					  double z_1, double z_2, double p_1,
-					  double p_2, double q_1, double q_2,
-					  double r_1, double r_2);
+				   double x_2, double y_1, double y_2,
+				   double z_1, double z_2, double p_1,
+				   double p_2, double q_1, double q_2,
+				   double r_1, double r_2);
 
 void geoInitAffineTransform2D(AffineTransform2D *at2);
 void geoIdentityAffineTransform2D(AffineTransform2D *at2);
 void geoRotationAffineTransform2D(AffineTransform2D *at2, double a);
 void geoRotationAffineTransform2DAtan(AffineTransform2D *at2, double y,
-					     double x);
+				      double x);
 void geoTranslationAffineTransform2D(AffineTransform2D *at2, double x,
-					    double y);
-void geoScaleAffineTransform2D(AffineTransform2D *at2, double xs,
-				      double ys);
+				     double y);
+void geoScaleAffineTransform2D(AffineTransform2D *at2, double xs, double ys);
 
 void geoAffineTransform2DProduct(AffineTransform2D *ba,
-					const AffineTransform2D *b,
-					const AffineTransform2D *a);
+				 const AffineTransform2D *b,
+				 const AffineTransform2D *a);
 int geoInvertAffineTransform2D(AffineTransform2D *atR,
-				      const AffineTransform2D *atF);
+			       const AffineTransform2D *atF);
 
 double geoAffineTransformDeterminant2D(const AffineTransform2D *at2);
 
@@ -105,15 +104,15 @@ void geoXZRotationAffineTransform3D(AffineTransform3D *at3, double a);
 void geoYZRotationAffineTransform3D(AffineTransform3D *at3, double a);
 
 void geoAffineTransform3DProduct(AffineTransform3D *ba,
-					const AffineTransform3D *b,
-					const AffineTransform3D *a);
+				 const AffineTransform3D *b,
+				 const AffineTransform3D *a);
 
 double geoAffineTransformDeterminant3D(const AffineTransform3D *at3);
 
 void geoLineAffineTransform2D(AffineTransform2D *at, double a, double b,
-				     double c);
+			      double c);
 
 int geoLineConstants(double *pA, double *pB, double *pC, double x_x0,
-			    double x_y0, double x_x1, double x_y1);
+		     double x_y0, double x_x1, double x_y1);
 
 #endif /*  UTIL_AFFINE_TRANSFORM_H	*/

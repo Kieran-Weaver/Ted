@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docBuf.h"
 #include "docField.h"
 #include "docEvalField.h"

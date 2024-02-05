@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include <utilMemoryBufferPrintf.h>
 #include "psPrint.h"
 

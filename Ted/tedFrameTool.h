@@ -84,22 +84,18 @@ typedef struct FrameTool {
 /************************************************************************/
 
 void tedFormatFillFramePage(FrameTool *ft, const FramePageResources *fpr,
-				   AppInspector *ai, int subjectPage,
-				   InspectorSubject *is, APP_WIDGET pageWidget,
-				   const InspectorSubjectResources *isr);
+			    AppInspector *ai, int subjectPage,
+			    InspectorSubject *is, APP_WIDGET pageWidget,
+			    const InspectorSubjectResources *isr);
 
-void tedFrameToolGetResourceTable(EditApplication *ea,
-					 FramePageResources *spr,
-					 InspectorSubjectResources *isr);
+void tedFrameToolGetResourceTable(EditApplication *ea, FramePageResources *spr,
+				  InspectorSubjectResources *isr);
 
 void tedRefreshFrameTool(FrameTool *ft, int *pEnabled, int *pPref,
-				InspectorSubject *is,
-				const DocumentSelection *bs,
-				const SelectionDescription *sd,
-				BufferDocument *bd);
+			 InspectorSubject *is, const DocumentSelection *bs,
+			 const SelectionDescription *sd, BufferDocument *bd);
 
-void tedFrameToolFillChoosers(FrameTool *ft,
-				     const FramePageResources *fpr);
+void tedFrameToolFillChoosers(FrameTool *ft, const FramePageResources *fpr);
 
 void tedInitFrameTool(FrameTool *ft);
 void tedCleanFrameTool(FrameTool *ft);

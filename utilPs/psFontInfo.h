@@ -211,16 +211,14 @@ void psFreeAfmFontInfo(AfmFontInfo *afi);
 void psRemoveMetricsFromInfo(AfmFontInfo *afi);
 
 int psFontInfoAddMetric(AfmFontInfo *afi, int C, int WX, const char *N,
-			       const DocumentRectangle *abb);
+			const DocumentRectangle *abb);
 
-int psFontInfoGetGlyphIndex(const AfmFontInfo *afi,
-				   const char *glyphName);
+int psFontInfoGetGlyphIndex(const AfmFontInfo *afi, const char *glyphName);
 
 int psFontInfoSetGlyphName(AfmFontInfo *afi, int glyphIndex,
-				  const char *glyphName);
+			   const char *glyphName);
 
-const char *psFontInfoGetGlyphName(const AfmFontInfo *afi,
-					  int glyphIndex);
+const char *psFontInfoGetGlyphName(const AfmFontInfo *afi, int glyphIndex);
 
 int psFontInfoSetGlyphCode(AfmFontInfo *afi, int glyphIndex, int c);
 

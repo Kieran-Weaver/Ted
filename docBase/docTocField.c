@@ -5,16 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include <utilRanges.h>
 #include "docFieldInstructions.h"
 #include "docDocumentField.h"
-
 #include "docTocField.h"
 #include "docListDepth.h"
 #include <utilMemoryBufferPrintf.h>

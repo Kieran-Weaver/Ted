@@ -1,8 +1,6 @@
 #include <config.h>
-
 #include "utilDocumentGeometry.h"
 #include "utilPropMask.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

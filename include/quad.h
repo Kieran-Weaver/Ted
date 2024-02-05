@@ -30,7 +30,7 @@ QuadTree *qtmake(int x0, int x1, int y0, int y1);
 int qtput(QuadTree *qt, int x, int y, void *data);
 int qtget(QuadTree *qt, int x, int y, void **pvals, int *pnval);
 int qtall(QuadTree *qt, int x0, int x1, int y0, int y1,
-		 int (*fun)(void *, void *), void *);
+	  int (*fun)(void *, void *), void *);
 void qtclose(QuadTree *qt);
 
 #endif

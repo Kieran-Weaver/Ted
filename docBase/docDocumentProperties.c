@@ -5,12 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <utilPalette.h>
 #include <utilPropMask.h>
 #include <appUnit.h>
 #include <appDebugon.h>
-
 #include "docDocumentProperties.h"
 
 /************************************************************************/

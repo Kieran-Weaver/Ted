@@ -5,18 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <stddef.h>
 #include <string.h>
-
 #include "appColorChooser.h"
 #include "guiWidgets.h"
-
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

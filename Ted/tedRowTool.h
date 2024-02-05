@@ -91,24 +91,23 @@ typedef struct RowTool {
 /************************************************************************/
 
 void tedFormatFillRowPage(RowTool *rt, const RowPageResources *rpr,
-				 AppInspector *ai, int subjectPage,
-				 InspectorSubject *is, APP_WIDGET pageWidget,
-				 const InspectorSubjectResources *isr);
+			  AppInspector *ai, int subjectPage,
+			  InspectorSubject *is, APP_WIDGET pageWidget,
+			  const InspectorSubjectResources *isr);
 
 void tedRowToolFillChoosers(RowTool *rt, const RowPageResources *rpr);
 
 void tedFormatFinishRowPage(RowTool *rt, const RowPageResources *rpr);
 
 void tedFormatToolGetRowResourceTable(EditApplication *ea,
-					     RowPageResources *spr,
-					     InspectorSubjectResources *isr);
+				      RowPageResources *spr,
+				      InspectorSubjectResources *isr);
 
 void tedRefreshRowTool(RowTool *rt, int *pEnabled, int *pPref,
-			      InspectorSubject *is, const DocumentSelection *ds,
-			      const SelectionGeometry *sg,
-			      const SelectionDescription *sd,
-			      BufferDocument *bd,
-			      const unsigned char *cmdEnabled);
+		       InspectorSubject *is, const DocumentSelection *ds,
+		       const SelectionGeometry *sg,
+		       const SelectionDescription *sd, BufferDocument *bd,
+		       const unsigned char *cmdEnabled);
 
 void tedInitRowTool(RowTool *rt);
 void tedCleanRowTool(RowTool *rt);

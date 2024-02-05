@@ -6,7 +6,7 @@
 #include <bmcolor.h>
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
 /************************************************************************/
@@ -17,7 +17,6 @@ extern "C"{
 
 typedef struct AppColors {
 	ColorAllocator acAllocator;
-
 
 	GdkColormap *acColormap;
 	int acVisualClass;
@@ -32,10 +31,10 @@ typedef struct AppColors {
 void appInitColors(AppColors *ac);
 
 int appColorRgb(APP_COLOR_RGB *xc, AppColors *ac, unsigned int r,
-		       unsigned int g, unsigned int b);
+		unsigned int g, unsigned int b);
 
 int appColorFindRgb(APP_COLOR_RGB *xc, AppColors *ac, unsigned int r,
-			   unsigned int g, unsigned int b);
+		    unsigned int g, unsigned int b);
 
 int appColorNamed(APP_COLOR_RGB *xc, AppColors *ac, const char *name);
 

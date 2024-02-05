@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
-
 #include <geo2DInteger.h>
 #include "drawImpl.h"
 #include "drawScreenFontAdmin.h"
-
 #include <appDebugon.h>
 
 int drawFontImplementationNameImpl(char *target, int maxlen,
@@ -42,7 +38,6 @@ int drawFontImplementationNameImpl(char *target, int maxlen,
 		return 0;
 	}
 #endif
-
 
 	return -1;
 }

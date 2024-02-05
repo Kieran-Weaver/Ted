@@ -8,9 +8,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docListOverrideLevel.h"
 
 void docInitListOverrideLevel(ListOverrideLevel *lol)

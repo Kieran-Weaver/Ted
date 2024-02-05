@@ -84,10 +84,9 @@ typedef enum RGBAColorComponent {
 void utilInitRGB8Color(RGB8Color *rgb8);
 
 int utilRGB8LumaChromaHue(int *pLuma, int *pChroma, int *pHue,
-				 const RGB8Color *rgb8);
+			  const RGB8Color *rgb8);
 
-int utilRGB8FromLumaChromaHue(RGB8Color *rgb8, int luma, int chroma,
-				     int hue);
+int utilRGB8FromLumaChromaHue(RGB8Color *rgb8, int luma, int chroma, int hue);
 
 int utilRGB8GetComponent(const RGB8Color *rgb8, int prop);
 

@@ -23,22 +23,18 @@ typedef struct DocumentListTable {
 void docInitListTable(DocumentListTable *dlt);
 void docCleanListTable(DocumentListTable *dlt);
 
-int docCopyListTable(DocumentListTable *to,
-			    const DocumentListTable *from);
+int docCopyListTable(DocumentListTable *to, const DocumentListTable *from);
 
 int docDocumentListTableAddList(struct DocumentList **pDl,
-				       DocumentListTable *dlt,
-				       const struct DocumentList *dl,
-				       int copyIds, const int *fontMap,
-				       const int *rulerMap,
-				       const int *colorMap);
+				DocumentListTable *dlt,
+				const struct DocumentList *dl, int copyIds,
+				const int *fontMap, const int *rulerMap,
+				const int *colorMap);
 
-int docMergeListIntoTable(DocumentListTable *dlt,
-				 const struct DocumentList *dl,
-				 const int *fontMap, const int *rulerMap,
-				 const int *colorMap);
+int docMergeListIntoTable(DocumentListTable *dlt, const struct DocumentList *dl,
+			  const int *fontMap, const int *rulerMap,
+			  const int *colorMap);
 
-int docDocumentListTableDeleteList(DocumentListTable *dlt,
-					  int listIndex);
+int docDocumentListTableDeleteList(DocumentListTable *dlt, int listIndex);
 
 #endif

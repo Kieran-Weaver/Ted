@@ -20,12 +20,11 @@
 /************************************************************************/
 
 int docWriteRtfMail(SimpleOutputStream *sos, const char *mimeBoundary,
-			   BufferDocument *bd);
+		    BufferDocument *bd);
 
 int docRtfSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
-			      const DocumentSelection *bs, int flags);
+		       const DocumentSelection *bs, int flags);
 
-BufferDocument *docRtfReadFile(SimpleInputStream *sis,
-				      unsigned int flags);
+BufferDocument *docRtfReadFile(SimpleInputStream *sis, unsigned int flags);
 
 #endif /*  DOC_RTF_RW_H	*/

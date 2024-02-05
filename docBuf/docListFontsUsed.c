@@ -5,15 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <uniUtf8.h>
 #include "docListFonts.h"
 #include <docDocumentList.h>
 #include <docListOverride.h>
 #include "docTreeNode.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -184,7 +181,7 @@ int docGetCharsUsed(BufferDocument *bd)
 
 			if (!lol->lolOverrideFormat ||
 			    !(PROPmaskISSET(&(ll->llTextAttributeMask),
-					   TApropFONT_NUMBER))) {
+					    TApropFONT_NUMBER))) {
 				continue;
 			}
 
@@ -203,7 +200,7 @@ int docGetCharsUsed(BufferDocument *bd)
 
 		for (level = 0; level < dl->dlLevelCount; ll++, level++) {
 			if (!(PROPmaskISSET(&(ll->llTextAttributeMask),
-					   TApropFONT_NUMBER))) {
+					    TApropFONT_NUMBER))) {
 				continue;
 			}
 

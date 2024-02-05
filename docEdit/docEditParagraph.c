@@ -5,12 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
-
 #include <limits.h>
-
 #include <appDebugon.h>
-
 #include <docBuf.h>
 #include <docField.h>
 #include <docNodeTree.h>

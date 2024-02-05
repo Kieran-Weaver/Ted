@@ -4,8 +4,6 @@
 /*									*/
 /************************************************************************/
 
-#include <config.h>
-
 #include "appQuestion.h"
 
 void appQuestionRunFilenameErrorDialog(EditApplication *ea, APP_WIDGET relative,

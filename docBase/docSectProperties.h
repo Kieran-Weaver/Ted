@@ -125,26 +125,25 @@ void docInitSectionProperties(SectionProperties *sp);
 void docCleanSectionProperties(SectionProperties *sp);
 
 int docCopySectionProperties(SectionProperties *to,
-				    const SectionProperties *from);
+			     const SectionProperties *from);
 
 int docSectionPropertiesSetColumnCount(SectionProperties *sp, int count);
 
 void docSectPropertyDifference(PropertyMask *pDiffMask,
-				      const SectionProperties *sp1,
-				      const PropertyMask *cmpMask,
-				      const SectionProperties *sp2);
+			       const SectionProperties *sp1,
+			       const PropertyMask *cmpMask,
+			       const SectionProperties *sp2);
 
-int docUpdSectProperties(PropertyMask *pSpDoneMask,
-				SectionProperties *spTo,
-				const PropertyMask *spSetMask,
-				const SectionProperties *spSet);
+int docUpdSectProperties(PropertyMask *pSpDoneMask, SectionProperties *spTo,
+			 const PropertyMask *spSetMask,
+			 const SectionProperties *spSet);
 
 int docSectSetEqualColumnWidth(SectionProperties *sp);
 int docSectSetExplicitColumnWidth(SectionProperties *sp);
 
 void docSectGetColumnX(int *pXLine, int *pX0, int *pX1,
-			      const SectionProperties *sp,
-			      const DocumentGeometry *dgPage, int column);
+		       const SectionProperties *sp,
+		       const DocumentGeometry *dgPage, int column);
 
 int docSetSectionProperty(SectionProperties *sp, int prop, int arg);
 
@@ -153,12 +152,12 @@ int docGetSectionProperty(const SectionProperties *sp, int prop);
 void docFillSectNotesMask(PropertyMask *spMask);
 
 int docSectGetColumnSpacing(int *pMinValue, int *pMaxValue,
-				   const SectionProperties *sp, int col);
+			    const SectionProperties *sp, int col);
 
 int docSectSetColumnSpacing(SectionProperties *sp, int col, int value);
 
 int docSectGetColumnWidth(int *pMinValue, int *pMaxValue,
-				 const SectionProperties *sp, int col);
+			  const SectionProperties *sp, int col);
 
 int docSectSetColumnWidth(SectionProperties *sp, int col, int value);
 

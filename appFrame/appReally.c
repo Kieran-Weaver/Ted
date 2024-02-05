@@ -3,14 +3,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include "appFrame.h"
 #include "appQuestion.h"
 #include "appFileChooser.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

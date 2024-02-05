@@ -23,27 +23,26 @@ typedef void (*ScreenFontFunction)(const DrawScreenFont *sf, int n,
 void drawStartScreenFontList(NumberedPropertiesList *sfl);
 
 void drawForAllScreenFonts(const NumberedPropertiesList *sfl,
-				  ScreenFontFunction f, void *through);
+			   ScreenFontFunction f, void *through);
 
-DrawScreenFont *
-drawGetScreenFontByNumber(const NumberedPropertiesList *sfl, int n);
+DrawScreenFont *drawGetScreenFontByNumber(const NumberedPropertiesList *sfl,
+					  int n);
 
 int drawGetScreenFont(DrawScreenFont **pApf, int *pFresh,
-			     NumberedPropertiesList *npl,
-			     const IndexSet *unicodesUsed,
-			     const AfmFontInfo *afi, int pixelSize);
+		      NumberedPropertiesList *npl, const IndexSet *unicodesUsed,
+		      const AfmFontInfo *afi, int pixelSize);
 
 int drawTextExtentsImpl(DocumentRectangle *drText, int x, int y,
-			       const NumberedPropertiesList *npl,
-			       int screenFont, const char *s, int len);
+			const NumberedPropertiesList *npl, int screenFont,
+			const char *s, int len);
 
 int drawScapsTextExtentsImpl(DocumentRectangle *drText, int x, int y,
-				    const NumberedPropertiesList *npl,
-				    int fullScreenFont, int scapsScreenFont,
-				    const char *s, int len);
+			     const NumberedPropertiesList *npl,
+			     int fullScreenFont, int scapsScreenFont,
+			     const char *s, int len);
 
 int drawFontImplementationNameImpl(char *target, int maxlen,
-					  const NumberedPropertiesList *npl,
-					  int screenFont);
+				   const NumberedPropertiesList *npl,
+				   int screenFont);
 
 #endif /*  DRAW_SCREEN_FONT_ADMIN_H	*/

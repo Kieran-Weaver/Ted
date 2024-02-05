@@ -6,13 +6,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include <uniUtf8.h>
-
 #include "docBuf.h"
 #include "docShape.h"
 #include "docParaString.h"

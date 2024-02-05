@@ -9,8 +9,6 @@
 
 #include <stdlib.h>
 
-
-
 #include <appDebugon.h>
 
 #include "docRtfReaderImpl.h"

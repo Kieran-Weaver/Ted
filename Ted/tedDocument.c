@@ -3,8 +3,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-
-
 #include <appQuestion.h>
 
 #include "tedApp.h"

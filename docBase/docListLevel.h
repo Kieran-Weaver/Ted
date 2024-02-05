@@ -149,60 +149,53 @@ typedef enum ListLevelProperty {
 void docInitDocumentListLevel(ListLevel *ll);
 void docCleanDocumentListLevel(ListLevel *ll);
 
-int docCopyDocumentListLevel(ListLevel *to, const ListLevel *from,
-				    int copyIds, const int *fontMap,
-				    const int *colorMap, const int *rulerMap);
+int docCopyDocumentListLevel(ListLevel *to, const ListLevel *from, int copyIds,
+			     const int *fontMap, const int *colorMap,
+			     const int *rulerMap);
 
 int docListLevelSetStyle(ListLevel *ll, const PropertyMask *paraMask,
-				const ParagraphProperties *pp,
-				const PropertyMask *textMask,
-				const TextAttribute *ta);
+			 const ParagraphProperties *pp,
+			 const PropertyMask *textMask, const TextAttribute *ta);
 
 int docListLevelSetText(int *pChanged, ListLevel *ll, const char *text,
-			       int idx);
+			int idx);
 
-int docListLevelGetText(char *to, int maxsize, const ListLevel *ll,
-			       int idx);
+int docListLevelGetText(char *to, int maxsize, const ListLevel *ll, int idx);
 
-int docListLevelSetNumber(int *pChanged, ListLevel *ll, int number,
-				 int idx);
+int docListLevelSetNumber(int *pChanged, ListLevel *ll, int number, int idx);
 
 int docListLevelInsertNumber(ListLevel *ll, int number, int idx);
 
 int docListLevelDeleteNumber(ListLevel *ll, int idx);
 
-int docListLevelFormatParagraphNumber(char *to, int maxsize,
-					     int *offsets, int maxoffsets,
-					     int ilvl, const int *numberPath,
-					     const int *startPath,
-					     const int *formatPath,
-					     const ListLevel *ll);
+int docListLevelFormatParagraphNumber(char *to, int maxsize, int *offsets,
+				      int maxoffsets, int ilvl,
+				      const int *numberPath,
+				      const int *startPath,
+				      const int *formatPath,
+				      const ListLevel *ll);
 
 int docListLevelFormatLevelNumber(char *target, int maxsize, int val,
-					 int format);
+				  int format);
 
 int docDefaultListLevel(ListLevel *llTo, int level, int deftab,
-			       int levelTemplateID,
-			       const PropertyMask *taSetMask,
-			       const TextAttribute *taSet);
+			int levelTemplateID, const PropertyMask *taSetMask,
+			const TextAttribute *taSet);
 
-int docListLevelGetField(int *pConstOff, int *pConstLen,
-				int *pConstChars, int *pLevel,
-				const ListLevel *ll, int field);
+int docListLevelGetField(int *pConstOff, int *pConstLen, int *pConstChars,
+			 int *pLevel, const ListLevel *ll, int field);
 
-int docListLevelToRtfStrings(MemoryBuffer *mbtext,
-				    MemoryBuffer *mbnumbers,
-				    const ListLevel *ll);
+int docListLevelToRtfStrings(MemoryBuffer *mbtext, MemoryBuffer *mbnumbers,
+			     const ListLevel *ll);
 
 int docListLevelFromRtfStrings(ListLevel *ll, const MemoryBuffer *mbtext,
-				      const MemoryBuffer *mbnumbers);
+			       const MemoryBuffer *mbnumbers);
 
 void docListDocumentListLevel(int n, const ListLevel *ll);
 
 int docSetListLevelProperty(ListLevel *ll, int prop, int val);
 
-int docListLevelApplyTextAttribute(ListLevel *ll,
-					  const PropertyMask *taSetMask,
-					  const TextAttribute *taSet);
+int docListLevelApplyTextAttribute(ListLevel *ll, const PropertyMask *taSetMask,
+				   const TextAttribute *taSet);
 
 #endif

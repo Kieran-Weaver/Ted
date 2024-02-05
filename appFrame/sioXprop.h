@@ -9,14 +9,12 @@
 #include <sioGeneral.h>
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
-SimpleInputStream *sioInOpenPaste(APP_WIDGET w,
-					 APP_SELECTION_EVENT *event);
+SimpleInputStream *sioInOpenPaste(APP_WIDGET w, APP_SELECTION_EVENT *event);
 
-SimpleOutputStream *sioOutOpenCopy(APP_WIDGET w,
-					  APP_SELECTION_EVENT *event);
+SimpleOutputStream *sioOutOpenCopy(APP_WIDGET w, APP_SELECTION_EVENT *event);
 
 #ifdef __cplusplus
 }

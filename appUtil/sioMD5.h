@@ -11,7 +11,7 @@
 #include "sioGeneral.h"
 
 SimpleInputStream *sioInMD5Open(unsigned char *digest,
-				       SimpleInputStream *sisIn);
+				SimpleInputStream *sisIn);
 
 SimpleOutputStream *sioOutMD5Open(unsigned char *digest,
-					 SimpleOutputStream *sosOut);
+				  SimpleOutputStream *sosOut);

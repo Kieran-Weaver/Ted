@@ -22,22 +22,21 @@ struct FieldInstructions;
 /************************************************************************/
 
 int docFieldGetBookmark(const MemoryBuffer **markName,
-			       const struct DocumentField *df);
+			const struct DocumentField *df);
 
 int docIsTocBookmark(long *pId, const struct DocumentField *df);
 
 int docFieldMatchesBookmark(const struct DocumentField *df,
-				   const MemoryBuffer *markName);
+			    const MemoryBuffer *markName);
 
 int docSetBookmarkField(struct FieldInstructions *fi,
-			       const struct MemoryBuffer *mb);
+			const struct MemoryBuffer *mb);
 
 int docAdaptBookmarkName(struct MemoryBuffer *markName);
 
 int docBookmarkFromText(struct MemoryBuffer *markName, const char *text,
-			       int len);
+			int len);
 
-int docBookmarkSuffixIndex(const struct MemoryBuffer *markName,
-				  int wanted);
+int docBookmarkSuffixIndex(const struct MemoryBuffer *markName, int wanted);
 
 #endif /*  DOC_BOOKMARK_FIELD_H  */

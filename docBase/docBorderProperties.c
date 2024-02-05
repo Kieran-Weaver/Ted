@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <utilPalette.h>
-
 #include <appDebugon.h>
-
 #include "docBorderProperties.h"
 
 /************************************************************************/

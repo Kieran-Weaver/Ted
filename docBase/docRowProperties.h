@@ -210,32 +210,32 @@ void docInitRowProperties(RowProperties *rp);
 void docCleanRowProperties(RowProperties *rp);
 
 int docCopyRowProperties(RowProperties *to, const RowProperties *from,
-				const DocumentAttributeMap *dam);
+			 const DocumentAttributeMap *dam);
 
 int docInsertRowColumn(RowProperties *rp, int n, int shiftTail,
-			      const CellProperties *cp,
-			      const DocumentAttributeMap *dam);
+		       const CellProperties *cp,
+		       const DocumentAttributeMap *dam);
 
 int docApproximatelyAlignedColumns(const RowProperties *rp1,
-					  const RowProperties *rp2);
+				   const RowProperties *rp2);
 
 int docUpdRowProperties(PropertyMask *pRpDonePask, RowProperties *rp,
-			       const PropertyMask *rpSetMask,
-			       const RowProperties *rpSet,
-			       const DocumentAttributeMap *dam);
+			const PropertyMask *rpSetMask,
+			const RowProperties *rpSet,
+			const DocumentAttributeMap *dam);
 
 int docDeleteColumnsFromRow(RowProperties *rp, int col0, int count,
-				   int shiftTail);
+			    int shiftTail);
 
-void docRowPropertiesSetWidth(RowProperties *rp, int col0, int col1,
-				     int wide, int victim, int victimWide);
+void docRowPropertiesSetWidth(RowProperties *rp, int col0, int col1, int wide,
+			      int victim, int victimWide);
 
 int docSetRowProperty(RowProperties *rp, int prop, int arg);
 
 int docGetRowProperty(const RowProperties *rp, int prop);
 
 int docEqualWidthColumns(RowProperties *rp, int columns, int wide,
-				int fsHalfPoints);
+			 int fsHalfPoints);
 
 int docColumnWidth(const RowProperties *rp, int col);
 int docColumnLeft(const RowProperties *rp, int col);
@@ -244,17 +244,16 @@ int docColumnRight(const RowProperties *rp, int col);
 int docRowPropertiesMakeColWider(RowProperties *rp, int col, int wider);
 
 void docRowPropertyDifference(PropertyMask *pRpDifPask,
-				     const RowProperties *rp1,
-				     const PropertyMask *rpCmpMask,
-				     const RowProperties *rp2,
-				     const DocumentAttributeMap *dam);
+			      const RowProperties *rp1,
+			      const PropertyMask *rpCmpMask,
+			      const RowProperties *rp2,
+			      const DocumentAttributeMap *dam);
 
 int docCellRight(int *pColspan, const RowProperties *rp, int col);
 
-void docRowMaskToCellMask(PropertyMask *cellMask,
-				 const PropertyMask *rowMask);
+void docRowMaskToCellMask(PropertyMask *cellMask, const PropertyMask *rowMask);
 
 void docRowMaskApplyCellMask(PropertyMask *rowMask,
-				    const PropertyMask *cellMask);
+			     const PropertyMask *cellMask);
 
 #endif /*  DOC_ROW_PROPS_H  */

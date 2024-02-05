@@ -11,7 +11,6 @@
 
 typedef void (*OptionmenuCallback)(int n, void *through);
 
-
 typedef struct AppOptionmenu {
 	APP_WIDGET aomInplace;
 	APP_WIDGET aomPulldown;
@@ -20,8 +19,6 @@ typedef struct AppOptionmenu {
 	void *aomTarget;
 } AppOptionmenu;
 
-
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/
@@ -29,12 +26,11 @@ typedef struct AppOptionmenu {
 /************************************************************************/
 
 void appMakeOptionmenuInColumn(AppOptionmenu *aom, APP_WIDGET parent,
-				      OptionmenuCallback callBack,
-				      void *through);
+			       OptionmenuCallback callBack, void *through);
 
-void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row,
-				   int column, int colspan,
-				   OptionmenuCallback callBack, void *through);
+void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row, int column,
+			    int colspan, OptionmenuCallback callBack,
+			    void *through);
 
 void appEmptyOptionmenu(AppOptionmenu *aom);
 

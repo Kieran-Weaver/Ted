@@ -1,7 +1,4 @@
-#include <config.h>
-
 #include "docBlockOrnaments.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

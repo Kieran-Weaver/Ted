@@ -5,14 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
-
 #include "docEditSetProperties.h"
 #include <docTreeNode.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

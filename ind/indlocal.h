@@ -114,13 +114,12 @@ int indINDgetUtf8(int *paccept, IND *ind, int tn, const char *key);
 int indINDstep(int *pTrans, IND *ind, int tn, int sym);
 
 int indINDguess(IND *ind, const unsigned short *ucods, int len,
-		       SpellGuessContext *sgc, int how);
+		SpellGuessContext *sgc, int how);
 
-int indWRDget(IND *ind, int *pWhatWasShifted, const char *word,
-		     int asPrefix);
+int indWRDget(IND *ind, int *pWhatWasShifted, const char *word, int asPrefix);
 
 int indWRDguess(IND *ind, unsigned short *ucods, int ulen,
-		       SpellGuessContext *sgc);
+		SpellGuessContext *sgc);
 
 IND *indINDrenumber(IND *ind);
 
@@ -128,7 +127,6 @@ void indINDcount(IND *ind);
 int indITwalk(IND *ind);
 int indTLwalk(IND *ind);
 
-int indShiftWord(char *target, const unsigned short *ucods, int ulen,
-			int how);
+int indShiftWord(char *target, const unsigned short *ucods, int ulen, int how);
 
 int indINDaddSuffix(IND *ind, int tnTo, int tnSuf);

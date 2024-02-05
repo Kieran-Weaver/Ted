@@ -22,17 +22,16 @@ typedef struct DocumentStyleSheet {
 /************************************************************************/
 
 DocumentStyle *docInsertStyle(DocumentStyleSheet *dss, int n,
-				     const DocumentStyle *dsFrom,
-				     const DocumentAttributeMap *dam);
+			      const DocumentStyle *dsFrom,
+			      const DocumentAttributeMap *dam);
 
 void docInitStyleSheet(DocumentStyleSheet *dss);
 void docCleanStyleSheet(DocumentStyleSheet *dss);
 
 DocumentStyle *docGetStyleByName(const DocumentStyleSheet *dss,
-					const char *styleName);
+				 const char *styleName);
 
-int docCopyStyleSheet(DocumentStyleSheet *to,
-			     const DocumentStyleSheet *from,
-			     const DocumentAttributeMap *dam);
+int docCopyStyleSheet(DocumentStyleSheet *to, const DocumentStyleSheet *from,
+		      const DocumentAttributeMap *dam);
 
 #endif /*  DOC_STYLE_SHEET_H  */

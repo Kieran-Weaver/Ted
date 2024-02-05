@@ -71,12 +71,11 @@ void docInitParagraphLayoutPosition(ParagraphLayoutPosition *plp);
 void docInitParagraphLayoutJob(ParagraphLayoutJob *plj);
 void docCleanParagraphLayoutJob(ParagraphLayoutJob *plj);
 
-int docParagraphLayoutPosClaimChildren(ParagraphLayoutPosition *plj,
-					      int count);
+int docParagraphLayoutPosClaimChildren(ParagraphLayoutPosition *plj, int count);
 
 void docBeginParagraphLayoutProgress(ParagraphLayoutJob *plj, int child,
-					    int line, int part, int pUpto,
-					    const LayoutPosition *lp);
+				     int line, int part, int pUpto,
+				     const LayoutPosition *lp);
 
 void docStripLayoutStartChild(ParagraphLayoutPosition *plp, int child);
 void docStripLayoutNextChild(ParagraphLayoutPosition *plp);

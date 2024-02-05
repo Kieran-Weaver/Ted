@@ -89,31 +89,29 @@ typedef struct LineSegment2DI {
 void geoInitRectangle(DocumentRectangle *dr);
 void geoInvalidateRectangle(DocumentRectangle *dr);
 
-void geoUnionRectangle(DocumentRectangle *dr,
-			      const DocumentRectangle *dr1,
-			      const DocumentRectangle *dr2);
+void geoUnionRectangle(DocumentRectangle *dr, const DocumentRectangle *dr1,
+		       const DocumentRectangle *dr2);
 
 void geoNormalizeRectangle(DocumentRectangle *drTo,
-				  const DocumentRectangle *drFrom);
+			   const DocumentRectangle *drFrom);
 
-int geoIntersectRectangle(DocumentRectangle *dr,
-				 const DocumentRectangle *dr1,
-				 const DocumentRectangle *dr2);
+int geoIntersectRectangle(DocumentRectangle *dr, const DocumentRectangle *dr1,
+			  const DocumentRectangle *dr2);
 
 int geo2DIIntersectSegments(Point2DI *p1, Point2DI *p2, double *pXab1,
-				   double *pXab2, double *pXcd1, double *pXcd2,
-				   const Point2DI *ab, const Point2DI *cd);
+			    double *pXab2, double *pXcd1, double *pXcd2,
+			    const Point2DI *ab, const Point2DI *cd);
 
 double geo2DIDistanceToLine(const Point2DI *ab, const Point2DI *c);
 
 double geo2DIProjectionOnLine(const Point2DI *ab, const Point2DI *c);
 
 int geo2DIPointInPolygon(const Point2DI *p, const Point2DI *points,
-				int pointCount);
+			 int pointCount);
 
 int geo2DIClipSegmentToRectangle(Point2DI vpChanged[2], double *pXp0,
-					double *pXp1, const Point2DI vp[2],
-					const DocumentRectangle *dr);
+				 double *pXp1, const Point2DI vp[2],
+				 const DocumentRectangle *dr);
 
 int geo2DISurface(Point2DI *points, int n);
 

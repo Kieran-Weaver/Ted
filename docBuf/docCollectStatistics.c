@@ -5,14 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <docStatistics.h>
 #include "docBuf.h"
 #include "docCollectStatistics.h"
 #include "docTreeNode.h"
 #include <docTextLine.h>
 #include "docTreeScanner.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

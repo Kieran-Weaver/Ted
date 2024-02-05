@@ -6,10 +6,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include "sioBase64.h"
 #include "utilBase64.h"
 #include <appDebugon.h>

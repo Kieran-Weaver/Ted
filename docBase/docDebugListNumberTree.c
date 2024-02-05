@@ -1,11 +1,8 @@
 #include <config.h>
-
 #include <string.h>
 #include <stdio.h>
-
 #include "docDebugListNumberTree.h"
 #include "docListNumberTree.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

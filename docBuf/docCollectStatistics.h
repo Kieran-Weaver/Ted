@@ -19,6 +19,6 @@ struct BufferDocument;
 /************************************************************************/
 
 void docCollectDocumentStatistics(DocumentStatistics *ds,
-					 const struct BufferDocument *bd);
+				  const struct BufferDocument *bd);
 
 #endif

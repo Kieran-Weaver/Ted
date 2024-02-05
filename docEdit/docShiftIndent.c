@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include "docEdit.h"
 #include <docTreeNode.h>
 #include <docNodeTree.h>

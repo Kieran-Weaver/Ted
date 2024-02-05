@@ -206,10 +206,8 @@ typedef struct TedDocument {
 
 	void *tdFindProg;
 
-
 	guint tdHideIBarId;
 	guint tdShowIBarId;
-
 
 	APP_WINDOW tdObjectWindow;
 	APP_WINDOW tdObjectResizeWindows[RESIZE_COUNT];
@@ -236,7 +234,6 @@ extern const char TedTraceExtension[];
 /************************************************************************/
 
 int tedFirstRecalculateFields(RecalculateFields *rf,
-				     DOC_CLOSE_OBJECT closeObject,
-				     BufferDocument *bd);
+			      DOC_CLOSE_OBJECT closeObject, BufferDocument *bd);
 
 #endif /*  TED_DOCUMENT_H	*/

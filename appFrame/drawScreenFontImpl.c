@@ -5,20 +5,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
-
 #include "drawImpl.h"
 #include "drawScreenFontImpl.h"
-
 #include <appDebugon.h>
 
 void drawCleanEncodedScreenFont(DrawScreenFont *dsf, EncodedScreenFont *esf)
 {
 	if (esf->esfFontStruct) {
-
 		gdk_font_unref(esf->esfFontStruct);
 	}
 
@@ -154,7 +149,6 @@ int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig)
 		}
 	}
 #endif
-
 
 	if (openFullFont) {
 		SLDEB(dsf->apfPsFontInfo->afiFontName, openFullFont);

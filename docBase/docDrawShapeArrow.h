@@ -43,8 +43,7 @@ typedef struct DrawShapeArrow {
 /*									*/
 /************************************************************************/
 
-void docShapeArrowSizesTwips(DrawShapeArrow *dsa, int lineWidth,
-				    double xfac, const Point2DD *shaft,
-				    const ShapeArrow *sa);
+void docShapeArrowSizesTwips(DrawShapeArrow *dsa, int lineWidth, double xfac,
+			     const Point2DD *shaft, const ShapeArrow *sa);
 
 #endif /*  DOC_DRAW_SHAPE_ARROW_H	*/

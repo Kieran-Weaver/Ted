@@ -17,8 +17,8 @@
 /************************************************************************/
 
 int bmFillImage(ColorAllocator *ca, int bitmapUnit, int swapBitmapBytes,
-		       int swapBitmapBits, int dither, unsigned char *bufferOut,
-		       const BitmapDescription *bdOut, const RasterImage *riIn,
-		       const DocumentRectangle *drSel);
+		int swapBitmapBits, int dither, unsigned char *bufferOut,
+		const BitmapDescription *bdOut, const RasterImage *riIn,
+		const DocumentRectangle *drSel);
 
 #endif

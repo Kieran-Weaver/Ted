@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include <sioMemory.h>
 #include <sioHex.h>
 

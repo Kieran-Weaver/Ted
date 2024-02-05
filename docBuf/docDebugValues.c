@@ -1,7 +1,5 @@
 #include <config.h>
-
 #include <stdio.h>
-
 #include "docBuf.h"
 #include "docDebug.h"
 #include "docField.h"

@@ -1,12 +1,10 @@
 #include <config.h>
-
 #include <uniUtf8.h>
 #include "docDebugList.h"
 #include "docDocumentList.h"
 #include "docListOverride.h"
 #include "docListOverrideTable.h"
 #include "docListTable.h"
-
 #include <appDebugon.h>
 
 static int docListDocumentListLevelConst(int *pLevel, const ListLevel *ll,

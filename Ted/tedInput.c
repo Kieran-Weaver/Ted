@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include "tedApp.h"
 #include "tedLayout.h"
 #include "tedSelect.h"
@@ -829,7 +827,6 @@ APP_EVENT_HANDLER_H(tedScrollEventHandler, w, voided, scrollEvent)
 	tedStopCursorBlink(ed);
 
 	switch (direction) {
-
 	case SCROLL_UP:
 		appMouseWheelUp(ed);
 		break;

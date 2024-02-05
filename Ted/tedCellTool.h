@@ -96,22 +96,21 @@ typedef struct CellTool {
 /************************************************************************/
 
 void tedRefreshCellTool(CellTool *ct, int *pEnabled, int *pPref,
-			       InspectorSubject *is,
-			       const DocumentSelection *ds,
-			       const SelectionDescription *sd,
-			       const BufferDocument *bd,
-			       const unsigned char *cmdEnabled);
+			InspectorSubject *is, const DocumentSelection *ds,
+			const SelectionDescription *sd,
+			const BufferDocument *bd,
+			const unsigned char *cmdEnabled);
 
 void tedCellToolFillChoosers(CellTool *ct, const CellPageResources *cpr);
 
 void tedFormatFillCellPage(CellTool *ct, const CellPageResources *cpr,
-				  AppInspector *ai, int subjectPage,
-				  InspectorSubject *is, APP_WIDGET pageWidget,
-				  const InspectorSubjectResources *isr);
+			   AppInspector *ai, int subjectPage,
+			   InspectorSubject *is, APP_WIDGET pageWidget,
+			   const InspectorSubjectResources *isr);
 
 void tedFormatToolGetCellResourceTable(EditApplication *ea,
-					      CellPageResources *cpr,
-					      InspectorSubjectResources *isr);
+				       CellPageResources *cpr,
+				       InspectorSubjectResources *isr);
 
 void tedInitCellTool(CellTool *ct);
 void tedCleanCellTool(CellTool *ct);

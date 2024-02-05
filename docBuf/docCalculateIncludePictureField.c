@@ -5,14 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appSystem.h>
 #include "docBuf.h"
 #include "docEvalField.h"
 #include "docParaParticules.h"
 #include "docRecalculateFields.h"
 #include <docIncludePictureField.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

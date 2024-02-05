@@ -25,7 +25,8 @@
 /************************************************************************/
 
 typedef enum NotesJustification {
-	FTNjustifyBELOW_TEXT = 0, /*  [s][a]ftntj				*/
+	FTNjustifyBELOW_TEXT =
+		0, /*  [s][a]ftntj				*/
 	FTNjustifyPAGE_BOTTOM, /*  [s][a]ftnbj				*/
 
 	FTNjustify_COUNT
@@ -119,15 +120,16 @@ typedef struct FootEndNotesProperties {
 /************************************************************************/
 
 int docUpdFootEndNotesProperties(PropertyMask *pDoneMask,
-					FootEndNotesProperties *fep,
-					const PropertyMask *setMask,
-					const FootEndNotesProperties *fepSet,
-					const int fepPropMap[FEPprop_COUNT]);
+				 FootEndNotesProperties *fep,
+				 const PropertyMask *setMask,
+				 const FootEndNotesProperties *fepSet,
+				 const int fepPropMap[FEPprop_COUNT]);
 
-int docFootEndNotesPropertyDifference(
-	PropertyMask *pDifMask, const FootEndNotesProperties *fep1,
-	const PropertyMask *cmpMask, const FootEndNotesProperties *fep2,
-	const int fepPropMap[FEPprop_COUNT]);
+int docFootEndNotesPropertyDifference(PropertyMask *pDifMask,
+				      const FootEndNotesProperties *fep1,
+				      const PropertyMask *cmpMask,
+				      const FootEndNotesProperties *fep2,
+				      const int fepPropMap[FEPprop_COUNT]);
 
 int docSetNotesProperty(NotesProperties *np, int prop, int val);
 

@@ -5,20 +5,17 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
-
 #include <geo2DInteger.h>
 #include "drawScreenFontUtil.h"
 #include "drawScreenFontAdmin.h"
 #include "drawDrawingSurfaceImpl.h"
-
 #include <appDebugon.h>
 
-void drawFontUnderlineGeometry(int *pThick, int *pY, const struct DrawingSurface *ds,
-			       int screenFont, int baselinePixels)
+void drawFontUnderlineGeometry(int *pThick, int *pY,
+			       const struct DrawingSurface *ds, int screenFont,
+			       int baselinePixels)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
 	const DrawScreenFont *dsf;
@@ -35,8 +32,8 @@ void drawFontUnderlineGeometry(int *pThick, int *pY, const struct DrawingSurface
 }
 
 void drawFontStrikethroughGeometry(int *pThick, int *pY,
-				   const struct DrawingSurface *ds, int screenFont,
-				   int baselinePixels)
+				   const struct DrawingSurface *ds,
+				   int screenFont, int baselinePixels)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
 	const DrawScreenFont *dsf;

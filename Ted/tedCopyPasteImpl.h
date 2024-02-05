@@ -20,21 +20,19 @@ struct EditDocument;
 
 void tedSaveSelectionTxtToFile(BufferDocument *bd, const char *filename);
 
-void tedSaveSelectionToFile(BufferDocument *bd,
-				   const DocumentSelection *ds, int rtfFlags,
-				   const char *filename);
+void tedSaveSelectionToFile(BufferDocument *bd, const DocumentSelection *ds,
+			    int rtfFlags, const char *filename);
 
 int tedDocSaveSelectionRtf(MemoryBuffer *mb, DocumentSelection *ds,
-				  SelectionDescription *sd,
-				  struct EditDocument *ed);
+			   SelectionDescription *sd, struct EditDocument *ed);
 
 int tedDocCopySelection(struct EditDocument *ed);
 
 int tedApplyPastedRuler(struct EditDocument *ed, BufferDocument *bdFrom,
-			       int traced);
+			int traced);
 
 int tedApplyPastedFont(struct EditDocument *ed, BufferDocument *bdFrom,
-			      int traced);
+		       int traced);
 
 void tedCopyFont(struct EditDocument *ed);
 

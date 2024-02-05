@@ -8,8 +8,6 @@
 
 #include <stdlib.h>
 
-
-
 #include <appDebugon.h>
 
 #include <uniUtf8.h>

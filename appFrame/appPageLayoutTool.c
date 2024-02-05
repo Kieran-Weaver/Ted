@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <appUnit.h>
-
 #include "appFrame.h"
 #include "appPageLayoutTool.h"
 #include "guiWidgetDrawingSurface.h"
@@ -19,7 +15,6 @@
 #include "guiDrawPage.h"
 #include "guiToolUtil.h"
 #include "guiTextUtil.h"
-
 #include <appDebugon.h>
 
 #define DRH_MM 32
@@ -456,7 +451,7 @@ void appPageLayoutPageFillPage(PageLayoutTool *plt, int doHdFt, int doSelection,
 
 	/**/
 
-	plt->pltDrawingSurface = (struct DrawingSurface*)0;
+	plt->pltDrawingSurface = (struct DrawingSurface *)0;
 
 	utilInitDocumentGeometry(&(plt->pltGeometrySetDocument));
 	utilInitDocumentGeometry(&(plt->pltGeometrySetSelection));

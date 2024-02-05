@@ -6,9 +6,6 @@
 
 #include <config.h>
 
-
-
-
 #include <appDebugon.h>
 
 #include <docObjectProperties.h>

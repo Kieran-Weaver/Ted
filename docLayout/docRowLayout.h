@@ -16,21 +16,21 @@
 /*									*/
 /************************************************************************/
 
-void
-docGetCellOrnaments(BlockOrnaments *cellOrnaments, DocumentRectangle *drOutside,
-		    DocumentRectangle *drInside,
-		    const DocumentRectangle *drCell, const BufferDocument *bd,
-		    const struct BufferItem *rowBi, int col, int atRowTop,
-		    int atRowBottom, int drawTableGrid);
+void docGetCellOrnaments(BlockOrnaments *cellOrnaments,
+			 DocumentRectangle *drOutside,
+			 DocumentRectangle *drInside,
+			 const DocumentRectangle *drCell,
+			 const BufferDocument *bd,
+			 const struct BufferItem *rowBi, int col, int atRowTop,
+			 int atRowBottom, int drawTableGrid);
 
 void docLayoutCalculateRowTopInset(int *pInset, const BufferDocument *bd,
-					  const struct BufferItem *rowBi,
-					  int atRowTop);
+				   const struct BufferItem *rowBi,
+				   int atRowTop);
 
-void docGetCellBottomBorder(BorderProperties *pBpBottom,
-				   int *pBpBottomNr, int *pUseBelow,
-				   const BufferDocument *bd,
-				   const struct BufferItem *rowBi, int col,
-				   int atRowBottom);
+void docGetCellBottomBorder(BorderProperties *pBpBottom, int *pBpBottomNr,
+			    int *pUseBelow, const BufferDocument *bd,
+			    const struct BufferItem *rowBi, int col,
+			    int atRowBottom);
 
 #endif /*  DOC_ROW_LAYOUT_H  */

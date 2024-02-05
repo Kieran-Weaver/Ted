@@ -5,15 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include <appDebugon.h>
 #include <geoUnits.h>
-
 #include "guiWidgets.h"
 #include "guiDrawPage.h"
 #include "guiDrawingWidget.h"
@@ -86,7 +83,8 @@ static void appDrawTextPattern(struct DrawingSurface *ds,
 /*									*/
 /************************************************************************/
 
-static void appDrawTextPage(struct DrawingSurface *ds, const RGB8Color *backColor,
+static void appDrawTextPage(struct DrawingSurface *ds,
+			    const RGB8Color *backColor,
 			    const DocumentRectangle *drText)
 {
 	DocumentRectangle drAround = *drText;
@@ -105,8 +103,9 @@ static void appDrawTextPage(struct DrawingSurface *ds, const RGB8Color *backColo
 	return;
 }
 
-static void appDrawNupTextPage(struct DrawingSurface *ds, const RGB8Color *backColor,
-			       int screenFont, const char *label,
+static void appDrawNupTextPage(struct DrawingSurface *ds,
+			       const RGB8Color *backColor, int screenFont,
+			       const char *label,
 			       const DocumentRectangle *drText)
 {
 	if (screenFont >= 0) {
@@ -245,7 +244,8 @@ void appDrawPageDiagram(APP_WIDGET w, struct DrawingSurface *ds,
 
 #define ARROWD 16
 
-static void appDrawDirectionArrow(struct DrawingSurface *ds, int rotate, int x0, int y0)
+static void appDrawDirectionArrow(struct DrawingSurface *ds, int rotate, int x0,
+				  int y0)
 {
 	static Point2DI offsets[8] = {
 		{

@@ -12,7 +12,7 @@
 #include <psPostScriptFontList.h>
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
 /************************************************************************/
@@ -29,14 +29,14 @@ AfmFontInfo *appFcGetFontInfoForAttribute(const char *familyName, int styleInt,
 					  const PostScriptFontList *psfl);
 
 AfmFontInfo *appGetFontInfo(const char *familyName, int styleInt,
-				   const IndexSet *unicodesUsed,
-				   const TextAttribute *ta,
-				   const PostScriptFontList *psfl);
+			    const IndexSet *unicodesUsed,
+			    const TextAttribute *ta,
+			    const PostScriptFontList *psfl);
 
-const AfmFontInfo *
-appGetFontInfoForAttribute(const IndexSet **pUnicodesWanted,
-			   const TextAttribute *ta, const DocumentFontList *dfl,
-			   const PostScriptFontList *psfl);
+const AfmFontInfo *appGetFontInfoForAttribute(const IndexSet **pUnicodesWanted,
+					      const TextAttribute *ta,
+					      const DocumentFontList *dfl,
+					      const PostScriptFontList *psfl);
 
 int appFcGetFontMetrics(AfmFontInfo *afi);
 

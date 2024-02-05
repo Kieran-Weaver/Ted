@@ -53,24 +53,21 @@ typedef struct LinkTool {
 /************************************************************************/
 
 void tedFillLinkTool(LinkTool *lt, const LinkToolResources *lpr,
-			    InspectorSubject *is, APP_WIDGET pageWidget,
-			    const InspectorSubjectResources *isr);
+		     InspectorSubject *is, APP_WIDGET pageWidget,
+		     const InspectorSubjectResources *isr);
 
 void tedInitLinkTool(LinkTool *lt);
 void tedFormatCleanLinkTool(LinkTool *lt);
 
-void tedLinkToolGetResourceTable(EditApplication *ea,
-					LinkToolResources *lpr,
-					InspectorSubjectResources *isr);
+void tedLinkToolGetResourceTable(EditApplication *ea, LinkToolResources *lpr,
+				 InspectorSubjectResources *isr);
 
 void tedLinkToolFillChoosers(LinkTool *lt);
 void tedFinishLinkTool(LinkTool *lt);
 
 void tedRefreshLinkTool(LinkTool *lt, int *pEnabled, int *pPref,
-			       InspectorSubject *is,
-			       const DocumentSelection *ds,
-			       const SelectionDescription *sd,
-			       BufferDocument *bd,
-			       const unsigned char *cmdEnabled);
+			InspectorSubject *is, const DocumentSelection *ds,
+			const SelectionDescription *sd, BufferDocument *bd,
+			const unsigned char *cmdEnabled);
 
 #endif /*  TED_LINK_TOOL_H  */

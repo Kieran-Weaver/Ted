@@ -8,21 +8,16 @@
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
 #include "drawDrawingSurfacePrivate.h"
-
 #include <stdio.h>
 #include <string.h>
-
 #define y0 math_y0
 #define y1 math_y1
 #include <math.h>
 #undef y0
 #undef y1
-
 #include <appUnit.h>
 #include "appRuler.h"
-
 #include <appDebugon.h>
-
 #ifndef M_LN10
 #define M_LN10 2.30258509299404568402
 #endif
@@ -44,7 +39,7 @@ void appInitRulerData(RulerData *rd)
 	rd->rdVisibleC1 = 0;
 
 	rd->rdScreenFont = -1;
-	rd->rdDrawingSurface = (struct DrawingSurface*)0;
+	rd->rdDrawingSurface = (struct DrawingSurface *)0;
 	rd->rdPostScriptFontList = (const PostScriptFontList *)0;
 
 	rd->rdBackgroundExplicit = 0;

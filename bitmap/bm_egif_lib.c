@@ -11,10 +11,8 @@
 /************************************************************************/
 
 #include <stdlib.h>
-
 #include <string.h>
 #include "bm_gif_lib.h"
-
 #include <appDebugon.h>
 #include <sioBlocked.h>
 #include <sioLzw.h>

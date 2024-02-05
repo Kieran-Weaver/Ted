@@ -19,20 +19,19 @@ struct TextConverter;
 /************************************************************************/
 
 int docParaAppendText(BufferDocument *bd, BufferItem *paraBi,
-			     const TextAttribute *ta, struct TextConverter *tc,
-			     const char *text, int len);
+		      const TextAttribute *ta, struct TextConverter *tc,
+		      const char *text, int len);
 
-int docParaDivideAppendedText(BufferItem *paraBi,
-				     int textAttributeNumber, int stroff,
-				     int upto);
+int docParaDivideAppendedText(BufferItem *paraBi, int textAttributeNumber,
+			      int stroff, int upto);
 
 int docRedivideStringInParticules(BufferItem *bi, int strOff, int strLen,
-					 int part, int partsFree,
-					 int textAttributeNumber);
+				  int part, int partsFree,
+				  int textAttributeNumber);
 
-int docParaStringReplace(int *pSizeShift, BufferItem *bi,
-				int stroffBegin, int stroffTail,
-				const char *addedString, int addedStrlen);
+int docParaStringReplace(int *pSizeShift, BufferItem *bi, int stroffBegin,
+			 int stroffTail, const char *addedString,
+			 int addedStrlen);
 
 int docParaFixStroff(const BufferItem *paraBi, int stroff);
 

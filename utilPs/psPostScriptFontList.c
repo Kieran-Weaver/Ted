@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #include "psPostScriptFontList.h"
 #include "psCompareFontInfo.h"
 #include "psFontName.h"

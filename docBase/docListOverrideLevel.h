@@ -33,8 +33,7 @@ void docInitListOverrideLevel(ListOverrideLevel *lol);
 void docCleanListOverrideLevel(ListOverrideLevel *lol);
 
 int docCopyListOverrideLevel(ListOverrideLevel *to,
-				    const ListOverrideLevel *from,
-				    const int *fontMap, const int *colorMap,
-				    const int *rulerMap);
+			     const ListOverrideLevel *from, const int *fontMap,
+			     const int *colorMap, const int *rulerMap);
 
 #endif

@@ -73,18 +73,16 @@ typedef struct FindTool {
 /************************************************************************/
 
 void appFillFindTool(FindTool *aft, const FindToolResources *aftr,
-			    AppInspector *ai, int subjectPage,
-			    InspectorSubject *is, APP_WIDGET pageWidget,
-			    const InspectorSubjectResources *isr);
+		     AppInspector *ai, int subjectPage, InspectorSubject *is,
+		     APP_WIDGET pageWidget,
+		     const InspectorSubjectResources *isr);
 
 void appFindToolEnableReplace(FindTool *aft, int enabled);
 
-void appFindToolSetPattern(FindTool *aft, const char *pattern,
-				  int useRegex);
+void appFindToolSetPattern(FindTool *aft, const char *pattern, int useRegex);
 
-void appFindToolGetResourceTable(EditApplication *ea,
-					FindToolResources *spr,
-					InspectorSubjectResources *isr);
+void appFindToolGetResourceTable(EditApplication *ea, FindToolResources *spr,
+				 InspectorSubjectResources *isr);
 
 void appInitFindTool(FindTool *aft);
 void appCleanFindTool(FindTool *aft);

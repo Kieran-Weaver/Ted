@@ -201,24 +201,22 @@ void docInitDocumentProperties(DocumentProperties *dp);
 void docCleanDocumentProperties(DocumentProperties *dp);
 
 int docCopyDocumentProperties(DocumentProperties *to,
-				     const DocumentProperties *from);
+			      const DocumentProperties *from);
 
-int docUpdDocumentProperties(PropertyMask *pDoneMask,
-				    DocumentProperties *dpTo,
-				    const PropertyMask *dpSetMask,
-				    const DocumentProperties *dpFrom,
-				    const DocumentAttributeMap *dam);
+int docUpdDocumentProperties(PropertyMask *pDoneMask, DocumentProperties *dpTo,
+			     const PropertyMask *dpSetMask,
+			     const DocumentProperties *dpFrom,
+			     const DocumentAttributeMap *dam);
 
 void docDocumentPropertyDifference(PropertyMask *pDifMask,
-					  const DocumentProperties *dp1,
-					  const PropertyMask *cmpMask,
-					  const DocumentProperties *dp2);
+				   const DocumentProperties *dp1,
+				   const PropertyMask *cmpMask,
+				   const DocumentProperties *dp2);
 
 int docPropertiesSetFilename(DocumentProperties *dp,
-				    const MemoryBuffer *filename);
+			     const MemoryBuffer *filename);
 
-int docAllocateDocumentColor(DocumentProperties *dp,
-				    const RGB8Color *rgb8);
+int docAllocateDocumentColor(DocumentProperties *dp, const RGB8Color *rgb8);
 
 int docSetDocumentProperty(DocumentProperties *dp, int prop, int arg);
 
@@ -226,14 +224,13 @@ int docGetDocumentProperty(const DocumentProperties *dp, int prop);
 
 struct tm *docGetDocumentPropertyTime(DocumentProperties *dp, int prop);
 
-MemoryBuffer *docGetDocumentPropertyBuffer(DocumentProperties *dp,
-						  int prop);
+MemoryBuffer *docGetDocumentPropertyBuffer(DocumentProperties *dp, int prop);
 
 int docSetDocumentPropertyString(DocumentProperties *dp, int prop,
-					const char *val, int vallen);
+				 const char *val, int vallen);
 
 int docSetDocumentPropertyTime(DocumentProperties *dp, int prop,
-				      const struct tm *val);
+			       const struct tm *val);
 
 void docFillDocFootnoteMask(PropertyMask *dpMask);
 void docFillDocEndnoteMask(PropertyMask *dpMask);

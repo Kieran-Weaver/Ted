@@ -42,6 +42,6 @@ void docInitScanDocumentFonts(ScanDocumentFonts *sdf);
 int docListDocumentFonts(BufferDocument *bd, ScanDocumentFonts *sdf);
 
 int docListTreeFonts(BufferDocument *bd, const DocumentTree *dt,
-			    ScanDocumentFonts *sdf);
+		     ScanDocumentFonts *sdf);
 
 #endif /*  DOC_LIST_FONTS_H	*/

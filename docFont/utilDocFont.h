@@ -114,14 +114,13 @@ int docFontSetFamilyName(DocumentFont *df, const char *name);
 
 int docFontSetAltName(DocumentFont *df, const char *name);
 
-void utilCopyFontFaceMatches(DocumentFont *dfTo,
-				    const DocumentFont *dfFrom);
+void utilCopyFontFaceMatches(DocumentFont *dfTo, const DocumentFont *dfFrom);
 
 int docFontFindLegacyEncodings(DocumentFont *df);
 
 int utilRemoveCharsetFromFontName(DocumentFont *df, int charset);
 
 int cssFontFamilyIndicator(char *target, int maxSize, int styleInt,
-				  const char *familyName);
+			   const char *familyName);
 
 #endif /*  DOC_FONT_H	*/

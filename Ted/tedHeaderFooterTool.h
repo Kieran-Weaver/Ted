@@ -94,28 +94,24 @@ typedef struct HeaderFooterTool {
 /************************************************************************/
 
 void tedRefreshHeaderFooterTool(HeaderFooterTool *hft, int *pEnabled,
-				       int *pPref, InspectorSubject *is,
-				       const DocumentSelection *ds,
-				       const SelectionDescription *sd,
-				       const SelectionGeometry *sg,
-				       BufferDocument *bd,
-				       const unsigned char *cmdEnabled);
+				int *pPref, InspectorSubject *is,
+				const DocumentSelection *ds,
+				const SelectionDescription *sd,
+				const SelectionGeometry *sg, BufferDocument *bd,
+				const unsigned char *cmdEnabled);
 
-void
-tedFormatToolGetHeaderFooterResourceTable(EditApplication *ea,
-					  HeaderFooterPageResources *hfpr,
-					  InspectorSubjectResources *isr);
+void tedFormatToolGetHeaderFooterResourceTable(EditApplication *ea,
+					       HeaderFooterPageResources *hfpr,
+					       InspectorSubjectResources *isr);
 
 void tedFormatCleanHeaderFooterTool(HeaderFooterTool *hft);
 
-void
-tedFormatFillHeaderFooterChoosers(HeaderFooterTool *hft,
-				  const HeaderFooterPageResources *hfpr);
+void tedFormatFillHeaderFooterChoosers(HeaderFooterTool *hft,
+				       const HeaderFooterPageResources *hfpr);
 
 void tedFormatFillHeaderFooterPage(HeaderFooterTool *hft,
-					  const HeaderFooterPageResources *hfpr,
-					  InspectorSubject *is,
-					  APP_WIDGET pageWidget,
-					  const InspectorSubjectResources *isr);
+				   const HeaderFooterPageResources *hfpr,
+				   InspectorSubject *is, APP_WIDGET pageWidget,
+				   const InspectorSubjectResources *isr);
 
 #endif /*  TED_HEADER_FOOTER_TOOL_H */

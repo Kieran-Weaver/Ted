@@ -1,11 +1,5 @@
-#include <config.h>
-
-
-
 #include "guiWidgets.h"
-
 #include <appDebugon.h>
-
 
 /************************************************************************/
 /*									*/
@@ -25,8 +19,7 @@ void appMakeLabelInRow(APP_WIDGET *pLabel, APP_WIDGET row, int column,
 
 	gtk_container_add(GTK_CONTAINER(evbox), labelw);
 	gtk_table_attach(GTK_TABLE(row), evbox, column, column + colspan, 0, 1,
-			 GTK_FES,
-			 GTK_FES,
+			 GTK_FES, GTK_FES,
 			 /*
 			ROW_XPADDING_GTK, ROW_YPADDING_GTK );
 			*/
@@ -89,4 +82,3 @@ void appGuiChangeLabelText(APP_WIDGET evbox, const char *labelt)
 
 	return;
 }
-

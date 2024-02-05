@@ -19,8 +19,8 @@
 /************************************************************************/
 
 int docReinsertNodes(EditOperation *eo, struct BufferItem *parentTo,
-			    const struct BufferItem *parentFrom, int to,
-			    const EditStep *es);
+		     const struct BufferItem *parentFrom, int to,
+		     const EditStep *es);
 
 const DocumentField *docTraceGetFromField(const EditStep *es);
 

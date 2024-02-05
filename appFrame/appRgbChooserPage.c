@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
-
 #include <stddef.h>
-
 #include "appFrame.h"
 #include "appRgbChooserPage.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
 #include "guiToolUtil.h"
 #include "guiTextUtil.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -386,7 +382,7 @@ void appRgbChooserPageFillPage(RgbChooserPage *rcp,
 
 	/**/
 
-	rcp->rcpDrawingSurface = (struct DrawingSurface*)0;
+	rcp->rcpDrawingSurface = (struct DrawingSurface *)0;
 	appInitRgbCube(&(rcp->rcpRgbCube));
 
 	/**************/

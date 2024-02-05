@@ -5,19 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "docPropertiesAdmin.h"
-
 #include "docBorderPropertyAdmin.h"
 #include "docItemShadingAdmin.h"
 #include "docFramePropertiesAdmin.h"
 #include "docParaRulerAdmin.h"
 #include "docCellPropertyAdmin.h"
-
 #include <textAttributeAdmin.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -50,7 +45,8 @@ void docFreeDocumentPropertyLists(DocumentPropertyLists *dpl)
 
 DocumentPropertyLists *docMakeDocumentPropertyLists(void)
 {
-	DocumentPropertyLists *dpl = (DocumentPropertyLists*)malloc(sizeof(DocumentPropertyLists));
+	DocumentPropertyLists *dpl =
+		(DocumentPropertyLists *)malloc(sizeof(DocumentPropertyLists));
 	if (!dpl) {
 		XDEB(dpl);
 		return (DocumentPropertyLists *)0;

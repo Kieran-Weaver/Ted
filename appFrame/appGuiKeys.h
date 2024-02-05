@@ -4,7 +4,6 @@
 /*									*/
 /************************************************************************/
 
-
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -79,4 +78,3 @@
 #define SCROLL_DIRECTION_FROM_EVENT(e) (e)->scroll.direction
 #define SCROLL_UP GDK_SCROLL_UP
 #define SCROLL_DOWN GDK_SCROLL_DOWN
-

@@ -15,10 +15,10 @@
 /************************************************************************/
 
 struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
-						       int avoidFontconfig);
+							int avoidFontconfig);
 
 int guiGetLabelFont(struct DrawingSurface *ds, const PostScriptFontList *psfl,
-			   APP_WIDGET nativeLabel);
+		    APP_WIDGET nativeLabel);
 
 void drawMoveArea(struct DrawingSurface *ds, int xDest, int yDest,
-			 const DocumentRectangle *drSrc);
+		  const DocumentRectangle *drSrc);

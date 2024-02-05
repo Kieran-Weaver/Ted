@@ -722,7 +722,6 @@ static int appFinishApplicationWindow(EditApplication *ea)
 				    ea->eaAppHelpMenuItemCount, (void *)ea);
 	}
 
-
 	if (ea->eaMainPicture) {
 		APP_BITMAP_IMAGE labelPixmap;
 		APP_BITMAP_MASK labelMask;
@@ -738,8 +737,9 @@ static int appFinishApplicationWindow(EditApplication *ea)
 		char *ident = (char *)0;
 
 		if (0 && ea->eaPlatformCompiled) {
-			ident = (char*)malloc(strlen(ea->eaNameAndVersion) + 3 +
-				       strlen(ea->eaPlatformCompiled) + 1);
+			ident = (char *)malloc(
+				strlen(ea->eaNameAndVersion) + 3 +
+				strlen(ea->eaPlatformCompiled) + 1);
 			if (!ident) {
 				XDEB(ident);
 			} else {
@@ -1047,8 +1047,8 @@ static int appMainHandleSpecialCalls(EditApplication *ea, const char *prefix,
 		}
 
 		call = argv[done] + prefixLength;
-		sc = appGetSpecialCall(AppSpecialCalls,
-				       AppSpecialCallCount, call);
+		sc = appGetSpecialCall(AppSpecialCalls, AppSpecialCallCount,
+				       call);
 		if (!sc) {
 			break;
 		}
@@ -1214,7 +1214,7 @@ int appMain(EditApplication *ea, int argc, char *argv[])
 		if (s > locale) {
 			int len = s - locale;
 
-			ea->eaLocaleName = (char*)malloc(len + 1);
+			ea->eaLocaleName = (char *)malloc(len + 1);
 			if (!ea->eaLocaleName) {
 				LXDEB(len, ea->eaLocaleName);
 				return -1;
@@ -1289,7 +1289,6 @@ int appMain(EditApplication *ea, int argc, char *argv[])
 	}
 
 	appAllocateCopyPasteTargetAtoms(ea);
-
 
 	res = appMainHandleSpecialCalls(ea, "++", 0, prog, argc - 1, argv + 1);
 	if (res < 0) {
@@ -1397,9 +1396,7 @@ int appMain(EditApplication *ea, int argc, char *argv[])
 		appShowShellWidget(ea, ea->eaToplevel.atTopWidget);
 	}
 
-
 	gtk_main();
-
 
 ready:
 

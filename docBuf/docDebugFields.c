@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include "docBuf.h"
 #include "docNotes.h"
 #include "docTreeNode.h"
@@ -7,7 +6,6 @@
 #include <docTreeType.h>
 #include <docTextParticule.h>
 #include <docDocumentNote.h>
-
 #include <appDebugon.h>
 
 void docListFieldParticule(int indent, const char *label, int n,

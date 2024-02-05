@@ -27,25 +27,22 @@ int tedDocAddRowToTable(EditDocument *ed, int after, int traced);
 
 int tedDocAddColumnToTable(EditDocument *ed, int after, int traced);
 
-int tedDocSetTableProperties(EditDocument *ed, int wholeRow,
-				    int wholeColumn,
-				    const PropertyMask *cpSetMask,
-				    const CellProperties *cpSet,
-				    const PropertyMask *rpSetMask,
-				    const RowProperties *rpSet, int traced);
+int tedDocSetTableProperties(EditDocument *ed, int wholeRow, int wholeColumn,
+			     const PropertyMask *cpSetMask,
+			     const CellProperties *cpSet,
+			     const PropertyMask *rpSetMask,
+			     const RowProperties *rpSet, int traced);
 
-int tedDocSetImageProperties(EditDocument *ed,
-				    const PropertyMask *pipSetMask,
-				    const PictureProperties *pip, int traced);
+int tedDocSetImageProperties(EditDocument *ed, const PropertyMask *pipSetMask,
+			     const PictureProperties *pip, int traced);
 
-int tedDocSetHyperlink(EditDocument *ed, const HyperlinkField *hf,
-			      int traced);
+int tedDocSetHyperlink(EditDocument *ed, const HyperlinkField *hf, int traced);
 
 int tedDocRemoveHyperlink(EditDocument *ed, int traced);
 
 int tedDocFollowLink(APP_WIDGET option, EditDocument *ed,
-			    const MemoryBuffer *fileName,
-			    const MemoryBuffer *markName);
+		     const MemoryBuffer *fileName,
+		     const MemoryBuffer *markName);
 
 int tedDocDeleteSelectedParagraphs(EditDocument *ed, int traced);
 
@@ -55,47 +52,42 @@ int tedDocInsertParagraph(EditDocument *ed, int after, int traced);
 
 int tedDocInsertSection(EditDocument *ed, int after, int traced);
 
-int tedDocSetDocumentProperties(EditDocument *ed,
-				       const PropertyMask *dpSetMask,
-				       const DocumentProperties *dpSet,
-				       int traced);
+int tedDocSetDocumentProperties(EditDocument *ed, const PropertyMask *dpSetMask,
+				const DocumentProperties *dpSet, int traced);
 
-int tedDocChangeCurrentNote(EditDocument *ed,
-				   const PropertyMask *npSetMask,
-				   const NoteProperties *npSet, int traced);
+int tedDocChangeCurrentNote(EditDocument *ed, const PropertyMask *npSetMask,
+			    const NoteProperties *npSet, int traced);
 
 int tedDocChangeSectionProperties(EditDocument *ed,
-					 const PropertyMask *spUpdMask,
-					 const SectionProperties *spNew,
-					 int traced);
+				  const PropertyMask *spUpdMask,
+				  const SectionProperties *spNew, int traced);
 
 int tedDocChangeAllSectionProperties(EditDocument *ed,
-					    const PropertyMask *spUpdMask,
-					    const SectionProperties *spNew,
-					    const PropertyMask *dpSetMask,
-					    const DocumentProperties *dpNew,
-					    int traced);
+				     const PropertyMask *spUpdMask,
+				     const SectionProperties *spNew,
+				     const PropertyMask *dpSetMask,
+				     const DocumentProperties *dpNew,
+				     int traced);
 
-int
-tedDocChangeParagraphProperties(EditDocument *ed, const PropertyMask *ppUpdMask,
-				const struct ParagraphProperties *ppNew,
-				int traced);
+int tedDocChangeParagraphProperties(EditDocument *ed,
+				    const PropertyMask *ppUpdMask,
+				    const struct ParagraphProperties *ppNew,
+				    int traced);
 
-int tedDocSetParagraphTabs(EditDocument *ed,
-				  const struct TabStopList *tsl, int traced);
+int tedDocSetParagraphTabs(EditDocument *ed, const struct TabStopList *tsl,
+			   int traced);
 
 int tedDocSetNewList(EditDocument *ed, int traced);
 
-int tedDocChangeCurrentList(EditDocument *ed,
-				   const struct DocumentList *dlNew,
-				   int traced);
+int tedDocChangeCurrentList(EditDocument *ed, const struct DocumentList *dlNew,
+			    int traced);
 
 int tedDocDeleteHeaderFooter(EditDocument *ed, int treeType, int traced);
 
 int tedDocInsertHeaderFooter(EditDocument *ed, int treeType, int traced);
 
 void tedDocEditHeaderFooter(EditDocument *ed, APP_WIDGET relative,
-				   APP_WIDGET option, int treeType);
+			    APP_WIDGET option, int treeType);
 
 int tedDocInsertNote(EditDocument *ed, int noteTreeType, int traced);
 
@@ -119,14 +111,14 @@ int tedDocSelectCurrentFrame(EditDocument *ed);
 int tedDocDeleteCurrentFrame(EditDocument *ed, int traced);
 
 int tedDocSetBookmark(EditDocument *ed, const MemoryBuffer *markName,
-			     int traced);
+		      int traced);
 
 int tedDocGoToBookmark(EditDocument *ed, const MemoryBuffer *markName);
 
 int tedDocRemoveBookmark(EditDocument *ed, int traced);
 
 int tedDocFindBookmarkField(DocumentField **pDf, EditDocument *ed,
-				   const MemoryBuffer *markName);
+			    const MemoryBuffer *markName);
 
 int tedDocSetTocField(EditDocument *ed, const TocField *tf, int traced);
 
@@ -134,33 +126,29 @@ void tedDocDeleteTocField(EditDocument *ed, int traced);
 
 void tedDocAddTocField(EditDocument *ed, const TocField *tf, int traced);
 
-void tedDocChangeTextAttribute(EditDocument *ed,
-				      const PropertyMask *taSetMask,
-				      const TextAttribute *taSet, int traced);
+void tedDocChangeTextAttribute(EditDocument *ed, const PropertyMask *taSetMask,
+			       const TextAttribute *taSet, int traced);
 
 int tedDocShiftRowsInTable(EditDocument *ed, int direction);
 
-int tedDocListFontToolSet(EditDocument *ed,
-				 const PropertyMask *taSetMask,
-				 const ExpandedTextAttribute *etaSet);
+int tedDocListFontToolSet(EditDocument *ed, const PropertyMask *taSetMask,
+			  const ExpandedTextAttribute *etaSet);
 
 int tedDocFontToolSet(EditDocument *ed, const PropertyMask *taSetMask,
-			     const ExpandedTextAttribute *etaSet);
+		      const ExpandedTextAttribute *etaSet);
 
-void tedDocFormatSetParaAlignment(EditDocument *ed, int align,
-					 int traced);
+void tedDocFormatSetParaAlignment(EditDocument *ed, int align, int traced);
 
 void tedDocSetParaOutlineLevel(EditDocument *ed, int level, int traced);
 
 void tedDocSetPageLayout(EditDocument *ed, const PropertyMask *dgSetMask,
-				const DocumentGeometry *dgSet,
-				int wholeDocument, int traced);
+			 const DocumentGeometry *dgSet, int wholeDocument,
+			 int traced);
 
 int tedFormatShiftIndent(EditDocument *ed, int step, int traced);
 
-int tedObjectOpenImage(EditApplication *ea, void *voided,
-			      APP_WIDGET relative, APP_WIDGET option,
-			      const MemoryBuffer *filename);
+int tedObjectOpenImage(EditApplication *ea, void *voided, APP_WIDGET relative,
+		       APP_WIDGET option, const MemoryBuffer *filename);
 
 APP_SCROLLBAR_CALLBACK_H(tedDocHorizontalScrollbarCallback, bar, voided, e);
 APP_SCROLLBAR_CALLBACK_H(tedDocVerticalScrollbarCallback, bar, voided, e);
@@ -258,8 +246,7 @@ void tedDocGotKey(void *voided, int keySym, unsigned int state);
 
 void tedDocGotString(void *voided, const char *string, int length);
 
-void tedDocSplitParagraph(struct EditDocument *ed, int onNewPage,
-				 int traced);
+void tedDocSplitParagraph(struct EditDocument *ed, int onNewPage, int traced);
 
 int tedDocInsertSectBreak(struct EditDocument *ed, int traced);
 

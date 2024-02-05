@@ -18,18 +18,15 @@
 
 void docFlattenRow(struct BufferItem *bi);
 
-int
-docEditFindPositionOutsideBlockDelete(int *pSide, DocumentPosition *dpNew,
-				      const DocumentSelection *dsDel);
+int docEditFindPositionOutsideBlockDelete(int *pSide, DocumentPosition *dpNew,
+					  const DocumentSelection *dsDel);
 
-int docNewList(const struct DocumentList **pDl,
-		      const struct ListOverride **pLo, int lsExample,
-		      BufferDocument *bd, const PropertyMask *taSetMask,
-		      const TextAttribute *taSet);
+int docNewList(const struct DocumentList **pDl, const struct ListOverride **pLo,
+	       int lsExample, BufferDocument *bd, const PropertyMask *taSetMask,
+	       const TextAttribute *taSet);
 
 int docEditMakeNote(struct DocumentNote **pDn, BufferDocument *bd,
-			   DocumentField *dfNote,
-			   const struct BufferItem *bodyNode, int treeType,
-			   int fieldKind);
+		    DocumentField *dfNote, const struct BufferItem *bodyNode,
+		    int treeType, int fieldKind);
 
 #endif /*	DOC_EDIT_IMPL_H	*/

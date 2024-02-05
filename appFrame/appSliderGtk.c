@@ -1,11 +1,6 @@
 #include <config.h>
-
-
-
 #include "guiWidgets.h"
-
 #include <appDebugon.h>
-
 
 void appGuiMakeSliderInRow(APP_WIDGET *pSlider, APP_WIDGET row, int column,
 			   int colspan, APP_BUTTON_CALLBACK_T callback,
@@ -25,8 +20,7 @@ void appGuiMakeSliderInRow(APP_WIDGET *pSlider, APP_WIDGET row, int column,
 	}
 
 	gtk_table_attach(GTK_TABLE(row), scale, column, column + colspan, 0, 1,
-			 (GtkAttachOptions)GTK_FES,
-			 GTK_FES, ROW_XPADDING_GTK,
+			 (GtkAttachOptions)GTK_FES, GTK_FES, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 
 	gtk_widget_show(scale);
@@ -65,4 +59,3 @@ int appGuiGetValueFromSliderCallback(int *pValue, APP_WIDGET w, void *voidscs)
 	*pValue = ga->value;
 	return 0;
 }
-

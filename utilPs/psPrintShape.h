@@ -12,7 +12,7 @@
 /************************************************************************/
 
 void psDrawRoundRectPath(SimpleOutputStream *sos,
-				const DocumentRectangle *drAround, int r,
-				const char *psOperator);
+			 const DocumentRectangle *drAround, int r,
+			 const char *psOperator);
 
 #endif /*  PS_PRINT_SHAPE_H  */

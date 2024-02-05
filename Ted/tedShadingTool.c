@@ -6,7 +6,6 @@
 
 #include <config.h>
 
-
 #include <stddef.h>
 
 #include "tedShadingTool.h"
@@ -444,7 +443,7 @@ void tedInitShadingTool(ShadingTool *st)
 	appInitDrawnPulldown(&(st->stPatternPulldown));
 
 	for (i = 0; i < PSshd_COUNT; i++) {
-		st->stPatternPixmaps[i] = (struct DrawingSurface*)0;
+		st->stPatternPixmaps[i] = (struct DrawingSurface *)0;
 	}
 
 	st->stLevelText = (APP_WIDGET)0;

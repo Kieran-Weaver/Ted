@@ -22,10 +22,8 @@ typedef struct PrintDestination {
 /************************************************************************/
 
 int utilPrinterGetPrinters(int *pPrinterCount, int *pDefaultPrinter,
-				  PrintDestination **pDestinations,
-				  const char *customCommand,
-				  const char *customName,
-				  const char *customCommand2,
-				  const char *customName2);
+			   PrintDestination **pDestinations,
+			   const char *customCommand, const char *customName,
+			   const char *customCommand2, const char *customName2);
 
 #endif

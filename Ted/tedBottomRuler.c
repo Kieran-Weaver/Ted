@@ -77,7 +77,7 @@ void *tedMakeBottomRuler(const PostScriptFontList *psfl, int height,
 		s++;
 	}
 
-	tbr->tbrPageString = (char*)malloc(l + 1);
+	tbr->tbrPageString = (char *)malloc(l + 1);
 	if (!tbr->tbrPageString) {
 		LXDEB(l, tbr->tbrPageString);
 		free(tbr);

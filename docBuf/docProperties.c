@@ -5,18 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <docTextParticule.h>
 #include <docDocumentList.h>
 #include <docListOverride.h>
-
 #include "docBuf.h"
 #include "docDebug.h"
 #include "docFind.h"
 #include "docTreeNode.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -146,7 +142,7 @@ static void docCountListFontsUsed(BufferDocument *bdFrom, const int *lsUsed,
 				continue;
 			}
 			if (!(PROPmaskISSET(&(ll->llTextAttributeMask),
-					   TApropFONT_NUMBER))) {
+					    TApropFONT_NUMBER))) {
 				continue;
 			}
 
@@ -165,7 +161,7 @@ static void docCountListFontsUsed(BufferDocument *bdFrom, const int *lsUsed,
 
 		for (level = 0; level < dl->dlLevelCount; ll++, level++) {
 			if (!(PROPmaskISSET(&(ll->llTextAttributeMask),
-					   TApropFONT_NUMBER))) {
+					    TApropFONT_NUMBER))) {
 				continue;
 			}
 

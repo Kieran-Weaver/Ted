@@ -26,7 +26,6 @@
 
 #include <appDebugon.h>
 
-
 #define IS_STRING(idx) (((idx) % 2) == 0)
 #define IS_NUMBER(idx) (((idx) % 2) != 0)
 
@@ -247,14 +246,11 @@ static void tedListToolRefreshLevelFormat(ListTool *lt, const ListLevel *ll,
 /*									*/
 /************************************************************************/
 
-
 /************************************************************************/
 /*									*/
 /*  Display the popup that belongs to this drawn popdown.		*/
 /*									*/
 /************************************************************************/
-
-
 
 static int tedListToolGetSelection(APP_WIDGET w, ListTool *lt)
 {
@@ -267,7 +263,6 @@ static int tedListToolGetSelection(APP_WIDGET w, ListTool *lt)
 
 	return tedListToolSelectNumberFormatRange(lt, start, end);
 }
-
 
 static void tedListToolFormatSelectionChanged(GtkEntry *w, GtkMovementStep step,
 					      gint arg2, gboolean arg3,
@@ -284,8 +279,6 @@ static void tedListToolFormatSelectionChanged(GtkEntry *w, GtkMovementStep step,
 
 	return;
 }
-
-
 
 static void tedListToolRefreshFormat(ListTool *lt, const int level,
 				     ListLevel *ll, int textAlso)
@@ -563,8 +556,6 @@ static void tedListToolReplaceText(ListTool *lt, const char *text, int length)
 	return;
 }
 
-
-
 static void tedListToolFormatInsertText(GtkEditable *w, gchar *new_text,
 					gint new_text_length, gint *position,
 					void *voidlt)
@@ -597,9 +588,6 @@ static void tedListToolFormatDeleteText(GtkEditable *w, gint start_pos,
 	return;
 }
 
-
-
-
 static void tedListLevelRefreshFormatMenu(ListTool *lt)
 {
 	int level = lt->ltCurrentLevel;
@@ -625,7 +613,6 @@ static void tedListLevelRefreshFormatMenu(ListTool *lt)
 	}
 }
 
-
 static void tedListToolSetLevelHeader(ListTool *lt, const char *level)
 {
 	const ListsPageResources *lpr = lt->ltPageResources;
@@ -649,7 +636,7 @@ static void tedListToolSetLevelHeader(ListTool *lt, const char *level)
 		from++;
 	}
 
-	scratch = to = (char*)malloc(size + 1);
+	scratch = to = (char *)malloc(size + 1);
 	if (!scratch || !to) {
 		LXDEB(size, scratch);
 		return;
@@ -1504,7 +1491,6 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 		return;
 	}
 
-
 	{
 		GdkEventKey *keyEvent = &(event->key);
 
@@ -1521,14 +1507,11 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 	case KEY_Return:
 		tedListLevelRefreshFormatMenu(lt);
 
-
-
 		LDEB(1);
 		gtk_menu_popup(GTK_MENU(lt->ltNumberFormatMenu), NULL, NULL,
 			       NULL, NULL, 1, ((GdkEventKey *)event)->time);
 
 		refused = 0;
-
 
 		break;
 
@@ -1625,7 +1608,6 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 		break;
 	}
 
-
 	if (!refused) {
 		g_signal_stop_emission_by_name(lt->ltNumberFormatText,
 					       "key_press_event");
@@ -1633,7 +1615,6 @@ static APP_EVENT_HANDLER_H(tedListToolNumberKeyPress, w, voidlt, event)
 
 	return;
 }
-
 
 static void tedListToolFormatMouseUp(APP_WIDGET w, APP_EVENT *event,
 				     void *voidlt)
@@ -1664,7 +1645,6 @@ static void tedListToolFormatMouseMove(APP_WIDGET w, APP_EVENT *event,
 				      lt->ltFormatOffset0, lt->ltFormatOffset1);
 	}
 }
-
 
 /************************************************************************/
 /*									*/
@@ -1743,8 +1723,6 @@ void tedFormatFillListsPage(ListTool *lt, const ListsPageResources *lpr,
 				   lt->ltListLevelPaned, lpr->lprNumberFormat,
 				   textColumns, 1);
 
-
-
 	gtk_signal_connect_after(
 		GTK_OBJECT(lt->ltNumberFormatText), "move_cursor",
 		(GtkSignalFunc)tedListToolFormatSelectionChanged, (void *)lt);
@@ -1773,7 +1751,6 @@ void tedFormatFillListsPage(ListTool *lt, const ListsPageResources *lpr,
 				 (void *)lt);
 
 	lt->ltNumberFormatMenu = gtk_menu_new();
-
 
 	/**/
 	guiToolMakeLabelAndTextRow(&row, &firstLabel, &(lt->ltFirstIndentText),

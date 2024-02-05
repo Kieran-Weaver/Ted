@@ -102,18 +102,19 @@ typedef struct TabsTool {
 /************************************************************************/
 
 void tedFormatToolGetTabsResourceTable(EditApplication *ea,
-					      TabsPageResources *spr,
-					      InspectorSubjectResources *isr);
+				       TabsPageResources *spr,
+				       InspectorSubjectResources *isr);
 
-void
-tedRefreshTabsTool(TabsTool *tt, int *pEnabled, int *pPref,
-		   InspectorSubject *is, const DocumentSelection *bs,
-		   const SelectionGeometry *sg, const SelectionDescription *sd,
-		   const BufferDocument *bd, const unsigned char *cmdEnabled);
+void tedRefreshTabsTool(TabsTool *tt, int *pEnabled, int *pPref,
+			InspectorSubject *is, const DocumentSelection *bs,
+			const SelectionGeometry *sg,
+			const SelectionDescription *sd,
+			const BufferDocument *bd,
+			const unsigned char *cmdEnabled);
 
 void tedFormatFillTabsPage(TabsTool *tt, const TabsPageResources *tpr,
-				  InspectorSubject *is, APP_WIDGET pageWidget,
-				  const InspectorSubjectResources *isr);
+			   InspectorSubject *is, APP_WIDGET pageWidget,
+			   const InspectorSubjectResources *isr);
 
 void tedTabsToolFillChoosers(TabsTool *tt);
 

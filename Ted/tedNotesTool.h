@@ -90,26 +90,22 @@ typedef struct NotesTool {
 /************************************************************************/
 
 void tedFormatToolGetNotesResourceTable(EditApplication *ea,
-					       NotesPageResources *spr,
-					       InspectorSubjectResources *isr);
+					NotesPageResources *spr,
+					InspectorSubjectResources *isr);
 
 void tedRefreshNotesTool(NotesTool *nt, int *pEnabled, int *pPref,
-				InspectorSubject *is,
-				const DocumentSelection *ds,
-				const SelectionDescription *sd,
-				BufferDocument *bd,
-				const unsigned char *cmdEnabled);
+			 InspectorSubject *is, const DocumentSelection *ds,
+			 const SelectionDescription *sd, BufferDocument *bd,
+			 const unsigned char *cmdEnabled);
 
 void tedFormatCleanNotesTool(NotesTool *nt);
 
 void tedFormatInitNotesTool(NotesTool *nt);
 
-void tedFormatFillNotesChoosers(NotesTool *nt,
-				       const NotesPageResources *npr);
+void tedFormatFillNotesChoosers(NotesTool *nt, const NotesPageResources *npr);
 
 void tedFormatFillNotesPage(NotesTool *nt, const NotesPageResources *npr,
-				   InspectorSubject *is, APP_WIDGET pageWidget,
-				   const InspectorSubjectResources *isr,
-				   int treeType);
+			    InspectorSubject *is, APP_WIDGET pageWidget,
+			    const InspectorSubjectResources *isr, int treeType);
 
 #endif /*  TED_NOTES_TOOL_H */

@@ -34,24 +34,22 @@ typedef struct PostScriptFontList {
 void psInitPostScriptFontList(PostScriptFontList *psfl);
 void psCleanPostScriptFontList(PostScriptFontList *psfl);
 
-int psPostScriptFontListAddInfo(PostScriptFontList *psfl,
-				       AfmFontInfo *afi);
+int psPostScriptFontListAddInfo(PostScriptFontList *psfl, AfmFontInfo *afi);
 
-int psPostScriptFontListAddFamily(PostScriptFontList *psfl,
-					 PsFontFamily *aff);
+int psPostScriptFontListAddFamily(PostScriptFontList *psfl, PsFontFamily *aff);
 
 int psPostScriptFontListInfosToFamilies(PostScriptFontList *psfl);
 
 int psPostScriptFontListGetFamilyByName(const PostScriptFontList *psfl,
-					       const char *name);
+					const char *name);
 
 AfmFontInfo *
 psPostScriptFontListGetFontInfoByFaceFile(const PostScriptFontList *psfl,
 					  const char *file);
 
 int psPostScriptFontListSetFontInfoForFaceFile(PostScriptFontList *psfl,
-						      AfmFontInfo *afi,
-						      const char *file);
+					       AfmFontInfo *afi,
+					       const char *file);
 
 AfmFontInfo *
 psPostScriptFontListGetFontInfoByFontName(const PostScriptFontList *psfl,

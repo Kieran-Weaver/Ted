@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #include "psFontInfo.h"
 #include "psGlyphs.h"
 #include <utilTree.h>

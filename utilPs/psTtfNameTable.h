@@ -26,7 +26,7 @@ void psTtfInitTrueTypeNameTable(TrueTypeNameTable *ttnt);
 void psTtfCleanTrueTypeNameTable(TrueTypeNameTable *ttnt);
 
 int psTtfExtractNameRecords(SimpleInputStream *sisName,
-				   const TrueTypeTableEntry *ttte,
-				   TrueTypeNameTable *ttnt);
+			    const TrueTypeTableEntry *ttte,
+			    TrueTypeNameTable *ttnt);
 
 int psTtfGetName(char **pName, const TrueTypeNameTable *ttnt, int which);

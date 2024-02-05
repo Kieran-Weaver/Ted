@@ -1,13 +1,8 @@
 #include <config.h>
-
-
-
 #include "guiWidgets.h"
 #include "appDrawnPulldown.h"
 #include "guiDrawingWidget.h"
-
 #include <appDebugon.h>
-
 
 /************************************************************************/
 /*									*/
@@ -89,8 +84,9 @@ static APP_EVENT_HANDLER_H(appDrawnPulldownPulldown, w, voidadp, mouseEvent)
 	gtk_grab_add(adp->adpPulldownShell);
 
 	gdk_pointer_grab(adp->adpPulldownShell->window, TRUE,
-			 (GdkEventMask)(GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK), NULL,
-			 NULL, GDK_CURRENT_TIME);
+			 (GdkEventMask)(GDK_BUTTON_PRESS_MASK |
+					GDK_BUTTON_RELEASE_MASK),
+			 NULL, NULL, GDK_CURRENT_TIME);
 
 	return;
 }
@@ -259,9 +255,7 @@ void appMakeDrawnPulldownInRow(AppDrawnPulldown *adp,
 	adp->adpInplaceDrawing = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(row), adp->adpInplaceDrawing, column,
-			 column + colspan, 0, 1,
-			 GTK_FES,
-			 GTK_FES, 0, 0);
+			 column + colspan, 0, 1, GTK_FES, GTK_FES, 0, 0);
 	/*
 			ROW_XPADDING_GTK, ROW_YPADDING_GTK );
 			*/
@@ -336,4 +330,3 @@ int appGuiDrawnPulldownGetStrip(int *pStrip, const AppDrawnPulldown *adp,
 	*pStrip = mouseY / inplaceHeight;
 	return 0;
 }
-

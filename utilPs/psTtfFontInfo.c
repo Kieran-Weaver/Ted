@@ -922,4 +922,3 @@ int psTtfFontInfo(AfmFontInfo *afi, const TrueTypeFont *ttf)
 
 	return 0;
 }
-

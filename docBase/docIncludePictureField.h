@@ -27,6 +27,6 @@ void docInitIncludePictureField(IncludePictureField *ipf);
 void docCleanIncludePictureField(IncludePictureField *ipf);
 
 int docGetIncludePictureField(IncludePictureField *ipf,
-				     const struct DocumentField *df);
+			      const struct DocumentField *df);
 
 #endif /*  DOC_INCLUDEPICTURE_FIELD_H  */

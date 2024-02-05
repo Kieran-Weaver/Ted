@@ -9,8 +9,6 @@
 
 #include <stddef.h>
 
-
-
 #include "tedApp.h"
 #include "tedEdit.h"
 #include <docRtfTrace.h>

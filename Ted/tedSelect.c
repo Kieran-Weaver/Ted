@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include "tedApp.h"
 #include "tedAppFront.h"
 #include "tedSelect.h"

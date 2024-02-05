@@ -1,13 +1,8 @@
 #include <config.h>
-
-
-
 #include "appFrame.h"
 #include "appInspector.h"
 #include "guiWidgetsImpl.h"
-
 #include <appDebugon.h>
-
 
 void appInspectorMakePageParent(AppInspector *ai)
 {
@@ -97,4 +92,3 @@ void appInspectorEnablePage(AppInspector *ai, int subject, int enabled)
 
 	return;
 }
-

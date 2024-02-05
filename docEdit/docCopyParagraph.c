@@ -6,12 +6,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
-
 #include <appDebugon.h>
-
 #include <docBuf.h>
 #include <docField.h>
 #include <docNodeTree.h>

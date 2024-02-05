@@ -19,122 +19,107 @@
 /************************************************************************/
 
 int docRollNodeChildren(EditOperation *eo, struct BufferItem *parentBi,
-			       int from, int to, int by);
+			int from, int to, int by);
 
 int docEditDeleteReplacedFields(EditOperation *eo);
 
-int docParaReplaceText(EditOperation *eo, int paraNr,
-			      DocumentPosition *dpTail,
-			      const DocumentPosition *dpHead,
-			      unsigned int stroffTail, const char *addedText,
-			      unsigned int addedLength,
-			      int addedAttributeNumber);
+int docParaReplaceText(EditOperation *eo, int paraNr, DocumentPosition *dpTail,
+		       const DocumentPosition *dpHead, unsigned int stroffTail,
+		       const char *addedText, unsigned int addedLength,
+		       int addedAttributeNumber);
 
-int docParaDeleteText(EditOperation *eo, int paraNr,
-			     DocumentPosition *dpTail,
-			     const DocumentPosition *dpHead,
-			     unsigned int stroffTail);
+int docParaDeleteText(EditOperation *eo, int paraNr, DocumentPosition *dpTail,
+		      const DocumentPosition *dpHead, unsigned int stroffTail);
 
 int docParaInsertTail(DocumentCopyJob *dcj, int paraNrTo,
-			     DocumentPosition *dpTail,
-			     const DocumentPosition *dpTo,
-			     const DocumentPosition *dpFrom);
+		      DocumentPosition *dpTail, const DocumentPosition *dpTo,
+		      const DocumentPosition *dpFrom);
 
 int docSplitParaNode(struct BufferItem **pNewParaBi, EditOperation *eo,
-			    int splitLevel);
+		     int splitLevel);
 
-int docEditSplitParaParent(EditOperation *eo,
-				  struct BufferItem **pBeforeNode,
-				  struct BufferItem **pAfterNode,
-				  struct BufferItem *paraNode, int after,
-				  int splitLevel);
+int docEditSplitParaParent(EditOperation *eo, struct BufferItem **pBeforeNode,
+			   struct BufferItem **pAfterNode,
+			   struct BufferItem *paraNode, int after,
+			   int splitLevel);
 
 int docRemoveSelectionTail(EditOperation *eo);
 
 void docDeleteEmptyParents(EditOperation *eo, int *pSectsDeleted,
-				  struct BufferItem *bi);
+			   struct BufferItem *bi);
 
 void docEditDeleteNodes(EditOperation *eo, int *pSectionsDeleted,
-			       int *pFirstParaDeleted, int *pParagraphsDeleted,
-			       struct BufferItem *bi, int first, int count);
+			int *pFirstParaDeleted, int *pParagraphsDeleted,
+			struct BufferItem *bi, int first, int count);
 
-struct TextParticule *docEditParaSpecialParticule(EditOperation *eo,
-							 int kind);
+struct TextParticule *docEditParaSpecialParticule(EditOperation *eo, int kind);
 
 int docReplaceSelection(EditOperation *eo, const char *addedText,
-			       int addedLength, int addedAttributeNumber);
+			int addedLength, int addedAttributeNumber);
 
 int docDeleteSelection(EditOperation *eo);
 
 int docMergeParagraphsInSelection(EditOperation *eo);
 
 int docInsertTableRows(DocumentSelection *dsRows, EditOperation *eo,
-			      struct BufferItem *sectBi,
-			      const struct BufferItem *refRowBi,
-			      const RowProperties *rp, int textAttributeNumber,
-			      int n, int paraNr, int rows);
+		       struct BufferItem *sectBi,
+		       const struct BufferItem *refRowBi,
+		       const RowProperties *rp, int textAttributeNumber, int n,
+		       int paraNr, int rows);
 
-int docSplitColumnInRows(struct BufferItem **pNewParaBi,
-				EditOperation *eo, struct BufferItem *sectBi,
-				int row0, int row, int row1, int col,
-				int after);
+int docSplitColumnInRows(struct BufferItem **pNewParaBi, EditOperation *eo,
+			 struct BufferItem *sectBi, int row0, int row, int row1,
+			 int col, int after);
 
-int docDeleteColumnsFromRows(EditOperation *eo,
-				    struct BufferItem *sectBi, int delRow0,
-				    int delRow1, int delCol0, int delCol1);
+int docDeleteColumnsFromRows(EditOperation *eo, struct BufferItem *sectBi,
+			     int delRow0, int delRow1, int delCol0,
+			     int delCol1);
 
-void docEditShiftReferences(EditOperation *eo,
-				   const SelectionScope *ssRoot, int paraFrom,
-				   int stroffFrom, int sectShift, int paraShift,
-				   int stroffShift);
+void docEditShiftReferences(EditOperation *eo, const SelectionScope *ssRoot,
+			    int paraFrom, int stroffFrom, int sectShift,
+			    int paraShift, int stroffShift);
 
 void docEditAvoidDeletedParagraphs(EditOperation *eo,
-					  const SelectionScope *ssRoot,
-					  int paraFrom, int paraUpto);
+				   const SelectionScope *ssRoot, int paraFrom,
+				   int paraUpto);
 
-int docEditUpdParaProperties(EditOperation *eo,
-				    PropertyMask *pPpDonePask,
-				    struct BufferItem *paraNode,
-				    const PropertyMask *ppSetMask,
-				    const ParagraphProperties *ppNew,
-				    const DocumentAttributeMap *dam);
+int docEditUpdParaProperties(EditOperation *eo, PropertyMask *pPpDonePask,
+			     struct BufferItem *paraNode,
+			     const PropertyMask *ppSetMask,
+			     const ParagraphProperties *ppNew,
+			     const DocumentAttributeMap *dam);
 
-int docEditUpdSectProperties(EditOperation *eo,
-				    PropertyMask *pSpDonePask,
-				    struct BufferItem *sectNode,
-				    const PropertyMask *spSetMask,
-				    const SectionProperties *spNew,
-				    const DocumentAttributeMap *dam);
+int docEditUpdSectProperties(EditOperation *eo, PropertyMask *pSpDonePask,
+			     struct BufferItem *sectNode,
+			     const PropertyMask *spSetMask,
+			     const SectionProperties *spNew,
+			     const DocumentAttributeMap *dam);
 
-int docEditShiftParticuleOffsets(EditOperation *eo,
-					struct BufferItem *paraBi, int paraNr,
-					int partFrom, int partUpto,
-					int stroffFrom, int stroffShift);
+int docEditShiftParticuleOffsets(EditOperation *eo, struct BufferItem *paraBi,
+				 int paraNr, int partFrom, int partUpto,
+				 int stroffFrom, int stroffShift);
 
 int docEditCleanParticules(EditOperation *eo, struct BufferItem *paraBi,
-				  int partFrom, int partUpto);
+			   int partFrom, int partUpto);
 
 int docCheckNoBreakAsLast(EditOperation *eo, struct BufferItem *paraBi);
 
-void
-docEditAdaptRowPropertiesToFirstChild(EditOperation *eo,
-				      const struct BufferItem *paraBi);
+void docEditAdaptRowPropertiesToFirstChild(EditOperation *eo,
+					   const struct BufferItem *paraBi);
 
 int docEditFixParaBreakKind(EditOperation *eo, DocumentTree *dt,
-				   BufferDocument *bd, int paraNr);
+			    BufferDocument *bd, int paraNr);
 
 int docIncludeDocument(DocumentCopyJob *dcj);
 
 int docSectionParagraph(EditOperation *eo, struct BufferItem **pParaBi,
-			       struct BufferItem *sectBi, int sectShift,
-			       const ParagraphProperties *pp,
-			       int textAttributeNumber);
+			struct BufferItem *sectBi, int sectShift,
+			const ParagraphProperties *pp, int textAttributeNumber);
 
 int docEditDeleteFieldsForBlockDelete(EditOperation *eo,
-					     const DocumentSelection *ds);
+				      const DocumentSelection *ds);
 
-int docDeleteFieldsInRange(EditOperation *eo,
-				  DocumentSelection *dsBalanced);
+int docDeleteFieldsInRange(EditOperation *eo, DocumentSelection *dsBalanced);
 
 int docEditSurroundTextSelectionByField(
 	EditOperation *eo, DocumentField **pDf, DocumentSelection *dsInside,
@@ -164,17 +149,17 @@ int docChangeSelectionProperties(
 	const DocumentProperties *dpSet);
 
 int docInsertParagraph(EditOperation *eo, DocumentPosition *dpNew,
-			      struct BufferItem *paraNode, int after,
-			      int textAttributeNumber);
+		       struct BufferItem *paraNode, int after,
+		       int textAttributeNumber);
 
 int docInsertSection(EditOperation *eo, DocumentPosition *dpBeforeSplit,
-			    DocumentPosition *dpAfterSplit,
-			    struct BufferItem *paraNode, int split, int after,
-			    int textAttributeNumber);
+		     DocumentPosition *dpAfterSplit,
+		     struct BufferItem *paraNode, int split, int after,
+		     int textAttributeNumber);
 
 int docEditChangeList(EditOperation *eo, struct DocumentList *dl,
-			     struct ListOverride *lo,
-			     const struct DocumentList *dlNew);
+		      struct ListOverride *lo,
+		      const struct DocumentList *dlNew);
 
 int docCopySelectionProperties(
 	DocumentCopyJob *dcj, const DocumentSelection *dsTo,
@@ -193,9 +178,9 @@ int docCopySelectionProperties(
 int docEditShiftIndent(EditOperation *eo, int step);
 
 int docDeleteField(DocumentSelection *dsExInside, EditOperation *eo,
-			  struct BufferItem *paraNodeHead,
-			  struct BufferItem *paraNodeTail, int partHead,
-			  int partTail, DocumentField *df);
+		   struct BufferItem *paraNodeHead,
+		   struct BufferItem *paraNodeTail, int partHead, int partTail,
+		   DocumentField *df);
 
 int docSurroundTextSelectionByField(
 	BufferDocument *bd, DocumentTree *dt, const DocumentSelection *ds,
@@ -204,8 +189,7 @@ int docSurroundTextSelectionByField(
 	const PropertyMask *taSetMask, const TextAttribute *taSet,
 	int fieldKind, const FieldInstructions *fi);
 
-int docFillTableDocument(BufferDocument *bdTable,
-				struct BufferItem *parentNode, int textAttrNr,
-				int wide, int rows, int columns);
+int docFillTableDocument(BufferDocument *bdTable, struct BufferItem *parentNode,
+			 int textAttrNr, int wide, int rows, int columns);
 
 #endif /*	DOC_EDIT_H	*/

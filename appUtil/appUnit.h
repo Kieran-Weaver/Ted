@@ -30,7 +30,7 @@ double appUnitFromTwips(int twips, int unitTypeInt);
 double appUnitToTwips(double units, int unitTypeInt);
 
 int appWordFormatDate(char *target, int maxlen, const struct tm *tm,
-			     const char *wordPicture);
+		      const char *wordPicture);
 
 void utilInvalidateTime(struct tm *tm);
 

@@ -109,13 +109,12 @@ extern TextAttribute DocDefaultAttributes;
 void utilInitTextAttribute(TextAttribute *ta);
 
 void utilUpdateTextAttribute(PropertyMask *pDoneMask, TextAttribute *ta,
-				    const PropertyMask *taSetMask,
-				    const TextAttribute *taSet);
+			     const PropertyMask *taSetMask,
+			     const TextAttribute *taSet);
 
-void utilAttributeDifference(PropertyMask *pDifMask,
-				    const TextAttribute *ta1,
-				    const PropertyMask *cmpMask,
-				    const TextAttribute *ta2);
+void utilAttributeDifference(PropertyMask *pDifMask, const TextAttribute *ta1,
+			     const PropertyMask *cmpMask,
+			     const TextAttribute *ta2);
 
 int utilSetTextProperty(TextAttribute *ta, int prop, int arg);
 

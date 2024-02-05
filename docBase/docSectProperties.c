@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include <utilPropMask.h>
-
 #include "docPropVal.h"
 #include "docSectProperties.h"
 

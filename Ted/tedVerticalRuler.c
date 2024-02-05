@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 
-
 #include "tedRuler.h"
 #include <appFrame.h>
 #include <appRuler.h>

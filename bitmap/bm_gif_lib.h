@@ -144,7 +144,7 @@ int EGifPutImageDesc(GifFileType *GifFile, int GifLeft, int GifTop, int Width,
 		     int GifHeight, int GifInterlace, const GifColorMap *gcm);
 
 int bmGifPutPixels(GifFileType *GifFile, const unsigned char *buffer,
-			  int count);
+		   int count);
 
 int EGifPutComment(GifFileType *GifFile, const char *GifComment);
 int EGifPutExtensionFirst(GifFileType *GifFile, int GifExtCode, int GifExtLen,
@@ -182,14 +182,13 @@ int DGifGetComment(GifFileType *GifFile, char *GifComment);
 int DGifCloseFile(GifFileType *GifFile);
 
 int bmGifGetPixels(GifFileType *gft, int *pFoundTransparent,
-			  unsigned char *buffer, int count,
-			  int transparentColor);
+		   unsigned char *buffer, int count, int transparentColor);
 
 int DGifGetExtension(GifFileType *GifFile, int *ExtCode,
-			    GifByteType Extension[256]);
+		     GifByteType Extension[256]);
 
 int DGifGetExtensionNext(GifFileType *GifFile, int *pGot,
-				GifByteType Extension[256]);
+			 GifByteType Extension[256]);
 
 #define D_GIF_ERR_OPEN_FAILED 101 /* And DGif possible errors. */
 #define D_GIF_ERR_READ_FAILED 102

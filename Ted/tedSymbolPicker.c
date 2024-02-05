@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include "tedSymbolPicker.h"
 #include "tedApp.h"
 #include "tedEdit.h"

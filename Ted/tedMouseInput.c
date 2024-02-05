@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include <docScreenLayout.h>
 #include "tedApp.h"
 #include "tedSelect.h"
@@ -805,8 +803,6 @@ APP_EVENT_HANDLER_H(tedMouseButtonPressed, w, voided, downEvent)
 	case MOUSE_BUTTON_3:
 		tedButton3Pressed(w, ed, downEvent);
 		break;
-
-
 
 	default:
 		LDEB(button);

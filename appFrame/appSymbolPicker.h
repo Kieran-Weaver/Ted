@@ -102,30 +102,27 @@ typedef struct SymbolPicker {
 /*									*/
 /************************************************************************/
 
-void appFillSymbolPicker(SymbolPicker *sp,
-				const SymbolPickerResources *spr,
-				AppInspector *ai, int subjectPage,
-				InspectorSubject *is, APP_WIDGET pageWidget,
-				const InspectorSubjectResources *isr);
+void appFillSymbolPicker(SymbolPicker *sp, const SymbolPickerResources *spr,
+			 AppInspector *ai, int subjectPage,
+			 InspectorSubject *is, APP_WIDGET pageWidget,
+			 const InspectorSubjectResources *isr);
 
-int appAdaptSymbolPickerToFontFamily(void *voidasp,
-					    unsigned int documentId,
-					    const DocumentFontList *dfl,
-					    const PropertyMask *taSetMask,
-					    const TextAttribute *taSet);
+int appAdaptSymbolPickerToFontFamily(void *voidasp, unsigned int documentId,
+				     const DocumentFontList *dfl,
+				     const PropertyMask *taSetMask,
+				     const TextAttribute *taSet);
 
 void appSymbolPickerGetResourceTable(EditApplication *ea,
-					    SymbolPickerResources *spr,
-					    InspectorSubjectResources *isr);
+				     SymbolPickerResources *spr,
+				     InspectorSubjectResources *isr);
 
 void appInitSymbolPicker(SymbolPicker *sp);
 void appCleanSymbolPicker(SymbolPicker *sp);
 
 void appSymbolPickerFillChoosers(SymbolPicker *sp,
-					const SymbolPickerResources *spr);
+				 const SymbolPickerResources *spr);
 
-void appFinishSymbolPicker(SymbolPicker *sp,
-				  const SymbolPickerResources *spr);
+void appFinishSymbolPicker(SymbolPicker *sp, const SymbolPickerResources *spr);
 
 void appEnableSymbolPicker(SymbolPicker *sp, int enabled);
 

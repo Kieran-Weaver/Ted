@@ -19,16 +19,15 @@
 /************************************************************************/
 
 void tedRefreshFindTool(FindTool *aft, int *pEnabled, int *pPref,
-			       InspectorSubject *is,
-			       const DocumentSelection *ds,
-			       const SelectionDescription *sd,
-			       const BufferDocument *bd, int documentId,
-			       const unsigned char *cmdEnabled);
+			InspectorSubject *is, const DocumentSelection *ds,
+			const SelectionDescription *sd,
+			const BufferDocument *bd, int documentId,
+			const unsigned char *cmdEnabled);
 
 void tedFillFindTool(FindTool *aft, const FindToolResources *aftr,
-			    AppInspector *ai, int subjectPage,
-			    InspectorSubject *is, APP_WIDGET pageWidget,
-			    const InspectorSubjectResources *isr);
+		     AppInspector *ai, int subjectPage, InspectorSubject *is,
+		     APP_WIDGET pageWidget,
+		     const InspectorSubjectResources *isr);
 
 void tedFormatShowFindPage(EditApplication *ea);
 

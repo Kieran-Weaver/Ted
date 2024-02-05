@@ -162,7 +162,8 @@ APP_WIDGET appSetMenuItem(APP_WIDGET menu, AppToplevel *at, AppMenuItem *ami,
 		} else {
 			gtk_widget_add_accelerator(rval, "activate",
 						   at->atAccelGroup, keyCode,
-						   (GdkModifierType)keyMask, GTK_ACCEL_VISIBLE);
+						   (GdkModifierType)keyMask,
+						   GTK_ACCEL_VISIBLE);
 		}
 	}
 
@@ -204,7 +205,8 @@ APP_WIDGET appSetToggleMenuItem(APP_WIDGET menu, AppToplevel *at,
 		} else {
 			gtk_widget_add_accelerator(rval, "activate",
 						   at->atAccelGroup, keyCode,
-						   (GdkModifierType)keyMask, GTK_ACCEL_VISIBLE);
+						   (GdkModifierType)keyMask,
+						   GTK_ACCEL_VISIBLE);
 		}
 	}
 
@@ -311,4 +313,3 @@ void guiShowMenuOption(APP_WIDGET w, int visible)
 		gtk_widget_hide(w);
 	}
 }
-

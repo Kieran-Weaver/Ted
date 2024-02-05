@@ -16,10 +16,8 @@ Source is http://burtleburtle.net/bob/c/lookupa.c
 #ifndef UTIL_JENKINS_HASH_H
 #define UTIL_JENKINS_HASH_H
 
-unsigned long utilJenkinsHash(const unsigned char *k, int l,
-				     unsigned long lev);
+unsigned long utilJenkinsHash(const unsigned char *k, int l, unsigned long lev);
 
-void utilJenkinsHash2(const unsigned char *k, int l,
-			     unsigned long *state);
+void utilJenkinsHash2(const unsigned char *k, int l, unsigned long *state);
 
 #endif

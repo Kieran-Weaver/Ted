@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <stdio.h>
-
 #include "docPropVal.h"
 #include "docShapeProp.h"
 #include "docShapeDrawing.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

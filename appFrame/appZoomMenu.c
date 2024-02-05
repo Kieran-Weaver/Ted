@@ -5,20 +5,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdio.h>
-
-
 #define y0 math_y0
 #define y1 math_y1
 #include <math.h>
 #undef y0
 #undef y1
-
 #include "appFrame.h"
 #include "appZoomMenu.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

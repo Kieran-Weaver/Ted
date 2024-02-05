@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdio.h>
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "appUnit.h"
 #include "geoString.h"
 

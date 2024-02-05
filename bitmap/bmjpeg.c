@@ -1,16 +1,12 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <sioFileio.h>
 #include "bmintern.h"
 #include "bmio.h"
 #include <time.h>
-
 #include <jpeglib.h>
 #include <setjmp.h>
 #include <jerror.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

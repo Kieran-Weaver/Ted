@@ -15,7 +15,6 @@ struct DrawingSurface {
 	APP_POINT *dsPoints;
 	int dsPointCount;
 
-
 	GdkGC *dsGc;
 	GdkDrawable *dsDrawable;
 

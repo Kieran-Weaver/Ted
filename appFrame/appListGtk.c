@@ -1,13 +1,8 @@
 #include <config.h>
-
 #include <stdlib.h>
-
-
 #include "guiWidgets.h"
 #include "appListGtk.h"
-
 #include <appDebugon.h>
-
 
 /************************************************************************/
 /*									*/
@@ -129,7 +124,7 @@ ListAction *appListGtkSetCallbacks(GtkWidget *widget,
 				   APP_BUTTON_CALLBACK_T actionCallback,
 				   void *through)
 {
-	ListAction *la = (ListAction*)malloc(sizeof(ListAction));
+	ListAction *la = (ListAction *)malloc(sizeof(ListAction));
 
 	if (!la) {
 		XDEB(la);
@@ -213,4 +208,3 @@ void appGuiGtkSetListAdjustment(ListAction *la, int position)
 
 	return;
 }
-

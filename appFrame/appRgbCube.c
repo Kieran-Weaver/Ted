@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <math.h>
-
 #include "appRgbCube.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -139,7 +135,7 @@ static void appDrawRgbColorFace(RgbCube *rc, RgbColorBlock *rcb, void *through,
 				const double yo[8], int canSplit,
 				const int nodes[4])
 {
-	struct DrawingSurface *ds = (struct DrawingSurface*)through;
+	struct DrawingSurface *ds = (struct DrawingSurface *)through;
 	int linewidth;
 
 	Point2DI points[5];
@@ -381,7 +377,8 @@ static void appHandleRgbColorBlock(double k, int square, double scale,
 /************************************************************************/
 
 void appRedrawRgbCube(RgbCube *rc, int wide, int high,
-		      const DocumentRectangle *drClip, struct DrawingSurface *ds)
+		      const DocumentRectangle *drClip,
+		      struct DrawingSurface *ds)
 {
 	double k = RGB_K;
 
@@ -812,7 +809,8 @@ int appPrepareRgbCube(RgbCube *rc, struct DrawingSurface *ds, int redSteps,
 
 	count = redSteps * greenSteps * blueSteps;
 
-	fresh = (RgbColorBlock*)realloc(rc->rcColorBlocks, count * sizeof(RgbColorBlock));
+	fresh = (RgbColorBlock *)realloc(rc->rcColorBlocks,
+					 count * sizeof(RgbColorBlock));
 	if (!fresh) {
 		LXDEB(count, fresh);
 		return -1;

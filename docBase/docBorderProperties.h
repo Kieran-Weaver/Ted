@@ -106,26 +106,25 @@ typedef enum BorderProperty {
 void docInitBorderProperties(BorderProperties *bp);
 
 void docUpdateBorderProperties(PropertyMask *pBpDoneMask,
-				      BorderProperties *bpTo,
-				      const PropertyMask *bpSetMask,
-				      const BorderProperties *bpFrom);
+			       BorderProperties *bpTo,
+			       const PropertyMask *bpSetMask,
+			       const BorderProperties *bpFrom);
 
 void docCopyBorderProperties(BorderProperties *bpTo,
-				    const BorderProperties *bpFrom,
-				    const int *colorMap);
+			     const BorderProperties *bpFrom,
+			     const int *colorMap);
 
-int docBordersDiffer(const BorderProperties *bp1,
-			    const BorderProperties *bp2, const int *colorMap);
+int docBordersDiffer(const BorderProperties *bp1, const BorderProperties *bp2,
+		     const int *colorMap);
 
 void docExpandBorderProperties(ExpandedBorderProperties *ebp,
-				      const BorderProperties *bp,
-				      const ColorPalette *cp);
+			       const BorderProperties *bp,
+			       const ColorPalette *cp);
 
-int docIndirectBorderProperties(PropertyMask *pBpDoneMask,
-				       BorderProperties *bp,
-				       const PropertyMask *bpSetMask,
-				       const ExpandedBorderProperties *ebp,
-				       ColorPalette *cp);
+int docIndirectBorderProperties(PropertyMask *pBpDoneMask, BorderProperties *bp,
+				const PropertyMask *bpSetMask,
+				const ExpandedBorderProperties *ebp,
+				ColorPalette *cp);
 
 void docInitExpandedBorderProperties(ExpandedBorderProperties *ebp);
 

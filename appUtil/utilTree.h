@@ -32,16 +32,14 @@ void *utilTreeMakeTree(int ownKeys);
 
 /**/
 int utilTreeStoreValue(void *tree, void **pPreviousValue,
-			      const char **pStoredKey, const char *key,
-			      void *val);
+		       const char **pStoredKey, const char *key, void *val);
 
 /**/
 void *utilTreeGetLT(void *tree, const char **pKey, const char *key);
 
 void *utilTreeGetLE(void *tree, const char **pKey, const char *key);
 
-void *utilTreeGetEQ(const void *tree, const char **pKey,
-			   const char *key);
+void *utilTreeGetEQ(const void *tree, const char **pKey, const char *key);
 
 void *utilTreeGetGE(void *tree, const char **pKey, const char *key);
 
@@ -59,19 +57,18 @@ void *utilTreeGetNext(void *tree, const char **pKey);
 void *utilTreeGetLast(void *tree, const char **pKey);
 
 /**/
-int utilTreeDeleteEQ(void *tree, const char *key,
-			    UTIL_TREE_CALLBACK callback, void *through);
+int utilTreeDeleteEQ(void *tree, const char *key, UTIL_TREE_CALLBACK callback,
+		     void *through);
 
 int utilTreeDeleteCurrent(void *tree, UTIL_TREE_CALLBACK callback,
-				 void *through);
+			  void *through);
 
 /**/
-int utilTreeForAll(void *tree, int stopOnFailure,
-			  UTIL_TREE_CALLBACK callback, void *through);
+int utilTreeForAll(void *tree, int stopOnFailure, UTIL_TREE_CALLBACK callback,
+		   void *through);
 
 /**/
-int utilTreeFreeTree(void *tree, UTIL_TREE_CALLBACK callback,
-			    void *through);
+int utilTreeFreeTree(void *tree, UTIL_TREE_CALLBACK callback, void *through);
 
 /**/
 int utilTreeFreeValue(const char *key, void *val, void *through);

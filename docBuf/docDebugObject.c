@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include "docBuf.h"
 #include "docTreeNode.h"
 #include "docDebug.h"

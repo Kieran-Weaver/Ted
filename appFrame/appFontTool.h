@@ -111,28 +111,25 @@ typedef struct AppFontChooser {
 /*									*/
 /************************************************************************/
 
-void appFontToolFillPage(AppFontChooser *afc,
-				const AppFontToolResources *aftr,
-				int subjectPage, InspectorSubject *is,
-				APP_WIDGET pageWidget,
-				const InspectorSubjectResources *isr);
+void appFontToolFillPage(AppFontChooser *afc, const AppFontToolResources *aftr,
+			 int subjectPage, InspectorSubject *is,
+			 APP_WIDGET pageWidget,
+			 const InspectorSubjectResources *isr);
 
 void appFontToolGetResourceTable(EditApplication *ea,
-					AppFontToolResources *aftr);
+				 AppFontToolResources *aftr);
 
 void appFontChooserCleanPage(AppFontChooser *afc);
 
 void appFontToolFillChoosers(AppFontChooser *afc,
-				    const AppFontToolResources *aftr);
+			     const AppFontToolResources *aftr);
 
 void appFontToolFinishPage(AppFontChooser *afc,
-				  const AppFontToolResources *aftr);
+			   const AppFontToolResources *aftr);
 
-int appFontToolShowCurrentFont(AppFontChooser *afc,
-				      const PropertyMask *newMask,
-				      const TextAttribute *taNew,
-				      int documentId, int canChange,
-				      const DocumentFontList *dfl,
-				      const ColorPalette *cp);
+int appFontToolShowCurrentFont(AppFontChooser *afc, const PropertyMask *newMask,
+			       const TextAttribute *taNew, int documentId,
+			       int canChange, const DocumentFontList *dfl,
+			       const ColorPalette *cp);
 
 #endif /*	APP_FONT_TOOL_H  */

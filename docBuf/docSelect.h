@@ -69,37 +69,32 @@ typedef struct DocumentSelection {
 void docInitDocumentPosition(DocumentPosition *dp);
 void docInitDocumentSelection(DocumentSelection *ds);
 
-void docSetIBarSelection(DocumentSelection *ds,
-				const DocumentPosition *dp);
+void docSetIBarSelection(DocumentSelection *ds, const DocumentPosition *dp);
 
 int docIsIBarSelection(const DocumentSelection *ds);
 int docIsParaSelection(const DocumentSelection *ds);
 
 int docGetObjectSelection(const DocumentSelection *ds,
-				 const struct BufferDocument *bd, int *pPart,
-				 DocumentPosition *dpObject,
-				 InsertedObject **pIo);
+			  const struct BufferDocument *bd, int *pPart,
+			  DocumentPosition *dpObject, InsertedObject **pIo);
 
-void docSetRangeSelection(DocumentSelection *ds,
-				 const DocumentPosition *dpHead,
-				 const DocumentPosition *dpTail, int direction);
+void docSetRangeSelection(DocumentSelection *ds, const DocumentPosition *dpHead,
+			  const DocumentPosition *dpTail, int direction);
 
 int docLineHead(DocumentPosition *dp, int posFlags);
 int docLineTail(DocumentPosition *dp, int posFlags);
 
-int docSelectFrameOfPosition(DocumentSelection *ds,
-				    const DocumentPosition *dp);
+int docSelectFrameOfPosition(DocumentSelection *ds, const DocumentPosition *dp);
 
-void docGetSelectionScope(SelectionScope *ss,
-				 const struct BufferItem *node);
+void docGetSelectionScope(SelectionScope *ss, const struct BufferItem *node);
 
 void docSetSelectionScope(DocumentSelection *ds);
 
 int docSelectionSameInstance(const struct DocumentTree *tree, int page,
-				    int column);
+			     int column);
 
 int docSelectionSameRoot(const DocumentSelection *dsFrom,
-				const struct BufferItem *biTo);
+			 const struct BufferItem *biTo);
 
 void docSetEditPosition(EditPosition *ep, const DocumentPosition *dp);
 
@@ -107,8 +102,7 @@ void docSetEditRange(EditRange *er, const DocumentSelection *ds);
 
 void docSetIBarRange(EditRange *er, const DocumentPosition *dp);
 
-int docGetTableRectangle(TableRectangle *tr,
-				const DocumentSelection *ds);
+int docGetTableRectangle(TableRectangle *tr, const DocumentSelection *ds);
 
 int docSetNodeSelection(DocumentSelection *ds, struct BufferItem *node);
 

@@ -13,7 +13,7 @@
 #include "guiOptionmenu.h"
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
 /************************************************************************/
@@ -23,69 +23,64 @@ extern "C"{
 /************************************************************************/
 
 void guiToolMake2BottonRow(APP_WIDGET *pRow, APP_WIDGET parent,
-				  APP_WIDGET *pLeftButton,
-				  APP_WIDGET *pRightButton,
-				  const char *leftLabel, const char *rightLabel,
-				  APP_BUTTON_CALLBACK_T leftCallback,
-				  APP_BUTTON_CALLBACK_T rightCallback,
-				  void *through);
+			   APP_WIDGET *pLeftButton, APP_WIDGET *pRightButton,
+			   const char *leftLabel, const char *rightLabel,
+			   APP_BUTTON_CALLBACK_T leftCallback,
+			   APP_BUTTON_CALLBACK_T rightCallback, void *through);
 
-void
-guiToolMake3ButtonRow(APP_WIDGET *pRow, APP_WIDGET parent,
-		      APP_WIDGET *pLeftButton, APP_WIDGET *pMiddleButton,
-		      APP_WIDGET *pRightButton, const char *leftLabel,
-		      const char *middleLabel, const char *rightLabel,
-		      APP_BUTTON_CALLBACK_T leftCallback,
-		      APP_BUTTON_CALLBACK_T middleCallback,
-		      APP_BUTTON_CALLBACK_T rightCallback, void *through);
+void guiToolMake3ButtonRow(APP_WIDGET *pRow, APP_WIDGET parent,
+			   APP_WIDGET *pLeftButton, APP_WIDGET *pMiddleButton,
+			   APP_WIDGET *pRightButton, const char *leftLabel,
+			   const char *middleLabel, const char *rightLabel,
+			   APP_BUTTON_CALLBACK_T leftCallback,
+			   APP_BUTTON_CALLBACK_T middleCallback,
+			   APP_BUTTON_CALLBACK_T rightCallback, void *through);
 
 void guiToolMake2ToggleRow(APP_WIDGET *pRow, APP_WIDGET parent,
-				  APP_WIDGET *pLeftToggle,
-				  APP_WIDGET *pRightToggle,
-				  const char *leftText, const char *rightText,
-				  APP_TOGGLE_CALLBACK_T leftCallback,
-				  APP_TOGGLE_CALLBACK_T rightCallback,
-				  void *leftThrough, void *rightThrough);
+			   APP_WIDGET *pLeftToggle, APP_WIDGET *pRightToggle,
+			   const char *leftText, const char *rightText,
+			   APP_TOGGLE_CALLBACK_T leftCallback,
+			   APP_TOGGLE_CALLBACK_T rightCallback,
+			   void *leftThrough, void *rightThrough);
 
-void
-guiToolMake3ToggleRow(APP_WIDGET *pRow, APP_WIDGET parent,
-		      APP_WIDGET *pLeftToggle, APP_WIDGET *pMiddletToggle,
-		      APP_WIDGET *pRightToggle, const char *leftText,
-		      const char *middleText, const char *rightText,
-		      APP_TOGGLE_CALLBACK_T leftCallback,
-		      APP_TOGGLE_CALLBACK_T middleCallback,
-		      APP_TOGGLE_CALLBACK_T rightCallback, void *through);
+void guiToolMake3ToggleRow(APP_WIDGET *pRow, APP_WIDGET parent,
+			   APP_WIDGET *pLeftToggle, APP_WIDGET *pMiddletToggle,
+			   APP_WIDGET *pRightToggle, const char *leftText,
+			   const char *middleText, const char *rightText,
+			   APP_TOGGLE_CALLBACK_T leftCallback,
+			   APP_TOGGLE_CALLBACK_T middleCallback,
+			   APP_TOGGLE_CALLBACK_T rightCallback, void *through);
 
-void guiToolMakeToggleAndLabelRow(
-	APP_WIDGET *pRow, APP_WIDGET parent, APP_WIDGET *pToggle,
-	APP_WIDGET *pLabel, const char *toggleText, const char *labelText,
-	APP_TOGGLE_CALLBACK_T toggleCallback, void *through);
+void guiToolMakeToggleAndLabelRow(APP_WIDGET *pRow, APP_WIDGET parent,
+				  APP_WIDGET *pToggle, APP_WIDGET *pLabel,
+				  const char *toggleText, const char *labelText,
+				  APP_TOGGLE_CALLBACK_T toggleCallback,
+				  void *through);
 
-void guiToolMakeLabelAndToggleRow(
-	APP_WIDGET *pRow, APP_WIDGET parent, APP_WIDGET *pLabel,
-	APP_WIDGET *pToggle, const char *labelText, const char *toggleText,
-	APP_TOGGLE_CALLBACK_T toggleCallback, void *through);
+void guiToolMakeLabelAndToggleRow(APP_WIDGET *pRow, APP_WIDGET parent,
+				  APP_WIDGET *pLabel, APP_WIDGET *pToggle,
+				  const char *labelText, const char *toggleText,
+				  APP_TOGGLE_CALLBACK_T toggleCallback,
+				  void *through);
 
 void guiToolMakeLabelAndMenuRow(APP_WIDGET *pRow, AppOptionmenu *aom,
-				       APP_WIDGET *pLabel, APP_WIDGET parent,
-				       const char *labelText,
-				       OptionmenuCallback callBack,
-				       void *target);
+				APP_WIDGET *pLabel, APP_WIDGET parent,
+				const char *labelText,
+				OptionmenuCallback callBack, void *target);
 
 void appFillInspectorMenu(int count, int current, APP_WIDGET *items,
-				 const char *const *texts, AppOptionmenu *aom);
+			  const char *const *texts, AppOptionmenu *aom);
 
 void guiToolMakeToggleAndTextRow(APP_WIDGET *pRow, APP_WIDGET *pToggle,
-					APP_WIDGET *pText, APP_WIDGET parent,
-					const char *labelText,
-					APP_TOGGLE_CALLBACK_T callback,
-					void *through, int textColumns,
-					int textEnabled);
+				 APP_WIDGET *pText, APP_WIDGET parent,
+				 const char *labelText,
+				 APP_TOGGLE_CALLBACK_T callback, void *through,
+				 int textColumns, int textEnabled);
 
 void guiToolMakeLabelAndTextRow(APP_WIDGET *pRow, APP_WIDGET *pLabel,
-				       APP_WIDGET *pText, APP_WIDGET parent,
-				       const char *labelText, int textColumns,
-				       int textEnabled);
+				APP_WIDGET *pText, APP_WIDGET parent,
+				const char *labelText, int textColumns,
+				int textEnabled);
 
 #ifdef __cplusplus
 }

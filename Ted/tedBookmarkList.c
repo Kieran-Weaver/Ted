@@ -124,7 +124,8 @@ void tedBookmarkListToText(BookmarkList *bl, MemoryBuffer *mbChosen,
 {
 	char *markName;
 
-	markName = appGuiGetStringFromListCallback(w, (APP_LIST_CHOICE*)voidlcs);
+	markName =
+		appGuiGetStringFromListCallback(w, (APP_LIST_CHOICE *)voidlcs);
 	if (!markName) {
 		XDEB(markName);
 		return;

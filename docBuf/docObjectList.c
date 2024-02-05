@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "docBuf.h"
 #include "docShape.h"
 #include "docParaParticules.h"

@@ -123,7 +123,7 @@ typedef struct EditStep {
 void docInitEditStep(EditStep *es);
 void docCleanEditStep(EditStep *es);
 
-BufferDocument *
-docEditStepMakeSourceDocument(EditStep *es, const BufferDocument *bdRef);
+BufferDocument *docEditStepMakeSourceDocument(EditStep *es,
+					      const BufferDocument *bdRef);
 
 #endif /*  DOC_EDIT_STEP_H	*/

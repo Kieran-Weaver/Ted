@@ -1,9 +1,5 @@
 #include <config.h>
-
-
-
 #include "bmBitmapPrinter.h"
-
 #include <appDebugon.h>
 
 #define MAX_BPS 12

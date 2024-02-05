@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <stdlib.h>
 #include <uniUtf8.h>
 #include <ucdGeneralCategory.h>
-
 #include <appDebugon.h>
-
 #include "docDocumentField.h"
 #include "docBookmarkField.h"
 

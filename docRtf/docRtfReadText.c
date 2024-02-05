@@ -9,8 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
 #include <appDebugon.h>
 
 #include <uniUtf8.h>

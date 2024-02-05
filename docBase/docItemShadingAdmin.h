@@ -23,20 +23,18 @@ typedef void (*ItemShadingFunction)(const ItemShading *is, int n,
 void docInitItemShadingList(NumberedPropertiesList *isl);
 
 int docItemShadingNumberImpl(NumberedPropertiesList *isl,
-				    const ItemShading *is);
+			     const ItemShading *is);
 
-int docShadingNumberIsShadingImpl(const NumberedPropertiesList *isl,
-					 int n);
+int docShadingNumberIsShadingImpl(const NumberedPropertiesList *isl, int n);
 
 void docForAllItemShadings(const NumberedPropertiesList *isl,
-				  ItemShadingFunction f, void *through);
+			   ItemShadingFunction f, void *through);
 
 void docGetItemShadingByNumberImpl(ItemShading *is,
-					  const NumberedPropertiesList *isl,
-					  int n);
+				   const NumberedPropertiesList *isl, int n);
 
 int docMergeItemShadingLists(int **pShadingMap, const int *colorMap,
-				    NumberedPropertiesList *islTo,
-				    const NumberedPropertiesList *islFrom);
+			     NumberedPropertiesList *islTo,
+			     const NumberedPropertiesList *islFrom);
 
 #endif /*  DOC_ITEM_SHADING_ADMIN_H	*/

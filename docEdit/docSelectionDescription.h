@@ -95,13 +95,11 @@ typedef struct SelectionDescription {
 
 void docInitSelectionDescription(SelectionDescription *sd);
 
-void docDescribeSelection(SelectionDescription *sd,
-				 const DocumentSelection *ds,
-				 struct BufferDocument *bd, int headPage,
-				 int tailPage, unsigned int documentId,
-				 int documentRo);
+void docDescribeSelection(SelectionDescription *sd, const DocumentSelection *ds,
+			  struct BufferDocument *bd, int headPage, int tailPage,
+			  unsigned int documentId, int documentRo);
 
 void docEnableEditCommands(unsigned char *cmdEnabled,
-				  const SelectionDescription *sd);
+			   const SelectionDescription *sd);
 
 #endif /*	DOC_SELECTION_DESCRIPTION_H	*/

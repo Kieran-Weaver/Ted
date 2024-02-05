@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <math.h>
-
 #include <geoAffineTransform.h>
-
 #include "docShape.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

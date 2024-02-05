@@ -20,16 +20,16 @@
 /*									*/
 /************************************************************************/
 
-int tedFormatValidateDimension(int *pNewValue, int *pChanged,
-				      APP_WIDGET w, int oldValue);
+int tedFormatValidateDimension(int *pNewValue, int *pChanged, APP_WIDGET w,
+			       int oldValue);
 
 BufferDocument *tedFormatCurDoc(EditDocument **pEd, int *pTraced,
-				       EditApplication *ea);
+				EditApplication *ea);
 
 void tedRefreshParaSubjectControls(InspectorSubject *is,
-					  const DocumentSelection *ds,
-					  const SelectionGeometry *sg,
-					  const SelectionDescription *sd,
-					  const unsigned char *cmdEnabled);
+				   const DocumentSelection *ds,
+				   const SelectionGeometry *sg,
+				   const SelectionDescription *sd,
+				   const unsigned char *cmdEnabled);
 
 #endif /*  TED_TOOL_UTIL_H */

@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "guiWidgetDrawingSurface.h"
 #include <drawDrawingSurface.h>
 #include "drawDrawingSurfaceImpl.h"
@@ -39,7 +38,6 @@ void drawInitDrawingSurface(struct DrawingSurface *ds)
 
 	ds->dsDrawable = (GdkDrawable *)0;
 	ds->dsGc = (GdkGC *)0;
-
 
 	ds->dsAvoidFontconfig = 0;
 	drawStartScreenFontList(&(ds->dsScreenFontAdmin));

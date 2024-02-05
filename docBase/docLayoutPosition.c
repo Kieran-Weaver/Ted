@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docLayoutPosition.h"
 #include <geo2DInteger.h>
 

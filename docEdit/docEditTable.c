@@ -5,18 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include <limits.h>
-
 #include "docEdit.h"
 #include <docTreeNode.h>
 #include "docEditImpl.h"
 #include <docTextParticule.h>
 #include <docNodeTree.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

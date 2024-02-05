@@ -14,12 +14,11 @@
 #endif
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
 #ifdef __GNUC__
-int appDebug(const char *format, ...)
-	__attribute__((format(printf, 1, 2)));
+int appDebug(const char *format, ...) __attribute__((format(printf, 1, 2)));
 #else
 int appDebug(const char *format, ...);
 #endif
@@ -43,8 +42,7 @@ int appDebugSetFile(const char *filename, const char *mode);
 #define DEBO(lo) ((unsigned long)(lo))
 #define DEBL(lo) ((long)(lo))
 #define DEBD(do) ((double)(do))
-#define DEBC(ch) \
-	(ch) & 0xff, '=', (ch) 
+#define DEBC(ch) (ch) & 0xff, '=', (ch)
 
 #define DFMS " %s=%s%s%s"
 #define DFMX " %s=0x%lx"

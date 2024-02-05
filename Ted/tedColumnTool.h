@@ -70,30 +70,26 @@ typedef struct ColumnTool {
 /*									*/
 /************************************************************************/
 
-void tedFormatFillColumnPage(ColumnTool *ct,
-				    const ColumnPageResources *cpr,
-				    AppInspector *ai, int subjectPage,
-				    InspectorSubject *is, APP_WIDGET pageWidget,
-				    const InspectorSubjectResources *isr);
+void tedFormatFillColumnPage(ColumnTool *ct, const ColumnPageResources *cpr,
+			     AppInspector *ai, int subjectPage,
+			     InspectorSubject *is, APP_WIDGET pageWidget,
+			     const InspectorSubjectResources *isr);
 
 void tedRefreshColumnTool(ColumnTool *ct, int *pEnabled, int *pPref,
-				 InspectorSubject *is,
-				 const DocumentSelection *ds,
-				 const SelectionGeometry *sg,
-				 const SelectionDescription *sd,
-				 const unsigned char *cmdEnabled);
+			  InspectorSubject *is, const DocumentSelection *ds,
+			  const SelectionGeometry *sg,
+			  const SelectionDescription *sd,
+			  const unsigned char *cmdEnabled);
 
 void tedInitColumnTool(ColumnTool *ct);
 void tedCleanColumnTool(ColumnTool *ct);
 
-void tedFormatFinishColumnPage(ColumnTool *ct,
-				      const ColumnPageResources *cpr);
+void tedFormatFinishColumnPage(ColumnTool *ct, const ColumnPageResources *cpr);
 
-void tedColumnToolFillChoosers(ColumnTool *ct,
-				      const ColumnPageResources *cpr);
+void tedColumnToolFillChoosers(ColumnTool *ct, const ColumnPageResources *cpr);
 
 void tedFormatToolGetColumnResourceTable(EditApplication *ea,
-						ColumnPageResources *cpr,
-						InspectorSubjectResources *isr);
+					 ColumnPageResources *cpr,
+					 InspectorSubjectResources *isr);
 
 #endif /*  TED_COLUMN_TOOL_H */

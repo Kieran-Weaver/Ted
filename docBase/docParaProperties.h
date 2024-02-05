@@ -158,23 +158,22 @@ typedef enum ParagraphProperty {
 /*									*/
 /************************************************************************/
 
-int docUpdParaProperties(PropertyMask *pPpDonePask,
-				ParagraphProperties *pp,
-				const PropertyMask *ppSetMask,
-				const ParagraphProperties *ppSet,
-				const DocumentAttributeMap *dam);
+int docUpdParaProperties(PropertyMask *pPpDonePask, ParagraphProperties *pp,
+			 const PropertyMask *ppSetMask,
+			 const ParagraphProperties *ppSet,
+			 const DocumentAttributeMap *dam);
 
 void docParaPropertyDifference(PropertyMask *pDifMask,
-				      const ParagraphProperties *pp1,
-				      const PropertyMask *cmpMask,
-				      const ParagraphProperties *pp2);
+			       const ParagraphProperties *pp1,
+			       const PropertyMask *cmpMask,
+			       const ParagraphProperties *pp2);
 
 void docCleanParagraphProperties(ParagraphProperties *pp);
 
 void docInitParagraphProperties(ParagraphProperties *pp);
 
 int docCopyParagraphProperties(ParagraphProperties *ppTo,
-				      const ParagraphProperties *ppFrom);
+			       const ParagraphProperties *ppFrom);
 
 int docSetParaProperty(ParagraphProperties *pp, int prop, int arg);
 

@@ -62,15 +62,14 @@ typedef struct RowMarginsTool {
 /*									*/
 /************************************************************************/
 
-void
-tedFormatFillRowMarginsTool(RowMarginsTool *rmt,
-			    const RowMarginsToolResources *rmtr,
-			    APP_TXACTIVATE_CALLBACK_T leftIndentChanged,
-			    APP_TXACTIVATE_CALLBACK_T cellMarginChanged,
-			    void *through, APP_WIDGET pageWidget);
+void tedFormatFillRowMarginsTool(RowMarginsTool *rmt,
+				 const RowMarginsToolResources *rmtr,
+				 APP_TXACTIVATE_CALLBACK_T leftIndentChanged,
+				 APP_TXACTIVATE_CALLBACK_T cellMarginChanged,
+				 void *through, APP_WIDGET pageWidget);
 
-void tedRefreshRowMarginsTool(RowMarginsTool *rmt,
-				     const RowProperties *rp, int canChange);
+void tedRefreshRowMarginsTool(RowMarginsTool *rmt, const RowProperties *rp,
+			      int canChange);
 
 int tedRowMarginToolGetValues(RowProperties *rp, RowMarginsTool *rmt);
 
@@ -83,8 +82,7 @@ int tedMarginToolCheckCellMargin(RowMarginsTool *rmt, RowProperties *rp);
 
 int tedMarginToolCheckLeftIndent(RowMarginsTool *rmt, RowProperties *rp);
 
-int tedRowMarginToolGetMargins(RowMarginsTool *rmt,
-				      struct BufferItem *rowNode,
-				      struct BufferDocument *bd);
+int tedRowMarginToolGetMargins(RowMarginsTool *rmt, struct BufferItem *rowNode,
+			       struct BufferDocument *bd);
 
 #endif /*  TED_ROW_MARGIN_TOOL_H */

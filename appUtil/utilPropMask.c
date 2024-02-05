@@ -6,7 +6,6 @@
 /************************************************************************/
 
 #include <string.h>
-
 #include "utilPropMask.h"
 #include <appDebugon.h>
 

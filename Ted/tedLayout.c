@@ -2,7 +2,6 @@
 
 #include <stddef.h>
 
-
 #include <appMatchFont.h>
 
 #include "tedApp.h"

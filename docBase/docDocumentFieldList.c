@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "docDocumentFieldList.h"
 #include "docBookmarkField.h"
 #include "docDocumentField.h"

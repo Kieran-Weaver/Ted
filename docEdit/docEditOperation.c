@@ -5,11 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
-
-
 #include <appDebugon.h>
-
 #include "docEditOperation.h"
 #include <docField.h>
 #include <docNotes.h>

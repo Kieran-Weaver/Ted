@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "sioPipe.h"
 #include "utilMemoryBuffer.h"
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <signal.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

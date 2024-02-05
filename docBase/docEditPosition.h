@@ -56,19 +56,18 @@ typedef struct EditPosition {
 
 void docInitEditPosition(EditPosition *ep);
 
-void docAdjustEditPositionOffsetB(EditPosition *ep, int paraNr,
-					 int stroff, int stroffShift);
+void docAdjustEditPositionOffsetB(EditPosition *ep, int paraNr, int stroff,
+				  int stroffShift);
 
-void docAdjustEditPositionOffsetE(EditPosition *ep, int paraNr,
-					 int stroff, int stroffShift);
+void docAdjustEditPositionOffsetE(EditPosition *ep, int paraNr, int stroff,
+				  int stroffShift);
 
 void docAdjustEditPositionB(EditPosition *ep, int paraNr, int stroff,
-				   int paraShift, int stroffShift);
+			    int paraShift, int stroffShift);
 
 void docAdjustEditPositionE(EditPosition *ep, int paraNr, int stroff,
-				   int paraShift, int stroffShift);
+			    int paraShift, int stroffShift);
 
-int docCompareEditPositions(const EditPosition *ep1,
-				   const EditPosition *ep2);
+int docCompareEditPositions(const EditPosition *ep1, const EditPosition *ep2);
 
 #endif /*	DOC_EDIT_POSITION_H	*/

@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include "utilMemoryBuffer.h"
 #include <appDebugon.h>
 
@@ -262,7 +260,7 @@ int utilMemoryBufferGetRange(MemoryBuffer *mbTo, const MemoryBuffer *mbFrom,
 char *utilMemoryStrdup(const MemoryBuffer *mbFrom)
 {
 	if (utilMemoryBufferIsEmpty(mbFrom)) {
-		char *empty = (char*)malloc(1);
+		char *empty = (char *)malloc(1);
 		if (empty) {
 			*empty = '\0';
 		}

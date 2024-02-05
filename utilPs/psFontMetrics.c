@@ -5,8 +5,6 @@
 /************************************************************************/
 #include <config.h>
 
-
-
 #include "psFontMetrics.h"
 #include <uniUtf8.h>
 #include <ucdGeneralCategory.h>

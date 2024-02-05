@@ -12,7 +12,6 @@
 /************************************************************************/
 
 int appImgPastePixmap(RasterImage *abi, APP_WIDGET w,
-			     APP_SELECTION_EVENT *event);
-
+		      APP_SELECTION_EVENT *event);
 
 #endif

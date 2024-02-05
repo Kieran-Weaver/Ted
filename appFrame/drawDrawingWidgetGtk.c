@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "guiWidgetDrawingSurface.h"
 #include <drawDrawingSurface.h>
 #include "drawDrawingSurfaceImpl.h"
@@ -17,7 +16,6 @@
 #include <appDebugon.h>
 #include "drawDrawingSurfacePrivate.h"
 #include "guiDrawingWidget.h"
-
 
 void guiExposeDrawingWidget(APP_WIDGET nativeWidget)
 {
@@ -52,7 +50,6 @@ void guiExposeDrawingWidgetRectangle(APP_WIDGET nativeWidget,
 		gtk_widget_realize(nativeWidget);
 	}
 
-
 	{
 		GdkRectangle rect;
 
@@ -63,7 +60,6 @@ void guiExposeDrawingWidgetRectangle(APP_WIDGET nativeWidget,
 
 		gdk_window_invalidate_rect(nativeWidget->window, &rect, TRUE);
 	}
-
 
 	return;
 }
@@ -145,9 +141,10 @@ void guiCollectExposures(DocumentRectangle *drClip, APP_WIDGET nativeWidget,
 /************************************************************************/
 
 struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
-						int avoidFontconfig)
+							int avoidFontconfig)
 {
-	struct DrawingSurface *ds = (struct DrawingSurface*)malloc(sizeof(struct DrawingSurface));
+	struct DrawingSurface *ds =
+		(struct DrawingSurface *)malloc(sizeof(struct DrawingSurface));
 
 	if (!nativeWidget->window) {
 		gtk_widget_realize(nativeWidget);
@@ -163,7 +160,7 @@ struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 	if (!ds->dsColors) {
 		XDEB(ds->dsGc);
 		drawFreeDrawingSurface(ds);
-		return (struct DrawingSurface*)0;
+		return (struct DrawingSurface *)0;
 	}
 	ds->dsDrawable = nativeWidget->window;
 	ds->dsAvoidFontconfig = avoidFontconfig;
@@ -172,7 +169,7 @@ struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 	if (!ds->dsGc) {
 		XDEB(ds->dsGc);
 		drawFreeDrawingSurface(ds);
-		return (struct DrawingSurface*)0;
+		return (struct DrawingSurface *)0;
 	}
 
 #ifdef USE_XFT
@@ -260,4 +257,3 @@ void guiGetBottomShadowColor(RGB8Color *rgb8, APP_WIDGET nativeWidget)
 
 	return;
 }
-

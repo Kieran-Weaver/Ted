@@ -1,12 +1,8 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <string.h>
-
 #include "drawUtilImpl.h"
 #include "drawImpl.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -18,7 +14,6 @@
 /*  The author is aware of the fact that he should not have done this.	*/
 /*									*/
 /************************************************************************/
-
 
 #include <gdk/gdkx.h>
 #include "appFrame.h"
@@ -40,11 +35,9 @@ XftDraw *appGtkXftDrawCreate(GdkDrawable *drawable, AppXftColorList *axcl)
 
 	axcl->axclDisplay = GDK_WINDOW_XDISPLAY(drawable);
 
-
 	x_drawable = GDK_WINDOW_XID(drawable);
 	axcl->axclVisual = gdk_x11_visual_get_xvisual(gdk_vis);
 	axcl->axclColormap = gdk_x11_colormap_get_xcolormap(gdk_cmap);
-
 
 	xftDraw = XftDrawCreate(axcl->axclDisplay, x_drawable, axcl->axclVisual,
 				axcl->axclColormap);
@@ -57,4 +50,3 @@ XftDraw *appGtkXftDrawCreate(GdkDrawable *drawable, AppXftColorList *axcl)
 }
 
 #endif
-

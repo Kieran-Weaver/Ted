@@ -70,24 +70,22 @@ void psInitNupSchema(NupSchema *ns);
 void psCleanNupSchema(NupSchema *ns);
 
 int psNupFitPagesToSheet(int *pFitWithoutRot, int *pFitWithRot,
-				const PrintGeometry *pg,
-				const DocumentGeometry *dgPage);
+			 const PrintGeometry *pg,
+			 const DocumentGeometry *dgPage);
 
-int utilNupGetBaseTranform(AffineTransform2D *pAt1Page,
-				  int *pRotatePages, const PrintGeometry *pg,
-				  const DocumentGeometry *dgPage, double fac);
+int utilNupGetBaseTranform(AffineTransform2D *pAt1Page, int *pRotatePages,
+			   const PrintGeometry *pg,
+			   const DocumentGeometry *dgPage, double fac);
 
-void psNupSheetBoundingBox(DocumentRectangle *sheetBBox,
-				  const NupSchema *ns,
-				  const DocumentGeometry *dgPage,
-				  int hasPageHeader, int hasPageFooter);
+void psNupSheetBoundingBox(DocumentRectangle *sheetBBox, const NupSchema *ns,
+			   const DocumentGeometry *dgPage, int hasPageHeader,
+			   int hasPageFooter);
 
 int utilNupSetSchema(NupSchema *ns, int rotateSheetGrid,
-			    const AffineTransform2D *at1Page,
-			    const PrintGeometry *pg, double fac,
-			    const DocumentGeometry *dgPage);
+		     const AffineTransform2D *at1Page, const PrintGeometry *pg,
+		     double fac, const DocumentGeometry *dgPage);
 
 void utilNupGetPageTranform(AffineTransform2D *at, const NupSchema *ns,
-				   int page);
+			    int page);
 
 #endif /*  UTIL_NUP_H  */

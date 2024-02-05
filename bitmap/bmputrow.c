@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include "bmintern.h"
 #include "bmputrow.h"
 #include <string.h>

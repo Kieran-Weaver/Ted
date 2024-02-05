@@ -70,24 +70,23 @@ typedef struct RgbChooserPage {
 /************************************************************************/
 
 void appRgbChooserPageFinishPage(RgbChooserPage *rcp,
-					const RgbChooserPageResources *rcpr);
+				 const RgbChooserPageResources *rcpr);
 
 void appRgbChooserRefresh(RgbChooserPage *rcp, int *pEnabled,
-				 InspectorSubject *is, const RGB8Color *rgbSet);
+			  InspectorSubject *is, const RGB8Color *rgbSet);
 
 void appRgbChooserPageFillPage(RgbChooserPage *rcp,
-				      const RgbChooserPageResources *plpr,
-				      InspectorSubject *is,
-				      APP_WIDGET pageWidget,
-				      const InspectorSubjectResources *isr);
+			       const RgbChooserPageResources *plpr,
+			       InspectorSubject *is, APP_WIDGET pageWidget,
+			       const InspectorSubjectResources *isr);
 
 void appRgbChooserPageGetResourceTable(EditApplication *ea,
-					      RgbChooserPageResources *rcpr,
-					      InspectorSubjectResources *isr);
+				       RgbChooserPageResources *rcpr,
+				       InspectorSubjectResources *isr);
 
 void appRgbChooserPageCleanPage(RgbChooserPage *rcp);
 
 void appRgbChooserSetContext(RgbChooserPage *rcp, int subjectPage,
-				    int property);
+			     int property);
 
 #endif /*  APP_RGB_CHOOSER_PAGE_H */

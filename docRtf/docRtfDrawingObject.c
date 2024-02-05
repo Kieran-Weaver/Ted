@@ -8,7 +8,6 @@
 
 #include <stdlib.h>
 
-
 #include <bitmap.h>
 
 #include <docDrawingObject.h>

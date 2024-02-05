@@ -27,10 +27,10 @@ void utilPropMaskFill(PropertyMask *pm, int c);
 int utilPropMaskIsEmpty(const PropertyMask *pm);
 
 void utilPropMaskAnd(PropertyMask *pm0, const PropertyMask *pm1,
-			    const PropertyMask *pm2);
+		     const PropertyMask *pm2);
 
 void utilPropMaskOr(PropertyMask *pm0, const PropertyMask *pm1,
-			   const PropertyMask *pm2);
+		    const PropertyMask *pm2);
 
 void utilPropMaskNot(PropertyMask *pm0, const PropertyMask *pm1);
 

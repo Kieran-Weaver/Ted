@@ -47,17 +47,14 @@ determined a perfect hash for the whole set of keys.
 */
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
-
 #include <config.h>
 #include "utilJenkinsHash.h"
 #include "utilJenkinsPerfectHash.h"
-
 #include <appDebugon.h>
 
 #define TRUE 1

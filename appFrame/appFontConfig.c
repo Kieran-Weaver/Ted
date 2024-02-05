@@ -1,10 +1,8 @@
 #include <config.h>
-
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "drawImpl.h"
 #include "appScreenFont.h"
 #include <psGlyphs.h>
@@ -12,7 +10,6 @@
 #include <uniLegacyEncoding.h>
 #include "appMatchFont.h"
 #include <uniAlternatives.h>
-
 #include <appDebugon.h>
 
 #ifdef USE_FONTCONFIG /*  {{	*/
@@ -244,7 +241,8 @@ int appFcGetFontMetrics(AfmFontInfo *afi)
 	}
 
 	/*  3  */
-	if ( !ftFace->units_per_EM ) ftFace->units_per_EM = 2;
+	if (!ftFace->units_per_EM)
+		ftFace->units_per_EM = 2;
 
 	afi->afiFontBBox.drX0 = ftFace->bbox.xMin;
 	afi->afiFontBBox.drX1 = ftFace->bbox.xMax;

@@ -1,5 +1,4 @@
 #include "utilLongestCommonSubstring.h"
-
 #include <string.h>
 #include <stdlib.h>
 #include <appDebugon.h>

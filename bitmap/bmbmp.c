@@ -1,6 +1,4 @@
 #include <config.h>
-
-
 #include <stdlib.h>
 #include <string.h>
 #include "bmintern.h"
@@ -9,10 +7,8 @@
 #include <utilMemoryBuffer.h>
 #include <sioMemory.h>
 #include <geoUnits.h>
-
 #include "bmbmp.h"
 #include "bmio.h"
-
 #include <appDebugon.h>
 
 #if 0

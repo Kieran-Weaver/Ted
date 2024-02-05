@@ -151,7 +151,7 @@ int appTestFileExists(const MemoryBuffer *mb)
 /*  Make a Directory.							*/
 /*									*/
 /************************************************************************/
-static int maybe_mkdir(const char* path)
+static int maybe_mkdir(const char *path)
 {
 	struct stat st;
 	errno = 0;
@@ -175,9 +175,9 @@ static int maybe_mkdir(const char* path)
 
 int appMakeDirectory(const MemoryBuffer *dir)
 {
-	const char* cpath = utilMemoryBufferGetString(dir);
-	char* path = strdup(cpath);
-	char* p;
+	const char *cpath = utilMemoryBufferGetString(dir);
+	char *path = strdup(cpath);
+	char *p;
 	int err = 0;
 
 	if (path == NULL)
@@ -187,7 +187,8 @@ int appMakeDirectory(const MemoryBuffer *dir)
 		if (*p == '/') {
 			*p = '\0';
 			err = maybe_mkdir(path);
-			if (err < 0) goto out;
+			if (err < 0)
+				goto out;
 			*p = '/';
 		}
 	}

@@ -46,17 +46,16 @@ typedef struct TextRun {
 /************************************************************************/
 
 int docLayoutDelimitRun(TextRun *tr, int x0Twips, BufferDocument *bd,
-			       const struct BufferItem *paraNode, int part,
-			       int upto, int separate);
+			const struct BufferItem *paraNode, int part, int upto,
+			int separate);
 
 int docNextUnderlinedRun(int *pHead, int *pPast, int *pTextAttrNr,
-				TextAttribute *taLine, BufferDocument *bd,
-				const struct BufferItem *paraNode, int part,
-				int upto);
+			 TextAttribute *taLine, BufferDocument *bd,
+			 const struct BufferItem *paraNode, int part, int upto);
 
 int docNextStrikethroughRun(int *pHead, int *pPast, int *pTextAttrNr,
-				   TextAttribute *taLine, BufferDocument *bd,
-				   const struct BufferItem *paraNode, int part,
-				   int upto);
+			    TextAttribute *taLine, BufferDocument *bd,
+			    const struct BufferItem *paraNode, int part,
+			    int upto);
 
 #endif /*  DOC_TEXT_RUN_H  */

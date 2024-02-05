@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include "appFrame.h"
 #include "appIcons.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -18,7 +15,6 @@
 /*  Get a pixmap.							*/
 /*									*/
 /************************************************************************/
-
 
 int appGetImagePixmap(EditApplication *ea, const char *name,
 		      APP_BITMAP_IMAGE *pPixmap, APP_BITMAP_MASK *pMask)
@@ -82,4 +78,3 @@ void appDiscardImagePixmaps(EditApplication *ea)
 
 	return;
 }
-

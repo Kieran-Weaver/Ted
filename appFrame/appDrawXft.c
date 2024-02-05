@@ -5,14 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-#include <limits.h>
-
 #include <geo2DInteger.h>
 #include "drawImpl.h"
-
 #include <appDebugon.h>
 
 #ifdef USE_XFT

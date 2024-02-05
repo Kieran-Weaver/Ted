@@ -52,19 +52,19 @@ void docInitLayoutPosition(LayoutPosition *lp);
 void docInitBlockOrigin(BlockOrigin *bo);
 
 void docLayoutPushBottomDown(LayoutPosition *lpRowBottom,
-				    const LayoutPosition *lpColBottom);
+			     const LayoutPosition *lpColBottom);
 
 void docLayoutPushBottomDownShifted(LayoutPosition *lpRowBottom,
-					   const LayoutPosition *lpColBottom,
-					   const BlockOrigin *bo);
+				    const LayoutPosition *lpColBottom,
+				    const BlockOrigin *bo);
 
 void docShiftPosition(LayoutPosition *to, const BlockOrigin *bo,
-			     const LayoutPosition *from);
+		      const LayoutPosition *from);
 
 int docCompareLayoutPositions(const LayoutPosition *lp1,
-				     const LayoutPosition *lp2);
+			      const LayoutPosition *lp2);
 
 void docShiftRectangle(DocumentRectangle *to, const BlockOrigin *bo,
-			      const DocumentRectangle *from);
+		       const DocumentRectangle *from);
 
 #endif /*	DOC_LAYOUT_POSITION_H	*/

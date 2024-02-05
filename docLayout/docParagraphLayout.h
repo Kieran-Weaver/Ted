@@ -17,11 +17,11 @@
 /************************************************************************/
 
 void docGetParaOrnaments(BlockOrnaments *ornaments,
-				DocumentRectangle *drOutside,
-				DocumentRectangle *drInside,
-				const DocumentRectangle *drPara,
-				const BufferDocument *bd,
-				const struct BufferItem *paraBi, int atParaTop,
-				int atParaBottom);
+			 DocumentRectangle *drOutside,
+			 DocumentRectangle *drInside,
+			 const DocumentRectangle *drPara,
+			 const BufferDocument *bd,
+			 const struct BufferItem *paraBi, int atParaTop,
+			 int atParaBottom);
 
 #endif /*  DOC_PARAGRAPH_LAYOUT_H  */

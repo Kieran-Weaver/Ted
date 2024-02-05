@@ -5,15 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
-
 #include "docEdit.h"
 #include <docParaParticules.h>
 #include "docEditSetProperties.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

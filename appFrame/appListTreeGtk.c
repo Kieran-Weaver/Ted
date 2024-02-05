@@ -1,13 +1,8 @@
 #include <config.h>
-
-
 #include <string.h>
-
 #include "guiWidgets.h"
 #include "appListGtk.h"
-
 #include <appDebugon.h>
-
 
 /************************************************************************/
 /*									*/
@@ -42,7 +37,7 @@ appGuiGtkHandlePotentialListCallback(GtkTreeSelection *selection,
 		position = appGuiGetPositionFromListCallback(la->laWidget,
 							     selection);
 
-		appGuiGtkSetListAdjustment((ListAction*)voidla, position);
+		appGuiGtkSetListAdjustment((ListAction *)voidla, position);
 
 		(*la->laListCallback)(la->laWidget, selection, la->laThrough);
 		return TRUE;
@@ -62,7 +57,7 @@ static gboolean appGuiGtkListCursorChanged(GtkTreeView *treev, gpointer voidla)
 		selection = gtk_tree_view_get_selection(treev);
 		position = appGuiGetPositionFromListCallback(GTK_WIDGET(treev),
 							     selection);
-		appGuiGtkSetListAdjustment((ListAction*)voidla, position);
+		appGuiGtkSetListAdjustment((ListAction *)voidla, position);
 
 		return TRUE;
 	}
@@ -352,4 +347,3 @@ void appGuiSelectValueInListWidget(APP_WIDGET tree, const char *value)
 		}
 	}
 }
-

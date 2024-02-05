@@ -9,13 +9,12 @@
 
 SimpleOutputStream *sioOutFileioOpen(const MemoryBuffer *filename);
 
-SimpleOutputStream *
-sioOutFileioOpenForAppend(const MemoryBuffer *filename);
+SimpleOutputStream *sioOutFileioOpenForAppend(const MemoryBuffer *filename);
 
 SimpleOutputStream *sioOutFileioOpenS(const char *filename);
 
 SimpleOutputStream *sioOutFileioOpenTempFile(MemoryBuffer *filename,
-						    const char *templateStr);
+					     const char *templateStr);
 
 SimpleInputStream *sioInFileioOpen(const MemoryBuffer *filename);
 

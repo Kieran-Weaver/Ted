@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 
-
 #include "tedRuler.h"
 #include "tedDrawRuler.h"
 #include <appMetricRuler.h>
@@ -1153,10 +1152,9 @@ int tedSetRulerColumns(APP_WIDGET w, void *voidttr, int bfX0Pixels,
 		}
 	}
 
-		if (changed && GTK_WIDGET_REALIZED(w))
-		{
-			guiExposeDrawingWidget(w);
-		}
+	if (changed && GTK_WIDGET_REALIZED(w)) {
+		guiExposeDrawingWidget(w);
+	}
 
 	return 0;
 }

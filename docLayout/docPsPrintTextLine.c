@@ -196,7 +196,7 @@ int docPsPrintSpan(const DrawTextLine *dtl, int part, int count,
 	}
 
 	if (0) {
-		scratchString = (char*)malloc(nbLen + 1);
+		scratchString = (char *)malloc(nbLen + 1);
 		if (!scratchString) {
 			XDEB(scratchString);
 			rval = -1;

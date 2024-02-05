@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include "docBuf.h"
 #include "docNodeTree.h"
 #include "docParaParticules.h"
 #include <docListLevel.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

@@ -16,10 +16,9 @@
 /*									*/
 /************************************************************************/
 
-AfmFontInfo *psGetPsFontInfoForAttribute(const char *familyName,
-						int styleInt,
-						const IndexSet *unicodesUsed,
-						const TextAttribute *ta,
-						const PostScriptFontList *psfl);
+AfmFontInfo *psGetPsFontInfoForAttribute(const char *familyName, int styleInt,
+					 const IndexSet *unicodesUsed,
+					 const TextAttribute *ta,
+					 const PostScriptFontList *psfl);
 
 #endif

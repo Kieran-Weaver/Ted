@@ -5,15 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdarg.h>
-
 #include "sioGeneral.h"
 #include "sioVPrintf.h"
 #include "sioMemory.h"
 #include "utilMemoryBuffer.h"
 #include "utilMemoryBufferPrintf.h"
-
 #include <appDebugon.h>
 
 extern int utilMemoryBufferPrintf(MemoryBuffer *mb, const char *format, ...)

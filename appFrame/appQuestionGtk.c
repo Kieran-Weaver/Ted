@@ -6,15 +6,10 @@
 /************************************************************************/
 
 #include <config.h>
-
-
 #include <stddef.h>
-
 #include "appFrame.h"
 #include "appQuestion.h"
-
 #include <appDebugon.h>
-
 
 int appQuestionRunSubjectYesNoCancelDialog(EditApplication *ea,
 					   APP_WIDGET relative,
@@ -226,4 +221,3 @@ void appQuestionRunErrorDialog(EditApplication *ea, APP_WIDGET relative,
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
 }
-

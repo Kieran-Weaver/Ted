@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "sioDebug.h"
 #include <appDebugon.h>
 

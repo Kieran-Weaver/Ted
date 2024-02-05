@@ -160,96 +160,92 @@ typedef struct DrawingContext {
 void docInitDrawTextLine(DrawTextLine *dtl);
 void docInitDrawingContext(DrawingContext *dc);
 
-int docDrawNode(LayoutPosition *lpBelow, struct BufferItem *node,
-		       void *through, DrawingContext *dc);
+int docDrawNode(LayoutPosition *lpBelow, struct BufferItem *node, void *through,
+		DrawingContext *dc);
 
 int docDrawPageRange(DrawingContext *dc, void *through);
 
 int docDrawPageHeader(struct BufferItem *sectNode, void *through,
-			     DrawingContext *dc, int page);
+		      DrawingContext *dc, int page);
 
 int docDrawPageFooter(struct BufferItem *sectNode, void *through,
-			     DrawingContext *dc, int page);
+		      DrawingContext *dc, int page);
 
-int docDrawShapesForPage(void *through, DrawingContext *dc,
-				int belowText, int page);
+int docDrawShapesForPage(void *through, DrawingContext *dc, int belowText,
+			 int page);
 
 int docDrawFootnotesForColumn(int page, int column, void *through,
-				     DrawingContext *dc);
+			      DrawingContext *dc);
 
-int docDrawEndnotesForSection(LayoutPosition *lpBelow, int sect,
-				     void *through, DrawingContext *dc);
+int docDrawEndnotesForSection(LayoutPosition *lpBelow, int sect, void *through,
+			      DrawingContext *dc);
 
 int docDrawEndnotesForDocument(LayoutPosition *lpBelow, void *through,
-				      DrawingContext *dc);
-
-int docDrawToColumnOfNode(struct BufferItem *prevBodyBi,
-				 struct BufferItem *thisBodyBi,
-				 struct BufferItem *thisBi, void *through,
-				 LayoutPosition *lpHere, DrawingContext *dc,
-				 const BlockOrigin *bo);
-
-void docDrawSetColorRgb(DrawingContext *dc, void *through,
-			       const RGB8Color *rgb8);
-
-void docDrawSetColorNumber(DrawingContext *dc, void *through,
-				  int colorNumber);
-
-void docDrawSetFont(DrawingContext *dc, void *through, int textAttrNr,
-			   const TextAttribute *ta);
-
-int docDrawShapeGetFill(int *pFill, RGB8Color *rgb8Fill,
-			       const struct DrawingShape *ds,
-			       DrawingContext *dc, void *through);
-
-int docDrawShapeGetLine(int *pLine, RGB8Color *rgb8Stroke,
-			       const struct DrawingShape *ds,
-			       DrawingContext *dc, void *through);
-
-int docDrawShape(DrawingContext *dc, void *through,
-			const struct BufferItem *bodySectNode,
-			const InsertedObject *io);
-
-int docDrawRowNode(struct BufferItem *rowBi, void *through,
-			  DrawingContext *dc, const BlockOrigin *bo);
-
-int docDrawTableHeader(int *pHigh, const struct BufferItem *rowBi,
-			      const BlockFrame *bfRef, void *through,
-			      DrawingContext *dc,
-			      const LayoutPosition *lpHeader);
-
-int docDrawParagraphStrip(void *through, ParagraphDrawingStrip *pds,
-				 struct BufferItem *paraBi, int countAfter,
-				 const LayoutPosition *lpShadeTop, int lineFrom,
-				 const ParagraphFrame *pf, DrawingContext *dc,
-				 const LayoutPosition *lpThisFrame,
-				 const BlockOrigin *bo);
-
-int docDrawTextLines(void *through, const ParagraphDrawingStrip *pds,
-			    struct BufferItem *paraBi, const ParagraphFrame *pf,
-			    DrawingContext *dc, const BlockOrigin *bo);
-
-int docDrawToNextColumn(struct BufferItem *thisBodyBi,
-			       struct BufferItem *nextBodyBi, void *through,
-			       LayoutPosition *lpHere, BlockFrame *bf,
 			       DrawingContext *dc);
 
+int docDrawToColumnOfNode(struct BufferItem *prevBodyBi,
+			  struct BufferItem *thisBodyBi,
+			  struct BufferItem *thisBi, void *through,
+			  LayoutPosition *lpHere, DrawingContext *dc,
+			  const BlockOrigin *bo);
+
+void docDrawSetColorRgb(DrawingContext *dc, void *through,
+			const RGB8Color *rgb8);
+
+void docDrawSetColorNumber(DrawingContext *dc, void *through, int colorNumber);
+
+void docDrawSetFont(DrawingContext *dc, void *through, int textAttrNr,
+		    const TextAttribute *ta);
+
+int docDrawShapeGetFill(int *pFill, RGB8Color *rgb8Fill,
+			const struct DrawingShape *ds, DrawingContext *dc,
+			void *through);
+
+int docDrawShapeGetLine(int *pLine, RGB8Color *rgb8Stroke,
+			const struct DrawingShape *ds, DrawingContext *dc,
+			void *through);
+
+int docDrawShape(DrawingContext *dc, void *through,
+		 const struct BufferItem *bodySectNode,
+		 const InsertedObject *io);
+
+int docDrawRowNode(struct BufferItem *rowBi, void *through, DrawingContext *dc,
+		   const BlockOrigin *bo);
+
+int docDrawTableHeader(int *pHigh, const struct BufferItem *rowBi,
+		       const BlockFrame *bfRef, void *through,
+		       DrawingContext *dc, const LayoutPosition *lpHeader);
+
+int docDrawParagraphStrip(void *through, ParagraphDrawingStrip *pds,
+			  struct BufferItem *paraBi, int countAfter,
+			  const LayoutPosition *lpShadeTop, int lineFrom,
+			  const ParagraphFrame *pf, DrawingContext *dc,
+			  const LayoutPosition *lpThisFrame,
+			  const BlockOrigin *bo);
+
+int docDrawTextLines(void *through, const ParagraphDrawingStrip *pds,
+		     struct BufferItem *paraBi, const ParagraphFrame *pf,
+		     DrawingContext *dc, const BlockOrigin *bo);
+
+int docDrawToNextColumn(struct BufferItem *thisBodyBi,
+			struct BufferItem *nextBodyBi, void *through,
+			LayoutPosition *lpHere, BlockFrame *bf,
+			DrawingContext *dc);
+
 int docDrawParaNode(LayoutPosition *lpBelow, struct BufferItem *paraBi,
-			   void *through, DrawingContext *dc,
-			   const BlockOrigin *bo);
+		    void *through, DrawingContext *dc, const BlockOrigin *bo);
 
-void docSetDrawTextLine(DrawTextLine *dtl, void *through,
-			       DrawingContext *dc, const struct TextLine *tl,
-			       const struct BufferItem *paraBi,
-			       const BlockOrigin *bo, const ParagraphFrame *pf,
-			       const DocumentRectangle *drLine);
+void docSetDrawTextLine(DrawTextLine *dtl, void *through, DrawingContext *dc,
+			const struct TextLine *tl,
+			const struct BufferItem *paraBi, const BlockOrigin *bo,
+			const ParagraphFrame *pf,
+			const DocumentRectangle *drLine);
 
-int docDrawLineParticules(const DrawTextLine *dtl, int *pXTwips,
-				 int part);
+int docDrawLineParticules(const DrawTextLine *dtl, int *pXTwips, int part);
 
 int docDrawShapeText(const DocumentRectangle *drHere,
-			    const struct BufferItem *bodySectNode, int page,
-			    int column, struct DrawingShape *ds,
-			    DrawingContext *dc, void *through);
+		     const struct BufferItem *bodySectNode, int page,
+		     int column, struct DrawingShape *ds, DrawingContext *dc,
+		     void *through);
 
 #endif

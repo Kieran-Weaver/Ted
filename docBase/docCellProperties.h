@@ -140,19 +140,18 @@ typedef enum CellInstanceProperty {
 void docInitCellProperties(CellProperties *cp);
 
 int docUpdCellProperties(PropertyMask *pCpDonePask, CellProperties *cp,
-				const PropertyMask *cpSetMask,
-				const CellProperties *cpSet,
-				const DocumentAttributeMap *dam);
+			 const PropertyMask *cpSetMask,
+			 const CellProperties *cpSet,
+			 const DocumentAttributeMap *dam);
 
 void docCellPropertyDifference(PropertyMask *pDifMask,
-				      const CellProperties *cp1,
-				      const PropertyMask *cpCmpMask,
-				      const CellProperties *cp2,
-				      const DocumentAttributeMap *dam);
+			       const CellProperties *cp1,
+			       const PropertyMask *cpCmpMask,
+			       const CellProperties *cp2,
+			       const DocumentAttributeMap *dam);
 
-int docCopyCellProperties(CellProperties *cpTo,
-				 const CellProperties *cpFrom,
-				 const DocumentAttributeMap *dam);
+int docCopyCellProperties(CellProperties *cpTo, const CellProperties *cpFrom,
+			  const DocumentAttributeMap *dam);
 
 int docSetCellProperty(CellProperties *cp, int prop, int arg);
 

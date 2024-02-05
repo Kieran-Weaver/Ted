@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
 #include <stdio.h>
-
 #include <appDebugon.h>
-
 #include <utilBase26.h>
 #include <utilRoman.h>
 #include <docPagerefField.h>

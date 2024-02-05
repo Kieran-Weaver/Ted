@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include "tedAppFront.h"
 #include "tedLinkTool.h"
 #include "tedToolUtil.h"

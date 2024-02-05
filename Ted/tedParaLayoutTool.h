@@ -109,22 +109,20 @@ void tedFormatToolGetParaLayoutResourceTable(EditApplication *ea,
 					     ParagraphLayoutPageResources *plpr,
 					     InspectorSubjectResources *isr);
 
-void
-tedParaLayoutToolFillChoosers(ParagraphLayoutTool *plt,
-			      const ParagraphLayoutPageResources *plpr);
+void tedParaLayoutToolFillChoosers(ParagraphLayoutTool *plt,
+				   const ParagraphLayoutPageResources *plpr);
 
-void
-tedFormatFillParagraphLayoutPage(ParagraphLayoutTool *plt,
-				 const ParagraphLayoutPageResources *ppr,
-				 InspectorSubject *is, APP_WIDGET pgW,
-				 const InspectorSubjectResources *isr);
+void tedFormatFillParagraphLayoutPage(ParagraphLayoutTool *plt,
+				      const ParagraphLayoutPageResources *ppr,
+				      InspectorSubject *is, APP_WIDGET pgW,
+				      const InspectorSubjectResources *isr);
 
 void tedRefreshParaLayoutTool(ParagraphLayoutTool *plt, int *pEnabled,
-				     int *pPref, InspectorSubject *is,
-				     const DocumentSelection *ds,
-				     const SelectionGeometry *sg,
-				     const SelectionDescription *sd,
-				     const unsigned char *cmdEnabled);
+			      int *pPref, InspectorSubject *is,
+			      const DocumentSelection *ds,
+			      const SelectionGeometry *sg,
+			      const SelectionDescription *sd,
+			      const unsigned char *cmdEnabled);
 
 void tedFormatCleanParaLayoutTool(ParagraphLayoutTool *plt);
 

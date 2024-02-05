@@ -1,13 +1,8 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <string.h>
-
 #include "guiWidgets.h"
-
 #include <appDebugon.h>
-
 
 void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
 		      int colspan, int textColumns, int textEnabled)
@@ -21,9 +16,7 @@ void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
 	}
 
 	gtk_table_attach(GTK_TABLE(row), text, column, column + colspan, 0, 1,
-			 GTK_FES,
-			 GTK_FES, ROW_XPADDING_GTK,
-			 ROW_YPADDING_GTK);
+			 GTK_FES, GTK_FES, ROW_XPADDING_GTK, ROW_YPADDING_GTK);
 
 	gtk_widget_show(text);
 
@@ -171,4 +164,3 @@ void appGuiSetGotValueCallbackForText(APP_WIDGET text,
 
 	return;
 }
-

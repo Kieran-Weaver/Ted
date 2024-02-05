@@ -43,10 +43,9 @@ typedef struct HeightChooser {
 
 void tedInitHeightChooser(HeightChooser *hc);
 
-void tedFormatMakeHeightRow(void *through, APP_WIDGET parent,
-				   HeightChooser *hc,
-				   APP_TXACTIVATE_CALLBACK_T textCallback,
-				   OptionmenuCallback menuCallback);
+void tedFormatMakeHeightRow(void *through, APP_WIDGET parent, HeightChooser *hc,
+			    APP_TXACTIVATE_CALLBACK_T textCallback,
+			    OptionmenuCallback menuCallback);
 
 void tedFormatRefreshHeightChooser(HeightChooser *hc, int height);
 
@@ -55,12 +54,12 @@ void tedFormatEnableHeightChooser(HeightChooser *hc, int enabled);
 void tedFormatHeightChosen(int how, HeightChooser *hc, int defaultValue);
 
 void tedFormatFillHeightChooser(HeightChooser *hc, const char *freeText,
-				       const char *atLeastText,
-				       const char *exactlyText);
+				const char *atLeastText,
+				const char *exactlyText);
 
 int tedFormatToolGetHeight(int *pHeight, HeightChooser *hc);
 
 int tedHeightToolValidateDimension(int *pValue, int *pChanged,
-					  const HeightChooser *hc, int orig);
+				   const HeightChooser *hc, int orig);
 
 #endif /*  TED_HEIGHT_TOOL_H */

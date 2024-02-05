@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <geoString.h>
 #include <appPaper.h>
-
 #include "appPaperChooser.h"
 #include "guiWidgets.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -535,9 +531,9 @@ void appPaperChooserFillMenu(PaperChooser *pc, const char *customLabel)
 		pc->pcCustomPaperSize = i++;
 		pc->pcSizeOptionCount = i;
 
-		pc->pcSizeOptions =
-			(GtkWidget**)realloc(pc->pcSizeOptions,
-				pc->pcSizeOptionCount * sizeof(APP_WIDGET));
+		pc->pcSizeOptions = (GtkWidget **)realloc(
+			pc->pcSizeOptions,
+			pc->pcSizeOptionCount * sizeof(APP_WIDGET));
 		if (!pc->pcSizeOptions) {
 			LXDEB(pc->pcSizeOptionCount, pc->pcSizeOptions);
 			return;

@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docParaProperties.h"
 #include "docPropVal.h"
 #include "docListDepth.h"

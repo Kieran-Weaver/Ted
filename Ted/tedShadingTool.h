@@ -32,7 +32,7 @@ typedef struct ShadingTool {
 
 	int stShowPattern;
 	AppDrawnPulldown stPatternPulldown;
-	struct DrawingSurface* stPatternPixmaps[PSshd_COUNT];
+	struct DrawingSurface *stPatternPixmaps[PSshd_COUNT];
 
 	APP_WIDGET stOnOffToggle;
 	APP_WIDGET stLevelText;
@@ -70,30 +70,26 @@ typedef struct ShadingToolResources {
 void tedEnableShadingTool(ShadingTool *st, int enabled);
 
 void tedSetShadingToolByNumber(ShadingTool *st, const BufferDocument *bd,
-				      int num);
+			       int num);
 
 void tedFormatMakeShadingTool(ShadingTool *st, AppInspector *ai,
-				     APP_WIDGET pageWidget, const char *title,
-				     const ShadingToolResources *str,
-				     int subjectPage, int foreWhich,
-				     int backWhich,
-				     TedShadingToolCallback callback,
-				     void *through);
+			      APP_WIDGET pageWidget, const char *title,
+			      const ShadingToolResources *str, int subjectPage,
+			      int foreWhich, int backWhich,
+			      TedShadingToolCallback callback, void *through);
 
 void tedShadeSetExplicitColorChoice(ShadingTool *st, int which,
-					   const RGB8Color *rgb8Set);
+				    const RGB8Color *rgb8Set);
 
 void tedInitShadingTool(ShadingTool *st);
 void tedCleanShadingTool(ShadingTool *st);
 
-void tedFinishShadingTool(ShadingTool *st,
-				 const PostScriptFontList *psfl);
+void tedFinishShadingTool(ShadingTool *st, const PostScriptFontList *psfl);
 
 int tedShadingToolGetShadingNumber(int *pNum, PropertyMask *isSetMask,
-					  const ShadingTool *st,
-					  BufferDocument *bd);
+				   const ShadingTool *st, BufferDocument *bd);
 
 int tedFormatToolGetCellShading(CellProperties *cp, BufferDocument *bd,
-				       ShadingTool *st);
+				ShadingTool *st);
 
 #endif /*  TED_SHADING_TOOL_H */

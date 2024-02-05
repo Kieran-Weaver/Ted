@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <appDebugon.h>
 #include <utilTree.h>
-
 #include "docStyleSheet.h"
 #include "docListDepth.h"
 

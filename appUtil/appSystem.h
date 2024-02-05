@@ -54,21 +54,19 @@ int appTestFileReadable(const MemoryBuffer *file);
 
 int appMakeDirectory(const MemoryBuffer *dir);
 int appAbsoluteName(MemoryBuffer *absolute, const MemoryBuffer *relative,
-			   int relativeIsFile,
-			   const MemoryBuffer *nameRelativeTo);
+		    int relativeIsFile, const MemoryBuffer *nameRelativeTo);
 
 int appRemoveFile(const MemoryBuffer *filename);
-int appRenameFile(const MemoryBuffer *newName,
-			 const MemoryBuffer *oldName);
+int appRenameFile(const MemoryBuffer *newName, const MemoryBuffer *oldName);
 
-int appForAllFiles(const MemoryBuffer *dir, const char *ext,
-			  void *through, FILE_CALLBACK callback);
+int appForAllFiles(const MemoryBuffer *dir, const char *ext, void *through,
+		   FILE_CALLBACK callback);
 
 int appFileGetFileExtension(MemoryBuffer *extension,
-				   const MemoryBuffer *filename);
+			    const MemoryBuffer *filename);
 
 int appFileGetRelativeName(MemoryBuffer *relative,
-				  const MemoryBuffer *filename);
+			   const MemoryBuffer *filename);
 
 int appDirectoryOfFileName(MemoryBuffer *dir, const MemoryBuffer *name);
 

@@ -5,18 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <string.h>
-
 #include <appSystem.h>
 #include <sioFileio.h>
-
 #include "appFrame.h"
 #include "appPrintJob.h"
 #include <appDebugon.h>
-
 #include "appFileChooser.h"
 #include "appQuestion.h"
 
@@ -245,7 +240,7 @@ int appFileChooserTestNameForWrite(const AppChooserInformation *aci)
 		}
 	} else {
 		if (!dirExists) {
-			char *slash = (char*)strrchr(filename + 1, '/');
+			char *slash = (char *)strrchr(filename + 1, '/');
 
 			if (slash) {
 				*slash = '\0';

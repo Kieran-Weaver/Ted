@@ -1,14 +1,9 @@
 #include <config.h>
-
-
-
 #include "appFrame.h"
 #include "guiWidgetsGtk.h"
 #include "guiWidgetsImpl.h"
 #include "guiDrawingWidget.h"
-
 #include <appDebugon.h>
-
 
 /************************************************************************/
 /*									*/
@@ -53,8 +48,7 @@ APP_WIDGET appMakeToggleInRow(APP_WIDGET row, const char *text,
 	gtk_widget_set_name(GTK_WIDGET(toggle), "tedRowToggle");
 
 	gtk_table_attach(GTK_TABLE(row), toggle, col, col + colspan, 0, 1,
-			 (GtkAttachOptions)GTK_FES,
-			 GTK_FES, ROW_XPADDING_GTK,
+			 (GtkAttachOptions)GTK_FES, GTK_FES, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 
 	gtk_widget_show(toggle);
@@ -66,4 +60,3 @@ APP_WIDGET appMakeToggleInRow(APP_WIDGET row, const char *text,
 
 	return toggle;
 }
-

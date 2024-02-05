@@ -1,12 +1,8 @@
 #include <config.h>
-
-
-
 #include "guiWidgets.h"
 #include "appDrawnPulldown.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
-
 #include <appDebugon.h>
 
 void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip, int *pRestWide,
@@ -67,8 +63,8 @@ void appInitDrawnPulldown(AppDrawnPulldown *adp)
 
 	adp->adpEnabled = 1;
 
-	adp->adpInplaceDrawingSurface = (struct DrawingSurface*)0;
-	adp->adpPulldownDrawingSurface = (struct DrawingSurface*)0;
+	adp->adpInplaceDrawingSurface = (struct DrawingSurface *)0;
+	adp->adpPulldownDrawingSurface = (struct DrawingSurface *)0;
 }
 
 void appCleanDrawnPulldown(AppDrawnPulldown *adp)

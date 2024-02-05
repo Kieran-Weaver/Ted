@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docListFonts.h"
 #include "docShape.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

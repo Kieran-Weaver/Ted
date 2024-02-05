@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "appFrame.h"
 #include "appPaperChooser.h"
 #include <psNup.h>
@@ -620,7 +616,6 @@ static void appSelectionChosen(int n, void *voidapd)
 {
 	AppPrintDialog *apd = (AppPrintDialog *)voidapd;
 
-
 	if (n < 0 || n >= PRINTselCOUNT) {
 		LLDEB(n, PRINTselCOUNT);
 		return;
@@ -936,7 +931,7 @@ static int appPrintDialogFillPrinterMenu(const AppPrintDialogResources *apdr,
 		char *scratch;
 		int pos;
 
-		scratch = (char*)malloc(ltxt + lval + 1);
+		scratch = (char *)malloc(ltxt + lval + 1);
 		if (!scratch) {
 			LLXDEB(ltxt, lval, scratch);
 			return -1;
@@ -990,7 +985,7 @@ static int appPrintDialogFillPrinterMenu(const AppPrintDialogResources *apdr,
 		char *scratch;
 		int pos;
 
-		scratch = (char*)malloc(ltxt + lval + 1);
+		scratch = (char *)malloc(ltxt + lval + 1);
 		if (!scratch) {
 			LLXDEB(ltxt, lval, scratch);
 			return -1;
@@ -1348,7 +1343,7 @@ static AppPrintDialog *appMakePrintDialog(EditApplication *ea, EditDocument *ed,
 	apd->apdCenterHToggle = (APP_WIDGET)0;
 	apd->apdResources = &apdr;
 
-	apd->apdDrawingSurface = (struct DrawingSurface*)0;
+	apd->apdDrawingSurface = (struct DrawingSurface *)0;
 
 	if (!gotResources) {
 		for (i = 0; i < PSnum__COUNT; i++) {

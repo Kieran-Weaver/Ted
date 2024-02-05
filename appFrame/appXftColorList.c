@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <string.h>
 #include <limits.h>
 #include <utilColor.h>
 #include "drawImpl.h"
-
 #include <appDebugon.h>
 
 #ifdef USE_XFT

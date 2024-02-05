@@ -45,6 +45,6 @@ typedef enum SelectionScopeProperty {
 void docInitSelectionScope(SelectionScope *ss);
 
 int docSelectionSameScope(const SelectionScope *ssFrom,
-				 const SelectionScope *ssTo);
+			  const SelectionScope *ssTo);
 
 #endif /*	DOC_SELECTION_SCOPE_H	*/

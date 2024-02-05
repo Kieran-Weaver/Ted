@@ -182,16 +182,16 @@ DocumentField *docGetFirstField(const ChildFields *rootFields);
 DocumentField *docGetLastField(const ChildFields *rootFields);
 
 DocumentField *docGetNextField(const ChildFields *rootFields,
-				      DocumentField *df);
+			       DocumentField *df);
 
 DocumentField *docGetPrevField(const ChildFields *rootFields,
-				      DocumentField *df);
+			       DocumentField *df);
 
 DocumentField *docGetFirstFieldOfSection(const ChildFields *rootFields,
 					 int sect);
 
-DocumentField *docGetNextFieldInSection(const ChildFields *rootFields,
-					       int sect, DocumentField *df);
+DocumentField *docGetNextFieldInSection(const ChildFields *rootFields, int sect,
+					DocumentField *df);
 
 void docInitDocumentField(DocumentField *df);
 void docInitChildFields(ChildFields *cf);
@@ -204,18 +204,18 @@ int docSetFieldInst(DocumentField *df, const char *bytes, int size);
 int docAddToFieldData(DocumentField *df, const char *bytes, int size);
 
 int docFieldGetTc(const DocumentField *df, char *pFlag, int *pLevel,
-			 int *pNumbered);
+		  int *pNumbered);
 
 int docInsertChildField(DocumentField *parent, ChildFields *cf,
-			       DocumentField *df);
+			DocumentField *df);
 
 int docDeleteChildField(ChildFields *cf, DocumentField *df);
 
-DocumentField *docFindChildField(const ChildFields *cf,
-					const EditPosition *ep, int lastOne);
+DocumentField *docFindChildField(const ChildFields *cf, const EditPosition *ep,
+				 int lastOne);
 
 DocumentField *docFindTypedChildField(const ChildFields *cf,
-					     const EditPosition *ep, int type);
+				      const EditPosition *ep, int type);
 
 void docSetFieldTail(DocumentField *dfPa, const EditPosition *epTail);
 
@@ -224,19 +224,17 @@ int docAddChildToField(DocumentField *dfCh, DocumentField *dfPa);
 int docInsertFieldInTree(ChildFields *cf, DocumentField *df);
 
 DocumentField *docFieldGetCommonParent(DocumentField *dfLeft,
-					      DocumentField *dfRight);
+				       DocumentField *dfRight);
 
 int docFieldFormatInteger(MemoryBuffer *mbResult, int format, int value);
 
-int docCopyFieldProperties(DocumentField *dfTo,
-				  const DocumentField *dfFrom);
+int docCopyFieldProperties(DocumentField *dfTo, const DocumentField *dfFrom);
 
 int docSetFieldProperty(DocumentField *df, int prop, int val);
 
 int docAllocateInstructionComponents(DocumentField *df, int n);
 
-DocumentField *docFindFieldInRange(const EditRange *er,
-					  const ChildFields *cf, int lastOne,
-					  int kind);
+DocumentField *docFindFieldInRange(const EditRange *er, const ChildFields *cf,
+				   int lastOne, int kind);
 
 #endif /*  DOC_DOCUMENT_FIELD_H  */

@@ -34,17 +34,14 @@ void utilInitNumberedPropertiesList(NumberedPropertiesList *npl);
 void utilCleanNumberedPropertiesList(NumberedPropertiesList *npl);
 
 void utilForAllNumberedProperties(const NumberedPropertiesList *npl,
-					 NumberedPropertiesFunction f,
-					 void *through);
+				  NumberedPropertiesFunction f, void *through);
 
-void utilStartNumberedPropertyList(NumberedPropertiesList *npl,
-					  int propCount,
-					  NumberedPropertiesGetProperty getProp,
-					  int sizeofItem,
-					  InitPagedListItem initItem,
-					  CleanPagedListItem cleanItem);
+void utilStartNumberedPropertyList(NumberedPropertiesList *npl, int propCount,
+				   NumberedPropertiesGetProperty getProp,
+				   int sizeofItem, InitPagedListItem initItem,
+				   CleanPagedListItem cleanItem);
 
 int utilGetPropertyNumber(NumberedPropertiesList *npl, int make,
-				 const void *vob);
+			  const void *vob);
 
 #endif /*  UTIL_NUMBERED_PROPERTIES_ADMIN_H	*/

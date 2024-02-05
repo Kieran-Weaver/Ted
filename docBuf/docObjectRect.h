@@ -15,11 +15,10 @@
 /*									*/
 /************************************************************************/
 
-void docObjectGetPageRect(DocumentRectangle *drDest,
-				 const InsertedObject *io, int x0Twips,
-				 int baselineTwips);
+void docObjectGetPageRect(DocumentRectangle *drDest, const InsertedObject *io,
+			  int x0Twips, int baselineTwips);
 
 void docObjectGetSourceRect(DocumentRectangle *drSrc,
-				   const PictureProperties *pip);
+			    const PictureProperties *pip);
 
 #endif /*  DOC_OBJECT_RECT_H  */

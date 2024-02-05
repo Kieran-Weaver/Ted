@@ -1,15 +1,10 @@
 #include <config.h>
-
 #include <stdlib.h>
 #include <stdint.h>
-
-
 #include <sioHex.h>
 #include <sioBase85.h>
 #include <sioFlate.h>
-
 #include "bmBitmapPrinter.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

@@ -50,27 +50,25 @@ typedef struct BookmarkTool {
 /*									*/
 /************************************************************************/
 
-void tedFillBookmarkTool(BookmarkTool *bt,
-				const BookmarkPageResources *bpr,
-				InspectorSubject *is, APP_WIDGET pageWidget,
-				const InspectorSubjectResources *isr);
+void tedFillBookmarkTool(BookmarkTool *bt, const BookmarkPageResources *bpr,
+			 InspectorSubject *is, APP_WIDGET pageWidget,
+			 const InspectorSubjectResources *isr);
 
 void tedInitBookmarkTool(BookmarkTool *bt);
 void tedFormatCleanBookmarkTool(BookmarkTool *bt);
 
 void tedBookmarkToolGetResourceTable(EditApplication *ea,
-					    BookmarkPageResources *bpr,
-					    InspectorSubjectResources *isr);
+				     BookmarkPageResources *bpr,
+				     InspectorSubjectResources *isr);
 
 void tedBookmarkToolFillChoosers(BookmarkTool *bt);
 
 void tedFinishBookmarkTool(BookmarkTool *bt);
 
 void tedRefreshBookmarkTool(BookmarkTool *bt, int *pEnabled, int *pPref,
-				   InspectorSubject *is,
-				   const DocumentSelection *ds,
-				   const SelectionDescription *sd,
-				   DocumentTree *ei, BufferDocument *bd,
-				   const unsigned char *cmdEnabled);
+			    InspectorSubject *is, const DocumentSelection *ds,
+			    const SelectionDescription *sd, DocumentTree *ei,
+			    BufferDocument *bd,
+			    const unsigned char *cmdEnabled);
 
 #endif /*  TED_BOOKMARK_TOOL_H  */

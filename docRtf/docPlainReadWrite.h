@@ -17,9 +17,9 @@
 /************************************************************************/
 
 BufferDocument *docPlainReadFile(SimpleInputStream *sis, int *pMxL,
-					const DocumentGeometry *dg);
+				 const DocumentGeometry *dg);
 
 int docPlainSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
-				const DocumentSelection *ds, int fold);
+			 const DocumentSelection *ds, int fold);
 
 #endif /*	DOC_PLAIN_RW_H	*/

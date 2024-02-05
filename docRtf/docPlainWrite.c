@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 
-
 #include <docBuf.h>
 #include <docNotes.h>
 #include <docTreeNode.h>

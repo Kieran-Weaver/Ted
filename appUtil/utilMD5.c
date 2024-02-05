@@ -54,8 +54,7 @@ documentation and/or software.
 #define S43 15
 #define S44 21
 
-static void utilMD5Transform(uint32_t state[4],
-			     const unsigned char block[64]);
+static void utilMD5Transform(uint32_t state[4], const unsigned char block[64]);
 
 static void utilMD5Encode(unsigned char *output, uint32_t *input,
 			  unsigned int len);
@@ -83,29 +82,29 @@ static unsigned char PADDING[64] = { 0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 /* FF, GG, HH, and II transformations for rounds 1, 2, 3, and 4.
 Rotation is separate from addition to prevent recomputation.
  */
-#define FF(a, b, c, d, x, s, ac)                                  \
-	{                                                         \
+#define FF(a, b, c, d, x, s, ac)                                \
+	{                                                       \
 		(a) += F((b), (c), (d)) + (x) + (uint32_t)(ac); \
-		(a) = ROTATE_LEFT((a), (s));                      \
-		(a) += (b);                                       \
+		(a) = ROTATE_LEFT((a), (s));                    \
+		(a) += (b);                                     \
 	}
-#define GG(a, b, c, d, x, s, ac)                                  \
-	{                                                         \
+#define GG(a, b, c, d, x, s, ac)                                \
+	{                                                       \
 		(a) += G((b), (c), (d)) + (x) + (uint32_t)(ac); \
-		(a) = ROTATE_LEFT((a), (s));                      \
-		(a) += (b);                                       \
+		(a) = ROTATE_LEFT((a), (s));                    \
+		(a) += (b);                                     \
 	}
-#define HH(a, b, c, d, x, s, ac)                                  \
-	{                                                         \
+#define HH(a, b, c, d, x, s, ac)                                \
+	{                                                       \
 		(a) += H((b), (c), (d)) + (x) + (uint32_t)(ac); \
-		(a) = ROTATE_LEFT((a), (s));                      \
-		(a) += (b);                                       \
+		(a) = ROTATE_LEFT((a), (s));                    \
+		(a) += (b);                                     \
 	}
-#define II(a, b, c, d, x, s, ac)                                  \
-	{                                                         \
+#define II(a, b, c, d, x, s, ac)                                \
+	{                                                       \
 		(a) += I((b), (c), (d)) + (x) + (uint32_t)(ac); \
-		(a) = ROTATE_LEFT((a), (s));                      \
-		(a) += (b);                                       \
+		(a) = ROTATE_LEFT((a), (s));                    \
+		(a) += (b);                                     \
 	}
 
 /************************************************************************/

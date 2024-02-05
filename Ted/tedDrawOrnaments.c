@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include "docDraw.h"
 #include "tedApp.h"
 #include "tedDraw.h"
@@ -337,8 +336,8 @@ int tedDrawOrnaments(const BlockOrnaments *bo, int page,
 /************************************************************************/
 
 void tedDrawShadedRectangle(const LayoutContext *lc,
-			    struct DrawingSurface **shadingPixmaps,
-			    int pattern, const DocumentRectangle *drShade)
+			    struct DrawingSurface **shadingPixmaps, int pattern,
+			    const DocumentRectangle *drShade)
 {
 	if (!shadingPixmaps[pattern]) {
 		const int wide = 8;
@@ -532,8 +531,8 @@ static const unsigned char TED_Border_DASHSM[] = { 3, 1 };
 static const unsigned char TED_Border_DASHD[] = { 4, 2, 2, 2 };
 static const unsigned char TED_Border_DASHDD[] = { 4, 2, 2, 2, 2, 2 };
 
-void tedDrawHorizontalBorderLine(struct DrawingSurface *ds, int style, int minThick,
-				 int x0, int x1, int y)
+void tedDrawHorizontalBorderLine(struct DrawingSurface *ds, int style,
+				 int minThick, int x0, int x1, int y)
 {
 	int yy;
 	int xx;

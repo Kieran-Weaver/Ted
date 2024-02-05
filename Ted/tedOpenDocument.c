@@ -2,8 +2,6 @@
 
 #include <stddef.h>
 
-
-
 #include <sioFileio.h>
 #include <sioMD5.h>
 #include <sioMemory.h>
@@ -624,7 +622,8 @@ static int tedRemebmerTraceStep(const TraceStep *ts, const EditStep *es,
 		return -1;
 	}
 
-	tsNew = (TraceStep*)utilPagedListClaimItem(&(fd->fdEditTrace->etTraceSteps), step);
+	tsNew = (TraceStep *)utilPagedListClaimItem(
+		&(fd->fdEditTrace->etTraceSteps), step);
 	if (!tsNew) {
 		LXDEB(step, tsNew);
 		return -1;

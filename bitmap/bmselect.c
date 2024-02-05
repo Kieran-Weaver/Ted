@@ -1,9 +1,7 @@
 #include <config.h>
-
 #include <string.h>
 #include <stdlib.h>
 #include "bitmap.h"
-
 #include <appDebugon.h>
 
 int bmSelect(RasterImage *riOut, const RasterImage *riIn,

@@ -21,11 +21,11 @@
 /************************************************************************/
 
 void tedFormatToolAdaptToSelection(AppInspector *ai, EditDocument *ed,
-					  int choosePage, DocumentTree *ei,
-					  const DocumentSelection *ds,
-					  const SelectionGeometry *sg,
-					  const SelectionDescription *sd,
-					  const unsigned char *cmdEnabled);
+				   int choosePage, DocumentTree *ei,
+				   const DocumentSelection *ds,
+				   const SelectionGeometry *sg,
+				   const SelectionDescription *sd,
+				   const unsigned char *cmdEnabled);
 
 void tedFormatShowPagePage(EditApplication *ea);
 void tedFormatShowFontPage(EditApplication *ea);

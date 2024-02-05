@@ -9,7 +9,6 @@
 
 #include <stddef.h>
 
-
 #include "docParticuleData.h"
 #include "docPsPrintImpl.h"
 #include <docListFonts.h>

@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docDocumentField.h"
 #include "docDateField.h"
 

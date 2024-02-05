@@ -16,7 +16,6 @@
 /*									*/
 /************************************************************************/
 
-void psWriteFontInfoDict(SimpleOutputStream *sos,
-				const AfmFontInfo *afi);
+void psWriteFontInfoDict(SimpleOutputStream *sos, const AfmFontInfo *afi);
 
 #endif

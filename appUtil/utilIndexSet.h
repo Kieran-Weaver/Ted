@@ -45,16 +45,15 @@ int utilIndexSetAdd(IndexSet *is, int v);
 void utilIndexSetRemove(IndexSet *is, int v);
 
 int utilIndexSetIntersect(IndexSet *res, const IndexSet *is1,
-				 const IndexSet *is2);
+			  const IndexSet *is2);
 
-int utilIndexSetUnion(IndexSet *res, const IndexSet *is1,
-			     const IndexSet *is2);
+int utilIndexSetUnion(IndexSet *res, const IndexSet *is1, const IndexSet *is2);
 
 int utilIndexSetRemoveAll(IndexSet *res, const IndexSet *is1,
-				 const IndexSet *is2);
+			  const IndexSet *is2);
 
 int utilIndexSetForAll(const IndexSet *is, IndexSetForOne forOne,
-			      void *through);
+		       void *through);
 
 int utilIndexSetGetNext(const IndexSet *is, int n);
 #define utilIndexSetGetFirst(is) utilIndexSetGetNext((is), -1)
@@ -64,7 +63,6 @@ int utilIndexSetGetNextHole(const IndexSet *is, int n);
 int utilIndexSetGetPrev(const IndexSet *is, int n);
 #define utilIndexSetGetLast(is) utilIndexSetGetPrev((is), -1)
 
-int utilIndexSetAddArray(IndexSet *is, const int *indexes,
-				int indexCount);
+int utilIndexSetAddArray(IndexSet *is, const int *indexes, int indexCount);
 
 #endif /*	UTIL_INTEGER_SET_H	*/

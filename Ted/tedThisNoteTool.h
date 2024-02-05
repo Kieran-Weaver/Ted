@@ -62,25 +62,21 @@ typedef struct ThisNoteTool {
 /************************************************************************/
 
 void tedRefreshThisNoteTool(ThisNoteTool *tnt, int *pEnabled, int *pPref,
-				   InspectorSubject *is,
-				   const DocumentSelection *ds,
-				   const SelectionDescription *sd,
-				   BufferDocument *bd,
-				   const unsigned char *cmdEnabled);
+			    InspectorSubject *is, const DocumentSelection *ds,
+			    const SelectionDescription *sd, BufferDocument *bd,
+			    const unsigned char *cmdEnabled);
 
 void tedFormatCleanThisNoteTool(ThisNoteTool *tnt);
 
 void tedFormatInitThisNoteTool(ThisNoteTool *tnt);
 
 void tedFormatFillThisNotePage(ThisNoteTool *tnt,
-				      const ThisNotePageResources *npr,
-				      InspectorSubject *is,
-				      APP_WIDGET pageWidget,
-				      const InspectorSubjectResources *isr);
+			       const ThisNotePageResources *npr,
+			       InspectorSubject *is, APP_WIDGET pageWidget,
+			       const InspectorSubjectResources *isr);
 
-void
-tedFormatToolGetThisNoteResourceTable(EditApplication *ea,
-				      ThisNotePageResources *npr,
-				      InspectorSubjectResources *isr);
+void tedFormatToolGetThisNoteResourceTable(EditApplication *ea,
+					   ThisNotePageResources *npr,
+					   InspectorSubjectResources *isr);
 
 #endif /*  TED_THIS_NOTE_TOOL_H */

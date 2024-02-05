@@ -15,7 +15,6 @@
 
 #include <stddef.h>
 
-
 #include <sioFileio.h>
 
 #include "docDraw.h"

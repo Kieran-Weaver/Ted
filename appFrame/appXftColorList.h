@@ -50,8 +50,8 @@ void appCleanAppXftColorList(AppXftColorList *axcl);
 
 int appAppXftColorNumber(AppXftColorList *axcl, const AppXftColor *axc);
 
-void appGetAppXftColorByNumber(AppXftColor *axc,
-				      const AppXftColorList *axcl, int n);
+void appGetAppXftColorByNumber(AppXftColor *axc, const AppXftColorList *axcl,
+			       int n);
 
 #endif
 #endif /* APP_XFT_COLOR_LIST_H */

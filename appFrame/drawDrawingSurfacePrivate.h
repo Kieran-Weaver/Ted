@@ -15,8 +15,8 @@
 /************************************************************************/
 
 int drawFontImplementationName(char *target, int maxlen,
-				      const struct DrawingSurface *ds, int screenFont);
+			       const struct DrawingSurface *ds, int screenFont);
 
 int drawOpenDefaultFont(struct DrawingSurface *ds,
-			       const PostScriptFontList *psfl, APP_WIDGET w,
-			       int fontSizeHintPixels);
+			const PostScriptFontList *psfl, APP_WIDGET w,
+			int fontSizeHintPixels);

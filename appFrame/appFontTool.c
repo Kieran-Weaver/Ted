@@ -1390,9 +1390,8 @@ static int appFontToolSetCurrentFont(AppFontChooser *afc,
 }
 
 int appFontToolShowCurrentFont(AppFontChooser *afc, const PropertyMask *newMask,
-			       const TextAttribute *taNew,
-			       int documentId, int canChange,
-			       const DocumentFontList *dfl,
+			       const TextAttribute *taNew, int documentId,
+			       int canChange, const DocumentFontList *dfl,
 			       const ColorPalette *cp)
 {
 	int rval = 0;
@@ -1480,7 +1479,7 @@ void appFontToolFillPage(AppFontChooser *afc, const AppFontToolResources *aftr,
 	EditApplication *ea = afc->afcApplication;
 
 	afc->afcPixelsPerTwip = 0;
-	afc->afcDrawingSurface = (struct DrawingSurface*)0;
+	afc->afcDrawingSurface = (struct DrawingSurface *)0;
 
 	afc->afcPostScriptFontList = &(ea->eaPostScriptFontList);
 

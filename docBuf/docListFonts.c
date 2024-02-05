@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docListFonts.h"
 #include "docFind.h"
 #include "docTreeNode.h"
@@ -16,7 +14,6 @@
 #include "docShape.h"
 #include <docObjectProperties.h>
 #include <docTextParticule.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

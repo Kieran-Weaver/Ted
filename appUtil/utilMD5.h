@@ -49,15 +49,15 @@ typedef struct MD5Context {
 void utilMD5Init(MD5Context *md5c);
 
 void utilMD5Update(MD5Context *md5c, const unsigned char *bytes,
-			  unsigned int count);
+		   unsigned int count);
 
 void utilMD5Final(unsigned char digest[MD5_DIGEST_SIZE_BYTES],
-			 MD5Context *md5c);
+		  MD5Context *md5c);
 
 void utilMD5ToBase64(char digestBase64[MD5_DIGEST_SIZE_BASE64],
-			    const unsigned char digest[MD5_DIGEST_SIZE_BYTES]);
+		     const unsigned char digest[MD5_DIGEST_SIZE_BYTES]);
 
 int utilMD5FromBase64(unsigned char digest[MD5_DIGEST_SIZE_BYTES],
-			     const char digestBase64[MD5_DIGEST_SIZE_BASE64]);
+		      const char digestBase64[MD5_DIGEST_SIZE_BASE64]);
 
 #endif /*  UTIL_MD5_H  */

@@ -123,9 +123,8 @@ int tedDrawObject(const DrawTextLine *dtl, int part, InsertedObject *io,
 		return 0;
 	}
 
-	if (io->ioDrawingSurface &&
-	    (io->ioKind == DOCokPICTPNGBLIP ||
-	     io->ioKind == DOCokPICTJPEGBLIP)) {
+	if (io->ioDrawingSurface && (io->ioKind == DOCokPICTPNGBLIP ||
+				     io->ioKind == DOCokPICTJPEGBLIP)) {
 		tedDrawObjectPixmap(io, x0, y0, drClip, lc);
 		return 0;
 	}
@@ -622,7 +621,7 @@ static void tedCloseDrawingShape(DrawingShape *ds)
 
 	if (ds->dsDrawingSurface) {
 		drawFreeDrawingSurface(ds->dsDrawingSurface);
-		ds->dsDrawingSurface = (struct DrawingSurface*)0;
+		ds->dsDrawingSurface = (struct DrawingSurface *)0;
 	}
 
 	return;
@@ -698,7 +697,7 @@ void docScreenCloseObject(const BufferDocument *bd, const TextParticule *tp)
 	case DOCokEPS_FILE:
 		if (io->ioDrawingSurface) {
 			drawFreeDrawingSurface(io->ioDrawingSurface);
-			io->ioDrawingSurface = (struct DrawingSurface*)0;
+			io->ioDrawingSurface = (struct DrawingSurface *)0;
 		}
 		break;
 

@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include "docListOverride.h"
 #include "docListOverrideTable.h"
 

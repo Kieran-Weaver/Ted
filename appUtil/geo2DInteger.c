@@ -1,11 +1,7 @@
 #include <config.h>
-
-
 #include <limits.h>
 #include <math.h>
-
 #include "geo2DInteger.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

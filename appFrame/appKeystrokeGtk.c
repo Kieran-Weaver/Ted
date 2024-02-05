@@ -1,12 +1,7 @@
 #include <config.h>
-
-
 #include <string.h>
-
 #include <uniUtf8.h>
-
 #include "guiWidgets.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -14,7 +9,6 @@
 /*  Keyboard event handling. Largely based on gtkentry.c		*/
 /*									*/
 /************************************************************************/
-
 
 #include "appGuiKeys.h"
 #define IS_MODIFIER(k) \
@@ -113,4 +107,3 @@ void appDocumentSetInputContext(APP_INPUT_METHOD im, DocumentWidget *dw)
 
 #endif
 }
-

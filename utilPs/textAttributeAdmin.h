@@ -22,14 +22,13 @@ typedef int (*TextAttributeFunction)(int n, const TextAttribute *ta,
 void utilInitTextAttributeList(NumberedPropertiesList *tal);
 
 int utilTextAttributeNumber(NumberedPropertiesList *tal,
-				   const TextAttribute *ta);
+			    const TextAttribute *ta);
 
 void utilGetTextAttributeByNumber(TextAttribute *ta,
-					 const NumberedPropertiesList *tal,
-					 int n);
+				  const NumberedPropertiesList *tal, int n);
 
 int textForAllAttributesInList(const NumberedPropertiesList *tal,
-				      const IndexSet *filter,
-				      TextAttributeFunction f, void *through);
+			       const IndexSet *filter, TextAttributeFunction f,
+			       void *through);
 
 #endif /*  UTIL_TEXT_ATTRIBUTE_ADMIN_H	*/

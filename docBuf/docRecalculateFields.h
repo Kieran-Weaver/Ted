@@ -60,28 +60,27 @@ void docInitRecalculateFields(RecalculateFields *rf);
 
 void docRenumberNotes(int *pChanged, BufferDocument *bd);
 
-int docRenumberSeqFields(int *pChanged, DocumentTree *dt,
-				BufferDocument *bd);
+int docRenumberSeqFields(int *pChanged, DocumentTree *dt, BufferDocument *bd);
 
-int docRenumberSeqField(int *pChanged, DocumentField *df,
-			       BufferDocument *bd);
+int docRenumberSeqField(int *pChanged, DocumentField *df, BufferDocument *bd);
 
-int docFieldReplaceContents(int *pStroff, int *pStroffShift,
-				   int *pTextAttrNr, struct BufferItem *paraBi,
-				   int part, int partCount, int stroffShift,
-				   const char *addedString, int addedStrlen,
-				   const RecalculateFields *rf);
+int docFieldReplaceContents(int *pStroff, int *pStroffShift, int *pTextAttrNr,
+			    struct BufferItem *paraBi, int part, int partCount,
+			    int stroffShift, const char *addedString,
+			    int addedStrlen, const RecalculateFields *rf);
 
-int docRecalculateTextLevelFields(RecalculateFields *rf,
-					 struct BufferItem *bi);
+int docRecalculateTextLevelFields(RecalculateFields *rf, struct BufferItem *bi);
 
-int docRecalculateTextLevelFieldsInDocumentTree(
-	RecalculateFields *rf, DocumentTree *dt,
-	const struct BufferItem *sectBi, int page);
+int docRecalculateTextLevelFieldsInDocumentTree(RecalculateFields *rf,
+						DocumentTree *dt,
+						const struct BufferItem *sectBi,
+						int page);
 
-int docRecalculateFieldParticulesFromString(
-	int *pCalculated, int *pPartShift, int *pStroffShift,
-	struct BufferItem *paraBi, int part, int partCount,
-	const MemoryBuffer *mbResult, const RecalculateFields *rf);
+int docRecalculateFieldParticulesFromString(int *pCalculated, int *pPartShift,
+					    int *pStroffShift,
+					    struct BufferItem *paraBi, int part,
+					    int partCount,
+					    const MemoryBuffer *mbResult,
+					    const RecalculateFields *rf);
 
 #endif /*  DOC_RECALCULATE_FIELDS_H  */

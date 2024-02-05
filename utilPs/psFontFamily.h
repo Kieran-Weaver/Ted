@@ -42,6 +42,6 @@ void psInitFontFamily(PsFontFamily *psf);
 void psFreeFontFamily(PsFontFamily *psf);
 
 PsFontFamily *psFontFamilyFromFaces(AfmFontInfo **afis, int *pConsumed,
-					   int count);
+				    int count);
 
 #endif

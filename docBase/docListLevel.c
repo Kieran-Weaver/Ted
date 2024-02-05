@@ -8,17 +8,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
 #include <utilBase26.h>
 #include <utilRoman.h>
 #include <uniUtf8.h>
-
 #include <appDebugon.h>
-
 #include "docListLevel.h"
 #include "docParaNumber.h"
 

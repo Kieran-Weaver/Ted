@@ -7,7 +7,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-
 #include <sioGeneral.h>
 #include <utilArgToX.h>
 

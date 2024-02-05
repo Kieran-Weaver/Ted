@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include <utilFontmap.h>
 #include "appFrame.h"
 #include "appMatchFont.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

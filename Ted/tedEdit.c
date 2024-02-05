@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include <uniUtf8.h>
 #include <ucdGeneralCategory.h>
 

@@ -9,7 +9,7 @@
 
 SimpleInputStream *sioInHexOpen(SimpleInputStream *sisHex);
 
-SimpleOutputStream *sioOutHexOpenFolded(SimpleOutputStream *sosHex,
-					       int wide, int lastNl);
+SimpleOutputStream *sioOutHexOpenFolded(SimpleOutputStream *sosHex, int wide,
+					int lastNl);
 
 SimpleOutputStream *sioOutHexOpen(SimpleOutputStream *sosHex);

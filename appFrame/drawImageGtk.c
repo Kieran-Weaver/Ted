@@ -7,20 +7,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <stdlib.h>
 #include <bmRender.h>
-
 #include "appGuiBase.h"
 #include <bitmap.h>
 #include <bmRender.h>
 #include "drawUtilImpl.h"
 #include <appDebugon.h>
-
 #include <appDebugon.h>
-
 
 /************************************************************************/
 /*									*/
@@ -72,7 +67,7 @@ int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 			rval = -1;
 			goto ready;
 		}
-		bufferOut = (unsigned char*)xim->mem;
+		bufferOut = (unsigned char *)xim->mem;
 
 		bdOut.bdBytesPerRow = xim->bpl;
 		bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;
@@ -83,7 +78,6 @@ int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 		bdOut.bdColorEncoding = BMcoRGB;
 	} else {
 		switch (depth) {
-
 		case 8:
 		case 16:
 			xim = gdk_image_new(GDK_IMAGE_FASTEST, vis, toWide,
@@ -93,7 +87,7 @@ int drawUtilGtkMakeImage(APP_IMAGE **pPimage, int toWide, int toHigh,
 				rval = -1;
 				goto ready;
 			}
-			bufferOut = (unsigned char*)xim->mem;
+			bufferOut = (unsigned char *)xim->mem;
 
 			bdOut.bdBytesPerRow = xim->bpl;
 			bdOut.bdBufferLength = toHigh * bdOut.bdBytesPerRow;
@@ -153,4 +147,3 @@ ready:
 
 	return rval;
 }
-

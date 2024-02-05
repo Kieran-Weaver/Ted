@@ -25,24 +25,21 @@ struct RowProperties;
 /************************************************************************/
 
 void docFreeNode(struct BufferDocument *bd, struct DocumentTree *dt,
-			struct BufferItem *bi);
+		 struct BufferItem *bi);
 
 struct BufferItem *docInsertNode(const struct BufferDocument *bd,
-					struct BufferItem *parent, int n,
-					int level);
+				 struct BufferItem *parent, int n, int level);
 
 void docDeleteNodes(struct BufferDocument *bd, struct DocumentTree *dt,
-			   struct BufferItem *bi, int first, int count);
+		    struct BufferItem *bi, int first, int count);
 
-int docSplitGroupNode(struct BufferDocument *bd,
-			     struct BufferItem **pNewBi,
-			     struct BufferItem *oldBi, int n);
+int docSplitGroupNode(struct BufferDocument *bd, struct BufferItem **pNewBi,
+		      struct BufferItem *oldBi, int n);
 
 int docSplitGroupNodeAtLevel(struct BufferDocument *bd,
-				    struct BufferItem **pBeforeNode,
-				    struct BufferItem **pAfterNode,
-				    struct BufferItem *splitNode, int n,
-				    int level);
+			     struct BufferItem **pBeforeNode,
+			     struct BufferItem **pAfterNode,
+			     struct BufferItem *splitNode, int n, int level);
 
 int docMergeGroupNodes(struct BufferItem *to, struct BufferItem *from);
 
@@ -53,16 +50,16 @@ struct BufferItem *docNextSection(struct BufferItem *bi);
 struct BufferItem *docPrevSection(struct BufferItem *bi);
 
 void docDeleteNode(struct BufferDocument *bd, struct DocumentTree *dt,
-			  struct BufferItem *bi);
+		   struct BufferItem *bi);
 
 void docInitNode(struct BufferItem *bi, struct BufferItem *parent,
-			const struct BufferDocument *bd, int numberInParent,
-			int level, int treeType);
+		 const struct BufferDocument *bd, int numberInParent, int level,
+		 int treeType);
 
 struct BufferItem *docInsertRowNode(struct BufferDocument *bd,
-					   struct BufferItem *sectBi, int n,
-					   const struct RowProperties *rp,
-					   int textAttrNr);
+				    struct BufferItem *sectBi, int n,
+				    const struct RowProperties *rp,
+				    int textAttrNr);
 
 struct BufferItem *docGetCellNode(struct BufferItem *bi);
 struct BufferItem *docGetRowNode(struct BufferItem *bi);
@@ -78,6 +75,6 @@ int docValidChildLevel(int parentLevel, int childLevel);
 struct BufferItem *docMakeNode(void);
 
 struct BufferItem *docGetBodySectNode(struct BufferItem *bi,
-					     const struct BufferDocument *bd);
+				      const struct BufferDocument *bd);
 
 #endif

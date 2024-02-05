@@ -14,10 +14,8 @@
 
 #include <config.h>
 #include "geoQuadTree.h"
-
 #include <stdlib.h>
 #include <stdio.h>
-
 #include <appDebugon.h>
 
 static const int QMAP[] = { 2, 1, 3, 0 };

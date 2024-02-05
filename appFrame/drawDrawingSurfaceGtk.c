@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "guiWidgetDrawingSurface.h"
 #include <drawDrawingSurface.h>
 #include "drawDrawingSurfaceImpl.h"
@@ -16,14 +15,15 @@
 #include "drawImpl.h"
 #include <appDebugon.h>
 
-
 /************************************************************************/
 
-struct DrawingSurface *drawMakeDrawingSurfaceForParent(struct DrawingSurface *parent, int wide,
-					       int high)
+struct DrawingSurface *
+drawMakeDrawingSurfaceForParent(struct DrawingSurface *parent, int wide,
+				int high)
 {
 	int depth = gdk_visual_get_system()->depth;
-	struct DrawingSurface *ds = (struct DrawingSurface*)malloc(sizeof(struct DrawingSurface));
+	struct DrawingSurface *ds =
+		(struct DrawingSurface *)malloc(sizeof(struct DrawingSurface));
 
 	if (!ds) {
 		PDEB(ds);
@@ -39,14 +39,14 @@ struct DrawingSurface *drawMakeDrawingSurfaceForParent(struct DrawingSurface *pa
 	if (!ds->dsDrawable) {
 		XDEB(ds->dsDrawable);
 		drawFreeDrawingSurface(ds);
-		return (struct DrawingSurface*)0;
+		return (struct DrawingSurface *)0;
 	}
 
 	ds->dsGc = gdk_gc_new(ds->dsDrawable);
 	if (!ds->dsGc) {
 		XDEB(ds->dsGc);
 		drawFreeDrawingSurface(ds);
-		return (struct DrawingSurface*)0;
+		return (struct DrawingSurface *)0;
 	}
 
 #ifdef USE_XFT
@@ -77,7 +77,7 @@ struct DrawingSurface *drawMakeDrawingSurfaceForImageAndParent(
 
 	if (drawUtilGtkMakeImage(&xim, wide, high, ds->dsColors, abi, drSrc)) {
 		drawFreeDrawingSurface(ds);
-		return (struct DrawingSurface*)0;
+		return (struct DrawingSurface *)0;
 	}
 
 	gdk_draw_image(ds->dsDrawable, ds->dsGc, xim, 0, 0, 0, 0, wide, high);
@@ -278,7 +278,8 @@ int drawLines(struct DrawingSurface *ds, const Point2DI *points, int pointCount,
 /*									*/
 /************************************************************************/
 
-int drawFillPolygon(struct DrawingSurface *ds, const Point2DI *points, int pointCount)
+int drawFillPolygon(struct DrawingSurface *ds, const Point2DI *points,
+		    int pointCount)
 {
 	if (drawSetPoints(ds, points, pointCount)) {
 		LDEB(pointCount);
@@ -303,16 +304,16 @@ static const GdkLineStyle LineStyleMap[LineStyle_Count] = {
 	GDK_LINE_DOUBLE_DASH,
 };
 
-static const GdkCapStyle CapStyleMap[LineCap_Count] = { GDK_CAP_NOT_LAST, GDK_CAP_BUTT,
-						GDK_CAP_ROUND,
-						GDK_CAP_PROJECTING };
+static const GdkCapStyle CapStyleMap[LineCap_Count] = {
+	GDK_CAP_NOT_LAST, GDK_CAP_BUTT, GDK_CAP_ROUND, GDK_CAP_PROJECTING
+};
 
 static const GdkJoinStyle JoinStyleMap[LineJoin_Count] = { GDK_JOIN_MITER,
-						  GDK_JOIN_ROUND,
-						  GDK_JOIN_BEVEL };
+							   GDK_JOIN_ROUND,
+							   GDK_JOIN_BEVEL };
 
-int drawSetLineAttributes(struct DrawingSurface *ds, int lineWidth, int lineStyle,
-			  int capStyle, int joinStyle,
+int drawSetLineAttributes(struct DrawingSurface *ds, int lineWidth,
+			  int lineStyle, int capStyle, int joinStyle,
 			  const unsigned char *dashList, int dashCount)
 {
 	gdk_gc_set_line_attributes(ds->dsGc, lineWidth, LineStyleMap[lineStyle],
@@ -370,8 +371,8 @@ void drawSetSystemColor(struct DrawingSurface *ds, APP_COLOR_RGB *xc)
 /*									*/
 /************************************************************************/
 
-int drawString(struct DrawingSurface *ds, int x0, int y0, int screenFont, const char *s,
-	       int len)
+int drawString(struct DrawingSurface *ds, int x0, int y0, int screenFont,
+	       const char *s, int len)
 {
 	const NumberedPropertiesList *npl = &(ds->dsScreenFontAdmin);
 	DrawScreenFont *dsf;
@@ -406,8 +407,8 @@ int drawString(struct DrawingSurface *ds, int x0, int y0, int screenFont, const 
 
 #include <gdk/gdkx.h>
 
-int drawOpenScreenFont(struct DrawingSurface *ds, const AfmFontInfo *afi, int pixelSize,
-		       const IndexSet *unicodesWanted)
+int drawOpenScreenFont(struct DrawingSurface *ds, const AfmFontInfo *afi,
+		       int pixelSize, const IndexSet *unicodesWanted)
 {
 	DrawScreenFont *dsf;
 	int fresh;
@@ -482,8 +483,9 @@ void drawSetClipRect(struct DrawingSurface *ds, const DocumentRectangle *drClip)
 
 /************************************************************************/
 
-void drawChildSurface(struct DrawingSurface *ds, const struct DrawingSurface *child, int xDest,
-		      int yDest, const DocumentRectangle *drChild)
+void drawChildSurface(struct DrawingSurface *ds,
+		      const struct DrawingSurface *child, int xDest, int yDest,
+		      const DocumentRectangle *drChild)
 {
 	if (!child) {
 		XDEB(child);
@@ -508,4 +510,3 @@ void drawMoveArea(struct DrawingSurface *ds, int xDest, int yDest,
 			     drSrc->drX1 - drSrc->drX0 + 1,
 			     drSrc->drY1 - drSrc->drY0 + 1);
 }
-

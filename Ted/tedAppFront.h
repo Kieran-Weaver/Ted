@@ -28,15 +28,14 @@ void tedAppAddRowToTable(EditApplication *ea, int after);
 void tedAppAddColumnToTable(EditApplication *ea, int after);
 
 void tedAppSetTableProperties(EditApplication *ea, int wholeRow,
-				     int wholeColumn,
-				     const PropertyMask *cpSetMask,
-				     const CellProperties *cpSet,
-				     const PropertyMask *rpSetMask,
-				     const RowProperties *rpSet);
+			      int wholeColumn, const PropertyMask *cpSetMask,
+			      const CellProperties *cpSet,
+			      const PropertyMask *rpSetMask,
+			      const RowProperties *rpSet);
 
 void tedAppSetImageProperties(EditApplication *ea,
-				     const PropertyMask *pipSetMask,
-				     const PictureProperties *pip);
+			      const PropertyMask *pipSetMask,
+			      const PictureProperties *pip);
 
 int tedAppShiftRowsInTable(EditApplication *ea, int direction);
 
@@ -45,8 +44,8 @@ int tedAppSetHyperlink(EditApplication *ea, const HyperlinkField *hf);
 int tedAppRemoveHyperlink(EditApplication *ea);
 
 int tedAppFollowLink(APP_WIDGET option, EditApplication *ea,
-			    const MemoryBuffer *fileName,
-			    const MemoryBuffer *markName);
+		     const MemoryBuffer *fileName,
+		     const MemoryBuffer *markName);
 
 int tedAppDeleteSelectedParagraphs(EditApplication *ea);
 int tedAppDeleteSelectedSections(EditApplication *ea);
@@ -56,40 +55,37 @@ int tedAppInsertParagraph(EditApplication *ea, int after);
 int tedAppInsertSection(EditApplication *ea, int after);
 
 int tedAppSetDocumentProperties(EditApplication *ea,
-				       const PropertyMask *dpSetMask,
-				       const DocumentProperties *dpSet);
+				const PropertyMask *dpSetMask,
+				const DocumentProperties *dpSet);
 
-void tedAppChangeCurrentNote(EditApplication *ea,
-				    const PropertyMask *npSetMask,
-				    const NoteProperties *npSet);
+void tedAppChangeCurrentNote(EditApplication *ea, const PropertyMask *npSetMask,
+			     const NoteProperties *npSet);
 
 int tedAppChangeSectionProperties(EditApplication *ea,
-					 const PropertyMask *spUpdMask,
-					 const SectionProperties *spNew);
+				  const PropertyMask *spUpdMask,
+				  const SectionProperties *spNew);
 
 int tedAppChangeAllSectionProperties(EditApplication *ea,
-					    const PropertyMask *spUpdMask,
-					    const SectionProperties *spNew,
-					    const PropertyMask *dpSetMask,
-					    const DocumentProperties *dpNew);
+				     const PropertyMask *spUpdMask,
+				     const SectionProperties *spNew,
+				     const PropertyMask *dpSetMask,
+				     const DocumentProperties *dpNew);
 
-int
-tedAppChangeParagraphProperties(EditApplication *ea,
-				const PropertyMask *ppUpdMask,
-				const struct ParagraphProperties *ppNew);
+int tedAppChangeParagraphProperties(EditApplication *ea,
+				    const PropertyMask *ppUpdMask,
+				    const struct ParagraphProperties *ppNew);
 
-int tedAppSetParagraphTabs(EditApplication *ea,
-				  const struct TabStopList *tsl);
+int tedAppSetParagraphTabs(EditApplication *ea, const struct TabStopList *tsl);
 
 int tedAppSetNewList(EditApplication *ea);
 
 int tedAppChangeCurrentList(EditApplication *ea,
-				   const struct DocumentList *dlNew);
+			    const struct DocumentList *dlNew);
 
 void tedAppDeleteHeaderFooter(EditApplication *ea, int treeType);
 
 void tedAppEditHeaderFooter(EditApplication *ea, APP_WIDGET relative,
-				   APP_WIDGET option, int treeType);
+			    APP_WIDGET option, int treeType);
 
 void tedAppGotoNoteDef(EditApplication *ea);
 void tedAppGotoNoteRef(EditApplication *ea);
@@ -98,8 +94,7 @@ void tedAppPrevNote(EditApplication *ea);
 
 void tedAppSelectTable(EditApplication *ea);
 void tedAppSelectRow(EditApplication *ea, int direction, int allColumns);
-void tedAppSelectWholeCell(EditApplication *ea, int direction,
-				  int allRows);
+void tedAppSelectWholeCell(EditApplication *ea, int direction, int allRows);
 
 void tedAppDeleteTable(EditApplication *ea);
 void tedAppDeleteRow(EditApplication *ea);
@@ -110,13 +105,12 @@ int tedAppDeleteCurrentFrame(EditApplication *ea);
 
 int tedAppSetBookmark(EditApplication *ea, const MemoryBuffer *markName);
 
-int tedAppGoToBookmark(EditApplication *ea,
-			      const MemoryBuffer *markName);
+int tedAppGoToBookmark(EditApplication *ea, const MemoryBuffer *markName);
 
 int tedAppRemoveBookmark(EditApplication *ea);
 
 int tedAppFindBookmarkField(DocumentField **pDf, EditApplication *ea,
-				   const MemoryBuffer *markName);
+			    const MemoryBuffer *markName);
 
 void tedAppSetTocField(EditApplication *ea, const TocField *tf);
 
@@ -129,10 +123,10 @@ int tedAppFindNext(void *voidea);
 int tedAppFindPrev(void *voidea);
 
 int tedAppListFontToolSet(void *voidea, const PropertyMask *taSetMask,
-				 const ExpandedTextAttribute *etaSet);
+			  const ExpandedTextAttribute *etaSet);
 
 int tedAppFontToolSet(void *voidea, const PropertyMask *taSetMask,
-			     const ExpandedTextAttribute *etaSet);
+		      const ExpandedTextAttribute *etaSet);
 
 void tedAppSetParaOutlineLevel(EditApplication *ea, int level);
 
@@ -140,10 +134,8 @@ int tedAppSelectWholeSection(EditApplication *ea, int direction);
 
 int tedAppSelectWholeParagraph(EditApplication *ea, int direction);
 
-void tedManual(APP_WIDGET option, EditApplication *ea,
-		      APP_WIDGET relative);
+void tedManual(APP_WIDGET option, EditApplication *ea, APP_WIDGET relative);
 
-void tedVisibleDocumentCountChanged(EditApplication *ea, int from,
-					   int to);
+void tedVisibleDocumentCountChanged(EditApplication *ea, int from, int to);
 
 #endif /*  TED_APP_FRONT_H	*/

@@ -76,7 +76,7 @@ static int docRtfEscapeChar(RtfWriter *rw, int c)
 static int docRtfEscapeString(void *vrw, int produced, /* ignored */
 			      const char *ss, int n)
 {
-	RtfWriter* rw = (RtfWriter*)vrw;
+	RtfWriter *rw = (RtfWriter *)vrw;
 	const unsigned char *us = (const unsigned char *)ss;
 	int i;
 	int err;
@@ -121,7 +121,8 @@ static int docRtfEscapeString(void *vrw, int produced, /* ignored */
 	i = 0;
 	while (i < n) {
 		err = docRtfEscapeChar(rw, *us);
-		if (err < 0) return err;
+		if (err < 0)
+			return err;
 		i++;
 		us++;
 	}

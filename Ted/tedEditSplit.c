@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include <docParaParticules.h>
 #include <docRtfTrace.h>
 #include <docLayout.h>

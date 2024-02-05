@@ -6,7 +6,6 @@
 
 #include <config.h>
 
-
 #include <stddef.h>
 
 #include "tedDraw.h"
@@ -153,8 +152,8 @@ void tedBorderToolSetPropertiesByNumber(BorderTool *bt,
 /*									*/
 /************************************************************************/
 
-static void tedDrawBorderStyle(struct DrawingSurface *ds, BorderTool *bt, int style,
-			       const DocumentRectangle *drI)
+static void tedDrawBorderStyle(struct DrawingSurface *ds, BorderTool *bt,
+			       int style, const DocumentRectangle *drI)
 {
 	if (style != DOCbsNONE) {
 		const int minThick = 1;
@@ -177,7 +176,8 @@ static void tedDrawBorderStyle(struct DrawingSurface *ds, BorderTool *bt, int st
 static APP_EVENT_HANDLER_H(tedBorderToolRedrawInplace, w, voidbt, exposeEvent)
 {
 	BorderTool *bt = (BorderTool *)voidbt;
-	struct DrawingSurface *dsI = bt->btStylePulldown.adpInplaceDrawingSurface;
+	struct DrawingSurface *dsI =
+		bt->btStylePulldown.adpInplaceDrawingSurface;
 
 	int wide;
 	int high;

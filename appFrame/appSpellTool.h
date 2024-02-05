@@ -76,22 +76,20 @@ typedef struct SpellTool {
 void appEnableSpellTool(void *voidast, int enabled);
 
 void appFillSpellTool(SpellChecker *sc, SpellTool *ast,
-			     const SpellToolResources *astr, AppInspector *ai,
-			     int subjectPage, InspectorSubject *is,
-			     APP_WIDGET pageWidget,
-			     const InspectorSubjectResources *isr);
+		      const SpellToolResources *astr, AppInspector *ai,
+		      int subjectPage, InspectorSubject *is,
+		      APP_WIDGET pageWidget,
+		      const InspectorSubjectResources *isr);
 
-void appSpellToolGetResourceTable(EditApplication *ea,
-					 SpellToolResources *astr,
-					 InspectorSubjectResources *isr);
+void appSpellToolGetResourceTable(EditApplication *ea, SpellToolResources *astr,
+				  InspectorSubjectResources *isr);
 
 void appSpellToolSetReadOnly(SpellTool *ast, int readonly);
 
 void appInitSpellTool(SpellTool *ast);
 void appCleanSpellTool(SpellTool *ast);
 
-void appSpellToolFillChoosers(SpellTool *ast,
-				     const SpellToolResources *astr);
+void appSpellToolFillChoosers(SpellTool *ast, const SpellToolResources *astr);
 
 void appFinishSpellTool(SpellTool *ast, const SpellToolResources *astr);
 

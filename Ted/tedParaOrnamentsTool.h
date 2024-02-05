@@ -66,30 +66,28 @@ void tedFormatToolGetParaOrnamentsResourceTable(
 	EditApplication *ea, ParagraphOrnamentsPageResources *plpr,
 	InspectorSubjectResources *isr);
 
-void
-tedParaOrnamentsToolFillChoosers(ParagraphOrnamentsTool *pot,
-				 const ParagraphOrnamentsPageResources *popr);
+void tedParaOrnamentsToolFillChoosers(
+	ParagraphOrnamentsTool *pot,
+	const ParagraphOrnamentsPageResources *popr);
 
-void
-tedFormatFillParagraphOrnamentsPage(ParagraphOrnamentsTool *pot,
-				    const ParagraphOrnamentsPageResources *popr,
-				    AppInspector *ai, int subjectPage,
-				    InspectorSubject *is, APP_WIDGET pgW,
-				    const InspectorSubjectResources *isr);
+void tedFormatFillParagraphOrnamentsPage(
+	ParagraphOrnamentsTool *pot,
+	const ParagraphOrnamentsPageResources *popr, AppInspector *ai,
+	int subjectPage, InspectorSubject *is, APP_WIDGET pgW,
+	const InspectorSubjectResources *isr);
 
-void tedRefreshParaOrnamentsTool(ParagraphOrnamentsTool *pot,
-					int *pEnabled, int *pPref,
-					InspectorSubject *is,
-					const DocumentSelection *ds,
-					const SelectionGeometry *sg,
-					const SelectionDescription *sd,
-					const unsigned char *cmdEnabled);
+void tedRefreshParaOrnamentsTool(ParagraphOrnamentsTool *pot, int *pEnabled,
+				 int *pPref, InspectorSubject *is,
+				 const DocumentSelection *ds,
+				 const SelectionGeometry *sg,
+				 const SelectionDescription *sd,
+				 const unsigned char *cmdEnabled);
 
 void tedInitParaOrnamentsTool(ParagraphOrnamentsTool *pot);
 void tedCleanParaOrnamentsTool(ParagraphOrnamentsTool *pot);
 
-void
-tedFormatFinishParaOrnamentsPage(ParagraphOrnamentsTool *pot,
-				 const ParagraphOrnamentsPageResources *popr);
+void tedFormatFinishParaOrnamentsPage(
+	ParagraphOrnamentsTool *pot,
+	const ParagraphOrnamentsPageResources *popr);
 
 #endif /*  TED_PARA_ORNAMENTS_TOOL_H */

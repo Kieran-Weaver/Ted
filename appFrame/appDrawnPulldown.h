@@ -21,8 +21,8 @@ typedef struct AppDrawnPulldown {
 	int adpMouseY;
 	unsigned char adpEnabled;
 
-	struct DrawingSurface* adpInplaceDrawingSurface;
-	struct DrawingSurface* adpPulldownDrawingSurface;
+	struct DrawingSurface *adpInplaceDrawingSurface;
+	struct DrawingSurface *adpPulldownDrawingSurface;
 	RGB8Color adpInplaceBackgroundColor;
 
 } AppDrawnPulldown;
@@ -34,19 +34,18 @@ typedef struct AppDrawnPulldown {
 /************************************************************************/
 
 void appMakeDrawnPulldownInColumn(AppDrawnPulldown *adp,
-					 APP_EVENT_HANDLER_T redrawInplace,
-					 APP_EVENT_HANDLER_T redrawPulldown,
-					 APP_EVENT_HANDLER_T clickHandler,
-					 AppDrawnPulldownPuldown pullDown,
-					 APP_WIDGET column, void *through);
+				  APP_EVENT_HANDLER_T redrawInplace,
+				  APP_EVENT_HANDLER_T redrawPulldown,
+				  APP_EVENT_HANDLER_T clickHandler,
+				  AppDrawnPulldownPuldown pullDown,
+				  APP_WIDGET column, void *through);
 
 void appMakeDrawnPulldownInRow(AppDrawnPulldown *adp,
-				      APP_EVENT_HANDLER_T redrawInplace,
-				      APP_EVENT_HANDLER_T redrawPulldown,
-				      APP_EVENT_HANDLER_T clickHandler,
-				      AppDrawnPulldownPuldown pullDown,
-				      APP_WIDGET row, int column, int colspan,
-				      void *through);
+			       APP_EVENT_HANDLER_T redrawInplace,
+			       APP_EVENT_HANDLER_T redrawPulldown,
+			       APP_EVENT_HANDLER_T clickHandler,
+			       AppDrawnPulldownPuldown pullDown, APP_WIDGET row,
+			       int column, int colspan, void *through);
 
 void appGuiEnableDrawnPulldown(AppDrawnPulldown *adp, int sensitive);
 
@@ -58,12 +57,12 @@ void appGuiSetDrawnPulldownHeight(AppDrawnPulldown *adp, int height);
 void appGuiSetDrawnPulldownStrips(AppDrawnPulldown *adp, int strips);
 
 int appGuiDrawnPulldownGetStrip(int *pStrip, const AppDrawnPulldown *adp,
-				       const APP_WIDGET w,
-				       const APP_EVENT *mouseEvent);
+				const APP_WIDGET w,
+				const APP_EVENT *mouseEvent);
 
-void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip,
-				      int *pRestWide, int *pRestHigh,
-				      APP_WIDGET w, AppDrawnPulldown *adp);
+void appDrawnPulldownDrawArrow(const DocumentRectangle *drClip, int *pRestWide,
+			       int *pRestHigh, APP_WIDGET w,
+			       AppDrawnPulldown *adp);
 
 int appFinishDrawnPulldownInplace(AppDrawnPulldown *adp);
 int appFinishDrawnPulldownPulldown(AppDrawnPulldown *adp);

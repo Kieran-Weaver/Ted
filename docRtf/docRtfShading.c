@@ -6,9 +6,6 @@
 
 #include <config.h>
 
-
-
-
 #include <psShading.h>
 #include <appDebugon.h>
 

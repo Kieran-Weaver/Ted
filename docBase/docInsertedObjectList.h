@@ -17,13 +17,13 @@ typedef struct InsertedObjectList {
 	PagedList iolPagedList;
 } InsertedObjectList;
 
-struct InsertedObject *
-docGetObjectByNumber(const InsertedObjectList *iol, int n);
+struct InsertedObject *docGetObjectByNumber(const InsertedObjectList *iol,
+					    int n);
 
 void docCleanObjectList(InsertedObjectList *iol);
 void docInitObjectList(InsertedObjectList *iol);
 
 struct InsertedObject *docClaimInsertedObject(int *pNr,
-						     InsertedObjectList *iol);
+					      InsertedObjectList *iol);
 
 #endif /*  DOC_INSERTED_OBJECT_LIST_H  */

@@ -67,14 +67,12 @@ int indWrite(void *ind, const char *filename);
 void *indMini(void *ind);
 void *indRenumber(void *ind);
 
-int indGuess(void *voidind, const char *word, SpellGuessContext *sgc,
-		    int how);
+int indGuess(void *voidind, const char *word, SpellGuessContext *sgc, int how);
 
 int indGetWord(int *pWhatWasShifted, void *voidind, const char *word,
-		      int asPrefix);
+	       int asPrefix);
 
-int indGuessWord(void *voidind, const char *word,
-			SpellGuessContext *sgc);
+int indGuessWord(void *voidind, const char *word, SpellGuessContext *sgc);
 
 void indLogPossibilities(SpellScanJob *ssj);
 
@@ -83,39 +81,38 @@ int indNewPossibility(SpellScanJob *ssj, int position);
 void indAddCharacterToPossibilities(SpellScanJob *ssj, int c);
 
 int indCountPossibilities(SpellScanJob *ssj, SpellCheckContext *scc,
-				 int position, int rejectPrefices);
+			  int position, int rejectPrefices);
 
 void indRejectPossibilities(int *pAcceptedPos, int acceptedPos,
-				   SpellScanJob *ssj);
+			    SpellScanJob *ssj);
 
 PossibleWord *indMaximalPossibility(SpellScanJob *ssj);
 
 int indMoveWord(void *fromInd, void *toInd, const char *word);
 
 int indReadPrivateDictionary(SimpleInputStream *sis, void **pLearntInd,
-				    void **pForgotInd);
+			     void **pForgotInd);
 
-int indLearnWord(SimpleOutputStream *sos, void *learntInd,
-			void *forgotInd, const char *word);
+int indLearnWord(SimpleOutputStream *sos, void *learntInd, void *forgotInd,
+		 const char *word);
 
-int indForgetWord(SimpleOutputStream *sos, void *learntInd,
-			 void *forgotInd, const char *word);
+int indForgetWord(SimpleOutputStream *sos, void *learntInd, void *forgotInd,
+		  const char *word);
 
 void indInitSpellScanJob(SpellScanJob *ssj);
 void indCleanSpellScanJob(SpellScanJob *ssj);
 
 void indInitSpellGuessContext(SpellGuessContext *sgc, IndGuessList *igl,
-				     SpellCheckContext *scc);
+			      SpellCheckContext *scc);
 void indCleanSpellGuessContext(SpellGuessContext *sgc);
 
 void indInitSpellCheckContext(SpellCheckContext *scc);
 void indCleanSpellCheckContext(SpellCheckContext *scc);
 
 int indCollectGuesses(IndGuessList *igl, SpellCheckContext *scc,
-			     const char *word);
+		      const char *word);
 
-int indSpellSetup(SpellChecker *sc, SpellComplain complain,
-			 void *through);
+int indSpellSetup(SpellChecker *sc, SpellComplain complain, void *through);
 
 void indDump(void *voidind);
 

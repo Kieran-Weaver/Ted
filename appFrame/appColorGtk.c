@@ -4,7 +4,6 @@
 
 #include <config.h>
 #include <stddef.h>
-
 #include <stdlib.h>
 #include <appDebugon.h>
 #include "drawUtilImpl.h"
@@ -353,7 +352,7 @@ static AppColors *APP_TheColors = (AppColors *)0;
 AppColors *guiGetColorsGtk(void)
 {
 	if (!APP_TheColors) {
-		APP_TheColors = (AppColors*)malloc(sizeof(AppColors));
+		APP_TheColors = (AppColors *)malloc(sizeof(AppColors));
 		if (!APP_TheColors) {
 			XDEB(APP_TheColors);
 			return (AppColors *)0;
@@ -365,4 +364,3 @@ AppColors *guiGetColorsGtk(void)
 
 	return APP_TheColors;
 }
-

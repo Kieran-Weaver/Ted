@@ -12,11 +12,11 @@
 #include "layoutContext.h"
 
 int docDescribeSetSelection(DocumentTree **pTreeSet,
-				   struct BufferItem **pBodySectNodeSet,
-				   DocumentRectangle *drExternalSet,
-				   int *pRedrawOldTree, int *pRedrawNewTree,
-				   LayoutContext *lc, BufferDocument *bd,
-				   const DocumentSelection *dsOld,
-				   const DocumentSelection *dsSet);
+			    struct BufferItem **pBodySectNodeSet,
+			    DocumentRectangle *drExternalSet,
+			    int *pRedrawOldTree, int *pRedrawNewTree,
+			    LayoutContext *lc, BufferDocument *bd,
+			    const DocumentSelection *dsOld,
+			    const DocumentSelection *dsSet);
 
 #endif /*  DOC_DESCRIBE_SET_SELECTION_H  */

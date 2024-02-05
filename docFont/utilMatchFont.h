@@ -24,7 +24,7 @@ typedef const AfmFontInfo *(*GetFontForAttribute)(
 /************************************************************************/
 
 int utilAddPsFontsToDocList(DocumentFontList *dfl,
-				   const PostScriptFontList *psfl);
+			    const PostScriptFontList *psfl);
 
 int utilAddBase35FontsToDocList(DocumentFontList *dfl);
 

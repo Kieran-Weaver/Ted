@@ -9,7 +9,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-
 #include "tedApp.h"
 #include "tedDraw.h"
 #include "tedLayout.h"

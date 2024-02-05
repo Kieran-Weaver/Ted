@@ -1,9 +1,6 @@
 #include <config.h>
-
 #include <math.h>
-
 #include "utilColor.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

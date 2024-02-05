@@ -9,8 +9,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-
-
 #include <docPageGrid.h>
 #include <docParaRulerAdmin.h>
 #include <geoGrid.h>
@@ -594,8 +592,7 @@ int tedDocSetTopRuler(EditDocument *ed)
 
 	ed->edTopRuler = tedMakeTopRuler(
 		topRulerHeight, /*  sizeAcross		*/
-		ea->eaPixelsPerTwip,
-		ea->eaMagnification, /*  magnification	*/
+		ea->eaPixelsPerTwip, ea->eaMagnification, /*  magnification	*/
 		&(ea->eaPostScriptFontList),
 
 		ed->edLeftRulerWidePixels, /*  minUnused	*/
@@ -628,7 +625,8 @@ int tedDocSetBottomRuler(EditDocument *ed)
 	int bottomRulerHigh = ed->edBottomRulerHighPixels;
 
 	ed->edBottomRuler = tedMakeBottomRuler(
-		&(ea->eaPostScriptFontList), bottomRulerHigh, /*  sizeAcross	*/
+		&(ea->eaPostScriptFontList),
+		bottomRulerHigh, /*  sizeAcross	*/
 		ed->edLeftRulerWidePixels, /*  minUnused	*/
 		ed->edRightRulerWidePixels, /*  maxUnused	*/
 		tar->tarPageNumberFormat);

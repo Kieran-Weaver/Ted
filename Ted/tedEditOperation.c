@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include <docScreenLayout.h>
 #include <docField.h>
 #include "tedEdit.h"

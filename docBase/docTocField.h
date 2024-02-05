@@ -79,6 +79,6 @@ int docCopyTocField(TocField *to, const TocField *from);
 int docFieldGetToc(TocField *tf, const struct DocumentField *df);
 
 int docTocFieldSetTocInstructions(struct FieldInstructions *fi,
-					 const TocField *tf);
+				  const TocField *tf);
 
 #endif

@@ -116,40 +116,34 @@ void appFinishInspector(AppInspector *ai);
 
 void appEnableInspector(AppInspector *ai, int enabled);
 
-void appEnableInspectorSubject(AppInspector *ai, int subject,
-				      int enabled);
+void appEnableInspectorSubject(AppInspector *ai, int subject, int enabled);
 
-void appInspectorGotColor(AppInspector *ai, int subjectPage,
-				 int property, const RGB8Color *rgb8);
+void appInspectorGotColor(AppInspector *ai, int subjectPage, int property,
+			  const RGB8Color *rgb8);
 
 void appInspectorShowRgbPage(AppInspector *ai, int fromSubject,
-				    int fromProperty, const RGB8Color *rgb8);
+			     int fromProperty, const RGB8Color *rgb8);
 
 void appInspectorSetRgbPage(AppInspector *ai, void *vrcp, int subject);
 
 int appInspectorAddSubject(AppInspector *ai,
-				  const InspectorSubjectResources *isr);
+			   const InspectorSubjectResources *isr);
 
 void appInspectorDeleteSubject(AppInspector *ai, int subject);
 
 void appInspectorPageChosen(int subject, void *vai);
 
-void appInspectorChoosePage(AppInspector *ai, int andMenu,
-				   int pageNumber);
+void appInspectorChoosePage(AppInspector *ai, int andMenu, int pageNumber);
 
 AppInspector *appMakeInspector(EditApplication *ea, APP_WIDGET option,
-				      InspectorSubjectResources *isr,
-				      int subjectCount,
-				      AppToolDestroy closeInspector,
-				      void *through);
+			       InspectorSubjectResources *isr, int subjectCount,
+			       AppToolDestroy closeInspector, void *through);
 
 void appInspectorMakePageParent(AppInspector *ai);
 
-int appMakeVerticalInspectorPage(APP_WIDGET *pPage,
-					APP_WIDGET *pMenuitem, AppInspector *ai,
-					const char *label);
+int appMakeVerticalInspectorPage(APP_WIDGET *pPage, APP_WIDGET *pMenuitem,
+				 AppInspector *ai, const char *label);
 
-void appInspectorEnablePage(AppInspector *ai, int pageNumber,
-				   int enabled);
+void appInspectorEnablePage(AppInspector *ai, int pageNumber, int enabled);
 
 #endif

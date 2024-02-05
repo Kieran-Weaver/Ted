@@ -5,11 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
-
-
 #include <appDebugon.h>
-
 #include "docTreeScanner.h"
 #include <docTreeType.h>
 #include "docTreeNode.h"

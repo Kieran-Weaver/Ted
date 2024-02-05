@@ -81,7 +81,6 @@ void docLayoutInitBlockFrame(BlockFrame *bf);
 void docLayoutCleanBlockFrame(BlockFrame *bf);
 void docInitNotesReservation(NotesReservation *nr);
 
-void docLayoutReserveNoteHeight(BlockFrame *bf,
-				       const NotesReservation *nrLine);
+void docLayoutReserveNoteHeight(BlockFrame *bf, const NotesReservation *nrLine);
 
 #endif /*  DOC_BLOCK_FRAME_H  */

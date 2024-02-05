@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <geo2DDouble.h>
 #include <geoAffineTransform.h>
-
 #include "docDrawShapeArrow.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

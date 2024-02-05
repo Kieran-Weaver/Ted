@@ -129,6 +129,6 @@ void docInitShapeProperties(ShapeProperties *sp);
 int docSetShapeProperty(ShapeProperties *sp, int prop, int value);
 
 void docPlaceRootShapeRect(DocumentRectangle *drTwips,
-				  const ShapeProperties *sp, int x0, int y0);
+			   const ShapeProperties *sp, int x0, int y0);
 
 #endif /*  DOC_SHAPE_PROPERTIES_H	*/

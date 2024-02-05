@@ -64,9 +64,10 @@
 /*									*/
 /************************************************************************/
 
-static int docScreenSegmentedWidth(struct DrawingSurface *ds, int fullScreenFont,
-				   int scapsScreenFont, const char *s,
-				   const int *segments, int segmentCount)
+static int docScreenSegmentedWidth(struct DrawingSurface *ds,
+				   int fullScreenFont, int scapsScreenFont,
+				   const char *s, const int *segments,
+				   int segmentCount)
 {
 	int seg;
 

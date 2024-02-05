@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "sioXprop.h"
 #include <sioMemory.h>
-
 #include <appDebugon.h>
-
 
 /************************************************************************/
 /*									*/
@@ -151,4 +147,3 @@ SimpleOutputStream *sioOutOpenCopy(APP_WIDGET w, GtkSelectionData *gsd)
 
 	return sos;
 }
-

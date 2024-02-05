@@ -30,16 +30,15 @@ int utilMemoryBufferSetSize(MemoryBuffer *mb, int size);
 
 int utilMemoryBufferSetString(MemoryBuffer *mb, const char *s);
 
-int utilMemoryBufferSetBytes(MemoryBuffer *mb,
-				    const unsigned char *bytes, int size);
+int utilMemoryBufferSetBytes(MemoryBuffer *mb, const unsigned char *bytes,
+			     int size);
 
-const unsigned char *
-utilMemoryBufferGetBytes(int *pSize, const MemoryBuffer *mbFrom);
+const unsigned char *utilMemoryBufferGetBytes(int *pSize,
+					      const MemoryBuffer *mbFrom);
 
 const char *utilMemoryBufferGetString(const MemoryBuffer *mbFrom);
 
-int utilMemoryCompareBuffers(const MemoryBuffer *mb1,
-				    const MemoryBuffer *mb2);
+int utilMemoryCompareBuffers(const MemoryBuffer *mb1, const MemoryBuffer *mb2);
 
 #define utilEqualMemoryBuffer(mb1, mb2)    \
 	((mb1)->mbSize == (mb2)->mbSize && \
@@ -47,17 +46,15 @@ int utilMemoryCompareBuffers(const MemoryBuffer *mb1,
 
 int utilMemoryAppendBuffer(MemoryBuffer *to, const MemoryBuffer *from);
 int utilMemoryBufferAppendString(MemoryBuffer *to, const char *s);
-int utilMemoryBufferAppendBytes(MemoryBuffer *mb,
-				       const unsigned char *bytes, int size);
+int utilMemoryBufferAppendBytes(MemoryBuffer *mb, const unsigned char *bytes,
+				int size);
 
-int utilMemoryBufferReplaceBytes(MemoryBuffer *mb, int offHead,
-					int offPast,
-					const unsigned char *addedBytes,
-					int addedCount);
+int utilMemoryBufferReplaceBytes(MemoryBuffer *mb, int offHead, int offPast,
+				 const unsigned char *addedBytes,
+				 int addedCount);
 
-int utilMemoryBufferGetRange(MemoryBuffer *mbTo,
-				    const MemoryBuffer *mbFrom, int offFrom,
-				    int lenFrom);
+int utilMemoryBufferGetRange(MemoryBuffer *mbTo, const MemoryBuffer *mbFrom,
+			     int offFrom, int lenFrom);
 
 char *utilMemoryStrdup(const MemoryBuffer *mbFrom);
 

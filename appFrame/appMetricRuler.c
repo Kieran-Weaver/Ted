@@ -1,13 +1,9 @@
 #include <config.h>
-
 #include <stdlib.h>
-
-
 #include "guiWidgets.h"
 #include "appMetricRuler.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
-
 #include <appDebugon.h>
 
 #define BACK_MARG(s) ((s) / 2)
@@ -54,7 +50,7 @@ void *appMakeMetricRuler(int sizeAcross, double magnifiedPixelsPerTwip,
 	MetricRuler *mr;
 	RulerData *rd;
 
-	mr = (MetricRuler*)malloc(sizeof(MetricRuler));
+	mr = (MetricRuler *)malloc(sizeof(MetricRuler));
 	if (!mr) {
 		XDEB(mr);
 		return (void *)0;

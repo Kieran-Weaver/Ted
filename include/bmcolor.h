@@ -97,15 +97,13 @@ typedef struct ColorAllocator {
 /************************************************************************/
 
 void bmSetCalculatedShifts(ColorAllocator *ca, unsigned long redMask,
-				  unsigned long greenMask,
-				  unsigned long blueMask);
+			   unsigned long greenMask, unsigned long blueMask);
 
 void bmInitColorAllocator(ColorAllocator *ca);
 void bmCleanColorAllocator(ColorAllocator *ca);
 
-int bmFindNearestColorRgb(AllocatorColor *acRet,
-				 const ColorAllocator *ca, unsigned int r,
-				 unsigned int g, unsigned int b);
+int bmFindNearestColorRgb(AllocatorColor *acRet, const ColorAllocator *ca,
+			  unsigned int r, unsigned int g, unsigned int b);
 
 int bmAllocateAllocatorColors(ColorAllocator *ca, int count);
 

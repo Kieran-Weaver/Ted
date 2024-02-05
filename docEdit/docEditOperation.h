@@ -149,32 +149,31 @@ void docInitEditOperation(EditOperation *eo);
 void docCleanEditOperation(EditOperation *eo);
 
 void docEditOperationGetSelection(DocumentSelection *dsNew,
-					 const EditOperation *eo);
+				  const EditOperation *eo);
 
 int docStartEditOperation(EditOperation *eo, const DocumentSelection *ds,
-				 BufferDocument *bd);
+			  BufferDocument *bd);
 
 void docEditIncludeNodeInReformatRange(EditOperation *eo,
-					      struct BufferItem *bi);
+				       struct BufferItem *bi);
 
 void docEditIncludeRowsInReformatRange(EditOperation *eo,
-					      struct BufferItem *sectBi,
-					      int row0, int row1);
+				       struct BufferItem *sectBi, int row0,
+				       int row1);
 
 void docSetParagraphAdjust(EditOperation *eo, struct BufferItem *paraBi,
-				  int stroffShift, int stroffUpto);
+			   int stroffShift, int stroffUpto);
 
-void docExtendParagraphAdjust(EditOperation *eo,
-				     struct BufferItem *paraBi,
-				     int stroffShift);
+void docExtendParagraphAdjust(EditOperation *eo, struct BufferItem *paraBi,
+			      int stroffShift);
 
 void docEditFinishStep(EditOperation *eo);
 
 int docMoveEditOperationToBodySect(EditOperation *eo,
-					  struct BufferItem *bodySectNode);
+				   struct BufferItem *bodySectNode);
 
 DocumentField *docEditOperationGetSelectedNote(struct DocumentNote **pDn,
-						      int *pSelInNote,
-						      const EditOperation *eo);
+					       int *pSelInNote,
+					       const EditOperation *eo);
 
 #endif /*	DOC_EDIT_OPERATION_H	*/

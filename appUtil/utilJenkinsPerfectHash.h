@@ -109,9 +109,8 @@ struct qstuff {
 };
 typedef struct qstuff qstuff;
 
-int utilJenkinsPerfectHash(const unsigned char **keyStrings,
-				  int keyStringCount, const char *cOutput,
-				  const char *cInclude, const char *procName,
-				  const char *indexName);
+int utilJenkinsPerfectHash(const unsigned char **keyStrings, int keyStringCount,
+			   const char *cOutput, const char *cInclude,
+			   const char *procName, const char *indexName);
 
 #endif /* UTIL_JENKINS_PERFECT_HASH_H */

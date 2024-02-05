@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include "bmintern.h"
 #include <string.h>
 #include <stdlib.h>
@@ -137,9 +136,12 @@ int bmCopyDescription(BitmapDescription *to, const BitmapDescription *from)
 /*									*/
 /************************************************************************/
 
-const unsigned char Bmc1Masks[8] = { 0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1 };
+const unsigned char Bmc1Masks[8] = {
+	0x80, 0x40, 0x20, 0x10, 0x8, 0x4, 0x2, 0x1
+};
 
-const unsigned char Bmc7Masks[8] = { 0x7f, 0xbf, 0xdf, 0xef, 0xf7, 0xfb, 0xfd, 0xfe };
+const unsigned char Bmc7Masks[8] = { 0x7f, 0xbf, 0xdf, 0xef,
+				     0xf7, 0xfb, 0xfd, 0xfe };
 
 /************************************************************************/
 /*									*/

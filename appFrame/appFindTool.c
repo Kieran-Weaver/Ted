@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
-
 #include <stddef.h>
 #include <string.h>
-
 #include "appFrame.h"
 #include "appFindTool.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -266,7 +262,6 @@ appFindToolMakeButtonRow(APP_WIDGET *pRow, APP_WIDGET parent,
 	appMakeButtonInRow(&(rightButton), row, rightLabel, rightCallback,
 			   (void *)aft, 1, colspan, showAsDefault);
 
-
 	*pLeftButton = leftButton, *pRightButton = rightButton;
 	return;
 }
@@ -295,7 +290,6 @@ static APP_WIDGET appFindMakeFindFrame(APP_WIDGET parent,
 
 	appGuiSetTypingCallbackForText(aft->aftPatternText,
 				       appFindToolPatternChanged, (void *)aft);
-
 
 	/***************/
 
@@ -340,7 +334,6 @@ static void appFindMakeReplaceFrame(APP_WIDGET parent,
 	appGuiSetTypingCallbackForText(aft->aftReplaceText,
 				       appFindToolReplacementChanged,
 				       (void *)aft);
-
 
 	/***************/
 

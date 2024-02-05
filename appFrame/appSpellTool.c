@@ -5,13 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
 #include <appDebugon.h>
-
 #include "appSpellTool.h"
 #include "appFrame.h"
 #include "appQuestion.h"
@@ -677,14 +675,15 @@ static int appSpellGetLocaleNames(EditApplication *ea, SpellChecker *sc)
 	int i;
 
 	if (!gotResources) {
-		localeNames =
-			(LocaleName*)malloc(sc->scDictionaryCount * sizeof(LocaleName));
+		localeNames = (LocaleName *)malloc(sc->scDictionaryCount *
+						   sizeof(LocaleName));
 		if (!localeNames) {
 			LXDEB(sc->scDictionaryCount, localeNames);
 			return -1;
 		}
-		localeRes = (AppConfigurableResource*)malloc(sc->scDictionaryCount *
-				   sizeof(AppConfigurableResource));
+		localeRes = (AppConfigurableResource *)malloc(
+			sc->scDictionaryCount *
+			sizeof(AppConfigurableResource));
 		if (!localeRes) {
 			LXDEB(sc->scDictionaryCount, localeRes);
 			return -1;
@@ -702,7 +701,7 @@ static int appSpellGetLocaleNames(EditApplication *ea, SpellChecker *sc)
 				return -1;
 			}
 
-			name = (char*)malloc(
+			name = (char *)malloc(
 				5 + strlen(sc->scDictionaries[i].sdLocale) + 1);
 			if (!name) {
 				XDEB(name);

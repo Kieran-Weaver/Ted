@@ -14,7 +14,7 @@
 #include <drawDrawingSurface.h>
 
 #ifdef __cplusplus
-extern "C"{
+extern "C" {
 #endif
 
 #define A3_MM_HIGH 420
@@ -26,18 +26,17 @@ extern "C"{
 /************************************************************************/
 
 void appDrawPageDiagram(APP_WIDGET w, struct DrawingSurface *ds,
-			       const RGB8Color *backColor, double pixelsPerTwip,
-			       const DocumentGeometry *dg);
+			const RGB8Color *backColor, double pixelsPerTwip,
+			const DocumentGeometry *dg);
 
 void appDrawNupDiagram(APP_WIDGET w, struct DrawingSurface *ds,
-			      const RGB8Color *backColor, int screenFont,
-			      double pixelsPerTwip,
-			      const DocumentGeometry *dgPage,
-			      const struct PrintGeometry *pg);
+		       const RGB8Color *backColor, int screenFont,
+		       double pixelsPerTwip, const DocumentGeometry *dgPage,
+		       const struct PrintGeometry *pg);
 
 APP_WIDGET appMakePageDrawing(APP_WIDGET parent, double pixelsPerTwip,
-				     int widgetHighMm,
-				     APP_EVENT_HANDLER_T redraw, void *through);
+			      int widgetHighMm, APP_EVENT_HANDLER_T redraw,
+			      void *through);
 
 #ifdef __cplusplus
 }

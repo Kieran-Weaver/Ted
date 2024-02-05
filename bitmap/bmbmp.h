@@ -80,39 +80,35 @@ typedef struct IcoDirectoryEntry {
 /*  Routine declarations.						*/
 /************************************************************************/
 
-int bmCollectDib(const BitmapDescription *bd,
-			const unsigned char *buffer, BmpImageHeader *bih,
-			MemoryBuffer *bmpBytes, RGB8Color **pPalette,
-			int privateFormat, int fileHeader);
+int bmCollectDib(const BitmapDescription *bd, const unsigned char *buffer,
+		 BmpImageHeader *bih, MemoryBuffer *bmpBytes,
+		 RGB8Color **pPalette, int privateFormat, int fileHeader);
 
-int bmpWriteImageHeader(const BmpImageHeader *bih,
-			       SimpleOutputStream *sos,
-			       const RGB8Color *palette);
+int bmpWriteImageHeader(const BmpImageHeader *bih, SimpleOutputStream *sos,
+			const RGB8Color *palette);
 
 int bmpReadImageHeader(BmpImageHeader *bih, SimpleInputStream *sis,
-			      RGB8Color **pPalette);
+		       RGB8Color **pPalette);
 
 int bmpHeaderToDescription(BitmapDescription *bd, int *pBytesPerRow,
-				  const BmpImageHeader *bih,
-				  const RGB8Color *palette, int assumeAlpha);
+			   const BmpImageHeader *bih, const RGB8Color *palette,
+			   int assumeAlpha);
 
 int bmBmpReadImageBytes(unsigned char **pBuffer, SimpleInputStream *sis,
-			       int compression, int bytesPerRowF,
-			       int bitsPerPixelFile,
-			       const BitmapDescription *bd);
+			int compression, int bytesPerRowF, int bitsPerPixelFile,
+			const BitmapDescription *bd);
 
 int bmBmpReadDibX(BitmapDescription *pBd, unsigned char **pBuffer,
-			 BmpImageHeader *bih, const RGB8Color *palette,
-			 SimpleInputStream *sis);
+		  BmpImageHeader *bih, const RGB8Color *palette,
+		  SimpleInputStream *sis);
 
 int bmbmpDescriptionToHeader(BmpImageHeader *bih, RGB8Color **pPalette,
-				    int privateFormat, int hasAlpha,
-				    const BitmapDescription *bd);
+			     int privateFormat, int hasAlpha,
+			     const BitmapDescription *bd);
 
 int bmpSizeImageHeader(const BmpImageHeader *bih, RGB8Color *palette);
 
-int bmBmpSaveImageBytes(MemoryBuffer *bmpBytes,
-			       const BitmapDescription *bd,
-			       const unsigned char *buffer, int compression);
+int bmBmpSaveImageBytes(MemoryBuffer *bmpBytes, const BitmapDescription *bd,
+			const unsigned char *buffer, int compression);
 
 #endif

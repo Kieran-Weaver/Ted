@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include "appFrame.h"
 #include "guiToolUtil.h"
 #include "guiWidgetsImpl.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

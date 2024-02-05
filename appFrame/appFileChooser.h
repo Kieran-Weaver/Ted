@@ -70,39 +70,36 @@ typedef struct AppChooserInformation {
 /*									*/
 /************************************************************************/
 
-void appFileChooserGetTexts(EditApplication *ea,
-				   AppChooserInformation *aci);
+void appFileChooserGetTexts(EditApplication *ea, AppChooserInformation *aci);
 
 int appFileChooserTestNameForOpen(const AppChooserInformation *aci);
 
 int appFileChooserTestNameForWrite(const AppChooserInformation *aci);
 
 int appChooserSaveFilename(AppChooserInformation *aci,
-				  const MemoryBuffer *filename,
-				  const char *extension);
+			   const MemoryBuffer *filename, const char *extension);
 
 int appRunSaveChooser(APP_WIDGET option, APP_WIDGET relative,
-			     unsigned int useFlags,
+		      unsigned int useFlags, APP_SAVE_DOCUMENT saveDocument,
+		      EditDocument *ed, void *through);
+
+int appRunPrintToFileChooser(APP_WIDGET option, APP_WIDGET relative,
 			     APP_SAVE_DOCUMENT saveDocument, EditDocument *ed,
 			     void *through);
 
-int appRunPrintToFileChooser(APP_WIDGET option, APP_WIDGET relative,
-				    APP_SAVE_DOCUMENT saveDocument,
-				    EditDocument *ed, void *through);
-
-void
-appRunOpenChooser(APP_WIDGET option, APP_WIDGET relative, int extensionCount,
-		  AppFileExtension *openExtensions, const char *defaultFilter,
-		  const MemoryBuffer *dir, APP_OPEN_DOCUMENT openDocument,
-		  EditApplication *ea, void *through);
+void appRunOpenChooser(APP_WIDGET option, APP_WIDGET relative,
+		       int extensionCount, AppFileExtension *openExtensions,
+		       const char *defaultFilter, const MemoryBuffer *dir,
+		       APP_OPEN_DOCUMENT openDocument, EditApplication *ea,
+		       void *through);
 
 int appFileFilterGetDescriptions(EditApplication *ea,
-					AppFileExtension *extensions,
-					int extensionCount);
+				 AppFileExtension *extensions,
+				 int extensionCount);
 
 int appFileChooserConfirmOverWrite(const AppChooserInformation *aci,
-					  const char *filename);
+				   const char *filename);
 
 int appChooserOpenDocument(EditApplication *ea, void *through,
-				  APP_WIDGET relative, APP_WIDGET option,
-				  const MemoryBuffer *filename);
+			   APP_WIDGET relative, APP_WIDGET option,
+			   const MemoryBuffer *filename);

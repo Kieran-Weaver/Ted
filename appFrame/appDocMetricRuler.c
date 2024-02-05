@@ -5,16 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
-
 #include "guiWidgets.h"
 #include "appMetricRuler.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -26,7 +21,8 @@
 /************************************************************************/
 
 void appDrawRectangleSelection(DocumentRectangle *drClip,
-			       DocumentRectangle *drSelected, struct DrawingSurface *ds,
+			       DocumentRectangle *drSelected,
+			       struct DrawingSurface *ds,
 			       const DocumentRectangle *drScreen, int ox,
 			       int oy)
 {

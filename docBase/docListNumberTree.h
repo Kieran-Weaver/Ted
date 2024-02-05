@@ -52,33 +52,30 @@ void docCleanListNumberTrees(ListNumberTrees *lnt);
 int docClaimListNumberTrees(ListNumberTrees *lnt, int count);
 
 void docShiftListNodeReferences(ListNumberTreeNode *root, int paraFrom,
-				       int paraShift);
+				int paraShift);
 
 void docShiftListTreeReferences(ListNumberTrees *lnt, int paraFrom,
-				       int paraShift);
+				int paraShift);
 
 ListNumberTreeNode *docGetListNumberTree(ListNumberTrees *lnt, int ls);
 
 int docListNumberTreeInsertParagraph(ListNumberTreeNode *root, int ilvl,
-					    int paraNr);
+				     int paraNr);
 
-int docListNumberTreesInsertParagraph(ListNumberTrees *lnt, int ls,
-					     int ilvl, int paraNr);
+int docListNumberTreesInsertParagraph(ListNumberTrees *lnt, int ls, int ilvl,
+				      int paraNr);
 
-int docListNumberTreeDeleteParagraph(ListNumberTreeNode *root,
-					    int paraNr);
+int docListNumberTreeDeleteParagraph(ListNumberTreeNode *root, int paraNr);
 
-int docListNumberTreesDeleteParagraph(ListNumberTrees *lnt, int ls,
-					     int paraNr);
+int docListNumberTreesDeleteParagraph(ListNumberTrees *lnt, int ls, int paraNr);
 
-int docListNumberTreeGetNumberPath(int *numberPath,
-					  ListNumberTreeNode *root, int ilvl,
-					  int paraNr);
+int docListNumberTreeGetNumberPath(int *numberPath, ListNumberTreeNode *root,
+				   int ilvl, int paraNr);
 
 int docListNumberTreeGetPrevPath(int *numberPath, int *pLevel,
-					ListNumberTreeNode *root, int paraNr);
+				 ListNumberTreeNode *root, int paraNr);
 
-int docListNumberTreeForAll(ListNumberTreeNode *root,
-				   LIST_TREE_FUNC forOne, void *through);
+int docListNumberTreeForAll(ListNumberTreeNode *root, LIST_TREE_FUNC forOne,
+			    void *through);
 
 #endif

@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <stdlib.h>
-
 #include <appSystem.h>
 #include "appFrame.h"
 #include "appQuestion.h"
@@ -17,7 +14,6 @@
 #include "guiDrawingWidget.h"
 #include "appFileChooser.h"
 #include "utilMemoryBufferPrintf.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -338,7 +334,6 @@ ready:
 
 static void appCleanDocumentWidget(DocumentWidget *dw)
 {
-
 #if defined(USE_GTK) && defined(GTK_TYPE_IM_CONTEXT)
 	if (dw->dwInputContext) {
 		g_object_unref(dw->dwInputContext);
@@ -384,7 +379,6 @@ static void appInitDocumentWidget(DocumentWidget *dw)
 {
 	dw->dwWidget = (APP_WIDGET)0;
 
-
 #ifdef GTK_TYPE_IM_CONTEXT
 	dw->dwInputContext = (GtkIMContext *)0;
 #else
@@ -420,7 +414,7 @@ static void appInitEditDocument(EditApplication *ea, EditDocument *ed)
 	ed->edHorizontalScrollbar = (APP_WIDGET)0;
 	ed->edWorkWidget = (APP_WIDGET)0;
 	appInitDocumentWidget(&(ed->edDocumentWidget));
-	ed->edDrawingSurface = (struct DrawingSurface*)0;
+	ed->edDrawingSurface = (struct DrawingSurface *)0;
 
 	ed->edLeftRulerWidget = (APP_WIDGET)0;
 	ed->edTopRulerWidget = (APP_WIDGET)0;
@@ -531,7 +525,6 @@ int appSetupDocument(EditApplication *ea, EditDocument *ed)
 	int wide;
 	int high;
 
-
 	gtk_widget_realize(ed->edToplevel.atTopWidget);
 
 	ed->edDrawingSurface = guiDrawingSurfaceForNativeWidget(
@@ -560,7 +553,6 @@ int appSetupDocument(EditApplication *ea, EditDocument *ed)
 	if (high > (4 * ea->eaScreenPixelsHigh) / 5) {
 		high = (4 * ea->eaScreenPixelsHigh) / 5;
 	}
-
 
 	gtk_drawing_area_size(GTK_DRAWING_AREA(ed->edTopRulerWidget),
 			      ed->edLeftRulerWidePixels + wide +

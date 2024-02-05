@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <geoGrid.h>
 #include <appDebugon.h>
-
 #include "docObject.h"
 #include "docObjectProperties.h"
 

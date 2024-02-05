@@ -26,13 +26,13 @@ typedef struct BitmapPrinter {
 } BitmapPrinter;
 
 int bmPsOpenBitmapPrinter(BitmapPrinter *bp, SimpleOutputStream *sos,
-				 const BitmapDescription *bd, int useFilters,
-				 int indexedImages);
+			  const BitmapDescription *bd, int useFilters,
+			  int indexedImages);
 
 void bmCloseBitmapPrinter(BitmapPrinter *bp);
 
 void bmStartEpsFile(SimpleOutputStream *sos, const char *filename,
-			   const BitmapDescription *bd);
+		    const BitmapDescription *bd);
 
 /************************************************************************/
 /*									*/
@@ -41,29 +41,28 @@ void bmStartEpsFile(SimpleOutputStream *sos, const char *filename,
 /************************************************************************/
 
 int bmPsPrintBitmap(SimpleOutputStream *sos, int level, double xscale,
-			   double yscale, int ox, int oy,
-			   const DocumentRectangle *drSrc, int useFilters,
-			   int indexedImages, const BitmapDescription *bd,
-			   const unsigned char *buffer);
+		    double yscale, int ox, int oy,
+		    const DocumentRectangle *drSrc, int useFilters,
+		    int indexedImages, const BitmapDescription *bd,
+		    const unsigned char *buffer);
 
-int bmPsPrintBitmapImage(SimpleOutputStream *sos, int level,
-				double xscale, double yscale, int ox, int oy,
-				const DocumentRectangle *drSrc, int onWhite,
-				int useFilters, int indexedImages,
-				const BitmapDescription *bd,
-				const unsigned char *buffer);
+int bmPsPrintBitmapImage(SimpleOutputStream *sos, int level, double xscale,
+			 double yscale, int ox, int oy,
+			 const DocumentRectangle *drSrc, int onWhite,
+			 int useFilters, int indexedImages,
+			 const BitmapDescription *bd,
+			 const unsigned char *buffer);
 
 void bmPsWriteImageInstructions(SimpleOutputStream *sos,
-				       const BitmapDescription *bd, int onWhite,
-				       int wide, int high, const char *source,
-				       int indexedImages);
+				const BitmapDescription *bd, int onWhite,
+				int wide, int high, const char *source,
+				int indexedImages);
 
-int bmPsWriteBitmapData(BitmapPrinter *bp,
-			       const DocumentRectangle *drSrc,
-			       const BitmapDescription *bd,
-			       const unsigned char *inputBuffer);
+int bmPsWriteBitmapData(BitmapPrinter *bp, const DocumentRectangle *drSrc,
+			const BitmapDescription *bd,
+			const unsigned char *inputBuffer);
 
 int bmPsRowStringSize(const BitmapDescription *bd, int pixelsWide,
-			     int indexedImages);
+		      int indexedImages);
 
 #endif

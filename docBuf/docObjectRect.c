@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <docObject.h>
 #include <docObjectProperties.h>
 #include "docObjectRect.h"

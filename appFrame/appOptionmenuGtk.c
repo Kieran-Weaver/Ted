@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include "guiWidgets.h"
 #include "guiOptionmenu.h"
 #include "guiWidgetsImpl.h"
@@ -103,8 +102,7 @@ void appMakeOptionmenuInRow(AppOptionmenu *aom, APP_WIDGET row, int column,
 	gtk_widget_set_name(GTK_WIDGET(inplace), "tedRowOptMenu");
 
 	gtk_table_attach(GTK_TABLE(row), inplace, column, column + colspan, 0,
-			 1, GTK_FES,
-			 GTK_FES, ROW_XPADDING_GTK,
+			 1, GTK_FES, GTK_FES, ROW_XPADDING_GTK,
 			 ROW_YPADDING_GTK);
 
 	gtk_widget_show(inplace);
@@ -251,4 +249,3 @@ void appOptionmenuItemSetVisibility(APP_WIDGET w, int visible)
 
 	return;
 }
-

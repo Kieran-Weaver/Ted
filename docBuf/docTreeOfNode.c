@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docBuf.h"
 #include <docTreeType.h>
 #include "docTreeNode.h"

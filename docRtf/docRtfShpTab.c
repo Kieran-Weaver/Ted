@@ -9,8 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
 #include <utilJenkinsPerfectHash.h>
 
 #include "docRtfReaderImpl.h"

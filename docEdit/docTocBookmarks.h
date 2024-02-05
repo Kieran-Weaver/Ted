@@ -23,9 +23,9 @@ void docRemoveUnbalancedTocBookmarks(struct BufferDocument *bdDoc);
 
 int docSetTocBookmarks(struct BufferDocument *bd);
 
-const struct DocumentField *
-docGetParaTocBookmark(struct BufferDocument *bd, struct DocumentTree *dt,
-		      struct BufferItem *paraNode);
+const struct DocumentField *docGetParaTocBookmark(struct BufferDocument *bd,
+						  struct DocumentTree *dt,
+						  struct BufferItem *paraNode);
 
 int docTocSetOutlineBookmarks(struct BufferDocument *bd);
 

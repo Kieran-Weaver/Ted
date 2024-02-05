@@ -5,17 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <stddef.h>
-
-
 #include "appFrame.h"
 #include "appInspector.h"
 #include "guiWidgetsImpl.h"
-
 #include "appRgbChooserPage.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -98,8 +93,9 @@ int appInspectorAddSubject(AppInspector *ai,
 {
 	InspectorSubject *is;
 
-	is = (InspectorSubject*)realloc(ai->aiSubjects,
-		     (ai->aiSubjectCount + 1) * sizeof(InspectorSubject));
+	is = (InspectorSubject *)realloc(ai->aiSubjects,
+					 (ai->aiSubjectCount + 1) *
+						 sizeof(InspectorSubject));
 	if (!is) {
 		LXDEB(ai->aiSubjectCount, is);
 		return -1;
@@ -256,8 +252,8 @@ AppInspector *appMakeInspector(EditApplication *ea, APP_WIDGET option,
 	if (subjectCount > 0) {
 		InspectorSubject *is;
 
-		ai->aiSubjects =
-			(InspectorSubject*)malloc(subjectCount * sizeof(InspectorSubject));
+		ai->aiSubjects = (InspectorSubject *)malloc(
+			subjectCount * sizeof(InspectorSubject));
 		if (!ai->aiSubjects) {
 			LXDEB(subjectCount, ai->aiSubjects);
 			goto ready;

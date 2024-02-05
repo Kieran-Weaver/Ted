@@ -1,12 +1,9 @@
 #include <config.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
 #include <appDebugon.h>
 #include <utilMemoryBuffer.h>
-
 #include "guiTextUtil.h"
 #include "guiWidgets.h"
 #include <geoString.h>

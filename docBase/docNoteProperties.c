@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <utilPropMask.h>
-
 #include "docTreeType.h"
 #include "docNoteProperties.h"
 

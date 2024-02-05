@@ -5,18 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include "appFrame.h"
 #include "appGuiKeys.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
 #include <geoUnits.h>
-
 #include <appDebugon.h>
-
 #define WHEEL_STEP 10
 #define BAR_STEP 20
 
@@ -580,7 +575,6 @@ APP_EVENT_HANDLER_H(appScrollEventHandler, w, voided, scrollEvent)
 	int direction = SCROLL_DIRECTION_FROM_EVENT(scrollEvent);
 
 	switch (direction) {
-
 	case SCROLL_UP:
 		appMouseWheelUp(ed);
 		break;
@@ -618,7 +612,6 @@ void appDocSetScrollbarValues(EditDocument *ed)
 		value = maximum - sliderSize;
 	}
 
-
 	ed->edVerticalAdjustment->lower = minimum;
 	ed->edVerticalAdjustment->upper = maximum;
 	ed->edVerticalAdjustment->value = value;
@@ -638,7 +631,6 @@ void appDocSetScrollbarValues(EditDocument *ed)
 	} else {
 		maximum = ed->edFullRect.drX1 + 1;
 	}
-
 
 	ed->edHorizontalAdjustment->lower = minimum;
 	ed->edHorizontalAdjustment->upper = maximum;

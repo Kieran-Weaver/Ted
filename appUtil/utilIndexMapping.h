@@ -48,13 +48,13 @@ void utilCleanIndexMapping(IndexMapping *im);
 void utilClearIndexMapping(IndexMapping *im);
 
 int utilIndexMappingBuildBackward(IndexMapping *im, const int *forward,
-					 int forwardCount);
+				  int forwardCount);
 
 int utilIndexMappingPut(IndexMapping *im, int from, int to);
 
 int utilIndexMappingAppend(IndexMapping *im, int *pFrom, int to);
 
-int utilIndexMappingForAll(const IndexMapping *im,
-				  IndexMappingForOne forOne, void *through);
+int utilIndexMappingForAll(const IndexMapping *im, IndexMappingForOne forOne,
+			   void *through);
 
 #endif /*	PS_TO_GLYPH_MAPPING_H	*/

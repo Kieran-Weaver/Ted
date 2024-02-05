@@ -10,7 +10,6 @@
 
 #include <string.h>
 
-
 #include "tedEdit.h"
 #include "tedDocFront.h"
 #include "tedSelect.h"

@@ -30,44 +30,39 @@
 /************************************************************************/
 
 void docBlockFrameTwips(BlockFrame *bf, struct BufferItem *bi,
-			       BufferDocument *bd, int page, int column);
+			BufferDocument *bd, int page, int column);
 
 void docCellFrameTwips(ParagraphFrame *pf, const BlockFrame *bf,
-			      const struct BufferItem *cellNode);
+		       const struct BufferItem *cellNode);
 
-void docCellRectangleTwips(DocumentRectangle *drCell,
-				  const BlockFrame *bf,
-				  const struct BufferItem *cellNode);
+void docCellRectangleTwips(DocumentRectangle *drCell, const BlockFrame *bf,
+			   const struct BufferItem *cellNode);
 
 void docLayoutSectColumnTop(LayoutPosition *lpTop, BlockFrame *bf,
-				   struct BufferItem *bodySectNode,
-				   BufferDocument *bd);
+			    struct BufferItem *bodySectNode,
+			    BufferDocument *bd);
 
 void docParaBlockFrameRectangle(DocumentRectangle *dr,
-				       struct BufferItem *paraBi,
-				       BufferDocument *bd, int page,
-				       int column);
+				struct BufferItem *paraBi, BufferDocument *bd,
+				int page, int column);
 
 void docParaBlockFrameTwips(BlockFrame *bf, struct BufferItem *paraBi,
-				   BufferDocument *bd, int page, int column);
+			    BufferDocument *bd, int page, int column);
 
 void docParagraphFrameTwips(ParagraphFrame *pf, const BlockFrame *bf,
-				   const struct BufferItem *paraBi);
+			    const struct BufferItem *paraBi);
 
-void docLayoutSetTextFrame(BlockFrame *bfTextFrame,
-				  const LayoutPosition *lpRef,
-				  const BlockFrame *bfRef,
-				  const FrameProperties *fp, int frameHighVal);
+void docLayoutSetTextFrame(BlockFrame *bfTextFrame, const LayoutPosition *lpRef,
+			   const BlockFrame *bfRef, const FrameProperties *fp,
+			   int frameHighVal);
 
 void docLayoutFrameX(BlockFrame *bfTextFrame, int xRefProp, int xPosProp,
-			    int xPosVal, int layoutInCell,
-			    const ParagraphFrame *pfRef,
-			    const BlockFrame *bfRef, int xChar, int frameWide);
+		     int xPosVal, int layoutInCell, const ParagraphFrame *pfRef,
+		     const BlockFrame *bfRef, int xChar, int frameWide);
 
 void docLayoutFrameY(BlockFrame *bfTextFrame, int yRefProp, int yPosProp,
-			    int yPosVal, const LayoutPosition *lpLineTop,
-			    const LayoutPosition *lpParaTop,
-			    const BlockFrame *bfRef, int frameHighProp,
-			    int frameHighVal);
+		     int yPosVal, const LayoutPosition *lpLineTop,
+		     const LayoutPosition *lpParaTop, const BlockFrame *bfRef,
+		     int frameHighProp, int frameHighVal);
 
 #endif /*  DOC_PAGE_GRID_H  */

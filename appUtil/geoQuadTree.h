@@ -72,19 +72,18 @@ int qtFreeData(int x, int y, void *data, void *through);
 
 int qtPut(QuadTree *qt, int x, int y, void *data);
 
-int qtGetExact(QuadTree *qt, int x, int y, void ***const pvals,
-		      int *pnval);
+int qtGetExact(QuadTree *qt, int x, int y, void ***const pvals, int *pnval);
 
-int qtGetNearest(QuadTree *qt, int x, int y, const void *data, int *pX,
-			int *pY, void *const **pvals, int *pnval);
+int qtGetNearest(QuadTree *qt, int x, int y, const void *data, int *pX, int *pY,
+		 void *const **pvals, int *pnval);
 
 const char *qtQuadrantStr(int q);
 const char *qtOctantStr(int q);
 
 int qtForAllInRectangle(const QuadTree *qt, const DocumentRectangle *dr,
-			       QuadForAllCall fun, void *through);
+			QuadForAllCall fun, void *through);
 
-int qtForAll(const QuadTree *qt, QuadForAllFilter filter,
-		    QuadForAllCall fun, void *through);
+int qtForAll(const QuadTree *qt, QuadForAllFilter filter, QuadForAllCall fun,
+	     void *through);
 
 #endif /* GEO_QUAD_TREE_H */

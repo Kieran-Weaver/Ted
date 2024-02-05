@@ -27,15 +27,15 @@ typedef enum TreeScanAdvice {
 /************************************************************************/
 
 int docScanTree(BufferDocument *bd, const DocumentTree *dt,
-		       NodeVisitor enterNode, NodeVisitor leaveNode, int flags,
-		       void *through);
+		NodeVisitor enterNode, NodeVisitor leaveNode, int flags,
+		void *through);
 
 int docScanSelection(BufferDocument *bd, const DocumentSelection *ds,
-			    NodeVisitor enterNode, NodeVisitor leaveNode,
-			    int flags, void *through);
+		     NodeVisitor enterNode, NodeVisitor leaveNode, int flags,
+		     void *through);
 
 int docScanTreeNode(BufferDocument *bd, struct BufferItem *node,
-			   NodeVisitor enterNode, NodeVisitor leaveNode,
-			   int flags, void *through);
+		    NodeVisitor enterNode, NodeVisitor leaveNode, int flags,
+		    void *through);
 
 #endif /*	DOC_TREE_SCANNER_H	*/

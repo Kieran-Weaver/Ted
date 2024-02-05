@@ -74,20 +74,19 @@ void appInitRgbCube(RgbCube *rc);
 void appCleanRgbCube(RgbCube *rc);
 
 void appRedrawRgbCube(RgbCube *rc, int wide, int high,
-			     const DocumentRectangle *drClip,
-			     struct DrawingSurface *ds);
+		      const DocumentRectangle *drClip,
+		      struct DrawingSurface *ds);
 
 int appPrepareRgbCube(RgbCube *rc, struct DrawingSurface *ds, int redSteps,
-			     int greenSteps, int blueSteps);
+		      int greenSteps, int blueSteps);
 
-void appRotateRgbCube(RgbCube *rc, int mouseX, int mouseY, int wide,
-			     int high);
+void appRotateRgbCube(RgbCube *rc, int mouseX, int mouseY, int wide, int high);
 
 int appRgbCubeFindColor(RGB8Color *rgb8, int *pOnOutside, RgbCube *rc,
-			       int mouseX, int mouseY, int wide, int high);
+			int mouseX, int mouseY, int wide, int high);
 
 void appRgbCubeSetSplit(RgbCube *rc, int splitColor,
-			       const RGB8Color *splitValues);
+			const RGB8Color *splitValues);
 
 void appRgbCubeSelectColor(RgbCube *rc, const RGB8Color *rgb8);
 

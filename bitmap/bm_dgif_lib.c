@@ -10,11 +10,9 @@
 *  3 Sep 90 - Version 1.1 by Gershon Elber (Support for Gif89, Unique names). *
 ******************************************************************************/
 
-
 #include <stdlib.h>
 #include <string.h>
 #include "bm_gif_lib.h"
-
 #include <sioBlocked.h>
 #include <sioLzw.h>
 #include <sioEndian.h>

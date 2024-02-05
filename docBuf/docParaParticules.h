@@ -74,55 +74,50 @@
 /************************************************************************/
 
 int docFindParticuleOfPosition(int *pPart, int *pFlags,
-				      const DocumentPosition *dp, int lastOne);
+			       const DocumentPosition *dp, int lastOne);
 
-int docFindLineOfPosition(int *pLine, int *pFlags,
-				 const DocumentPosition *dp, int lastOne);
+int docFindLineOfPosition(int *pLine, int *pFlags, const DocumentPosition *dp,
+			  int lastOne);
 
 void docInitParaNode(BufferItem *paraBi);
 int docDeleteEmptySpan(BufferItem *paraBi);
 
-void docCleanParaNode(BufferDocument *bd, DocumentTree *dt,
-			     BufferItem *paraBi);
+void docCleanParaNode(BufferDocument *bd, DocumentTree *dt, BufferItem *paraBi);
 
-TextParticule *docInsertParticules(BufferItem *paraBi, int part,
-					  int count);
+TextParticule *docInsertParticules(BufferItem *paraBi, int part, int count);
 
 void docDeleteParticules(BufferItem *bi, int first, int count);
 
-int docInsertAdminParticule(BufferDocument *bd, BufferItem *paraBi,
-				   int n, int off, int objectNumber, int kind,
-				   const TextAttribute *ta);
+int docInsertAdminParticule(BufferDocument *bd, BufferItem *paraBi, int n,
+			    int off, int objectNumber, int kind,
+			    const TextAttribute *ta);
 
-TextParticule *docInsertTextParticule(BufferItem *bi, int n, int off,
-					     int len, int kind, int textAttrNr);
+TextParticule *docInsertTextParticule(BufferItem *bi, int n, int off, int len,
+				      int kind, int textAttrNr);
 
-TextParticule *docMakeSpecialParticule(BufferItem *paraBi, int n,
-					      int stroff, int kind,
-					      int textAttrNr);
+TextParticule *docMakeSpecialParticule(BufferItem *paraBi, int n, int stroff,
+				       int kind, int textAttrNr);
 
 int docSaveSpecialParticule(BufferDocument *bd, BufferItem *paraBi,
-				   const TextAttribute *ta, int kind);
+			    const TextAttribute *ta, int kind);
 
 int docShiftParticuleOffsets(BufferDocument *bd, BufferItem *paraBi,
-				    int partFrom, int partUpto,
-				    int stroffShift);
+			     int partFrom, int partUpto, int stroffShift);
 
-int docSplitTextParticule(TextParticule **pTpPart,
-				 TextParticule **pTpNext, BufferItem *paraBi,
-				 int part, int stroff);
+int docSplitTextParticule(TextParticule **pTpPart, TextParticule **pTpNext,
+			  BufferItem *paraBi, int part, int stroff);
 
 TextLine *docInsertTextLine(BufferItem *bi, int line);
 
 TextParticule *docAppendObject(BufferDocument *bd, BufferItem *paraNode,
-				      const TextAttribute *ta);
+			       const TextAttribute *ta);
 
 void docCleanParticuleObject(BufferDocument *bd, TextParticule *tp);
 
 int docIntersectSelectionWithParagraph(DocumentSelection *dsPara,
-					      int *pPartFrom, int *pPartUpto,
-					      int *pHeadFlags, int *pTailFlags,
-					      const BufferItem *paraNode,
-					      const DocumentSelection *ds);
+				       int *pPartFrom, int *pPartUpto,
+				       int *pHeadFlags, int *pTailFlags,
+				       const BufferItem *paraNode,
+				       const DocumentSelection *ds);
 
 #endif /*  DOC_PARA_PARICULES_H	*/

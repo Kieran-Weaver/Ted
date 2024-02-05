@@ -72,22 +72,20 @@ void docInitItemShading(ItemShading *is);
 void docInitExpandedItemShading(ExpandedItemShading *eis);
 
 void docUpdateItemShading(PropertyMask *pIsDoneMask, ItemShading *isTo,
-				 const PropertyMask *isSetMask,
-				 const ItemShading *isFrom,
-				 const int *colorMap);
+			  const PropertyMask *isSetMask,
+			  const ItemShading *isFrom, const int *colorMap);
 
 void docUpdateExpandedItemShading(PropertyMask *pIsDoneMask,
-					 ExpandedItemShading *eisTo,
-					 const PropertyMask *isSetMask,
-					 const ExpandedItemShading *eisFrom);
+				  ExpandedItemShading *eisTo,
+				  const PropertyMask *isSetMask,
+				  const ExpandedItemShading *eisFrom);
 
-void docExpandItemShading(ExpandedItemShading *eis,
-				 const ItemShading *is, const ColorPalette *cp);
+void docExpandItemShading(ExpandedItemShading *eis, const ItemShading *is,
+			  const ColorPalette *cp);
 
 int docIndirectItemShading(PropertyMask *pDoneMask, ItemShading *is,
-				  const PropertyMask *setMask,
-				  const ExpandedItemShading *eis,
-				  ColorPalette *cp);
+			   const PropertyMask *setMask,
+			   const ExpandedItemShading *eis, ColorPalette *cp);
 
 int docSetShadingProperty(ItemShading *is, int prop, int arg);
 

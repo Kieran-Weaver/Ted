@@ -2,15 +2,8 @@
 /*  Editor, File actions.						*/
 /************************************************************************/
 
-#include <config.h>
-
-#include <stddef.h>
-
 #include <string.h>
-
 #include "appFrame.h"
-
-#include <appDebugon.h>
 
 const AppSelectionType *appDocGetSelectionType(const EditApplication *ea,
 					       const char *selection)

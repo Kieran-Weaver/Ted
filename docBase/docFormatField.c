@@ -5,16 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
 #include <stdio.h>
-
-
 #include <utilBase26.h>
 #include <utilRoman.h>
-
 #include <appDebugon.h>
-
 #include "docDocumentField.h"
 #include "docFieldFormat.h"
 

@@ -10,4 +10,4 @@
 SimpleInputStream *sioInFlateOpen(SimpleInputStream *sisFlate);
 
 SimpleOutputStream *sioOutFlateOpen(SimpleOutputStream *sosFlate,
-					   int gzipEmbedded);
+				    int gzipEmbedded);

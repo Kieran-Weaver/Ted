@@ -23,9 +23,9 @@ regProg *regCompile(const char *, int options);
 void regFree(regProg *prog);
 
 int regFindLeftToRight(ExpressionMatch *em, const regProg *prog,
-			      const char *string, int fromByte, int byteLength);
+		       const char *string, int fromByte, int byteLength);
 
 int regFindRightToLeft(ExpressionMatch *em, const regProg *prog,
-			      const char *string, int fromByte, int byteLength);
+		       const char *string, int fromByte, int byteLength);
 
 #endif

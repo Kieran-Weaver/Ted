@@ -8,8 +8,6 @@
 
 #include <string.h>
 
-
-
 #include <bitmap.h>
 
 #include <appDebugon.h>

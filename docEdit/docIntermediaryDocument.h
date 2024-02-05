@@ -17,7 +17,7 @@
 /************************************************************************/
 
 BufferDocument *docIntermediaryDocument(struct BufferItem **pSectBi,
-					       const BufferDocument *bdFrom);
+					const BufferDocument *bdFrom);
 
 void docFreeIntermediaryDocument(BufferDocument *bd);
 

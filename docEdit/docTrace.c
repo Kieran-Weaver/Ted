@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include "docCopyNode.h"
 #include "docEditStep.h"
 #include "docTrace.h"

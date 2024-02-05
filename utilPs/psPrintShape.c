@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include "psPrintShape.h"
 #include <geo2DInteger.h>
 #include <sioGeneral.h>

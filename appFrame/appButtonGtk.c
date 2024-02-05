@@ -1,12 +1,6 @@
 #include <config.h>
-
-
-
 #include "guiWidgets.h"
-
 #include <appDebugon.h>
-
-
 #include "guiWidgetsGtk.h"
 
 void appMakeButtonInRow(APP_WIDGET *pButton, APP_WIDGET row, const char *text,
@@ -24,10 +18,9 @@ void appMakeButtonInRow(APP_WIDGET *pButton, APP_WIDGET row, const char *text,
 	}
 
 	gtk_table_attach(GTK_TABLE(row), button, position, position + colspan,
-			 0, 1,
-			 (GtkAttachOptions)(GTK_FES),
-			 (GtkAttachOptions)(GTK_FES),
-			 ROW_XPADDING_GTK, ROW_YPADDING_GTK);
+			 0, 1, (GtkAttachOptions)(GTK_FES),
+			 (GtkAttachOptions)(GTK_FES), ROW_XPADDING_GTK,
+			 ROW_YPADDING_GTK);
 
 	gtk_widget_show(button);
 
@@ -76,4 +69,3 @@ void appMakeButtonInColumn(APP_WIDGET *pButton, APP_WIDGET column,
 
 	return;
 }
-

@@ -8,18 +8,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-
-
 #include <appSystem.h>
-
 #include "appFrame.h"
 #include "appQuestion.h"
 #include "appFileChooser.h"
-
 #include <appDebugon.h>
 
 #define HAS_DIRECTORY 1
@@ -197,7 +192,6 @@ static int appMakeFileChooser(AppChooserInformation **pAci,
 	return 0;
 }
 
-
 /************************************************************************/
 /*									*/
 /*  Run some kind of a file chooser.					*/
@@ -273,7 +267,6 @@ static void appFileChooserOpenFile(AppChooserInformation *aci,
 	return;
 }
 
-
 static void appFileChooserOpenFiles(AppChooserInformation *aci,
 				    GtkFileChooser *gfs,
 				    APP_OPEN_DOCUMENT openDocument,
@@ -312,8 +305,6 @@ ready:
 
 	return;
 }
-
-
 
 void appRunOpenChooser(APP_WIDGET option, APP_WIDGET relative,
 		       int extensionCount, AppFileExtension *extensions,
@@ -377,7 +368,6 @@ void appRunOpenChooser(APP_WIDGET option, APP_WIDGET relative,
 		}
 	}
 
-
 	if (dir && !utilMemoryBufferIsEmpty(dir)) {
 		gtk_file_chooser_set_current_folder(
 			gfs, utilMemoryBufferGetString(dir));
@@ -434,7 +424,6 @@ static int appChooserGetFileName(MemoryBuffer *fileName, GtkFileChooser *gfs)
 	const gchar *filename;
 
 	filename = gtk_file_chooser_get_filename(gfs);
-
 
 	if (utilMemoryBufferSetString(fileName, filename)) {
 		LDEB(1);
@@ -598,7 +587,6 @@ int appRunSaveChooser(APP_WIDGET option, APP_WIDGET relative,
 	GtkFileChooser *gfs;
 	AppChooserInformation *aci = (AppChooserInformation *)0;
 
-
 	int withFilter = ea->eaFileExtensionCount > 0;
 
 	if (appMakeFileChooser(&aci, GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -633,8 +621,6 @@ int appRunSaveChooser(APP_WIDGET option, APP_WIDGET relative,
 	}
 
 	gtk_file_chooser_set_do_overwrite_confirmation(gfs, TRUE);
-
-
 
 	aci->aciOption = option;
 	aci->aciRelativeTo = relative;
@@ -751,8 +737,6 @@ int appRunPrintToFileChooser(APP_WIDGET option, APP_WIDGET relative,
 
 	gtk_file_chooser_set_do_overwrite_confirmation(gfs, TRUE);
 
-
-
 	aci->aciOption = option;
 	aci->aciRelativeTo = relative;
 	aci->aciDocument = ed;
@@ -808,4 +792,3 @@ int appFileChooserConfirmOverWrite(const AppChooserInformation *aci,
 		return ACIrespCANCEL;
 	}
 }
-

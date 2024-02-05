@@ -29,8 +29,7 @@ typedef struct DocumentFontList {
 /*									*/
 /************************************************************************/
 
-DocumentFont *docFontListGetFontByNumber(const DocumentFontList *dfl,
-						int n);
+DocumentFont *docFontListGetFontByNumber(const DocumentFontList *dfl, int n);
 
 void docInitFontList(DocumentFontList *dfl);
 
@@ -39,12 +38,12 @@ void docCleanFontList(DocumentFontList *dfl);
 int docCopyFontList(DocumentFontList *to, const DocumentFontList *from);
 
 DocumentFont *utilDocFontListInsertFont(DocumentFontList *dfl,
-					       const DocumentFont *df);
+					const DocumentFont *df);
 
 int docGetFontByName(DocumentFontList *dfl, const char *fontName);
 
 int docMergeFontIntoFontlist(DocumentFontList *dflTo,
-				    const DocumentFont *dfFrom);
+			     const DocumentFont *dfFrom);
 
 const DocumentFont *
 utilDocumentFontListGetFontBySortIndex(DocumentFontList *dfl, int idx);
@@ -53,9 +52,8 @@ int utilDocumentFontListGetSortIndex(DocumentFontList *dfl, int aidx);
 
 int utilDocumentFontListGetArrayIndex(DocumentFontList *dfl, int sidx);
 
-DocumentFont *utilAddFontToDocList(DocumentFontList *dfl,
-					  const char *name, int styleInt,
-					  int pitch);
+DocumentFont *utilAddFontToDocList(DocumentFontList *dfl, const char *name,
+				   int styleInt, int pitch);
 
 void utilDocFontListClearCharsUsed(DocumentFontList *dfl);
 

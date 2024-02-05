@@ -5,18 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include <stdlib.h>
-
 #include "docEdit.h"
 #include <docTreeScanner.h>
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include "docEditSetProperties.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

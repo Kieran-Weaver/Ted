@@ -27,14 +27,14 @@ int utilCopyColorPalette(ColorPalette *to, const ColorPalette *from);
 
 int utilPaletteSetCount(ColorPalette *cp, int colorCount);
 
-int utilPaletteColorIndex(ColorPalette *cp, int maxCount, int r, int g,
-				 int b, int a);
+int utilPaletteColorIndex(ColorPalette *cp, int maxCount, int r, int g, int b,
+			  int a);
 
-int utilPaletteInsertColor(ColorPalette *cp, int avoidZero,
-				  int maxColors, const RGB8Color *rgb8);
+int utilPaletteInsertColor(ColorPalette *cp, int avoidZero, int maxColors,
+			   const RGB8Color *rgb8);
 
 int utilMergeColorPalettes(int **pColorMap, ColorPalette *cpTo,
-				  const ColorPalette *cpFrom, int avoidZero,
-				  int maxColors);
+			   const ColorPalette *cpFrom, int avoidZero,
+			   int maxColors);
 
 #endif /*  UTIL_PALETTE_H  */

@@ -10,8 +10,6 @@
 
 #include "sioGeneral.h"
 
-SimpleInputStream *sioInLzwGifOpen(SimpleInputStream *sisLzw,
-					  int codeSize);
+SimpleInputStream *sioInLzwGifOpen(SimpleInputStream *sisLzw, int codeSize);
 
-SimpleOutputStream *sioOutLzwGifOpen(SimpleOutputStream *sosLzw,
-					    int codeSize);
+SimpleOutputStream *sioOutLzwGifOpen(SimpleOutputStream *sosLzw, int codeSize);

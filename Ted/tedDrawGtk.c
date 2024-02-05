@@ -18,7 +18,6 @@
 
 #include <appDebugon.h>
 
-
 /************************************************************************/
 /*									*/
 /*  Create the windows that are used to reshape selected objects.	*/
@@ -57,7 +56,8 @@ void tedSetObjectWindows(EditDocument *ed, const PositionGeometry *pg,
 		moveCursor = gdk_cursor_new(GDK_FLEUR);
 
 		for (i = 0; i < RESIZE_COUNT; i++) {
-			cursors[i] = gdk_cursor_new( (GdkCursorType)font_cursors[i]);
+			cursors[i] =
+				gdk_cursor_new((GdkCursorType)font_cursors[i]);
 		}
 	}
 
@@ -257,4 +257,3 @@ int tedMakeDocumentCursor(EditApplication *ea)
 
 	return 0;
 }
-

@@ -27,22 +27,19 @@ typedef struct HyperlinkField {
 void docInitHyperlinkField(HyperlinkField *hf);
 void docCleanHyperlinkField(HyperlinkField *hf);
 
-int docGetHyperlinkField(HyperlinkField *hf,
-				const struct DocumentField *df);
+int docGetHyperlinkField(HyperlinkField *hf, const struct DocumentField *df);
 
 int docMakeHyperlinkRelative(struct DocumentField *dfTo,
-				    const MemoryBuffer *refFileName);
+			     const MemoryBuffer *refFileName);
 
-int docSetHyperlinkField(FieldInstructions *fi,
-				const HyperlinkField *hf);
+int docSetHyperlinkField(FieldInstructions *fi, const HyperlinkField *hf);
 
 int docHyperlinkFieldIsLink(const HyperlinkField *hf);
 int docHyperlinkFieldIsExtern(const HyperlinkField *hf);
 
 int docEqualHyperlinkFields(const HyperlinkField *hf1,
-				   const HyperlinkField *hf2);
+			    const HyperlinkField *hf2);
 
-int docCopyHyperlinkField(HyperlinkField *to,
-				 const HyperlinkField *from);
+int docCopyHyperlinkField(HyperlinkField *to, const HyperlinkField *from);
 
 #endif /*  DOC_HYPERLINK_FIELD_H  */

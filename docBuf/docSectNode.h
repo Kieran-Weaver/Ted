@@ -92,7 +92,7 @@ typedef struct SectNode {
 /************************************************************************/
 
 void docCleanSectHeadersFooters(struct BufferDocument *bd,
-				       SectHeadersFooters *shf);
+				SectHeadersFooters *shf);
 
 void docInitSectHeadersFooters(SectHeadersFooters *shf);
 

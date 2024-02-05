@@ -108,34 +108,29 @@ extern const int DOC_FieldKindCount;
 /************************************************************************/
 
 int docSuggestNewBookmarkName(MemoryBuffer *markName,
-				     const struct BufferDocument *bd,
-				     const struct DocumentSelection *ds);
+			      const struct BufferDocument *bd,
+			      const struct DocumentSelection *ds);
 
 int docMakeBookmarkUnique(const struct BufferDocument *bd,
-				 MemoryBuffer *markName);
+			  MemoryBuffer *markName);
 
 int docFieldKindFromInstructions(const DocumentField *df);
 
-DocumentField *
-docFindFieldForPosition(struct BufferDocument *bd,
-			const struct DocumentPosition *dp);
+DocumentField *docFindFieldForPosition(struct BufferDocument *bd,
+				       const struct DocumentPosition *dp);
 
-DocumentField *
-docFindTypedFieldForPosition(struct BufferDocument *bd,
-			     const struct DocumentPosition *dp, int kind,
-			     int lastOne);
+DocumentField *docFindTypedFieldForPosition(struct BufferDocument *bd,
+					    const struct DocumentPosition *dp,
+					    int kind, int lastOne);
 
-DocumentField *
-docFindTypedFieldInSelection(struct BufferDocument *bd,
-			     const struct DocumentSelection *ds, int kind,
-			     int lastOne);
+DocumentField *docFindTypedFieldInSelection(struct BufferDocument *bd,
+					    const struct DocumentSelection *ds,
+					    int kind, int lastOne);
 
-int docSetHyperlinkAttribute(TextAttribute *taSet,
-				    PropertyMask *taSetMask,
-				    struct BufferDocument *bd);
+int docSetHyperlinkAttribute(TextAttribute *taSet, PropertyMask *taSetMask,
+			     struct BufferDocument *bd);
 
-int docRemoveHyperlinkAttribute(TextAttribute *taSet,
-				       PropertyMask *taSetMask,
-				       struct BufferDocument *bd);
+int docRemoveHyperlinkAttribute(TextAttribute *taSet, PropertyMask *taSetMask,
+				struct BufferDocument *bd);
 
 #endif /*  DOC_FIELD_H  */

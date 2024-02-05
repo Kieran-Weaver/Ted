@@ -52,21 +52,20 @@ typedef struct PaperChooser {
 void appPaperChooserShowSize(PaperChooser *pc, int sizeChosen);
 
 int appPaperChooserGetSize(PropertyMask *pUpdMask, PaperChooser *pc,
-				  DocumentGeometry *dg);
+			   DocumentGeometry *dg);
 
 void appPaperChooserFillMenu(PaperChooser *pc, const char *customLabel);
 
 void appPaperChooserAdaptToGeometry(PaperChooser *pc,
-					   const DocumentGeometry *dg);
+				    const DocumentGeometry *dg);
 
 void appMakePaperChooserWidgets(APP_WIDGET parent, const char *title,
-				       int unitType, PaperChooser *pc,
-				       PaperChooserCallback callback,
-				       void *through);
+				int unitType, PaperChooser *pc,
+				PaperChooserCallback callback, void *through);
 
 void appPaperChooserAddOrientationToggles(PaperChooser *pc,
-						 const char *portrait,
-						 const char *landscape);
+					  const char *portrait,
+					  const char *landscape);
 
 void appInitPaperChooser(PaperChooser *pc);
 void appCleanPaperChooser(PaperChooser *pc);

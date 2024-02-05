@@ -16,15 +16,15 @@
 /************************************************************************/
 
 void docCheckFieldOffsets(const BufferDocument *bd,
-				 const struct BufferItem *bi);
+			  const struct BufferItem *bi);
 
 int docCheckNode(const struct BufferItem *bi, int checkGeometry);
 int docCheckRootNode(const struct BufferItem *bi, int checkGeometry);
 
 void docListFieldParticule(int indent, const char *label, int n,
-				  const struct BufferItem *bi,
-				  const struct TextParticule *tp,
-				  const DocumentField *df);
+			   const struct BufferItem *bi,
+			   const struct TextParticule *tp,
+			   const DocumentField *df);
 
 void docListFieldTree(const BufferDocument *bd, const DocumentTree *dt);
 
@@ -37,21 +37,19 @@ void docListFontList(const DocumentFontList *dfl);
 void docLogRectangle(const char *label, const DocumentRectangle *dr);
 
 void docLogRectangles(const char *label1, const DocumentRectangle *dr1,
-			     const char *label2, const DocumentRectangle *dr2);
+		      const char *label2, const DocumentRectangle *dr2);
 
-void docListNode(int indent, const struct BufferItem *bi,
-			int checkGeometry);
+void docListNode(int indent, const struct BufferItem *bi, int checkGeometry);
 
 void docListRootNode(int indent, const struct BufferItem *bi,
-			    int checkGeometry);
+		     int checkGeometry);
 
 void docListParticule(int indent, const char *label, int n,
-			     const struct BufferItem *bi,
-			     const struct TextParticule *tp);
+		      const struct BufferItem *bi,
+		      const struct TextParticule *tp);
 
 void docListTextLine(int indent, const char *label, int n,
-			    const struct BufferItem *bi,
-			    const struct TextLine *tl);
+		     const struct BufferItem *bi, const struct TextLine *tl);
 
 void docListObjects(BufferDocument *bd);
 

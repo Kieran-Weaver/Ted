@@ -23,19 +23,18 @@ typedef void (*FramePropertiesFunction)(const FrameProperties *fp, int n,
 void docInitFramePropertyList(NumberedPropertiesList *fpl);
 
 int docFramePropertiesNumberImpl(NumberedPropertiesList *fpl,
-					const FrameProperties *fp);
+				 const FrameProperties *fp);
 
 void docForAllFrameProperties(const NumberedPropertiesList *fpl,
-				     FramePropertiesFunction f, void *through);
+			      FramePropertiesFunction f, void *through);
 
 void docGetFramePropertiesByNumberImpl(FrameProperties *fp,
-					      const NumberedPropertiesList *fpl,
-					      int n);
+				       const NumberedPropertiesList *fpl,
+				       int n);
 
 int docFrameNumberIsFrameImpl(const NumberedPropertiesList *fpl, int n);
 
-int docMergeFramePropertyLists(int **pFrameMap,
-				      NumberedPropertiesList *fplTo,
-				      const NumberedPropertiesList *fplFrom);
+int docMergeFramePropertyLists(int **pFrameMap, NumberedPropertiesList *fplTo,
+			       const NumberedPropertiesList *fplFrom);
 
 #endif /*  DOC_FRAME_PROPERTY_ADMIN_H	*/

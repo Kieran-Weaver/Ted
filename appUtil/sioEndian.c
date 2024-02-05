@@ -1,7 +1,5 @@
 #include <config.h>
-
 #include <string.h>
-
 #include "sioEndian.h"
 #include "utilEndian.h"
 #include <appDebugon.h>

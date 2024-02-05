@@ -5,22 +5,17 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <stddef.h>
-
 #include <ucdBlock.h>
 #include <uniUtf8.h>
 #include <utilMemoryBuffer.h>
 #include <textAttributeUtil.h>
-
 #include "appMatchFont.h"
 #include "appSymbolPicker.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
 #include "guiToolUtil.h"
-
 #include <appDebugon.h>
 
 #define FONT_SIZE 10
@@ -1043,7 +1038,8 @@ static int appSymbolFillBlockMenu(SymbolPicker *sp)
 {
 	int block;
 
-	sp->spUnicodeBlockOpts = (GtkWidget**)malloc(UCD_BlockCount * sizeof(APP_WIDGET));
+	sp->spUnicodeBlockOpts =
+		(GtkWidget **)malloc(UCD_BlockCount * sizeof(APP_WIDGET));
 	if (!sp->spUnicodeBlockOpts) {
 		LXDEB(UCD_BlockCount, sp->spUnicodeBlockOpts);
 		return -1;
@@ -1088,8 +1084,9 @@ static void appSymbolFillFontMenu(int *pEnabled,
 	if (sp->spFontFamilyOptCount < dfl->dflFontCount + 1) {
 		APP_WIDGET *opts;
 
-		opts = (GtkWidget**)realloc(sp->spFontFamilyOpts,
-			       (dfl->dflFontCount + 1) * sizeof(APP_WIDGET));
+		opts = (GtkWidget **)realloc(sp->spFontFamilyOpts,
+					     (dfl->dflFontCount + 1) *
+						     sizeof(APP_WIDGET));
 		if (!opts) {
 			XDEB(opts);
 			return;
@@ -1165,7 +1162,7 @@ void appInitSymbolPicker(SymbolPicker *sp)
 	sp->spFontInfo = (AfmFontInfo *)0;
 
 	sp->spPixelsPerTwip = 0;
-	sp->spDrawingSurface = (struct DrawingSurface*)0;
+	sp->spDrawingSurface = (struct DrawingSurface *)0;
 	sp->spScreenFont = -1;
 	sp->spCellSizePixels = 0;
 	sp->spCellsWide = 0;

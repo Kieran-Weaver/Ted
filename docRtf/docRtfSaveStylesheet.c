@@ -9,8 +9,6 @@
 
 #include <string.h>
 
-
-
 #include <appDebugon.h>
 
 #include "docRtfWriterImpl.h"

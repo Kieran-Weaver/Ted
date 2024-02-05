@@ -20,16 +20,13 @@ struct DocumentPosition;
 /*									*/
 /************************************************************************/
 
-int tedFindToolSetPattern(void *voidea, const char *pattern,
-				 int useRegex);
+int tedFindToolSetPattern(void *voidea, const char *pattern, int useRegex);
 
 int tedSpellFindNext(void *voidea, MemoryBuffer *mbGuess,
-			    const SpellChecker *spc, SpellDictionary *spd);
+		     const SpellChecker *spc, SpellDictionary *spd);
 
 int docSpellParaFindNext(struct DocumentSelection *ds,
-				struct BufferItem *paraNode,
-				struct BufferDocument *bd,
-				const struct DocumentPosition *dpFrom,
-				void *through);
+			 struct BufferItem *paraNode, struct BufferDocument *bd,
+			 const struct DocumentPosition *dpFrom, void *through);
 
 #endif /*  TED_FIND_H */

@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include <stdlib.h>
 #include "bmintern.h"
 #include "bmio.h"

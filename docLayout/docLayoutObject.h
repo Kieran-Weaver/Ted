@@ -20,15 +20,13 @@ int docGetBitmapForObject(InsertedObject *io);
 int docCheckObjectLayout(int *pFixed, InsertedObject *io);
 
 int docGetBitmapForObjectData(int kind, RasterImage *ri,
-				     const MemoryBuffer *mb);
+			      const MemoryBuffer *mb);
 
-void
-docLayoutScaleObjectToFitParagraphFrame(int *pChanged, InsertedObject *io,
-					int pageHigh,
-					const DocumentRectangle *drParaFrame);
+void docLayoutScaleObjectToFitParagraphFrame(
+	int *pChanged, InsertedObject *io, int pageHigh,
+	const DocumentRectangle *drParaFrame);
 
-void docScaleObjectToParagraph(BufferDocument *bd,
-				      struct BufferItem *paraBi, double xfac,
-				      InsertedObject *io);
+void docScaleObjectToParagraph(BufferDocument *bd, struct BufferItem *paraBi,
+			       double xfac, InsertedObject *io);
 
 #endif /*	DOC_LAYOUT_OBJECT_H	*/

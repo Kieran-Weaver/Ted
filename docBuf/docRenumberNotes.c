@@ -5,13 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "docBuf.h"
 #include "docNotes.h"
 #include "docRecalculateFields.h"
 #include <docTreeType.h>
 #include <docDocumentNote.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

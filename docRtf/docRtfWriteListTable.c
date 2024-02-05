@@ -9,7 +9,6 @@
 #include <string.h>
 #include <stdio.h>
 
-
 #include <appDebugon.h>
 
 #include "docRtfWriterImpl.h"

@@ -30,8 +30,8 @@ SimpleOutputStream *sioOutFdOpen(int fd);
 
 SimpleInputStream *sioInFdOpen(int fd);
 
-int sioFdOpenFile(const MemoryBuffer *filename, int read, int write,
-			 int append, int create, int exclusive);
+int sioFdOpenFile(const MemoryBuffer *filename, int read, int write, int append,
+		  int create, int exclusive);
 
 int sioFdCloseFile(int fd);
 

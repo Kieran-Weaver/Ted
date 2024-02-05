@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include "docBuf.h"
 #include "docNotes.h"
 #include "docNodeTree.h"

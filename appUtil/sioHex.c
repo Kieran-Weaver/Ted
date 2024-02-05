@@ -8,9 +8,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "sioHex.h"
 #include <appDebugon.h>
 

@@ -9,16 +9,10 @@
 #include "appGuiBase.h"
 #include "appScreenFont.h"
 #include "appMatchFont.h"
-
-
 #include <stdlib.h>
-
-
 #include <string.h>
-
 #include <appDebugon.h>
 #include <utilPropMask.h>
-
 #include "drawScreenFontAdmin.h"
 #include "drawDrawingSurfacePrivate.h"
 #include <bitmap.h>
@@ -30,8 +24,9 @@
 /*									*/
 /************************************************************************/
 
-int drawOpenDefaultFont(struct DrawingSurface *ds, const PostScriptFontList *psfl,
-			APP_WIDGET w, int fontSizeHintPixels)
+int drawOpenDefaultFont(struct DrawingSurface *ds,
+			const PostScriptFontList *psfl, APP_WIDGET w,
+			int fontSizeHintPixels)
 {
 	const char *fontFamilyName = "Sans";
 	int pixelSize = fontSizeHintPixels;
@@ -105,4 +100,3 @@ int drawOpenDefaultFont(struct DrawingSurface *ds, const PostScriptFontList *psf
 
 	return drawOpenScreenFont(ds, afi, pixelSize, (IndexSet *)0);
 }
-

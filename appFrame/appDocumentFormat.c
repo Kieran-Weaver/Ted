@@ -5,18 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <stdlib.h>
-
 #include <appSystem.h>
 #include "appFrame.h"
 #include "appQuestion.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
 #include "appFileChooser.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -243,9 +239,10 @@ int appFileConvert(EditApplication *ea, const MemoryBuffer *fromName,
 	}
 
 	{
-		if ((*ea->eaSaveDocument)(ea, (struct DrawingSurface*)0, privateData,
-					  toFormat, toName, suggestStdout,
-					  toName, isNewDocName)) {
+		if ((*ea->eaSaveDocument)(ea, (struct DrawingSurface *)0,
+					  privateData, toFormat, toName,
+					  suggestStdout, toName,
+					  isNewDocName)) {
 			if (interactive) {
 				appReportSaveFailure(ea, (APP_WIDGET)0,
 						     ea->eaToplevel.atTopWidget,

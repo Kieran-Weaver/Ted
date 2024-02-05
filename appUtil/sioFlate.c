@@ -6,13 +6,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "sioFlate.h"
 #include "sioEndian.h"
 #include <zlib.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

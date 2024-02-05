@@ -6,11 +6,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include "docBuf.h"
 #include "docNodeTree.h"
 #include "docParaParticules.h"

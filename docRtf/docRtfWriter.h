@@ -20,7 +20,7 @@ typedef struct RtfWriter RtfWriter;
 /************************************************************************/
 
 RtfWriter *docRtfOpenWriter(SimpleOutputStream *sos, BufferDocument *bd,
-				   int flags);
+			    int flags);
 
 void docRtfCloseWriter(RtfWriter *rw);
 

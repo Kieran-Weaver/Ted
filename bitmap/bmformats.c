@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include "bmintern.h"
 #include <string.h>
 #include <appSystem.h>
@@ -46,8 +45,7 @@ static BitmapFileType bmPngFile = {
 };
 
 BitmapFileType *bmFileTypes[] = {
-	&bmPngFile, &bmJpegFile, &bmJpgFile,
-	&bmBmpFile, &bmGifFile,
+	&bmPngFile, &bmJpegFile, &bmJpgFile, &bmBmpFile, &bmGifFile,
 };
 
 BitmapFileFormat bmFileFormats[] = {

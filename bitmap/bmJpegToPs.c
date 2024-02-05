@@ -8,15 +8,10 @@
 /************************************************************************/
 
 #include <config.h>
-
-
-
 #include <sioGeneral.h>
 #include <sioBase85.h>
 #include <sioEndian.h>
-
 #include "bmio.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

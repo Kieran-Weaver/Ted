@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <docBuf.h>
 #include <docTreeNode.h>
 #include <docNodeTree.h>
@@ -19,7 +17,6 @@
 #include <docSeqField.h>
 #include <docBookmarkField.h>
 #include <docTextParticule.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

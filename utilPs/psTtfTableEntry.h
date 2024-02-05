@@ -17,6 +17,6 @@ void utilInitTrueTypeTableEntry(TrueTypeTableEntry *ttte);
 void utilCleanTrueTypeTableEntry(TrueTypeTableEntry *ttte);
 
 TrueTypeTableEntry *psTtfReadTableEntries(SimpleInputStream *sisTtf,
-						 int tableCount, int filePos);
+					  int tableCount, int filePos);
 
 #endif /*	PSTTF_TABLE_ENTRY_H	*/

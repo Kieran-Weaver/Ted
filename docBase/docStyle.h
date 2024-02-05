@@ -90,7 +90,7 @@ void docInitDocumentStyle(DocumentStyle *ds);
 void docCleanDocumentStyle(DocumentStyle *ds);
 
 int docCopyStyle(DocumentStyle *to, const DocumentStyle *from,
-			const DocumentAttributeMap *dam);
+		 const DocumentAttributeMap *dam);
 
 int docSetStyleProperty(DocumentStyle *ds, int prop, int arg);
 

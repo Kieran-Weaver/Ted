@@ -9,8 +9,6 @@
 
 #include <stddef.h>
 
-
-
 #include "docEdit.h"
 #include "docEditImpl.h"
 #include "docCopyNode.h"

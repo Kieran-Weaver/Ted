@@ -32,11 +32,8 @@ other than ilvl= 0.
 #endif
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include "docListNumberTree.h"
 #include "docListDepth.h"
 #include "docDebugListNumberTree.h"
@@ -393,8 +390,9 @@ static int docListNumberTreeMoveChildren(ListNumberTreeNode *to, int topos,
 #endif
 
 	/*  1  */
-	fresh = (ListNumberTreeNode**)realloc(to->lntnChildren, (to->lntnChildCount + cnt) *
-						  sizeof(ListNumberTreeNode *));
+	fresh = (ListNumberTreeNode **)realloc(
+		to->lntnChildren,
+		(to->lntnChildCount + cnt) * sizeof(ListNumberTreeNode *));
 	if (!fresh) {
 		LXDEB(to->lntnChildCount + cnt, fresh);
 		return -1;
@@ -454,7 +452,7 @@ docListNumberTreeInsertChild(ListNumberTreeNode *node, int pos, int paraNr)
 	appDebug("INSERT %d[%d] = %d\n", node->lntnParaNr, pos, paraNr);
 #endif
 
-	child = (ListNumberTreeNode*)malloc(sizeof(ListNumberTreeNode));
+	child = (ListNumberTreeNode *)malloc(sizeof(ListNumberTreeNode));
 	if (!child) {
 		XDEB(child);
 		return (ListNumberTreeNode *)0;
@@ -466,8 +464,9 @@ docListNumberTreeInsertChild(ListNumberTreeNode *node, int pos, int paraNr)
 	child->lntnParaNr = paraNr;
 
 	/*  1  */
-	fresh = (ListNumberTreeNode**)realloc(node->lntnChildren, (node->lntnChildCount +
-					     1) * sizeof(ListNumberTreeNode *));
+	fresh = (ListNumberTreeNode **)realloc(
+		node->lntnChildren,
+		(node->lntnChildCount + 1) * sizeof(ListNumberTreeNode *));
 	if (!fresh) {
 		LXDEB(node->lntnChildCount + 1, fresh);
 		free(child);

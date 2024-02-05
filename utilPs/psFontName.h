@@ -16,13 +16,13 @@
 /************************************************************************/
 
 int utilFontWeightFromString(int *pWeight, int *pStart, int *pLength,
-				    const char *name);
+			     const char *name);
 
 int utilFontWidthFromString(int *pWidth, int *pStart, int *pLength,
-				   const char *name);
+			    const char *name);
 
 int psRemoveWidthFromName(char *target, int maxlen, int *pWidth,
-				 const char *name);
+			  const char *name);
 
 int psFontInfoMoveWidthToFamilyName(AfmFontInfo *afi);
 

@@ -5,11 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
-
-
 #include <appDebugon.h>
-
 #include "docEditStep.h"
 #include "docIntermediaryDocument.h"
 

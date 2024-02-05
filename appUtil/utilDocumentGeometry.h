@@ -61,26 +61,24 @@ typedef enum GeometryProperty {
 
 void utilInitDocumentGeometry(DocumentGeometry *dg);
 
-void utilUpdDocumentGeometry(PropertyMask *dpDoneMask,
-				    DocumentGeometry *dgTo,
-				    const PropertyMask *dgSetMask,
-				    const DocumentGeometry *dgSet);
+void utilUpdDocumentGeometry(PropertyMask *dpDoneMask, DocumentGeometry *dgTo,
+			     const PropertyMask *dgSetMask,
+			     const DocumentGeometry *dgSet);
 
 void utilDocumentGeometryGetBodyRect(DocumentRectangle *dr,
-					    const DocumentGeometry *dg);
+				     const DocumentGeometry *dg);
 
 void utilDocumentGeometryGetHeaderRect(DocumentRectangle *dr,
-					      const DocumentGeometry *dg);
+				       const DocumentGeometry *dg);
 
 void utilDocumentGeometryGetFooterRect(DocumentRectangle *dr,
-					      const DocumentGeometry *dg);
+				       const DocumentGeometry *dg);
 
 void utilDocumentGeometryGetPageBoundingBox(DocumentRectangle *dr,
-						   const DocumentGeometry *dg,
-						   int hasHeader,
-						   int hasFooter);
+					    const DocumentGeometry *dg,
+					    int hasHeader, int hasFooter);
 
 void utilOverridePaperSize(DocumentGeometry *dgTo,
-				  const DocumentGeometry *dgFrom);
+			   const DocumentGeometry *dgFrom);
 
 #endif

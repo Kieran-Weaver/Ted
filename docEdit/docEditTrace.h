@@ -121,23 +121,20 @@ void docCleanEditTrace(EditTrace *et);
 
 int docEditTraceSetTempName(EditTrace *et, const char *extension);
 
-int docEditTraceSetDocumentName(EditTrace *et,
-				       const MemoryBuffer *documentName,
-				       const char *extension);
+int docEditTraceSetDocumentName(EditTrace *et, const MemoryBuffer *documentName,
+				const char *extension);
 
 int docEditTraceOpenTrace(EditTrace *et, int restart, int exclusive);
 
-int docEditGetTraceStep(const TraceStep **pTs, int *pIsRepeat,
-			       int direction, const EditTrace *et, int from);
+int docEditGetTraceStep(const TraceStep **pTs, int *pIsRepeat, int direction,
+			const EditTrace *et, int from);
 
 int docRtfScanEditTrace(const EditTrace *et, SimpleInputStream *sis,
-			       HandleEditStep handleStep, void *through,
-			       int readOld, int readNew,
-			       const struct BufferDocument *bdRef);
+			HandleEditStep handleStep, void *through, int readOld,
+			int readNew, const struct BufferDocument *bdRef);
 
-int docEditTraceTryRelative(EditTrace *et,
-				   const MemoryBuffer *documentName,
-				   const char *extension);
+int docEditTraceTryRelative(EditTrace *et, const MemoryBuffer *documentName,
+			    const char *extension);
 
 int docEditTraceTryTemp(EditTrace *et, const char *extension);
 

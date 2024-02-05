@@ -99,7 +99,8 @@ static Point2DI *tedDrawGetVertices(const DocumentRectangle *drTwips,
 	Point2DI *xp;
 	Point2DI *xpret;
 
-	xp = xpret = (Point2DI*)malloc((sd->sdVertexCount + 1) * sizeof(Point2DI));
+	xp = xpret =
+		(Point2DI *)malloc((sd->sdVertexCount + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(sd->sdVertexCount, xp);
 		return (Point2DI *)0;
@@ -366,7 +367,7 @@ static int tedDrawShapePath(const DrawingShape *ds, DrawingContext *dc,
 	int np = sp->spVertexCount;
 	Point2DI *xp;
 
-	xp = (Point2DI*)malloc((np + 1) * sizeof(Point2DI));
+	xp = (Point2DI *)malloc((np + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(np, xp);
 		return -1;
@@ -401,7 +402,7 @@ static int tedDrawPictureFrame(DrawingShape *ds, DrawingContext *dc,
 	RGB8Color rgb8Fill;
 	DocumentRectangle drSrc;
 
-	xp = (Point2DI*)malloc((np + 1) * sizeof(Point2DI));
+	xp = (Point2DI *)malloc((np + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(np, xp);
 		return -1;
@@ -452,7 +453,7 @@ static int tedDrawOnlineStorage(DrawingShape *ds, DrawingContext *dc,
 
 	RGB8Color rgb8Fill;
 
-	xp = (Point2DI*)malloc((np + 1) * sizeof(Point2DI));
+	xp = (Point2DI *)malloc((np + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(np, xp);
 		return -1;
@@ -580,7 +581,7 @@ static int tedDrawCallout(DrawingShape *ds, DrawingContext *dc,
 		return -1;
 	}
 
-	xp = (Point2DI*)malloc((np + 1 + 2 + 1) * sizeof(Point2DI));
+	xp = (Point2DI *)malloc((np + 1 + 2 + 1) * sizeof(Point2DI));
 	if (!xp) {
 		LXDEB(np, xp);
 		return -1;
@@ -1041,7 +1042,7 @@ int tedDrawDrawingShape(const DocumentRectangle *drTwips, int page,
 
 		int wide;
 
-		xp = (Point2DI*)malloc((np + 1) * sizeof(Point2DI));
+		xp = (Point2DI *)malloc((np + 1) * sizeof(Point2DI));
 		if (!xp) {
 			LXDEB(np, xp);
 			return -1;

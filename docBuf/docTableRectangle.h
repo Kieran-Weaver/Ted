@@ -31,9 +31,8 @@ typedef struct TableRectangle {
 
 void docInitTableRectangle(TableRectangle *tr);
 
-int docIntersectTableRectangle(TableRectangle *tr,
-				      const TableRectangle *tr1,
-				      const TableRectangle *tr2);
+int docIntersectTableRectangle(TableRectangle *tr, const TableRectangle *tr1,
+			       const TableRectangle *tr2);
 
 void docExpandTableRectangleToWholeRows(TableRectangle *tr);
 void docExpandTableRectangleToWholeColumns(TableRectangle *tr);

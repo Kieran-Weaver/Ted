@@ -31,7 +31,7 @@ void utilInitIntegerValueNode(IntegerValueNode *tal);
 
 void utilCleanIntegerValueNode(IntegerValueNode *tal);
 
-IntegerValueNode *utilChildIntegerValueNode(IntegerValueNode *ivn,
-						   int make, int propval);
+IntegerValueNode *utilChildIntegerValueNode(IntegerValueNode *ivn, int make,
+					    int propval);
 
 #endif /*  UTIL_INTEGER_VALUE_NODE_H	*/

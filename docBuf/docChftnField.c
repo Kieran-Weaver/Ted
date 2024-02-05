@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
 #include <stdio.h>
-
 #include <utilBase26.h>
 #include <utilRoman.h>
 #include "docBuf.h"
@@ -19,7 +17,6 @@
 #include <docNodeTree.h>
 #include <docDocumentNote.h>
 #include <docNotes.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

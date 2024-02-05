@@ -40,16 +40,14 @@ void docInitListOverride(ListOverride *lo);
 void docCleanListOverride(ListOverride *lo);
 
 int docCopyListOverride(ListOverride *to, const ListOverride *from,
-			       const int *fontMap, const int *colorMap,
-			       const int *rulerMap);
+			const int *fontMap, const int *colorMap,
+			const int *rulerMap);
 
-int docCopyListOverrideSameDocument(ListOverride *to,
-					   const ListOverride *from);
+int docCopyListOverrideSameDocument(ListOverride *to, const ListOverride *from);
 
-int docListOverrideAddLevel(ListOverride *lo,
-				   const ListOverrideLevel *lol,
-				   const int *fontMap, const int *colorMap,
-				   const int *rulerMap);
+int docListOverrideAddLevel(ListOverride *lo, const ListOverrideLevel *lol,
+			    const int *fontMap, const int *colorMap,
+			    const int *rulerMap);
 
 int docSetListOverrideProperty(ListOverride *lo, int prop, int value);
 

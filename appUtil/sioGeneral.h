@@ -63,7 +63,7 @@ int sioInFillBuffer(SimpleInputStream *sis);
 int sioInUngetLastRead(SimpleInputStream *sis);
 
 SimpleInputStream *sioInOpen(void *specific, SIOinREADBYTES readBytes,
-				    SIOinCLOSE closeIt);
+			     SIOinCLOSE closeIt);
 
 long sioInGetBytesRead(SimpleInputStream *sis);
 
@@ -71,15 +71,14 @@ int sioInClose(SimpleInputStream *sis);
 
 char *sioInGetString(char *s, int size, SimpleInputStream *sis);
 
-int sioInReadBytes(SimpleInputStream *sis, unsigned char *buf,
-			  int count);
+int sioInReadBytes(SimpleInputStream *sis, unsigned char *buf, int count);
 
 /*  out  */
 
 int sioOutFlushBuffer(SimpleOutputStream *sos);
 
-SimpleOutputStream *
-sioOutOpen(void *specific, SIOoutWRITEBYTES writeBytes, SIOoutCLOSE closeIt);
+SimpleOutputStream *sioOutOpen(void *specific, SIOoutWRITEBYTES writeBytes,
+			       SIOoutCLOSE closeIt);
 
 int sioOutClose(SimpleOutputStream *sos);
 
@@ -88,7 +87,7 @@ long sioOutGetBytesWritten(SimpleOutputStream *sos);
 int sioOutPutString(const char *s, SimpleOutputStream *sos);
 
 int sioOutWriteBytes(SimpleOutputStream *sos, const unsigned char *buf,
-			    int count);
+		     int count);
 
 #ifdef __GNUC__
 int sioOutPrintf(SimpleOutputStream *sos, const char *format, ...)

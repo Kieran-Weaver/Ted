@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <stdio.h>
-
 #include <geoGrid.h>
 #include "docTabStop.h"
 #include "docTabStopList.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

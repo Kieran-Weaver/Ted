@@ -68,32 +68,30 @@ typedef struct TextOrnamentsTool {
 /*									*/
 /************************************************************************/
 
-void
-tedFormatToolGetTextOrnamentsResourceTable(EditApplication *ea,
-					   TextOrnamentsPageResources *plpr,
-					   InspectorSubjectResources *isr);
+void tedFormatToolGetTextOrnamentsResourceTable(EditApplication *ea,
+						TextOrnamentsPageResources *plpr,
+						InspectorSubjectResources *isr);
 
-void
-tedFormatFillTextOrnamentsChoosers(TextOrnamentsTool *tot,
-				   const TextOrnamentsPageResources *totr);
+void tedFormatFillTextOrnamentsChoosers(TextOrnamentsTool *tot,
+					const TextOrnamentsPageResources *totr);
 
-void tedFormatFillTextOrnamentsPage(
-	TextOrnamentsTool *tot, const TextOrnamentsPageResources *totr,
-	AppInspector *ai, int subjectPage, InspectorSubject *is, APP_WIDGET pgW,
-	const InspectorSubjectResources *isr);
+void tedFormatFillTextOrnamentsPage(TextOrnamentsTool *tot,
+				    const TextOrnamentsPageResources *totr,
+				    AppInspector *ai, int subjectPage,
+				    InspectorSubject *is, APP_WIDGET pgW,
+				    const InspectorSubjectResources *isr);
 
 void tedRefreshTextOrnamentsTool(TextOrnamentsTool *tot, int *pEnabled,
-					int *pPref, InspectorSubject *is,
-					EditDocument *ed,
-					const DocumentSelection *ds,
-					const SelectionGeometry *sg,
-					const SelectionDescription *sd,
-					const unsigned char *cmdEnabled);
+				 int *pPref, InspectorSubject *is,
+				 EditDocument *ed, const DocumentSelection *ds,
+				 const SelectionGeometry *sg,
+				 const SelectionDescription *sd,
+				 const unsigned char *cmdEnabled);
 
 void tedInitTextOrnamentsTool(TextOrnamentsTool *tot);
 void tedCleanTextOrnamentsTool(TextOrnamentsTool *tot);
 
 void tedFinishTextOrnamentsPage(TextOrnamentsTool *pot,
-				       const TextOrnamentsPageResources *popr);
+				const TextOrnamentsPageResources *popr);
 
 #endif /*  TED_PARA_ORNAMENTS_TOOL_H */

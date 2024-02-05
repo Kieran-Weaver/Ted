@@ -9,8 +9,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-
-
 #include "tedApp.h"
 #include "tedSelect.h"
 #include "tedCopyPasteImpl.h"

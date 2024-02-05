@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include "tedApp.h"
 #include "tedAppResources.h"
 #include "tedAppFront.h"
@@ -1671,15 +1670,14 @@ static void tedMainSetPageLayout(EditDocument *ed,
 
 static const char TED_ConfigString[] =
 
-
-		GTK_VSS
+	GTK_VSS
 
 #ifdef USE_FONTCONFIG
-			FC_VSS
+		FC_VSS
 #endif
 
 #ifdef USE_XFT
-				FT2_VSS
+			FT2_VSS
 #endif
 
 	"";

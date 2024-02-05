@@ -17,9 +17,9 @@
 /************************************************************************/
 
 int psFontCompareInfosIncludingFamily(const void *voidpafi1,
-					     const void *voidpafi2);
+				      const void *voidpafi2);
 
 int psFontCompareInfosExcludingFamily(const void *voidpafi1,
-					     const void *voidpafi2);
+				      const void *voidpafi2);
 
 #endif

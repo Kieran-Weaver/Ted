@@ -97,28 +97,23 @@ void tedImageToolGetImageResourceTable(EditApplication *ea,
 				       ImagePageResources *ipr,
 				       InspectorSubjectResources *isr);
 
-void tedImagePageFillChoosers(ImageTool *it,
-				     const ImagePageResources *ipr);
+void tedImagePageFillChoosers(ImageTool *it, const ImagePageResources *ipr);
 
-void tedImageFinishImagePage(ImageTool *it,
-				    const ImagePageResources *ipr);
+void tedImageFinishImagePage(ImageTool *it, const ImagePageResources *ipr);
 
 void tedFormatFillImagePage(ImageTool *it, const ImagePageResources *ipr,
-				   InspectorSubject *is, APP_WIDGET pageWidget,
-				   const InspectorSubjectResources *isr);
+			    InspectorSubject *is, APP_WIDGET pageWidget,
+			    const InspectorSubjectResources *isr);
 
 void tedRefreshImageTool(ImageTool *it, int *pEnabled, int *pPref,
-				InspectorSubject *is,
-				const DocumentSelection *ds,
-				const SelectionDescription *sd,
-				BufferDocument *bd,
-				const unsigned char *cmdEnabled);
+			 InspectorSubject *is, const DocumentSelection *ds,
+			 const SelectionDescription *sd, BufferDocument *bd,
+			 const unsigned char *cmdEnabled);
 
 void tedCleanImageTool(ImageTool *it);
 void tedInitImageTool(ImageTool *it);
 
-void tedImageToolGetResourceTable(EditApplication *ea,
-					 ImagePageResources *ipr,
-					 InspectorSubjectResources *isr);
+void tedImageToolGetResourceTable(EditApplication *ea, ImagePageResources *ipr,
+				  InspectorSubjectResources *isr);
 
 #endif /*  TED_BITMAP_TOOL_H */

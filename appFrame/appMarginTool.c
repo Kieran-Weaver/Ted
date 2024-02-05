@@ -4,17 +4,12 @@
 /*									*/
 /************************************************************************/
 
-#include <config.h>
-
-
 #include <limits.h>
-
 #include <utilPropMask.h>
 #include "guiWidgets.h"
 #include "guiToolUtil.h"
 #include "appMarginTool.h"
 #include "guiTextUtil.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

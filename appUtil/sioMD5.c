@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "sioMD5.h"
 #include "utilMD5.h"
 #include <appDebugon.h>

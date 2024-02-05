@@ -29,15 +29,15 @@ typedef struct BookmarkList {
 void tedInitBookmarkList(BookmarkList *bl);
 
 void tedFillBookmarkList(BookmarkList *bl, int includeTocMarks,
-				const BufferDocument *bd);
+			 const BufferDocument *bd);
 
 void tedBookmarkFindChosen(BookmarkList *bl, EditApplication *ea,
-				  const MemoryBuffer *mbChosen);
+			   const MemoryBuffer *mbChosen);
 
 void tedBookmarkUpdateSelectionInList(BookmarkList *bl,
-					     const MemoryBuffer *mbChosen);
+				      const MemoryBuffer *mbChosen);
 
 void tedBookmarkListToText(BookmarkList *bl, MemoryBuffer *mbChosen,
-				  void *voidlcs, APP_WIDGET w);
+			   void *voidlcs, APP_WIDGET w);
 
 #endif /*  TED_BOOKMARK_LIST_H  */

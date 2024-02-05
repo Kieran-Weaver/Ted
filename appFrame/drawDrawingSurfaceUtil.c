@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <drawDrawingSurface.h>
 #include <appDebugon.h>
 #include <uniUtf8.h>
@@ -34,8 +33,8 @@ int drawSetForegroundColorBlack(struct DrawingSurface *ds)
 /*									*/
 /************************************************************************/
 
-int drawGetSymbolExtents(DocumentRectangle *drText, struct DrawingSurface *ds, int x0,
-			 int y0, int screenFont, int symbol)
+int drawGetSymbolExtents(DocumentRectangle *drText, struct DrawingSurface *ds,
+			 int x0, int y0, int screenFont, int symbol)
 {
 	int step;
 	char scratch[10];
@@ -50,7 +49,8 @@ int drawGetSymbolExtents(DocumentRectangle *drText, struct DrawingSurface *ds, i
 				  step);
 }
 
-void drawSymbol(struct DrawingSurface *ds, int x, int y, int screenFont, int symbol)
+void drawSymbol(struct DrawingSurface *ds, int x, int y, int screenFont,
+		int symbol)
 {
 	int step;
 	char scratch[10];

@@ -82,10 +82,9 @@ typedef struct PostScriptTypeList {
 /*									*/
 /************************************************************************/
 
-int psRememberPostsciptFace(PostScriptTypeList *pstl,
-				   const AfmFontInfo *afi,
-				   const TextAttribute *ta, const char *prefix,
-				   int appearsInText);
+int psRememberPostsciptFace(PostScriptTypeList *pstl, const AfmFontInfo *afi,
+			    const TextAttribute *ta, const char *prefix,
+			    int appearsInText);
 
 void psInitPostScriptFaceList(PostScriptTypeList *pstl);
 void psCleanPostScriptFaceList(PostScriptTypeList *pstl);

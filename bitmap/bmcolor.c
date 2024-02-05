@@ -1,8 +1,6 @@
 #include <config.h>
-
 #include "bmcolor.h"
 #include <stdlib.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/

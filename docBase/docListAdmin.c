@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docListAdmin.h"
 #include "docDocumentList.h"
 #include "docListOverride.h"

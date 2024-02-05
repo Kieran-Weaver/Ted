@@ -3,14 +3,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include "appFrame.h"
-
 #include <appDebugon.h>
-
 
 #define ADEB(a) SDEB(((a) == 0 ? "None" : gdk_atom_name((a))))
 
@@ -441,4 +436,3 @@ void appAllocateCopyPasteTargetAtoms(EditApplication *ea)
 
 	return;
 }
-

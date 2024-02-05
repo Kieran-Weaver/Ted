@@ -20,11 +20,10 @@ struct PrintGeometry;
 /************************************************************************/
 
 int docPsPrintDocument(SimpleOutputStream *sos, const char *title,
-			      const char *applicationName,
-			      const char *applicationReference,
-			      const MemoryBuffer *fontDirectory,
-			      double shadingMesh, int emitOutline,
-			      const LayoutContext *lc,
-			      const struct PrintGeometry *pg);
+		       const char *applicationName,
+		       const char *applicationReference,
+		       const MemoryBuffer *fontDirectory, double shadingMesh,
+		       int emitOutline, const LayoutContext *lc,
+		       const struct PrintGeometry *pg);
 
 #endif /*	DOC_PS_PRINT_H	*/

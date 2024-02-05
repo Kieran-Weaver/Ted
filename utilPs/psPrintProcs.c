@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include "psPrint.h"
 #include <sioGeneral.h>
 

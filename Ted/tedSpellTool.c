@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-
-
 #include "tedAppFront.h"
 #include "tedFind.h"
 #include "tedSpellTool.h"

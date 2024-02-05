@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <stddef.h>
-
 #include <appDebugon.h>
-
 #include "appFrame.h"
 #include <appUnit.h>
 #include "appPaperChooser.h"
@@ -449,7 +445,7 @@ void *appMakePageTool(EditApplication *ea, APP_WIDGET pageOption,
 	apt->aptCustomPaperSize = -1;
 
 	appInitPaperChooser(&(apt->aptPaperChooser));
-	apt->aptDrawingSurface = (struct DrawingSurface*)0;
+	apt->aptDrawingSurface = (struct DrawingSurface *)0;
 
 	appMakeVerticalTool(&(apt->aptTopWidget), &(apt->aptMainWidget), ea,
 			    iconPixmap, iconMask, userResizable, pageOption,

@@ -5,17 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
-
-
 #include <sioMemory.h>
 #include <sioHex.h>
-
 #include <psPrint.h>
 #include <geo2DInteger.h>
 #include "docObject.h"
 #include "docObjectProperties.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

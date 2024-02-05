@@ -8,7 +8,6 @@
 
 #include <stddef.h>
 
-
 #include <sioGeneral.h>
 #include "docDraw.h"
 #include "docPsPrintImpl.h"

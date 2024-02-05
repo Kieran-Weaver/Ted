@@ -6,8 +6,6 @@
 
 #include <config.h>
 
-
-
 #include <textOfficeCharset.h>
 #include "docRtfTextConverter.h"
 

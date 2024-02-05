@@ -95,18 +95,16 @@ void docInitInsertedObject(InsertedObject *io);
 void docCleanInsertedObject(InsertedObject *io);
 
 void docObjectAdaptToPictureGeometry(InsertedObject *io,
-					    const PictureProperties *pip);
+				     const PictureProperties *pip);
 
-int docReadBitmapObject(InsertedObject *io,
-			       const MemoryBuffer *filename);
+int docReadBitmapObject(InsertedObject *io, const MemoryBuffer *filename);
 
 int docReadEpsObject(const MemoryBuffer *fullName, InsertedObject *io);
 
 int docReadFileObject(const MemoryBuffer *fullName, InsertedObject *io);
 
-void docObjectGetCropRect(DocumentRectangle *dr,
-				 const PictureProperties *pip,
-				 const BitmapDescription *bd);
+void docObjectGetCropRect(DocumentRectangle *dr, const PictureProperties *pip,
+			  const BitmapDescription *bd);
 
 void docObjectSetPixelSize(InsertedObject *io, double pixelsPerTwip);
 

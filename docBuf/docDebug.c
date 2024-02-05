@@ -1,14 +1,11 @@
 #include <config.h>
-
 #include <string.h>
-
 #include "docBuf.h"
 #include "docTreeNode.h"
 #include "docDebug.h"
 #include <docTextParticule.h>
 #include <docTextLine.h>
 #include <docDocumentNote.h>
-
 #include <appDebugon.h>
 
 #define LIST_LINE_PARTICULES 0

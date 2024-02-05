@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "docPropVal.h"
 #include "docShapeProperties.h"
-
 #include <appDebugon.h>
 
 void docInitShapeProperties(ShapeProperties *sp)

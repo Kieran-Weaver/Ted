@@ -6,16 +6,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include <uniShiftUtf8.h>
 #include <uniUtf8.h>
 #include <ucdGeneralCategory.h>
 #include <textConverter.h>
-
 #include "docBuf.h"
 #include "docParaString.h"
 #include "docParaParticules.h"

@@ -7,9 +7,9 @@
 const char *utilPaperDefaultSize(void);
 
 int utilPaperGetInfoByNumber(int n, int *pWidth, int *pHeight,
-				    const char **pLabel);
+			     const char **pLabel);
 
 int utilPaperGetNumberBySize(int width, int height);
 
 int utilPaperSizeFromString(int *pFormat, int *pWidth, int *pHeight,
-				   int unitType, const char *paperString);
+			    int unitType, const char *paperString);

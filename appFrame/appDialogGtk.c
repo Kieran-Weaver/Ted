@@ -1,12 +1,6 @@
 #include <config.h>
-
-
-
 #include "appFrame.h"
-
 #include <appDebugon.h>
-
-
 #include <gdk/gdkkeysyms.h>
 
 /************************************************************************/
@@ -23,7 +17,6 @@ void appMakeVerticalDialog(AppDialog *ad, APP_WIDGET *pColumn,
 {
 	APP_WIDGET shell;
 	APP_WIDGET column;
-
 
 	shell = gtk_dialog_new();
 
@@ -153,4 +146,3 @@ void appGuiHideDialog(AppDialog *ad)
 	gtk_window_set_transient_for(GTK_WINDOW(ad->adTopWidget),
 				     (GtkWindow *)0);
 }
-

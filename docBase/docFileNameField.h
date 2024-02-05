@@ -22,7 +22,6 @@ typedef struct FileNameField {
 void docInitFileNameField(FileNameField *fnf);
 void docCleanFileNameField(FileNameField *fnf);
 
-int docGetFileNameField(FileNameField *fnf,
-			       const struct DocumentField *df);
+int docGetFileNameField(FileNameField *fnf, const struct DocumentField *df);
 
 #endif /*  DOC_FILENAME_FIELD_H  */

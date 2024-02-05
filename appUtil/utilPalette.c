@@ -1,9 +1,7 @@
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include "utilPalette.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -50,7 +48,8 @@ int utilPaletteSetCount(ColorPalette *cp, int colorCount)
 	} else {
 		RGB8Color *fresh;
 
-		fresh = (RGB8Color*)realloc(cp->cpColors, colorCount * sizeof(RGB8Color));
+		fresh = (RGB8Color *)realloc(cp->cpColors,
+					     colorCount * sizeof(RGB8Color));
 		if (!fresh) {
 			LXDEB(colorCount, fresh);
 			return -1;

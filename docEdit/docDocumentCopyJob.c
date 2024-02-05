@@ -5,14 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
-
 #include <docPropertiesAdmin.h>
-
 #include <appDebugon.h>
-
 #include <docBuf.h>
 #include "docDocumentCopyJob.h"
 #include <docParaRulerAdmin.h>

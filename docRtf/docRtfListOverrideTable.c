@@ -6,9 +6,6 @@
 
 #include <config.h>
 
-
-
-
 #include "docRtfWriterImpl.h"
 #include "docRtfReaderImpl.h"
 

@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docSelectionScope.h"
 #include "docTreeType.h"
 

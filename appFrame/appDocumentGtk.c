@@ -7,16 +7,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
-
 #include "appFrame.h"
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
-
 #include <appDebugon.h>
-
 
 /************************************************************************/
 /*									*/
@@ -148,8 +143,8 @@ static int appDocMakeScrolledWindow(EditDocument *ed)
 		gtk_range_get_adjustment(GTK_RANGE(ed->edVerticalScrollbar));
 
 	gtk_table_attach(GTK_TABLE(ed->edScrolledWindow),
-			 ed->edVerticalScrollbar, 1, 2, 0, 1, GTK_FILL,
-			 GTK_FES, 0, 0);
+			 ed->edVerticalScrollbar, 1, 2, 0, 1, GTK_FILL, GTK_FES,
+			 0, 0);
 
 	gtk_widget_show(ed->edVerticalScrollbar);
 
@@ -160,8 +155,8 @@ static int appDocMakeScrolledWindow(EditDocument *ed)
 		gtk_range_get_adjustment(GTK_RANGE(ed->edHorizontalScrollbar));
 
 	gtk_table_attach(GTK_TABLE(ed->edScrolledWindow),
-			 ed->edHorizontalScrollbar, 0, 1, 1, 2,
-			 GTK_FES, GTK_FILL, 0, 0);
+			 ed->edHorizontalScrollbar, 0, 1, 1, 2, GTK_FES,
+			 GTK_FILL, 0, 0);
 
 	gtk_widget_show(ed->edHorizontalScrollbar);
 
@@ -176,48 +171,42 @@ int appMakeDocumentWidget(EditApplication *ea, EditDocument *ed)
 	ed->edWorkWidget = gtk_table_new(3, 3, FALSE);
 
 	gtk_table_attach(GTK_TABLE(ed->edScrolledWindow), ed->edWorkWidget, 0,
-			 1, 0, 1, GTK_FES,
-			 GTK_FES, 0, 0);
+			 1, 0, 1, GTK_FES, GTK_FES, 0, 0);
 
 	gtk_widget_show(ed->edWorkWidget);
 
 	ed->edTopRulerWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget), ed->edTopRulerWidget, 0,
-			 3, 0, 1, GTK_FES, GTK_FILL,
-			 0, 0);
+			 3, 0, 1, GTK_FES, GTK_FILL, 0, 0);
 
 	gtk_widget_show(ed->edTopRulerWidget);
 
 	ed->edBottomRulerWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget), ed->edBottomRulerWidget,
-			 0, 3, 2, 3, GTK_FES,
-			 GTK_FILL, 0, 0);
+			 0, 3, 2, 3, GTK_FES, GTK_FILL, 0, 0);
 
 	gtk_widget_show(ed->edBottomRulerWidget);
 
 	ed->edLeftRulerWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget), ed->edLeftRulerWidget, 0,
-			 1, 1, 2, GTK_FILL, GTK_FES,
-			 0, 0);
+			 1, 1, 2, GTK_FILL, GTK_FES, 0, 0);
 
 	gtk_widget_show(ed->edLeftRulerWidget);
 
 	ed->edRightRulerWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget), ed->edRightRulerWidget, 2,
-			 3, 1, 2, GTK_FILL, GTK_FES,
-			 0, 0);
+			 3, 1, 2, GTK_FILL, GTK_FES, 0, 0);
 
 	gtk_widget_show(ed->edRightRulerWidget);
 
 	ed->edDocumentWidget.dwWidget = gtk_drawing_area_new();
 
 	gtk_table_attach(GTK_TABLE(ed->edWorkWidget),
-			 ed->edDocumentWidget.dwWidget, 1, 2, 1, 2,
-			 GTK_FES,
+			 ed->edDocumentWidget.dwWidget, 1, 2, 1, 2, GTK_FES,
 			 GTK_FES, 0, 0);
 
 	gtk_widget_show(ed->edDocumentWidget.dwWidget);
@@ -431,4 +420,3 @@ void appRenameWindowsOption(APP_WIDGET menu, EditDocument *ed,
 
 	return;
 }
-

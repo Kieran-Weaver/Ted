@@ -22,17 +22,19 @@
 
 int sioOutVPrintf(SimpleOutputStream *sos, const char *format, va_list ap)
 {
-	char* buf = NULL;
+	char *buf = NULL;
 	va_list tmp;
-	va_copy( tmp, ap );
-	int sz = vsnprintf( NULL, 0, format, tmp );
-	buf = (char*)malloc(sz + 1);
-	vsnprintf( buf, sz + 1, format, ap );
+	va_copy(tmp, ap);
+	int sz = vsnprintf(NULL, 0, format, tmp);
+	buf = (char *)malloc(sz + 1);
+	vsnprintf(buf, sz + 1, format, ap);
 
-	int err = sioOutPutString( buf, sos );
+	int err = sioOutPutString(buf, sos);
 	free(buf);
-	if (err < 0) return err;
-	else return sz;
+	if (err < 0)
+		return err;
+	else
+		return sz;
 }
 
 int sioOutPrintf(SimpleOutputStream *sos, const char *format, ...)

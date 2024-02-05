@@ -7,27 +7,20 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <locale.h>
 #include <errno.h>
-
 #include <sioPipe.h>
 #include <sioStdout.h>
 #include <sioFileio.h>
 #include <sioMemory.h>
-
 #include <appPaper.h>
 #include <appSystem.h>
 #include "appFrame.h"
-
 #include "appPrintJob.h"
 #include <psNup.h>
-
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -302,7 +295,7 @@ static int appPrintJobForCommand(PrintJob *pj, PrintGeometry *pg,
 		goto ready;
 	}
 
-	pj->pjDrawingSurface = (struct DrawingSurface*)0;
+	pj->pjDrawingSurface = (struct DrawingSurface *)0;
 	pj->pjApplication = ea;
 	pj->pjTitle = fromName;
 	pj->pjPrintGeometry = pg;
@@ -361,7 +354,7 @@ static int appPrintStartCommandRun(EditApplication *ea, PrintJob *pj,
 
 	if ((*ea->eaLayoutDocument)(
 		    &drScreenIgnored, &drVisibleIgnored, pj->pjPrivateData,
-		    pj->pjFormat, (struct DrawingSurface*)0,
+		    pj->pjFormat, (struct DrawingSurface *)0,
 		    &(ea->eaPostScriptFontList), &(pg->pgSheetGeometry))) {
 		SDEB(fromName);
 		appPrintFinishCommandRun(ea, pj);
@@ -433,9 +426,9 @@ ready:
 
 /************************************************************************/
 
-int appSaveToPs(EditApplication *ea, struct DrawingSurface *ds, SimpleOutputStream *sos,
-		void *privateData, const MemoryBuffer *documentTitle,
-		int format)
+int appSaveToPs(EditApplication *ea, struct DrawingSurface *ds,
+		SimpleOutputStream *sos, void *privateData,
+		const MemoryBuffer *documentTitle, int format)
 {
 	DocumentRectangle drScreenIgnored;
 	DocumentRectangle drVisibleIgnored;
@@ -461,8 +454,8 @@ int appSaveToPs(EditApplication *ea, struct DrawingSurface *ds, SimpleOutputStre
 
 	if ((*ea->eaLayoutDocument)(
 		    &drScreenIgnored, &drVisibleIgnored, pj.pjPrivateData,
-		    pj.pjFormat, (struct DrawingSurface*)0, &(ea->eaPostScriptFontList),
-		    &(pg.pgSheetGeometry))) {
+		    pj.pjFormat, (struct DrawingSurface *)0,
+		    &(ea->eaPostScriptFontList), &(pg.pgSheetGeometry))) {
 		SDEB(pj.pjTitle);
 		rval = -1;
 		goto ready;

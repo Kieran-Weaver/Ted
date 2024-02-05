@@ -17,7 +17,6 @@
 
 int docRecalculateTocFields(RecalculateFields *rf);
 
-int docRecalculateOneTocField(BufferDocument *bdDoc,
-				     const DocumentField *df);
+int docRecalculateOneTocField(BufferDocument *bdDoc, const DocumentField *df);
 
 #endif /*	DOC_CALCULATE_TOC_FIELD_H	*/

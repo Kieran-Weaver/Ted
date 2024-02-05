@@ -11,6 +11,6 @@
 /************************************************************************/
 
 int indScanStream(SimpleInputStream *sis, SpellCheckContext *ssc,
-			 void *through);
+		  void *through);
 
 #endif /*	IND_SCAN_STREAM_H				    }}	*/

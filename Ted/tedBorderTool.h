@@ -61,19 +61,17 @@ void tedInitBorderTool(BorderTool *bt);
 void tedCleanBorderTool(BorderTool *bt);
 
 void tedBorderToolSetPropertiesByNumber(BorderTool *bt,
-					       const BufferDocument *bd,
-					       int num);
+					const BufferDocument *bd, int num);
 
-int tedBorderToolGetNumber(int *pNum, int *pChanged,
-				  const BorderTool *bt, BufferDocument *bd);
+int tedBorderToolGetNumber(int *pNum, int *pChanged, const BorderTool *bt,
+			   BufferDocument *bd);
 
 void tedMakeBorderTool(BorderTool *bt, AppInspector *ai, APP_WIDGET page,
-			      const char *label, const BorderToolResources *btr,
-			      int subjectPage, int which);
+		       const char *label, const BorderToolResources *btr,
+		       int subjectPage, int which);
 
 void tedFinishBorderTool(BorderTool *bt, const PostScriptFontList *psfl);
 
-void tedBorderSetExplicitColorChoice(BorderTool *bt,
-					    const RGB8Color *rgb8Set);
+void tedBorderSetExplicitColorChoice(BorderTool *bt, const RGB8Color *rgb8Set);
 
 #endif /*  TED_BORDER_TOOL_H */

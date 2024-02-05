@@ -19,14 +19,13 @@
 /************************************************************************/
 
 void tedRefreshFontTool(AppFontChooser *afc, int *pEnabled, int *pPref,
-			       InspectorSubject *is,
-			       const DocumentSelection *ds,
-			       const SelectionDescription *sd,
-			       const BufferDocument *bd, int documentId,
-			       const unsigned char *cmdEnabled);
+			InspectorSubject *is, const DocumentSelection *ds,
+			const SelectionDescription *sd,
+			const BufferDocument *bd, int documentId,
+			const unsigned char *cmdEnabled);
 
 void tedFontToolGetResourceTable(EditApplication *ea,
-					AppFontToolResources *aftr,
-					InspectorSubjectResources *isr);
+				 AppFontToolResources *aftr,
+				 InspectorSubjectResources *isr);
 
 #endif /*  TED_FONT_TOOL_H */

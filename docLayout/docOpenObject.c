@@ -6,8 +6,6 @@
 
 #include <config.h>
 
-
-
 #include <sioMemory.h>
 #include <sioHex.h>
 #include "docLayoutObject.h"

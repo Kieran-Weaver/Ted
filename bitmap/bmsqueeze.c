@@ -1,8 +1,6 @@
 #include <config.h>
-
 #include <string.h>
 #include "bmintern.h"
-
 #include <appDebugon.h>
 
 /************************************************************************/

@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <utilPropMask.h>
-
 #include "docObjectProperties.h"
 #include "docPictureProperties.h"
-
 #include <appDebugon.h>
 
 void docInitPictureProperties(PictureProperties *pip)

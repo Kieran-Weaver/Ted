@@ -51,25 +51,24 @@ typedef struct SetProperties {
 /************************************************************************/
 
 int docEditChangeParaProperties(SetProperties *setProps,
-				       const DocumentSelection *ds,
-				       struct BufferItem *paraNode,
-				       const TextAttribute *taSet,
-				       const ParagraphProperties *ppSet);
+				const DocumentSelection *ds,
+				struct BufferItem *paraNode,
+				const TextAttribute *taSet,
+				const ParagraphProperties *ppSet);
 
 int docEditChangeCellProperties(SetProperties *setProps,
-				       const DocumentSelection *ds,
-				       struct BufferItem *cellNode,
-				       const CellProperties *cpSet);
+				const DocumentSelection *ds,
+				struct BufferItem *cellNode,
+				const CellProperties *cpSet);
 
 int docEditChangeRowProperties(SetProperties *setProps,
-				      const DocumentSelection *ds,
-				      struct BufferItem *rowNode,
-				      const RowProperties *rpSet);
+			       const DocumentSelection *ds,
+			       struct BufferItem *rowNode,
+			       const RowProperties *rpSet);
 
-int docChangeDocumentProperties(EditOperation *eo,
-				       PropertyMask *docDpDoneMask,
-				       const PropertyMask *dpSetMask,
-				       const DocumentProperties *dpSet,
-				       const DocumentAttributeMap *dam);
+int docChangeDocumentProperties(EditOperation *eo, PropertyMask *docDpDoneMask,
+				const PropertyMask *dpSetMask,
+				const DocumentProperties *dpSet,
+				const DocumentAttributeMap *dam);
 
 #endif /*  DOC_EDIT_SET_PROPS_H	*/

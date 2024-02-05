@@ -19,16 +19,15 @@
 /************************************************************************/
 
 void tedRefreshSpellTool(SpellTool *ast, int *pEnabled, int *pPref,
-				InspectorSubject *is,
-				const DocumentSelection *ds,
-				const SelectionDescription *sd,
-				const BufferDocument *bd, int documentId,
-				const unsigned char *cmdEnabled);
+			 InspectorSubject *is, const DocumentSelection *ds,
+			 const SelectionDescription *sd,
+			 const BufferDocument *bd, int documentId,
+			 const unsigned char *cmdEnabled);
 
 void tedFillSpellTool(SpellTool *ast, const SpellToolResources *astr,
-			     AppInspector *ai, int subjectPage,
-			     InspectorSubject *is, APP_WIDGET pageWidget,
-			     const InspectorSubjectResources *isr);
+		      AppInspector *ai, int subjectPage, InspectorSubject *is,
+		      APP_WIDGET pageWidget,
+		      const InspectorSubjectResources *isr);
 
 void tedFormatShowSpellPage(EditApplication *ea);
 

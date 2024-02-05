@@ -143,19 +143,17 @@ typedef struct ListTool {
 /************************************************************************/
 
 void tedFormatToolGetListsResourceTable(EditApplication *ea,
-					       ListsPageResources *spr,
-					       InspectorSubjectResources *isr);
+					ListsPageResources *spr,
+					InspectorSubjectResources *isr);
 
 void tedRefreshListTool(ListTool *lt, int *pEnabled, int *pPref,
-			       InspectorSubject *is,
-			       const DocumentSelection *ds,
-			       const SelectionDescription *sd,
-			       BufferDocument *bd,
-			       const unsigned char *cmdEnabled);
+			InspectorSubject *is, const DocumentSelection *ds,
+			const SelectionDescription *sd, BufferDocument *bd,
+			const unsigned char *cmdEnabled);
 
 void tedFormatFillListsPage(ListTool *lt, const ListsPageResources *lpr,
-				   InspectorSubject *is, APP_WIDGET pageWidget,
-				   const InspectorSubjectResources *isr);
+			    InspectorSubject *is, APP_WIDGET pageWidget,
+			    const InspectorSubjectResources *isr);
 
 void tedFormatFillListChoosers(ListTool *lt);
 

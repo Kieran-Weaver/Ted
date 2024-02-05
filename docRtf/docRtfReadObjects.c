@@ -6,8 +6,6 @@
 
 #include <config.h>
 
-
-
 #include <bitmap.h>
 
 #include <docObjectProperties.h>
