@@ -7,7 +7,6 @@
 #include <docTextLine.h>
 #include <docDocumentNote.h>
 #include <appDebugon.h>
-
 #define LIST_LINE_PARTICULES 0
 
 void docListParticule(int indent, const char *label, int n,

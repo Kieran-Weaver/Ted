@@ -5,16 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
 #include <psDocumentFontStyle.h>
 
 #include "utilDocFont.h"
 #include "utilMatchFont.h"
 #include <textOfficeCharset.h>
-
 /************************************************************************/
 /*									*/
 /*  Map the RTF style faces to the actual faces of a PostScript font.	*/

@@ -13,7 +13,6 @@
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Set the color of a ColorChooser.					*/

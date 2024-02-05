@@ -16,7 +16,6 @@
 #include <docTabStopList.h>
 #include <docSelectionDescription.h>
 #include <docSelectionGeometry.h>
-
 /************************************************************************/
 /*									*/
 /*  Resources for the 'Tabs' page.					*/

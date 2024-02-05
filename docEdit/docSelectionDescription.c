@@ -6,11 +6,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include <docBuf.h>
 #include <docField.h>
 #include <docTreeType.h>
@@ -21,7 +18,6 @@
 #include <docNotes.h>
 #include "docSelectionDescription.h"
 #include "docEditCommand.h"
-
 /************************************************************************/
 /*									*/
 /*  Describe a selection and its relevance for application tools.	*/

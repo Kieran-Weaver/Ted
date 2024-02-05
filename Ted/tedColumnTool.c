@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <appUnit.h>
-
 #include "tedAppFront.h"
 #include "tedColumnTool.h"
 #include "tedToolUtil.h"
@@ -20,9 +17,7 @@
 #include <docNodeTree.h>
 #include <appFrame.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the 'Column' page of the format tool.			*/

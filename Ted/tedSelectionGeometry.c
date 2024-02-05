@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <limits.h>
-
 #include "tedApp.h"
 #include "tedLayout.h"
 #include <docScreenLayout.h>
@@ -18,9 +15,7 @@
 #include <docParaParticules.h>
 #include <docTreeType.h>
 #include <geoGrid.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Return the X position for an I bar.					*/

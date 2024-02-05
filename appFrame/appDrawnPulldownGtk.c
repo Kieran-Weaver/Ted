@@ -3,7 +3,6 @@
 #include "appDrawnPulldown.h"
 #include "guiDrawingWidget.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Hide the popup of this drawn popdown.				*/

@@ -9,7 +9,6 @@
 #include <appDebugon.h>
 #include "docDrawingShapeList.h"
 #include "docShape.h"
-
 struct DrawingShape *docGetShapeByNumber(const DrawingShapeList *dsl, int n)
 {
 	void *vdf = utilPagedListGetItemByNumber(&(dsl->dslPagedList), n);

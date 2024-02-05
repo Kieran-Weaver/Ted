@@ -10,7 +10,6 @@
 #include "tedBorderTool.h"
 #include <docSelectionDescription.h>
 #include <docSelectionGeometry.h>
-
 /************************************************************************/
 /*									*/
 /*  Resources for the 'Column' page.					*/

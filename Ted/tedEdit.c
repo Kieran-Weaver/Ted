@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <uniUtf8.h>
 #include <ucdGeneralCategory.h>
 
@@ -22,9 +20,7 @@
 #include <docTextParticule.h>
 #include <docTreeNode.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Replace the selection in the document with new text.		*/

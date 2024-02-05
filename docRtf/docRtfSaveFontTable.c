@@ -6,17 +6,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include <textOfficeCharset.h>
 #include <psDocumentFontStyle.h>
 #include "docRtfWriterImpl.h"
 #include "docRtfTextConverter.h"
 #include "docRtfFlags.h"
-
 /************************************************************************/
 
 static const char *docRtfFontFamilyStyleTag(int styleInt)

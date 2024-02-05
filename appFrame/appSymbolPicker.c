@@ -17,7 +17,6 @@
 #include "guiDrawingWidget.h"
 #include "guiToolUtil.h"
 #include <appDebugon.h>
-
 #define FONT_SIZE 10
 #define MIN_CELLS_WIDE 8
 #define MIN_CELLS_HIGH 6

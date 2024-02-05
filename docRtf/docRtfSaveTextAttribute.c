@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include <uniUtf8.h>
 #include <utilMatchFont.h>
 #include <psShading.h>
@@ -17,7 +14,6 @@
 #include "docRtfFlags.h"
 #include "docRtfTags.h"
 #include <textConverter.h>
-
 /************************************************************************/
 /*									*/
 /*  Save a text attribute (change).					*/

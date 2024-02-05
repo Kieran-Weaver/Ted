@@ -10,7 +10,6 @@
 struct BufferItem;
 
 #include "docFind.h"
-
 /************************************************************************/
 /*									*/
 /*  Recursively retrieve the list of fonts that is used in a document.	*/

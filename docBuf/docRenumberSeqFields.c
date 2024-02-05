@@ -9,7 +9,6 @@
 #include "docBuf.h"
 #include "docRecalculateFields.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static int utilTreeRestartSequence(const char *key, void *val, void *through)

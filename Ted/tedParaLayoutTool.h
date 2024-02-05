@@ -14,7 +14,6 @@
 #include <appFrame.h>
 #include <appInspector.h>
 #include "tedHeightTool.h"
-
 /************************************************************************/
 /*									*/
 /*  Resources for the 'Paragraph Formatting' page.			*/

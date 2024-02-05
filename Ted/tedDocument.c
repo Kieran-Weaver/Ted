@@ -1,10 +1,7 @@
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include <appQuestion.h>
-
 #include "tedApp.h"
 #include "tedSelect.h"
 #include "tedRuler.h"
@@ -12,7 +9,6 @@
 #include "tedLayout.h"
 #include "tedDocument.h"
 #include "tedDocFront.h"
-
 #include <docDebug.h>
 #include <docScreenLayout.h>
 #include <docFind.h>
@@ -21,12 +17,9 @@
 #include <docRecalculateTocField.h>
 #include <docNodeTree.h>
 #include <docEditCommand.h>
-
 #include <guiDrawingWidget.h>
 #include <psNup.h>
-
 #include <appDebugon.h>
-
 #define VALIDATE_TREE 0
 
 /************************************************************************/

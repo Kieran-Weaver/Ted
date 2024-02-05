@@ -15,7 +15,6 @@
 #include "appFrame.h"
 #include "appZoomMenu.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Normalize a zoom factor.						*/

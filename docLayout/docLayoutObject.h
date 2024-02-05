@@ -8,7 +8,6 @@
 #define DOC_LAYOUT_OBJECT_H
 
 #include <docBuf.h>
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

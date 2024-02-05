@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docDebug.h>
 #include <docTreeType.h>
 #include <docTreeNode.h>
 #include <docNodeTree.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  layout a paragraph or a cell: Both are shortcuts to			*/

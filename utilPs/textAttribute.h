@@ -8,7 +8,6 @@
 #define UTIL_TEXT_ATTRIBUTE_H
 
 #include <utilPropMask.h>
-
 typedef struct TextAttribute {
 	int taFontNumber;
 	int taFontSizeHalfPoints;

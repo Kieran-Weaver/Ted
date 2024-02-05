@@ -9,7 +9,6 @@
 #define DOC_FIND_H
 
 #include "docBuf.h"
-
 typedef int (*PARA_FIND_STRING)(DocumentSelection *ds,
 				struct BufferItem *paraNode, BufferDocument *bd,
 				const DocumentPosition *dpFrom, void *through);

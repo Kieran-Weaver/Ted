@@ -1,15 +1,11 @@
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include "psFontInfo.h"
 #include "psGlyphs.h"
 #include <utilTree.h>
 #include <uniAlternatives.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Bookkeeping and management of AFM information.			*/

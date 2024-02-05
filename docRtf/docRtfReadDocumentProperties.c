@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdio.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include <appUnit.h>
 #include <textConverter.h>
 #include "docRtfReaderImpl.h"

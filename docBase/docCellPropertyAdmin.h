@@ -10,7 +10,6 @@
 #include "docCellProperties.h"
 #include <utilIntegerValueNode.h>
 #include <utilNumberedPropertiesAdmin.h>
-
 typedef void (*CellPropertiesFunction)(const CellProperties *cp, int n,
 				       void *through);
 

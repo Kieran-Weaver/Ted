@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include "docRtfTagEnum.h"
 

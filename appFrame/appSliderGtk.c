@@ -1,7 +1,6 @@
 #include <config.h>
 #include "guiWidgets.h"
 #include <appDebugon.h>
-
 void appGuiMakeSliderInRow(APP_WIDGET *pSlider, APP_WIDGET row, int column,
 			   int colspan, APP_BUTTON_CALLBACK_T callback,
 			   void *through)

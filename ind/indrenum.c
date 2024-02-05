@@ -1,11 +1,7 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "indlocal.h"
-
 #include <appDebugoff.h>
-
 /************************************************************************/
 /*  Renumber a node in an index, and all the nodes that are reachable	*/
 /*  from it.								*/

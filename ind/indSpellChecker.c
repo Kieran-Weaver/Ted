@@ -11,9 +11,7 @@
 #include <stdlib.h>
 
 #include <appDebugon.h>
-
 #include "indSpellChecker.h"
-
 /************************************************************************/
 
 void indInitSpellDictionary(SpellDictionary *sd)

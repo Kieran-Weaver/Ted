@@ -10,7 +10,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "docListOverrideLevel.h"
-
 void docInitListOverrideLevel(ListOverrideLevel *lol)
 {
 	lol->lolOverrideStartAt = 0;

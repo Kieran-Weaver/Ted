@@ -17,7 +17,6 @@
 #include <docTreeType.h>
 #include <docNodeTree.h>
 #include <docParaParticules.h>
-
 /************************************************************************/
 
 static int docRtfReadChildShape(const RtfControlWord *rcw, int arg,

@@ -10,7 +10,6 @@
 #include <utilPropMask.h>
 #include <utilColor.h>
 #include <utilPalette.h>
-
 /************************************************************************/
 /*									*/
 /*  1)  The shading of a BufferItem such as a table cell or a		*/

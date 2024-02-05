@@ -5,16 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docBuf.h>
 #include <docTreeNode.h>
 #include <docBlockOrnaments.h>
 #include "docRowLayout.h"
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Decide what top border to use for a table cell (If any)		*/

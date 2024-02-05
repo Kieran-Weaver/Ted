@@ -13,7 +13,6 @@
 #include "docRecalculateFields.h"
 #include <docDateField.h>
 #include <docFileNameField.h>
-
 /************************************************************************/
 /*									*/
 /*  Return the value of one of the document dates.			*/

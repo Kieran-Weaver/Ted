@@ -5,16 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docPageGrid.h>
 #include "docLayout.h"
 #include <docTreeType.h>
 #include <docTreeNode.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Adjust the position of the top of a section, depending on the kind	*/

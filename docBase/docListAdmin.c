@@ -9,7 +9,6 @@
 #include "docListAdmin.h"
 #include "docDocumentList.h"
 #include "docListOverride.h"
-
 /************************************************************************/
 /*									*/
 /*  Initialise Document Properties.					*/

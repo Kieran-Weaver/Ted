@@ -5,23 +5,17 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include <sioFd.h>
 #include <utilMD5.h>
-
 #include "docRtfTrace.h"
 #include "docEditCommand.h"
-
 #include <docRtfTraceImpl.h>
 #include <docRtfWriterImpl.h>
 #include <docRtfFlags.h>
 #include <docRtfTags.h>
 #include <docTreeType.h>
-
 /************************************************************************/
 /*									*/
 /*  Save contents.							*/

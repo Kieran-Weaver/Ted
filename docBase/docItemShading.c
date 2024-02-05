@@ -9,7 +9,6 @@
 #include <appDebugon.h>
 #include "docItemShading.h"
 #include <psShading.h>
-
 /************************************************************************/
 /*									*/
 /*  Initialise a shading.						*/

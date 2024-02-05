@@ -18,7 +18,6 @@
 /************************************************************************/
 
 #include "psFontInfo.h"
-
 #ifndef PS_FONT_FAMILY_H
 #define PS_FONT_FAMILY_H
 

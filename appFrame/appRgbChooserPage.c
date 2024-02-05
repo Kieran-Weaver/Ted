@@ -13,7 +13,6 @@
 #include "guiToolUtil.h"
 #include "guiTextUtil.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the section page.						*/

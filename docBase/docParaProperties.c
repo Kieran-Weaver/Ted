@@ -9,7 +9,6 @@
 #include "docParaProperties.h"
 #include "docPropVal.h"
 #include "docListDepth.h"
-
 /************************************************************************/
 /*									*/
 /*  Manage paragraph properties.					*/

@@ -1,11 +1,8 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <uniUtf8.h>
 #include "indlocal.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*  Allocate a new node. In Theory, it might be advisable to look for	*/
 /*  a hole in the array of nodes. As in the current version of the	*/

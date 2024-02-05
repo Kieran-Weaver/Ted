@@ -10,7 +10,6 @@
 #include "appFrame.h"
 #include "appQuestion.h"
 #include <appDebugon.h>
-
 int appQuestionRunSubjectYesNoCancelDialog(EditApplication *ea,
 					   APP_WIDGET relative,
 					   APP_WIDGET option,

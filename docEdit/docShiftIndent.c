@@ -5,16 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docEdit.h"
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include <docDocumentList.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Increase/Decrease the indentation level of the paragraphs in the	*/

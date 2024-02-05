@@ -9,7 +9,6 @@
 #include <math.h>
 #include "appRgbCube.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  For scanning the faces of the individual color cubes.		*/

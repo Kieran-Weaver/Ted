@@ -10,9 +10,7 @@
 #include <utilNumberedPropertiesAdmin.h>
 #include <utilDocFontList.h>
 #include <utilPalette.h>
-
 #include "docListAdmin.h"
-
 typedef struct DocumentPropertyLists {
 	NumberedPropertiesList dplTextAttributeList;
 	NumberedPropertiesList dplBorderPropertyList;

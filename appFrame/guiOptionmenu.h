@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include "appGuiBase.h"
-
 #ifndef GUI_OPTMENU_H
 #define GUI_OPTMENU_H
 

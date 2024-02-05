@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <stdlib.h>
-
 #include <sioGeneral.h>
 #include <textUtf8Util.h>
-
 #include <psFontMetrics.h>
 #include "docPsPrintImpl.h"
 #include "docDraw.h"
@@ -24,9 +20,7 @@
 #include <docBookmarkField.h>
 #include <utilMemoryBufferPrintf.h>
 #include <docNotes.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Print a string.							*/

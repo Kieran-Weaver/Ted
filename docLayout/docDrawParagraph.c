@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include "docDraw.h"
 #include <docPageGrid.h>
 #include <docTreeType.h>
@@ -8,9 +7,7 @@
 #include <docTextLine.h>
 #include "docParagraphLayout.h"
 #include <docTextParticule.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Paragraph drawing machinery.					*/

@@ -9,7 +9,6 @@
 #include "docBuf.h"
 #include "docTreeNode.h"
 #include <docTextParticule.h>
-
 /************************************************************************/
 /*									*/
 /*  Change the TextAttributes E.G. the font of a stretch of text	*/

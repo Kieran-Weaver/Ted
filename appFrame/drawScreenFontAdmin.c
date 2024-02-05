@@ -11,7 +11,6 @@
 #include "drawImpl.h"
 #include "drawScreenFontAdmin.h"
 #include <psFontMetrics.h>
-
 /************************************************************************/
 /*									*/
 /*  Initialize/Clean border administration.				*/

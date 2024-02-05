@@ -11,11 +11,9 @@
 #include <utilColor.h>
 #include "drawImpl.h"
 #include <appDebugon.h>
-
 #ifdef USE_XFT
 
 #include "appXftColorList.h"
-
 /************************************************************************/
 /*									*/
 /*  1)  Number of text attributes per page in the list.			*/

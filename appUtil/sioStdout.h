@@ -5,5 +5,4 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleOutputStream *sioOutStdoutOpen(void);

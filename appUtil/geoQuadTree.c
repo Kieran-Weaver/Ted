@@ -17,7 +17,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <appDebugon.h>
-
 static const int QMAP[] = { 2, 1, 3, 0 };
 
 #define QUADRANT(x, y, xm, ym) (QMAP[2 * ((x) >= (xm)) + ((y) >= (ym))])

@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <textOfficeCharset.h>
 #include "docRtfTextConverter.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 const char DOC_RTF_AnsiCharsetName[] = "CP1252";

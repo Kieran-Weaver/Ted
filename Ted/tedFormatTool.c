@@ -8,11 +8,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <stddef.h>
-
 #include "tedFormatTool.h"
 #include "tedFontTool.h"
 #include "tedToolFront.h"
@@ -20,9 +17,7 @@
 #include "tedAppFront.h"
 #include "tedDocument.h"
 #include <docTreeType.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Resources for the format tool.					*/

@@ -1,10 +1,7 @@
 #include <config.h>
-
 #include <utilJenkinsHash.h>
 #include <stdint.h>
-
 #include "docRtfTagHash.h"
-
 #define ub4 uint32_t
 #define ub2 uint16_t
 #define ub1 unsigned char

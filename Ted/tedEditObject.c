@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <string.h>
-
 #include "tedEdit.h"
 #include "tedDocFront.h"
 #include "tedSelect.h"
@@ -24,9 +21,7 @@
 #include <docTextParticule.h>
 #include <docEditCommand.h>
 #include <bmio.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Insert an 'Object'.							*/

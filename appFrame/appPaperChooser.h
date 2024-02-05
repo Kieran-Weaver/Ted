@@ -4,7 +4,6 @@
 #include "guiOptionmenu.h"
 #include <utilPropMask.h>
 #include <utilDocumentGeometry.h>
-
 /************************************************************************/
 /*									*/
 /*  A paper chooser to be embedded in another window.			*/

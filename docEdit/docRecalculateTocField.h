@@ -8,7 +8,6 @@
 #define DOC_CALCULATE_TOC_FIELD_H
 
 #include <docRecalculateFields.h>
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

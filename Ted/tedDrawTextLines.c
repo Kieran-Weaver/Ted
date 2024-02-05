@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include "tedApp.h"
 #include "tedDraw.h"
 #include "tedLayout.h"
@@ -17,9 +15,7 @@
 #include <geoGrid.h>
 #include <docParaParticules.h>
 #include <docNodeTree.h>
-
 #include <appDebugon.h>
-
 static void tedDrawParticuleLine(DrawingContext *dc, ScreenDrawingData *sdd,
 				 const BufferItem *paraNode, int head, int past,
 				 int textColorNr, int x0, int y0, int h)

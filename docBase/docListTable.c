@@ -9,7 +9,6 @@
 #include <appDebugon.h>
 #include "docDocumentList.h"
 #include "docListTable.h"
-
 void docInitListTable(DocumentListTable *dlt)
 {
 	dlt->dltLists = (DocumentList *)0;

@@ -8,9 +8,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedFontTool.h"
 #include "tedAppResources.h"
 #include "tedAppFront.h"
@@ -18,9 +16,7 @@
 #include <docListOverride.h>
 #include <docDocumentList.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Intermediary routine to refresh the text font tool.			*/

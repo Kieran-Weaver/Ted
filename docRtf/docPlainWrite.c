@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdio.h>
-
 #include <docBuf.h>
 #include <docNotes.h>
 #include <docTreeNode.h>
@@ -19,9 +17,7 @@
 #include <docTextParticule.h>
 #include <docDocumentNote.h>
 #include <sioGeneral.h>
-
 #include <appDebugon.h>
-
 typedef struct PlainWritingContext {
 	SimpleOutputStream *pwcSos;
 	BufferDocument *pwcDocument;

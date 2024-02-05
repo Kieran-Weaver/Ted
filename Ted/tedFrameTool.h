@@ -14,7 +14,6 @@
 #include <docFrameProperties.h>
 #include "tedHeightTool.h"
 #include <docSelectionDescription.h>
-
 /************************************************************************/
 /*									*/
 /*  Resources for the 'Frame' page.					*/

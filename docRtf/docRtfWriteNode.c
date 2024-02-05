@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <docTreeType.h>
 #include <docTreeScanner.h>
 #include <docTreeNode.h>
@@ -16,7 +14,6 @@
 #include "docRtfWriterImpl.h"
 #include "docRtfTags.h"
 #include "docRtfFlags.h"
-
 /************************************************************************/
 
 static int docRtfSavePropertiesOfRow(RtfWriter *rw, const RowProperties *rpSet,

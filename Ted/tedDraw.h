@@ -11,7 +11,6 @@
 #include <docDraw.h>
 #include <config.h>
 #include <drawDrawingSurface.h>
-
 typedef struct ScreenDrawingData {
 	RGB8Color sddForeColor;
 	RGB8Color sddBehindColor;

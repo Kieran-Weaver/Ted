@@ -29,7 +29,6 @@
 #include <geo2DInteger.h>
 #include <sioGeneral.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Print a bounding box.						*/

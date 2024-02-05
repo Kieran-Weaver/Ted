@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docCopyNode.h"
 #include "docEditStep.h"
 #include "docTrace.h"
 #include "docEdit.h"
 #include <docTreeNode.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Reinsert nodes as part of an undo operation.			*/

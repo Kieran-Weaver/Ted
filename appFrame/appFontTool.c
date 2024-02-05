@@ -23,7 +23,6 @@
 #include "guiDrawingWidget.h"
 #include "drawDrawingSurfacePrivate.h"
 #include "guiTextUtil.h"
-
 /************************************************************************/
 /*									*/
 /*  Value lists that can be used when no particular font is selected.	*/

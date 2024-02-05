@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "uniLegacyMapping.h"
-
 IndexMapping UNI_SymbolToGlyphMapping;
 IndexMapping UNI_DingbatsToGlyphMapping;
 

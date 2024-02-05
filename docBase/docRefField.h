@@ -8,7 +8,6 @@
 #define DOC_REF_FIELD_H
 
 #include <utilMemoryBuffer.h>
-
 struct DocumentField;
 
 typedef struct RefField {

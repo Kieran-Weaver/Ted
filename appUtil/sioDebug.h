@@ -8,7 +8,6 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInDebugOpen(SimpleInputStream *sisIn);
 
 SimpleOutputStream *sioOutDebugOpen(SimpleOutputStream *sosOut);

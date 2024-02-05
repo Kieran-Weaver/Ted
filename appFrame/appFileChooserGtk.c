@@ -16,7 +16,6 @@
 #include "appQuestion.h"
 #include "appFileChooser.h"
 #include <appDebugon.h>
-
 #define HAS_DIRECTORY 1
 #define MAKE_SELECTION 0
 #define MAKE_CHOOSER 1

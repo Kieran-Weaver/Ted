@@ -9,9 +9,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docPageGrid.h>
 #include <docTreeType.h>
@@ -22,7 +20,6 @@
 #include <docDocumentNote.h>
 
 #include <appDebugon.h>
-
 #define SHOW_NOTE_LAYOUT 0 /* 0: nothing		*/
 /* 1: layout		*/
 /* 2: reservations	*/

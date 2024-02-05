@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <appDebugon.h>
 #include "drawUtilImpl.h"
-
 /************************************************************************/
 /*									*/
 /*  Allocate approximate colors.					*/

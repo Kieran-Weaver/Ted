@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include "utilIndexMapping.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Bookkeeping.							*/

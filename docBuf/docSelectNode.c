@@ -9,7 +9,6 @@
 #include "docBuf.h"
 #include "docTreeNode.h"
 #include "docNodeTree.h"
-
 /************************************************************************/
 /*									*/
 /*  Implementation of a 'Select All' menu option.			*/

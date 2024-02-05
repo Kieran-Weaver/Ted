@@ -5,11 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
-
 #include "psPrint.h"
 #include "psGlyphs.h"
 #include <utilTree.h>
@@ -22,7 +20,6 @@
 #include <ucdGeneralCategory.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  List the font names that appear in a document.			*/

@@ -11,7 +11,6 @@
 #include "drawImpl.h"
 #include "drawScreenFontAdmin.h"
 #include <appDebugon.h>
-
 int drawFontImplementationNameImpl(char *target, int maxlen,
 				   const NumberedPropertiesList *npl,
 				   int screenFont)

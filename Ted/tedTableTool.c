@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedTableTool.h"
 #include "tedAppFront.h"
 #include "tedToolUtil.h"
@@ -18,7 +16,6 @@
 #include <docEditCommand.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the 'Table' page of the format tool.			*/

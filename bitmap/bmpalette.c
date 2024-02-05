@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Expand a palette from one buffer to another one. Do it in such a	*/

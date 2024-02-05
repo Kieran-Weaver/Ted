@@ -10,7 +10,6 @@
 #include <utilDocFontList.h>
 #include <textAttribute.h>
 #include <psPostScriptFontList.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

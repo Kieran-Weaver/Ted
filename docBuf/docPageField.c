@@ -17,7 +17,6 @@
 #include "docParaParticules.h"
 #include "docRecalculateFields.h"
 #include <docTreeType.h>
-
 /************************************************************************/
 /*									*/
 /*  Evaluate page number related fields.				*/

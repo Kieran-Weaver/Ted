@@ -8,7 +8,6 @@
 #define DOC_TEXT_LINE_H
 
 #include "docLayoutPosition.h"
-
 /************************************************************************/
 /*									*/
 /*  Used to lay out the text on the page.				*/

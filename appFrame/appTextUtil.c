@@ -7,7 +7,6 @@
 #include "guiTextUtil.h"
 #include "guiWidgets.h"
 #include <geoString.h>
-
 /************************************************************************/
 /*									*/
 /*  Get a 'Length', or an 'integer' from a text widget.			*/

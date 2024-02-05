@@ -8,7 +8,6 @@
 #define RTF_SHP_TAB_H
 
 #include <docRtfReaderImpl.h>
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

@@ -8,19 +8,15 @@
 #define DOC_DOCUMENT_PROPERTIES_H
 
 #include <time.h>
-
 #include <utilPropMask.h>
 #include <utilPalette.h>
-
 #include <utilDocumentGeometry.h>
 #include <utilDocFontList.h>
 #include <utilColor.h>
 #include <utilMemoryBuffer.h>
-
 #include "docNotesProperties.h"
 #include "docListAdmin.h"
 #include "docDocumentAttributeMap.h"
-
 typedef enum DocumentProperty {
 	DPpropNONE = -1,
 

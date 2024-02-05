@@ -15,7 +15,6 @@
 #include <docDocumentNote.h>
 #include <docParaParticules.h>
 #include <docListDepth.h>
-
 /************************************************************************/
 /*									*/
 /*  Set the list number field at the head of a fresh paragraph.		*/

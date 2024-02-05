@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <bitmap.h>
-
 #include <appDebugon.h>
-
 #include "docRtfFlags.h"
 #include "docRtfTags.h"
 #include <docField.h>
@@ -20,7 +17,6 @@
 #include <docBookmarkField.h>
 #include <docTextParticule.h>
 #include <docDocumentNote.h>
-
 /************************************************************************/
 /*									*/
 /*  Finish/Begin writing a field.					*/

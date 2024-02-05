@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfWriterImpl.h"
-
 int docRtfSaveNotesProperties(
 	RtfWriter *rw, const PropertyMask *mask, const NotesProperties *np,
 	const int propMap[NOTESprop_COUNT], const char *startNrTag,

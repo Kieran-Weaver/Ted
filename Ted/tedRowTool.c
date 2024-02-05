@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include "tedRowTool.h"
 #include "tedAppFront.h"
 #include "tedToolUtil.h"
@@ -19,9 +17,7 @@
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the row page.						*/

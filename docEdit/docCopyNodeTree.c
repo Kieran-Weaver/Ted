@@ -14,7 +14,6 @@
 #include "docCopyNode.h"
 #include "docEdit.h"
 #include "docDocumentCopyJob.h"
-
 #define VALIDATE_TREE 0
 
 /************************************************************************/

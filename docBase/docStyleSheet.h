@@ -8,7 +8,6 @@
 #define DOC_STYLE_SHEET_H
 
 #include "docStyle.h"
-
 typedef struct DocumentStyleSheet {
 	DocumentStyle **dssStyles;
 	int dssStyleCount;

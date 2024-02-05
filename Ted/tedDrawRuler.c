@@ -1,14 +1,11 @@
 #include <config.h>
-
 #include <appMetricRuler.h>
 #include <appFrame.h>
 #include <docTabStop.h>
 #include <guiWidgetDrawingSurface.h>
 #include <guiDrawingWidget.h>
 #include "tedDrawRuler.h"
-
 #include <appDebugon.h>
-
 #define BACK_MARG(s) ((s) / 3)
 #define WHITE_TOP(s) BACK_MARG(s)
 #define WHITE_BOTTOM(s) ((s)-BACK_MARG(s))

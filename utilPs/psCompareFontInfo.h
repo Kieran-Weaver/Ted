@@ -9,7 +9,6 @@
 #define PS_CMP_FONT_INFO_H
 
 #include "psFontInfo.h"
-
 /************************************************************************/
 /*									*/
 /*  Declarations.							*/

@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedAppFront.h"
 #include "tedLinkTool.h"
 #include "tedToolUtil.h"
@@ -20,7 +18,6 @@
 #include <docEditCommand.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  A)  A Bookmark was chosen in the list.				*/

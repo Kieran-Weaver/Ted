@@ -13,7 +13,6 @@
 #include <docNodeTree.h>
 #include "docEditSetProperties.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 
 typedef struct CollectNodes {

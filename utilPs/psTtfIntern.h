@@ -1,7 +1,6 @@
 #include "psFontInfo.h"
 #include "psTtfTableEntry.h"
 #include "psTtfNameTable.h"
-
 /************************************************************************/
 /*									*/
 /*  True Type font.							*/

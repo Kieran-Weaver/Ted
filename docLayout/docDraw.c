@@ -1,5 +1,4 @@
 #include <config.h>
-
 #include "docDraw.h"
 #include <docPageGrid.h>
 #include "docLayout.h"
@@ -10,9 +9,7 @@
 #include <docNotes.h>
 #include <docDocumentNote.h>
 #include "docSelectLayout.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Generic Document drawing machinery.					*/

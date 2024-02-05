@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedDocFront.h"
 #include "tedDocument.h"
 #include "tedSelect.h"
 #include <docExpandedTextAttribute.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Get font properties of the current position or selection.		*/

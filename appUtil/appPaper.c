@@ -16,7 +16,6 @@
 #include "geoString.h"
 #include <sioFileio.h>
 #include <appDebugon.h>
-
 #if USE_LIBPAPER
 
 static int CalledPaperInit = 0;

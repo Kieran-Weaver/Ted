@@ -1,7 +1,5 @@
 #include <config.h>
-
 #include "uniLegacyEncoding.h"
-
 const char *const utilHtmlCharEntities[256] = {
 	"&#000;", /*	  0	*/
 	"&#001;", /*	  1	*/

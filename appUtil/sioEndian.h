@@ -2,7 +2,6 @@
 #define SIO_ENDIAN_H
 
 #include "sioGeneral.h"
-
 int sioEndianGetLeInt16(SimpleInputStream *);
 long sioEndianGetLeInt32(SimpleInputStream *);
 int sioEndianPutLeInt16(int, SimpleOutputStream *);

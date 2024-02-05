@@ -7,9 +7,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <limits.h>
 #include <math.h>
 
@@ -22,9 +20,7 @@
 #include <docTreeType.h>
 #include <docNodeTree.h>
 #include <docParaParticules.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 typedef struct PositionFindJob {

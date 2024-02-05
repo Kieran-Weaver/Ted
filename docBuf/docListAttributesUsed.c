@@ -9,7 +9,6 @@
 #include "docListFonts.h"
 #include "docShape.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Recursively retrieve the list of Document Fonts that is used in	*/

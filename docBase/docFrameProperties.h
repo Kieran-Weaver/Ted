@@ -8,7 +8,6 @@
 #define DOC_FRAME_PROPERTIES_H
 
 #include "docPropVal.h"
-
 typedef enum FrameWrapStyle {
 	FWSwrapWRAP = 0,
 	FWSwrapNOWRAP,

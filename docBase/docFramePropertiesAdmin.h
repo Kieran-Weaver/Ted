@@ -10,7 +10,6 @@
 #include "docFrameProperties.h"
 #include <utilIntegerValueNode.h>
 #include <utilNumberedPropertiesAdmin.h>
-
 typedef void (*FramePropertiesFunction)(const FrameProperties *fp, int n,
 					void *through);
 

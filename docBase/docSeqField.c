@@ -9,7 +9,6 @@
 #include "docSeqField.h"
 #include "docFieldFormat.h"
 #include "docDocumentField.h"
-
 /************************************************************************/
 
 void docInitSeqField(SeqField *sf)

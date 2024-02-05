@@ -5,16 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include "docDraw.h"
 #include "docLayout.h"
 #include <docShape.h>
-
 #include <appDebugon.h>
-
 int docDrawShapeGetFill(int *pFill, RGB8Color *rgb8, const DrawingShape *ds,
 			DrawingContext *dc, void *through)
 {

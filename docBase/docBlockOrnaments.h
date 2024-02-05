@@ -10,7 +10,6 @@
 #include <utilPropMask.h>
 #include "docBorderProperties.h"
 #include "docItemShading.h"
-
 typedef enum DrawOrnament {
 	ORNdrawSHADE = 0,
 

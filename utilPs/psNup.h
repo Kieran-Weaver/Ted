@@ -4,7 +4,6 @@
 #include <geo2DInteger.h>
 #include <utilDocumentGeometry.h>
 #include <geoAffineTransform.h>
-
 /************************************************************************/
 /*									*/
 /*  Position the pages of a document on successive sheets of paper.	*/

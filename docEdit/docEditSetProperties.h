@@ -8,10 +8,8 @@
 #define DOC_EDIT_SET_PROPS_H
 
 #include <stdio.h>
-
 #include <docBuf.h>
 #include "docEditOperation.h"
-
 typedef struct SetProperties {
 	EditOperation *spEditOperation;
 	int spRedoParaLayout;

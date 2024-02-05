@@ -9,7 +9,6 @@
 #include "docEditSetProperties.h"
 #include <docTreeNode.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Handle changes to the cell merge fields.				*/

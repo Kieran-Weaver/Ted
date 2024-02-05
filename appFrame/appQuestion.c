@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include "appQuestion.h"
-
 void appQuestionRunFilenameErrorDialog(EditApplication *ea, APP_WIDGET relative,
 				       APP_WIDGET option,
 				       const MemoryBuffer *filename,

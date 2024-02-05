@@ -1,14 +1,11 @@
 #include <config.h>
-
 #include <limits.h>
-
 #include "docLayout.h"
 #include <docBlockOrnaments.h>
 #include <docPageGrid.h>
 #include <docTreeNode.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static void docRowRectangleTwips(DocumentRectangle *drRow,

@@ -5,20 +5,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <sioFd.h>
-
 #include "docRtfTrace.h"
 #include "docEditCommand.h"
-
 #include <docRtfTraceImpl.h>
 #include <docRtfReaderImpl.h>
 #include <docTreeType.h>
 #include <docRtfTags.h>
 #include <docRtfFlags.h>
-
 /************************************************************************/
 
 static int docRtfReadVersion(const RtfControlWord *rcw, int arg, RtfReader *rrc)

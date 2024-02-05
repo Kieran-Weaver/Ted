@@ -5,18 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include <appUnit.h>
 #include <textConverter.h>
 #include <textConverterImpl.h>
 #include <docShape.h>
-
 #include "docRtfReaderImpl.h"
-
 /************************************************************************/
 /*									*/
 /*  Reset the attributes in an RtfReader to the defaults.	*/

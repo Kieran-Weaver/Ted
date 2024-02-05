@@ -10,7 +10,6 @@
 #include <docBuf.h>
 #include "docLayout.h"
 #include <utilIndexMapping.h>
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

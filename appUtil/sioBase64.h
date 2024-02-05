@@ -6,7 +6,6 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInBase64Open(SimpleInputStream *sisBase64);
 
 SimpleOutputStream *sioOutBase64Open(SimpleOutputStream *sosBase64);

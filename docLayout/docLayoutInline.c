@@ -6,20 +6,16 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include <psFontMetrics.h>
 #include "docLayout.h"
-
 #include <appDebugon.h>
 #include <docObjectProperties.h>
 #include <docTextLine.h>
 #include <docTreeNode.h>
 #include <docBorderPropertyAdmin.h>
 #include <docShape.h>
-
 /************************************************************************/
 /*									*/
 /*  Get font information.						*/

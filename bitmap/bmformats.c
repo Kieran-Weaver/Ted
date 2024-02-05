@@ -3,7 +3,6 @@
 #include <string.h>
 #include <appSystem.h>
 #include <appDebugon.h>
-
 static BitmapFileType bmBmpFile = {
 	bmWriteBmpFile,
 	bmCanWriteBmpFile,

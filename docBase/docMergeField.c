@@ -9,7 +9,6 @@
 #include "docDocumentField.h"
 #include "docMergeField.h"
 #include "docFieldFormat.h"
-
 void docInitMergeField(MergeField *mf)
 {
 	utilInitMemoryBuffer(&(mf->mfFieldName));

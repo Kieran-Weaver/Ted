@@ -12,7 +12,6 @@
 #include <geoAffineTransform.h>
 #include <psFontInfo.h>
 #include <bitmap.h>
-
 struct DrawingSurface;
 
 /************************************************************************/

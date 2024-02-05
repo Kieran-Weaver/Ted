@@ -10,7 +10,6 @@
 #include <sioGeneral.h>
 #include <utilMemoryBuffer.h>
 #include "psFontInfo.h"
-
 /************************************************************************/
 /*									*/
 /*  Declarations.							*/

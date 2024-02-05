@@ -2,7 +2,6 @@
 #define UTIL_ENDIAN_H
 
 #include <stdio.h>
-
 /************************************************************************/
 /*									*/
 /*  Pieces of 'endian' subroutines that are used internally in the code	*/

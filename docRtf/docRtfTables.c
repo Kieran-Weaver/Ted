@@ -6,11 +6,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
-
 int docRtfReadInfo(const RtfControlWord *rcw, int arg, RtfReader *rrc)
 {
 	int res;

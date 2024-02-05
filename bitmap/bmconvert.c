@@ -3,7 +3,6 @@
 #include "bmgetrow.h"
 #include "bmputrow.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Scaling, Dithering, Antialiassing.					*/

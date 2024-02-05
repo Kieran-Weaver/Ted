@@ -10,7 +10,6 @@
 #include <appDebugon.h>
 
 #include "psTtfIntern.h"
-
 /************************************************************************/
 /*									*/
 /*  Elementary bookeeping.						*/

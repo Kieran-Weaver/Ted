@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <docBuf.h>
 #include <docPageGrid.h>
 #include <docBlockFrame.h>
@@ -16,9 +14,7 @@
 #include <docTreeType.h>
 #include <docTreeNode.h>
 #include <docNodeTree.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Administrative routines: manage a block frame.			*/

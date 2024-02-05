@@ -8,10 +8,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "uniAlternatives.h"
 #include <appDebugon.h>
-
 typedef struct AlternativeChar {
 	int acFrom;
 	int acWith;

@@ -13,7 +13,6 @@
 #include "docNodeTree.h"
 #include <docTreeType.h>
 #include <docDocumentNote.h>
-
 /************************************************************************/
 /*									*/
 /*  Look for something in a document.					*/

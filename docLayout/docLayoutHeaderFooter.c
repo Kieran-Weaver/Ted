@@ -6,13 +6,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <docBuf.h>
 #include "docSelectLayout.h"
 #include <docTreeType.h>
-
 int docPositionNearHeadFoot(DocumentPosition *dpNew, int treeType,
 			    struct BufferItem *bodySectNode, BufferDocument *bd,
 			    int page)

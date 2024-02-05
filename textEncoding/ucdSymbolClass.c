@@ -1,5 +1,4 @@
 #include "ucdIntern.h"
-
 /************************************************************************/
 /*									*/
 /*  Map a character value to a class of symbol.				*/

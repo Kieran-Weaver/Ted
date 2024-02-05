@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedAppFront.h"
 #include "tedFormatTool.h"
@@ -18,7 +16,6 @@
 #include <docEditCommand.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Enter a predefined pattern in the format tool.			*/

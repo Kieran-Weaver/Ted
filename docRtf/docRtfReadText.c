@@ -5,20 +5,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include <uniUtf8.h>
-
 #include "docRtfReaderImpl.h"
 #include <docParaString.h>
 #include <textConverter.h>
 #include <textConverterImpl.h>
 #include <docParaParticules.h>
-
 /************************************************************************/
 /*									*/
 /*  Handle text..							*/

@@ -5,21 +5,17 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <iconv.h>
-
 #include "uniUtf8.h"
 #include <appDebugon.h>
-
 #include "textConverter.h"
 #include "textConverterImpl.h"
 #include <utilIndexMapping.h>
 #include "uniLegacyEncoding.h"
 #include "uniLegacyMapping.h"
-
 void textConverterSetNativeEncodingName(TextConverter *tc,
 					const char *encodingName)
 {

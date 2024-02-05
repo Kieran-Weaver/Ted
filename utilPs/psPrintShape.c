@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "psPrintShape.h"
 #include <geo2DInteger.h>
 #include <sioGeneral.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Print a rounded rectangle.						*/

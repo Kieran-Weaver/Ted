@@ -11,7 +11,6 @@
 #include "docDebug.h"
 #include "docParaParticules.h"
 #include "docField.h"
-
 #if 0
 
 Memory management of fields during editing:

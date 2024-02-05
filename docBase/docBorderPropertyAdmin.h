@@ -10,7 +10,6 @@
 #include "docBorderProperties.h"
 #include <utilIntegerValueNode.h>
 #include <utilNumberedPropertiesAdmin.h>
-
 typedef void (*BorderPropertiesFunction)(const BorderProperties *bp, int n,
 					 void *through);
 

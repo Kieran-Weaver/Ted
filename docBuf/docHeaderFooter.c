@@ -9,7 +9,6 @@
 #include "docBuf.h"
 #include "docTreeNode.h"
 #include <docTreeType.h>
-
 /************************************************************************/
 /*									*/
 /*  Kinds of Headers/Footers.						*/

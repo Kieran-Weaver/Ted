@@ -15,7 +15,6 @@
 #include "docRtfWriterImpl.h"
 #include "docRtfFlags.h"
 #include "docRtfTextConverter.h"
-
 /************************************************************************/
 /*									*/
 /*  Emit a string to the RTF output stream.				*/

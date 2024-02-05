@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedAppResources.h"
 #include "tedAppFront.h"
@@ -18,9 +16,7 @@
 #include <appUnit.h>
 #include <sioGeneral.h>
 #include <sioStdout.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static AppConfigurableResource TEDApplicationResourceTable[] = {

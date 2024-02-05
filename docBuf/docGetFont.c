@@ -11,7 +11,6 @@
 #include "docParaParticules.h"
 #include <docListLevel.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Get font properties of the current position.			*/

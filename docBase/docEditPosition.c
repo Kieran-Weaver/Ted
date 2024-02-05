@@ -8,7 +8,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "docEditPosition.h"
-
 void docInitEditPosition(EditPosition *ep)
 {
 	ep->epParaNr = -1;

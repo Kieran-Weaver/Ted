@@ -8,7 +8,6 @@
 #define APP_QUESTION_H
 
 #include "appFrame.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif

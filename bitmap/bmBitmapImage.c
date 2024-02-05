@@ -7,7 +7,6 @@
 #include <string.h>
 #include "bitmap.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Clean an image structure.						*/

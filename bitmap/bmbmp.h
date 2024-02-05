@@ -2,12 +2,10 @@
 #define BM_BMP_H
 
 #include <config.h>
-
 #include <stdio.h>
 #include "bmintern.h"
 #include <sioGeneral.h>
 #include <utilMemoryBuffer.h>
-
 /************************************************************************/
 /*									*/
 /*  Data structures.							*/

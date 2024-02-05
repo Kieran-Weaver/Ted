@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "docDraw.h"
-
 #include <docTextLine.h>
 #include <appDebugon.h>
 

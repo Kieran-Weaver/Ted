@@ -12,7 +12,6 @@
 #include <docBuf.h>
 #include <docNoteProperties.h>
 #include <docSelectionDescription.h>
-
 /************************************************************************/
 /*									*/
 /*  A note tool, i.e. the 'This Note' page of the format tool.		*/

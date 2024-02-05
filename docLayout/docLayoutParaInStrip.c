@@ -6,15 +6,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docTreeNode.h>
 #include <docTextLine.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Layout as much of a paragraph as fits on the current page		*/

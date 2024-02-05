@@ -5,16 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "ucd.h"
 #include "uniUtf8.h"
 #include "uniShiftUtf8.h"
 #include "ucdGeneralCategory.h"
 
 #include <appDebugon.h>
-
 static int uniShiftUtf8StringUp(char *to, int *segments, int segmentCount,
 				const char *from, int len)
 {

@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfWriterImpl.h"
 #include <docParaRulerAdmin.h>
 #include "docRtfTags.h"
-
 /************************************************************************/
 
 void docRtfSaveParaTableNesting(RtfWriter *rw, int nest)

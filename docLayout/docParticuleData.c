@@ -6,13 +6,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "docParticuleData.h"
-
 #include <appDebugon.h>
-
 void docInitParticuleData(ParticuleData *pd)
 {
 	pd->pdX0 = 0;

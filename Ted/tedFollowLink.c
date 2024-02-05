@@ -9,7 +9,6 @@
 #include "tedDocFront.h"
 #include "tedDocument.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Follow a link.							*/

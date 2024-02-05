@@ -1,8 +1,6 @@
 
 #include <stdlib.h>
-
 #include "psTtfTableEntry.h"
-
 #include <appDebugon.h>
 #include <sioEndian.h>
 

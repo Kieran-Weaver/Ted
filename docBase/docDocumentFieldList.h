@@ -8,7 +8,6 @@
 #define DOC_DOCUMENT_FIELD_LIST_H
 
 #include <utilPagedList.h>
-
 typedef struct DocumentFieldList {
 	PagedList dflPagedList;
 } DocumentFieldList;

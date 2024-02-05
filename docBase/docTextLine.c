@@ -7,7 +7,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "docTextLine.h"
-
 /************************************************************************/
 /*									*/
 /*  Set a text line to sensible defaults.				*/

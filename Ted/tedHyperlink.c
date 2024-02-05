@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedEdit.h"
 #include "tedDocFront.h"
 #include "tedDocument.h"
@@ -18,7 +16,6 @@
 #include <docEditCommand.h>
 
 #include <appDebugon.h>
-
 int tedDocSetHyperlink(EditDocument *ed, const HyperlinkField *hf, int traced)
 {
 	int rval = 0;

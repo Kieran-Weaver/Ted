@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedPageLayoutTool.h"
 #include <docTreeType.h>
 #include <guiToolUtil.h>
@@ -16,7 +14,6 @@
 #include <docEditCommand.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the page layout tool.					*/

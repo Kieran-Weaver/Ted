@@ -11,7 +11,6 @@
 #include <docBuf.h>
 #include "docEditOperation.h"
 #include <docDocumentAttributeMap.h>
-
 /************************************************************************/
 /*									*/
 /*  For copying information from one location to another. Possibly	*/

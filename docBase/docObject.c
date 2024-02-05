@@ -11,7 +11,6 @@
 #include <appDebugon.h>
 #include "docObject.h"
 #include "docObjectProperties.h"
-
 /************************************************************************/
 /*									*/
 /*  Manage inserted objects.						*/

@@ -9,11 +9,9 @@
 #define DOC_OBJECT_H
 
 #include <utilMemoryBuffer.h>
-
 #include <bitmap.h>
 #include "docLayoutPosition.h"
 #include "docPictureProperties.h"
-
 struct DrawingSurface;
 struct BufferDocument;
 struct BufferItem;

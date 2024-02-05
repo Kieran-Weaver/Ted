@@ -8,7 +8,6 @@
 #define DOC_DEBUG_LIST_NUMBER_TREE_H
 
 #include "docListNumberTree.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

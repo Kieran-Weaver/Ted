@@ -5,18 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
 #include <limits.h>
-
 #include <appDebugon.h>
-
 #include "psFontFamily.h"
 #include "psDocumentFontStyle.h"
 #include "psPostScriptFontList.h"
 #include "textAttribute.h"
 #include "psMatchFont.h"
-
 /************************************************************************/
 
 #define SHOW_MISSING 0

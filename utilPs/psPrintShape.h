@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <sioGeneral.h>
 #include <geo2DInteger.h>
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

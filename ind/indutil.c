@@ -5,12 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "ind.h"
 #include <string.h>
 #include <sioGeneral.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Move a word from forgotten to learnt, or the other way round.	*/

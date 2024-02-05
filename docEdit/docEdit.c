@@ -15,7 +15,6 @@
 #include "docEditImpl.h"
 #include <docField.h>
 #include <docParaParticules.h>
-
 #define DEB_PARTICULES 0
 #define SHOW_SELECTION_RANGE 0
 

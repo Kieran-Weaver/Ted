@@ -9,11 +9,9 @@
 #include <geo2DInteger.h>
 #include "drawImpl.h"
 #include <appDebugon.h>
-
 #ifdef USE_XFT
 
 #include "drawImplXft.h"
-
 int drawStringXft(const DrawScreenFont *dsf, AppXftColorList *axcl, int x,
 		  int y, const char *s, int len)
 {

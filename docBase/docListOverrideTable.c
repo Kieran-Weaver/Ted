@@ -9,7 +9,6 @@
 #include <appDebugon.h>
 #include "docListOverride.h"
 #include "docListOverrideTable.h"
-
 void docInitListOverrideTable(ListOverrideTable *lot)
 {
 	lot->lotOverrides = (ListOverride *)0;

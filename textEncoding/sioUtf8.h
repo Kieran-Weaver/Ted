@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include <sioGeneral.h>
-
 extern int sioInGetUtf8(SimpleInputStream *sis);
 
 extern int sioOutPutUtf8(int symbol, SimpleOutputStream *sos);

@@ -6,14 +6,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docTreeNode.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Find the top of group of vertically merged cells.			*/

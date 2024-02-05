@@ -5,19 +5,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include "docLayout.h"
 #include <docPageGrid.h>
 #include <docTreeType.h>
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include <docTreeScanner.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Initialize a layout job.						*/

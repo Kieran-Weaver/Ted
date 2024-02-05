@@ -9,7 +9,6 @@
 #include "docBuf.h"
 #include "docRecalculateFields.h"
 #include "docEvalField.h"
-
 /************************************************************************/
 /*									*/
 /*  Evaluate a 'HYPERLINK' field.					*/

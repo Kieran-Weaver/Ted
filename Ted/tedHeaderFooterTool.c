@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedHeaderFooterTool.h"
 #include "tedAppFront.h"
 #include <guiToolUtil.h>
@@ -15,9 +13,7 @@
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Set all the controls on the Header/Footer tool, to reflect the	*/

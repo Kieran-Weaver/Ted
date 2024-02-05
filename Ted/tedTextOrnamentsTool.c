@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedTextOrnamentsTool.h"
 #include "tedToolUtil.h"
 #include "tedAppFront.h"
@@ -16,7 +14,6 @@
 #include <docEditCommand.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the controls on the paragraph properties page.		*/

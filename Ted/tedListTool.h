@@ -16,7 +16,6 @@
 #include <docListLevel.h>
 #include <docDocumentList.h>
 #include <docListOverride.h>
-
 #define LISTTOOLcountSTYLES 8
 
 /************************************************************************/

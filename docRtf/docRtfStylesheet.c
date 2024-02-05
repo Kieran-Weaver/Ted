@@ -6,11 +6,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
-
 /************************************************************************/
 /*									*/
 /*  Consume the style name in the stylesheet of a document. It comes	*/

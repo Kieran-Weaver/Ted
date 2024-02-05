@@ -1,10 +1,8 @@
 #include "docBuf.h"
-
 #ifndef DOC_RECALCULATE_FIELDS_H
 #define DOC_RECALCULATE_FIELDS_H
 
 #include "docBuf.h"
-
 /************************************************************************/
 /*									*/
 /*  Pass through information for recalculating fields.			*/

@@ -8,7 +8,6 @@
 #define APP_SYSTEM_H
 
 #include <utilMemoryBuffer.h>
-
 typedef int (*FILE_CALLBACK)(const MemoryBuffer *name, void *through);
 
 typedef void (*APP_COMPLAIN)(void *through, int errorId,

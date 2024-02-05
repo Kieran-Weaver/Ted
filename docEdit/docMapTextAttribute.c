@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <docExpandedTextAttribute.h>
-
 #include <docBuf.h>
 #include "docDocumentCopyJob.h"
-
 /************************************************************************/
 /*									*/
 /*  Map text attribute numbers from one document to another document.	*/

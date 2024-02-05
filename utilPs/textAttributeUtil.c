@@ -5,11 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "textAttributeUtil.h"
 #include <geoGrid.h>
 #include "psFontInfo.h"
-
 /************************************************************************/
 /*									*/
 /*  Translate twips to pixels.						*/

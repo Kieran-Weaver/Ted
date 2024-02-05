@@ -7,7 +7,6 @@
 #include <docTocField.h>
 #include <docBlockFrame.h>
 #include <docListDepth.h>
-
 #ifndef DOC_CALCULATE_TOC_H
 #define DOC_CALCULATE_TOC_H
 

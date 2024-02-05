@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "tedBookmarkList.h"
 #include "tedAppFront.h"
 #include <guiTextUtil.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 void tedInitBookmarkList(BookmarkList *bl)

@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docTreeNode.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Layout of a stack of contiguous table rows.				*/

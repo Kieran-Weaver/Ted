@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <utilMemoryBufferPrintf.h>
 #include "psPrint.h"
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Print Pdf through ghostscript.					*/

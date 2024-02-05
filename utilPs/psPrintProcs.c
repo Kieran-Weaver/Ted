@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "psPrint.h"
 #include <sioGeneral.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Emulate the PS level 2 rectfill operator (for 1 rectangle only)	*/

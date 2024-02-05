@@ -8,10 +8,8 @@
 #define APP_SPELL_TOOL_H
 
 #include <indSpellChecker.h>
-
 #include "appFrame.h"
 #include "appInspector.h"
-
 typedef struct LocaleName {
 	const char *lnLocale;
 	const char *lnLocaleName;

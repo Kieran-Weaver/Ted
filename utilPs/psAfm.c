@@ -1,13 +1,9 @@
 #include <config.h>
-
 #include <string.h>
-
 #include <sioGeneral.h>
 #include "psFontInfo.h"
 #include "psReadWriteFontInfo.h"
-
 #include <appDebugon.h>
-
 void psWriteFontInfoDict(SimpleOutputStream *sos, const AfmFontInfo *afi)
 {
 	sioOutPrintf(sos, "/FontInfo 10 dict dup begin\n");

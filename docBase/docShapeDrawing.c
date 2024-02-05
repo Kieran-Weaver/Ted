@@ -11,7 +11,6 @@
 #include "docShapeProp.h"
 #include "docShapeDrawing.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Initialize/Clean a shape arrow.					*/

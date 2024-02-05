@@ -5,19 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <appUnit.h>
-
 #include "tedHeightTool.h"
 #include "tedToolUtil.h"
 #include <guiToolUtil.h>
 #include <guiTextUtil.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Enable a height chooser.						*/

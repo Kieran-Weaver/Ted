@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <psShading.h>
 #include <appDebugon.h>
-
 #include "docRtfWriterImpl.h"
-
 /************************************************************************/
 /*									*/
 /*  Save border definition.						*/

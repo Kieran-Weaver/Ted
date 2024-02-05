@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include "utilBase64.h"
-
 const char UTIL_Base64Digits[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 				 "abcdefghijklmnopqrstuvwxyz"
 				 "0123456789+/";

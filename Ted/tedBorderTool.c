@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedDraw.h"
 #include "tedBorderTool.h"
 #include <guiToolUtil.h>

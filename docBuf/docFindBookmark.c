@@ -7,7 +7,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "docBuf.h"
-
 int docFindBookmarkInDocument(DocumentSelection *dsInside, int *pHeadPart,
 			      int *pTailPart, const BufferDocument *bd,
 			      const MemoryBuffer *markName)

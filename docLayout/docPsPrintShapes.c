@@ -5,23 +5,17 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <math.h>
-
 #include <sioGeneral.h>
 #include <geo2DDouble.h>
 #include <psPrintShape.h>
 #include <docObjectProperties.h>
 #include <docShape.h>
 #include <docDrawShapeArrow.h>
-
 #include "docDraw.h"
 #include "docPsPrintImpl.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Include procedures to draw the paths that make up the simple shapes	*/

@@ -24,7 +24,6 @@
 #include <dirent.h>
 #include "appSystem.h"
 #include <appDebugon.h>
-
 #ifdef NeXT
 #include <libc.h>
 #endif

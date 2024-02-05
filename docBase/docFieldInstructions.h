@@ -8,7 +8,6 @@
 #define DOC_FIELD_INSTRUCTIONS_H
 
 #include <utilMemoryBuffer.h>
-
 typedef struct InstructionsComponent {
 	MemoryBuffer icBuffer;
 	unsigned char icIsFlag;

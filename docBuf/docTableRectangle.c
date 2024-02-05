@@ -11,7 +11,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "docBuf.h"
-
 /************************************************************************/
 /*									*/
 /*  Initialise a Table Rectangle.					*/

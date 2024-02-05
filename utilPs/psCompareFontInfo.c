@@ -1,13 +1,8 @@
 #include <config.h>
-
 #include <string.h>
-
 #include <math.h>
-
 #include "psCompareFontInfo.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Compare two font info's						*/

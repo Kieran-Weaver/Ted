@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedEdit.h"
 #include <docRtfTrace.h>
@@ -16,9 +14,7 @@
 #include <appFrame.h>
 #include <docEditCommand.h>
 #include <docParaParticules.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Wrapper around docIncludeDocument(): More relayout admin.		*/

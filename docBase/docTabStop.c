@@ -11,7 +11,6 @@
 #include "docTabStop.h"
 #include "docTabStopList.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Initialise a tab stop.						*/

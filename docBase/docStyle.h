@@ -8,13 +8,11 @@
 #define DOC_STYLE_H
 
 #include <utilPropMask.h>
-
 #include "docSectProperties.h"
 #include "docRowProperties.h"
 #include "docParaProperties.h"
 #include "docParaNumber.h"
 #include "docDocumentAttributeMap.h"
-
 /************************************************************************/
 /*									*/
 /*  Styles in a document.						*/

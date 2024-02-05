@@ -8,14 +8,10 @@
 #define APP_MARGIN_TOOL_H
 
 #include <stdio.h>
-
 #include "appGuiBase.h"
-
 #include <utilPropMask.h>
-
 #include <geo2DInteger.h>
 #include <utilDocumentGeometry.h>
-
 typedef struct AppMarginTool {
 	APP_WIDGET amtMarginFrame;
 	APP_WIDGET amtInsideWidget;

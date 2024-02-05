@@ -5,20 +5,16 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdio.h>
 #include <stddef.h>
 #include <limits.h>
-
 #include "tedImageTool.h"
 #include "tedAppFront.h"
 #include <guiToolUtil.h>
 #include <guiTextUtil.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
 #include <docObjectProperties.h>
-
 /************************************************************************/
 /*									*/
 /*  Get/Set absolute values for the dimensions by translating from/to	*/

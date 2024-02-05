@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include "docRtfReadWrite.h"
 #include "docRtfTagEnum.h"
@@ -17,7 +15,6 @@
 #include <docTreeNode.h>
 #include <docNotes.h>
 #include <docDebug.h>
-
 /************************************************************************/
 
 const char DOC_RTF_LENIENT_MESSAGE[] = "Use lenientRtf setting";

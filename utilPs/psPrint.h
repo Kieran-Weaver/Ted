@@ -10,7 +10,6 @@
 #include <utilColor.h>
 #include <utilMemoryBuffer.h>
 #include "psPostScriptFontList.h"
-
 /************************************************************************/
 /*									*/
 /*  The state of a printing job.					*/

@@ -1,14 +1,11 @@
 #include <config.h>
-
 #include "docDraw.h"
 #include "docLayout.h"
 #include <docTreeType.h>
 #include <docTreeNode.h>
 #include <docNotes.h>
 #include <docDocumentNote.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Draw external items such as headers/footers/footnotes/endnotes.	*/

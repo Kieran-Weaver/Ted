@@ -9,7 +9,6 @@
 #include <docTabStop.h>
 #include <docTabStopList.h>
 #include "tedColumnSeparator.h"
-
 typedef struct TedTopRuler {
 	RulerData ttrRulerData;
 	double ttrMagnification;

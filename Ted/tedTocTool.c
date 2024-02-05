@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <stddef.h>
-
 #include <utilTree.h>
-
 #include "tedAppFront.h"
 #include "tedTocTool.h"
 #include <docField.h>
@@ -20,7 +16,6 @@
 #include <docNodeTree.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the 'Table of Contents' page of the format tool.		*/

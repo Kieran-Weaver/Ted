@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <docEvalField.h>
-
 #include "tedThisNoteTool.h"
 #include "tedAppFront.h"
 #include <docTreeType.h>
@@ -21,9 +18,7 @@
 #include <docDocumentNote.h>
 #include <docNotes.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the 'This Note' page of the format tool.			*/

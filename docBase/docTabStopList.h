@@ -8,7 +8,6 @@
 #define DOC_TAB_STOP_LIST_H
 
 #include "docTabStop.h"
-
 typedef struct TabStopList {
 	TabStop *tslTabStops;
 	short int tslTabStopCount;

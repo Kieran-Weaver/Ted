@@ -1,14 +1,11 @@
 #include <config.h>
-
 #include "docLayout.h"
 #include <docTreeType.h>
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include "docScreenLayout.h"
 #include "docDescribeSetSelection.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Describe what is to be done because a new selection is set in a	*/

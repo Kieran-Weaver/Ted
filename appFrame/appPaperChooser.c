@@ -11,7 +11,6 @@
 #include "appPaperChooser.h"
 #include "guiWidgets.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Turn on or off							*/

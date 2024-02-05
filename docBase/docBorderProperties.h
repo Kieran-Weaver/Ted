@@ -10,7 +10,6 @@
 #include <utilPropMask.h>
 #include <utilColor.h>
 #include <utilPalette.h>
-
 /************************************************************************/
 /*									*/
 /*  Border Styles: How they are drawn.					*/

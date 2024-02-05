@@ -19,7 +19,6 @@
 #include "guiDrawPage.h"
 #include "drawDrawingSurfacePrivate.h"
 #include "guiTextUtil.h"
-
 #define DRH_MM 32
 
 /************************************************************************/

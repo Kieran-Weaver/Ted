@@ -6,14 +6,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include "docRtfTagEnum.h"
-
 /************************************************************************/
 /*									*/
 /*  Consume the description of a Paragraph Numbering level for a	*/

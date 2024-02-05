@@ -1,5 +1,4 @@
 #include "uniLegacyEncoding.h"
-
 const int uniKoi8RGlyphUnicodes[256] = {
 	-1, /*    0				*/
 	-1, /*    1				*/

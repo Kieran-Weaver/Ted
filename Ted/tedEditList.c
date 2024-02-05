@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedEdit.h"
 #include "tedDocFront.h"
 #include "tedSelect.h"
@@ -15,9 +13,7 @@
 #include <docRtfTrace.h>
 #include <docEditImpl.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Change the properties of the list where the selection starts.	*/

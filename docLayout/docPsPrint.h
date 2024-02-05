@@ -10,7 +10,6 @@
 #include <sioGeneral.h>
 #include "layoutContext.h"
 #include <docBuf.h>
-
 struct PrintGeometry;
 
 /************************************************************************/

@@ -15,7 +15,6 @@
 #include "docParaParticules.h"
 #include <docTreeType.h>
 #include <docDocumentNote.h>
-
 /************************************************************************/
 /*									*/
 /*  Manage Footnotes/Endnotes.						*/

@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docParaParticules.h>
 #include <docRtfTrace.h>
 #include <docLayout.h>
@@ -15,9 +13,7 @@
 #include <docEditCommand.h>
 #include "tedEdit.h"
 #include "tedDocFront.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Split a paragraph.							*/

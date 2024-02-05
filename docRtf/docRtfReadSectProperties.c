@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include <docTreeType.h>
 #include <docTreeNode.h>
-
 /************************************************************************/
 /*									*/
 /*  Handle a section property when reading RTF.				*/

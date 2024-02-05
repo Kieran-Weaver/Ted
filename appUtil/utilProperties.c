@@ -14,7 +14,6 @@
 #include "utilTree.h"
 #include "utilProperties.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Read a file with properties.					*/

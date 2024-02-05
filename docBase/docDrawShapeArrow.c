@@ -9,7 +9,6 @@
 #include <geoAffineTransform.h>
 #include "docDrawShapeArrow.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Return sizes for arrows in twips.					*/

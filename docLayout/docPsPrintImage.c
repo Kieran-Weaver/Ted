@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <sioMemory.h>
 #include <sioHex.h>
 
@@ -19,7 +17,6 @@
 #include "docLayoutObject.h"
 
 #include <appDebugon.h>
-
 static int psPrintIncludeEpsObject(PrintingState *ps, InsertedObject *io,
 				   int x0, int baseLine)
 {

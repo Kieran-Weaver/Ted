@@ -12,7 +12,6 @@
 #include <appInspector.h>
 #include <docSelectionDescription.h>
 #include <docSelectionGeometry.h>
-
 /************************************************************************/
 /*									*/
 /*  A Header/Footer Tool. I.E. The header footer page on the 'Format	*/

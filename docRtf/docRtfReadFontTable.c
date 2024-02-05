@@ -6,14 +6,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include "docRtfTagEnum.h"
-
 /************************************************************************/
 
 void docRtfRestartFont(RtfReader *rrc)

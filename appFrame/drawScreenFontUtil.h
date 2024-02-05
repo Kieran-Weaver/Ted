@@ -2,7 +2,6 @@
 #define DRAW_SCREEN_FONT_UTIL_H
 
 #include <drawDrawingSurface.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

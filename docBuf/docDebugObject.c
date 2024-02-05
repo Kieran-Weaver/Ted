@@ -7,7 +7,6 @@
 #include <docObjectProperties.h>
 #include <docTextParticule.h>
 #include <appDebugon.h>
-
 static int docListObject(int n, void *vio, void *through)
 {
 	InsertedObject *io = (InsertedObject *)vio;

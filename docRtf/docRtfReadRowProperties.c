@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
-
 /************************************************************************/
 /*									*/
 /*  Handle a row property when reading RTF.				*/

@@ -8,10 +8,8 @@
 #define GUI_TEXT_UTIL_H
 
 #include <stdio.h>
-
 #include "appGuiBase.h"
 #include <utilMemoryBuffer.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

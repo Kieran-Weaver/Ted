@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedAppFront.h"
 #include "tedSelect.h"
@@ -15,9 +13,7 @@
 #include "tedDocument.h"
 #include <docDescribeSetSelection.h>
 #include <docParaParticules.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Is the selection exactly an object.					*/

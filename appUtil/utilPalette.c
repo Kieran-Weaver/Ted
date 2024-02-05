@@ -3,7 +3,6 @@
 #include <string.h>
 #include "utilPalette.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Initialize a palette.						*/

@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include <psFontMetrics.h>
 #include <docPageGrid.h>
 #include "docLayout.h"
@@ -21,9 +19,7 @@
 #include <docDebug.h>
 #include <docTextParticule.h>
 #include <docPropertiesAdmin.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static int docGetParaTopBorder(BorderProperties *bpTop, int *pNrAbove,

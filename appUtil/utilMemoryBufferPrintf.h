@@ -8,7 +8,6 @@
 #define UTIL_MB_PRINTF
 
 #include "utilMemoryBuffer.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

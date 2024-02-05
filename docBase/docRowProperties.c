@@ -9,7 +9,6 @@
 #include <appDebugon.h>
 #include "docRowProperties.h"
 #include "docPropVal.h"
-
 /************************************************************************/
 
 static const int DocRowIntProperties[] = {

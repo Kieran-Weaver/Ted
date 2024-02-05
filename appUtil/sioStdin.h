@@ -8,5 +8,4 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInStdinOpen(void);

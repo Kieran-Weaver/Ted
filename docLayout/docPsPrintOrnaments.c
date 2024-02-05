@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docDraw.h"
 #include "docPsPrintImpl.h"
 #include <psShading.h>
-
 #include <appDebugon.h>
-
 #define SHOW_PAGE_GRID 0
 
 /************************************************************************/

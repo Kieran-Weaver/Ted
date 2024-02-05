@@ -3,19 +3,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <stddef.h>
-
 #include <appDebugon.h>
-
 #include <guiTextUtil.h>
 #include <docStatistics.h>
 #include "tedApp.h"
 #include "tedDocFront.h"
 #include "tedDocument.h"
-
 #define DRH_CM 4.5
 
 /************************************************************************/

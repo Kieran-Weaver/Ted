@@ -7,7 +7,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "docDocumentList.h"
-
 /************************************************************************/
 /*									*/
 /*  Individual lists.							*/

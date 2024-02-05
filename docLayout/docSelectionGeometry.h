@@ -2,7 +2,6 @@
 #define DOC_SELECTION_GEOMETRY_H
 
 #include <docLayoutPosition.h>
-
 /*  2  */
 typedef struct PositionGeometry {
 	int pgLine;

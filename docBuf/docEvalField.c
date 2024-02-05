@@ -19,7 +19,6 @@
 #include "docTreeScanner.h"
 #include "docDebug.h"
 #include "docRecalculateFields.h"
-
 /************************************************************************/
 /*									*/
 /*  Manage fields.							*/

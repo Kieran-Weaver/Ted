@@ -7,7 +7,6 @@
 #include <config.h>
 #include "docShape.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 
 #define sva(x) sizeof(x) / sizeof(Point2DI), x

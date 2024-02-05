@@ -9,7 +9,6 @@
 #include <string.h>
 #include "sioGeneral.h"
 #include <appDebugon.h>
-
 static int sioOutWriteBuffer(SimpleOutputStream *sos, const unsigned char *b,
 			     int n)
 {

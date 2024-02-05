@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appIcons.h>
 #include "tedApp.h"
-
 #include "tedmain.xpm"
 #include "tedabout.xpm"
-
 static NamedPicture TEDPictures[] = {
 	{ "tedmain", tedmain_xpm, NULL, NULL },
 	{ "tedabout", tedabout_xpm, NULL, NULL },

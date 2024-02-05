@@ -2,9 +2,7 @@
 #define DRAW_COLORS_H
 
 #include "appGuiBase.h"
-
 #include <bmcolor.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

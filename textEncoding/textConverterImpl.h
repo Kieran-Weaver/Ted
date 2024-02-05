@@ -8,7 +8,6 @@
 #define TEXT_CONVERTER_IMPL_H
 
 #include "textConverter.h"
-
 struct TextConverterImpl; /*  read iconv_t */
 
 typedef struct TextConverter {

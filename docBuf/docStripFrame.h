@@ -9,7 +9,6 @@
 #define DOC_STRIP_FRAME_H
 
 #include <geo2DInteger.h>
-
 /************************************************************************/
 /*									*/
 /*  The frame in which a series of successive lines in a paragraph is	*/

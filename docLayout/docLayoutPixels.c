@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <geoGrid.h>
 #include <docDebug.h>
 #include <docTreeNode.h>
 #include <docTreeType.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 int docLayoutYPixels(const LayoutContext *lc, const LayoutPosition *lp)

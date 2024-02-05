@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfWriterImpl.h"
 #include "docRtfReaderImpl.h"
 #include "docRtfTags.h"
-
 /************************************************************************/
 /*									*/
 /*  Save a tab stop.							*/

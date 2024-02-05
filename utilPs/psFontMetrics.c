@@ -4,13 +4,10 @@
 /*									*/
 /************************************************************************/
 #include <config.h>
-
 #include "psFontMetrics.h"
 #include <uniUtf8.h>
 #include <ucdGeneralCategory.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Calculate the width of a string.					*/

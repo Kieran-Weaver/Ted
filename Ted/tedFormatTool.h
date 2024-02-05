@@ -33,7 +33,6 @@
 #include <docSelectionDescription.h>
 
 #include <appRgbChooserPage.h>
-
 /************************************************************************/
 /*									*/
 /*  The different pages in a Format tool:				*/

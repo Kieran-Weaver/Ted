@@ -8,14 +8,11 @@
 #define DOC_BUF_H
 
 #include <time.h>
-
 #include <bitmap.h>
 #include <psPostScriptFontList.h>
 #include <geo2DInteger.h>
 #include <utilMemoryBuffer.h>
-
 #include <docFramePropertiesAdmin.h>
-
 #include <docStyleSheet.h>
 #include <docDocumentProperties.h>
 #include <docDocumentFieldList.h>
@@ -25,10 +22,8 @@
 #include "docSelect.h"
 #include "docDocumentTree.h"
 #include <docListTable.h>
-
 #include <docEditPosition.h>
 #include <docEditRange.h>
-
 /************************************************************************/
 /*									*/
 /*  Forward declarations of structs.					*/

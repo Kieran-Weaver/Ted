@@ -9,7 +9,6 @@
 #include "docObjectProperties.h"
 #include "docPictureProperties.h"
 #include <appDebugon.h>
-
 void docInitPictureProperties(PictureProperties *pip)
 {
 	pip->pipType = DOCokUNKNOWN;

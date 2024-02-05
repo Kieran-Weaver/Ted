@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedEdit.h"
 #include "tedSelect.h"
 #include "tedDocFront.h"
@@ -15,9 +13,7 @@
 #include <docEditImpl.h>
 #include <docTreeNode.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Delete the current row.						*/

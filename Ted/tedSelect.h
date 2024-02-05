@@ -5,7 +5,6 @@
 #include <docBuf.h>
 #include <docSelectionGeometry.h>
 #include <docSelectionDescription.h>
-
 struct EditDocument;
 
 /************************************************************************/

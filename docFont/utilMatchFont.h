@@ -10,7 +10,6 @@
 #include "utilDocFontList.h"
 #include <psPostScriptFontList.h>
 #include <textAttribute.h>
-
 /************************************************************************/
 
 typedef const AfmFontInfo *(*GetFontForAttribute)(

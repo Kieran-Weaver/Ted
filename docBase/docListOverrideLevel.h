@@ -8,7 +8,6 @@
 #define DOC_LIST_OVERRIDE_LEVEL_H
 
 #include "docListLevel.h"
-
 typedef struct ListOverrideLevel {
 	unsigned char lolOverrideStartAt;
 	unsigned char lolOverrideFormat;

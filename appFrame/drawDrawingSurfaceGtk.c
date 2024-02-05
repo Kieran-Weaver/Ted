@@ -406,7 +406,6 @@ int drawString(struct DrawingSurface *ds, int x0, int y0, int screenFont,
 }
 
 #include <gdk/gdkx.h>
-
 int drawOpenScreenFont(struct DrawingSurface *ds, const AfmFontInfo *afi,
 		       int pixelSize, const IndexSet *unicodesWanted)
 {

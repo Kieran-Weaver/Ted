@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <limits.h>
-
 #include "bidiTree.h"
 #include "bidiEmbedding.h"
-
 #include <appDebugon.h>
-
 void bidiInitTreeNode(BidiNode *bn)
 {
 	bn->bnFrom = 0;

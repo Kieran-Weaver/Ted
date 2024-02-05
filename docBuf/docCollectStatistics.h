@@ -9,7 +9,6 @@
 #define DOC_COLLECT_STATISTICS_H
 
 #include <docStatistics.h>
-
 struct BufferDocument;
 
 /************************************************************************/

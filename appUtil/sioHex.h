@@ -6,7 +6,6 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInHexOpen(SimpleInputStream *sisHex);
 
 SimpleOutputStream *sioOutHexOpenFolded(SimpleOutputStream *sosHex, int wide,

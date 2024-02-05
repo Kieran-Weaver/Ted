@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedEdit.h"
 #include "tedDocFront.h"
 #include "tedDocument.h"
@@ -17,9 +15,7 @@
 #include <docTreeNode.h>
 #include <docParaParticules.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Insert a table into the document.					*/

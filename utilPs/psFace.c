@@ -5,19 +5,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
 #include <utilTree.h>
 #include "psFace.h"
 #include "psGlyphs.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Find out what pages in a postscipt face are used.			*/

@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docSelectionGeometry.h"
-
 /************************************************************************/
 /*									*/
 /*  Initialise Position/Selection.					*/

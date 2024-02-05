@@ -3,7 +3,6 @@
 #include "sioEndian.h"
 #include "utilEndian.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Output.								*/

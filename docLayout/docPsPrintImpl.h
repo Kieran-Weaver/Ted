@@ -9,7 +9,6 @@
 #include <docBuf.h>
 #include "docDraw.h"
 #include "docParticuleData.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

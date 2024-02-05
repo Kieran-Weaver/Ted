@@ -9,7 +9,6 @@
 #include <utilPropMask.h>
 #include "docTreeType.h"
 #include "docNoteProperties.h"
-
 void docInitNoteProperties(NoteProperties *np)
 {
 	utilInitMemoryBuffer(&(np->npFixedText));

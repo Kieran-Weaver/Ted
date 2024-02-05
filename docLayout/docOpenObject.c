@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <sioMemory.h>
 #include <sioHex.h>
 #include "docLayoutObject.h"
-
 #include <appDebugon.h>
-
 #include <docBuf.h>
 #include <docPageGrid.h>
 #include <docTreeNode.h>
@@ -20,7 +17,6 @@
 #include <docShape.h>
 #include <docObjectProperties.h>
 #include <bmio.h>
-
 /************************************************************************/
 /*									*/
 /*  Make the bitmap for an image.					*/

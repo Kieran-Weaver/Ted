@@ -11,7 +11,6 @@
 #include "docParaParticules.h"
 #include "docParaString.h"
 #include "docNodeTree.h"
-
 #define DOCisADMINISTRATIVE(k) \
 	((k) == DOCkindFIELDHEAD || (k) == DOCkindFIELDTAIL)
 

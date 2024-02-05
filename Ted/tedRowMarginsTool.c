@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <appUnit.h>
-
 #include "tedRowMarginsTool.h"
 #include "tedToolUtil.h"
 #include <docTreeNode.h>
@@ -18,9 +15,7 @@
 #include <docPageGrid.h>
 #include <guiToolUtil.h>
 #include <guiTextUtil.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Get the left indentation of the row from the margins tool.		*/

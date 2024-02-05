@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docBuf.h>
 #include "docLayout.h"
 #include <docPageGrid.h>
@@ -16,7 +14,6 @@
 #include <docNodeTree.h>
 
 #include <appDebugon.h>
-
 void docLayoutBlockFrame(BlockFrame *bf, BufferItem *node, const LayoutJob *lj,
 			 int page, int column)
 {

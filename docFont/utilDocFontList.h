@@ -8,7 +8,6 @@
 #define DOC_FONT_LIST_H
 
 #include "utilDocFont.h"
-
 typedef struct DocFontSort {
 	int arrayIndex;
 	int sortIndex;

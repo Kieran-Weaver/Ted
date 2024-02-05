@@ -11,7 +11,6 @@
 #include <docLayout.h>
 #include <docSelectionDescription.h>
 #include <drawDrawingSurface.h>
-
 struct EditDocument;
 struct TedDocument;
 

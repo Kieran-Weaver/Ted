@@ -1,17 +1,13 @@
 #include <config.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
 #include "tedRuler.h"
 #include <appFrame.h>
 #include <appRuler.h>
 #include <guiWidgetDrawingSurface.h>
 #include <guiDrawingWidget.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Bottom Ruler..							*/

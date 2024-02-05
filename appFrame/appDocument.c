@@ -15,7 +15,6 @@
 #include "appFileChooser.h"
 #include "utilMemoryBufferPrintf.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Callback for the file menu.						*/

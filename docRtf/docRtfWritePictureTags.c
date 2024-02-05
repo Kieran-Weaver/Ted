@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <docObjectProperties.h>
 #include <geoUnits.h>
 #include "docRtfWriterImpl.h"
-
 /************************************************************************/
 /*									*/
 /*  Write the tags that describe the geometry of a picture object.	*/

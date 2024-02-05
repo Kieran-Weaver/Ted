@@ -8,7 +8,6 @@
 #define GUI_WIDGETS_GTK_H
 
 #include "appGuiBase.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif

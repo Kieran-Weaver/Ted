@@ -21,7 +21,6 @@
 #include <geoString.h>
 #include <utilArgToX.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Retrieve configurable resource values from the GUI environment.	*/

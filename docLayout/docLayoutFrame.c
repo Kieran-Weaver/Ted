@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docPageGrid.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Resolve X position of frame						*/

@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <docTreeType.h>
 #include <docTreeNode.h>
 #include "docRtfWriterImpl.h"

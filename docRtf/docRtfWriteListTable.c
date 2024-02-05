@@ -5,16 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
 #include <stdio.h>
-
 #include <appDebugon.h>
-
 #include "docRtfWriterImpl.h"
 #include <docListLevel.h>
 #include <docDocumentList.h>
-
 /************************************************************************/
 /*									*/
 /*  Write a list level to rtf.						*/

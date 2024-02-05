@@ -5,19 +5,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
 #include <textConverter.h>
 #include <textConverterImpl.h>
 
 #include <appDebugon.h>
-
 #include "docRtfWriterImpl.h"
 #include "docRtfTextConverter.h"
-
 /************************************************************************/
 
 static void docRtfInitWritingContext(RtfWriter *rw)

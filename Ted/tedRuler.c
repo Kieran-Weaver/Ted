@@ -1,7 +1,5 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "tedRuler.h"
 #include "tedDrawRuler.h"
 #include <appMetricRuler.h>
@@ -12,7 +10,6 @@
 #include <guiDrawingWidget.h>
 
 #include <appDebugon.h>
-
 #define SHOW_SCROLLS 0
 
 typedef struct TopRulerDrag {

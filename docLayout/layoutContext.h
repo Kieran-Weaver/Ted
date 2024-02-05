@@ -4,7 +4,6 @@
 #include <utilIndexMapping.h>
 #include <utilMatchFont.h>
 #include <docBuf.h>
-
 struct DrawingSurface;
 
 typedef struct LayoutContext {

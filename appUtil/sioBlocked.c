@@ -11,7 +11,6 @@
 #include <string.h>
 #include "sioBlocked.h"
 #include <appDebugon.h>
-
 typedef struct BlockedInputStream {
 	SimpleInputStream *bisBlocked;
 	unsigned char bisBytes[256];

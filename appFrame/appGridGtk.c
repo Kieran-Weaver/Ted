@@ -1,7 +1,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "guiWidgets.h"
-
 /************************************************************************/
 /*									*/
 /*  Make a row in a column: Rows are implemented as..			*/

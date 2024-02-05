@@ -9,7 +9,6 @@
 #include <string.h>
 #include "utilMemoryBuffer.h"
 #include <appDebugon.h>
-
 void utilInitMemoryBuffer(MemoryBuffer *mb)
 {
 	mb->mbSize = 0;

@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <limits.h>
-
 #include "tedApp.h"
 #include "tedEdit.h"
 #include "tedLayout.h"
@@ -20,9 +17,7 @@
 #include <guiWidgetDrawingSurface.h>
 #include <guiDrawingWidget.h>
 #include <docParaParticules.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Drag routine for inserted objects.					*/

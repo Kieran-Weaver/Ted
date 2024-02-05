@@ -5,16 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docPageGrid.h>
 #include <docTreeNode.h>
 #include <docShape.h>
 #include "docLayout.h"
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Remember that the layout calculations for a shape must be redone.	*/

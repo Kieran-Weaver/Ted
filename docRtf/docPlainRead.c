@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include <sioMemory.h>
 #include <docBuf.h>
 #include <docNodeTree.h>
@@ -17,7 +15,6 @@
 #include <textConverterImpl.h>
 #include <sioUtf8.h>
 #include "docPlainReadWrite.h"
-
 /************************************************************************/
 /*									*/
 /*  Read a document as a whole.						*/

@@ -3,7 +3,6 @@
 #include "guiWidgets.h"
 #include "appListGtk.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  List specific functionality.					*/

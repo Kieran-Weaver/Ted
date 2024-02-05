@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docTreeType.h>
 #include <docTreeNode.h>
 #include "docRowLayout.h"
 #include <docDebug.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Shift cell contents of the cells in a row that are not top-aligned.	*/

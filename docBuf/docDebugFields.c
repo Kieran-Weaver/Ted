@@ -7,7 +7,6 @@
 #include <docTextParticule.h>
 #include <docDocumentNote.h>
 #include <appDebugon.h>
-
 void docListFieldParticule(int indent, const char *label, int n,
 			   const BufferItem *bi, const TextParticule *tp,
 			   const DocumentField *df)

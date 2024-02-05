@@ -12,7 +12,6 @@
 #define GEO_QUAD_TREE_H
 
 #include "geo2DInteger.h"
-
 typedef enum Quadrant {
 	QTquadNE,
 	QTquadNW,

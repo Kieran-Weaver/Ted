@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <signal.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Simple io streams from and to commands using popen().		*/

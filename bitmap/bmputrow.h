@@ -5,7 +5,6 @@
 #include "bmintern.h"
 #include "bmRender.h"
 #include "bmgetrow.h"
-
 /************************************************************************/
 /*									*/
 /*  Store rows of data in an image.					*/

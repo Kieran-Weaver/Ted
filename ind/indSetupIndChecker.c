@@ -13,10 +13,8 @@
 #include <appDebugon.h>
 #include <appSystem.h>
 #include <sioFileio.h>
-
 #include "indSpellChecker.h"
 #include "ind.h"
-
 #define FILEL 600
 static const char *const INDSPELL_DfaExtension = "dfa";
 

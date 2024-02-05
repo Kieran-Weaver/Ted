@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <string.h>
-
 #include "tedAppFront.h"
 #include "tedBookmarkTool.h"
 #include "tedToolUtil.h"
@@ -19,9 +16,7 @@
 #include <docField.h>
 #include <docBookmarkField.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  A)  A Bookmark was chosen in the list.				*/

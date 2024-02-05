@@ -11,7 +11,6 @@
 #include <utilTree.h>
 #include "docStyleSheet.h"
 #include "docListDepth.h"
-
 /************************************************************************/
 /*									*/
 /*  Copy a style sheet. This is done in reverse order to avoid		*/

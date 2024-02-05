@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docTextRun.h"
-
 #include <appDebugon.h>
 #include <docTreeNode.h>
 #include <docTextParticule.h>
-
 /************************************************************************/
 /*									*/
 /*  Delimit a string that can be drawn at once.				*/

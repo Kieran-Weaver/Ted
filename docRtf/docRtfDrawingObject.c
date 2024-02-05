@@ -5,17 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
-
 #include <bitmap.h>
-
 #include <docDrawingObject.h>
 #include <docShape.h>
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
-
 static int docRtfDrawingObjectAllocatePoints(DrawingShape *ds, int n)
 {
 	ShapeDrawing *sd = &(ds->dsDrawing);

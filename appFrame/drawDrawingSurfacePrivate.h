@@ -7,7 +7,6 @@
 #include <drawDrawingSurface.h>
 #include <psPostScriptFontList.h>
 #include "appGuiBase.h"
-
 /************************************************************************/
 /*									*/
 /*  Utility functions.							*/

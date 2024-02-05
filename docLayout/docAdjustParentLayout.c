@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docTreeType.h>
 #include <docTreeNode.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Place successive nodes, after the predecessor. This routine is	*/

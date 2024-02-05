@@ -11,7 +11,6 @@
 #include "drawScreenFontImpl.h"
 #include "drawScreenFontAdmin.h"
 #include <appDebugon.h>
-
 int drawGetUnderlineGeometry(int *pThick, int *pY,
 			     const struct DrawingSurface *ds, int screenFont,
 			     int baselinePixels)

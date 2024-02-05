@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include "indlocal.h"
 #include <appDebugon.h>
-
 /****************************************************************/
 /*								*/
 /*  Cleanup routine: Free a possibility list.			*/

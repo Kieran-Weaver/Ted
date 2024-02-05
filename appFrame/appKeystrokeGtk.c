@@ -3,7 +3,6 @@
 #include <uniUtf8.h>
 #include "guiWidgets.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Keyboard event handling. Largely based on gtkentry.c		*/

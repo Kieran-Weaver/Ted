@@ -13,7 +13,6 @@
 #include "docEdit.h"
 #include "docEditImpl.h"
 #include <docTreeType.h>
-
 #define DEB_PARTICULES 0
 #define SHOW_SELECTION_RANGE 0
 

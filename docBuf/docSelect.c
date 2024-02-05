@@ -11,7 +11,6 @@
 #include "docDebug.h"
 #include "docParaString.h"
 #include "docParaParticules.h"
-
 /************************************************************************/
 /*									*/
 /*  Move to the first/last position.					*/

@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include "appFrame.h"
 #include <appDebugon.h>
-
 APP_WIDGET appMakeMenu(APP_WIDGET *pButton, AppToplevel *at,
 		       EditApplication *ea, APP_WIDGET menuBar,
 		       const char *itemText, int isHelp, AppMenuItem *ami,

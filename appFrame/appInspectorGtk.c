@@ -3,7 +3,6 @@
 #include "appInspector.h"
 #include "guiWidgetsImpl.h"
 #include <appDebugon.h>
-
 void appInspectorMakePageParent(AppInspector *ai)
 {
 	GtkWidget *notebook;

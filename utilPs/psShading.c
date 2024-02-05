@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "psShading.h"
-
 const char *const PsShadingNames[] = {
 	(const char *)0, /* solid */
 	"f-horiz",	 "f-vert",    "f-fdiag",   "f-bdiag",

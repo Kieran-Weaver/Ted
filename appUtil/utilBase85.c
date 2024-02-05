@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include "utilBase85.h"
-
 const unsigned char UTIL_Base85Digits[] = "!\"#$%&'()*+,-./0123456789:;<=>?@"
 					  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 					  "[\\]^_`"

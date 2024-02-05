@@ -8,7 +8,6 @@
 #define APP_ICONS_H
 
 #include "appGuiBase.h"
-
 typedef struct NamedPicture {
 	const char *npPictureName;
 	const char **npBuffer;

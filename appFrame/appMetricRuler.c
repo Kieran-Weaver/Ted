@@ -5,7 +5,6 @@
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
 #include <appDebugon.h>
-
 #define BACK_MARG(s) ((s) / 2)
 
 #define TAG_TOP(s) ((s) / 3)

@@ -11,7 +11,6 @@
 #include <docTreeNode.h>
 #include "docCopyNode.h"
 #include <docTreeType.h>
-
 /************************************************************************/
 
 static int docCopySectHdFt(DocumentTree *eiTo, BufferDocument *bdTo,

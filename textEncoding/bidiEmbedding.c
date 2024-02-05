@@ -1,8 +1,6 @@
 #include <config.h>
-
 #include <stdio.h>
 #include "bidiEmbedding.h"
-
 const char *bidiEmbeddingStr(int embedding)
 {
 	static char scratch[20];

@@ -5,15 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include <docPageGrid.h>
 #include <docParaRulerAdmin.h>
 #include <geoGrid.h>
 #include <guiDrawingWidget.h>
-
 #include "tedApp.h"
 #include "tedSelect.h"
 #include "tedAppResources.h"
@@ -25,9 +22,7 @@
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include <docTextLine.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Obtain the separator positions for a table.				*/

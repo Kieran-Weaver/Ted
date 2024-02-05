@@ -9,7 +9,6 @@
 #include "docDocumentField.h"
 #include "docPagerefField.h"
 #include "docFieldFormat.h"
-
 void docInitPagerefField(PagerefField *pf)
 {
 	utilInitMemoryBuffer(&(pf->pfBookmark));

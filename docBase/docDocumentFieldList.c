@@ -11,7 +11,6 @@
 #include "docDocumentFieldList.h"
 #include "docBookmarkField.h"
 #include "docDocumentField.h"
-
 /************************************************************************/
 /*									*/
 /*  Manage a list of fields.						*/

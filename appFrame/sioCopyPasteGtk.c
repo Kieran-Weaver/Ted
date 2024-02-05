@@ -9,7 +9,6 @@
 #include "sioXprop.h"
 #include <sioMemory.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Input..								*/

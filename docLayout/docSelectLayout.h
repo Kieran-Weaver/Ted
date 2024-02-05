@@ -8,7 +8,6 @@
 #define DOC_SELECT_LAYOUT_H
 
 #include <docBuf.h>
-
 int docGetTopOfColumn(DocumentPosition *dp, int *pLineTop, int *pPartTop,
 		      BufferDocument *bd, int page, int column);
 

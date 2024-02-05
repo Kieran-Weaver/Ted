@@ -1,7 +1,5 @@
 #include <config.h>
-
 #include <stddef.h>
-
 #include <sioFileio.h>
 #include <sioMD5.h>
 #include <sioMemory.h>
@@ -11,26 +9,21 @@
 #include <appSystem.h>
 #include <geoUnits.h>
 #include <appQuestion.h>
-
 #include "tedApp.h"
 #include "tedRuler.h"
 #include "tedAppResources.h"
 #include "tedDocument.h"
 #include "tedDocFront.h"
-
 #include <docDebug.h>
 #include <docRtfReadWrite.h>
 #include <docPlainReadWrite.h>
 #include <utilMemoryBufferPrintf.h>
 #include <docRtfFlags.h>
-
 #include <guiDrawingWidget.h>
 #include <docEditCommand.h>
 #include <docRtfTrace.h>
 #include <utilMatchFont.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static int tedSetGenerator(DocumentProperties *dp, const EditApplication *ea)

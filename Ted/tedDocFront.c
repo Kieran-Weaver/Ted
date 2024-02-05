@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <string.h>
-
 #include <sioGeneral.h>
-
 #include "tedApp.h"
 #include "tedEdit.h"
 #include "tedSpellTool.h"
@@ -25,9 +21,7 @@
 #include <guiDrawingWidget.h>
 #include <docEditCommand.h>
 #include <docCollectStatistics.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Handle a replace from one of the tools.				*/

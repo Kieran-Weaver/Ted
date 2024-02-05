@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedSelect.h"
 #include "tedAppResources.h"
@@ -22,9 +20,7 @@
 #include <appQuestion.h>
 #include <docEditCommand.h>
 #include <docTreeType.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Insert a header or a footer in the document.			*/

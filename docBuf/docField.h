@@ -13,7 +13,6 @@
 #include <docEditPosition.h>
 #include <textAttribute.h>
 #include <utilPropMask.h>
-
 struct BufferItem;
 struct BufferDocument;
 struct DocumentSelection;

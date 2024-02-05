@@ -1,5 +1,4 @@
 #include "uniLegacyEncoding.h"
-
 const int uniPDFDocEncodingGlyphUnicodes[256] = {
 	-1, /*    0				*/
 	-1, /*    1				*/

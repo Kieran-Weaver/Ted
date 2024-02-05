@@ -3,7 +3,6 @@
 #include "bmgetrow.h"
 #include <appDebugon.h>
 #include <stdint.h>
-
 /************************************************************************/
 /*									*/
 /*  Collect rows of data for image transformations.			*/

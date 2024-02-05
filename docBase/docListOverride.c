@@ -7,7 +7,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "docListOverride.h"
-
 /************************************************************************/
 /*									*/
 /*  Individual list overrides.						*/

@@ -1,9 +1,6 @@
 #include <config.h>
-
 #include <stddef.h>
-
 #include <string.h>
-
 #include <sioFileio.h>
 #include <sioFd.h>
 #include <sioStdout.h>
@@ -13,13 +10,11 @@
 #include <appQuestion.h>
 #include <appSystem.h>
 #include <psPrint.h>
-
 #include "tedApp.h"
 #include "tedRuler.h"
 #include "tedAppResources.h"
 #include "tedLayout.h"
 #include "tedDocument.h"
-
 #include <docPsPrint.h>
 #include <docDebug.h>
 #include <docScreenLayout.h>
@@ -30,12 +25,9 @@
 #include <docRecalculateTocField.h>
 #include <docRtfTrace.h>
 #include <docEditCommand.h>
-
 #include <appPrintJob.h>
 #include <guiDrawingWidget.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Recalculate all fields in the document. (If needed)			*/

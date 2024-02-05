@@ -1,13 +1,9 @@
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include "psFontFamily.h"
 #include "psCompareFontInfo.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static int appPsSetFontInfo(PsFontFamily *aff, int n, AfmFontInfo *afi)

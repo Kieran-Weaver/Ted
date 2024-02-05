@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdio.h>
-
 #include <appDebugon.h>
-
 #include <docBuf.h>
 #include <docParaString.h>
 #include <docParaParticules.h>
@@ -25,7 +22,6 @@
 #include <docRefField.h>
 #include <docPagerefField.h>
 #include "docRecalculateTocField.h"
-
 /************************************************************************/
 /*									*/
 /*  Evaluate TOC fields.						*/

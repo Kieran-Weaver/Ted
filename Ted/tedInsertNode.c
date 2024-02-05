@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedEdit.h"
 #include "tedDocFront.h"
 #include <docRtfTrace.h>
@@ -15,9 +13,7 @@
 #include <docTreeType.h>
 #include <docNodeTree.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Insert a paragraph Before/After the selection, depending on the	*/

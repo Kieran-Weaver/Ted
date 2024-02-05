@@ -3,7 +3,6 @@
 #include <math.h>
 #include "geo2DInteger.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Intersect two line segments. Use the algorithm from:		*/

@@ -10,7 +10,6 @@
 #include <docBuf.h>
 #include <sioGeneral.h>
 #include "docRtfWriter.h"
-
 struct TabStopList;
 
 /************************************************************************/

@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include "appGuiBase.h"
-
 #include <sioGeneral.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

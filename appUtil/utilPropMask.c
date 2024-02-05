@@ -8,7 +8,6 @@
 #include <string.h>
 #include "utilPropMask.h"
 #include <appDebugon.h>
-
 void utilPropMaskClear(PropertyMask *pm)
 {
 	memset(pm->pmBits, 0, PROPmaskSIZE);

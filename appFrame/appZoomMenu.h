@@ -10,7 +10,6 @@
 #include "appGuiBase.h"
 #include "appFrame.h"
 #include <geo2DInteger.h>
-
 #define ZOOM_COUNT 7
 
 void appZoomChangeFactor(APP_WIDGET option, APP_WIDGET menu,

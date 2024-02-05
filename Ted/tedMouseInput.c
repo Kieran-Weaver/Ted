@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docScreenLayout.h>
 #include "tedApp.h"
 #include "tedSelect.h"
@@ -23,7 +21,6 @@
 #include <docParaParticules.h>
 #include <appGuiKeys.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Handle mouse clicks.						*/

@@ -9,7 +9,6 @@
 #include <string.h>
 #include "sioGeneral.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Input...								*/

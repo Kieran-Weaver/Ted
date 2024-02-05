@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include "docSelectLayout.h"
 #include <docPageGrid.h>
@@ -17,9 +15,7 @@
 #include <docTextLine.h>
 #include <docNotes.h>
 #include <docRecalculateFields.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Determine the box around a header or a footer.			*/

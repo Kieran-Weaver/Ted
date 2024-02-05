@@ -1,5 +1,4 @@
 #include "uniLegacyEncoding.h"
-
 const int uniIso8859_7GlyphUnicodes[256] = {
 	-1, /*    0				*/
 	-1, /*    1				*/

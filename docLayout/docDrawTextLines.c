@@ -1,11 +1,9 @@
 #include <config.h>
-
 #include "docDraw.h"
 #include "docLayout.h"
 #include <docTextLine.h>
 #include <docTabStop.h>
 #include <docParaRulerAdmin.h>
-
 #include <appDebugon.h>
 #include <docTreeNode.h>
 #include "docTextRun.h"

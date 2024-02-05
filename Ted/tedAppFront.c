@@ -5,19 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <sioGeneral.h>
-
 #include "tedAppFront.h"
 #include "tedDocFront.h"
 #include "tedDocument.h"
-
 #include "tedApp.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Handle a replace from one of the tools.				*/

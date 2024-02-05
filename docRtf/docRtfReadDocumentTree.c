@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include <docParaParticules.h>
 #include <docRecalculateFields.h>
@@ -17,7 +14,6 @@
 #include <docNodeTree.h>
 #include <docNotes.h>
 #include <docDocumentNote.h>
-
 /************************************************************************/
 /*									*/
 /*  Consume Headers, Footers, Notes &c: Separate item trees that are.	*/

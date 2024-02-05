@@ -10,7 +10,6 @@
 #include "docBuf.h"
 #include "docBlockFrame.h"
 #include "docStripFrame.h"
-
 /************************************************************************/
 
 #define includeRectangleY(dr1, dr2)                \

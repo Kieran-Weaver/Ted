@@ -6,14 +6,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "utilDocFont.h"
 #include <psDocumentFontStyle.h>
-
 /************************************************************************/
 /*									*/
 /*  Translate an RTF font designation to an HTML/CSS1 style one.	*/

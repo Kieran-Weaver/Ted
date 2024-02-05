@@ -10,7 +10,6 @@
 #include "appFrame.h"
 #include "appRgbCube.h"
 #include "appInspector.h"
-
 /************************************************************************/
 /*									*/
 /*  Resources for the RGB chooser page.					*/

@@ -13,7 +13,6 @@
 #include "sioGeneral.h"
 #include "sioVPrintf.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Printf formatting on output streams.				*/

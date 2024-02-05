@@ -27,7 +27,6 @@ struct DrawingSurface;
 #include "docDocumentTree.h"
 #include <docShapeDrawing.h>
 #include <bitmap.h>
-
 typedef struct DrawingShape {
 	/************************************************/
 	/*  Properties as found in regular rtf tags.	*/

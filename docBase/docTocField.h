@@ -8,7 +8,6 @@
 #define DOC_TOC_FIELD_H
 
 #include <utilMemoryBuffer.h>
-
 struct DocumentField;
 struct FieldInstructions;
 

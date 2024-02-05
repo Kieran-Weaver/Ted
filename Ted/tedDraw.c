@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedSelect.h"
 #include <docScreenLayout.h>
@@ -17,9 +15,7 @@
 #include <docTreeType.h>
 #include <docParaParticules.h>
 #include <docDebug.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Cause the smallest rectangle that contains the selection to be	*/

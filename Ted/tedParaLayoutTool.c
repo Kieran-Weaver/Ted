@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <appUnit.h>
-
 #include "tedParaLayoutTool.h"
 #include "tedAppFront.h"
 #include "tedToolUtil.h"
@@ -20,9 +17,7 @@
 #include <guiTextUtil.h>
 #include <docTreeNode.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Update the controls for SpaceAbove/SpaceBelow.			*/

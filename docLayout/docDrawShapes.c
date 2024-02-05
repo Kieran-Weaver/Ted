@@ -1,11 +1,8 @@
 #include <config.h>
-
 #include "docDraw.h"
-
 #include <appDebugon.h>
 #include <docObjectProperties.h>
 #include <docShape.h>
-
 /************************************************************************/
 
 typedef struct DrawPageShapes {

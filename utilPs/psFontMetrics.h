@@ -8,7 +8,6 @@
 #define PS_FONT_METRICS_H
 
 #include "psFontInfo.h"
-
 /************************************************************************/
 /*									*/
 /*  Declarations.							*/

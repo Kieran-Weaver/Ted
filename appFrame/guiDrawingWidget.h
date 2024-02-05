@@ -7,7 +7,6 @@
 #include "appGuiBase.h"
 #include <psPostScriptFontList.h>
 #include <utilColor.h>
-
 /************************************************************************/
 /*									*/
 /*  Routine Declarations.						*/

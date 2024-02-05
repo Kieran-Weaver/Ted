@@ -8,10 +8,8 @@
 #define APP_FRAME_H
 
 #include <stdio.h>
-
 #include "appGuiBase.h"
 #include "appGuiResource.h"
-
 #include <sioGeneral.h>
 #include <geo2DInteger.h>
 #include <utilDocumentGeometry.h>
@@ -20,7 +18,6 @@
 #include "guiWidgets.h"
 #include <drawDrawingSurface.h>
 #include <psPostScriptFontList.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

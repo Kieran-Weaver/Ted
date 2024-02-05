@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <sioGeneral.h>
 #include "docDraw.h"
 #include "docPsPrintImpl.h"
 #include <docTabStop.h>
 #include <docTextLine.h>
-
 #include <appDebugon.h>
-
 static int psPrintDrawTab(DrawingContext *dc, const DrawTextLine *dtl,
 			  PrintingState *ps, const TextAttribute *ta, int x0,
 			  int x1, int baseLine, int step, const char *tabProc)

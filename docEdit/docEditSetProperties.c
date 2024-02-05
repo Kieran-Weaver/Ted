@@ -13,7 +13,6 @@
 #include <docTreeType.h>
 #include "docEditSetProperties.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Change the properties of a node that we encounter on the way.	*/

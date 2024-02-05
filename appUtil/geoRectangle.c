@@ -1,7 +1,6 @@
 #include <config.h>
 #include <limits.h>
 #include "geo2DInteger.h"
-
 void geoInitRectangle(DocumentRectangle *dr)
 {
 	dr->drX0 = dr->drY0 = dr->drX1 = dr->drY1 = 0;

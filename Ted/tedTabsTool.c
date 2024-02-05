@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <geoString.h>
 #include <appUnit.h>
-
 #include "tedTabsTool.h"
 #include "tedAppFront.h"
 #include "tedToolUtil.h"
@@ -21,9 +18,7 @@
 #include <appQuestion.h>
 #include <docEditCommand.h>
 #include <docNodeTree.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the controls with the current tab stop.			*/

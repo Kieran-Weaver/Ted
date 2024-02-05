@@ -5,18 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include <docScreenLayout.h>
 #include "tedDraw.h"
 #include <geoGrid.h>
 #include <docShape.h>
 #include <docDrawShapeArrow.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Draw a Word 97+ drawing shape.					*/

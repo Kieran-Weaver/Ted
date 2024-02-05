@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedLayout.h"
 #include "tedSelect.h"
@@ -19,11 +17,8 @@
 #include <docParaParticules.h>
 #include <docNodeTree.h>
 #include <docEditCommand.h>
-
 #include <appGuiKeys.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Handle keyboard input.						*/

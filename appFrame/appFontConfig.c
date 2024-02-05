@@ -11,13 +11,11 @@
 #include "appMatchFont.h"
 #include <uniAlternatives.h>
 #include <appDebugon.h>
-
 #ifdef USE_FONTCONFIG /*  {{	*/
 
 #include <fontconfig/fontconfig.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-
 static int APP_FontConfigInitialized = 0;
 static FcConfig *APP_FcConfig = 0;
 

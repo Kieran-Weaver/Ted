@@ -9,7 +9,6 @@
 
 /*  for EOF:			*/
 #include <stdio.h>
-
 #define SIOsizBUF 1024
 
 typedef int (*SIOinREADBYTES)(void *, unsigned char *, unsigned int);

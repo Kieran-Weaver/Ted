@@ -9,7 +9,6 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInMD5Open(unsigned char *digest,
 				SimpleInputStream *sisIn);
 

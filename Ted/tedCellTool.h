@@ -10,7 +10,6 @@
 #include "tedBorderTool.h"
 #include "tedShadingTool.h"
 #include <docSelectionDescription.h>
-
 /************************************************************************/
 /*									*/
 /*  Resources for the 'Cell' page.					*/

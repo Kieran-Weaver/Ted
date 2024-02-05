@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedRuler.h"
 #include "tedLayout.h"
@@ -17,9 +15,7 @@
 #include "tedDocument.h"
 #include <docParaParticules.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Is the selection a position between two chars?			*/

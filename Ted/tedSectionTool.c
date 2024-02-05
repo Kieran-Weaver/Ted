@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdio.h>
 #include <stddef.h>
 #include <limits.h>
-
 #include <appUnit.h>
-
 #include "tedSectionTool.h"
 #include "tedAppFront.h"
 #include <docTreeType.h>
@@ -20,9 +17,7 @@
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the section page.						*/

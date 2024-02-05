@@ -9,7 +9,6 @@
 #include "docBuf.h"
 #include "docTreeNode.h"
 #include "docNodeTree.h"
-
 /************************************************************************/
 /*									*/
 /*  Initialise Document Selection.					*/

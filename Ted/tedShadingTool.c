@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedShadingTool.h"
 #include <appDebugon.h>
 #include <guiToolUtil.h>

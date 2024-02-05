@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include "tedNotesTool.h"
 #include "tedAppFront.h"
 #include <docTreeType.h>
@@ -17,9 +15,7 @@
 #include <docTreeNode.h>
 #include <docNodeTree.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  What property values are relevant for footnotes/endnotes?		*/

@@ -9,7 +9,6 @@
 #include <geo2DInteger.h>
 #include "guiDrawingWidget.h"
 #include <appDebugon.h>
-
 int guiDrawGetSizeFromConfigureEvent(int *pWide, int *pHigh, APP_WIDGET w,
 				     APP_EVENT *event)
 {

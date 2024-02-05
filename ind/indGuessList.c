@@ -1,11 +1,8 @@
 #include <config.h>
-
 #include <string.h>
 #include <stdlib.h>
-
 #include "indGuessList.h"
 #include <appDebugoff.h>
-
 /************************************************************************/
 /*  Insert a guess in a guess list.					*/
 /*  1)  If it is already there, just adapt score.			*/

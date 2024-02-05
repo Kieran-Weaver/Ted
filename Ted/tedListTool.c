@@ -5,13 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
 #include <limits.h>
-
 #include "tedListTool.h"
 #include "tedAppFront.h"
 #include "tedToolUtil.h"
@@ -21,11 +19,8 @@
 #include <guiToolUtil.h>
 #include <guiTextUtil.h>
 #include <docEditCommand.h>
-
 #include <appGuiKeys.h>
-
 #include <appDebugon.h>
-
 #define IS_STRING(idx) (((idx) % 2) == 0)
 #define IS_NUMBER(idx) (((idx) % 2) != 0)
 

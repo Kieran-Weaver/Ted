@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <appUnit.h>
-
 #include "tedApp.h"
 #include "tedToolUtil.h"
 #include "tedDocument.h"
@@ -18,9 +15,7 @@
 #include <docEditCommand.h>
 #include <docTreeNode.h>
 #include <docNodeTree.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Validate a dimension						*/

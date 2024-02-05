@@ -10,7 +10,6 @@
 #define TEXT_BIDI_TREE_BUILDER_H
 
 #include "bidiTree.h"
-
 typedef struct BidiTreeBuilder {
 	/**
 			 *  The root (bottom node) of the tree.

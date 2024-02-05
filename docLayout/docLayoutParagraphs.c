@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docPageGrid.h>
 #include <docTreeType.h>
@@ -17,7 +15,6 @@
 #include <docTextLine.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Preparation for vertical alignment of tabe cells. It is also used	*/

@@ -1,13 +1,10 @@
 #include <config.h>
-
 #include "docDraw.h"
 #include <docPageGrid.h>
 #include "docRowLayout.h"
 #include <docTreeNode.h>
 #include <docTextLine.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static int docDrawRowPageStrip(BufferItem *rowNode,

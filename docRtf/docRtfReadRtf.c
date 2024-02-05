@@ -13,7 +13,6 @@
 #include "docRtfReaderImpl.h"
 #include "docRtfTags.h"
 #include "docRtfFlags.h"
-
 /************************************************************************/
 /*									*/
 /*  Read a control word from the input stream.				*/

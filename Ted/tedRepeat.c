@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedEdit.h"
 #include "tedSelect.h"
 #include "tedDocFront.h"
@@ -23,9 +21,7 @@
 #include <docEditCommand.h>
 #include <docRtfTraceImpl.h>
 #include <docParaParticules.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Repeat/redo insert header/footer.					*/

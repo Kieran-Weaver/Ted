@@ -1,12 +1,9 @@
 #include <config.h>
-
 #include <string.h>
-
 #include "textOfficeCharset.h"
 #include "uniLegacyEncoding.h"
 
 #include <appDebugon.h>
-
 static OfficeCharset PS_OfficeCharsets[] = {
 	{
 		FONTcharsetANSI,

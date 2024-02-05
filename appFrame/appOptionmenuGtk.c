@@ -3,7 +3,6 @@
 #include "guiOptionmenu.h"
 #include "guiWidgetsImpl.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static int appGuiGetOptionmenuFindItem(GtkWidget *w, GtkMenuItem *it)

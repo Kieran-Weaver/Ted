@@ -21,7 +21,6 @@
 #include <utilMatchFont.h>
 #include <docDocumentNote.h>
 #include <docPropertiesAdmin.h>
-
 /************************************************************************/
 
 void docDeleteFieldFromDocument(BufferDocument *bd, DocumentField *df)

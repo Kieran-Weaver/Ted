@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedFormatTool.h"
 #include "tedToolFront.h"
 #include "tedAppResources.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Show the page layout page.						*/

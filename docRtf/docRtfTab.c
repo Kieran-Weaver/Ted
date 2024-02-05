@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <charnames.h>
 #include <uniSpecials.h>
 #include <utilJenkinsPerfectHash.h>
-
 #include "docRtfReaderImpl.h"
 #include "docRtfTagHash.h"
 #include "docRtfTraceImpl.h"
@@ -26,9 +23,7 @@
 #include <docShape.h>
 #include <psShading.h>
 #include <psDocumentFontStyle.h>
-
 #include <appDebugon.h>
-
 #define BUILD_NO_HASH /*  for sed */
 
 #ifdef BUILD_HASH

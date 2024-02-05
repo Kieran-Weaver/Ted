@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedAppFront.h"
 #include "tedFind.h"
 #include "tedSpellTool.h"
@@ -16,7 +14,6 @@
 #include <docEditCommand.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Adapt find tool to the current document.				*/

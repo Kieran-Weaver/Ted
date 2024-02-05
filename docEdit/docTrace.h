@@ -8,10 +8,8 @@
 #define DOC_TRACE_H
 
 #include <docBuf.h>
-
 #include "docEditOperation.h"
 #include "docEditStep.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

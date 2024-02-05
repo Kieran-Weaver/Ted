@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
 #include <limits.h>
-
 #include "docStripLayoutJob.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Initialize paragraph layout progress.				*/

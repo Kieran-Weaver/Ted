@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedEdit.h"
 #include "tedSelect.h"
 #include "tedDocFront.h"
@@ -26,7 +24,6 @@
 #include <docRtfTraceImpl.h>
 
 #include <appDebugon.h>
-
 #define VALIDATE_TREE 0
 
 /************************************************************************/

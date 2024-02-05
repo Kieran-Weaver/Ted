@@ -5,12 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <limits.h>
-
 #include <appUnit.h>
-
 #include "tedFrameTool.h"
 #include "tedAppFront.h"
 #include "tedToolUtil.h"
@@ -18,9 +15,7 @@
 #include <guiToolUtil.h>
 #include <guiTextUtil.h>
 #include <docTreeNode.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Refresh the frame page.						*/

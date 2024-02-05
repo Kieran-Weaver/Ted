@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docLayout.h>
 #include "tedEdit.h"
 #include "tedDocFront.h"
@@ -18,7 +16,6 @@
 #include <docEditCommand.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Change properties of the current selection.				*/

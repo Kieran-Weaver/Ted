@@ -10,7 +10,6 @@
 #include "docItemShading.h"
 #include <utilIntegerValueNode.h>
 #include <utilNumberedPropertiesAdmin.h>
-
 typedef void (*ItemShadingFunction)(const ItemShading *is, int n,
 				    void *through);
 

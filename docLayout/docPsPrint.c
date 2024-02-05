@@ -12,19 +12,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <sioFileio.h>
-
 #include "docDraw.h"
 #include "docLayout.h"
 #include "docPsPrintImpl.h"
 #include "docPsPrint.h"
 #include <docTreeNode.h>
-
 #include <appDebugon.h>
-
 #define SHOW_PAGE_GRID 0
 
 /************************************************************************/

@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include "appFrame.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Make the list of bitmap FileExtensions that can be opened/saved.	*/

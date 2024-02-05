@@ -8,7 +8,6 @@
 #define APP_PRINT_JOB_H
 
 #include <drawDrawingSurface.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

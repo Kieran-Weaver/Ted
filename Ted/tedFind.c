@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedApp.h"
 #include "tedAppResources.h"
 
@@ -23,7 +21,6 @@
 #include <ind.h>
 
 #include <appDebugon.h>
-
 int tedDocFindNext(EditDocument *ed)
 {
 	TedDocument *td = (TedDocument *)ed->edPrivateData;

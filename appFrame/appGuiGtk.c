@@ -7,7 +7,6 @@
 #include "guiWidgetsImpl.h"
 #include "guiDrawingWidget.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Destroy all children of a widget.					*/

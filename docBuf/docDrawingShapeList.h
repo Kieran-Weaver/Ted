@@ -8,7 +8,6 @@
 #define DOC_DOCUMENT_SHAPE_LIST_H
 
 #include <utilPagedList.h>
-
 typedef struct DrawingShapeList {
 	PagedList dslPagedList;
 } DrawingShapeList;

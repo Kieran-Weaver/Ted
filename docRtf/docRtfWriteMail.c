@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include <sioGeneral.h>
 #include <sioBase64.h>
 #include "docRtfReadWrite.h"
 #include "docPlainReadWrite.h"
 #include <docTreeNode.h>
-
 int docWriteRtfMail(SimpleOutputStream *sos, const char *mimeBoundary,
 		    BufferDocument *bd)
 {

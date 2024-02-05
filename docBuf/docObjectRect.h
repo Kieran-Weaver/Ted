@@ -8,7 +8,6 @@
 #define DOC_OBJECT_RECT_H
 
 #include "docBuf.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

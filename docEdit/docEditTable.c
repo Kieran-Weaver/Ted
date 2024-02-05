@@ -13,7 +13,6 @@
 #include <docTextParticule.h>
 #include <docNodeTree.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Step in insert row actions: Copy attributes.			*/

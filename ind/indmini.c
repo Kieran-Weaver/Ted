@@ -1,7 +1,5 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "indlocal.h"
 #include <appDebugon.h>
 

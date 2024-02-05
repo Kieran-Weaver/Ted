@@ -15,7 +15,6 @@
 #include <utilMemoryBufferPrintf.h>
 #include "appFrame.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 
 static int appMakeSystemProperties(EditApplication *ea)

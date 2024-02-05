@@ -10,7 +10,6 @@
 #include <docExpandedTextAttribute.h>
 #include "appFrame.h"
 #include "appInspector.h"
-
 /************************************************************************/
 /*									*/
 /*  Represents a font chooser.						*/

@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include "docParticuleData.h"
 
@@ -16,7 +14,6 @@
 #include <docObjectProperties.h>
 #include <docParaParticules.h>
 #include <docShape.h>
-
 #define SHOW_LINE_CHANGES 0
 
 /************************************************************************/

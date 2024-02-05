@@ -8,7 +8,6 @@
 #define DOC_INCLUDEPICTURE_FIELD_H
 
 #include <utilMemoryBuffer.h>
-
 struct DocumentField;
 
 typedef struct IncludePictureField {

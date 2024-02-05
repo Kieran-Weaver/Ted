@@ -10,7 +10,6 @@
 struct DocumentField;
 
 #include <utilMemoryBuffer.h>
-
 typedef struct PagerefField {
 	MemoryBuffer pfBookmark;
 	unsigned char pfNumberFormat; /* \*	*/

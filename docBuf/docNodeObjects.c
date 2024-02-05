@@ -11,7 +11,6 @@
 #include "docParaParticules.h"
 #include "docTreeScanner.h"
 #include <docListDepth.h>
-
 /************************************************************************/
 /*									*/
 /*  Insert an object.							*/

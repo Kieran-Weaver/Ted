@@ -39,17 +39,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include <drawDrawingSurface.h>
-
 #include "docLayout.h"
 #include "docTextRun.h"
 #include "docScreenLayout.h"
 #include <geoGrid.h>
-
 #include <docTreeNode.h>
 #include <docShape.h>
 #include <docTextLine.h>
@@ -57,7 +53,6 @@
 #include <docObjectProperties.h>
 #include <docDebug.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Calculate the width of a string on screen.				*/

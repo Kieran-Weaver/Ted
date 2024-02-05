@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdio.h>
-
 #include <appDebugon.h>
-
 #include <docBuf.h>
 #include <docField.h>
 #include <docParaParticules.h>
@@ -17,7 +14,6 @@
 #include <docBookmarkField.h>
 #include "docEdit.h"
 #include "docTocBookmarks.h"
-
 /************************************************************************/
 /*									*/
 /*  Recalculate TOC fields in a document.				*/

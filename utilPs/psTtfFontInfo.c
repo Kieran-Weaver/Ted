@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
 #define y0 math_y0
 #define y1 math_y1
 #include <math.h>
@@ -15,9 +14,7 @@
 #include "psTtf.h"
 #include <utilIndexMapping.h>
 #include <appDebugon.h>
-
 #include "psTtfIntern.h"
-
 /************************************************************************/
 /*									*/
 /*  Try to find names for a format0 unicode cmap.			*/

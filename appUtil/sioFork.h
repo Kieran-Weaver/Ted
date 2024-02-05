@@ -6,7 +6,6 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInForkOpen(SimpleInputStream *sisIn,
 				 SimpleOutputStream *sosFork);
 

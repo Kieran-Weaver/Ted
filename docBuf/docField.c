@@ -9,7 +9,6 @@
 #include "docBuf.h"
 #include "docField.h"
 #include "docEvalField.h"
-
 /************************************************************************/
 /*									*/
 /*  The Kinds of Fields actively supported.				*/

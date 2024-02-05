@@ -5,15 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include <iconv.h>
 #include <errno.h>
-
 #include "sioIconv.h"
 #include <appDebugon.h>
-
 #if HAVE_ICONV /*  {{	*/
 
 typedef struct IconvInStream {

@@ -9,7 +9,6 @@
 #include "docBuf.h"
 #include "docDebug.h"
 #include "docTreeNode.h"
-
 /************************************************************************/
 /*									*/
 /*  From DocumentPosition to EditPosition.				*/

@@ -7,14 +7,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docBuf.h>
 #include "docLayout.h"
 
 #include <appDebugon.h>
-
 int docFindHeaderFooterForY(DocumentTree **pTree,
 			    struct BufferItem **pSelSectNode, int *pColumn,
 			    const LayoutContext *lc,

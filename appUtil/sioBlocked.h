@@ -7,7 +7,6 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInBlockedOpen(SimpleInputStream *sisBlocks);
 
 SimpleOutputStream *sioOutBlockedOpen(SimpleOutputStream *sosBlocks);

@@ -2,7 +2,6 @@
 #define BM_GETROW_H
 
 #include "bmintern.h"
-
 /************************************************************************/
 /*									*/
 /*  Collect rows of image data for further processing.			*/

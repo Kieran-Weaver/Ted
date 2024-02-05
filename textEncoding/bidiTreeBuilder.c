@@ -7,12 +7,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "bidiTreeBuilder.h"
 #include "bidiEmbedding.h"
-
 #include <appDebugon.h>
-
 void bidiInitTreeBuilder(BidiTreeBuilder *btb)
 {
 	btb->btbBottomNode = (BidiNode *)0;

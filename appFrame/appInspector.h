@@ -8,12 +8,10 @@
 #define APP_INSPECTOR_H
 
 #include <stdio.h>
-
 #include "appGuiBase.h"
 #include "appFrame.h"
 #include "appTool.h"
 #include "guiOptionmenu.h"
-
 /************************************************************************/
 /*									*/
 /*  Facilities to make property inspectors.				*/

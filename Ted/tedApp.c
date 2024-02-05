@@ -19,9 +19,7 @@
 #include "tedDocument.h"
 #include <appFileChooser.h>
 #include <docTreeNode.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Determine application specific default settings.			*/

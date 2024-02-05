@@ -5,15 +5,12 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReadWrite.h"
 #include "docRtfWriterImpl.h"
 #include "docRtfTags.h"
 #include <docNotes.h>
 #include <docTreeType.h>
-
 int docRtfSaveDocument(SimpleOutputStream *sos, BufferDocument *bd,
 		       const DocumentSelection *ds, int flags)
 {

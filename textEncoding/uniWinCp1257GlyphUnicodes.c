@@ -1,5 +1,4 @@
 #include "uniLegacyEncoding.h"
-
 const int uniWinCp1257GlyphUnicodes[256] = {
 	-1, /*    0= 0x00			*/
 	-1, /*    1= 0x01			*/

@@ -10,7 +10,6 @@
 #define DOC_INSERTED_OBJECT_LIST_H
 
 #include <utilPagedList.h>
-
 struct InsertedObject;
 
 typedef struct InsertedObjectList {

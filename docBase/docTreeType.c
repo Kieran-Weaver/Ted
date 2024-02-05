@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include "docTreeType.h"
-
 const int DOC_HeaderFooterTypes[] = {
 	DOCinFIRST_HEADER, DOCinFIRST_FOOTER, DOCinLEFT_HEADER,
 	DOCinLEFT_FOOTER,  DOCinRIGHT_HEADER, DOCinRIGHT_FOOTER,

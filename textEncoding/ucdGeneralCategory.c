@@ -1,8 +1,6 @@
 #include <stdio.h>
-
 #include "ucdIntern.h"
 #include "ucdGeneralCategory.h"
-
 #define Co UCDgc_Co
 #define Lm UCDgc_Lm
 #define Pd UCDgc_Pd

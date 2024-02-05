@@ -11,7 +11,6 @@
 #include "guiWidgetDrawingSurface.h"
 #include "guiDrawingWidget.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Draw a selection rectangle over the document. Strictly spoken this	*/

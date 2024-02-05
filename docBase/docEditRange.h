@@ -8,7 +8,6 @@
 #define DOC_EDIT_RANGE_H
 
 #include "docEditPosition.h"
-
 typedef struct EditRange {
 	EditPosition erHead;
 	EditPosition erTail;

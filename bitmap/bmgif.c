@@ -5,7 +5,6 @@
 #include "bmio.h"
 #include <appDebugon.h>
 #include "bm_gif_lib.h"
-
 int _GifError = 0;
 
 /************************************************************************/

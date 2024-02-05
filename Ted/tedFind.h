@@ -8,7 +8,6 @@
 #define TED_FIND_H
 
 #include <ind.h>
-
 struct DocumentSelection;
 struct BufferItem;
 struct BufferDocument;

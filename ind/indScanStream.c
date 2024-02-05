@@ -1,11 +1,8 @@
 #include <config.h>
-
 #include <ucdGeneralCategory.h>
 #include "indScanStream.h"
 #include <sioGeneral.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Scan an input stream for unknown words. Optionally make guesses for	*/

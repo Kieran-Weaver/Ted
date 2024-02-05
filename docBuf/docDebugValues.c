@@ -7,7 +7,6 @@
 #include <docObjectProperties.h>
 #include <docTextParticule.h>
 #include <appDebugon.h>
-
 const char *docKindStr(int kind)
 {
 	static char scratch[12];

@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include "tedApp.h"
 #include "tedSelect.h"
 #include "tedCopyPasteImpl.h"
@@ -19,12 +17,9 @@
 #include <docRtfFlags.h>
 #include <docTreeNode.h>
 #include <docEditCommand.h>
-
 #include <sioFileio.h>
 #include <sioMemory.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Write copy/paste to file for debugging purposes.			*/

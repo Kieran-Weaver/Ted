@@ -1,8 +1,6 @@
 #include <stdio.h>
-
 #include "ucdIntern.h"
 #include "ucdBidiClass.h"
-
 #define ET UCDbidi_ET
 #define S UCDbidi_S
 #define LRO UCDbidi_LRO

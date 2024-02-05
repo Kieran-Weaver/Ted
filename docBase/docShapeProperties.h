@@ -8,7 +8,6 @@
 #define DOC_SHAPE_PROPERTIES_H
 
 #include <geo2DInteger.h>
-
 /************************************************************************/
 /*									*/
 /*  Primitives for shapes.						*/

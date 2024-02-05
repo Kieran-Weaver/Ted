@@ -5,19 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <string.h>
-
 #include "tedApp.h"
 #include "tedDraw.h"
 #include "tedSelect.h"
 #include "tedLayout.h"
 #include "tedDocument.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Create the windows that are used to reshape selected objects.	*/

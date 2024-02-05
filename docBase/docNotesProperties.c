@@ -9,7 +9,6 @@
 #include <utilPropMask.h>
 #include <appDebugon.h>
 #include "docNotesProperties.h"
-
 /************************************************************************/
 
 int docSetNotesProperty(NotesProperties *np, int prop, int val)

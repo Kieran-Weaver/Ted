@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <docScreenLayout.h>
 #include <docField.h>
 #include "tedEdit.h"
@@ -21,9 +19,7 @@
 #include <docRtfTrace.h>
 #include <docDocumentNote.h>
 #include <docNotes.h>
-
 #include <appDebugon.h>
-
 #define VALIDATE_TREE 0
 
 /************************************************************************/

@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "bitmap.h"
 #include <appDebugon.h>
-
 int bmSelect(RasterImage *riOut, const RasterImage *riIn,
 	     const DocumentRectangle *drSel)
 {

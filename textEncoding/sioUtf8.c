@@ -5,13 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "sioUtf8.h"
 #include "uniUtf8.h"
 #include "uniUtf8Ranges.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Input.								*/

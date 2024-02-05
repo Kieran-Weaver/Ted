@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <bitmap.h>
-
 #include <docObjectProperties.h>
 #include <docParaParticules.h>
 #include <docShape.h>
@@ -16,7 +14,6 @@
 #include "docRtfReaderImpl.h"
 #include "docRtfTagEnum.h"
 #include "docRtfTags.h"
-
 int docRtfObjectProperty(const RtfControlWord *rcw, int arg, RtfReader *rrc)
 {
 	InsertedObject *io;

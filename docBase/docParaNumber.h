@@ -8,7 +8,6 @@
 #define DOC_PARA_NUMBER_H
 
 #include <textAttribute.h>
-
 /************************************************************************/
 /*									*/
 /*  Information on Paragraph Numbering.					*/

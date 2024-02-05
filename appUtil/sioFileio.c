@@ -15,7 +15,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <fcntl.h>
-
 typedef struct FileIo {
 	int fiFd;
 	int fiOwnFd;

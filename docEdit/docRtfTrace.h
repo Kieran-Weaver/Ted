@@ -8,13 +8,11 @@
 #define DOC_RTF_TRACE_H
 
 #include <stdio.h>
-
 #include <docBuf.h>
 #include <docNoteProperties.h>
 #include "docEditOperation.h"
 #include "docEditStep.h"
 #include "docEditTrace.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

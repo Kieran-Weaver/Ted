@@ -6,7 +6,6 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInFlateOpen(SimpleInputStream *sisFlate);
 
 SimpleOutputStream *sioOutFlateOpen(SimpleOutputStream *sosFlate,

@@ -5,11 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <appDebugon.h>
-
 #include "textAttributeAdmin.h"
-
 /************************************************************************/
 /*									*/
 /*  Initialize/Clean attribute administration.				*/

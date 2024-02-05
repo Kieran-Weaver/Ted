@@ -5,18 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include <utilPropMask.h>
 #include <textAttribute.h>
 #include <utilPalette.h>
-
 #include "docExpandedTextAttribute.h"
-
 /************************************************************************/
 /*									*/
 /*  Set text attributes to a default value.				*/

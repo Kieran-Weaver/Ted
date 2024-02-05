@@ -1,7 +1,5 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "ind.h"
 #include <uniUtf8.h>
 #include "indlocal.h"

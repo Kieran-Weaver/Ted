@@ -8,7 +8,6 @@
 #define UTIL_TEXT_ATTRIBUTE_UTIL_H
 
 #include "textAttribute.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

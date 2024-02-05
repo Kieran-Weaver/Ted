@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include "uniUtf8.h"
 #include "uniUtf8Ranges.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  UTF-8 Calculations.							*/

@@ -2,7 +2,6 @@
 #define DOC_LAYOUT_POSITION_H
 
 #include <geo2DInteger.h>
-
 /************************************************************************/
 /*									*/
 /*  Used to layout lines of text.					*/

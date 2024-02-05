@@ -1,17 +1,12 @@
 #include <config.h>
-
 #include <stddef.h>
-
 #include <appMatchFont.h>
-
 #include "tedApp.h"
 #include "tedEdit.h"
 #include "tedLayout.h"
 #include "tedDocument.h"
 #include <docScreenLayout.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Redo the layout of a paragraph because its contents have changed	*/

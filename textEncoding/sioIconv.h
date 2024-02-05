@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include <sioGeneral.h>
-
 extern SimpleInputStream *sioInIconvOpen(SimpleInputStream *sisIn,
 					 const char *tocode,
 					 const char *frcode);

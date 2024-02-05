@@ -5,13 +5,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <bitmap.h>
-
 #include <appDebugon.h>
-
 #include "docRtfFlags.h"
 #include "docRtfTags.h"
 #include <docTreeType.h>

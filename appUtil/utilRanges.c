@@ -9,7 +9,6 @@
 #include <string.h>
 #include "utilRanges.h"
 #include <appDebugoff.h>
-
 int utilRangesString(char *str, int maxSize, const unsigned char *pages,
 		     int size)
 {

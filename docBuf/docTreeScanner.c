@@ -9,7 +9,6 @@
 #include "docTreeScanner.h"
 #include <docTreeType.h>
 #include "docTreeNode.h"
-
 /************************************************************************/
 
 typedef struct TreeScanner {

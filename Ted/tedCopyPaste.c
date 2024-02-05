@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdlib.h>
-
 #include "tedApp.h"
 #include "tedSelect.h"
 #include "tedAppResources.h"
@@ -21,14 +19,11 @@
 #include <appImage.h>
 #include <docRtfFlags.h>
 #include <docEditCommand.h>
-
 #include <sioMemory.h>
 #include <sioXprop.h>
 #include <sioFileio.h>
 #include <bmio.h>
-
 #include <appDebugon.h>
-
 void tedDocCut(EditDocument *ed)
 {
 	TedDocument *td = (TedDocument *)ed->edPrivateData;

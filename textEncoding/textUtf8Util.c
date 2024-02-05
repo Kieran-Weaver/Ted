@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include "uniUtf8.h"
 #include "textUtf8Util.h"
 #include "ucd.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Mirror a string.							*/

@@ -10,7 +10,6 @@
 #define DOCmaxBOOKMARK 40
 
 #include <utilMemoryBuffer.h>
-
 struct DocumentField;
 struct MemoryBuffer;
 struct FieldInstructions;

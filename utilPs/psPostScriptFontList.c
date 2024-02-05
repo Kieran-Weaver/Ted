@@ -1,15 +1,11 @@
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include "psPostScriptFontList.h"
 #include "psCompareFontInfo.h"
 #include "psFontName.h"
 #include <utilTree.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Bookkeeping on font lists.						*/

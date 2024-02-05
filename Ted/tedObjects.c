@@ -5,14 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <stdio.h>
-
 #include <sioMemory.h>
 #include <sioHex.h>
 #include <bmio.h>
-
 #include "tedApp.h"
 #include "docDraw.h"
 #include "tedDraw.h"
@@ -22,12 +19,9 @@
 #include <docTreeNode.h>
 #include <docTextParticule.h>
 #include <docShape.h>
-
 #include <docLayout.h>
 #include <geoGrid.h>
-
 #include <appDebugon.h>
-
 #define DRAW_EPSF 0
 
 #if DRAW_EPSF

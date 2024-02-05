@@ -6,7 +6,6 @@
 /************************************************************************/
 
 #include "sioGeneral.h"
-
 SimpleInputStream *sioInBase85Open(SimpleInputStream *sisBase85);
 
 SimpleOutputStream *sioOutBase85Open(SimpleOutputStream *sosBase85);

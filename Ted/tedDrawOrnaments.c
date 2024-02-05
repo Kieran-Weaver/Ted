@@ -5,17 +5,13 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docDraw.h"
 #include "tedApp.h"
 #include "tedDraw.h"
 #include "tedLayout.h"
 #include <psShading.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Start drawing a border.						*/

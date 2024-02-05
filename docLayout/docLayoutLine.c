@@ -5,10 +5,8 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
 #include <math.h>
-
 #include "docLayout.h"
 #include <docTabStop.h>
 #include <docParaString.h>
@@ -18,9 +16,7 @@
 #include <docDebug.h>
 #include <docBorderPropertyAdmin.h>
 #include <docListLevel.h>
-
 #include <appDebugon.h>
-
 typedef struct LineLayoutJob {
 	BufferItem *lljParaNode;
 	TabStopList lljTabStopList;

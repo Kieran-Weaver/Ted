@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "utilDocFont.h"
 #include <psDocumentFontStyle.h>
-
 /************************************************************************/
 /*									*/
 /*  Initialise a font.							*/

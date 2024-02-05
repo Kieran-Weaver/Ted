@@ -6,7 +6,6 @@
 /************************************************************************/
 
 #include <string.h>
-
 #include <sioHex.h>
 #include <sioEndian.h>
 #include <utilMemoryBuffer.h>
@@ -14,9 +13,7 @@
 #include "psReadWriteFontInfo.h"
 #include <utilIndexMapping.h>
 #include <appDebugon.h>
-
 #include "psTtfIntern.h"
-
 /************************************************************************/
 /*									*/
 /*  Write the CharStrings dictonary.					*/

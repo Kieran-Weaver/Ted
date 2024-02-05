@@ -8,7 +8,6 @@
 #define DOC_DATE_FIELD_H
 
 #include <utilMemoryBuffer.h>
-
 struct DocumentField;
 
 typedef enum FieldCalendar {

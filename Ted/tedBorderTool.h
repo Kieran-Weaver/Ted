@@ -12,7 +12,6 @@
 #include <appInspector.h>
 #include <docBuf.h>
 #include <appColorChooser.h>
-
 struct BorderTool;
 
 typedef struct BorderTool {

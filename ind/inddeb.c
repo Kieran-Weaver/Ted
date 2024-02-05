@@ -1,8 +1,6 @@
 #include <config.h>
-
 #include "indlocal.h"
 #include <appDebugoff.h>
-
 /************************************************************************/
 /*  Print a list of Nodes with their transitions.			*/
 /************************************************************************/

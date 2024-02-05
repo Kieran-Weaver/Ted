@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docLayout.h"
 #include <docPageGrid.h>
 #include <docTreeType.h>
@@ -16,7 +14,6 @@
 #include <docDebug.h>
 
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Redo the layout of a paragraph after an editing action.		*/

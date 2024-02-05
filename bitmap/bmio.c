@@ -3,7 +3,6 @@
 #include "bitmap.h"
 #include <appDebugon.h>
 #include <appSystem.h>
-
 int bmWrite(const MemoryBuffer *filename, const unsigned char *buffer,
 	    const BitmapDescription *bd, int fileFormat)
 {

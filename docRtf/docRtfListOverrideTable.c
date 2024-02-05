@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "docRtfWriterImpl.h"
 #include "docRtfReaderImpl.h"
-
 #include <docListAdmin.h>
-
 #include <appDebugon.h>
-
 int docRtfRememberListOverrideLevelProperty(const RtfControlWord *rcw, int arg,
 					    RtfReader *rrc)
 {

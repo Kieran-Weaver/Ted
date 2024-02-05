@@ -6,13 +6,9 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "docRtfWriterImpl.h"
-
 /************************************************************************/
 /*									*/
 /*  Write a Style Sheet.						*/

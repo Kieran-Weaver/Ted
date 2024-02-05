@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docEdit.h"
 #include "docEditImpl.h"
 #include "docCopyNode.h"
@@ -17,7 +15,6 @@
 #include <docNodeTree.h>
 
 #include <appDebugon.h>
-
 #define SHOW_SELECTION_RANGE 0
 
 /************************************************************************/

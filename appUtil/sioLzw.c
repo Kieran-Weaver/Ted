@@ -25,7 +25,6 @@
 #include <string.h>
 #include "sioLzw.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Common LZW Compression/Decompression state variables.		*/

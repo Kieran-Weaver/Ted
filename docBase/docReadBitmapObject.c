@@ -13,7 +13,6 @@
 #include <appDebugon.h>
 #include "docObject.h"
 #include "docObjectProperties.h"
-
 /************************************************************************/
 /*									*/
 /*  Read a bitmap/pixmap image file.					*/

@@ -8,7 +8,6 @@
 #define PAGED_LIST_H
 
 #include "utilIndexSet.h"
-
 typedef void (*InitPagedListItem)(void *vit);
 typedef void (*CleanPagedListItem)(void *vit);
 

@@ -8,7 +8,6 @@
 #define BMCOLOR_H
 
 #include <utilColor.h>
-
 /************************************************************************/
 /*									*/
 /*  For color approximation, anti aliasing and dithering		*/

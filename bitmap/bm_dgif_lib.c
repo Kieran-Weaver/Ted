@@ -17,7 +17,6 @@
 #include <sioLzw.h>
 #include <sioEndian.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Read a palette from the input file.					*/

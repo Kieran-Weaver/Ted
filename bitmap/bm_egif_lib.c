@@ -17,7 +17,6 @@
 #include <sioBlocked.h>
 #include <sioLzw.h>
 #include <sioEndian.h>
-
 /************************************************************************/
 /*									*/
 /*  Write a color map to file.						*/

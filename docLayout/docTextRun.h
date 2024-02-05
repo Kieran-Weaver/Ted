@@ -10,7 +10,6 @@
 #include <docBuf.h>
 #include <docEditRange.h>
 #include <utilIndexMapping.h>
-
 /************************************************************************/
 /*									*/
 /*  A run of text that can be drawn with a singe 'draw string' call.	*/

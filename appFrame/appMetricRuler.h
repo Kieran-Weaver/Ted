@@ -7,7 +7,6 @@
 #include "appFrame.h"
 #include "appRuler.h"
 #include <geo2DInteger.h>
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

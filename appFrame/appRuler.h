@@ -10,7 +10,6 @@
 #include "appGuiBase.h"
 #include <drawDrawingSurface.h>
 #include <psPostScriptFontList.h>
-
 typedef struct RulerData {
 	/**
 				 *  The size in pixels across the ruler.

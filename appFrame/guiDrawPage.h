@@ -8,11 +8,9 @@
 #define GUI_DRAW_PAGE_H
 
 #include <stdio.h>
-
 #include "appGuiBase.h"
 #include <psNup.h>
 #include <drawDrawingSurface.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif

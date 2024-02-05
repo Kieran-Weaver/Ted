@@ -14,7 +14,6 @@
 #include "appSystem.h"
 #include "utilFontmap.h"
 #include <appDebugon.h>
-
 typedef struct FontmapEntry {
 	char *feFrom;
 	char *feTo;

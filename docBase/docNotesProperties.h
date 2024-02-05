@@ -5,7 +5,6 @@
 /************************************************************************/
 
 #include <utilPropMask.h>
-
 #ifndef DOC_NOTES_PROPERTIES_H
 #define DOC_NOTES_PROPERTIES_H
 

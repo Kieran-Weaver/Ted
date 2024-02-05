@@ -5,15 +5,11 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdio.h>
 #include <string.h>
-
 #include "psGlyphs.h"
 #include "psFontInfo.h"
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Indirection for variable names.					*/

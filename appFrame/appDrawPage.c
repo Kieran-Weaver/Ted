@@ -15,7 +15,6 @@
 #include "guiDrawPage.h"
 #include "guiDrawingWidget.h"
 #include <psNup.h>
-
 /************************************************************************/
 /*									*/
 /*  Draw a text like pattern between some margins.			*/

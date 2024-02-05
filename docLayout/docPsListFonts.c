@@ -6,9 +6,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "docParticuleData.h"
 #include "docPsPrintImpl.h"
 #include <docListFonts.h>
@@ -16,9 +14,7 @@
 #include <sioMemory.h>
 #include <docObjectProperties.h>
 #include <docTreeNode.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Recursively retrieve the list of PostScriptFonts that is used in	*/

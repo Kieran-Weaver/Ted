@@ -12,7 +12,6 @@
 #include <docEditRange.h>
 #include <utilMD5.h>
 #include <sioGeneral.h>
-
 struct EditStep;
 struct BufferDocument;
 

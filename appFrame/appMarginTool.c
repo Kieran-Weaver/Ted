@@ -11,7 +11,6 @@
 #include "appMarginTool.h"
 #include "guiTextUtil.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Turn on/off								*/

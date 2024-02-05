@@ -6,19 +6,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include <string.h>
-
 #include <psPrint.h>
 #include <docCalculateToc.h>
 #include <docEvalField.h>
 #include "docPsPrintImpl.h"
 #include <utilMemoryBufferPrintf.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Leave a trace in the PDF document information.			*/

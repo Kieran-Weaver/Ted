@@ -2,7 +2,6 @@
 #define BM_SEGMENTS_H
 
 #include "bitmap.h"
-
 typedef struct DataRun {
 	short int drX0;
 	short int drXp;

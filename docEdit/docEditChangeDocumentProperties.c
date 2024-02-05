@@ -9,7 +9,6 @@
 #include <docField.h>
 #include "docEditSetProperties.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 
 int docChangeDocumentProperties(EditOperation *eo, PropertyMask *docDpDoneMask,

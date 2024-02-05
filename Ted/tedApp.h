@@ -2,14 +2,11 @@
 #define TED_APP_H
 
 #include <appFrame.h>
-
 #include <utilPropMask.h>
 #include <utilMemoryBuffer.h>
-
 #include <geo2DInteger.h>
 #include <docBuf.h>
 #include <utilIndexMapping.h>
-
 /************************************************************************/
 
 struct TedDocument;

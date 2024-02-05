@@ -5,18 +5,14 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <string.h>
 #include <time.h>
-
 #include <appSystem.h>
 #include <sioFd.h>
 #include <utilMemoryBufferPrintf.h>
 #include "docEditTrace.h"
 #include "docEditCommand.h"
-
 #include <appDebugon.h>
-
 void docInitTraceStep(TraceStep *ts)
 {
 	ts->tsCommand = -1;

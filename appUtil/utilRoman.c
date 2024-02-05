@@ -9,7 +9,6 @@
 #include <string.h>
 #include "utilRoman.h"
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Convert a number to roman notation.					*/

@@ -8,7 +8,6 @@
 #define DOC_PICTURE_PROPERTIES_H
 
 #include <utilPropMask.h>
-
 /************************************************************************/
 /*									*/
 /*  Properties of a picture.						*/

@@ -8,7 +8,6 @@
 #define TEXT_BIDI_TREE_H
 
 #include "bidiEmbedding.h"
-
 typedef struct BidiNode {
 	/**
 			 *  String offset in bytes of the run.

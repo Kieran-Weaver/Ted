@@ -8,7 +8,6 @@
 #define UTIL_PALETTE_H
 
 #include "utilColor.h"
-
 typedef struct ColorPalette {
 	int cpColorCount;
 	RGB8Color *cpColors;

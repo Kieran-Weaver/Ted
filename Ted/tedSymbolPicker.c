@@ -5,9 +5,7 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stddef.h>
-
 #include "tedSymbolPicker.h"
 #include "tedApp.h"
 #include "tedEdit.h"
@@ -15,9 +13,7 @@
 #include "tedAppResources.h"
 #include <appSymbolPicker.h>
 #include <docEditCommand.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Adapt fonts tool to the current document.				*/

@@ -8,7 +8,6 @@
 #include <config.h>
 #include <appDebugon.h>
 #include "docEditRange.h"
-
 /************************************************************************/
 /*									*/
 /*  Initialize an EditRange.						*/

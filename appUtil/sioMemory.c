@@ -9,7 +9,6 @@
 #include <string.h>
 #include "sioMemory.h"
 #include <appDebugon.h>
-
 typedef struct SioMemoryPrivate {
 	MemoryBuffer *smpBuffer;
 	int smpPosition;

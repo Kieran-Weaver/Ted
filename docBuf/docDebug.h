@@ -8,7 +8,6 @@
 #define DOC_DEBUG_H
 
 #include "docBuf.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

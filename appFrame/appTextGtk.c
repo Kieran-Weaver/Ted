@@ -3,7 +3,6 @@
 #include <string.h>
 #include "guiWidgets.h"
 #include <appDebugon.h>
-
 void appMakeTextInRow(APP_WIDGET *pText, APP_WIDGET row, int column,
 		      int colspan, int textColumns, int textEnabled)
 {

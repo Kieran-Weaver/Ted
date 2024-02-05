@@ -12,7 +12,6 @@
 #include <docBuf.h>
 #include <docSelectionDescription.h>
 #include "tedBookmarkList.h"
-
 /************************************************************************/
 /*									*/
 /*  User data for a bookmark dialog.					*/

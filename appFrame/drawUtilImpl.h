@@ -9,7 +9,6 @@
 #include "drawColors.h"
 #include "appXftColorList.h"
 #include <bitmap.h>
-
 /************************************************************************/
 /*									*/
 /*  Utility Routines							*/

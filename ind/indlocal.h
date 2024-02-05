@@ -1,5 +1,4 @@
 #include "ind.h"
-
 #define TNfUSED 1
 #define TNfACCEPTS 2
 #define TNfREAD_ONLY 4

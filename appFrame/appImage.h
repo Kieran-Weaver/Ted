@@ -2,9 +2,7 @@
 #define APP_IMAGE_H
 
 #include <bitmap.h>
-
 #include "appGuiBase.h"
-
 /************************************************************************/
 /*									*/
 /*  Routine declarations.						*/

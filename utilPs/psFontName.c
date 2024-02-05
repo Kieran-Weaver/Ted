@@ -5,14 +5,10 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
-
 #include <appDebugon.h>
-
 #include "psFontName.h"
-
 /************************************************************************/
 /*									*/
 /*  Derive a font weight from the string designation.			*/

@@ -8,7 +8,6 @@
 #define DOC_FIELD_FORMAT_H
 
 #include "docFieldInstructions.h"
-
 /************************************************************************/
 /*									*/
 /*  Modifiers to the field format. Follow the \\* flag.			*/

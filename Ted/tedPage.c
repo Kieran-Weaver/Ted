@@ -3,7 +3,6 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include "tedApp.h"
 #include "tedSelect.h"
 #include "tedAppResources.h"
@@ -13,9 +12,7 @@
 #include <guiWidgetDrawingSurface.h>
 #include <guiDrawingWidget.h>
 #include <docTreeNode.h>
-
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Reformat and redisplay the document because of a major format	*/

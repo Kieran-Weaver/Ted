@@ -11,7 +11,6 @@
 #include "docEvalField.h"
 #include "docRecalculateFields.h"
 #include <docMergeField.h>
-
 /************************************************************************/
 /*									*/
 /*  Evaluate fields to merge in external data.				*/

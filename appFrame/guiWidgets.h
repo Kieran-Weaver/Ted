@@ -8,9 +8,7 @@
 #define GUI_WIDGETS_H
 
 #include <stdio.h>
-
 #include "appGuiBase.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif

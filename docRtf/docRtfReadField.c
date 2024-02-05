@@ -6,19 +6,15 @@
 /************************************************************************/
 
 #include <config.h>
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-
 #include <appDebugon.h>
-
 #include "docRtfReaderImpl.h"
 #include <docField.h>
 #include <docParaParticules.h>
 #include <docTreeType.h>
 #include <docBookmarkField.h>
-
 /************************************************************************/
 /*									*/
 /*  To ensure proper field/bookmark nesting.. A stack op active		*/

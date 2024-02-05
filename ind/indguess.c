@@ -1,12 +1,9 @@
 #include <config.h>
-
 #include <stdlib.h>
-
 #include "indlocal.h"
 #include <ucd.h>
 
 #include <appDebugoff.h>
-
 typedef struct GuessContext {
 	/*
 				 * The finite automaton that holds the 

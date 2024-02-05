@@ -10,7 +10,6 @@
 #include "drawScreenFontImpl.h"
 #include <utilIntegerValueNode.h>
 #include <utilNumberedPropertiesAdmin.h>
-
 typedef void (*ScreenFontFunction)(const DrawScreenFont *sf, int n,
 				   void *through);
 

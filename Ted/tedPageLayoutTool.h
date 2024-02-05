@@ -10,7 +10,6 @@
 #include <appPageLayoutTool.h>
 #include <docBuf.h>
 #include <docSelectionDescription.h>
-
 /************************************************************************/
 /*									*/
 /*  Routine Declarations.						*/

@@ -11,7 +11,6 @@
 #include <docTreeType.h>
 #include <docDocumentNote.h>
 #include <appDebugon.h>
-
 /************************************************************************/
 /*									*/
 /*  Renumber the notes of a document.					*/

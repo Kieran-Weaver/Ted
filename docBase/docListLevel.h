@@ -12,9 +12,7 @@
 #include <utilPropMask.h>
 #include <utilMemoryBuffer.h>
 #include <textAttribute.h>
-
 #include "docParaProperties.h"
-
 typedef enum ListLevelAlignment {
 	DOCllaLEFT = 0,
 	DOCllaCENTER,

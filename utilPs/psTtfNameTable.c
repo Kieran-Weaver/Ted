@@ -2,13 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include <uniUtf8.h>
-
 #include "psTtfNameTable.h"
 #include <utilEndian.h>
 #include <sioEndian.h>
-
 #include <appDebugon.h>
-
 void psTtfInitTrueTypeNameRecord(TrueTypeNameRecord *ttnr)
 {
 	ttnr->ttnrPlatformID = 0;

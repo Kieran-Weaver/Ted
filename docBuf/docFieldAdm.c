@@ -19,7 +19,6 @@
 #include "docParaString.h"
 #include "docParaParticules.h"
 #include "docNodeTree.h"
-
 /************************************************************************/
 /*									*/
 /*  Find the inner most field for a particular position.		*/

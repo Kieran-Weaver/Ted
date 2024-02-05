@@ -4,7 +4,6 @@
 #include "drawImpl.h"
 #include "drawScreenFontImpl.h"
 #include "appXftColorList.h"
-
 /************************************************************************/
 /*									*/
 /*  Procedure declarations.						*/
