@@ -13,7 +13,6 @@
 #include <appDebugon.h>
 
 #include <appUnit.h>
-#include <textOfficeCharset.h>
 #include <textConverter.h>
 #include <textConverterImpl.h>
 #include <docShape.h>

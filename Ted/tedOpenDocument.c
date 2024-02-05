@@ -11,7 +11,6 @@
 #include <sioStdin.h>
 #include <sioFd.h>
 #include <appSystem.h>
-#include <textOfficeCharset.h>
 #include <geoUnits.h>
 #include <appQuestion.h>
 

@@ -14,8 +14,6 @@
 
 #include <appDebugon.h>
 
-#include <textOfficeCharset.h>
-
 #include "docRtfReaderImpl.h"
 #include "docRtfTags.h"
 #include "docRtfFlags.h"

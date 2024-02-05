@@ -11,7 +11,6 @@
 #include <sioPipe.h>
 #include <sioMD5.h>
 #include <utilMD5.h>
-#include <textOfficeCharset.h>
 #include <appQuestion.h>
 #include <appSystem.h>
 #include <psPrint.h>

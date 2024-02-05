@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <ctype.h>
 
-#include <textOfficeCharset.h>
 #include <appQuestion.h>
 
 #include "tedApp.h"

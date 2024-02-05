@@ -4,18 +4,12 @@
 /*									*/
 /************************************************************************/
 
-#include <config.h>
-
-#include <stddef.h>
-
+#include <appDebugon.h>
 #include <appMatchFont.h>
-
 #include <docLayout.h>
 #include <docScreenLayout.h>
 #include <textAttributeUtil.h>
 #include <drawDrawingSurface.h>
-
-#include <appDebugon.h>
 
 /************************************************************************/
 /*									*/

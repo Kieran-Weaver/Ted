@@ -14,7 +14,6 @@
 #include <charnames.h>
 #include <uniSpecials.h>
 #include <utilJenkinsPerfectHash.h>
-#include <textOfficeCharset.h>
 
 #include "docRtfReaderImpl.h"
 #include "docRtfTagHash.h"

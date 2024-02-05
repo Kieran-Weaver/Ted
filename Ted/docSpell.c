@@ -4,17 +4,10 @@
 /*									*/
 /************************************************************************/
 
-#include <config.h>
-
-#include <stdio.h>
-#include <ctype.h>
-
 #include <appDebugon.h>
-
 #include "tedFind.h"
 #include <docBuf.h>
 #include <docParaParticules.h>
-
 #include <ind.h>
 #include <reg.h>
 

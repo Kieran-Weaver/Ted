@@ -12,7 +12,6 @@
 #include <appDebugon.h>
 
 #include "utilDocFontList.h"
-#include <textOfficeCharset.h>
 #include <psDocumentFontStyle.h>
 
 /************************************************************************/
