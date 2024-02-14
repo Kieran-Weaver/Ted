@@ -13,8 +13,7 @@
 /*									*/
 /************************************************************************/
 
-struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
-							int avoidFontconfig);
+struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget);
 
 int guiGetLabelFont(struct DrawingSurface *ds, const PostScriptFontList *psfl,
 		    APP_WIDGET nativeLabel);

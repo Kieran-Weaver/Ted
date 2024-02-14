@@ -1440,9 +1440,7 @@ static AppPrintDialog *appMakePrintDialog(EditApplication *ea, EditDocument *ed,
 	appGuiShowDialog(ea, &(apd->apdDialog), ed->edToplevel.atTopWidget);
 
 	if (apd->apdPageDrawing) {
-		apd->apdDrawingSurface = guiDrawingSurfaceForNativeWidget(
-			apd->apdPageDrawing,
-			ea->eaPostScriptFontList.psflAvoidFontconfig);
+		apd->apdDrawingSurface = guiDrawingSurfaceForNativeWidget(apd->apdPageDrawing);
 
 		guiDrawGetSizeOfWidget(&wide, &high, apd->apdPageDrawing);
 

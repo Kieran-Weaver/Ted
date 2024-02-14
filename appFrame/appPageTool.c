@@ -473,9 +473,7 @@ void *appMakePageTool(EditApplication *ea, APP_WIDGET pageOption,
 
 	appShowShellWidget(ea, apt->aptTopWidget);
 
-	apt->aptDrawingSurface = guiDrawingSurfaceForNativeWidget(
-		apt->aptPageDrawing,
-		ea->eaPostScriptFontList.psflAvoidFontconfig);
+	apt->aptDrawingSurface = guiDrawingSurfaceForNativeWidget(apt->aptPageDrawing);
 
 	guiGetForegroundColor(&(apt->aptBackgroundColor), apt->aptPageDrawing);
 

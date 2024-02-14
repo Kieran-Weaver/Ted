@@ -192,7 +192,6 @@ void psInitAfmFontInfo(AfmFontInfo *afi)
 	utilInitMemoryBuffer(&(afi->afiFontFileName));
 	afi->afiFontFileIndex = 0;
 
-	utilInitMemoryBuffer(&(afi->afiAfmFileName));
 	afi->afiMetricsDeferred = 0;
 	afi->afiIgnoreKerning = 0;
 	afi->afiMetricCount = 0;
@@ -271,7 +270,6 @@ void psCleanAfmFontInfo(AfmFontInfo *afi)
 	}
 
 	utilCleanMemoryBuffer(&(afi->afiFontFileName));
-	utilCleanMemoryBuffer(&(afi->afiAfmFileName));
 
 	psRemoveMetricsFromInfo(afi);
 

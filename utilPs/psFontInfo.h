@@ -113,7 +113,6 @@ typedef struct AfmFontInfo {
 	/*  Glyph Metrics information: Must be	*/
 	/*  known as soon as text is formatted.	*/
 	/********************************************/
-	MemoryBuffer afiAfmFileName;
 	unsigned char afiMetricsDeferred;
 	unsigned char afiIgnoreKerning;
 	int afiMetricCount;

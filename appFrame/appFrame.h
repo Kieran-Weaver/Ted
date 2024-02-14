@@ -466,7 +466,6 @@ typedef struct EditApplication {
 	int eaSkipEmptyPagesInt;
 	int eaSkipBlankPagesInt;
 	int eaOmitHeadersOnEmptyPagesInt;
-	int eaAvoidFontconfigInt;
 	int eaPreferBase35FontsInt;
 	int eaEmbedFontsInt;
 	int eaUseKerningInt;
@@ -481,7 +480,6 @@ typedef struct EditApplication {
 	char *eaSkipEmptyPagesString;
 	char *eaSkipBlankPagesString;
 	char *eaOmitHeadersOnEmptyPagesString;
-	char *eaAvoidFontconfigString;
 	char *eaPreferBase35FontsString;
 	char *eaEmbedFontsString;
 	char *eaUseKerningString;

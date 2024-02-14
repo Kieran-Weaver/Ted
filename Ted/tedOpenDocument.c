@@ -1000,8 +1000,7 @@ int tedOpenDocument(EditApplication *ea, void *voidtd, int *pFormat,
 		DocumentProperties *dp = &(td->tdDocument->bdProperties);
 
 		/*  3  */
-		if (ea->eaAvoidFontconfigInt <= 0 &&
-		    ea->eaPreferBase35FontsInt >= 0) {
+		if (ea->eaPreferBase35FontsInt >= 0) {
 			if (utilAddBase35FontsToDocList(dp->dpFontList)) {
 				LDEB(35);
 				rval = -1;

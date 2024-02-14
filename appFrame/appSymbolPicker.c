@@ -1236,9 +1236,7 @@ void appSymbolPickerFillChoosers(SymbolPicker *sp,
 
 void appFinishSymbolPicker(SymbolPicker *sp, const SymbolPickerResources *spr)
 {
-	sp->spDrawingSurface = guiDrawingSurfaceForNativeWidget(
-		sp->spSymbolDrawing,
-		sp->spPostScriptFontList->psflAvoidFontconfig);
+	sp->spDrawingSurface = guiDrawingSurfaceForNativeWidget(sp->spSymbolDrawing);
 
 	guiGetBackgroundColor(&(sp->spBackgroundColor), sp->spSymbolDrawing);
 }

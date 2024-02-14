@@ -474,8 +474,6 @@ static AppConfigurableResource APP_ApplicationResourceTable[] = {
 		     offsetof(EditApplication, eaCustomPsSetupFilename),
 		     (char *)0),
 
-	APP_RESOURCE("avoidFontconfig",
-		     offsetof(EditApplication, eaAvoidFontconfigString), "0"),
 	APP_RESOURCE("preferBase35Fonts",
 		     offsetof(EditApplication, eaPreferBase35FontsString), "0"),
 	APP_RESOURCE("embedFonts",
@@ -666,8 +664,6 @@ void appGetApplicationResourceValues(EditApplication *ea)
 			    ea->eaSkipBlankPagesString);
 	appDetermineBoolean(&(ea->eaOmitHeadersOnEmptyPagesInt),
 			    ea->eaOmitHeadersOnEmptyPagesString);
-	appDetermineBoolean(&(ea->eaAvoidFontconfigInt),
-			    ea->eaAvoidFontconfigString);
 	appDetermineBoolean(&(ea->eaPreferBase35FontsInt),
 			    ea->eaPreferBase35FontsString);
 	appDetermineBoolean(&(ea->eaEmbedFontsInt), ea->eaEmbedFontsString);

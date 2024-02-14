@@ -140,8 +140,7 @@ void guiCollectExposures(DocumentRectangle *drClip, APP_WIDGET nativeWidget,
 /*									*/
 /************************************************************************/
 
-struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
-							int avoidFontconfig)
+struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget)
 {
 	struct DrawingSurface *ds =
 		(struct DrawingSurface *)malloc(sizeof(struct DrawingSurface));
@@ -163,7 +162,6 @@ struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 		return (struct DrawingSurface *)0;
 	}
 	ds->dsDrawable = nativeWidget->window;
-	ds->dsAvoidFontconfig = avoidFontconfig;
 
 	ds->dsGc = gdk_gc_new(ds->dsDrawable);
 	if (!ds->dsGc) {
@@ -173,16 +171,14 @@ struct DrawingSurface *guiDrawingSurfaceForNativeWidget(APP_WIDGET nativeWidget,
 	}
 
 #ifdef USE_XFT
-	if (!ds->dsAvoidFontconfig) {
-		ds->dsXftDrawable = appGtkXftDrawCreate(ds->dsDrawable,
-							&(ds->dsXftColorList));
-		if (!ds->dsXftDrawable) {
-			XDEB(ds->dsXftDrawable);
-		}
+	ds->dsXftDrawable = appGtkXftDrawCreate(ds->dsDrawable,
+						&(ds->dsXftColorList));
+	if (!ds->dsXftDrawable) {
+		XDEB(ds->dsXftDrawable);
+	}
 
-		if (ds->dsXftDrawable) {
-			gtk_widget_set_double_buffered(nativeWidget, FALSE);
-		}
+	if (ds->dsXftDrawable) {
+		gtk_widget_set_double_buffered(nativeWidget, FALSE);
 	}
 #endif
 

@@ -1606,9 +1606,7 @@ void appFontToolFillChoosers(AppFontChooser *afc,
 void appFontToolFinishPage(AppFontChooser *afc,
 			   const AppFontToolResources *aftr)
 {
-	afc->afcDrawingSurface = guiDrawingSurfaceForNativeWidget(
-		afc->afcSampleDrawing,
-		afc->afcPostScriptFontList->psflAvoidFontconfig);
+	afc->afcDrawingSurface = guiDrawingSurfaceForNativeWidget(afc->afcSampleDrawing);
 
 	return;
 }

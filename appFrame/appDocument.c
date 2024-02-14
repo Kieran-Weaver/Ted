@@ -526,8 +526,7 @@ int appSetupDocument(EditApplication *ea, EditDocument *ed)
 
 	gtk_widget_realize(ed->edToplevel.atTopWidget);
 
-	ed->edDrawingSurface = guiDrawingSurfaceForNativeWidget(
-		ed->edDocumentWidget.dwWidget, ea->eaAvoidFontconfigInt > 0);
+	ed->edDrawingSurface = guiDrawingSurfaceForNativeWidget(ed->edDocumentWidget.dwWidget);
 	if (!ed->edDrawingSurface) {
 		PDEB(ed->edDrawingSurface);
 		appFreeDocument(ea, ed);

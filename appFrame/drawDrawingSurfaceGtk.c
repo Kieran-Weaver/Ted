@@ -33,7 +33,6 @@ drawMakeDrawingSurfaceForParent(struct DrawingSurface *parent, int wide,
 
 	ds->dsColors = parent->dsColors;
 	ds->dsDrawable = gdk_pixmap_new(parent->dsDrawable, wide, high, depth);
-	ds->dsAvoidFontconfig = parent->dsAvoidFontconfig;
 	ds->dsIsPixmap = 1;
 
 	if (!ds->dsDrawable) {
@@ -50,12 +49,10 @@ drawMakeDrawingSurfaceForParent(struct DrawingSurface *parent, int wide,
 	}
 
 #ifdef USE_XFT
-	if (!ds->dsAvoidFontconfig) {
-		ds->dsXftDrawable = appGtkXftDrawCreate(ds->dsDrawable,
-							&(ds->dsXftColorList));
-		if (!ds->dsXftDrawable) {
-			XDEB(ds->dsXftDrawable);
-		}
+	ds->dsXftDrawable = appGtkXftDrawCreate(ds->dsDrawable,
+						&(ds->dsXftColorList));
+	if (!ds->dsXftDrawable) {
+		XDEB(ds->dsXftDrawable);
 	}
 #endif
 
@@ -431,7 +428,7 @@ int drawOpenScreenFont(struct DrawingSurface *ds, const AfmFontInfo *afi,
 			dsf->dsfGc = ds->dsGc;
 		}
 
-		if (drawFontOpenScreenFont(dsf, ds->dsAvoidFontconfig)) {
+		if (drawFontOpenScreenFont(dsf)) {
 			LDEB(1);
 			return -1;
 		}

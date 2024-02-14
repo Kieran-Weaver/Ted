@@ -87,11 +87,8 @@ void appCleanDrawnPulldown(AppDrawnPulldown *adp)
 int appFinishDrawnPulldownInplace(AppDrawnPulldown *adp)
 {
 	if (!adp->adpInplaceDrawingSurface) {
-		const int avoidFontconfig = 0;
-
 		adp->adpInplaceDrawingSurface =
-			guiDrawingSurfaceForNativeWidget(adp->adpInplaceDrawing,
-							 avoidFontconfig);
+			guiDrawingSurfaceForNativeWidget(adp->adpInplaceDrawing);
 		if (!adp->adpInplaceDrawingSurface) {
 			XDEB(adp->adpInplaceDrawingSurface);
 		}
@@ -113,11 +110,9 @@ int appFinishDrawnPulldownInplace(AppDrawnPulldown *adp)
 int appFinishDrawnPulldownPulldown(AppDrawnPulldown *adp)
 {
 	if (!adp->adpPulldownDrawingSurface) {
-		const int avoidFontconfig = 0;
-
 		adp->adpPulldownDrawingSurface =
 			guiDrawingSurfaceForNativeWidget(
-				adp->adpPulldownDrawing, avoidFontconfig);
+				adp->adpPulldownDrawing);
 		if (!adp->adpPulldownDrawingSurface) {
 			XDEB(adp->adpPulldownDrawingSurface);
 		}

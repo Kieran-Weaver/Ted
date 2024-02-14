@@ -451,15 +451,12 @@ void appRgbChooserPageFillPage(RgbChooserPage *rcp,
 void appRgbChooserPageFinishPage(RgbChooserPage *rcp,
 				 const RgbChooserPageResources *rcpr)
 {
-	const int avoidFontconfig = 0;
-
 	if (!rcp->rcpDrawing) {
 		XDEB(rcp->rcpDrawing);
 		return;
 	}
 
-	rcp->rcpDrawingSurface = guiDrawingSurfaceForNativeWidget(
-		rcp->rcpDrawing, avoidFontconfig);
+	rcp->rcpDrawingSurface = guiDrawingSurfaceForNativeWidget(rcp->rcpDrawing);
 	if (!rcp->rcpDrawingSurface) {
 		XDEB(rcp->rcpDrawingSurface);
 	}

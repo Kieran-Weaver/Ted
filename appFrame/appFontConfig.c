@@ -11,7 +11,6 @@
 #include "appMatchFont.h"
 #include <uniAlternatives.h>
 #include <appDebugon.h>
-#ifdef USE_FONTCONFIG /*  {{	*/
 
 #include <fontconfig/fontconfig.h>
 #include <ft2build.h>
@@ -799,7 +798,6 @@ ready:
 	return rval;
 }
 
-#endif /*  }}	*/
 
 #ifdef USE_XFT /*  {{	*/
 
@@ -876,7 +874,6 @@ ready:
 
 #endif /*  }}	*/
 
-#ifdef USE_FONTCONFIG
 #undef FT_ERRORDEF_
 #undef FT_NOERRORDEF_
 #define FT_ERRORDEF_(d, n, s) \
@@ -914,4 +911,3 @@ static const char *appFtErrorStr(int e)
 	return buf;
 }
 
-#endif

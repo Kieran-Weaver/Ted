@@ -1639,10 +1639,8 @@ static void tedMainSetPageLayout(EditDocument *ed,
 
 /************************************************************************/
 
-#ifdef USE_FONTCONFIG
 #include <fontconfig/fontconfig.h> /* keep for version */
 #include <ft2build.h> /* keep for version */
-#endif
 
 #ifdef USE_XFT
 #include FT_FREETYPE_H /* keep for version */
@@ -1668,9 +1666,7 @@ static const char TED_ConfigString[] =
 
 	GTK_VSS
 
-#ifdef USE_FONTCONFIG
 		FC_VSS
-#endif
 
 #ifdef USE_XFT
 			FT2_VSS

@@ -19,8 +19,6 @@ void psInitPostScriptFontList(PostScriptFontList *psfl)
 	psfl->psflInfos = (AfmFontInfo **)0;
 	psfl->psflInfoCount = 0;
 
-	psfl->psflAvoidFontconfig = 0;
-
 	psfl->psflFontNameToInfo = (void *)0;
 	psfl->psflFontFileToInfo = (void *)0;
 }

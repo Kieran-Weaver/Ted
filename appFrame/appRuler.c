@@ -149,8 +149,7 @@ void appRulerMakeDrawingSurface(RulerData *rd, int vertical,
 {
 	rd->rdFontHeight = fontSizeHintPixels;
 
-	rd->rdDrawingSurface = guiDrawingSurfaceForNativeWidget(
-		w, rd->rdPostScriptFontList->psflAvoidFontconfig);
+	rd->rdDrawingSurface = guiDrawingSurfaceForNativeWidget(w);
 
 	drawSetLineAttributes(rd->rdDrawingSurface, 1, LineStyleSolid,
 			      LineCapProjecting, LineJoinMiter,

@@ -24,7 +24,6 @@ struct DrawingSurface {
 #endif
 
 	unsigned char dsIsPixmap;
-	unsigned char dsAvoidFontconfig;
 	NumberedPropertiesList dsScreenFontAdmin;
 };
 

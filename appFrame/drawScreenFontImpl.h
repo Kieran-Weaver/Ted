@@ -81,7 +81,7 @@ void drawCleanEncodedScreenFont(DrawScreenFont *dsf, EncodedScreenFont *esf);
 
 void drawInitEncodedScreenFont(EncodedScreenFont *esf);
 
-int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig);
+int drawFontOpenScreenFont(DrawScreenFont *dsf);
 
 XftFont *drawOpenXftFont(DrawScreenFont *dsf);
 

@@ -13,12 +13,6 @@ typedef struct PostScriptFontList {
 	int psflFamilyCount;
 	AfmFontInfo **psflInfos;
 	int psflInfoCount;
-	int psflAvoidFontconfig;
-	/*  Do not use fontconfig. This is a	*/
-	/*  strange place to store this piece	*/
-	/*  of information. However: everywhere	*/
-	/*  where we need it, we have a font	*/
-	/*  list available.			*/
 
 	void *psflFontNameToInfo;
 	void *psflFontFileToInfo;

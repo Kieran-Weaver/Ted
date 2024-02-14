@@ -6,7 +6,6 @@
 
 #include <config.h>
 #include "appMatchFont.h"
-#include <psMatchFont.h>
 #include <appDebugon.h>
 
 /************************************************************************/
@@ -22,27 +21,11 @@ AfmFontInfo *appGetFontInfo(const char *familyName, int styleInt,
 {
 	AfmFontInfo *afi = (AfmFontInfo *)0;
 
-#ifdef USE_FONTCONFIG
-	if (psfl->psflAvoidFontconfig) {
-		afi = psGetPsFontInfoForAttribute(familyName, styleInt,
-						  unicodesUsed, ta, psfl);
-		if (!afi) {
-			SXDEB(familyName, afi);
-		}
-	} else {
-		afi = appFcGetFontInfoForAttribute(familyName, styleInt,
-						   unicodesUsed, ta, psfl);
-		if (!afi) {
-			SXDEB(familyName, afi);
-		}
-	}
-#else
-	afi = psGetPsFontInfoForAttribute(familyName, styleInt, unicodesUsed,
-					  ta, psfl);
+	afi = appFcGetFontInfoForAttribute(familyName, styleInt,
+					   unicodesUsed, ta, psfl);
 	if (!afi) {
 		SXDEB(familyName, afi);
 	}
-#endif
 
 	return afi;
 }
@@ -111,19 +94,11 @@ int appGetDeferredFontMetricsForList(PostScriptFontList *psfl)
 
 int appGetDeferredFontMetrics(AfmFontInfo *afi)
 {
-#ifdef USE_FONTCONFIG
-	if (afi->afiMetricsDeferred &&
-	    utilMemoryBufferIsEmpty(&(afi->afiAfmFileName))) {
+	if (afi->afiMetricsDeferred) {
 		if (appFcGetFontMetrics(afi)) {
 			SDEB(afi->afiFullName);
 			return -1;
 		}
-	}
-#endif
-
-	if (afi->afiMetricsDeferred) {
-		SLDEB(afi->afiFullName, afi->afiMetricsDeferred);
-		return -1;
 	}
 
 	return 0;

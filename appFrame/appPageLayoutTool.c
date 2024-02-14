@@ -534,9 +534,7 @@ void appPageLayoutPageFillChoosers(PageLayoutTool *plt,
 void appPageLayoutPageFinishPage(PageLayoutTool *plt,
 				 const PageLayoutPageResources *plpr)
 {
-	plt->pltDrawingSurface = guiDrawingSurfaceForNativeWidget(
-		plt->pltPageDrawing,
-		plt->pltApplication->eaPostScriptFontList.psflAvoidFontconfig);
+	plt->pltDrawingSurface = guiDrawingSurfaceForNativeWidget(plt->pltPageDrawing);
 
 	guiGetBackgroundColor(&(plt->pltBackgroundColor), plt->pltPageDrawing);
 

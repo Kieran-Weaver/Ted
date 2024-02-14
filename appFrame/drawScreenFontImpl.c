@@ -127,10 +127,8 @@ int drawGetScreenFontKey(const DrawScreenFont *dsf, int prop)
 /*									*/
 /************************************************************************/
 
-int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig)
+int drawFontOpenScreenFont(DrawScreenFont *dsf)
 {
-	int openFullFont = 1;
-
 	if (dsf->apfPsFaceNumber < 0 || !dsf->apfPsFontInfo) {
 		LXDEB(dsf->apfPsFaceNumber, dsf->apfPsFontInfo);
 		return -1;
@@ -140,20 +138,10 @@ int drawFontOpenScreenFont(DrawScreenFont *dsf, int avoidFontconfig)
 	/*  Open freetype fonts (if configured)				*/
 	/********************************************************************/
 #ifdef USE_XFT
-	if (!avoidFontconfig) {
-		if (openFullFont) {
-			dsf->dsfXftFont = drawOpenXftFont(dsf);
-			if (dsf->dsfXftFont) {
-				openFullFont = 0;
-			}
-		}
-	}
-#endif
-
-	if (openFullFont) {
-		SLDEB(dsf->apfPsFontInfo->afiFontName, openFullFont);
+	dsf->dsfXftFont = drawOpenXftFont(dsf);
+	if (!dsf->dsfXftFont) {
 		return -1;
 	}
-
+#endif
 	return 0;
 }

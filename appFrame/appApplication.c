@@ -25,20 +25,11 @@ int appPostScriptFontCatalog(EditApplication *ea)
 		goto ready;
 	}
 
-#ifdef USE_FONTCONFIG
-	ea->eaPostScriptFontList.psflAvoidFontconfig =
-		ea->eaAvoidFontconfigInt > 0;
+	appFcListFonts(&(ea->eaPostScriptFontList));
 
-	if (!ea->eaPostScriptFontList.psflAvoidFontconfig) {
-		appFcListFonts(&(ea->eaPostScriptFontList));
-
-		if (ea->eaPostScriptFontList.psflFamilyCount > 0) {
-			goto ready;
-		}
+	if (ea->eaPostScriptFontList.psflFamilyCount > 0) {
+		goto ready;
 	}
-#else
-	ea->eaPostScriptFontList.psflAvoidFontconfig = 1;
-#endif
 
 	if (ea->eaGhostscriptFontmap && !ea->eaGhostscriptMappingsRead) {
 		if (utilFontmapReadMap(ea->eaGhostscriptFontmap)) {
