@@ -157,8 +157,8 @@ static int docRtfEmitU32(RtfWriter *rw, uint32_t symbol)
 		return 0;
 	} else if (symbol > 0x10000) {
 		symbol -= 0x10000;
-		surrogate = 0xD800 + symbol >> 10;
-		symbol = 0xDC00 + symbol & 0x3FF;
+		surrogate = 0xD800 + (symbol >> 10);
+		symbol = 0xDC00 + (symbol & 0x3FF);
 
 		docRtfEmitU16(rw, surrogate);
 	}

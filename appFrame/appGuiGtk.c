@@ -13,10 +13,15 @@
 /*									*/
 /************************************************************************/
 
+static void appDestroyWidget(APP_WIDGET parent, void* _) {
+	(void)_;
+
+	gtk_widget_destroy( parent );
+}
+
 void appEmptyParentWidget(APP_WIDGET parent)
 {
-	gtk_container_foreach(GTK_CONTAINER(parent),
-			      (GtkCallback)gtk_widget_destroy, NULL);
+	gtk_container_foreach(GTK_CONTAINER(parent), appDestroyWidget, NULL);
 }
 
 /************************************************************************/

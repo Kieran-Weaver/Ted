@@ -161,7 +161,7 @@ void appMakeDocVisible(EditApplication *ea, EditDocument *ed)
 	}
 }
 
-void appDocToFront(APP_WIDGET option, void *voided, void *e)
+void appDocToFront(APP_WIDGET option, void *voided)
 {
 	EditDocument *ed = (EditDocument *)voided;
 	EditApplication *ea = ed->edApplication;

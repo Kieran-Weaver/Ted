@@ -562,7 +562,7 @@ void appCloseDocument(EditDocument *ed);
 
 void appSetCurrentDocument(EditApplication *ea, EditDocument *ed);
 
-void appDocToFront(APP_WIDGET option, void *voided, void *e);
+void appDocToFront(APP_WIDGET option, void *voided);
 
 void appDocumentChanged(EditDocument *ed, int changed);
 
