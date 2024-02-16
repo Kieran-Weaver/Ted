@@ -55,16 +55,6 @@ int docRtfSaveDocumentProperties(RtfWriter *rw, int fet,
 	const int anyway = 1;
 	const DocumentGeometry *dg = &(dp->dpGeometry);
 
-	/* NO! We always write ansi 1252 documents
-    int				ansicpg= dp->dpAnsiCodepage;
-
-    if  ( ansicpg >= 0 )
-	{
-	if  ( docRtfSetAnsicpg( rw->rwRtfTextConverter, ansicpg ) )
-	    { LDEB(ansicpg);	}
-	}
-    */
-
 	if (PROPmaskISSET(dpMask, DPpropDEFF)) {
 		int deff = docRtfWriteGetDefaultFont(rw, dp->dpDefaultFont);
 

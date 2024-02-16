@@ -96,12 +96,13 @@ int uni_GetUtf8(unsigned short *pSymbol, const char *buf)
 		return step;
 	}
 
+	/*
 	if (symbol > 0xffff) {
 		XLLDEB(buf[0], step, symbol);
 		return -1;
-	}
+	}*/
 
-	*pSymbol = symbol;
+	*pSymbol = symbol & 0xFFFF;
 	return step;
 }
 

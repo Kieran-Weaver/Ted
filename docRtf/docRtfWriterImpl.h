@@ -27,20 +27,20 @@ typedef struct PushedAttribute {
 struct RtfWriter {
 	struct BufferDocument *rwDocument;
 	/**
-				 *  The current text attribute. The state of 
-				 *  the writer is also determined by the charset
-				 *  of the current text, as the RTF file format 
-				 *  includes the charset of the text in the 
-				 *  identity of the font.
-				 */
+	 *  The current text attribute. The state of 
+	 *  the writer is also determined by the charset
+	 *  of the current text, as the RTF file format 
+	 *  includes the charset of the text in the 
+	 *  identity of the font.
+	 */
 	TextAttribute rwTextAttribute;
 	/**
-				 *  The rtf charset of the current text attribute.
-				 *  This is needed as the RTF file format 
-				 *  represents text with 8-bit characters belonging
-				 *  to different fonts if there are too many 
-				 *  different characters in the font.
-				 */
+	 *  The rtf charset of the current text attribute.
+	 *  This is needed as the RTF file format 
+	 *  represents text with 8-bit characters belonging
+	 *  to different fonts if there are too many 
+	 *  different characters in the font.
+	 */
 	int rwTextCharset;
 	ParagraphProperties rwcParagraphProperties;
 	RowProperties rwRowProperties;
@@ -52,27 +52,27 @@ struct RtfWriter {
 	PushedAttribute *rwcPushedAttribute;
 	int rwcInFldrslt;
 	/**
-				  *  The current depth of table nesting:
-				  *  0: outside tables, 1: In table,
-				  *  2+: in a nested table.
-				  */
+	  *  The current depth of table nesting:
+	  *  0: outside tables, 1: In table,
+	  *  2+: in a nested table.
+	  */
 	int rwTableNesting;
 	/**
-				  *  The deepest depth of table nesting:
-				  *  If the value >1, Ted will emit 
-				  *  itap tags along with intbl tags.
-				  *  This is because itap tags confuse wordpad.
-				  */
+	  *  The deepest depth of table nesting:
+	  *  If the value >1, Ted will emit 
+	  *  itap tags along with intbl tags.
+	  *  This is because itap tags confuse wordpad.
+	  */
 	int rwDeepestTableNesting;
 
 	/**
-				  *  While writing a selection, it is not 
-				  *  obvious that the section properties 
-				  *  are saved: If the selection is contained 
-				  *  in a single child of the section, we 
-				  *  start in that child. So we never actually 
-				  *  enter the section node.
-				  */
+	  *  While writing a selection, it is not 
+	  *  obvious that the section properties 
+	  *  are saved: If the selection is contained 
+	  *  in a single child of the section, we 
+	  *  start in that child. So we never actually 
+	  *  enter the section node.
+	  */
 	int rwSectionPropertiesSaved;
 
 	int rwcAfter;
@@ -87,14 +87,9 @@ struct RtfWriter {
 	SimpleOutputStream *rwSosOut;
 
 	/**
-				 * Used for RTF conversions. I.E where 
-				 * no font applies
-				 */
-	struct TextConverter *rwRtfTextConverter;
-	/**
-				 * Used for Text conversions. I.E where 
-				 * a font applies
-				 */
+	 * Used for Text conversions. I.E where 
+	 * a font applies
+	 */
 	struct TextConverter *rwTextTextConverter;
 
 	const PropertyMask *rwPpExtraMask;

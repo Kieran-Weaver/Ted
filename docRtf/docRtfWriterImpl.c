@@ -48,7 +48,6 @@ static void docRtfInitWritingContext(RtfWriter *rw)
 	rw->rwCol = 0;
 	rw->rwSosOut = (SimpleOutputStream *)0;
 
-	rw->rwRtfTextConverter = (TextConverter *)0;
 	rw->rwTextTextConverter = (TextConverter *)0;
 
 	rw->rwPpExtraMask = (const PropertyMask *)0;
@@ -65,11 +64,6 @@ static void docRtfCleanWritingContext(RtfWriter *rw)
 	docCleanParagraphProperties(&rw->rwcOutsideTableParagraphProperties);
 
 	utilCleanPagedList(&(rw->rwcEncodedFontList));
-
-	if (rw->rwRtfTextConverter) {
-		textCleanTextConverter(rw->rwRtfTextConverter);
-		free(rw->rwRtfTextConverter);
-	}
 
 	if (rw->rwTextTextConverter) {
 		textCleanTextConverter(rw->rwTextTextConverter);
@@ -422,13 +416,6 @@ RtfWriter *docRtfOpenWriter(SimpleOutputStream *sos, BufferDocument *bd,
 	}
 
 	docRtfInitWritingContext(rw);
-
-	rw->rwRtfTextConverter = (TextConverter *)malloc(sizeof(TextConverter));
-	if (!rw->rwRtfTextConverter) {
-		PDEB(rw->rwRtfTextConverter);
-		goto ready;
-	}
-	textInitTextConverter(rw->rwRtfTextConverter);
 
 	rw->rwTextTextConverter =
 		(TextConverter *)malloc(sizeof(TextConverter));

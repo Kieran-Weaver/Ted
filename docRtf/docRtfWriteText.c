@@ -177,7 +177,7 @@ static int docRtfEmitU32(RtfWriter *rw, uint32_t symbol)
 /*									*/
 /************************************************************************/
 
-static int docRtfWriteEncodedString(RtfWriter *rw, TextConverter *tc,
+static int docRtfWriteEncodedString(RtfWriter *rw, 
 				    int fontEncoded, const char *ss, int n)
 {
 	int consumed = 0;
@@ -202,10 +202,7 @@ static int docRtfWriteEncodedString(RtfWriter *rw, TextConverter *tc,
 
 void docRtfWriteDocEncodedString(RtfWriter *rw, const char *ss, int n)
 {
-	const int fontEncoded = 0;
-
-	docRtfWriteEncodedString(rw, rw->rwRtfTextConverter, fontEncoded, ss,
-				 n);
+	docRtfWriteEncodedString(rw, 0, ss, n);
 }
 
 void docRtfWriteRawBytes(RtfWriter *rw, const char *ss, int n)
@@ -217,9 +214,5 @@ void docRtfWriteRawBytes(RtfWriter *rw, const char *ss, int n)
 
 void docRtfWriteSetupTextConverters(RtfWriter *rw)
 {
-	textConverterSetNativeEncodingName(rw->rwRtfTextConverter,
-					   DOC_RTF_AnsiCharsetName);
-
-	textConverterSetProduce(rw->rwRtfTextConverter, docRtfEscapeString);
 	textConverterSetProduce(rw->rwTextTextConverter, docRtfEscapeString);
 }

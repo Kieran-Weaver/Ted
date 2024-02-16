@@ -77,7 +77,7 @@ int docFontSetFamilyName(DocumentFont *df, const char *name)
 	return 0;
 }
 
-int docFontSetAltName(DocumentFont *df, const char *name)
+static int docFontSetAltName(DocumentFont *df, const char *name)
 {
 	char *saved = (char *)0;
 

@@ -188,7 +188,6 @@ void docRtfWriteSwitchToPlain(RtfWriter *rw)
 {
 	/*  1  */
 	docPlainTextAttribute(&(rw->rwTextAttribute), rw->rwDocument);
-	rw->rwTextCharset = FONTcharsetANSI;
 
 	/*  2  */
 	docRtfWriteTag(rw, RTFtag_plain);
